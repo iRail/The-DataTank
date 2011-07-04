@@ -6,7 +6,7 @@ The DataTank is a generic REST web-service. If you want to set up an API, you ca
 
 We are doing this by creating an Application Programming Interface. This interface is implemented in PHP and can be reused by various of other projects.
 
-= iRail
+# iRail
 
 iRail is an attempt to make transportation time schedules easily available for anyone
 

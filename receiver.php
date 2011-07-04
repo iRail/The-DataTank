@@ -2,15 +2,16 @@
 ini_set('include_path', '.');
 
 include_once("printer/PrinterFactory.php");
-// Same as error_reporting(E_ALL);
+//Set error_reporting to high. We should not receive any errors here!
 ini_set('error_reporting', E_ALL);
+
 /*
 STEP1
 Get the format and callback keys and values, 
 pass them to our PrinterFactory which returns our printer, if possible ofc.
  */
+
 $format = "";
-$callback = NULL;
 
 if(isset($_GET["format"])){
      $format = $_GET["format"];
@@ -19,12 +20,9 @@ if(isset($_GET["format"])){
 if($format == ""){
      $format = "Xml";
 }
+
 //make sure the first letter is uppercase and the rest is lowercase
 $format = ucfirst(strtolower($format));
-
-if(isset($_GET["callback"])){
-     $callback = "";
-}
 
 $printer = PrinterFactory::getPrinter($format,$callback);
 //$printer->printHeader();
