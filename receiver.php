@@ -1,8 +1,9 @@
 <?php
+ini_set('include_path', '.');
 
 include_once("printer/PrinterFactory.php");
-
-//error_reporting(-1);
+// Same as error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
 /*
 STEP1
 Get the format and callback keys and values, 
@@ -45,16 +46,20 @@ if(isset($_GET["module"])){
      if(isset($_GET["method"])){
 	  $method = $_GET["method"];
 	  echo "method is " . $method . "\n";
-	  if(file_exists("modules/$module/$method.php")){
+	  if(file_exists("modules/$module/$method.class.php")){	      
 	       //get a new method
-	       $method = new $method(NULL);
+	       echo "azerr";	       
+	       include_once("modules/$module/$method.class.php");	       
+	       $method = new $method();
+	       echo "Got all the parameters for the method". "\n.";
 	       //get all parameters for the method, check and get them from $_GET - array
 	       $array = $method->getParameters();
-	       echo "Got all the parameters for the method". "\n.";
+	       
 	       foreach($array as $key){
 		    echo "key : " . $key . "\n";
 	       }
 	  }else{
+	       echo "File doesn't exist.";
 	       throw new Exception("[ERROR]No such module and or method.",500);
 	  }
      }

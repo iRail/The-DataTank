@@ -1,17 +1,17 @@
 <?php
-include_once("../AMethod.php");
+include_once("modules/AMethod.php");
 class Liveboard extends AMethod{
 
-     private $parameters = new array();     
+     private $parameters;
 
      public function __construct(){
 	  echo "constructing Liveboard";
-	  $parameters[] = "stationId";
+	  $this->parameters = "stationId";
      }
 
      public function getParameters(){
 	  echo "Getting the required parameters.";
-	  return $parameters;
+	  return $this->parameters;
      }
 }
 
