@@ -47,16 +47,16 @@ if(isset($_GET["module"])){
 	  $method = $_GET["method"];
 	  echo "method is " . $method . "\n";
 	  if(file_exists("modules/$module/$method.class.php")){	      
-	       //get a new method
-	       echo "azerr";	       
+	       //get a new method	      
 	       include_once("modules/$module/$method.class.php");	       
 	       $method = new $method();
-	       echo "Got all the parameters for the method". "\n.";
+	       echo "Parameters necessary for the method: ". "\n.";
 	       //get all parameters for the method, check and get them from $_GET - array
-	       $array = $method->getParameters();
-	       
+	       $array = $method->getParameters();	       
 	       foreach($array as $key){
-		    echo "key : " . $key . "\n";
+		    echo " key: " . $key;
+		    $value = $_GET["$key"];
+		    echo " value: " . $value;
 	       }
 	  }else{
 	       echo "File doesn't exist.";

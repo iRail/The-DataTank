@@ -23,12 +23,7 @@ abstract class Printer{
  */
      abstract function printHeader();
 
-     protected $root;
-     
-/**
- * prints the body: The idea behind this is a reversed sax-parser. It will create events which you will have to implement in your implementation of an output.
- */
-     function printBody(){
+     protected function printBody(){
           //so that people would know that we have a child of the rootelement
 	  $this->root = true;
 	  $this->startRootElement($this->documentRoot->getRootname(), $this->documentRoot->version, $this->documentRoot->timestamp);

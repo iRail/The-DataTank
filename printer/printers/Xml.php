@@ -10,7 +10,7 @@ include_once("Printer.php");
  * @package output
  */
 class Xml extends Printer{
-     private $ATTRIBUTES=array("id", "locationX", "locationY", "standardname", "left","delay", "normal");
+     //private $ATTRIBUTES=array("id", "locationX", "locationY", "standardname", "left","delay", "normal");
      private $rootname;
 
      function printHeader(){
