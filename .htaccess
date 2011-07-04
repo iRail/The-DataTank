@@ -1,0 +1,22 @@
+#
+# The DataTank .htaccess file
+#
+# by Jan Vansteenlandt (© iRail vzw)
+#
+# move to the root folder 
+#
+
+Options -Indexes
+Options +FollowSymLinks
+
+AddDefaultCharset UTF-8
+
+# mod rewrite, because that's how I roll.
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(.*?)/(.*?)/$ receiver.php?module=$1&method=$2 [QSA,NC,L]
+</IfModule>
+
+
