@@ -6,12 +6,11 @@ include_once("error/Exceptions.class.php");
 
 ini_set('error_reporting', E_ALL);
 
-
 try{
 /*
-  STEP1
-  Get the format and callback keys and values, 
-  pass them to our PrinterFactory which returns our printer, if possible ofc.
+ STEP1
+ Get the format and callback keys and values, 
+ pass them to our PrinterFactory which returns our printer, if possible ofc.
 */
 
      $format = "";
@@ -28,8 +27,8 @@ try{
      $format = ucfirst(strtolower($format));
 
 /*
-  STEP2
-  Check if the method exists in some module and fill in the required parameters;
+ STEP2
+ Check if the method exists in some module and fill in the required parameters;
 */
      $result;
      if(isset($_GET["module"])){
@@ -47,7 +46,6 @@ try{
 		    //if a required parameter is not found an exception is thrown.
 		    $array = $method->getRequiredParameters();
 		    $parameters;
-	       
 		    foreach($array as $key){
 			 //if a certain parameter is not found, throw exception
 			 if(!isset($_GET[$key])){
@@ -70,8 +68,8 @@ try{
      }
 
 /*
-  STEP 3
-  Print the result in the preferenced format, or default format
+ STEP 3
+ Print the result in the preferenced format, or default format
 */
      $dummyrootname = "root";
      $printer = PrinterFactory::getPrinter($format,$dummyrootname,$result);
@@ -79,9 +77,8 @@ try{
 
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
-     //TO DO
-     echo $e->getMessage();
-}
-
-
+     include_once('error/ErrorHandler.class.php');
+     
+     ErrorHandler::logException($e);  
+ }
 ?>
