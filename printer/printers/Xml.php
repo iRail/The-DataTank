@@ -42,7 +42,7 @@ class Xml extends Printer{
 	  if(!$root){ 
 	       //echo "<".$name."s number=\"$number\">";
 	   }
-	  echo "<".$name;
+	  //echo "<arrayOf".$name. ">";
 	  
 	  $this->currentarrayindex ++;
 	  $this->arrayindices[$this->currentarrayindex] = 0;
@@ -92,8 +92,10 @@ class Xml extends Printer{
      }
      function endArray($name, $root = false){
 	  if(!$root){
-	       echo "</".$name.">";
+	       //echo "</".$name.">";
 	  }
+	  //echo "</arrayOf".$name .">";
+	  
 	  $this->stack[$this->currentarrayindex] = "";
 	  $this->arrayindices[$this->currentarrayindex] = 0;
 	  $this->currentarrayindex --;
