@@ -7,29 +7,24 @@ class Liveboard extends AMethod{
      private $documentation;
      
 
-     public function __construct(){
-	  //echo "constructing Liveboard";
+     public function __construct(){	  
 	  $this->parameters[] = "stationId";
      }
 
      public function getParameters(){
-	  //echo "Getting the required parameters.";
 	  return $this->parameters;
      }
 
      public function setParameters($params){
 	  //foreach element in the array, check if the parametershash contains
-	  //such a key, if so set the value to the correct key.
-	  foreach($array as $key=>$value){
-	       if(array_key_exists($key, $this->parameters)){
-		    $this->parameters[$key] = $value;
-		    
-	       }	       
+	  //such a key, if so set the value to the correct key.	  
+	  foreach($params as $key=>$value){	      	      
+	       $this->parameters[$key] = $value;
 	  }	  
      }
 
      public function call(){
-	  return "LIVEBOARD OBJECT";
+	  return "";
      }
      
      public function allowedPrintMethods(){
@@ -39,6 +34,10 @@ class Liveboard extends AMethod{
 
      public function getDoc(){
 	  return "This is a dummy class, inherits from AMethod";
+     }
+     
+     class LiveboardResult{
+	  
      }
      
      

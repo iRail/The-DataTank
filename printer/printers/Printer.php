@@ -1,15 +1,22 @@
 <?php
 
   /**
-   * An abstract class for a printer. It prints a document
+   * An abstract class for a printer. It prints an object
    *
    * @package output
    */
 abstract class Printer{
-     protected $documentRoot;
+
+     protected $rootname;
+     protected $objectToPrint;
+
+     // version of The DataTank API
+     final protected $version = "1.0";
      
-     function __construct($documentRoot){
-	  $this->documentRoot = $documentRoot;
+     
+     function __construct($rootname,$objectToPrint){
+	  $this->rootname = $rootname;
+	  $this->objectToPrint = $objectToPrint;
      }
      
      function printAll(){
@@ -25,9 +32,9 @@ abstract class Printer{
 
      protected function printBody(){
           //so that people would know that we have a child of the rootelement
-	  $this->root = true;
-	  $this->startRootElement($this->documentRoot->getRootname(), $this->documentRoot->version, $this->documentRoot->timestamp);
-	  $hash = get_object_vars($this->documentRoot);
+	  //$this->root = true;
+	  //$this->startRootElement($this->documentRoot->getRootname(), $this->documentRoot->version, $this->documentRoot->timestamp);
+	  $hash = get_object_vars($this->objectToPrint);
 	  $counter = 0;
 	  foreach($hash as $key => $val){
 	       if($key == "version" || $key == "timestamp") {
