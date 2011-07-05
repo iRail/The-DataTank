@@ -51,7 +51,7 @@ class LiveboardResult{
 
 class Person{
      public $name = "Core";
-     public $levelOfAwesomity = "Level1";
+     public $age = "42";
      public $nicknames=  array('Patrick','Coretrick');
      
      public function __construct(){
@@ -61,7 +61,7 @@ class Person{
 class Message{
 
      public $text = "This is a personal message";
-     public $size = "42";
+     public $md   = "bbeaacc44f8a4419e085b091dc8190ff";
 
      public function __construct(){
 	  
