@@ -50,7 +50,7 @@ class ParameterTDTException extends AbstractTDTException{
      }
 
      public function __construct($parameter){
-	  parrent::__construct("Parameter not found or incorrect: " . $parameter);
+	  parent::__construct("Parameter not found or incorrect: " . $parameter);
      }
 }
 
@@ -67,7 +67,7 @@ class CouldNotGetDataTDTException extends AbstractTDTException{
      }
 
      public function __construct($datasourcename){
-	  parrent::__construct("This could not be resolved: " . $datasourcename);
+	  parent::__construct("This could not be resolved: " . $datasourcename);
      }
 }
 ?>
