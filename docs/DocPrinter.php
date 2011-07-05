@@ -39,13 +39,13 @@ function printDerivedClasses($abstractclassname, $module){
      foreach(getAllDerivedClasses($abstractclassname) as $class){
 	  echo "<h3>$class</h3>";
 	  $args="?";
-	  foreach($class::getRequiredParams() as $var){
+	  foreach($class::getRequiredParameters() as $var){
 	       $args .= "$var=foo&";
 	  }
-	  rtrim($args,"&");
-	  echo "<h4><a href=\"http://jan.iRail.be/$module/$class/?$args\">http://api.TheDataTank.com/$module/$class/$args</a></h4>";
+	  rtrim($args, "&");
+	  echo "<h4><a href=\"http://jan.iRail.be/$module/$class/$args\">http://api.TheDataTank.com/$module/$class/$args</a></h4>";
 	  echo "<ul>\n";
-	  foreach($class::getParams() as $var => $doc){
+	  foreach($class::getParameters() as $var => $doc){
 	       echo "<li><strong>$var:</strong>$doc\n";
 	  }
 	  echo "</ul>\n";

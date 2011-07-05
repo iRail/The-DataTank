@@ -1,6 +1,13 @@
 <?php
 abstract class AMethod{
-     abstract public function getParameters();
+
+     public static function getRequiredParameters(){
+	  return array();
+     }
+     public static function getParameters(){
+	  return array();
+     }
+     
      public static function getDoc(){
 	  echo "I'm undocumented :(";
      }
