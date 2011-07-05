@@ -6,8 +6,12 @@
  *
  * This file prettyprints the Documentation
  */
-include_once("../error/Exceptions.class.php");
+ini_set("include_path", "../");
+include_once("error/Exceptions.class.php");
 
+/**
+ * Get all derived classes from another class
+ */
 function getAllDerivedClasses($classname){
      $result = array();
      foreach(get_declared_classes() as $class){
@@ -17,6 +21,39 @@ function getAllDerivedClasses($classname){
      }
      return $result;
 }
+/**
+ * This function will print all derived Exceptions from an abstract class their docs
+ */
+function printDerivedExceptions($abstractclassname){
+     foreach(getAllDerivedClasses($abstractclassname) as $class){
+	  echo "<h3>$class</h3>";     
+	  echo $class::getDoc();
+	  echo "<br/>";
+     }
+}
+
+/**
+ * This function will print all derived classes from an abstract class their docs
+ */
+function printDerivedClasses($abstractclassname, $module){
+     foreach(getAllDerivedClasses($abstractclassname) as $class){
+	  echo "<h3>$class</h3>";
+	  $args="?";
+	  foreach($class::getRequiredParams() as $var){
+	       $args .= "$var=foo&";
+	  }
+	  rtrim($args,"&");
+	  echo "<h4><a href=\"http://jan.iRail.be/$module/$class/?$args\">http://api.TheDataTank.com/$module/$class/$args</a></h4>";
+	  echo "<ul>\n";
+	  foreach($class::getParams() as $var => $doc){
+	       echo "<li><strong>$var:</strong>$doc\n";
+	  }
+	  echo "</ul>\n";
+	  echo $class::getDoc();
+	  echo "<br/>";
+     }
+}
+
 ?>
 <html>
 <head>
@@ -24,16 +61,29 @@ function getAllDerivedClasses($classname){
 <title>The DataTank auto-documentation</title>
 </head>
 <body>
-<?
-//1. Exceptions
+<?php
 echo "<h1>Errors</h1>";
-foreach(getAllDerivedClasses("AbstractTDTException") as $exception){
-     echo "<h3>$exception</h3>";
-     
-     echo $exception::getDoc();
-     echo "<br/>";
-}
+printDerivedExceptions("AbstractTDTException");
+
 echo "<h1>Modules</h1>";
+if ($handle = opendir('../modules/')) {     
+     while (false !== ($modu = readdir($handle))) {
+	  
+	  if ($modu != "." && $modu != ".." && is_dir("../modules/" . $modu)) {
+	       echo "<h2>$modu</h2>\n";
+	       if ($handle2 = opendir('../modules/' . $modu)) {
+		    while (false !== ($metho = readdir($handle2))) {
+			 if ($metho != "." && $metho != "..") {
+			      include_once("modules/" . $modu . "/" . $metho);
+			 }
+		    }
+		    closedir($handle2);
+	       }
+	       printDerivedClasses("AMethod", $modu);
+	  }
+     }
+     closedir($handle);
+}
 //...
 
 ?>
