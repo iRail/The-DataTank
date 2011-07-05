@@ -17,12 +17,13 @@ class Liveboard extends AMethod{
 	  return $this->parameters;
      }
 
-     public function setParameters($array){
+     public function setParameters($params){
 	  //foreach element in the array, check if the parametershash contains
 	  //such a key, if so set the value to the correct key.
 	  foreach($array as $key=>$value){
 	       if(array_key_exists($key, $this->parameters)){
-		    $this->parameters[$key]
+		    $this->parameters[$key] = $value;
+		    
 	       }	       
 	  }	  
      }
@@ -35,6 +36,11 @@ class Liveboard extends AMethod{
 	  $printmethods;
 	  $printmethods = array("xml");
      }
+
+     public function getDoc(){
+	  return "This is a dummy class, inherits from AMethod";
+     }
+     
      
 }
 

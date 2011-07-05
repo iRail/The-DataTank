@@ -2,8 +2,8 @@
 
 class PrinterFactory{
 
-     public static function getPrinter($format, $callback){	
-	  if(isset($callback) && $format=="Json"){
+     public static function getPrinter($format){	
+	  if(isset($_GET["callback"]) && $format=="Json"){
 	       $format = "Jsonp";
 	  }
 	  if(!file_exists("printers/$format.php")){

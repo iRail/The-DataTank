@@ -5,6 +5,7 @@ include_once("printer/PrinterFactory.php");
 //Set error_reporting to high. We should not receive any errors here!
 ini_set('error_reporting', E_ALL);
 
+
 /*
 STEP1
 Get the format and callback keys and values, 
@@ -24,7 +25,7 @@ if($format == ""){
 //make sure the first letter is uppercase and the rest is lowercase
 $format = ucfirst(strtolower($format));
 
-$printer = PrinterFactory::getPrinter($format,$callback);
+$printer = PrinterFactory::getPrinter($format);
 //$printer->printHeader();
 if($printer == NULL){
      throw new Exception("[ERROR]No printer could be made.");
@@ -45,7 +46,7 @@ if(isset($_GET["module"])){
 	  $method = $_GET["method"];
 	  echo "method is " . $method . "\n";
 	  if(file_exists("modules/$module/$method.class.php")){	      
-	       //get a new method	      
+	       //get a new method
 	       include_once("modules/$module/$method.class.php");	       
 	       $method = new $method();
 	       echo "Parameters necessary for the method: ". "\n.";
