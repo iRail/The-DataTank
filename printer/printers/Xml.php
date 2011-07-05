@@ -10,8 +10,17 @@ include_once("Printer.php");
  * @package output
  */
 class Xml extends Printer{
-     //private $ATTRIBUTES=array("id", "locationX", "locationY", "standardname", "left","delay", "normal");
-     private $rootname;
+     
+     //make a stack of array information, always work on the last one
+     //for nested array support
+     private $stack = array();
+     private $arrayindices = array();
+     private $currentarrayindex = -1;
+
+     public function __construct($rootname,$objectToPrint){
+	  $this->rootname = $rootname;
+	  $this->objectToPrint = $objectToPrint;
+     }
 
      function printHeader(){
 	  header("Access-Control-Allow-Origin: *");
@@ -24,19 +33,17 @@ class Xml extends Printer{
 	  echo "<error code=\"$ec\">$msg</error>";
      }
      
-     function startRootElement($name, $version, $timestamp){
-	  $this->rootname = $name;
-	  echo "<$name version=\"$version\" timestamp=\"$timestamp\">";
+     function startRootElement($timestamp){
+          //$this->rootname = $this->rootname;
+	  echo "<" . $this->rootname . "version=\"". $this->version . "\" timestamp=\"$timestamp\">";
      }
-//make a stack of array information, always work on the last one
-//for nested array support
-     private $stack = array();
-     private $arrayindices = array();
-     private $currentarrayindex = -1;
+
      function startArray($name,$number, $root = false){
-	  if(!$root || $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
+	  if(!$root){ //|| $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
 	       echo "<".$name."s number=\"$number\">";
-	  }
+	   }
+	  echo "<".$name;
+	  
 	  $this->currentarrayindex ++;
 	  $this->arrayindices[$this->currentarrayindex] = 0;
 	  $this->stack[$this->currentarrayindex] = $name;
@@ -47,20 +54,21 @@ class Xml extends Printer{
      }
 
      function startObject($name, $object){
-//test wether this object is a first-level array object
+          //test wether this object is a first-level array object
 	  echo "<$name";
-	  if($this->currentarrayindex > -1 && $this->stack[$this->currentarrayindex] == $name && $name != "station") {
+	  if($this->currentarrayindex > -1 && $this->stack[$this->currentarrayindex] == $name) {
 	       echo " id=\"".$this->arrayindices[$this->currentarrayindex]."\"";
 	  }
 	  //fallback for attributes and name tag
 	  $hash = get_object_vars($object);
 	  $named = "";
 	  foreach($hash as $elementkey => $elementval){
-	       if(in_array($elementkey, $this->ATTRIBUTES)){
+	       /* if(in_array($elementkey, $this->ATTRIBUTES)){
 		    echo " $elementkey=\"$elementval\"";
 	       }else if($elementkey == "name"){
 		    $named = $elementval;
-	       }
+		    }*/
+	       $named = $elementval;
 	  }
 	  echo ">";
 	  if($named != ""){
@@ -73,19 +81,19 @@ class Xml extends Printer{
 	  if($key == "time"){
 	       $form = $this->iso8601($val);
 	       echo "<$key formatted=\"$form\">$val";
-	  }else if($key != "name" && !in_array($key,$this->ATTRIBUTES)){
+	  }else{// if($key != "name"){
 	       echo "<$key>$val";
 	  }
      }
 
      function endElement($name){
-	  if(!in_array($name, $this->ATTRIBUTES) && $name != "name"){
+	  // if(!in_array($name, $this->ATTRIBUTES) && $name != "name"){
 	       echo "</$name>";
-	  }
+	       // }
      }
      function endArray($name, $root = false){
-	  if(!$root || $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
-	       echo "</".$name."s>";
+	  if(!$root){// || $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
+	       echo "</".$name.">";
 	  }
 	  $this->stack[$this->currentarrayindex] = "";
 	  $this->arrayindices[$this->currentarrayindex] = 0;

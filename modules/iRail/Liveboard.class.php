@@ -24,7 +24,8 @@ class Liveboard extends AMethod{
      }
 
      public function call(){
-	  return "";
+	  $dummyresult = new LiveboardResult();
+	  return $dummyresult;
      }
      
      public function allowedPrintMethods(){
@@ -35,12 +36,33 @@ class Liveboard extends AMethod{
      public function getDoc(){
 	  return "This is a dummy class, inherits from AMethod";
      }
+}
+
+class LiveboardResult{
+	  public $message = "This is a personal and private message.";
+	  public $sender;
+	  public function __construct(){
+	       $this->sender = new Person();
+	  }
+}
+
+class Person{
+     public $name = "Core";
+     public $levelOfAwesomity = "Level1";
      
-     class LiveboardResult{
-	  
-     }
+     public function __construct(){	 
+	 
+     }   
+}
+
+class Message{
+
+     public $text = "This is a personal message";
      
      
 }
+
+
+
 
 ?>

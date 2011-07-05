@@ -9,15 +9,8 @@ abstract class Printer{
 
      protected $rootname;
      protected $objectToPrint;
-
      // version of The DataTank API
-     final protected $version = "1.0";
-     
-     
-     function __construct($rootname,$objectToPrint){
-	  $this->rootname = $rootname;
-	  $this->objectToPrint = $objectToPrint;
-     }
+     protected $version = "1.0";
      
      function printAll(){
 	  $this->printHeader();
@@ -30,10 +23,10 @@ abstract class Printer{
  */
      abstract function printHeader();
 
-     protected function printBody(){
-          //so that people would know that we have a child of the rootelement
-	  //$this->root = true;
-	  //$this->startRootElement($this->documentRoot->getRootname(), $this->documentRoot->version, $this->documentRoot->timestamp);
+     protected function printBody(){	  
+          //so that people would know that we have a child of the rootelement	 
+	  $this->startRootElement(date(0));
+	  
 	  $hash = get_object_vars($this->objectToPrint);
 	  $counter = 0;
 	  foreach($hash as $key => $val){
@@ -47,7 +40,7 @@ abstract class Printer{
 	       }
 	       $counter++;
 	  }
-	  $this->endRootElement($this->documentRoot->getRootname());
+	  $this->endRootElement($this->rootname);//$this->documentRoot->getRootname());
      }
 
 /**
@@ -96,7 +89,7 @@ abstract class Printer{
      }
      function nextObjectElement(){
      }
-     abstract function startRootElement($name, $version, $timestamp);
+     abstract function startRootElement( $timestamp);
 
      abstract function startArray($name,$number, $root = false);
      abstract function startObject($name, $object);

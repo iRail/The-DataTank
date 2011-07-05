@@ -72,8 +72,10 @@ STEP 3
 Print the result in the preferenced format, or default format
  */
 
+//var_dump($result);
+$dummyrootname = "root ";
 
-$printer = PrinterFactory::getPrinter($format,$result);
+$printer = PrinterFactory::getPrinter($format,$dummyrootname,$result);
 
 if($printer == NULL){
      throw new Exception("[ERROR]No printer could be made.");
