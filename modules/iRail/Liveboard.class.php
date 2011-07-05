@@ -52,9 +52,9 @@ class LiveboardResult{
 class Person{
      public $name = "Core";
      public $levelOfAwesomity = "Level1";
+     public $nicknames=  array('Patrick','Coretrick');
      
-     public function __construct(){	 
-	 
+     public function __construct(){
      }   
 }
 

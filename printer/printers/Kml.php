@@ -13,6 +13,11 @@ class Kml extends Printer{
      private $ATTRIBUTES=array("id", "locationX", "locationY", "standardname", "left","delay", "normal");
      private $rootname;
 
+     public function __construct(){
+	  $this->rootname = $rootname;
+	  $this->objectToPrint = $objectToPrint;
+     }     
+
      function printHeader(){
 	  header("Access-Control-Allow-Origin: *");
 	  header("Content-Type: application/vnd.google-earth.kml+xml");
