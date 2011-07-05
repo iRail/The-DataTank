@@ -89,7 +89,7 @@ abstract class Printer{
      }
      function nextObjectElement(){
      }
-     abstract function startRootElement( $timestamp);
+     abstract function startRootElement($timestamp);
 
      abstract function startArray($name,$number, $root = false);
      abstract function startObject($name, $object);

@@ -2,7 +2,7 @@
 ini_set('include_path', '.');
 
 include_once("printer/PrinterFactory.php");
-//Set error_reporting to high. We should not receive any errors here!
+
 ini_set('error_reporting', E_ALL);
 
 
@@ -71,9 +71,7 @@ if(isset($_GET["module"])){
 STEP 3
 Print the result in the preferenced format, or default format
  */
-
-//var_dump($result);
-$dummyrootname = "root ";
+$dummyrootname = "root";
 
 $printer = PrinterFactory::getPrinter($format,$dummyrootname,$result);
 

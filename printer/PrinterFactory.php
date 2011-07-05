@@ -6,10 +6,11 @@ class PrinterFactory{
 	  if(isset($_GET["callback"]) && $format=="Json"){
 	       $format = "Jsonp";
 	  }
-	  if(!file_exists("printers/$format.php")){
+	
+	  if(!file_exists("printer/printers/$format.php")){
 	       $format="Xml";
 	  }
-	  include_once("printers/$format.php");
+	  include_once("printer/printers/$format.php");
 	  //format can be called as a class now.
 	  $printer = new $format($rootname,$objectToPrint);
 	 

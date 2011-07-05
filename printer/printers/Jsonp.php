@@ -16,7 +16,7 @@ class Jsonp extends Json
      function printBody(){
 	  $callback = $_GET['callback'];
 	  echo "$callback(";
-	  parent::printBody($this->documentRoot);
+	  parent::printBody();//$this->documentRoot);
 	  echo ")";
      }
      function printError($ec, $msg){

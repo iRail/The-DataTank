@@ -35,12 +35,12 @@ class Xml extends Printer{
      
      function startRootElement($timestamp){
           //$this->rootname = $this->rootname;
-	  echo "<" . $this->rootname . "version=\"". $this->version . "\" timestamp=\"$timestamp\">";
+	  echo "<" . $this->rootname . " version=\"". $this->version . "\" timestamp=\"$timestamp\">";
      }
 
      function startArray($name,$number, $root = false){
 	  if(!$root){ 
-	       echo "<".$name."s number=\"$number\">";
+	       //echo "<".$name."s number=\"$number\">";
 	   }
 	  echo "<".$name;
 	  
@@ -56,9 +56,9 @@ class Xml extends Printer{
      function startObject($name, $object){
           //test wether this object is a first-level array object
 	  echo "<$name";
-	  if($this->currentarrayindex > -1 && $this->stack[$this->currentarrayindex] == $name) {
-	       echo " id=\"".$this->arrayindices[$this->currentarrayindex]."\"";
-	  }
+	  //if($this->currentarrayindex > -1 && $this->stack[$this->currentarrayindex] == $name) {
+	  //   echo " id=\"".$this->arrayindices[$this->currentarrayindex]."\"";
+	  //}
 	  //fallback for attributes and name tag
 	  $hash = get_object_vars($object);
 	  $named = "";
@@ -82,15 +82,13 @@ class Xml extends Printer{
 	  if($key == "time"){
 	       $form = $this->iso8601($val);
 	       echo "<$key formatted=\"$form\">$val";
-	  }else{// if($key != "name"){
+	  }else{
 	       echo "<$key>$val";
 	  }
      }
 
      function endElement($name){
-	  // if(!in_array($name, $this->ATTRIBUTES) && $name != "name"){
-	       echo "</$name>";
-	       // }
+	  echo "</$name>";
      }
      function endArray($name, $root = false){
 	  if(!$root){

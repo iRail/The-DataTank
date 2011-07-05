@@ -8,8 +8,19 @@
    */
 include_once("Printer.php");
 class Json extends Printer{
-     private $rootname;
+     //private $rootname;
+     //make a stack of array information, always work on the last one
+     //for nested array support
+     private $stack = array();
+     private $arrayindices = array();
+     private $currentarrayindex = -1;
+
+     public function __construct($rootname,$objectToPrint){
+	  $this->rootname = $rootname;
+	  $this->objectToPrint = $objectToPrint;
+     }
      
+
      function printHeader(){
 	  header("Access-Control-Allow-Origin: *");
 	  header("Content-Type: application/json;charset=UTF-8");
@@ -21,18 +32,13 @@ class Json extends Printer{
 	  echo "{\"error\":$ec,\"message\":\"$msg\"}";
      }
 
-     function startRootElement($name, $version, $timestamp){
-	  $this->rootname = $name;
-	  echo "{\"version\":\"$version\",\"timestamp\":\"$timestamp\",";
+     function startRootElement($timestamp){
+	  //$this->rootname = $name;
+	  echo "{\"version\":\"" . $this->version . "\",\"timestamp\":\"$timestamp\",";
      }
 
-//make a stack of array information, always work on the last one
-//for nested array support
-     private $stack = array();
-     private $arrayindices = array();
-     private $currentarrayindex = -1;
      function startArray($name,$number, $root = false){
-	  if(!$root || $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
+	  if(!$root){// || $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
 	       echo "\"" . $name . "s\":{\"number\":\"$number\",";
 	  }
 	  echo "\"$name\":[";
@@ -53,13 +59,13 @@ class Json extends Printer{
      function startObject($name, $object){
 	  if($this->currentarrayindex >-1 && $this->stack[$this->currentarrayindex] == $name){
 	       echo "{";
-//show id (in array) except if array of stations (compatibility issues)
+               //show id (in array) except if array of stations (compatibility issues)
 	       if($name != "station"){
 		    echo "\"id\":\"".$this->arrayindices[$this->currentarrayindex]."\",";
 	       }
 	  }
 	  else{
-	       if($this->rootname != "stations" && $name == "station" || $name == "platform"){ // split station and platform into station/platform and stationinfo/platforminfox to be compatible with 1.0
+	       /*if($this->rootname != "stations" && $name == "station" || $name == "platform"){ // split station and platform into station/platform and stationinfo/platforminfox to be compatible with 1.0
 		    echo "\"$name\":\"$object->name\",";
 		    echo "\"". $name. "info\":{";
 	       }else if($this->rootname != "vehicle" && $name == "vehicle"){ // split vehicle into vehicle and vehicleinfo to be compatible with 1.0
@@ -67,8 +73,8 @@ class Json extends Printer{
 		    echo "\"". $name. "info\":{";
 	       }else{
 		    echo "\"$name\":{";
-	       }
-	       
+		    }*/
+	       echo "\"$name\":{";
 	  }
 	  
      }
@@ -81,7 +87,7 @@ class Json extends Printer{
 	  $this->stack[$this->currentarrayindex] = "";
 	  $this->arrayindices[$this->currentarrayindex] = 0;
 	  $this->currentarrayindex --;
-	  if($root && $this->rootname != "liveboard" && $this->rootname != "vehicleinformation"){
+	  if($root){// && $this->rootname != "liveboard" && $this->rootname != "vehicleinformation"){
 	       echo "]";
 	  }else{
 	       echo "]}";
