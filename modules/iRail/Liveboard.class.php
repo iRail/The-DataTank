@@ -39,10 +39,11 @@ class Liveboard extends AMethod{
 }
 
 class LiveboardResult{
-	  public $message = "This is a personal and private message.";
+	  public $message;
 	  public $sender;
 	  public function __construct(){
 	       $this->sender = new Person();
+	       $this->message = new Message();	       
 	  }
 }
 
@@ -58,6 +59,11 @@ class Person{
 class Message{
 
      public $text = "This is a personal message";
+     public $size = "42";
+
+     public function __construct(){
+	  
+     }
      
      
 }

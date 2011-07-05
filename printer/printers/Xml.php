@@ -39,7 +39,7 @@ class Xml extends Printer{
      }
 
      function startArray($name,$number, $root = false){
-	  if(!$root){ //|| $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
+	  if(!$root){ 
 	       echo "<".$name."s number=\"$number\">";
 	   }
 	  echo "<".$name;
@@ -68,11 +68,12 @@ class Xml extends Printer{
 	       }else if($elementkey == "name"){
 		    $named = $elementval;
 		    }*/
+	       //echo " | " . $elementkey . " -> ". $elementval . " | ";
 	       $named = $elementval;
 	  }
 	  echo ">";
 	  if($named != ""){
-	       echo $named;
+	       //echo $named;
 	  }
 	  
      }
@@ -92,7 +93,7 @@ class Xml extends Printer{
 	       // }
      }
      function endArray($name, $root = false){
-	  if(!$root){// || $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
+	  if(!$root){
 	       echo "</".$name.">";
 	  }
 	  $this->stack[$this->currentarrayindex] = "";
