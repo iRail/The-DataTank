@@ -10,8 +10,10 @@
 /**
  * The abstract function of TDT Exception
  */
-class AbstractTDTException extends Exception{
-     abstract public function getDoc();
+abstract class AbstractTDTException extends Exception{
+     public static function getDoc(){
+	  return "No documentation given :(";
+     }
      abstract public function getErrorCode();
 
      public function __construct($message) {
@@ -23,10 +25,9 @@ class AbstractTDTException extends Exception{
 
 /**
  * These are HTTP 400 errors: Parameter or Methods not found
- *
  */
 class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
-     public function getDoc(){
+     public static function getDoc(){
 	  return "When a method or module is not found this Exception is thrown. The constructor expects the name of the module or the name of the method. This is a 404 error: not found";
      }
 
@@ -40,7 +41,7 @@ class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
 }
 
 class ParameterTDTException extends AbstractTDTException{
-     public function getDoc(){
+     public static function getDoc(){
 	  return "This exception is thrown when a parameter is incorrect. The constructor needs a parameter";
      }
 
@@ -55,9 +56,9 @@ class ParameterTDTException extends AbstractTDTException{
 
 /**
  * These are HTTP 500 errors: internal server errors
- */ 
+ */
 class CouldNotGetDataTDTException extends AbstractTDTException{
-     public function getDoc(){
+     public static function getDoc(){
 	  return "This exception is thrown when the data could not be resolved.";
      }
 
