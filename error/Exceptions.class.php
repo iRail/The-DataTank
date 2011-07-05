@@ -41,14 +41,14 @@ class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
 
 class ParameterTDTException extends AbstractTDTException{
      public function getDoc(){
-	  return "This exception is thrown when a parameter is incorrect. The constructor needs a parameter on which it blocked and a message why it blocked: Parameter not found or Parameter incorrect";
+	  return "This exception is thrown when a parameter is incorrect. The constructor needs a parameter";
      }
 
      public function getErrorCode(){
 	  return 401;
      }
 
-     public function __construct($parameter, $message){
+     public function __construct($parameter){
 	  parrent::__construct("Parameter not found or incorrect: " . $parameter);
      }
 }
@@ -66,7 +66,7 @@ class CouldNotGetDataTDTException extends AbstractTDTException{
      }
 
      public function __construct($datasourcename){
-	  parrent::__construct("This could not be connected: " . $datasourcename);
+	  parrent::__construct("This could not be resolved: " . $datasourcename);
      }
 }
 ?>
