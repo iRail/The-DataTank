@@ -43,7 +43,8 @@ class Liveboard extends AMethod{
      }
      
      public function allowedPrintMethods(){
-	  $printmethods = array("xml");
+	  return array("xml");
+
      }
 
      public static function getDoc(){
