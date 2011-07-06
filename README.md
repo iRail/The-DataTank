@@ -11,13 +11,13 @@ We are doing this by creating an Application Programming Interface. This interfa
 ## Requirements ##
 First of all, in order to get started with The DataTank you have to install some necessary software:
 
-      * PHP 5.3
-      * sqlite3
+* PHP 5.3
+* sqlite3
 
 To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
 
-      * display_errors = On	
-      * error_reporting = E_ALL | E_STRICT | E_PARSE
+* display_errors = On	
+* error_reporting = E_ALL | E_STRICT | E_PARSE
 
 ## Usage of the framework ##
 
