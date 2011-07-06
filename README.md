@@ -11,7 +11,7 @@ We are doing this by creating an Application Programming Interface. This interfa
 In order to get started with The DataTank, one obviously has to get our code.
 So go ahead and clone our repository on your machine. This can be done by the command
 
-   $ git clone git@github.com:iRail/The-DataTank.git
+      	$ git clone git@github.com:iRail/The-DataTank.git
 
 After that copy the entire directory to your /var/www folder.
 In order to keep track of your logging we have to initialise a database. This is done for you if you by going to the 
