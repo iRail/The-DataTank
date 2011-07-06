@@ -4,6 +4,7 @@ include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
 
 ini_set('error_reporting', E_ALL);
+date_default_timezone_set('UTC');
 
 try{
 /*
