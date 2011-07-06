@@ -28,9 +28,6 @@ The next step is building your own module. To ease the process of learning how t
 The example provided is the module 'iRail' found in the directory 'modules' it contains only one method namely 'Liveboard.class'. In order to use 'The DataTank'-framework one has to extend 
 our 'AMethod class' found in the 'modules' directory. This is an abstract class that provides a set of functions who implements some  basic functionality and some functions that need to be overridden.
 
-
-
-
 # iRail
 
 iRail is an attempt to make transportation time schedules easily available for anyone
