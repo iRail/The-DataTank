@@ -27,6 +27,19 @@ class Xml extends Printer{
 	  header("Content-Type: text/xml");
      }
 
+     protected function printBody() {
+        $hash = get_object_vars($this->objectToPrint);
+        $hash['version'] = $this->version;
+        $hash['timestamp'] = 0;
+
+        $xml = simplexml_load_string("<?xml version='1.0' encoding='utf-8'?><foo />");
+        foreach ($hash as $k=>$v) {
+            $xml->addChild($k, $v);
+        }
+        echo $xml;
+     }
+        
+
      function printError($ec, $msg){
 	  $this->printHeader();
 	  header("HTTP/1.1 $ec $msg");

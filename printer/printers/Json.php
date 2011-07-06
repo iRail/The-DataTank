@@ -28,7 +28,7 @@ class Json extends Printer{
 
      protected function printBody() {
        $hash = get_object_vars($this->objectToPrint);
-       $hash['version'] = 1.0;
+       $hash['version'] = $this-version;
        $hash['timestamp'] = 0;
        echo json_encode($hash);
      }

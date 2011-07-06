@@ -1,20 +1,13 @@
 <?php
 
-class PrinterFactory{
+include_once("printer/printers/Printer.php");
 
-     public static function getPrinter($format, $rootname,$objectToPrint){	
-	  if(isset($_GET["callback"]) && $format=="Json"){
-	       $format = "Jsonp";
-	  }
-	
-	  if(!file_exists("printer/printers/$format.php")){
-	       $format="Xml";
-	  }
-	  include_once("printer/printers/$format.php");
-	  //format can be called as a class now.
-	  $printer = new $format($rootname,$objectToPrint);
-	 
-	  return $printer;
-     }
-  }
+class PrinterFactory{
+    public static function getPrinter($format, $rootname,$objectToPrint){	
+	    if(isset($_GET["callback"]) && $format=="json"){
+	        $format = "jsonp";
+        }
+    return new Printer($rootname, $objectToPrint, $format);
+    }
+}
 ?>
