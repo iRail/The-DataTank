@@ -1,6 +1,4 @@
 <?php
-ini_set('include_path', '.');
-
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");

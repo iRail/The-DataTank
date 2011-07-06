@@ -1,8 +1,7 @@
 <?php
-ini_set("include_path",".:modules/iRail/");
 include_once("modules/AMethod.php");
-include_once("Stations.class.php");
-include_once("iRailTools.class.php");
+include_once("modules/iRail/Stations.class.php");
+include_once("modules/iRail/iRailTools.class.php");
 
 class Liveboard extends AMethod{
 
@@ -30,10 +29,8 @@ class Liveboard extends AMethod{
 	  if($key == "lang"){
 	       $this->lang = $val;
 	  }
-	  if($key == "system"){
-	       if(in_array($val, iRailTools::ALLOWED_SYSTEMS)){
-		    $this->system = $val;
-	       }
+	  if($key == "system" && in_array($val, iRailTools::ALLOWED_SYSTEMS)){
+	       $this->system = $val;
 	  }
      }
 

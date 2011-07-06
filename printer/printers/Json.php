@@ -26,85 +26,34 @@ class Json extends Printer{
 	  header("Content-Type: application/json;charset=UTF-8");
      }
 
-     function printError($ec, $msg){
-	  $this->printHeader();
-	  header("HTTP/1.1 $ec $msg");
-	  echo "{\"error\":$ec,\"message\":\"$msg\"}";
+     protected function printBody() {
+       $hash = get_object_vars($this->objectToPrint);
+       $hash['version'] = 1.0;
+       $hash['timestamp'] = 0;
+       echo json_encode($hash);
      }
+     // TODO remove all the abstract stuff, too complext, does nothing but
+     // abstracts simplicity
 
-     function startRootElement($timestamp){
-	  //$this->rootname = $name;
-	  echo "{\"version\":\"" . $this->version . "\",\"timestamp\":\"$timestamp\",";
-     }
+     function printError($ec, $msg){}
 
-     function startArray($name,$number, $root = false){
-	  if(!$root){// || $this->rootname == "liveboard" || $this->rootname == "vehicleinformation"){
-	       echo "\"" . $name . "s\":{\"number\":\"$number\",";
-	  }
-	  echo "\"$name\":[";
-	  $this->currentarrayindex ++;
-	  $this->stack[$this->currentarrayindex] = $name;
-	  $this->arrayindices[$this->currentarrayindex] = 0;
-     }
+     function startRootElement($timestamp){}
 
-     function nextArrayElement(){
-	  echo ",";
-	  $this->arrayindices[$this->currentarrayindex]++;
-     }
+     function startArray($name,$number, $root = false){}
 
-     function nextObjectElement(){
-	  echo ",";
-     }
+     function nextArrayElement(){}
 
-     function startObject($name, $object){
-	  if($this->currentarrayindex >-1 && $this->stack[$this->currentarrayindex] == $name){
-	       echo "{";
-               //show id (in array) except if array of stations (compatibility issues)
-	       if($name != "station"){
-		    echo "\"id\":\"".$this->arrayindices[$this->currentarrayindex]."\",";
-	       }
-	  }
-	  else{
-	       /*if($this->rootname != "stations" && $name == "station" || $name == "platform"){ // split station and platform into station/platform and stationinfo/platforminfox to be compatible with 1.0
-		    echo "\"$name\":\"$object->name\",";
-		    echo "\"". $name. "info\":{";
-	       }else if($this->rootname != "vehicle" && $name == "vehicle"){ // split vehicle into vehicle and vehicleinfo to be compatible with 1.0
-		    echo "\"$name\":\"$object->name\",";
-		    echo "\"". $name. "info\":{";
-	       }else{
-		    echo "\"$name\":{";
-		    }*/
-	       echo "\"$name\":{";
-	  }
-	  
-     }
+     function startObject($name, $object){}
 
-     function startKeyVal($key,$val){
-	  echo "\"$key\":\"$val\"";
-     }
+     function startKeyVal($key,$val){}
 
-     function endArray($name, $root = false){
-	  $this->stack[$this->currentarrayindex] = "";
-	  $this->arrayindices[$this->currentarrayindex] = 0;
-	  $this->currentarrayindex --;
-	  if($root){// && $this->rootname != "liveboard" && $this->rootname != "vehicleinformation"){
-	       echo "]";
-	  }else{
-	       echo "]}";
-	  }
-     }
+     function endArray($name, $root = false){}
      
-     function endObject($name){
-	  echo "}";
-     }
+     function endObject($name){}
      
-     function endElement($name){
-	  
-     }
+     function endElement($name){}
 
-     function endRootElement($name){
-	  echo "}";
-     }
+     function endRootElement($name){}
 };
 
 ?>

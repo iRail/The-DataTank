@@ -1,5 +1,4 @@
 <?php
-ini_set("include_path",".:modules/iRail/");
 include_once("modules/AMethod.php");
 
 class Stations extends AMethod{
