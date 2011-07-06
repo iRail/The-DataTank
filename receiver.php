@@ -74,11 +74,16 @@ try{
      $dummyrootname = "root";
      $printer = PrinterFactory::getPrinter($format,$dummyrootname,$result);
      $printer->printAll();
-
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
      include_once('error/ErrorHandler.class.php');
      
      ErrorHandler::logException($e);  
  }
+
+/*
+Request logging
+*/
+
+
 ?>

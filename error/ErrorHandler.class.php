@@ -22,9 +22,8 @@ class ErrorHandler{
 	  }     
 	  // get the database object
 	  // ATTENTION!!! you have to make sure that the rights for R/W are properly
-	  // set for the directory in which the database is stored. In our example
-	  // this is the directorty 'stats'
-	  $database = new SQLite3('stats/logging.db',SQLITE3_OPEN_READWRITE);
+	  // set for the directory in which the database is stored. 
+	  $database = new SQLite3('stats/logging.db',0666);
 	  
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.
@@ -36,8 +35,8 @@ class ErrorHandler{
 	  $stmt->bindValue('error_message',$e->getMessage());
 	  $stmt->bindValue('error_code',$e->getErrorCode());
 	  $result = $stmt->execute();
-	  var_dump($result);
-	  
+	  // if the execute failed $result will contain FALSE, otherwise it'll return 
+	  // an object.	  
      }
      
 
