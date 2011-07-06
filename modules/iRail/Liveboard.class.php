@@ -5,8 +5,7 @@ include_once("modules/iRail/iRailTools.class.php");
 
 class Liveboard extends AMethod{
 
-     private $lang,$system;
-     
+     private $lang,$system;     
 
      public function __construct(){
 	  parent::__construct("Liveboard");
