@@ -3,7 +3,7 @@ include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
 
 ini_set('error_reporting', E_ALL);
-
+date_default_timezone_set('UTC');
 try{
 /*
  STEP1
