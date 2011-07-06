@@ -51,10 +51,12 @@ function printDerivedClasses($abstractclassname, $module){
 	       }
 	  }
 	  echo "<strong>" . $class::getDoc() ."</strong>";
-	  echo "<h4><a href=\"http://jan.iRail.be/$module/$class/$args\">http://api.TheDataTank.com/$module/$class/$args</a></h4>";
+	  $url = "http://jan.iRail.be/$module/$class/$args";
+	  echo "<h4><a href=\"$url\">http://api.TheDataTank.com/$module/$class/$args</a></h4>";
 	  echo "<ul>\n";
+	  echo "<h4>All possible parameters</h4>";
 	  foreach($class::getParameters() as $var => $doc){
-	       echo "<li><strong>$var:</strong>$doc\n";
+	       echo "<li><strong>$var:</strong> $doc\n";
 	  }
 	  echo "</ul>\n";
 	  echo "<br/>";
@@ -92,5 +94,16 @@ if ($handle = opendir('../modules/')) {
      closedir($handle);
 }
 ?>
+<h1>The DataTank</h1>
+The DataTank is a project by the iRail NPO ...<br/>
+<h3>Copyright and License</h3>
+© iRail vzw/asbl (NPO) 2011<br/>
+AGPLv3
+<h3>Authors</h3>
+The <a href="http://npo.iRail.be">iRail NPO</a><br/>
+<ul>
+<li> Pieter Colpaert - pieter aŧ iRail.be
+<li> Jan Vansteenlandt - jan aŧ iRail.be
+<li> ab3 - ...
 </body>
 </html>
