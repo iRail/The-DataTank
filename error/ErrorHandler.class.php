@@ -11,6 +11,8 @@ class ErrorHandler{
 
      public static function logException($e){
 	  // get the full request url
+	  echo "ERROR OCCURED, trying to log";
+	  
 	  $pageURL = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
 	  if ($_SERVER["SERVER_PORT"] != "80"){
 	       $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
@@ -26,14 +28,16 @@ class ErrorHandler{
 	  
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.
-	  $stmt = $database->prepare('INSERT INTO errors values( :time, :browser, :ip, :url_request, :error_message, :error_code)');
+	  $stmt = $database->prepare('INSERT INTO errors values( :time, :user_agent, :ip, :url_request, :error_message, :error_code)');
 	  $stmt->bindValue('time', time());
-	  $stmt->bindValue('browser',$_SERVER['HTTP_USER_AGENT']);
+	  $stmt->bindValue('user_agent',$_SERVER['HTTP_USER_AGENT']);
 	  $stmt->bindValue('ip',$_SERVER['REMOTE_ADDR']);
-	  $stmt->bindValue('url',$pageURL);
+	  $stmt->bindValue('url_request',$pageURL);
 	  $stmt->bindValue('error_message',$e->getMessage());
 	  $stmt->bindValue('error_code',$e->getErrorCode());
 	  $result = $stmt->execute();
+	  var_dump($result);
+	  
      }
      
 
