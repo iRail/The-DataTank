@@ -40,25 +40,10 @@ try{
 	       if(file_exists("modules/$module/$method.class.php")){
 		    //get the new method
 		    include_once("modules/$module/$method.class.php");	       
-		    $method = new $method();	       
-
-		    //get all parameters for the method, check and get them from $_GET - array
-		    //if a required parameter is not found an exception is thrown.
-		    $array = $method->getRequiredParameters();
-		    $parameters;
-		    foreach($array as $key){
-			 //if a certain parameter is not found, throw exception
-			 if(!isset($_GET[$key])){
-			      throw new ParameterTDTException($key);
-			 }
-			 $parameters[$key] = $_GET[$key];
-		    }
-		    //give the necessary parameters to the method
-		    $method->setParameters($parameters);
+		    $method = new $method();
 
 		    //execute the method
-		    $result = $method->call();
-	       
+		    $result = $method->call();	       
 	       }else{
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$method);
 	       }

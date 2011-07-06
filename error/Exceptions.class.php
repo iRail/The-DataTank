@@ -54,6 +54,20 @@ class ParameterTDTException extends AbstractTDTException{
      }
 }
 
+class ParameterDoesntExistTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "This exception is thrown when a parameter does not exist. The constructor needs a parameter";
+     }
+
+     public function getErrorCode(){
+	  return 402;
+     }
+
+     public function __construct($parameter){
+	  parent::__construct("Parameter does not exist: " . $parameter);
+     }
+}
+
 /**
  * These are HTTP 500 errors: internal server errors
  */

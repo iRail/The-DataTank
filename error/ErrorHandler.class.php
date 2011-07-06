@@ -10,6 +10,8 @@
 class ErrorHandler{
 
      public static function logException($e){
+	  echo $e->getMessage();
+	  
 	  // get the full request url
 	  echo "ERROR OCCURED, trying to log";
 	  
@@ -19,7 +21,7 @@ class ErrorHandler{
 	  } 
 	  else{
 	       $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-	  }     
+	  }
 	  // get the database object
 	  // ATTENTION!!! you have to make sure that the rights for R/W are properly
 	  // set for the directory in which the database is stored. 
