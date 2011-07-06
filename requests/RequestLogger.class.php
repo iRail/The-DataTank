@@ -1,20 +1,8 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl */
-  /* 
-   * Author: Pieter Colpaert <pieter aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * This is an errorhandler, it will do everything that is expected when an error occured.
-   */
+class RequestLogger{
 
-class ErrorHandler{
+     public static function logRequest(){
 
-     public static function logException($e){
-	  echo $e->getMessage();
-	  
-	  // get the full request url
-	  echo "ERROR OCCURED, trying to log";
-	  
 	  $pageURL = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
 	  if ($_SERVER["SERVER_PORT"] != "80"){
 	       $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
@@ -29,18 +17,12 @@ class ErrorHandler{
 	  
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.
-	  $stmt = $database->prepare('INSERT INTO errors values( :time, :user_agent, :ip, :url_request, :error_message, :error_code)');
+	  $stmt = $database->prepare('INSERT INTO requests values( :time, :user_agent, :ip, :url_request)');
 	  $stmt->bindValue('time', time());
 	  $stmt->bindValue('user_agent',$_SERVER['HTTP_USER_AGENT']);
 	  $stmt->bindValue('ip',$_SERVER['REMOTE_ADDR']);
 	  $stmt->bindValue('url_request',$pageURL);
-	  $stmt->bindValue('error_message',$e->getMessage());
-	  $stmt->bindValue('error_code',$e->getErrorCode());
 	  $result = $stmt->execute();
-	  // if the execute failed $result will contain FALSE, otherwise it'll return 
-	  // an object.	  
      }
-     
-
   }
 ?>

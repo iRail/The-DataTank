@@ -1,9 +1,10 @@
 <?php
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
+include_once("requests/RequestLogger.class.php");
 
 ini_set('error_reporting', E_ALL);
-date_default_timezone_set('UTC');
+
 try{
 /*
  STEP1
@@ -34,7 +35,7 @@ try{
 
 	  if(isset($_GET["method"])){
 	       $method = $_GET["method"];
-	  
+	       $methodname = $method;
 	       if(file_exists("modules/$module/$method.class.php")){
 		    //get the new method
 		    include_once("modules/$module/$method.class.php");	       
@@ -52,16 +53,20 @@ try{
 
 /*
  STEP 3
- Print the result in the preferenced format, or default format
+ We know that the module and method exist, so we log this request.
+ Also print the result in the preferenced format, or default format
 */
-     $dummyrootname = "root";
-     $printer = PrinterFactory::getPrinter($format,$dummyrootname,$result);
+     RequestLogger::logRequest();
+     $rootname = $methodname;
+     $rootname = strtolower($rootname);
+     $printer = PrinterFactory::getPrinter($format,$rootname,$result);
      $printer->printAll();
-
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
      include_once('error/ErrorHandler.class.php');
-     
      ErrorHandler::logException($e);  
  }
+
+
+
 ?>
