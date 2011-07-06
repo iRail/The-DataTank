@@ -26,7 +26,7 @@ function getAllDerivedClasses($classname){
  */
 function printDerivedExceptions($abstractclassname){
      foreach(getAllDerivedClasses($abstractclassname) as $class){
-	  echo "<h3>$class</h3>";     
+	  echo "<h3>$class</h3>";
 	  echo $class::getDoc();
 	  echo "<br/>";
      }
@@ -38,18 +38,25 @@ function printDerivedExceptions($abstractclassname){
 function printDerivedClasses($abstractclassname, $module){
      foreach(getAllDerivedClasses($abstractclassname) as $class){
 	  echo "<h3>$class</h3>";
-	  $args="?";
-	  foreach($class::getRequiredParameters() as $var){
-	       $args .= "$var=foo&";
+	  //get a sequence of the parameters
+	  $args = "";
+	  if(sizeof($class::getRequiredParameters()) > 0){
+	       $params = $class::getRequiredParameters();
+	       $args="?" . $params[0] . "=...";
+	       $i = 0;
+	       foreach($params as $var){
+		    if($i == 0) continue;
+		    $args .= "&$var=...";
+		    $i++;
+	       }
 	  }
-	  rtrim($args, "&");
+	  echo "<strong>" . $class::getDoc() ."</strong>";
 	  echo "<h4><a href=\"http://jan.iRail.be/$module/$class/$args\">http://api.TheDataTank.com/$module/$class/$args</a></h4>";
 	  echo "<ul>\n";
 	  foreach($class::getParameters() as $var => $doc){
 	       echo "<li><strong>$var:</strong>$doc\n";
 	  }
 	  echo "</ul>\n";
-	  echo $class::getDoc();
 	  echo "<br/>";
      }
 }
@@ -65,7 +72,7 @@ function printDerivedClasses($abstractclassname, $module){
 echo "<h1>Errors</h1>";
 printDerivedExceptions("AbstractTDTException");
 
-echo "<h1>Modules</h1>";
+echo "<h1>Modules and methods</h1>";
 if ($handle = opendir('../modules/')) {     
      while (false !== ($modu = readdir($handle))) {
 	  
@@ -84,8 +91,6 @@ if ($handle = opendir('../modules/')) {
      }
      closedir($handle);
 }
-//...
-
 ?>
 </body>
 </html>
