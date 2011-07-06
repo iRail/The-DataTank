@@ -2,9 +2,9 @@
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
-
+include_once('error/ErrorHandler.class.php');
 ini_set('error_reporting', E_ALL);
-date_default_timezone_set('UTC');
+set_error_handler('wrapper_handler', E_ALL);
 
 try{
 /*
@@ -37,11 +37,19 @@ try{
 	  if(isset($_GET["method"])){
 	       $method = $_GET["method"];
 	       $methodname = $method;
+
 	       if(file_exists("modules/$module/$method.class.php")){
 		    //get the new method
 		    include_once("modules/$module/$method.class.php");	       
 		    $method = new $method();
 
+		    // check if the given format is allowed by the method
+		    // if not, throw an exception and return the allowed formats
+		    // to the user.
+		    if(!in_array($format,$method::getParameters())){
+			 throw new FormatNotAllowedTDTException($format,$method);
+		    }
+		    
 		    //execute the method
 		    $result = $method->call();	       
 	       }else{
@@ -58,13 +66,14 @@ try{
  Also print the result in the preferenced format, or default format
 */
      RequestLogger::logRequest();
+
      $rootname = $methodname;
      $rootname = strtolower($rootname);
      $printer = PrinterFactory::getPrinter($format,$rootname,$result);
      $printer->printAll();
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
-     include_once('error/ErrorHandler.class.php');
+    
      ErrorHandler::logException($e);  
  }
 

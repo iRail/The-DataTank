@@ -7,20 +7,27 @@
    * This is an errorhandler, it will do everything that is expected when an error occured.
    */
 
+
+  // this function is called when an unexpected error occurs in receiver.php
+function wrapper_handler($number,$string,$file,$line,$context){
+     $error_message = $string . " on line " . $line . " in file ". $file . ".";
+     $exception = new InternalServerTDTException($error_message);
+     ErrorHandler::logException($exception);
+  }
+
 class ErrorHandler{
 
      public static function logException($e){
 	  //comment if in productionmode
 	  echo $e->getMessage();
-	  
-	  // get the full request url
-	  //echo "ERROR OCCURED, trying to log";
-	  
-	  $pageURL = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
-	  if ($_SERVER["SERVER_PORT"] != "80"){
+
+	  // get the full request url  
+	  $pageURL = 'http';
+	  if (!empty($_SERVER['HTTPS'])) {if($_SERVER['HTTPS'] == 'on'){$pageURL .= "s";}}
+	  $pageURL .= "://";
+	  if ($_SERVER["SERVER_PORT"] != "80") {	  
 	       $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-	  } 
-	  else{
+	  } else {
 	       $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 	  }
 	  // get the database object
@@ -41,7 +48,5 @@ class ErrorHandler{
 	  // if the execute failed $result will contain FALSE, otherwise it'll return 
 	  // an object.	  
      }
-     
-
-  }
+}
 ?>
