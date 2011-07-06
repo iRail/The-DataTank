@@ -11,13 +11,13 @@ We are doing this by creating an Application Programming Interface. This interfa
 In order to get started with The DataTank, one obviously has to get our code.
 So go ahead and clone our repository on your machine. This can be done by the command
 
-$ git clone git@github.com:iRail/The-DataTank.git
+   $ git clone git@github.com:iRail/The-DataTank.git
 
 After that copy the entire directory to your /var/www folder.
 In order to keep track of your logging we have to initialise a database. This is done for you if you by going to the 
 'stats' directory and executing the 'set_up_database.sh' script. 
 
-$ bash set_up_database.sh
+	$ bash set_up_database.sh
 
 This will initialize an sqlite3 database called 'logging.db'and contains tables 'requests' and 'errors'. At the time of writing
 there are no other databases supported, but support to use existing databases and other types of databases will be implemented somewhere in the next few weeks. 
