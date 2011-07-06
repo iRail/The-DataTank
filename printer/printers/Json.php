@@ -26,6 +26,13 @@ class Json extends Printer{
 	  header("Content-Type: application/json;charset=UTF-8");
      }
 
+     protected function printBody() {
+       $hash = get_object_vars($this->objectToPrint);
+       $hash['version'] = 1.0;
+       $hash['timestamp'] = 0;
+       echo json_encode($hash);
+     }
+
      function printError($ec, $msg){
 	  $this->printHeader();
 	  header("HTTP/1.1 $ec $msg");
