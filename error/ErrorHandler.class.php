@@ -10,10 +10,11 @@
 class ErrorHandler{
 
      public static function logException($e){
+	  //comment if in productionmode
 	  echo $e->getMessage();
 	  
 	  // get the full request url
-	  echo "ERROR OCCURED, trying to log";
+	  //echo "ERROR OCCURED, trying to log";
 	  
 	  $pageURL = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
 	  if ($_SERVER["SERVER_PORT"] != "80"){
