@@ -6,6 +6,7 @@ include_once('error/ErrorHandler.class.php');
 ini_set('error_reporting', E_ALL);
 set_error_handler('wrapper_handler', E_ALL);
 
+$methodname;$format;$result;
 try{
 /*
  STEP1
@@ -46,7 +47,7 @@ try{
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
-		    if(!in_array($format,$method::getParameters())){
+		    if(!in_array($format,$method::allowedPrintMethods())){
 			 throw new FormatNotAllowedTDTException($format,$method);
 		    }
 		    
@@ -59,14 +60,10 @@ try{
      }else{
 	  throw new MethodOrModuleNotFoundTDTException("No module");
      }
-
-/*
- STEP 3
- We know that the module and method exist, so we log this request.
- Also print the result in the preferenced format, or default format
-*/
-     RequestLogger::logRequest();
-
+     /*
+       STEP3
+       Now print the bloody thing in our prefered format
+      */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
      $printer = PrinterFactory::getPrinter($format,$rootname,$result);
@@ -74,9 +71,17 @@ try{
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
     
-     ErrorHandler::logException($e);  
+     ErrorHandler::logException($e);
  }
 
+//** Jan: Don't we need to put this here? - You've put this at the last part of the try{}.
+
+/*
+ STEP 4
+ We log this request in any case!
+*/
+//Currently turned off
+//RequestLogger::logRequest();
 
 
 ?>

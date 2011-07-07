@@ -39,8 +39,7 @@ class Liveboard extends AMethod{
      }
      
      public function allowedPrintMethods(){
-	  return array("xml");
-
+	  return array("Xml", "Json");
      }
 
      public static function getDoc(){

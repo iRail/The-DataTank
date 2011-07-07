@@ -1,8 +1,7 @@
 <?php
 class RequestLogger{
 
-     public static function logRequest(){	  
-
+     public static function logRequest(){
 	  $pageURL = 'http';
 	  if (!empty($_SERVER['HTTPS'])) {if($_SERVER['HTTPS'] == 'on'){$pageURL .= "s";}}
 	  $pageURL .= "://";
@@ -25,5 +24,5 @@ class RequestLogger{
 	  $stmt->bindValue('url_request',$pageURL);
 	  $result = $stmt->execute();
      }
-  }
+}
 ?>

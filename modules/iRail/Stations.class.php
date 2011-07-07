@@ -32,17 +32,20 @@ class Stations extends AMethod{
      }
 
      public function call(){
-	  $dummyresult = new LiveboardResult();
-	  return $dummyresult;
+	  return new Station();
      }
      
      public function allowedPrintMethods(){
-	  $printmethods = array("xml");
+	  return array("Xml", "Json");
      }
 
      public static function getDoc(){
 	  return "Stations will return a list of all known stops of a system";
      }
+}
+
+class Station{
+     
 }
 
 ?>

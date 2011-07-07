@@ -21,6 +21,12 @@ class ErrorHandler{
 	  //comment if in productionmode
 	  echo $e->getMessage();
 
+	  //Currently off.
+	  //ErrorHandler::WriteToDB();
+     }
+
+     private static function WriteToDB(){
+	  
 	  // get the full request url  
 	  $pageURL = 'http';
 	  if (!empty($_SERVER['HTTPS'])) {if($_SERVER['HTTPS'] == 'on'){$pageURL .= "s";}}
@@ -48,5 +54,6 @@ class ErrorHandler{
 	  // if the execute failed $result will contain FALSE, otherwise it'll return 
 	  // an object.	  
      }
+     
 }
 ?>
