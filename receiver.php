@@ -2,11 +2,10 @@
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
-include_once('error/ErrorHandler.class.php');
+include_once("error/ErrorHandler.class.php");
+include_once("modules/FederatedModules.php");
+include_once("modules/General/Federated.class.php");
 include_once("Config.class.php");
-
-ini_set('error_reporting', E_ALL);
-set_error_handler('wrapper_handler', E_ALL);
 
 $methodname;$format;$result;
 try{
@@ -39,26 +38,27 @@ try{
 	  $module = $_GET["module"];
 
 	  if(isset($_GET["method"])){
-	       $method = $_GET["method"];
-	       $methodname = $method;
+	       $methodname = $_GET["method"];
 
-	       if(file_exists("modules/$module/$method.class.php")){
+	       if(file_exists("modules/$module/$methodname.class.php")){
 		    //get the new method
-		    include_once("modules/$module/$method.class.php");	       
-		    $method = new $method();
+		    include_once("modules/$module/$methodname.class.php");
+		    
+		    $method = new $methodname();
 
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
-		    if(!in_array(strtolower($format),$method::allowedPrintMethods())){
+		    if(!in_array(strtolower($format),$method->allowedPrintMethods())){
 			 throw new FormatNotAllowedTDTException($format,$method);
 		    }
-		    
-		    //execute the method
-		    $result = $method->call();	       
+	       }else if(array_key_exists($module,FederatedModules::$modules)){
+		    $method = new Federated($module,$methodname,FederatedModules::$modules[$module]);
 	       }else{
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$method);
 	       }
+	       //execute the method when no error occured
+	       $result = $method->call();
 	  }
      }else{
 	  throw new MethodOrModuleNotFoundTDTException("No module");

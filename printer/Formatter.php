@@ -13,9 +13,9 @@ class Formatter {
         } else if ($format == "Kml") {
             return Formatter::format_kml($rootname, $object, $version);
         } else if ($format == "Php") {
-             return Formatter::format_php($rootname, $$object, $version);
+             return Formatter::format_php($rootname, $object, $version);
         } else {
-            return Formatter::format_fail($rootname, $$object, $version);
+            return Formatter::format_fail($rootname, $object, $version);
         }
     }
 
@@ -23,7 +23,7 @@ class Formatter {
         $hash = get_object_vars($object);
         $hash['version'] = $version;
         $hash['timestamp'] = 0;
-        return  json_encode($hash);
+        return json_encode($hash);
     }
     
     static function format_jsonp($rootname, $object, $version) {
