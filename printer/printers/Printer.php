@@ -1,6 +1,5 @@
 <?php
 
-
 /**
   * An abstract class for a printer. It prints an object
   *
@@ -30,7 +29,7 @@ class Printer {
         } else if ($this->format == "Kml") {
             header("Content-Type: application/vnd.google-earth.kml+xml");
         } else {
-            header("Content-Type: text/text");
+            header("Content-Type: text/plain");
         }
         
         echo Formatter::format($this->format, $this->objectToPrint, $this->version);
