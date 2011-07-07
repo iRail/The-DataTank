@@ -72,11 +72,7 @@ try{
      $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);
      $printer->printAll();
 }catch(Exception $e){
-<<<<<<< HEAD
-     //Oh noes! An error occured! Let's send this to our error handler    
-=======
      //Oh noes! An error occured! Let's send this to our error handler
->>>>>>> bc0997dffd1a2ba029b760f4b5d8eaa084dfeae6
      ErrorHandler::logException($e);
 }
 
