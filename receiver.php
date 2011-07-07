@@ -20,7 +20,6 @@ try{
 	  $format = $_GET["format"];
      }
      
-
      if($format == ""){
 	  $format = "Xml";
      }

@@ -39,8 +39,8 @@ class Formatter {
             'addDecl' => TRUE,
             'encoding' => 'utf-8',
             'indent' => '  ',
-            'rootName' => 'data',
-            "defaultTagName"  => "item",
+            'rootName' => $rootname,
+            'defaultTagName' => 'item',
         ); 
         $serializer = new XML_Serializer($options);
         $status = $serializer->serialize($hash);
