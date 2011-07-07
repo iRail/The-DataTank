@@ -10,6 +10,8 @@ class Formatter {
             return Formatter::format_xml($object, $version);
         } else if ($format == "Kml") {
             return Formatter::format_kml($object, $version);
+        } else if ($format == "Php") {
+             return Formatter::format_php($object, $version);
         } else {
             return Formatter::format_fail($object, $version);
         }
@@ -35,12 +37,16 @@ class Formatter {
         foreach ($hash as $k=>$v) {
             $xml->addChild($k, $v);
         }
-        echo $xml;
+        return $xml;
     }
 
     static function format_kml($object, $version) {
         /*echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";*/
 
+    }
+
+    static function format_php($object, $version) {
+        return var_dump($object);
     }
 
     static function format_fail($object, $version) {
