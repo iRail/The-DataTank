@@ -3,6 +3,8 @@ include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
 include_once('error/ErrorHandler.class.php');
+include_once("Config.class.php");
+
 ini_set('error_reporting', E_ALL);
 set_error_handler('wrapper_handler', E_ALL);
 
@@ -70,18 +72,18 @@ try{
      $printer->printAll();
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
-    
      ErrorHandler::logException($e);
 }
-
-//** Jan: Don't we need to put this here? - You've put this at the last part of the try{}.
 
 /*
  STEP 4
  We log this request in any case!
 */
-//Currently turned off
-//RequestLogger::logRequest();
+
+RequestLogger::logRequest();
+?>
+
 
 
 ?>
+
