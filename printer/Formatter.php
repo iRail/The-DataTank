@@ -13,9 +13,9 @@ class Formatter {
         } else if ($format == "Kml") {
             return Formatter::format_kml($rootname, $object, $version);
         } else if ($format == "Php") {
-             return Formatter::format_php($rootname, $$object, $version);
+             return Formatter::format_php($rootname, $object, $version);
         } else {
-            return Formatter::format_fail($rootname, $$object, $version);
+            return Formatter::format_fail($rootname, $object, $version);
         }
     }
 
