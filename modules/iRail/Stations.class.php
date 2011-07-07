@@ -36,7 +36,7 @@ class Stations extends AMethod{
      }
      
      public function allowedPrintMethods(){
-	  return array("Xml", "Json");
+	  return array("xml", "json", "php");
      }
 
      public static function getDoc(){

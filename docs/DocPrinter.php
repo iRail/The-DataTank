@@ -57,7 +57,7 @@ if ($handle = opendir('../modules/')) {
 		    closedir($handle2);
 	       }
 	       foreach(getAllDerivedClasses("AMethod") as $class){
-		    //BUG; functions with same name don't get shwon!!!
+		    //BUG; functions with same name don't get shown!!!
 		    if(!in_array($class,$done_methods)){
 			 echo "<h3>$class</h3>";
 			 //get a sequence of the parameters

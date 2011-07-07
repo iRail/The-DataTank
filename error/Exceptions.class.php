@@ -35,8 +35,10 @@ class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
 	  parent::__construct("Method or module not found: " . $m);
      }
 
+     public static $error = 404;
+
      public function getErrorCode(){
-	  return 404;
+	  return MethodOrModuleNotFoundTDTException::$error;
      }
 }
 
@@ -55,8 +57,10 @@ class FormatNotAllowedTDTException extends AbstractTDTException{
 	  parent::__construct($message);
      }
 
+     public static $error = 405;
+
      public function getErrorCode(){
-	  return 405;
+	  return FormatNotAllowedTDTException::$error;
      }
 }
 
@@ -65,8 +69,10 @@ class ParameterTDTException extends AbstractTDTException{
 	  return "This exception is thrown when a parameter is incorrect. The constructor needs a parameter";
      }
 
+     public static $error = 401;
+
      public function getErrorCode(){
-	  return 401;
+	  return ParameterTDTException::$error;
      }
 
      public function __construct($parameter){
@@ -79,8 +85,10 @@ class ParameterDoesntExistTDTException extends AbstractTDTException{
 	  return "This exception is thrown when a parameter does not exist. The constructor needs a parameter";
      }
 
+     public static $error = 402;
+
      public function getErrorCode(){
-	  return 402;
+	  return ParameterDoesntExistTDTException::$error;
      }
 
      public function __construct($parameter){
@@ -96,8 +104,10 @@ class CouldNotGetDataTDTException extends AbstractTDTException{
 	  return "This exception is thrown when the data could not be resolved.";
      }
 
+     public static $error = 501;
+
      public function getErrorCode(){
-	  return 501;
+	  return CouldNotGetDataTDTException::$error;
      }
 
      public function __construct($datasourcename){
@@ -111,8 +121,9 @@ class InternalServerTDTException extends AbstractTDTException{
 	          . "For further information check /var/log/apache2/error.log";
      }
 
+     public static $error = 502;
      public function getErrorCode(){
-	  return 502;
+	  return InternalServerTDTException::$error;
      }
 
      public function __construct($message){

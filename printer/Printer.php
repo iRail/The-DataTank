@@ -1,6 +1,5 @@
 <?php
 
-
 /**
   * An abstract class for a printer. It prints an object
   *
