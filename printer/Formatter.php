@@ -23,7 +23,7 @@ class Formatter {
         $hash = get_object_vars($object);
         $hash['version'] = $version;
         $hash['timestamp'] = 0;
-        return  json_encode($hash);
+        return json_encode($hash);
     }
     
     static function format_jsonp($object, $version) {

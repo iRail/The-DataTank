@@ -20,6 +20,10 @@ To make sure your errors are shown in your browser while developping. This can b
 * display_errors = On	
 * error_reporting = E_ALL | E_STRICT | E_PARSE
 
+In order to install XML::Serializer on Debian-like machines you can install this package:
+
+	$ sudo apt-get install php-xml-serializer 
+
 ## Usage of the framework ##
 
 In order to get started with The DataTank, one obviously has to get our code.
