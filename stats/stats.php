@@ -38,43 +38,20 @@ if ($result = mysqli_query($link,
 mysqli_close($link);
 ?>
 
-
-<?php
-function func1() {echo 'Hello from 1';}
-function func2() {echo 'Hello from 2';}
-function func3() {echo 'Hello from 3';}
-
-switch($_GET["func"]) {
-case '1':
-     func1();
-     break;
-case '2':
-     func2();
-     break;
-case '3':
-     func3();
-     break;
-default:
-     // Do nothing?
-
-}
-?>
-
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
      <title>Request logging</title>
-     <link href="layout.css" rel="stylesheet" type="text/css">
-     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="flot/excanvas.min.js"></script><![endif]-->
-     <script language="javascript" type="text/javascript" src="flot/jquery.js"></script>
-     <script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
+     <link href="layout.css" rel="stylesheet">
+     <!--[if lte IE 8]><script language="javascript" src="flot/excanvas.min.js"></script><![endif]-->
+     <script language="javascript" src="flot/jquery.js"></script>
+     <script language="javascript" src="flot/jquery.flot.js"></script>
 
      </head>
      <body>
      <h1>Request logs</h1>
      <p>
-     <input class="fetchSeries" type="button" value="Trigger Me">
+     <input id="submit" type="button" value="Trigger Me">
      </p>
 
      <div id="placeholder" style="width:600px;height:300px;"></div>
@@ -82,6 +59,7 @@ default:
      <script language="javascript" type="text/javascript">
 
      var $j = jQuery.noConflict();
+     
 
 $j(function () {
 
@@ -144,21 +122,32 @@ $j(function () {
 	  }
 	  };
 
-	  var plotarea = $j("#placeholder");
+	  var plotarea = $("#placeholder");
 	  $j.plot( plotarea , data, options );
      });
 
 
-/* TEST */
+$(document).ready(function(){
+	$('#submit').click(function(){		
 
-$("input.fetchSeries").click(function () {
-	  var button = $(this);
-        
-	  $.get("myscript.php",{'func':'2'},function(data){
-		    alert(data);
-	       });
-     });
-/* END TEST */
+		$.ajax({
+			type : 'POST',
+			url : 'http://localhost/TDTstats/Queries/?format=json',
+			dataType : 'json',
+			success : function(result){
+			       
+			       $j;
+			       
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			       alert('Something went wrong. ' + errorThrown);
+			}
+		});
+
+		return false;
+	});
+});
+
 </script>
 </body>
 </html>
