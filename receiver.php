@@ -5,9 +5,7 @@ include_once("requests/RequestLogger.class.php");
 include_once("error/ErrorHandler.class.php");
 include_once("modules/FederatedModules.php");
 include_once("modules/General/Federated.class.php");
-
-ini_set("error_reporting", E_ALL);
-set_error_handler("wrapper_handler", E_ALL);
+include_once("Config.class.php");
 
 $methodname;$format;$result;
 try{
@@ -22,6 +20,7 @@ try{
      if(isset($_GET["format"])){
 	  $format = $_GET["format"];
      }
+     
 
      if($format == ""){
 	  $format = "Xml";
@@ -70,21 +69,26 @@ try{
       */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
-     $printer = PrinterFactory::getPrinter($format,$rootname,$result);
+     $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);
      $printer->printAll();
 }catch(Exception $e){
+<<<<<<< HEAD
      //Oh noes! An error occured! Let's send this to our error handler    
+=======
+     //Oh noes! An error occured! Let's send this to our error handler
+>>>>>>> bc0997dffd1a2ba029b760f4b5d8eaa084dfeae6
      ErrorHandler::logException($e);
- }
-
-//** Jan: Don't we need to put this here? - You've put this at the last part of the try{}.
+}
 
 /*
  STEP 4
  We log this request in any case!
 */
-//Currently turned off
-//RequestLogger::logRequest();
+
+RequestLogger::logRequest();
+?>
+
 
 
 ?>
+

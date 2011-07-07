@@ -12,7 +12,7 @@ We are doing this by creating an Application Programming Interface. This interfa
 First of all, in order to get started with The DataTank you have to install some necessary software:
 
 * PHP 5.3
-* sqlite3
+* MySQL
 * XML::Serializer
 
 To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
@@ -40,8 +40,8 @@ In order to keep track of your logging we have to initialise a database. This is
 
 Note that the script has to be executed from within the 'stats' directory.
 
-The above commands will initialize an sqlite3 database called 'logging.db'and contains tables 'requests' and 'errors'. At the time of writing
-there are no other databases supported, but support to use existing databases and other types of databases will be implemented somewhere in the next few weeks. 
+The above commands will initialize an MySQL database called 'logging' and contains tables 'requests' and 'errors'.
+In order to communicate with our MySQL database we need to set our user and password. To make this work you have to adjust the file 'Config.example.class.php' and rename it into 'Config.class.php'. Open the file and change the datamembers to your proper MySQL username and password.
 
 Congratulations, you now have your DataTank base initialized.
 

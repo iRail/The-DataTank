@@ -32,7 +32,7 @@ class Printer {
             header("Content-Type: text/plain");
         }
         
-        echo Formatter::format($this->format, $this->objectToPrint, $this->version);
+        echo Formatter::format($this->rootname, $this->format, $this->objectToPrint, $this->version);
     }
 }
 ?>
