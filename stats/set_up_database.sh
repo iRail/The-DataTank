@@ -8,11 +8,11 @@ if [ $# -eq $NUMBER_OF_ARGS ]
 then
     # change permissions for the directory so that php can create connections
     # TODO: was needed for sqlite3 because .db was in this directory, still needed for mysql?
-    chmod 757 ../stats;
+    #chmod 757 ../stats;
 
 #Q2 and Q3 currently not used
 Q1="CREATE DATABASE IF NOT EXISTS logging;"
-Q2="GRANT ALL ON *.* TO '$1'@'localhost' IDENTIFIED BY '$3';"
+Q2="GRANT ALL ON logging.* TO '$1'@'localhost' IDENTIFIED BY '$3';"
 Q3="FLUSH PRIVILEGES;"
 Q4=" use logging; CREATE TABLE IF NOT EXISTS errors (
   id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -34,7 +34,7 @@ Q5="CREATE TABLE IF NOT EXISTS requests (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2;"
 SQL="${Q1}${Q4}${Q5}"
 
-mysql -uroot -p -e "$SQL"
+mysql -u root -p -e "$SQL"
 
 else
     echo -e "$NUMBER_OF_ARGS arguments should be passed along with the script. 
