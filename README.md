@@ -12,12 +12,8 @@ We are doing this by creating an Application Programming Interface. This interfa
 First of all, in order to get started with The DataTank you have to install some necessary software:
 
 * PHP 5.3
-<<<<<<< HEAD
 * MySQL
-=======
-* sqlite3
 * XML::Serializer
->>>>>>> f2f5b068b1e790cf50574bd1609fd016be01acf8
 
 To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
 
