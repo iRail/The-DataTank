@@ -27,7 +27,7 @@ class Formatter {
     }
     
     static function format_jsonp($object, $version) {
-        //
+        
     }
 
     static function format_xml($object, $version) {
@@ -40,6 +40,7 @@ class Formatter {
             'encoding' => 'utf-8',
             'indent' => '  ',
             'rootName' => 'data',
+            "defaultTagName"  => "item",
         ); 
         $serializer = new XML_Serializer($options);
         $status = $serializer->serialize($hash);
