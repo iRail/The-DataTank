@@ -5,17 +5,17 @@ require_once 'XML/Serializer.php';
 class Formatter {
     static function format($rootname, $format, $object, $version) {
         if ($format == "Json") {
-            return Formatter::format_json($object, $version);
+            return Formatter::format_json($rootname, $object, $version);
         } else if ($format == "Jsonp") {
-            return Formatter::format_jsonp($object, $version);
+            return Formatter::format_jsonp($rootname, $object, $version);
         } else if ($format == "Xml") {
             return Formatter::format_xml($rootname, $object, $version);
         } else if ($format == "Kml") {
             return Formatter::format_kml($rootname, $object, $version);
         } else if ($format == "Php") {
-             return Formatter::format_php($rootname, $object, $version);
+             return Formatter::format_php($rootname, $$object, $version);
         } else {
-            return Formatter::format_fail($rootname, $object, $version);
+            return Formatter::format_fail($rootname, $$object, $version);
         }
     }
 
@@ -23,7 +23,7 @@ class Formatter {
         $hash = get_object_vars($object);
         $hash['version'] = $version;
         $hash['timestamp'] = 0;
-        return json_encode($hash);
+        return  json_encode($hash);
     }
     
     static function format_jsonp($rootname, $object, $version) {
@@ -39,7 +39,7 @@ class Formatter {
             'addDecl' => TRUE,
             'encoding' => 'utf-8',
             'indent' => '  ',
-            'rootName' => $rootname,
+            'rootName' => 'data',
             "defaultTagName"  => "item",
         ); 
         $serializer = new XML_Serializer($options);

@@ -18,6 +18,7 @@ try{
 
      if(isset($_GET["format"])){
 	  $format = $_GET["format"];
+     }
      
 
      if($format == ""){
@@ -66,13 +67,13 @@ try{
       */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
-     $printer = PrinterFactory::getPrinter($format,$rootname,$result);
+     $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);
      $printer->printAll();
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
     
      ErrorHandler::logException($e);
- }
+}
 
 //** Jan: Don't we need to put this here? - You've put this at the last part of the try{}.
 
