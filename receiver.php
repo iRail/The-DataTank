@@ -82,9 +82,6 @@ try{
 */
 
 RequestLogger::logRequest();
-?>
-
-
 
 ?>
 
