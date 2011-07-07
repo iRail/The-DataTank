@@ -23,7 +23,7 @@ class Formatter {
         $hash = get_object_vars($object);
         $hash['version'] = $version;
         $hash['timestamp'] = 0;
-        return  json_encode($hash);
+        return json_encode($hash);
     }
     
     static function format_jsonp($rootname, $object, $version) {
@@ -39,7 +39,7 @@ class Formatter {
             'addDecl' => TRUE,
             'encoding' => 'utf-8',
             'indent' => '  ',
-            'rootName' => 'data',
+            'rootName' => $rootname,
             "defaultTagName"  => "item",
         ); 
         $serializer = new XML_Serializer($options);
