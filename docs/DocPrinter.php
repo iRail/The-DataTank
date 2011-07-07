@@ -48,7 +48,9 @@ if ($handle = opendir('../modules/')) {
 	       echo "<h2>$modu</h2>\n";
 	       if ($handle2 = opendir('../modules/' . $modu)) {
 		    while (false !== ($metho = readdir($handle2))) {
-			 if ($metho != "." && $metho != "..") {
+			 //Check if it is a rightfull php class
+			 $arr = explode(".class.", $metho);
+			 if ($metho != "." && $metho != ".." && sizeof($arr) > 1) {
 			      include_once("modules/" . $modu . "/" . $metho);
 			 }
 		    }
