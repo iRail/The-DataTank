@@ -130,6 +130,21 @@ class InternalServerTDTException extends AbstractTDTException{
 	  parent::__construct($message);
      }
 }
+class NoPrinterTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "No printer is available or something went wrong in the Formatter class";
+     }
+
+     public static $error = 504;
+
+     public function getErrorCode(){
+	  return NoPrinterTDTException::$error;
+     }
+
+     public function __construct(){
+	  parent::__construct("Formater error. Check the value of your format parameter");
+     }
+}
 
 
 ?>
