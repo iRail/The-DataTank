@@ -1,6 +1,6 @@
 <?php
 
-include_once("printer/printers/Printer.php");
+include_once("printer/Printer.php");
 
 class PrinterFactory{
     public static function getPrinter($format, $rootname,$objectToPrint){	

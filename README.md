@@ -13,6 +13,7 @@ First of all, in order to get started with The DataTank you have to install some
 
 * PHP 5.3
 * sqlite3
+* XML::Serializer
 
 To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
 

@@ -1,5 +1,7 @@
 <?php
 
+require_once 'XML/Serializer.php';
+
 class Formatter {
     static function format($format, $object, $version) {
         if ($format == "Json") {
@@ -29,15 +31,19 @@ class Formatter {
     }
 
     static function format_xml($object, $version) {
-        $hash = get_object_vars($this->objectToPrint);
-        $hash['version'] = $this->version;
+        $hash = get_object_vars($object);
+        $hash['version'] = $version;
         $hash['timestamp'] = 0;
 
-        $xml = simplexml_load_string("<?xml version='1.0' encoding='utf-8'?><foo />");
-        foreach ($hash as $k=>$v) {
-            $xml->addChild($k, $v);
-        }
-        return $xml;
+        $options = array (
+            'addDecl' => TRUE,
+            'encoding' => 'utf-8',
+            'indent' => '  ',
+            'rootName' => 'data',
+        ); 
+        $serializer = new XML_Serializer($options);
+        $status = $serializer->serialize($hash);
+        return $serializer->getSerializedData();
     }
 
     static function format_kml($object, $version) {
