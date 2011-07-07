@@ -18,7 +18,7 @@ try{
 
      if(isset($_GET["format"])){
 	  $format = $_GET["format"];
-     }
+     
 
      if($format == ""){
 	  $format = "Xml";

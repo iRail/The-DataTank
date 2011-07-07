@@ -3,34 +3,34 @@
 require_once 'XML/Serializer.php';
 
 class Formatter {
-    static function format($format, $object, $version) {
+    static function format($rootname, $format, $object, $version) {
         if ($format == "Json") {
             return Formatter::format_json($object, $version);
         } else if ($format == "Jsonp") {
             return Formatter::format_jsonp($object, $version);
         } else if ($format == "Xml") {
-            return Formatter::format_xml($object, $version);
+            return Formatter::format_xml($rootname, $object, $version);
         } else if ($format == "Kml") {
-            return Formatter::format_kml($object, $version);
+            return Formatter::format_kml($rootname, $object, $version);
         } else if ($format == "Php") {
-             return Formatter::format_php($object, $version);
+             return Formatter::format_php($rootname, $object, $version);
         } else {
-            return Formatter::format_fail($object, $version);
+            return Formatter::format_fail($rootname, $object, $version);
         }
     }
 
-    static function format_json($object, $version) {
+    static function format_json($rootname, $object, $version) {
         $hash = get_object_vars($object);
         $hash['version'] = $version;
         $hash['timestamp'] = 0;
         return  json_encode($hash);
     }
     
-    static function format_jsonp($object, $version) {
+    static function format_jsonp($rootname, $object, $version) {
         
     }
 
-    static function format_xml($object, $version) {
+    static function format_xml($rootname, $object, $version) {
         $hash = get_object_vars($object);
         $hash['version'] = $version;
         $hash['timestamp'] = 0;
@@ -47,16 +47,16 @@ class Formatter {
         return $serializer->getSerializedData();
     }
 
-    static function format_kml($object, $version) {
+    static function format_kml($rootname, $object, $version) {
         /*echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";*/
 
     }
 
-    static function format_php($object, $version) {
+    static function format_php($rootname, $object, $version) {
         return var_dump($object);
     }
 
-    static function format_fail($object, $version) {
+    static function format_fail($rootname, $object, $version) {
         return 'epic fail';
     }
 }
