@@ -4,6 +4,6 @@
  */
 
 $federatedmodules = array(
-	"janiRail" => "http://coreation/iRail/"
+	"janiRail" => "http://coreation/General/CSV/"
 );
 ?>

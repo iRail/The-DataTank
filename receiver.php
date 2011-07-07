@@ -21,6 +21,7 @@ try{
      if(isset($_GET["format"])){
 	  $format = $_GET["format"];
      }
+     
 
      if($format == ""){
 	  $format = "Xml";
@@ -49,7 +50,7 @@ try{
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
-		    if(!in_array($format,$method::allowedPrintMethods())){
+		    if(!in_array(strtolower($format),$method::allowedPrintMethods())){
 			 throw new FormatNotAllowedTDTException($format,$method);
 		    }
 		    
@@ -68,17 +69,22 @@ try{
       */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
-     $printer = PrinterFactory::getPrinter($format,$rootname,$result);
+     $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);
      $printer->printAll();
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler
      ErrorHandler::logException($e);
- }
+}
 
 /*
  STEP 4
  We log this request in any case!
 */
-//Currently turned on
+
 RequestLogger::logRequest();
 ?>
+
+
+
+?>
+
