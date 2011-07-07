@@ -44,7 +44,7 @@ function func1() {echo 'Hello from 1';}
 function func2() {echo 'Hello from 2';}
 function func3() {echo 'Hello from 3';}
 
-switch($_GET['func']) {
+switch($_GET["func"]) {
 case '1':
      func1();
      break;
