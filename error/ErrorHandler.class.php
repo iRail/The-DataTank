@@ -19,10 +19,8 @@ class ErrorHandler{
 
      public static function logException($e){
 	  //comment if in productionmode
-	  echo $e->getMessage();
-
-	  //Currently off.
-	  //ErrorHandler::WriteToDB();
+	  echo $e->getMessage();	  
+	  ErrorHandler::WriteToDB();
      }
 
      private static function WriteToDB(){
@@ -36,23 +34,21 @@ class ErrorHandler{
 	  } else {
 	       $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 	  }
-	  // get the database object
-	  // ATTENTION!!! you have to make sure that the rights for R/W are properly
-	  // set for the directory in which the database is stored. 
-	  $database = new SQLite3('stats/logging.db',0666);
-	  
 	  // To conquer sql injection, one must become sql injection.... or use
-	  // prepared statements.
-	  $stmt = $database->prepare('INSERT INTO errors values( :time, :user_agent, :ip, :url_request, :error_message, :error_code)');
-	  $stmt->bindValue('time', time());
-	  $stmt->bindValue('user_agent',$_SERVER['HTTP_USER_AGENT']);
-	  $stmt->bindValue('ip',$_SERVER['REMOTE_ADDR']);
-	  $stmt->bindValue('url_request',$pageURL);
-	  $stmt->bindValue('error_message',$e->getMessage());
-	  $stmt->bindValue('error_code',$e->getErrorCode());
-	  $result = $stmt->execute();
-	  // if the execute failed $result will contain FALSE, otherwise it'll return 
-	  // an object.	  
+	  // prepared statements.	 
+	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, 'logging');
+	  if(mysqli_connect_errno()){
+	       printf("Can't connect to MySQL Server. Errorcode: %s\n",mysqli_connect_error());
+	       exit();
+	  }	
+	  // if id = 0, the auto incrementer will trigger
+	  $auto_incr = 0;
+	  $stmt = $mysqli->prepare("INSERT INTO requests VALUES (?,?,?,?,?)");
+	  $stmt->bind_param('iisss',$auto_incr,time(),$_SERVER['HTTP_USER_AGENT'],
+			    $_SERVER['REMOTE_ADDR'],$pageURL);
+	  $stmt->execute();
+	  $stmt->close();
+	  $mysqli->close();
      }
      
 }

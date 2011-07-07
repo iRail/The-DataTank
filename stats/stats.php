@@ -3,16 +3,37 @@
 ini_set('include_path', '.');
 ini_set('error_reporting', E_ALL);
 
-$db = new SQLite3('logging.db',0666);
-$results = $db->query('SELECT rowid as number FROM requests limit 30');
+$link = mysqli_connect(
+            'localhost',  /* The host to connect to */
+            Config::$MySQL_USER_NAME,       /* The user to connect as */
+            Config::$MySQL_PASSWORD,   /* The password to use */
+            'logging');     /* The default database to query */
+
+if (!$link) {
+   printf("Can't connect to MySQL Server. Errorcode: %s\n", mysqli_connect_error());
+   exit;
+}
 
 $data = array();
-while ($row = $results->fetchArray()) {
-     $data[] = $row['number'];
+$day = array();
+
+/* Send a query to the server */
+if ($result = mysqli_query($link, 
+'SELECT count(1) as number, time as day FROM requests group by from_unixtime(time,\'%Y %D %M\')')) {   
+
+    /* Fetch the results of the query */
+    while( $row = mysqli_fetch_assoc($result) ){
+	$data[] = $row['number'];
+	$day[] = $row['day'];
+    }
+
+    /* Destroy the result set and free the memory used for it */
+    mysqli_free_result($result);
 }
+
+/* Close the connection */
+mysqli_close($link);
 ?>
-
-
 
 <html>
 <head>
@@ -26,26 +47,77 @@ while ($row = $results->fetchArray()) {
      </head>
      <body>
      <h1>Request logs</h1>
-     <div id="graph_placeholder" style="width:600px;height:300px;"></div>    
- 
-     <script type="text/javascript">
-     $(function () {
-               //var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-	       var d2 = [ <?php
-			  if(sizeof($data)>0){
-			       echo "[".$data[0] . "," . $data[0] . "]";
-			       for($i=0; $i<sizeof($data); $i++){
-				    echo ", ". "[".$data[$i] . "," . $data[$i] . "]";
-			       }
-			  }			  
-			  ?>];		  
-	       $.plot($("#graph_placeholder"), [{
-			   data: d2,
-                           bars: { show: true }
-			   },
-			 ]);
-	         });
+     <div id="placeholder" style="width:600px;height:300px;"></div>
+
+     <script language="javascript" type="text/javascript">
+
+     var $j = jQuery.noConflict();
+
+$j(function () {
+
+	  var dataArray = [ <?php
+			    if(sizeof($data)>0){
+				 $javascripttime = $day[0] * 1000;
+				 echo "[".$javascripttime . "," . $data[0] . "]";
+				 for($i=1; $i<sizeof($data); $i++){
+				      $javascripttime = $day[$i] * 1000;
+				      echo ", ". "[".$javascripttime . "," . $data[$i] . "]";
+				 }
+			    }			  
+			    ?>];
+	  // get the array to display ticks on the x-axis (time ticks)
+	  var xArray = [<?php
+			if(sizeof($day)>0){
+			     $javascripttime = $day[0] * 1000;
+			     echo "[".$javascripttime ."]";
+			     for($i=1; $i<sizeof($day); $i++){
+				  $javascripttime = $day[$i] * 1000;
+				  echo ", ". "[".$javascripttime .  "]";
+			     }
+			}	
+			?>];
+
+	  var data = [
+	       {
+	       label: "Request logging",
+	       data: dataArray
+	       }
+	       ];
+
+	  var options = {
+	  legend: {
+	       show: true,
+	       margin: 10,
+	       backgroundOpacity: 0.5
+	  },
+	  points: {
+	       show: true,
+	       radius: 3,
+	       clickable: true,
+	       hoverable: true
+
+	  },
+	  bars: {
+	       show: true
+	  },
+	  grid: {
+	       borderWidth:0
+	  },
+	  xaxis: {
+	       ticks: xArray,
+	       mode: "time",
+	       timeformat: "%d/%m/%y"
+	  },
+	  yaxis: {
+	       
+	  }
+	  };
+
+	  var plotarea = $j("#placeholder");
+	  $j.plot( plotarea , data, options );
+     });
 </script>
+
 </body>
 </html>
 
