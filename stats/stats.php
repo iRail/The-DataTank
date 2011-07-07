@@ -3,6 +3,7 @@
 ini_set('include_path', '.');
 ini_set('error_reporting', E_ALL);
 
+/* Connect to mysql database */
 $link = mysqli_connect(
             'localhost',  /* The host to connect to */
             Config::$MySQL_USER_NAME,       /* The user to connect as */
@@ -24,7 +25,7 @@ if ($result = mysqli_query($link,
     /* Fetch the results of the query */
     while( $row = mysqli_fetch_assoc($result) ){
 	$data[] = $row['number'];
-	$day[] = $row['day'];
+	$day[]  = $row['day'];
     }
 
     /* Destroy the result set and free the memory used for it */
@@ -55,6 +56,7 @@ mysqli_close($link);
 
 $j(function () {
 
+	  // get an array to display, in this case a single point is a pair : [ unixtime, amount of requests ] 
 	  var dataArray = [ <?php
 			    if(sizeof($data)>0){
 				 $javascripttime = $day[0] * 1000;
