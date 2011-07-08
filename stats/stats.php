@@ -42,7 +42,7 @@ mysqli_close($link);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
      <title>Request logging</title>
-     <link href="layout.css" rel="stylesheet">
+     <link rel="stylesheet" type="text/css" href="markup.css" />
      <!--[if lte IE 8]><script language="javascript" src="flot/excanvas.min.js"></script><![endif]-->
      <script language="javascript" src="flot/jquery.js"></script>
      <script language="javascript" src="flot/jquery.flot.js"></script>
@@ -50,18 +50,16 @@ mysqli_close($link);
      </head>
      <body>
      <h1>Request logs</h1>
-     <p>
-     <input id="submit" type="button" value="Trigger Me">
-     </p>
-
      <div id="placeholder" style="width:600px;height:300px;"></div>
-
+      <p>
+     <input id="submit" type="button" value="Load new data">
+     </p>
      <script language="javascript" type="text/javascript">
 
-     var $j = jQuery.noConflict();
+     var $ = jQuery.noConflict();
      
 
-$j(function () {
+$(function () {
 
 	  // get an array to display, in this case a single point is a pair : [ unixtime, amount of requests ] 
 	  var dataArray = [ <?php
@@ -110,7 +108,8 @@ $j(function () {
 	       show: true
 	  },
 	  grid: {
-	       borderWidth:0
+	       borderWidth:0,
+	       backgroundColor: "white"
 	  },
 	  xaxis: {
 	       ticks: xArray,
@@ -123,30 +122,88 @@ $j(function () {
 	  };
 
 	  var plotarea = $("#placeholder");
-	  $j.plot( plotarea , data, options );
+	  $.plot( plotarea , data, options);
      });
 
 
 $(document).ready(function(){
-	$('#submit').click(function(){		
-
+	$('#submit').click(function(){
 		$.ajax({
 			type : 'POST',
 			url : 'http://localhost/TDTstats/Queries/?format=json',
 			dataType : 'json',
 			success : function(result){
-			       
-			       $j;
-			       
+			       plotChart(result);
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 			       alert('Something went wrong. ' + errorThrown);
 			}
 		});
-
 		return false;
 	});
 });
+
+
+/* plotChart with own Data !! */     
+
+function plotChart(dataArray) { 
+	 
+	  var dataset = dataArray["visitsPerDay"];
+
+	  var dataToDisplay = [];
+
+	  for (var i in dataset) {
+	       dataToDisplay.push([i,dataset[i]]);
+	  }
+
+	  // get the array to display ticks on the x-axis (time ticks)
+	  var xArray = [];
+
+	  for(var i in dataset){
+	       xArray.push(i);
+	  }
+	 
+
+	  var data = [
+	       {
+	       label: "Request logging",
+	       data: dataToDisplay
+	       }
+	       ];
+	  
+	  var options = {
+	  legend: {
+	       show: true,
+	       margin: 10,
+	       backgroundOpacity: 0.5
+	  },
+	  points: {
+	       show: true,
+	       radius: 3,
+	       clickable: true,
+	       hoverable: true
+
+	  },
+	  bars: {
+	       show: true
+	  },
+	  grid: {
+	       borderWidth:0,
+	       backgroundColor: "white"
+	  },
+	  xaxis: {
+	       ticks: xArray,
+	       mode: "time",
+	       timeformat: "%d/%m/%y"
+	  },
+	  yaxis: {
+	       
+	  }
+	  };
+
+	  var plotarea = $("#placeholder");
+	  $.plot( plotarea , data, options );
+     };
 
 </script>
 </body>

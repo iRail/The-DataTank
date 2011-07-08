@@ -43,7 +43,7 @@ class Liveboard extends AMethod{
      }
 
      public static function getDoc(){
-	  return "Liveboard will return the next arrivals or departures in a station";
+	  return "Liveboard will return the next arrivals or departures in a station.";
      }
 }
 
