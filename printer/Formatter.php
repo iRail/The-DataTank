@@ -15,8 +15,8 @@ class Formatter {
         } else if ($format == "Php") {
              return Formatter::format_php($rootname, $object, $version);
         } else {
-            return Formatter::format_fail($rootname, $object, $version);
-        }
+	     throw new NoPrinterTDTException();
+	}
     }
 
     static function format_json($rootname, $object, $version) {
@@ -53,10 +53,7 @@ class Formatter {
     }
 
     static function format_php($rootname, $object, $version) {
-        return var_dump($object);
-    }
-
-    static function format_fail($rootname, $object, $version) {
-        return 'epic fail';
+        return serialize($object);
     }
 }
+?>

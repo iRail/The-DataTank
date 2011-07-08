@@ -97,9 +97,9 @@ The DataTank is a project by the iRail NPO ...<br/>
 AGPLv3
 <h3>Authors</h3>
 The <a href="http://npo.iRail.be">iRail NPO</a><br/>
-     <ul>
-     <li>Pieter Colpaert - pieter aŧ iRail.be
-     <li>Jan Vansteenlandt - jan aŧ iRail.be
-     <li>ab3 - ...
-     </body>
-     </html>
+<ul>
+<li>Pieter Colpaert - pieter aŧ iRail.be
+<li>Jan Vansteenlandt - jan aŧ iRail.be
+<li>ab3 - ...
+</body>
+</html>

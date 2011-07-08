@@ -1,4 +1,11 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl */
+/**
+ * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
+ * License: AGPLv3
+ *
+ * This file is currently being used for testpurposes. It returns some testdata we use for our analysis tool. (stats.php)
+ */
 include_once("modules/AMethod.php");
 include_once("modules/iRail/Stations.class.php");
 include_once("modules/iRail/iRailTools.class.php");
@@ -43,10 +50,10 @@ class Liveboard extends AMethod{
      }
 
      public static function getDoc(){
-	  return "Liveboard will return the next arrivals or departures in a station";
+	  return "Liveboard will return the next arrivals or departures in a station.";
      }
 }
-
+/* Classes needed to return some testdata */
 class LiveboardResult{
 	  public $message;
 	  public $sender;
@@ -72,12 +79,6 @@ class Message{
 
      public function __construct(){
 	  
-     }
-     
-     
+     }    
 }
-
-
-
-
 ?>

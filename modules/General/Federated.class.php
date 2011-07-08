@@ -36,7 +36,7 @@ class Federated extends AMethod{
 		    $args .= $key . "=" . $val . "&";
 	       }
 	  }
-	  echo file_get_contents($this->url . $this->method . "/" . $args . "format=php");
+//	  echo file_get_contents($this->url . $this->method . "/" . $args . "format=php");
 	  return unserialize(file_get_contents($this->url . $this->method . "/" . $args . "format=php"));
      }
      
@@ -54,6 +54,4 @@ class Federated extends AMethod{
 	  return $doc;
      }
 }
-
-
 ?>
