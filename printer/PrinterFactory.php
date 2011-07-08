@@ -3,11 +3,14 @@
 include_once("printer/Printer.php");
 
 class PrinterFactory{
-    public static function getPrinter($rootname, $format, $rootname,$objectToPrint){	
+    public static function getPrinter($rootname, $format, $rootname,$objectToPrint){
+        $callback = null
 	    if(isset($_GET["callback"]) && $format=="json"){
-	        $format = "jsonp";
+            $format = "jsonp";
+            $callback = $_GET["callback"];
         }
-    return new Printer($rootname, $objectToPrint, $format);
+        
+        return new Printer($rootname, $objectToPrint, $format, $callback);
     }
 }
 ?>
