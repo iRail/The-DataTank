@@ -1,4 +1,9 @@
 #! /usr/bin/env bash
+# Copyright (C) 2011 by iRail vzw/asbl 
+# Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
+# License: AGPLv3
+# This script uses your MySQL to initialize some tables used for logging purposes -> errors and requests
+# the database created is called logging
 
 # number of arguments should be 1 -> name of the database
 # TODO let the user choose which database should be made.
@@ -6,10 +11,7 @@
 NUMBER_OF_ARGS=2;
 if [ $# -eq $NUMBER_OF_ARGS ]
 then
-    # change permissions for the directory so that php can create connections
-    # TODO: was needed for sqlite3 because .db was in this directory, still needed for mysql?
-    #chmod 757 ../stats;
-
+  
 #Q2 and Q3 currently not used
 Q1="CREATE DATABASE IF NOT EXISTS logging;"
 Q2="GRANT ALL ON logging.* TO '$1'@'localhost' IDENTIFIED BY '$2';"

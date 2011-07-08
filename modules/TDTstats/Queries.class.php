@@ -37,5 +37,4 @@ class Queries extends AMethod{
 class QueryResults{
      public $visitsPerDay;
 }
-
 ?>

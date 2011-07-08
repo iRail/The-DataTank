@@ -1,5 +1,11 @@
 <?php
-
+/* Copyright (C) 2011 by iRail vzw/asbl */
+/**
+ * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
+ * License: AGPLv3
+ *
+ * This file displays some basic analysis of the request logging and error logging.
+ */
 ini_set('include_path', '.');
 ini_set('error_reporting', E_ALL);
 

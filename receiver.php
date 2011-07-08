@@ -1,4 +1,11 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl */
+/**
+ * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
+ * License: AGPLv3
+ *
+ * This file contains the first frontier that dispaches requests to different method calls
+ */
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
@@ -10,9 +17,8 @@ include_once("Config.class.php");
 $methodname;$format;$result;
 try{
 /*
- STEP1
- Get the format and callback keys and values, 
- pass them to our PrinterFactory which returns our printer, if possible ofc.
+ Get the format, keys and values, 
+ pass them to our PrinterFactory which returns our formatter, if the formatter exists ofcourse.
 */
 
      $format = "";
@@ -20,7 +26,6 @@ try{
      if(isset($_GET["format"])){
 	  $format = $_GET["format"];
      }
-     
 
      if($format == ""){
 	  $format = "Xml";
@@ -30,8 +35,9 @@ try{
      $format = ucfirst(strtolower($format));
 
 /*
- STEP2
- Check if the method exists in some module and fill in the required parameters;
+ Check if the method exists in some module and fill in the required parameters.
+ Return an exception if a module or method does not exist. If some required parameters
+ aren't passed, we throw a special exception for that as well.
 */
      $result;
      if(isset($_GET["module"])){
@@ -64,24 +70,20 @@ try{
 	  throw new MethodOrModuleNotFoundTDTException("No module");
      }
      /*
-       STEP3
-       Now print the bloody thing in our prefered format
+       Now print the bloody thing in the preferred format or if none given and if allowed our default format.
       */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
      $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);
      $printer->printAll();
 }catch(Exception $e){
-     //Oh noes! An error occured! Let's send this to our error handler
+     //Oh noes! An error occured! Let's send this to our error handler for logging purposes
      ErrorHandler::logException($e);
 }
 
 /*
- STEP 4
- We log this request in any case!
+ We log this request in any case! Even if it's not a valid one.
 */
-
 RequestLogger::logRequest();
-
 ?>
 
