@@ -73,7 +73,7 @@ if ($handle = opendir('../modules/')) {
 			      }
 			 }
 			 echo "<strong>" . $class::getDoc() ."</strong>";
-			 $url = "http://jan.iRail.be/$modu/$class/$args";
+			 $url = "http://".$_SERVER["SERVER_NAME"] . "/$modu/$class/$args";
 			 echo "<h4><a href=\"$url\">http://api.TheDataTank.com/$modu/$class/$args</a></h4>";
 			 echo "<ul>\n";
 			 echo "<h4>All possible parameters</h4>";
