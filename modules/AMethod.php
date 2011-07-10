@@ -1,4 +1,12 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This is an abstract class that needs to be implemented by any method
+ */
+
 abstract class AMethod{
 
      public function __construct($classname){

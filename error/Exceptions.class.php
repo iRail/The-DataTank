@@ -1,10 +1,10 @@
 <?php
-/** Copyright (C) 2011 by iRail vzw/asbl
- *
- * These classes extend the Exception class to make our own well-documented Exception-system
+/* Copyright (C) 2011 by iRail vzw/asbl
  *
  * Author: Pieter Colpaert <pieter aŧ iRail.be>
  * License: AGPLv3
+ *
+ * These classes extend the Exception class to make our own well-documented Exception-system
  */
 
 /**
@@ -39,6 +39,25 @@ class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
 
      public function getErrorCode(){
 	  return MethodOrModuleNotFoundTDTException::$error;
+     }
+}
+
+/**
+ *
+ */
+class NotAMethodTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "This function is not a method";
+     }
+
+     public function __construct() {
+	  parent::__construct("Not a method");
+     }
+
+     public static $error = 410;
+
+     public function getErrorCode(){
+	  return NotAMethodTDTException::$error;
      }
 }
 

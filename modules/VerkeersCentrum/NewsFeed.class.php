@@ -1,4 +1,13 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This method of Verkeerscentrum will get the newsfeed of Belgian traffic jams, accidents and works
+ */
+
+
 include_once("modules/AMethod.php");
 
 class NewsFeed extends AMethod{

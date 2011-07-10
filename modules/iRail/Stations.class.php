@@ -1,9 +1,17 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * Lists all stations for a certain system
+ */
+
 include_once("modules/AMethod.php");
 
 class Stations extends AMethod{
 
-     private $lang,$system;
+     private $lang,$system = "NMBS";
 
      public function __construct(){
 	  parent::__construct("Stations");

@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+#
 # Copyright (C) 2011 by iRail vzw/asbl 
 # Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
 # License: AGPLv3
@@ -8,6 +9,7 @@
 # number of arguments should be 1 -> name of the database
 # TODO let the user choose which database should be made.
 # by default a sqlite3 database is made
+
 NUMBER_OF_ARGS=2;
 if [ $# -eq $NUMBER_OF_ARGS ]
 then

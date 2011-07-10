@@ -1,4 +1,12 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This is a general class that will generate an object model out of a CSV file. This is an example.x
+ */
+
 include_once("modules/AMethod.php");
 class CSV extends AMethod{
 

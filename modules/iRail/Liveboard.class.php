@@ -1,7 +1,8 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl */
-/**
- * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
  * License: AGPLv3
  *
  * This file is currently being used for testpurposes. It returns some testdata we use for our analysis tool. (stats.php)

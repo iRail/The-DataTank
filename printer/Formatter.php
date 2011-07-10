@@ -1,4 +1,11 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Werner Laurensse
+ * License: AGPLv3
+ *
+ * An static class which produces the requested output
+ */
 
 require_once 'XML/Serializer.php';
 

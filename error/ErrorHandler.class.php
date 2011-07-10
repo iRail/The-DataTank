@@ -1,11 +1,12 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl */
-  /* 
-   * Author: Pieter Colpaert <pieter aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * This is an errorhandler, it will do everything that is expected when an error occured.
-   */
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This is an errorhandler, it will do everything that is expected when an error occured. It will as well save the error to a MySQL database
+ */
 
 
   // this function is called when an unexpected error occurs in receiver.php
