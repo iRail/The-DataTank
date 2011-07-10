@@ -21,10 +21,135 @@ right panel bg: edf1f5
 /* Begin Typography & Colors */
 body {
 	font: 75% Arial, Helvetica, sans-serif;
+	background: url('/templates/TheDataTank/img/page_bg.png') repeat-x;
 	color: #333;
 	text-align: center;
 	margin-top:0;
 }
+#wrapper{
+	width: 960px;
+	margin:0 auto;
+	background: #fff url('/templates/TheDataTank/img/page_sideBorder.png') no-repeat top left;
+	padding-left:6px;
+}
+#page {
+	background: url('/templates/TheDataTank/img/page_sideBorder.png') no-repeat top right;
+	text-align: left;
+	padding-right:6px;
+	font-size: 12px;
+}
+
+#header {
+	background: url('/templates/TheDataTank/img/topHeader_border.png') no-repeat top center;
+	padding-top: 25px;
+	height: 80px;
+}
+
+#header h1{
+	font-size: 26px;
+	padding-top:5px;
+	padding-left: 20px;
+}
+#headerimg{
+	width: 50%;
+	float: left;
+}
+#user_block{
+	width:50%;
+	float: left
+}
+#user_block li{
+	list-style: none;
+	display: inline;
+	color: #214e7a;
+	height: 20px;
+	float: left;
+}
+#user_block ul{
+	float:right;
+	padding: 2px 20px 0  0;
+}
+#user_block ul a{
+	padding: 2px 7px;
+	margin:0 5px;
+	background: url('/templates/TheDataTank/img/buttonBG.png') repeat-x;
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+}
+#nav{
+	background:url('/templates/TheDataTank/img/nav_bg.png') repeat-x;
+	margin:0 1px;
+}
+#nav ul{
+	display: block;
+	height: 52px;
+	padding:0;
+	margin: 0;
+}
+#nav li{
+	list-style:none;
+}
+#nav li.pagenav ul li.page_item{
+		background: url('/templates/TheDataTank/img/nav_saperator.png') no-repeat;
+		padding-left:1px;
+		float: left;
+}
+#nav ul li a{
+	text-decoration: none;
+	padding: 15px 20px;
+	float: left;
+	margin-left:2px;
+	font-size: 18px;
+	color: #fff;	
+}
+#nav li.pagenav ul li.page-item-3 a{
+	margin-left:0;
+}
+#nav li.pagenav ul li.page-item-3{
+	padding-left: 0px;
+	background: none;
+}
+#nav ul li a:hover, #nav ul li.current_page_item a{
+	background: url('/templates/TheDataTank/img/nav_bg_selected.png') repeat-x;
+}
+
+#content {
+	font-size: 12px;
+	width: 615px;
+}
+
+.widecolumn .entry p {
+	font-size: 1.05em;
+}
+
+.narrowcolumn .entry, .widecolumn .entry {
+	line-height: 1.4em;
+}
+
+.entry h2 {
+    font-size: 1.5em;
+}
+
+.widecolumn {
+	line-height: 1.6em;
+}
+
+.thread-alt {
+	background-color: #f8f8f8;
+}
+.thread-even {
+	background-color: white;
+}
+.depth-1 {
+border: 1px solid #ddd;
+}
+
+.even, .alt {
+
+	border-left: 1px solid #ddd;
+}
+
 small {
 	font-family: Arial, Helvetica, Sans-Serif;
 	font-size: 0.9em;
@@ -50,6 +175,21 @@ h2 {
 	font-size: 20px;
 }
 
+h2.pagetitle {
+	font-size: 1.6em;
+}
+
+#content .post h2{
+	padding-bottom: 13px;
+	margin:20px 0;
+	border-bottom: 1px solid #bac6d1;
+}
+
+#sidebar h2 {
+	font-family: 'Lucida Grande', Verdana, Sans-Serif;
+	font-size: 1.2em;
+}
+
 h3 {
 	font-size: 1.3em;
 }
@@ -68,7 +208,7 @@ h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited {
 	color: #214e7a;
 }
 
-h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar h2 {
+h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar h2, cite {
 	text-decoration: none;
 }
 
@@ -204,6 +344,92 @@ a:hover {
 	color: #147;
 	text-decoration: underline;
 }
+
+/* End Typography & Colors */
+
+
+
+/* Begin Structure */
+
+
+.narrowcolumn {
+	float: left;
+	padding: 0 25px 20px 25px;
+	margin: 0px 0 0;
+}
+
+.widecolumn {
+	padding: 10px 0 20px 0;
+	margin: 5px 0 0 150px;
+	width: 450px;
+}
+
+.post {
+	margin: 0 0 40px;
+	text-align: justify;
+	}
+
+.post hr {
+	display: block;
+}
+
+.widecolumn .post {
+	margin: 0;
+}
+
+.narrowcolumn .postmetadata {
+	padding-top: 5px;
+}
+
+.widecolumn .postmetadata {
+	margin: 30px 0;
+}
+
+.widecolumn .smallattachment {
+	text-align: center;
+	float: left;
+	width: 128px;
+	margin: 5px 5px 5px 0px;
+}
+
+.widecolumn .attachment {
+	text-align: center;
+	margin: 5px 0px;
+}
+
+.postmetadata {
+	clear: both;
+}
+
+.clear {
+	clear: both;
+}
+
+/*
+input {
+        text-align: left;
+}
+*/
+
+.ac_results { 
+    text-align: center;
+}
+
+#footer {
+	background: url('/templates/TheDataTank/img/footer_bg.png');
+	padding: 0;
+	clear: both;
+}
+
+#footer p {
+	margin: 0;
+	padding: 25px;
+	height: 32px;
+	color: #fff;
+	text-align: right;
+}
+/* End Structure */
+
 
 
 /*	Begin Headers */
@@ -416,7 +642,6 @@ select {
 /* End Comments */
 
 
-
 /* Begin Various Tags & Classes */
 acronym, abbr, span.caps {
 	cursor: help;
@@ -470,7 +695,6 @@ div.aligncenter {
 	margin-left: auto;
 	margin-right: auto;
 }
-
 .powered_by{
 	height: 40px;
 }

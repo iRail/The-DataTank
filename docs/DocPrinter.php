@@ -21,17 +21,9 @@ function getAllDerivedClasses($classname){
      }
      return $result;
 }
-/**
- * This function will print all derived Exceptions from an abstract class their docs
- */
-?>
-<html>
-<head>
-<link rel="stylesheet" href="/templates/TheDataTank/css/style.css">
-     <title>The DataTank auto-documentation</title>
-     </head>
-     <body>
-     <?php
+
+//print page
+include_once("templates/TheDataTank/header.php");
      echo "<h1>Errors</h1>";
 
 foreach(getAllDerivedClasses("AbstractTDTException") as $class){
@@ -88,18 +80,7 @@ if ($handle = opendir('../modules/')) {
 	  }
      }
      closedir($handle);
-}
+     }
+
+include_once("templates/TheDataTank/footer.php");
 ?>
-<h1>The DataTank</h1>
-The DataTank is a project by the iRail NPO ...<br/>
-<h3>Copyright and License</h3>
-© iRail vzw/asbl (NPO) 2011<br/>
-AGPLv3
-<h3>Authors</h3>
-The <a href="http://npo.iRail.be">iRail NPO</a><br/>
-<ul>
-<li>Pieter Colpaert - pieter aŧ iRail.be
-<li>Jan Vansteenlandt - jan aŧ iRail.be
-<li>ab3 - ...
-</body>
-</html>
