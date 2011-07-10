@@ -1,11 +1,11 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl */
-/**
- * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
- * License: AGPLv3
- *
- * This file displays some basic analysis of the request logging and error logging.
- */
+  /* Copyright (C) 2011 by iRail vzw/asbl */
+  /**
+   * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
+   * License: AGPLv3
+   *
+   * This file displays some basic analysis of the request logging and error logging.
+   */
 ini_set('include_path', '.');
 ini_set('error_reporting', E_ALL);
 
@@ -57,7 +57,7 @@ mysqli_close($link);
      <body>
      <h1>Request logs</h1>
      <div id="placeholder" style="width:600px;height:300px;"></div>
-      <p>
+     <p>
      <input id="submit" type="button" value="Load new data">
      </p>
      <script language="javascript" type="text/javascript">
@@ -133,83 +133,83 @@ $(function () {
 
 
 $(document).ready(function(){
-	$('#submit').click(function(){
-		$.ajax({
-			type : 'POST',
-			url : 'http://localhost/TDTstats/Queries/?format=json',
-			dataType : 'json',
-			success : function(result){
-			       plotChart(result);
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-			       alert('Something went wrong. ' + errorThrown);
-			}
-		});
-		return false;
-	});
-});
+	  $('#submit').click(function(){
+		    $.ajax({
+			 type : 'POST',
+				   url : 'http://localhost/TDTstats/Queries/?format=json',
+				   dataType : 'json',
+				   success : function(result){
+				   plotChart(result);
+			      },
+				   error : function(XMLHttpRequest, textStatus, errorThrown) {
+				   alert('Something went wrong. ' + errorThrown);
+			      }
+			 });
+		    return false;
+	       });
+     });
 
 
 /* plotChart with own Data !! */     
 
 function plotChart(dataArray) { 
 	 
-	  var dataset = dataArray["visitsPerDay"];
+     var dataset = dataArray["visitsPerDay"];
 
-	  var dataToDisplay = [];
+     var dataToDisplay = [];
 
-	  for (var i in dataset) {
-	       dataToDisplay.push([i,dataset[i]]);
-	  }
+     for (var i in dataset) {
+	  dataToDisplay.push([i,dataset[i]]);
+     }
 
-	  // get the array to display ticks on the x-axis (time ticks)
-	  var xArray = [];
+     // get the array to display ticks on the x-axis (time ticks)
+     var xArray = [];
 
-	  for(var i in dataset){
-	       xArray.push(i);
-	  }
+     for(var i in dataset){
+	  xArray.push(i);
+     }
 	 
 
-	  var data = [
-	       {
-	       label: "Request logging",
-	       data: dataToDisplay
-	       }
-	       ];
-	  
-	  var options = {
-	  legend: {
-	       show: true,
-	       margin: 10,
-	       backgroundOpacity: 0.5
-	  },
-	  points: {
-	       show: true,
-	       radius: 3,
-	       clickable: true,
-	       hoverable: true
-
-	  },
-	  bars: {
-	       show: true
-	  },
-	  grid: {
-	       borderWidth:0,
-	       backgroundColor: "white"
-	  },
-	  xaxis: {
-	       ticks: xArray,
-	       mode: "time",
-	       timeformat: "%d/%m/%y"
-	  },
-	  yaxis: {
-	       
+     var data = [
+	  {
+	  label: "Request logging",
+	  data: dataToDisplay
 	  }
-	  };
+	  ];
+	  
+     var options = {
+     legend: {
+	  show: true,
+	  margin: 10,
+	  backgroundOpacity: 0.5
+     },
+     points: {
+	  show: true,
+	  radius: 3,
+	  clickable: true,
+	  hoverable: true
 
-	  var plotarea = $("#placeholder");
-	  $.plot( plotarea , data, options );
+     },
+     bars: {
+	  show: true
+     },
+     grid: {
+	  borderWidth:0,
+	  backgroundColor: "white"
+     },
+     xaxis: {
+	  ticks: xArray,
+	  mode: "time",
+	  timeformat: "%d/%m/%y"
+     },
+     yaxis: {
+	       
+     }
      };
+
+     var plotarea = $("#placeholder");
+     $.plot( plotarea , data, options );
+};
 
 </script>
 </body>
