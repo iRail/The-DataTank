@@ -17,7 +17,7 @@ class Federated extends AMethod{
      private $arguments;
 
      public function __construct($module = "", $method = "", $url = ""){
-	  if($modules == ""){
+	  if($module == ""){
 	       throw new NotAMethodTDTException();
 	  }
 	  parent::__construct("Federated");
