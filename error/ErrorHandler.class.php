@@ -45,7 +45,8 @@ class ErrorHandler{
 	  // if id = 0, the auto incrementer will trigger
 	  $auto_incr = 0;
 	  $stmt = $mysqli->prepare("INSERT INTO requests VALUES (?,?,?,?,?)");
-	  $stmt->bind_param('iisss',$auto_incr,time(),$_SERVER['HTTP_USER_AGENT'],
+	  $time = time();
+	  $stmt->bind_param('iisss',$auto_incr,$time,$_SERVER['HTTP_USER_AGENT'],
 			    $_SERVER['REMOTE_ADDR'],$pageURL);
 	  $stmt->execute();
 	  $stmt->close();

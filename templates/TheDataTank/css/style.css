@@ -1,117 +1,486 @@
-html { font-size:100%; font:inherit; margin: 0; padding: 0; background: white; }
-body { margin: 0; padding: 0em; background: #fdfdfd;}
-pre { margin: 1em; padding: 0 }
-code { margin: 0; padding: 0;}
-h1,h2,h3 { margin: 0.5em 0 1em 0; padding: 0 }
-h2 span.method { color: #99CF50; }
-body > *  { padding-left: 35px; }
-body > ul { margin-left: 1em; }
-div.background {
-    background: #666;
-    left: 0;
-    right: 0;
-    background-image: url(http://farm4.static.flickr.com/3315/3554060980_2a9f170da6_o.jpg); 
-    background-position: -200px -250px;
-    box-shadow: 0 5px 5px #ccc;
-    -webkit-box-shadow: 0 5px 5px #ccc;
-    text-shadow: 2px 2px 1px white;
-    padding-bottom: 1em;
+/*
+Theme Name: datatank
+Description: Theme for data tank project.
+Version: 1.0
+Author: Adeel
+Author URI: http://w3point.it/
+Tags: blue, custom header, fixed width, two columns, widgets
+
+
+*/
+/*
+---------Colors---------
+heading: #214e7a
+post heading right sidebar: #db7b00
+hrline:  hor line: bac6d1
+right panel bg: edf1f5
+
+*/
+
+
+/* Begin Typography & Colors */
+body {
+	font: 75% Arial, Helvetica, sans-serif;
+	color: #333;
+	text-align: center;
+	margin-top:0;
 }
-div.background h1 {
-    background: transparent;
-    box-shadow: none;
-    padding-left: 0 !important;
-    cursor: pointer;
-    line-height: normal;
-    padding: 1em 0 0 0;
+small {
+	font-family: Arial, Helvetica, Sans-Serif;
+	font-size: 0.9em;
+	line-height: 1.5em;
 }
-div.linkmenu {
-    position: absolute;
-    width: 23.5%;
-    left: 10px;
-    top: 35px;
-    background: white;
-    padding-left: 0;
-    border: 1px solid #aaa;
-    border-top:1px solid #ccc;
-    box-shadow: 1px 2px 2px grey;
-    -moz-border-radius: 0px 0px 10px 10px;
-    z-index: 100;
-}
- 
-div.linkmenu ul { margin: 0; padding: 0;  }
-div.linkmenu ul li { margin: 0; padding: 0; list-style: none;}
- 
- 
-div.linkmenu ul li span a {
-    display: block;
-    padding-left: 0.5em;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-top: 1px solid #ddd;
-    text-decoration: none;
-    font-weight: bold;
-    color: #333;
-}
-div.linkmenu ul li span a span {
-    display: block;
-    color: #666;
-    padding-top: 5px;
-    text-decoration: none;
-    font-weight: normal;
-    font-style: italic;
-    font-size: 10px;
-}
-div.linkmenu ul li:first-child span a {
-    border-top: none;
-}
-div.linkmenu ul li a:hover {
-    background: #eee;
-}
-div.linkmenu ul li:last-child a:hover {
-    -moz-border-radius: 0px 0px 10px 10px;
-}
+
 h1 {
-    margin-top: 0;
-    line-height: 200%; 
-    background: #eee;
-    box-shadow: 0 5px 5px #ccc;
-    -webkit-box-shadow: 0 5px 5px #ccc;
-    text-shadow: 2px 2px 1px white;
+	font-weight: normal;
+	color: #db850b;
 }
-h3 { font-size: 1.2em; font-variant: small-caps; font-family: Tahoma; }
-div#flag { padding: 1.4em 0 1em 1em; float: left; text-shadow: 2px 2px 1px white; font-size: 150%; display: inline; margin-right: 1em;}
- 
-p code { font-weight: bold; font-family: monospace; background-color: #feffef; padding: 3px 0; min-width: 300px; min-height: 5em; }
- 
-table { border-spacing: 0px; padding: 4px; font-family: monospace; background-color: white; border: 1px solid #999; box-shadow: 2px 2px 2px #ccc; border-radius: 3px; margin: 1em 1em 1em 35px; }
-table th { padding: 5px 1em 5px 5px; text-align: left; font-variant: small-caps; }
-table td { padding: 2px 15px 2px 5px; }
-table tr { background: #efefef; }
-table tbody { line-height: 200%;}
-table tbody tr td:nth-child(1) { color: blue; font-weight: bold; }
-table tbody tr td:nth-child(4) { font-family: Tahoma }
-table tbody tr:nth-child(odd) { background-color: #fafafa; }
-table tbody input { min-width: 200px; }
- 
-div.console div { margin: 5px 0; padding: 4px 1em; font-weight: bold; line-height:150%; font-size: 1.2em; font-family: monospace;}
-div.console div em.hl { background-color: yellow; font-weight: bold; border:1px solid brown; color: black; }
-div.console div:nth-child(odd) { background-color: #222; }
-div.url a { margin-left: 0.5em; font-size: 0.8em; }
- 
-input.test, input.close_console { float: right; margin-right: 1em;}
- 
-hr { border: none; height: 30px; -2em; background-color: #f3f3f3; box-shadow: 0 5px 5px #ccc; -webkit-box-shadow: 0 5px 5px #ccc; margin: 2em 0;}
- 
-div.col {
-    -moz-column-count: 3;
-    -moz-column-gap: 20px;
-    -webkit-column-count: 3;
-    -webkit-column-gap: 20px;
-    column-count: 3;
-    column-gap: 20px;
-    margin-bottom: 2em;
+
+h2, h3 {
+	font-weight: normal;
+	color: #214e7a;
 }
-table.changelog .id a {color: maroon; font-family: monospace; font-size: 1em; margin-right: 1em; text-decoration: none;}
-table.changelog .name {color: navy;   margin-right: 1em;}
-table.changelog .date {color: darkgreen;}
+
+#headerimg .description {
+	font-size: 1.2em;
+	text-align: center;
+}
+
+h2 {
+	font-size: 20px;
+}
+
+h3 {
+	font-size: 1.3em;
+}
+
+h4 {
+	font-size: 1.1em;
+    font-weight: bolder;
+    margin: 5px 0;
+}
+
+h1, h1 a, h1 a:hover, h1 a:visited, #headerimg .description {
+	text-decoration: none;
+}
+
+h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited {
+	color: #214e7a;
+}
+
+h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar h2 {
+	text-decoration: none;
+}
+
+.entry p a:visited {
+	color: #b85b5a;
+}
+
+.commentlist li, #commentform input, #commentform textarea {
+	font: 0.9em 'Lucida Grande', Verdana, Arial, Sans-Serif;
+}
+.commentlist li ul li {
+	font-size: 1em;
+}
+
+.commentlist li {
+	font-weight: bold;
+}
+
+.commentlist li .avatar { 
+	float: right;
+	border: 1px solid #eee;
+	padding: 2px;
+	background: #fff;
+}
+
+.commentlist cite, .commentlist cite a {
+	font-weight: bold;
+	font-style: normal;
+	font-size: 1.1em;
+}
+
+.commentlist p {
+	font-weight: normal;
+	line-height: 1.5em;
+	text-transform: none;
+}
+
+#commentform p {
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+}
+
+.commentmetadata {
+	font-weight: normal;
+}
+
+#sidebar
+{
+	background: #edf1f5;
+	padding: 10px 0 10px 0;
+	width: 280px;
+	margin-bottom: 20px;
+	float: left;
+}
+#sidebar ul{
+	padding:0 10px;
+	margin: 0;
+}
+#sidebar ol{
+	padding:0 10px;
+	margin:0;
+}
+#sidebar ul li{
+	list-style:none;
+}
+#sidebar ul dl{
+	padding-bottom: 15px;
+	border-bottom: 1px solid #bac6d1;
+}
+#sidebar ul dl dt{
+	margin: 10px 0;
+	margin-top: 15px;
+}
+#sidebar ul dl dt a, .aktt_widget ul li a {
+	font-weight:bold;
+	color: #db7b00;
+}
+#sidebar li#tdd-recent-posts h2, #sidebar li#twitter-tools h2 {
+	font-size: 18px;
+	font-weight: normal;
+	padding:0 9px;
+	padding-bottom: 10px;
+	letter-spacing: -1px;
+
+}
+#sidebar li#tdd-recent-posts li{
+	background: none;
+	list-style:none;
+}
+#sidebar li#tdd-recent-posts dl dd{
+	margin:0;
+}
+#sidebar ul li.view_all{
+	text-align: right;
+	margin: 20px 10px;
+}
+#sidebar ul li.view_all a{
+	background:transparent url(images/buttonBG.png) repeat-x scroll 0 0;
+	color:#FFFFFF;
+	text-decoration: none;
+	font-weight:bold;
+	padding: 2px 7px;
+}
+small, #sidebar ul ul li, #sidebar ul ol li, .nocomments, .postmetadata, blockquote, strike {
+	color: #333;
+}
+
+.aktt_tweets ul li {
+        padding: 0.5em 0;
+}
+
+.aktt_tweets ul li a {
+        font-size: smaller;
+}
+
+code {
+	font: 1.1em 'Courier New', Courier, Fixed;
+}
+
+acronym, abbr, span.caps
+{
+	font-size: 0.9em;
+	letter-spacing: .07em;
+}
+
+a, h2 a:hover, h3 a:hover {
+	color: #06c;
+	text-decoration: none;
+	outline-style: none;
+	outline: none;	
+}
+
+a:hover {
+	color: #147;
+	text-decoration: underline;
+}
+
+
+/*	Begin Headers */
+h1 {
+	padding-top:10px;
+	margin: 0;
+}
+
+h2 {
+	margin: 20px 0 0;
+}
+
+h2.pagetitle {
+	margin-top: 20px;
+	text-align: center;
+}
+
+#sidebar h2 {
+	margin: 5px 0 0;
+	padding: 0;
+}
+
+h3 {
+	padding: 0;
+	margin: 20px 0 0;
+}
+
+h3.comments {
+	padding: 0;
+	margin: 40px auto 20px ;
+}
+/* End Headers */
+
+
+
+/* Begin Images */
+p img {
+	padding: 0;
+	max-width: 100%;
+}
+
+/*	Using 'class="alignright"' on an image will (who would've
+	thought?!) align the image to the right. And using 'class="centered',
+	will of course center the image. This is much better than using
+	align="center", being much more futureproof (and valid) */
+
+img.centered {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+img.alignright {
+	padding: 4px;
+	margin: 0 0 2px 7px;
+	display: inline;
+}
+
+img.alignleft {
+	padding: 4px;
+	margin: 0 7px 2px 0;
+	display: inline;
+}
+
+.alignright {
+	float: right;
+}
+
+.alignleft {
+	float: left
+}
+/* End Images */
+
+
+
+/* Begin Lists
+
+	Special stylized non-IE bullets
+	Do not work in Internet Explorer, which merely default to normal bullets. */
+
+html>body .entry ul {
+	margin-left: 0px;
+	padding: 0 0 0 30px;
+	list-style: none;
+	padding-left: 10px;
+/*	text-indent: -10px;  */
+}
+
+html>body .entry li {
+	margin: 7px 0 8px 10px;
+}
+
+.entry ul li:before, #sidebar ul ul li:before {
+	content: "\00BB \0020";
+}
+
+.entry ol {
+	padding: 0 0 0 35px;
+	margin: 0;
+}
+
+.entry ol li {
+	margin: 0;
+	padding: 0;
+}
+
+.postmetadata ul, .postmetadata li {
+	display: inline;
+	list-style-type: none;
+	list-style-image: none;
+}
+
+/* End Entry Lists */
+
+
+
+/* Begin Form Elements */
+#searchform {
+	margin: 10px auto;
+	padding: 5px 3px;
+	text-align: center;
+}
+
+#sidebar #searchform #s {
+	width: 108px;
+	padding: 2px;
+}
+
+#sidebar #searchsubmit {
+	padding: 1px;
+}
+
+.entry form { /* This is mainly for password protected posts, makes them look better. */
+	text-align:center;
+}
+
+select {
+	width: 130px;
+}
+
+#commentform input {
+	width: 170px;
+	padding: 2px;
+	margin: 5px 5px 1px 0;
+}
+
+#commentform {
+	margin: 5px 10px 0 0;
+}
+#commentform textarea {
+	width: 100%;
+	padding: 2px;
+}
+#respond:after {
+		content: "."; 
+	    display: block; 
+	    height: 0; 
+	    clear: both; 
+	    visibility: hidden;
+}
+#commentform #submit {
+	margin: 0 0 5px auto;
+	float: right;
+}
+/* End Form Elements */
+
+
+
+/* Begin Comments*/
+.alt {
+	margin: 0;
+	padding: 10px;
+}
+
+.commentlist {
+	padding: 0;
+	text-align: justify;
+}
+
+.commentlist li {
+	margin: 15px 0 10px;
+	padding: 5px 5px 10px 10px;
+	list-style: none;
+
+}
+.commentlist li ul li { 
+	margin-right: -5px;
+	margin-left: 10px;
+}
+
+.commentlist p {
+	margin: 10px 5px 10px 0;
+}
+.children { padding: 0; }
+
+#commentform p {
+	margin: 5px 0;
+}
+
+.nocomments {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+.commentmetadata {
+	margin: 0;
+	display: block;
+}
+/* End Comments */
+
+
+
+/* Begin Various Tags & Classes */
+acronym, abbr, span.caps {
+	cursor: help;
+}
+
+acronym, abbr {
+	border-bottom: 1px dashed #999;
+	}
+
+blockquote {
+	margin: 15px 30px 0 10px;
+	padding-left: 20px;
+	border-left: 5px solid #ddd;
+}
+
+blockquote cite {
+	margin: 5px 0 0;
+	display: block;
+}
+
+.center {
+	text-align: center;
+	}
+
+.hidden {
+	display: none;
+}
+
+hr {
+	display: none;
+}
+
+a img {
+	border: none;
+}
+
+.navigation {
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 60px;
+}
+/* End Various Tags & Classes*/
+
+
+
+/* Captions */
+.aligncenter,
+div.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.powered_by{
+	height: 40px;
+}
+
+.powered_by a{
+	margin: 3px 10px 0 0;
+	background:none;
+	float: right;
+}
+
+/* "Daisy, Daisy, give me your answer do. I'm half crazy all for the love of you.
+	It won't be a stylish marriage, I can't afford a carriage.
+	But you'll look sweet upon the seat of a bicycle built for two." */
