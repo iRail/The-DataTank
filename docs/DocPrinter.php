@@ -24,13 +24,6 @@ function getAllDerivedClasses($classname){
 
 //print page
 include_once("templates/TheDataTank/header.php");
-     echo "<h1>Errors</h1>";
-
-foreach(getAllDerivedClasses("AbstractTDTException") as $class){
-     echo "<h3>$class</h3>";
-     echo $class::getDoc();
-     echo "<br/>";
-}
 
 echo "<h1>Modules and methods</h1>";
 if ($handle = opendir('../modules/')) {
@@ -81,6 +74,14 @@ if ($handle = opendir('../modules/')) {
      }
      closedir($handle);
      }
+
+     echo "<h1>Errors</h1>";
+
+foreach(getAllDerivedClasses("AbstractTDTException") as $class){
+     echo "<h3>".$class::$error." - $class</h3>";
+     echo $class::getDoc();
+     echo "<br/>";
+}
 
 include_once("templates/TheDataTank/footer.php");
 ?>

@@ -1,9 +1,9 @@
 /*
-Theme Name: datatank
+Theme Name: TheDataTank
 Description: Theme for data tank project.
-Version: 1.0
+Version: 1.1
 Author: Adeel
-Author URI: http://w3point.it/
+Author: Pieter Colpaert <pieter aŧ iRail.be>
 Tags: blue, custom header, fixed width, two columns, widgets
 
 
@@ -404,12 +404,6 @@ a:hover {
 .clear {
 	clear: both;
 }
-
-/*
-input {
-        text-align: left;
-}
-*/
 
 .ac_results { 
     text-align: center;

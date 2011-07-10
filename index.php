@@ -6,7 +6,7 @@ include_once("templates/TheDataTank/header.php");
 
 <p>The DataTank is nothing more than <strong>a webservice</strong>. Whether you need to set up an API (Application Programming Interface) on your own domain, or whether you want to use public data, you're at the right address.</p>
 
-<p>This project aims at serving giving you the right data. Check out <a href="/data/">the datasets</a> that are currently available.</p>
+<p>This project aims at serving giving you the right data. Check out <a href="/docs/">the datasets</a> that are currently available.</p>
 
 <h2>The DataTank for a data-owner</h2>
 
