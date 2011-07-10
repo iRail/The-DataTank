@@ -1,4 +1,13 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This method is a proxy for methods on other servers
+ * I think we'd better not do this in another module class...
+ */
+
 include_once("modules/AMethod.php");
 include_once("modules/FederatedModules.php");
 
@@ -7,7 +16,10 @@ class Federated extends AMethod{
      private $module, $method, $url;
      private $arguments;
 
-     public function __construct($module, $method, $url){
+     public function __construct($module = "", $method = "", $url = ""){
+	  if($modules == ""){
+	       throw new NotAMethodTDTException();
+	  }
 	  parent::__construct("Federated");
 	  $this->module = $module;
 	  $this->method = $method;
@@ -41,7 +53,7 @@ class Federated extends AMethod{
      }
      
      public function allowedPrintMethods(){
-	  return array("xml", "json", "php");
+	  return array("xml", "json", "php", "jsonp");
      }
 
      public static function getDoc(){

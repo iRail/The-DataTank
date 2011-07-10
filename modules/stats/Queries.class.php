@@ -1,4 +1,13 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * Lists the number of queries to the API per day
+ */
+
 include_once("modules/AMethod.php");
 
 class Queries extends AMethod{
@@ -30,7 +39,7 @@ class Queries extends AMethod{
      }
 
      public static function getDoc(){
-	  return "Get's some basic analysis results.";
+	  return "Lists the number of queries to this datatank instance per day";
      }
 }
 

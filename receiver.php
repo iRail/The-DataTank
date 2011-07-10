@@ -1,10 +1,12 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl */
-/**
- * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
+/* Copyright (C) 2011 by iRail vzw/asbl
+ * Author:  Jan Vansteenlandt <jan aŧ iRail.be>
+ * Author:  Pieter Colpaert <pieter aŧ iRail.be>
  * License: AGPLv3
  *
- * This file contains the first frontier that dispaches requests to different method calls
+ * This file contains the first frontier that dispaches requests to different method calls. This file will receive the call
+ *
+ * Notice: If this file reaches more than 100 lines a rewrite is needed
  */
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
@@ -26,7 +28,6 @@ try{
      if(isset($_GET["format"])){
 	  $format = $_GET["format"];
      }
-
      if($format == ""){
 	  $format = "Xml";
      }

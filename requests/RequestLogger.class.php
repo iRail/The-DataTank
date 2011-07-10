@@ -1,4 +1,13 @@
 <?php
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * Logs a request to a MySQL database
+ */
+
 class RequestLogger{
 
      public static function logRequest(){

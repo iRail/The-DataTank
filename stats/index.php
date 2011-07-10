@@ -1,15 +1,17 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl */
-  /**
-   * Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
-   * License: AGPLv3
-   *
-   * This file displays some basic analysis of the request logging and error logging.
-   */
-ini_set('include_path', '.');
-ini_set('error_reporting', E_ALL);
 
-include_once('../Config.class.php');
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This file displays some basic analysis of the request logging and error logging.
+ */
+ini_set("include_path", "../");
+ini_set("error_reporting", E_ALL);
+
+
+include_once("Config.class.php");
 
 /* Connect to mysql database */
 $link = mysqli_connect(
@@ -42,29 +44,23 @@ if ($result = mysqli_query($link,
 
 /* Close the connection */
 mysqli_close($link);
+
+//*********************************** Start output
+
+include_once("templates/TheDataTank/header.php");
+
 ?>
-
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-     <title>Request logging</title>
-     <link rel="stylesheet" type="text/css" href="markup.css" />
      <!--[if lte IE 8]><script language="javascript" src="flot/excanvas.min.js"></script><![endif]-->
-     <script language="javascript" src="flot/jquery.js"></script>
-     <script language="javascript" src="flot/jquery.flot.js"></script>
+     <script language="javascript" src="/templates/TheDataTank/js/flot/jquery.js"></script>
+     <script language="javascript" src="/templates/TheDataTank/js/flot/jquery.flot.js"></script>
 
-     </head>
-     <body>
-     <h1>Request logs</h1>
+    <h1>Request logs</h1>
      <div id="placeholder" style="width:600px;height:300px;"></div>
      <p>
      <input id="submit" type="button" value="Load new data">
      </p>
-     <script language="javascript" type="text/javascript">
-
+     <script language="javascript">
      var $ = jQuery.noConflict();
-     
-
 $(function () {
 
 	  // get an array to display, in this case a single point is a pair : [ unixtime, amount of requests ] 
@@ -133,6 +129,7 @@ $(function () {
 
 
 $(document).ready(function(){
+<<<<<<< HEAD:stats/stats.php
 	  $('#submit').click(function(){
 		    $.ajax({
 			 type : 'POST',
@@ -148,6 +145,23 @@ $(document).ready(function(){
 		    return false;
 	       });
      });
+=======
+	$('#submit').click(function(){
+		$.ajax({
+			type : 'POST',
+			url : 'http://localhost/stats/Queries/?format=json',
+			dataType : 'json',
+			success : function(result){
+			       plotChart(result);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			       alert('Something went wrong. ' + errorThrown);
+			}
+		});
+		return false;
+	});
+});
+>>>>>>> 9b2442f868c1e8a42035adf708dbbfd981ba3f17:stats/index.php
 
 
 /* plotChart with own Data !! */     
@@ -212,8 +226,11 @@ function plotChart(dataArray) {
 };
 
 </script>
-</body>
-</html>
 
+<?php
+
+include_once("templates/TheDataTank/footer.php");
+
+?>
 
 
