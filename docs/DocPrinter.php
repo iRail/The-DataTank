@@ -30,7 +30,7 @@ if ($handle = opendir('../modules/')) {
      $done_methods = array();
      while (false !== ($modu = readdir($handle))) {
 	  if ($modu != "." && $modu != ".." && is_dir("../modules/" . $modu)) {
-	       echo "<h2>$modu</h2>\n";
+	       echo "<h3>$modu</h3>\n";
 	       if ($handle2 = opendir('../modules/' . $modu)) {
 		    while (false !== ($metho = readdir($handle2))) {
 			 //Check if it is a rightfull php class
@@ -41,44 +41,24 @@ if ($handle = opendir('../modules/')) {
 		    }
 		    closedir($handle2);
 	       }
+	       echo "<lu>";
 	       foreach(getAllDerivedClasses("AMethod") as $class){
 		    //BUG; functions with same name don't get shown!!!
 		    if(!in_array($class,$done_methods)){
-			 echo "<h3>$class</h3>";
-			 //get a sequence of the parameters
-			 $args = "";
-			 if(sizeof($class::getRequiredParameters()) > 0){
-			      $params = $class::getRequiredParameters();
-			      $args="?" . $params[0] . "=...";
-			      $i = 0;
-			      foreach($params as $var){
-				   if($i == 0) continue;
-				   $args .= "&$var=...";
-				   $i++;
-			      }
-			 }
-			 echo "<strong>" . $class::getDoc() ."</strong>";
-			 $url = "http://".$_SERVER["SERVER_NAME"] . "/$modu/$class/$args";
-			 echo "<h4><a href=\"$url\">$url</a></h4>";
-			 echo "<ul>\n";
-			 echo "<h4>All possible parameters</h4>";
-			 foreach($class::getParameters() as $var => $doc){
-			      echo "<li><strong>$var:</strong> $doc\n";
-			 }
-			 echo "</ul>\n";
-			 echo "<br/>";
+			 echo "<li><a href=\"/docs/$modu/$class/\">$class</a> - ". $class::getDoc() ."</li>";
 			 $done_methods[] = $class;
 		    }
 	       }
+	       echo "</lu>";
 	  }
      }
      closedir($handle);
-     }
+}
 
-     echo "<h1>Errors</h1>";
+echo "<h1>Errors</h1>";
 
 foreach(getAllDerivedClasses("AbstractTDTException") as $class){
-     echo "<h3>".$class::$error." - $class</h3>";
+     echo "<h4>".$class::$error." - $class</h4>";
      echo $class::getDoc();
      echo "<br/>";
 }

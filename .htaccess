@@ -17,6 +17,7 @@ AddDefaultCharset UTF-8
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
+RewriteRule ^docs/(.*?)/(.*?)/$ docs/DocPagePrinter.php?module=$1&method=$2 [QSA,NC,L]
 RewriteRule ^(.*?)/(.*?)/$ receiver.php?module=$1&method=$2 [QSA,NC,L]
 </IfModule>
 

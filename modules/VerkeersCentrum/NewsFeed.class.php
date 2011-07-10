@@ -74,8 +74,14 @@ class Feed{
 	  //4 = time
 	  $i = 0;
 	  foreach($matches as $match){
+	       $cat = $match[$1];
+	       $cat = str_ireplace("ongeval_driehoek","accident",$cat);
+	       $cat = str_ireplace("file_driehoek","traffic jam",$cat);
+	       $cat = str_ireplace("i_bol","info",$cat);
+	       $cat = str_ireplace("werkman","works",$cat);
+
 	       $this->item[$i] = new Item();
-	       $this->item[$i]->kind = $match[1];
+	       $this->item[$i]->category = $cat;
 	       $this->item[$i]->location = $match[2];
 	       $this->item[$i]->message = $match[3];
 	       $this->item[$i]->time = $match[4];
