@@ -74,7 +74,7 @@ class Feed{
 	  //4 = time
 	  $i = 0;
 	  foreach($matches as $match){
-	       $cat = $match[$1];
+	       $cat = $match[1];
 	       $cat = str_ireplace("ongeval_driehoek","accident",$cat);
 	       $cat = str_ireplace("file_driehoek","traffic jam",$cat);
 	       $cat = str_ireplace("i_bol","info",$cat);
