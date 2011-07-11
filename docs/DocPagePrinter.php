@@ -34,16 +34,24 @@ if(sizeof($method::getRequiredParameters()) > 0){
 	  $i++;
      }
 }
-echo "<strong>" . $method::getDoc() ."</strong>";
+
 $url = "http://".$_SERVER["SERVER_NAME"] . "/$module/$method/$args";
-echo "<h4><a href=\"$url\">$url</a></h4>";
-echo "<ul>\n";
-echo "<h4>All possible parameters</h4>";
-foreach($method::getParameters() as $var => $doc){
-     echo "<li><strong>$var:</strong> $doc\n";
+echo "<a href=\"$url\">$url</a>";
+echo "<h3>Description</h3>";
+echo $method::getDoc();
+if(sizeof($method::getParameters())>0){
+     echo "<h3>All possible parameters:</h3>";
+     echo "<ul>\n";
+     foreach($method::getParameters() as $var => $doc){
+	  echo "<li><strong>$var:</strong> $doc\n";
+     }
+     echo "</ul>\n";
+}else{
+     echo "<h3>This method has no parameters whatsoever</h3>";
 }
-echo "</ul>\n";
+
 echo "<br/>";
+echo "<a href=\"/docs/\">&laquo; Back to the datasets</a>";
 include_once("templates/TheDataTank/footer.php");
 
 ?>
