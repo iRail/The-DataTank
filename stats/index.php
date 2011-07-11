@@ -16,8 +16,8 @@ include_once("Config.class.php");
 /* Connect to mysql database */
 $link = mysqli_connect(
      'localhost',  /* The host to connect to */
-     Config::$MySQL_USER_NAME,       /* The user to connect as */
-     Config::$MySQL_PASSWORD,   /* The password to use */
+     Config::$MySQL_USER_NAME,       /* The user to connect with the MySQL database */
+     Config::$MySQL_PASSWORD,        /* The password to use to connect with the db  */
      'logging');     /* The default database to query */
 
 if (!$link) {
@@ -26,7 +26,7 @@ if (!$link) {
 }
 
 $data = array();
-$day = array();
+$time = array();
 
 /* Send a query to the server */
 if ($result = mysqli_query($link, 
@@ -129,23 +129,7 @@ $(function () {
 
 
 $(document).ready(function(){
-<<<<<<< HEAD:stats/stats.php
-	  $('#submit').click(function(){
-		    $.ajax({
-			 type : 'POST',
-				   url : 'http://localhost/TDTstats/Queries/?format=json',
-				   dataType : 'json',
-				   success : function(result){
-				   plotChart(result);
-			      },
-				   error : function(XMLHttpRequest, textStatus, errorThrown) {
-				   alert('Something went wrong. ' + errorThrown);
-			      }
-			 });
-		    return false;
-	       });
-     });
-=======
+
 	$('#submit').click(function(){
 		$.ajax({
 			type : 'POST',
@@ -161,7 +145,6 @@ $(document).ready(function(){
 		return false;
 	});
 });
->>>>>>> 9b2442f868c1e8a42035adf708dbbfd981ba3f17:stats/index.php
 
 
 /* plotChart with own Data !! */     
