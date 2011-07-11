@@ -18,7 +18,7 @@ then
 Q1="CREATE DATABASE IF NOT EXISTS logging;"
 Q2="GRANT ALL ON logging.* TO '$1'@'localhost' IDENTIFIED BY '$2';"
 Q3="FLUSH PRIVILEGES;"
-Q4=" use test; CREATE TABLE IF NOT EXISTS errors (
+Q4=" use logging; CREATE TABLE IF NOT EXISTS errors (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   time bigint(20) DEFAULT NULL,
   user_agent varchar(255) DEFAULT NULL,
