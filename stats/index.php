@@ -31,7 +31,7 @@ include_once("templates/TheDataTank/header.php");
      <h1 id="title"></h1>
      <br>
      <div id="placeholder" style="width:600px;height:300px;"></div>
-
+     
      <p>
      Datasource
      <select id="datasource">
@@ -42,12 +42,12 @@ include_once("templates/TheDataTank/header.php");
      <p>
      Module
      <select id="module">
-     <option>iRail</option>
+       <option>iRail</option>
      </select>
      Method
      <select id="method">
-     <option>Liveboard</option>
-     <option></option>
+       <option>Liveboard</option>
+       <option></option>
      </select>
      </p>
      <p>
@@ -56,69 +56,8 @@ include_once("templates/TheDataTank/header.php");
      <script language="javascript">
      var $ = jQuery.noConflict();
 $(function () {
-
-	  // get an array to display, in this case a single point is a pair : [ unixtime, amount of requests ] 
-	  var dataArray = [ <?php
-			    if(sizeof($data)>0){
-				 $javascripttime = $time[0] * 1000;
-				 echo "[".$javascripttime . "," . $data[0] . "]";
-				 for($i=1; $i<sizeof($data); $i++){
-				      $javascripttime = $time[$i] * 1000;
-				      echo ", ". "[".$javascripttime . "," . $data[$i] . "]";
-				 }
-			    }			  
-			    ?>];
-	  // get the array to display ticks on the x-axis (time ticks)
-	  var xArray = [<?php
-			if(sizeof($time)>0){
-			     $javascripttime = $time[0] * 1000;
-			     echo "[".$javascripttime ."]";
-			     for($i=1; $i<sizeof($time); $i++){
-				  $javascripttime = $time[$i] * 1000;
-				  echo ", ". "[".$javascripttime .  "]";
-			     }
-			}	
-			?>];
-
-	  var data = [
-	       {
-		    //label: "Request logging",
-	       data: dataArray
-	       }
-	       ];
-
-	  var options = {
-	  legend: {
-	       show: true,
-	       margin: 10,
-	       backgroundOpacity: 0.5
-	  },
-	  points: {
-	       show: true,
-	       radius: 3,
-	       clickable: true,
-	       hoverable: true
-
-	  },
-	  bars: {
-	       show: true
-	  },
-	  grid: {
-	       borderWidth:0,
-	       backgroundColor: "white"
-	  },
-	  xaxis: {
-	       ticks: xArray,
-	       mode: "time",
-	       timeformat: "%d/%m/%y"
-	  },
-	  yaxis: {
-	       
-	  }
-	  };
-
-	  $("#placeholder").text("Select your criteria and click on \"Fetch results\".");	  
-     });
+	  $("#placeholder").text("Select your criteria and click on \"Fetch results\".");
+});
 
 
 $(document).ready(function(){
@@ -194,11 +133,13 @@ function plotChart(dataArray) {
 
 	  },
 	  bars: {
-	       show: true
+	       show: true,
+	       hoverable: true
 	  },
 	  grid: {
 	       borderWidth:0,
-	       backgroundColor: "white"
+	       backgroundColor: "white",
+	       hoverable: true
 	  },
 	  xaxis: {
 	       ticks: xArray,
@@ -210,7 +151,43 @@ function plotChart(dataArray) {
 	  };
 
 	  var plotarea = $("#placeholder");
-	  $.plot( plotarea , data, options );
+	  $.plot( plotarea , data, options );  
+	  function showTooltip(x, y, contents) {
+	       $('<div id="tooltip">' + contents + '</div>').css( {
+		    position: 'absolute',
+			      display: 'none',
+			      top: y + 8,
+			      left: x + 8,
+			      border: '1px solid #fdd',
+			      padding: '2px',
+			      'background-color': '#fee',
+			      opacity: 0.80
+			      }).appendTo("body").fadeIn(200);
+	  }
+ 
+	  var previousPoint = null;
+	  $("#placeholder").bind("plothover", function (event, pos, item) {
+		    if (item) {
+			 if (previousPoint != item.dataIndex) {
+			      previousPoint = item.dataIndex;
+                    
+			      $("#tooltip").remove();
+			      var javascripttime = item.datapoint[0], yvalue = item.datapoint[1];			      
+			      var date        = new Date(javascripttime);
+			      var month       = date.getMonth()+1;
+			      var day         = date.getDate();
+			      var year        = date.getFullYear();
+			      var type        = $('#datasource').val();
+			      
+			      showTooltip(item.pageX, item.pageY,
+					  yvalue + " " + type + " on " + day + "/"+month+"/"+year);
+			 }
+		    }else{
+			 $("#tooltip").remove();
+			 previousPoint = null;
+		    }
+		    
+	       });
      }else{
 	  $("#placeholder").text("No logging data available for the selected criteria.");
      }

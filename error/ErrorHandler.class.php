@@ -20,11 +20,11 @@ class ErrorHandler{
 
      public static function logException($e){
 	  //comment if in productionmode
-	  echo $e->getMessage();	  
-	  ErrorHandler::WriteToDB();
+	  //echo $e->getDoc();
+	  ErrorHandler::WriteToDB($e);
      }
 
-     private static function WriteToDB(){
+     private static function WriteToDB(Exception $e){
 	  
 	  // get the full request url  
 	  $pageURL = 'http';
@@ -39,15 +39,19 @@ class ErrorHandler{
 	  // prepared statements.	 
 	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, 'logging');
 	  if(mysqli_connect_errno()){
-	       printf("Can't connect to MySQL Server. Errorcode: %s\n",mysqli_connect_error());
+	       echo "Something went wrong !! . " . mysqli_connect_error();
 	       exit();
 	  }	
 	  // if id = 0, the auto incrementer will trigger
 	  $auto_incr = 0;
-	  $stmt = $mysqli->prepare("INSERT INTO requests VALUES (?,?,?,?,?)");
+	  $stmt = $mysqli->prepare("INSERT INTO errors VALUES (?,?,?,?,?,?,?)");
 	  $time = time();
-	  $stmt->bind_param('iisss',$auto_incr,$time,$_SERVER['HTTP_USER_AGENT'],
-			    $_SERVER['REMOTE_ADDR'],$pageURL);
+	  //echo $auto_incr . ", " . $time . ", " . $_SERVER['HTTP_USER_AGENT'] . ", " .$_SERVER['REMOTE_ADDR']. ", " . $pageURL;
+	  $ua = $_SERVER['HTTP_USER_AGENT'];
+	  $ip = $_SERVER['REMOTE_ADDR'];
+	  $err_message = $e->getDoc();
+	  $err_code = $e->getErrorCode();
+	  $stmt->bind_param('iisssss',$auto_incr,$time,$ua,$ip,$pageURL,$err_message,$err_code);
 	  $stmt->execute();
 	  $stmt->close();
 	  $mysqli->close();
