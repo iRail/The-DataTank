@@ -51,7 +51,7 @@ class Modules extends AMethod{
 		    include_once("modules/$mod/$method.class.php");
 		    $mm = new Object();
 		    $mm->name = $method;
-		    $mm->obj = $method::getDoc();
+		    $mm->doc = $method::getDoc();
 		    $modules[$i]->method[] = $mm;
 	       }
 	       $modules[$i]->name = $mod;
