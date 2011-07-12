@@ -13,6 +13,7 @@ function wrapper_handler($number,$string,$file,$line,$context){
      $error_message = $string . " on line " . $line . " in file ". $file . ".";
      $exception = new InternalServerTDTException($error_message);
      ErrorHandler::logException($exception);
+     exit(0);
 }
 
 class ErrorHandler{
