@@ -23,8 +23,6 @@ class FederatedModules{
      public static function getAll(){
 	  return FederatedModules::$modules;
      }
-     
-     
 }
 
 ?>

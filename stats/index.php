@@ -9,7 +9,9 @@
 ini_set("include_path", "../");
 ini_set("error_reporting", E_ALL);
 
-include_once ("Config.class.php");
+include_once("Config.class.php");
+include_once("modules/FederatedModules.php");
+include_once("modules/InstalledModules.php");
 
 $data = array();
 $time = array();
@@ -36,13 +38,21 @@ include_once ("templates/TheDataTank/header.php");?>
 <p>
 	Module
 	<select id="module">
-		<option>iRail</option>
+<?php
+     $mods = json_decode(file_get_contents("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&federated=1"));
+
+foreach($mods->module as $mod){
+     echo "<option>$mod</option>";
+}
+?>
 	</select>
 	Method
 	<select id="method">
-		<option>Liveboard</option>
-		<option></option>
-	</select>
+<!--TODO-->
+<option>Liveboard</option>
+<option>Modules</option>
+<option></option>
+</select>
 </p>
 <p>
 	<input id="submit" type="button" value="Fetch results">
@@ -65,10 +75,10 @@ include_once ("templates/TheDataTank/header.php");?>
 				args+="&err=true";
 			}
 
-			var url = 'http://localhost/TDTInfo/Queries/?format=json'+args;
+			var url = 'http://<?=$_SERVER["SERVER_NAME"] ?>/TDTInfo/Queries/?format=json'+args;
 			$.ajax({
 				type : 'POST',
-				url : 'http://localhost/TDTInfo/Queries/?format=json'+args,
+				url : 'http://<?=$_SERVER["SERVER_NAME"] ?>/TDTInfo/Queries/?format=json'+args,
 				dataType : 'json',
 				success : function(result) {
 					plotChart(result);
@@ -100,7 +110,7 @@ include_once ("templates/TheDataTank/header.php");?>
 
 			for(var i in dataset) {
 				xArray.push(i*1000);
-			}
+				}
 
 			var data = [{
 				//label: "Request logging",
@@ -133,9 +143,10 @@ include_once ("templates/TheDataTank/header.php");?>
 				xaxis: {
 					ticks: xArray,
 					mode: "time",
-					timeformat: "%d/%m/%y"
+					timeformat: "%d"
 				},
 				yaxis: {
+			     tickDecimals: 0
 				}
 			};
 

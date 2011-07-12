@@ -10,12 +10,11 @@
 include_once("modules/AMethod.php");
 include_once("modules/InstalledModules.php");
 include_once("modules/FederatedModules.php");
-class Modules extends AMethod{
+class MostUsed extends AMethod{
 
-     private $federated = true;
 
      public function __construct(){
-	  parent::__construct("Modules");
+	  parent::__construct("MostUsed");
      }
 
      public static function getParameters(){
@@ -35,29 +34,17 @@ class Modules extends AMethod{
      public function call(){
 	  $o = new Object();
 	  $modules = array();
-	  
 	  if($this->federated){
-	       $federatedmodules = FederatedModules::getAll();
-	       //TODO - Do a call to the federated module: server/TDTInfo/Module/...
+	       $modules =array_merge(InstalledModules::getAll(), array_keys(FederatedModules::getAll()));
+	  }else{	       
+	       $modules = InstalledModules::getAll();
 	  }
+	  //Now that we have all modules, let's search for their methods
+	  foreach($modules as $m){
+//	       $m = $;
 
-	  $mods = InstalledModules::getAll();
-	  $i=0;
-	  foreach($mods as $mod){
-	       //Now that we have all modules, let's search for their methods
-	       include_once("modules/$mod/methods.php");
-	       $modules[$i] = new Object();
-	       foreach($mod::$methods as $method){		    
-		    include_once("modules/$mod/$method.class.php");
-		    $mm = new Object();
-		    $mm->name = $method;
-		    $mm->obj = $method::getDoc();
-		    $modules[$i]->method[] = $mm;
-	       }
-	       $modules[$i]->name = $mod;
-	       $i++;
 	  }
-	  $o->module = $modules;
+	  
 	  return $o;
      }
      
