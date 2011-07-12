@@ -21,7 +21,7 @@ class Liveboard extends AMethod{
 
      public function __construct(){
 	  parent::__construct("Liveboard");
-	  $this->time = time();
+	  $this->time = date("H:i");	  
 	  $this->direction = "departures";
      }
 

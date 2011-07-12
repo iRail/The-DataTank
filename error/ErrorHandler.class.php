@@ -13,14 +13,18 @@ function wrapper_handler($number,$string,$file,$line,$context){
      $error_message = $string . " on line " . $line . " in file ". $file . ".";
      $exception = new InternalServerTDTException($error_message);
      ErrorHandler::logException($exception);
+     //Exit when we received 1 error. No need to continue
      exit(0);
 }
 
 class ErrorHandler{
 
      public static function logException($e){
-	  header("HTTP/1.0 ". $e->getCode() . " " . $e->getMessage());
+	  //HTTP Header information
+	  header("HTTP/1.1 ". $e->getCode() . " " . $e->getMessage());
+	  //In the body, put the message of the error
 	  echo $e->getMessage();
+	  //and store it to the DB
 	  ErrorHandler::WriteToDB($e);
      }
 
