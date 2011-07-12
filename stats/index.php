@@ -14,7 +14,7 @@ include_once ("Config.class.php");
 $data = array();
 $time = array();
 
-//*********************************** Start output
+/*********************************** Start output *************************************/
 
 include_once ("templates/TheDataTank/header.php");?>
 <!--[if lte IE 8]><script language="javascript" src="flot/excanvas.min.js"></script><![endif]-->

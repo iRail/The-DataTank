@@ -64,7 +64,7 @@ class Formatter {
 
     static function format_php($rootname, $object, $version) {
         return serialize($object);
-        //TODO check if not truly the biggest sercurity hole ever!
+        //TODO check if not truly the biggest security hole ever!
     }
 
     static function getDoc($method) {

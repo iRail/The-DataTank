@@ -1,4 +1,3 @@
-
 <?php
   /* Copyright (C) 2011 by iRail vzw/asbl
    *
@@ -10,6 +9,7 @@
 
 include_once("printer/Printer.php");
 
+
 class PrinterFactory{
      public static function getPrinter($rootname, $format, $rootname,$objectToPrint){
 	  $callback = null;
@@ -17,8 +17,9 @@ class PrinterFactory{
 	       $format = "jsonp";
 	       $callback = $_GET["callback"];
 	  }
-
-	  return new Printer($rootname, $objectToPrint, $format, $callback);
+	  $formatName = $format;
+	  include_once("printer/$format.php");
+	  return new $format($rootname, $objectToPrint, $formatName);
      }
 }
 ?>
