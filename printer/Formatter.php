@@ -8,7 +8,7 @@
  */
 
 require_once 'XML/Serializer.php';
-
+include_once("error/Exceptions.class.php");
 class Formatter {
     static function format($rootname, $format, $object, $version, $callback=null) {
         if ($format == "Json") {
@@ -22,36 +22,44 @@ class Formatter {
         } else if ($format == "Php") {
             return Formatter::format_php($rootname, $object, $version);
         } else {
-	        throw new NoPrinterTDTException();
-	    }
+	     throw new NoPrinterTDTException();
+	}
     }
 
     static function format_json($rootname, $object, $version) {
-        $hash = get_object_vars($object);
-        $hash['version'] = $version;
-        $hash['timestamp'] = 0;
-        return json_encode($hash);
+	 if(is_object($object)){
+	      $hash = get_object_vars($object);
+	      $hash['version'] = $version;
+	      $hash['timestamp'] = time();
+	      return json_encode($hash);
+	 }else{
+	      throw new PrinterTDTException("The object given is NULL");
+	 }
     }
     
     static function format_jsonp($rootname, $object, $version, $callback) {
-        return $callback . '(' .
-            Formatter::format_json($rootname, $object, $version) . ')';
+	 return $callback . '(' . Formatter::format_json($rootname, $object, $version) . ')';
     }
 
     static function format_xml($rootname, $object, $version) {
-        $hash = get_object_vars($object);
-        $hash['version'] = $version;
-        $hash['timestamp'] = 0;
-        //#TODO find a way to solve the whole double indexing 'problem'
-        $options = array (
-            'addDecl' => TRUE,
-            'encoding' => 'utf-8',
-            'indent' => '  ',
-            'rootName' => $rootname,
-            'defaultTagName' => 'item',
-        ); 
-        $serializer = new XML_Serializer($options);
-        $status = $serializer->serialize($hash);
+	 if(is_object($object)){
+	      $hash = get_object_vars($object);
+	      $hash['version'] = $version;
+	      $hash['timestamp'] = 0;
+	      //#TODO find a way to solve the whole double indexing 'problem'
+	      $options = array (
+		   'addDecl' => TRUE,
+		   'encoding' => 'utf-8',
+		   'indent' => '  ',
+		   'rootName' => $rootname,
+		   'defaultTagName' => 'item',
+		   ); 
+	      $serializer = new XML_Serializer($options);
+	      $status = $serializer->serialize($hash);
+	 }else{
+	      throw new PrinterTDTException("The object given is NULL");
+	 }
+	 
    }
 
     static function format_php($rootname, $object, $version) {

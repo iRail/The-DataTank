@@ -6,7 +6,7 @@
  *
  * This is an abstract class that needs to be implemented by any method
  */
-
+include_once("error/Exceptions.class.php");
 abstract class AMethod{
 
      public function __construct($classname){
@@ -51,8 +51,10 @@ abstract class AMethod{
      abstract public function call();
 
      abstract public function setParameter($name,$val);
-     
-     abstract public function allowedPrintMethods();
-}
 
+     abstract public function allowedPrintMethods();
+
+}
+class Object{
+}
 ?>

@@ -1,4 +1,5 @@
-<?php/* Copyright (C) 2011 by iRail vzw/asbl
+<?php
+/* Copyright (C) 2011 by iRail vzw/asbl
  *
  * Author: Jan Vansteenlandt <jan aŧ iRail.be>
  * License: AGPLv3
@@ -64,10 +65,10 @@ include_once ("templates/TheDataTank/header.php");?>
 				args+="&err=true";
 			}
 
-			var url = 'http://localhost/stats/Queries/?format=json'+args;
+			var url = 'http://localhost/TDTInfo/Queries/?format=json'+args;
 			$.ajax({
 				type : 'POST',
-				url : 'http://localhost/stats/Queries/?format=json'+args,
+				url : 'http://localhost/TDTInfo/Queries/?format=json'+args,
 				dataType : 'json',
 				success : function(result) {
 					plotChart(result);
@@ -179,7 +180,8 @@ include_once ("templates/TheDataTank/header.php");?>
 		} else {
 			$("#placeholder").text("No logging data available for the selected criteria.");
 		}
-	};</script>
+	};
+</script>
 <?php
 include_once ("templates/TheDataTank/footer.php");?>
 

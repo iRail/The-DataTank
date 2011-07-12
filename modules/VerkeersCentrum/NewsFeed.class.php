@@ -53,16 +53,8 @@ class Feed{
      }
 
      private function getData(){
-	  $request_options = array(
-	       "referer" => "http://tdt.iRail.be",
-	       "timeout" => "30",
-	       "useragent" => "The DataTank v0.1",
-	       );
-//we want data for 1 hour. But we can only retrieve 15 minutes per request
 	  $scrapeUrl = "http://www.verkeerscentrum.be/verkeersinfo/tekstoverzicht_actueel?lastFunction=info&sortCriterionString=TYPE&sortAscending=true&autoUpdate=&cbxFILE=CHECKED&cbxINC=CHECKED&cbxRMT=CHECKED&cbxINF=CHECKED&cbxVlaanderen=CHECKED&cbxWallonie=CHECKED&cbxBrussel=CHECKED&searchString=&searchStringExactMatch=true";
-	  $post = http_post_data($scrapeUrl, "", $request_options) or die("");
-	  $body = http_parse_message($post)->body;
-	  return $body;
+	  return file_get_contents($scrapeUrl);
      }
      
      private function parseData($data){
@@ -81,10 +73,10 @@ class Feed{
 	       $cat = str_ireplace("werkman","works",$cat);
 
 	       $this->item[$i] = new Item();
-	       $this->item[$i]->category = $cat;
-	       $this->item[$i]->location = $match[2];
-	       $this->item[$i]->message = $match[3];
-	       $this->item[$i]->time = $match[4];
+	       $this->item[$i]->category = trim($cat);
+	       $this->item[$i]->location = trim($match[2]);
+	       $this->item[$i]->message =trim($match[3]);
+	       $this->item[$i]->time = trim($match[4]);
 	       $i++;
 	  }
      }
