@@ -16,6 +16,8 @@ class PrinterFactory{
 	  if(isset($_GET["callback"]) && $format == "json"){
 	       $format = "jsonp";
 	       $callback = $_GET["callback"];
+	       $formatName = $format;
+	       return new $format($rootname,$objectToPrint,$formatName,$callback);
 	  }
 	  $formatName = $format;
 	  include_once("printer/$format.php");
