@@ -7,16 +7,22 @@
  *
  * This file is currently being used for testpurposes. It returns some testdata we use for our analysis tool. (stats.php)
  */
+
 include_once("modules/AMethod.php");
 include_once("modules/iRail/Stations.class.php");
 include_once("modules/iRail/iRailTools.class.php");
 
 class Liveboard extends AMethod{
 
-     private $lang,$system;     
+     private $lang;
+     private $system;
+     private $time;
+     private $direction;
 
      public function __construct(){
 	  parent::__construct("Liveboard");
+	  $this->time = time();
+	  $this->direction = "departures";
      }
 
      public static function getParameters(){
@@ -36,50 +42,66 @@ class Liveboard extends AMethod{
 	  if($key == "lang"){
 	       $this->lang = $val;
 	  }
+
 	  if($key == "system" && in_array($val, iRailTools::ALLOWED_SYSTEMS)){
 	       $this->system = $val;
 	  }
+
+	  if($key == "time" && $val != ""){
+	       $this->time = $val;
+	  }
+
+	  if($key == "direction" && $val != ""){
+	       $this->direction = $val;
+	  }
+	  
      }
 
      public function call(){
-	  $dummyresult = new LiveboardResult();
+	  $dummyresult = new Object();
+	  $body = "";
+	  $time = $this->time;
+          //we want data for 1 hour. But we can only retrieve 15 minutes per request
+	  for($i=0; $i < 4; $i++){
+	       $scrapeUrl = "http://www.railtime.be/mobile/SearchStation.aspx";
+//	       $scrapeUrl .= "?l=EN&tr=". $time . "-15&s=1&sid=" . stations::getRTID($station, $lang) . "&da=" . $this->direction . "&p=2";
+	       $body .= file_get_contents($scrapeUrl);
+	       $time = iRailTools::addQuarter($time);
+	  }
+//	  return $this->parse($body);
 	  return $dummyresult;
      }
-     
+
+/**
+ * Small algorithm I wrote:
+ * It will remove the duplicates from an array the php way. Since a PHP array will need to recopy everything to be reindexed, I figured this would go faster if we did the deleting when copying.
+ */
+     private static function removeDuplicates($nodes){
+	  $newarray = array();
+	  for($i = 0; $i < sizeof($nodes); $i++){
+	       $duplicate = false;
+	       for($j = 0; $j < $i; $j++){
+		    if($nodes[$i]->vehicle == $nodes[$j]->vehicle){
+			 $duplicate = true;
+			 continue;
+		    }
+	       }
+	       if(!$duplicate){
+		    $newarray[sizeof($newarray)] = $nodes[$i];
+	       }
+	  }
+	  return $newarray;
+     }
+
+
      public function allowedPrintMethods(){
-	  return array("xml", "json", "php");
+	  return array("xml", "json", "php", "jsonp");
      }
 
      public static function getDoc(){
 	  return "Liveboard will return the next arrivals or departures in a station.";
      }
 }
-/* Classes needed to return some testdata */
-class LiveboardResult{
-	  public $message;
-	  public $sender;
-	  public function __construct(){
-	       $this->sender = new Person();
-	       $this->message = new Message();	       
-	  }
-}
 
-class Person{
-     public $name = "Core";
-     public $age = "42";
-     public $nicknames=  array('Patrick','Coretrick');
-     
-     public function __construct(){
-     }   
-}
 
-class Message{
-
-     public $text = "This is a personal message";
-     public $md   = "bbeaacc44f8a4419e085b091dc8190ff";
-
-     public function __construct(){
-	  
-     }    
-}
 ?>

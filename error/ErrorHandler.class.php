@@ -8,25 +8,23 @@
  * This is an errorhandler, it will do everything that is expected when an error occured. It will as well save the error to a MySQL database
  */
 
-
-  // this function is called when an unexpected error occurs in receiver.php
+// this function is called when an unexpected error occurs in receiver.php
 function wrapper_handler($number,$string,$file,$line,$context){
      $error_message = $string . " on line " . $line . " in file ". $file . ".";
      $exception = new InternalServerTDTException($error_message);
      ErrorHandler::logException($exception);
-  }
+}
 
 class ErrorHandler{
 
      public static function logException($e){
-	  //comment if in productionmode
-	  //echo $e->getDoc();
+	  header("HTTP/1.0 ". $e->getCode() . " " . $e->getMessage());
+	  echo $e->getMessage();
 	  ErrorHandler::WriteToDB($e);
      }
 
      private static function WriteToDB(Exception $e){
-	  
-	  // get the full request url  
+	  // get the full request url
 	  $pageURL = 'http';
 	  if (!empty($_SERVER['HTTPS'])) {if($_SERVER['HTTPS'] == 'on'){$pageURL .= "s";}}
 	  $pageURL .= "://";

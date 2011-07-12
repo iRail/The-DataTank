@@ -13,14 +13,14 @@ include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
 include_once("error/ErrorHandler.class.php");
 include_once("modules/FederatedModules.php");
-include_once("modules/General/Federated.class.php");
 include_once("Config.class.php");
-
+set_error_handler("wrapper_handler");
+date_default_timezone_set("UTC");
 $methodname;$format;$result;
 try{
 /*
- Get the format, keys and values, 
- pass them to our PrinterFactory which returns our formatter, if the formatter exists ofcourse.
+  Get the format, keys and values, 
+  pass them to our PrinterFactory which returns our formatter, if the formatter exists ofcourse.
 */
 
      $format = "";
@@ -36,9 +36,9 @@ try{
      $format = ucfirst(strtolower($format));
 
 /*
- Check if the method exists in some module and fill in the required parameters.
- Return an exception if a module or method does not exist. If some required parameters
- aren't passed, we throw a special exception for that as well.
+  Check if the method exists in some module and fill in the required parameters.
+  Return an exception if a module or method does not exist. If some required parameters
+  aren't passed, we throw a special exception for that as well.
 */
      $result;
      if(isset($_GET["module"])){
@@ -60,9 +60,9 @@ try{
 			 throw new FormatNotAllowedTDTException($format,$method);
 		    }
 	       }else if(array_key_exists($module,FederatedModules::$modules)){
-		    $method = new Federated($module,$methodname,FederatedModules::$modules[$module]);
+		    //TODO
 	       }else{
-		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$method);
+		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
 	       }
 	       //execute the method when no error occured
 	       $result = $method->call();
@@ -72,7 +72,7 @@ try{
      }
      /*
        Now print the bloody thing in the preferred format or if none given and if allowed our default format.
-      */
+     */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
      $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);
@@ -80,10 +80,10 @@ try{
 }catch(Exception $e){
      //Oh noes! An error occured! Let's send this to our error handler for logging purposes
      ErrorHandler::logException($e);
-}
+ }
 
 /*
- We log this request in any case! Even if it's not a valid one.
+  We log this request in any case! Even if it's not a valid one.
 */
 RequestLogger::logRequest();
 ?>

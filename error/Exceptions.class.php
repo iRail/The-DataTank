@@ -161,7 +161,23 @@ class NoPrinterTDTException extends AbstractTDTException{
      }
 
      public function __construct(){
-	  parent::__construct("Formater error. Check the value of your format parameter");
+	  parent::__construct("Formatter error. Check the value of your format parameter");
+     }
+}
+
+class PrinterTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "Printer is available but a problem occured while trying to print the element.";
+     }
+
+     public static $error = 505;
+
+     public function getErrorCode(){
+	  return PrinterTDTException::$error;
+     }
+
+     public function __construct($message){
+	  parent::__construct("Do you think the Printer cares? No it doens't cares, it just throw an exception. It's so bad-ass: " . $message);
      }
 }
 

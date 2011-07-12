@@ -19,6 +19,12 @@ class FederatedModules{
      public static $modules = array(
 	  "iRail2" => "http://172.22.32.119/General/"
 	  );
+
+     public static function getAll(){
+	  return FederatedModules::$modules;
+     }
+     
+     
 }
 
 ?>

@@ -74,10 +74,10 @@ $(document).ready(function(){
 			 args+="&err=true";
 		    }
 		    
-		    var url = 'http://localhost/stats/Queries/?format=json'+args;
+		    var url = 'http://localhost/TDTInfo/Queries/?format=json'+args;
 		    $.ajax({
 			 type : 'POST',
-				   url : 'http://localhost/stats/Queries/?format=json'+args,
+				   url : 'http://localhost/TDTInfo/Queries/?format=json'+args,
 				   dataType : 'json',
 				   success : function(result){
 				   plotChart(result);
