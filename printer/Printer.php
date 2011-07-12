@@ -25,25 +25,6 @@ abstract class Printer {
      public function printAll() {
 	  $this->printHeader();
 	  $this->printBody();
-	  
-	  // Header
-	  //CORS: Cross Origin Resource Sharing
-	  /*header("Access-Control-Allow-Origin: *");
-	  if($this->format == "Json" || $this->format == "Jsonp") {
-	       header("Content-Type: application/json;charset=UTF-8");
-	  } else if ($this->format == "Xml") {
-	       header("Content-Type: text/xml;charset=UTF-8");
-	  } else if ($this->format == "Kml") {
-	       header("Content-Type: application/vnd.google-earth.kml+xml;charset=UTF-8");
-	  } else {
-	       header("Content-Type: text/plain;charset=UTF-8");
-	       }*/
-	  //$printerformat = $this->format;
-	  //$formattedPrinter = new $printerformat($this->rootname,$this->objectToPrint);
-	  
-	  //echo Formatter::format($this->rootname, $this->format, 
-	  //			 $this->objectToPrint, $this->version);
-	  //derived classes of printer must print the rest!
      }
 
      abstract protected function printHeader();
