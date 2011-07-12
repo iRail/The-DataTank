@@ -46,7 +46,7 @@ class Formatter {
 	      $hash = get_object_vars($object);
 	      $hash['version'] = $version;
 	      $hash['timestamp'] = 0;
-	      //#TODO find a way to solve the whole double indexing 'problem'
+	      //TODO find a way to solve the whole double indexing 'problem'
 	      $options = array (
 		   'addDecl' => TRUE,
 		   'encoding' => 'utf-8',
@@ -64,7 +64,7 @@ class Formatter {
 
     static function format_php($rootname, $object, $version) {
         return serialize($object);
-        //TODO check if not truly the biggest sercurity hole ever!
+        //TODO check if not truly the biggest security hole ever!
     }
 
     static function getDoc($method) {

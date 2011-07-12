@@ -95,7 +95,7 @@ class Queries extends AMethod{
      }
      
      public function allowedPrintMethods(){
-	  return array("json");
+	  return array("json","xml");
      }
 
      public static function getDoc(){
