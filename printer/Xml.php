@@ -52,7 +52,7 @@ class Xml extends Printer{
 	  $index = 0;
 	  foreach($array as $key => $value){
 	       if(is_object($value)){
-		    $nametag = $name. " id=".$index;
+		    $nametag = $name. " id=\"".$index."\"";
 		    $this->printObject($nametag,$value);
 	       }else{// no array in arrays are allowed!!
 		     if($this->isHash($array)){
