@@ -3,12 +3,13 @@
 # Copyright (C) 2011 by iRail vzw/asbl 
 # Author: Jan Vansteenlandt <vansteenlandt.jan@gmail.com>
 # License: AGPLv3
+
+
 # This script uses your MySQL to initialize some tables used for logging purposes -> errors and requests
 # the database created is called logging
 
 # number of arguments should be 1 -> name of the database
-# TODO let the user choose which database should be made.
-# by default a sqlite3 database is made
+
 
 NUMBER_OF_ARGS=2;
 if [ $# -eq $NUMBER_OF_ARGS ]
