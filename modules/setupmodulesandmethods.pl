@@ -27,7 +27,7 @@ else {
     }
 
     shift @ARGV;
-
+    @methodsGiven = @ARGV;
 # if there are still arguments left, then these are methods that should be created!
     if ( $#ARGV + 1 > 0 ) {
 
@@ -35,11 +35,11 @@ else {
         $file   = $modulename . "/" . $ARGV[0] . ".class.php";
         $concat = "";
 
-        # only allow new methods to be concatenated
+        # only allow new methods to be concatenated and constructed
         if ( !-f $file ) {
             `touch $file`;
-            print
-"[Success] $ARGV[0].class.php was succesfully created in module $ARGV[0].";
+	    createMethod($file);
+            print "[Success] $ARGV[0].class.php was succesfully created in module $ARGV[0].";
             $concat .= "$ARGV[0]";
         }
 
@@ -69,7 +69,7 @@ else {
         print HANDLE
           "<?php \nclass ${modulename}{ \npublic static ${classname} = array (";
         print HANDLE "$concat";
-        print HANDLE " ); } \n>";
+        print HANDLE " ); } \n?>";
         close(HANDLE);
         print "\n";
     }
@@ -81,30 +81,55 @@ else {
         chomp @lines;
         $content = join( " ", @lines );
         print "content : " . $content, "\n";
+	# methods that are already defined in the methods.php
         @methods;
 
         if ( $content =~ /.*,.*/ ) {
-	  $content =~ /array.*\((.*)\)/;
-	  #print "CONTAINS A COMMA\n";
+            $content =~ /array.*\((.*)\)/;
             @methods = split( ',', $1 );
             $newmethods = join( ',', @methods );
-	    $newmethods = $newmethods;
+            $newmethods = $newmethods;
         }
         else {
-	  $content =~ /array.*\((.*)\)/;
+            $content =~ /array.*\((.*)\)/;
             push( @methods, $1 );
-	    $newmethods = $methods[0];
+            $newmethods = $methods[0];
         }
-	$concat= $concat.','.$newmethods;
-        print "concatenating : ". $concat . "\n";
+        $concat = $concat . ',' . $newmethods;
+        print "concatenating : " . $concat . "\n";
 
         # now we overwrite our methods.php
-	open(HANDLE, ">$methodsumm");
-	$classname = "\$methods";
+        open( HANDLE, ">$methodsumm" );
+        $classname = "\$methods";
         print HANDLE
           "<?php \nclass ${modulename}{ \npublic static ${classname} = array (";
         print HANDLE "$concat";
-        print HANDLE " ); } \n>";
+        print HANDLE " ); } \n?>";
         close(HANDLE);
     }
+}
+
+
+sub createMethod{
+  $file = shift;
+  @split = split("/",$file); # tweede element bevat de methodenaam => module/method.class.php
+  @split2 = split(".",$split[1]);
+  open(HANDLE,">>$file");
+  print HANDLE "<?php\n\ninclude_once(\"modules/AMethod.php\");\n\n";
+  print HANDLE "class ".$split[0]." extends AMethod{\n\n";
+  print HANDLE "\tpublic function __construct(){\n";
+  print HANDLE "\t\tparent::__construct(\"".$split[0]."\");\n\t}\n";
+  print HANDLE "\n\tpublic static function getRequiredParameters(){\n";
+  print HANDLE "\t\treturn array(); //TODO Add your required parameters here\n\t}\n";
+  print HANDLE "\n\tpublic static function getParameters(){\n";
+  print HANDLE "\t\treturn array();\n\t\t//TODO Add your all your parameters here with documentation!";
+  print HANDLE "\n\t\t// i.e. array(param1=>\"x-coordinate\",param2=>\"y-coordinate\");\n\t}\n";
+  print HANDLE "\n\tpublic static function getDoc(){\n";
+  print HANDLE "\t\treturn \"TODO Add your documentation about your module here\"\n\t}\n";
+  print HANDLE "\n\tpublic function call(){\n\t\treturn null;\n\t\t//TODO add your businesslogic here, the resulting";
+  print HANDLE " object will be formatted in an allowed and preferred print method.\n\t}\n";
+  print HANDLE "\n\tpublic function allowedPrintMethods(){\n\t\treturn array();\n";
+  print HANDLE "\t\t//TODO add your allowed formats here, i.e. xml,json,kml,...\n\t}\n";
+  print HANDLE "}\n?>";
+  close(HANDLE);
 }
