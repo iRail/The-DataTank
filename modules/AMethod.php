@@ -45,7 +45,7 @@ abstract class AMethod{
      }
      
      public static function getDoc(){
-	  echo "I'm undocumented :(";
+	  echo "I'm undocumented Q_Q";
      }
 
      abstract public function call();

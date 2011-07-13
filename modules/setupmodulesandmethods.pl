@@ -62,7 +62,7 @@ else {
 # making methods.php ( or editing it ). The file methods.php summarizes all used methods that have been declared.
     $methodsumm = $modulename . "/" . $METHODS;
     if ( !-f $methodsumm ) {
-        print "Creating $methodsumm file.\n";
+        #print "Creating $methodsumm file.\n";
         `touch $methodsumm`;
         open( HANDLE, ">>$methodsumm" );
         $classname = "\$methods";
@@ -71,16 +71,16 @@ else {
         print HANDLE "$concat";
         print HANDLE " ); } \n?>";
         close(HANDLE);
-        print "\n";
+        #print "\n";
     }
     else {
-        print "Add to methods.php.\n";
+        #print "Add to methods.php.\n";
         open( HANDLE, "<$methodsumm" );
         @lines = <HANDLE>;
         close(HANDLE);
         chomp @lines;
         $content = join( " ", @lines );
-        print "content : " . $content, "\n";
+        #print "content : " . $content, "\n";
 	# methods that are already defined in the methods.php
         @methods;
 
@@ -96,7 +96,7 @@ else {
             $newmethods = $methods[0];
         }
         $concat = $concat . ',' . $newmethods;
-        print "concatenating : " . $concat . "\n";
+        #print "concatenating : " . $concat . "\n";
 
         # now we overwrite our methods.php
         open( HANDLE, ">$methodsumm" );
