@@ -177,9 +177,39 @@ class PrinterTDTException extends AbstractTDTException{
      }
 
      public function __construct($message){
-	  parent::__construct("Do you think the Printer cares? No it doens't cares, it just throw an exception. It's so bad-ass: " . $message);
+	  parent::__construct("Do you think the Printer cares? No it doesn't care, it just throws an exception. It's so bad-ass: " . $message);
      }
 }
 
+class CouldNotParseUrlTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "When a wrong url is given or when the server cannot handle or url";
+     }
 
+     public static $error = 506;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($url){
+	  parent::__construct("Could not parse url: " . $url);
+     }
+}
+
+class HttpOutTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "We failed contacting an external server";
+     }
+
+     public static $error = 507;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($url){
+	  parent::__construct("Could not connect to " . $url);
+     }
+}
 ?>
