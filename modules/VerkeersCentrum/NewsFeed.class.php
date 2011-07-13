@@ -54,7 +54,7 @@ class Feed{
 
      private function getData(){
 	  $scrapeUrl = "http://www.verkeerscentrum.be/verkeersinfo/tekstoverzicht_actueel?lastFunction=info&sortCriterionString=TYPE&sortAscending=true&autoUpdate=&cbxFILE=CHECKED&cbxINC=CHECKED&cbxRMT=CHECKED&cbxINF=CHECKED&cbxVlaanderen=CHECKED&cbxWallonie=CHECKED&cbxBrussel=CHECKED&searchString=&searchStringExactMatch=true";
-	  return file_get_contents($scrapeUrl);
+	  return TDT::HttpRequest($scrapeUrl)->data;
      }
      
      private function parseData($data){

@@ -14,6 +14,7 @@ include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
 include_once("error/ErrorHandler.class.php");
 include_once("modules/FederatedModules.php");
+include_once("TDT.class.php");
 include_once("Config.class.php");
 set_error_handler("wrapper_handler");
 date_default_timezone_set("UTC");

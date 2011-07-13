@@ -65,7 +65,7 @@ class Liveboard extends AMethod{
 	  for($i=0; $i < 4; $i++){
 	       $scrapeUrl = "http://www.railtime.be/mobile/SearchStation.aspx";
 //	       $scrapeUrl .= "?l=EN&tr=". $time . "-15&s=1&sid=" . stations::getRTID($station, $lang) . "&da=" . $this->direction . "&p=2";
-	       $body .= file_get_contents($scrapeUrl);
+	       $body .= TDT::HttpRequest($scrapeUrl);
 	       $time = iRailTools::addQuarter($time);
 	  }
 //	  return $this->parse($body);
