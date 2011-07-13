@@ -44,12 +44,12 @@ include_once ("templates/TheDataTank/header.php");?>
 	  echo "<option>".$mod->name."</option>";
      }
 echo "</select>";
-echo '<script language="javascript"> '. "var modmeths = new Array();\n";
+echo '<script language="javascript"> '. " modmeths = new Array();\n";
 if (count($mods->module)>1) {
     foreach ($mods->module as $mod){
 	 echo "modmeths['".$mod->name."'] = new Array();";
 	 foreach($mod->method as $method){    
-	      echo "modmeths['".$mod->name."'].push(".$method->name.');';
+	      echo "modmeths['".$mod->name."'].push('".$method->name."');";
 	 }
     }
 }
@@ -123,10 +123,6 @@ function plotChart(dataArray) {
 	  /* construct the x-axis array, again conversion from unix to javascripttime */
 	  var xArray = [];
 
-	  for(var i in dataset) {
-	       xArray.push(i*1000);
-	  }
-
 	  var data = [{
 		    //label: "Request logging",
 	       data: dataToDisplay
@@ -156,9 +152,7 @@ function plotChart(dataArray) {
 	       hoverable: true
 	  },
 	  xaxis: {
-	       ticks: xArray,
-	       mode: "time",
-	       timeformat: "%d"
+	       ticks: xArray
 	  },
 	  yaxis: {
 	       tickDecimals: 0
@@ -210,14 +204,11 @@ function plotChart(dataArray) {
 
 /* catching select Module event */
 $("#module").change(function(e) {
-	   alert($("#module").val());  
-	   alert(modmeths['iRail'].length);
-	   
-	  $("#method").removeOption(/./);
-	  for(var key in modmeths){
-	       alert(modmeths[key]);
-	       
-	       $("#method").addOption(modmeths[key]);    
+	   var moduleName = $("#module").val();
+	   $("#method").empty();
+	   var arr = modmeths[moduleName];
+	   for(var i=0; i<arr.length; ++i){
+		$("#method").append("<option value="+arr[i]+">"+arr[i]+"</option>");
 	  }
 });
 
