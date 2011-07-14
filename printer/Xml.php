@@ -30,17 +30,23 @@ class Xml extends Printer{
 
      private function printObject($name,$object){
 	  echo "<".$name.">";
-	  $hash = get_object_vars($object);
-	  foreach($hash as $key => $value){
-	       if(is_object($value)){
-		    $this->printObject($key,$value);
-	       }elseif(is_array($value)){
-		    $this->printArray($key,$value);
-	       }else{
-		    $val = htmlspecialchars($value);
-		    echo "<".$key.">". $val ."</".$key.">";
+	  //If this is not an object, it must have been an empty result
+	  //thus, we'll be returning an empty tag
+	  if(is_object($object)){
+	       $hash = get_object_vars($object);
+	       foreach($hash as $key => $value){
+		    if(is_object($value)){
+			 $this->printObject($key,$value);
+		    }elseif(is_array($value)){
+			 $this->printArray($key,$value);
+		    }else{
+			 $val = htmlspecialchars($value);
+			 echo "<".$key.">". $val ."</".$key.">";
+		    }
 	       }
 	  }
+
+	  // *****  Workaround for array id's:
 	  // if an array element has been passed then the name contains id=...
 	  // so we need to find the first part of the tag which only contains the name
 	  // i.e. $name =>  animal id='0', an explode(" ",$name)[0] should do the trick!
