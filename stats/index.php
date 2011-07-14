@@ -115,14 +115,20 @@ function plotChart(dataArray) {
      /* our dataArray contains data that needs to be kinda tweaked -> unix to javascripttime */
      var dataToDisplay = [];
 
+     var hackindex = 0;
+     var empty=[];
+     
+     var timeArray = [];
+     
      for (var i in dataset) {
-	  dataToDisplay.push([i*1000,dataset[i]]);
+	  hackindex++;
+	  dataToDisplay.push([hackindex,dataset[i]]);
+	  timeArray.push(i*1000);
+	  
      }
 
      if(dataToDisplay.length > 0) {
 	  /* construct the x-axis array, again conversion from unix to javascripttime */
-	  var xArray = [];
-
 	  var data = [{
 		    //label: "Request logging",
 	       data: dataToDisplay
@@ -139,7 +145,8 @@ function plotChart(dataArray) {
 	       show: true,
 	       radius: 3,
 	       clickable: true,
-	       hoverable: true
+	       hoverable: true,
+	       autoHighlight: true
 
 	  },
 	  bars: {
@@ -149,10 +156,10 @@ function plotChart(dataArray) {
 	  grid: {
 	       borderWidth:0,
 	       backgroundColor: "white",
-	       hoverable: true
+	       hoverable: true,
 	  },
 	  xaxis: {
-	       ticks: xArray
+	       ticks: empty
 	  },
 	  yaxis: {
 	       tickDecimals: 0
@@ -161,6 +168,8 @@ function plotChart(dataArray) {
 
 	  var plotarea = $("#placeholder");
 	  $.plot( plotarea , data, options );
+
+
 	  function showTooltip(x, y, contents) {
 	       $('<div id="tooltip">' + contents + '</div>').css({
 		    position: 'absolute',
@@ -181,7 +190,7 @@ function plotChart(dataArray) {
 			      previousPoint = item.dataIndex;
 
 			      $("#tooltip").remove();
-			      var javascripttime = item.datapoint[0], yvalue = item.datapoint[1];
+			      var javascripttime = timeArray[item.datapoint[0]], yvalue = item.datapoint[1];
 			      var date        = new Date(javascripttime);
 			      var month       = date.getMonth()+1;
 			      var day         = date.getDate();
