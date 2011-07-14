@@ -44,7 +44,7 @@ else {
             `touch $file`;
 	    createMethod($file);
             print "[Success] $ARGV[0].class.php was succesfully created in module $ARGV[0].";
-            $concat .= "$ARGV[0]";
+            $concat .= "\"$ARGV[0]\"";
         }
 
         shift @ARGV;
@@ -52,7 +52,7 @@ else {
         foreach (@ARGV) {
             $file = $basedir."/".$modulename . "/" . $_ . ".class.php";
             if ( !-f $file ) {
-                $concat .= "," . $_;
+                $concat .= "," . "\"".$_."\"";
                 `touch $file`;
                 print
 "[Success] $_.class.php was succesfully created in module $modulename.";
