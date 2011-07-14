@@ -12,8 +12,8 @@ class Jsonp extends Json{
 
      private $callback;
 
-     public function __construct($rootname,$objectToPrint,$callback){
-	  if(isset($callback)){
+     public function __construct($rootname,$objectToPrint,$callback = ""){
+	  if($callback != ""){
 	       $this->callback = $callback;
 	  }else{
 	       throw new PrinterTDTException("With Jsonp you should add a callback: &callback=yourfunctionname");

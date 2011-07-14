@@ -11,15 +11,15 @@ include_once("printer/Printer.php");
 
 
 class PrinterFactory{
+
      public static function getPrinter($rootname, $format, $rootname,$objectToPrint){
 	  $callback = null;
-	  if(isset($_GET["callback"]) && $format == "json"){
-	       $format = "jsonp";
-	       $callback = $_GET["callback"];
-	       $formatName = $format;
-	       return new $format($rootname,$objectToPrint,$formatName,$callback);
+	  if(($format == "Json" || $format == "Jsonp") && isset($_GET["callback"])){
+	       $callback = $_GET["callback"];	    
+	       $format = "Jsonp";
+	       include_once("printer/$format.php");
+	       return new $format($rootname,$objectToPrint,$callback);
 	  }
-	  $formatName = $format;
 	  include_once("printer/$format.php");
 	  return new $format($rootname, $objectToPrint);
      }
