@@ -9,17 +9,19 @@
 
 include_once("modules/AMethod.php");
 include_once("modules/InstalledModules.php");
-include_once("modules/FederatedModules.php");
+include_once("modules/ProxyModules.php");
+include_once("TDT.class.php");
 class Modules extends AMethod{
 
-     private $federated = true;
+     private $mod;
+     private $proxy = false;
 
      public function __construct(){
 	  parent::__construct("Modules");
      }
 
      public static function getParameters(){
-	  return array("federated" =>"this is a boolean: 1 or 0 - if the boolean is true (default), the federated methods will be inluded in the call. When false, only native functions will be included.");
+	  return array("mod" => "if you want only one module specify it here", "proxy" =>"this is a boolean: 1 or 0 - if the boolean is true (default), the proxy methods will be inluded in the call. When false, only native functions will be included.");
      }
 
      public static function getRequiredParameters(){
@@ -27,38 +29,66 @@ class Modules extends AMethod{
      }
 
      public function setParameter($key,$val){
-	  if($key == "federated" && $val == "0"){
-	       $this->federated = false;
+	  if($key == "proxy" && $val == "1"){
+	       $this->proxy = true;
+	  }else if($key == "mod"){
+	       $this->mod = $val;
 	  }
      }
 
      public function call(){
 	  $o = new Object();
 	  $modules = array();
-	  
-	  if($this->federated){
-	       $federatedmodules = FederatedModules::getAll();
-	       //TODO - Do a call to the federated module: server/TDTInfo/Module/...
+	  $i=0;
+	  if($this->proxy){
+	       $proxymodules = ProxyModules::getAll();
+	       foreach($proxymodules as $mod => $url){
+		    $options = array("timeout" => 2);
+		    $resp = TDT::HttpRequest($url . "TDTInfo/Modules/?format=json&mod=$mod", $options); 
+		    if(!isset($resp->error)){
+			 $module = json_decode($resp->data);
+			 if(is_object($module)){
+			      $modules[$i] = $module->module;
+			      $i++;
+			 }
+		    }else{
+			 //Put the URL in quarantaine and poll it from time to time until it comes up again. Then we can add it back to the list.
+			 //TODO
+		    }
+	       }
 	  }
 
 	  $mods = InstalledModules::getAll();
-	  $i=0;
+	  
+	  $modindex = -1;
 	  foreach($mods as $mod){
 	       //Now that we have all modules, let's search for their methods
 	       include_once("modules/$mod/methods.php");
 	       $modules[$i] = new Object();
-	       foreach($mod::$methods as $method){		    
+	       foreach($mod::$methods as $method){
 		    include_once("modules/$mod/$method.class.php");
+		    if(isset($this->mod) && $mod == $this->mod){
+			 $modindex=$i;
+		    }
+		    
 		    $mm = new Object();
 		    $mm->name = $method;
 		    $mm->doc = $method::getDoc();
+		    $mm->requiredparameters = $method::getRequiredParameters();
+		    $mm->parameters = $method::getParameters();
 		    $modules[$i]->method[] = $mm;
 	       }
 	       $modules[$i]->name = $mod;
 	       $i++;
 	  }
 	  $o->module = $modules;
-	  return $o;
+	  //check if our modindex has changed, if not, return everything
+	  if($modindex == -1){
+	       return $o;
+	  }else{
+	       //otherwise, we will just return this module
+	       return $o->module[$modindex];
+	  }	  
      }
      
      public function allowedPrintMethods(){

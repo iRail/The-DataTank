@@ -10,42 +10,68 @@
 include_once("error/Exceptions.class.php");
 
 class TDT{
-     
+
+     private static $HTTP_REQUEST_TIMEOUT = 10; // set the standard timeout to 10
 /**
- * The HttpRequest stolen from Drupal. Drupal is licensed GPLv2 or later. This is compatible with our AGPL license.
+ * The HttpRequest stolen from Drupal 7. Drupal is licensed GPLv2 or later. This is compatible with our AGPL license.
  * Use this function to get some content
- */
-     public static function HttpRequest($url, $headers = array(), $method = 'GET', $data = NULL, $retry = 3) {
+ */     
+     public static function HttpRequest($url, array $options = array()) {
 	  $result = new stdClass();
 
 	  // Parse the URL and make sure we can handle the schema.
-	  $uri = parse_url($url);
+	  $uri = @parse_url($url);
 
 	  if ($uri == FALSE) {
 	       throw new CouldNotParseUrlTDTException($url);
 	  }
-
+  
 	  if (!isset($uri['scheme'])) {
-	       throw new CouldNotParseUrlTDTException("Forgot to add http(s)? " . $url);
+	       throw new CouldNotParseUrlTDTException("Forgot to add http(s)? " . $url);    
 	  }
+
+	  self::timer_start(__FUNCTION__);
+
+	  // Merge the default options.
+	  $options += array(
+	       'headers' => array(), 
+	       'method' => 'GET', 
+	       'data' => NULL, 
+	       'max_redirects' => 3, 
+	       'timeout' => 30.0, 
+	       'context' => NULL,
+	       );
+	  // stream_socket_client() requires timeout to be a float.
+	  $options['timeout'] = (float) $options['timeout'];
 
 	  switch ($uri['scheme']) {
 	  case 'http':
 	  case 'feed':
 	       $port = isset($uri['port']) ? $uri['port'] : 80;
-	       $host = $uri['host'] . ($port != 80 ? ':' . $port : '');
-	       $fp = @fsockopen($uri['host'], $port, $errno, $errstr, 15);
+	       $socket = 'tcp://' . $uri['host'] . ':' . $port;
+	       // RFC 2616: "non-standard ports MUST, default ports MAY be included".
+	       // We don't add the standard port to prevent from breaking rewrite rules
+	       // checking the host that do not take into account the port number.
+	       $options['headers']['Host'] = $uri['host'] . ($port != 80 ? ':' . $port : '');
 	       break;
 	  case 'https':
-	       // Note: Only works for PHP 4.3 compiled with OpenSSL.
+	       // Note: Only works when PHP is compiled with OpenSSL support.
 	       $port = isset($uri['port']) ? $uri['port'] : 443;
-	       $host = $uri['host'] . ($port != 443 ? ':' . $port : '');
-	       $fp = @fsockopen('ssl://' . $uri['host'], $port, $errno, $errstr, 20);
+	       $socket = 'ssl://' . $uri['host'] . ':' . $port;
+	       $options['headers']['Host'] = $uri['host'] . ($port != 443 ? ':' . $port : '');
 	       break;
 	  default:
 	       $result->error = 'invalid schema ' . $uri['scheme'];
 	       $result->code = -1003;
 	       return $result;
+	  }
+
+	  if (empty($options['context'])) {
+	       $fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout']);
+	  }
+	  else {
+	       // Create a stream with context. Allows verification of a SSL certificate.
+	       $fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout'], STREAM_CLIENT_CONNECT, $options['context']);
 	  }
 
 	  // Make sure the socket opened properly.
@@ -59,69 +85,100 @@ class TDT{
 	       $path .= '?' . $uri['query'];
 	  }
 
-	  // Create HTTP request.
-	  $defaults = array(
-	       // RFC 2616: "non-standard ports MUST, default ports MAY be included".
-	       // We don't add the port to prevent from breaking rewrite rules checking the
-	       // host that do not take into account the port number.
-	       'Host' => "Host: $host", 
-	       'User-Agent' => 'User-Agent: The DataTank', //TODO - dynamic user agent
+	  // Merge the default headers.
+	  $options['headers'] += array(
+	       'User-Agent' => 'The DataTank 1.0',//TODO VERSION
 	       );
 
 	  // Only add Content-Length if we actually have any content or if it is a POST
 	  // or PUT request. Some non-standard servers get confused by Content-Length in
 	  // at least HEAD/GET requests, and Squid always requires Content-Length in
 	  // POST/PUT requests.
-	  $content_length = strlen($data);
-	  if ($content_length > 0 || $method == 'POST' || $method == 'PUT') {
-	       $defaults['Content-Length'] = 'Content-Length: ' . $content_length;
+	  $content_length = strlen($options['data']);
+	  if ($content_length > 0 || $options['method'] == 'POST' || $options['method'] == 'PUT') {
+	       $options['headers']['Content-Length'] = $content_length;
 	  }
 
-	  // If the server url has a user then attempt to use basic authentication
+	  // If the server URL has a user then attempt to use basic authentication.
 	  if (isset($uri['user'])) {
-	       $defaults['Authorization'] = 'Authorization: Basic ' . base64_encode($uri['user'] . (!empty($uri['pass']) ? ":" . $uri['pass'] : ''));
+	       $options['headers']['Authorization'] = 'Basic ' . base64_encode($uri['user'] . (!empty($uri['pass']) ? ":" . $uri['pass'] : ''));
 	  }
 
-	  foreach ($headers as $header => $value) {
-	       $defaults[$header] = $header . ': ' . $value;
+	  // If the database prefix is being used by SimpleTest to run the tests in a copied
+	  // database then set the user-agent header to the database prefix so that any
+	  // calls to other Drupal pages will run the SimpleTest prefixed database. The
+	  // user-agent is used to ensure that multiple testing sessions running at the
+	  // same time won't interfere with each other as they would if the database
+	  // prefix were stored statically in a file or database variable.
+	  $test_info = &$GLOBALS['drupal_test_info'];
+	  if (!empty($test_info['test_run_id'])) {
+	       $options['headers']['User-Agent'] = drupal_generate_test_ua($test_info['test_run_id']);
 	  }
 
-	  $request = $method . ' ' . $path . " HTTP/1.0\r\n";
-	  $request .= implode("\r\n", $defaults);
-	  $request .= "\r\n\r\n";
-	  $request .= $data;
-
+	  $request = $options['method'] . ' ' . $path . " HTTP/1.0\r\n";
+	  foreach ($options['headers'] as $name => $value) {
+	       $request .= $name . ': ' . trim($value) . "\r\n";
+	  }
+	  $request .= "\r\n" . $options['data'];
 	  $result->request = $request;
+	  // Calculate how much time is left of the original timeout value.
+	  $timeout = $options['timeout'] - self::timer_read(__FUNCTION__) / 1000;
+	  if ($timeout > 0) {
+	       stream_set_timeout($fp, floor($timeout), floor(1000000 * fmod($timeout, 1)));
+	       fwrite($fp, $request);
+	  }
 
-	  fwrite($fp, $request);
-
-	  // Fetch response.
+	  // Fetch response. Due to PHP bugs like http://bugs.php.net/bug.php?id=43782
+	  // and http://bugs.php.net/bug.php?id=46049 we can't rely on feof(), but
+	  // instead must invoke stream_get_meta_data() each iteration.
+	  $info = stream_get_meta_data($fp);
+	  $alive = !$info['eof'] && !$info['timed_out'];
 	  $response = '';
-	  while (!feof($fp) && $chunk = fread($fp, 1024)) {
+
+	  while ($alive) {
+	       // Calculate how much time is left of the original timeout value.
+	       $timeout = $options['timeout'] - self::timer_read(__FUNCTION__) / 1000;
+	       if ($timeout <= 0) {
+		    $info['timed_out'] = TRUE;
+		    break;
+	       }
+	       stream_set_timeout($fp, floor($timeout), floor(1000000 * fmod($timeout, 1)));
+	       $chunk = fread($fp, 1024);
 	       $response .= $chunk;
+	       $info = stream_get_meta_data($fp);
+	       $alive = !$info['eof'] && !$info['timed_out'] && $chunk;
 	  }
 	  fclose($fp);
 
-	  // Parse response.
-	  list($split, $result->data) = explode("\r\n\r\n", $response, 2);
-	  $split = preg_split("/\r\n|\n|\r/", $split);
+	  if ($info['timed_out']) {
+	       $result->code = self::$HTTP_REQUEST_TIMEOUT;
+	       $result->error = 'request timed out';
+	       return $result;
+	  }
+	  // Parse response headers from the response body.
+	  // Be tolerant of malformed HTTP responses that separate header and body with
+	  // \n\n or \r\r instead of \r\n\r\n.
+	  list($response, $result->data) = preg_split("/\r\n\r\n|\n\n|\r\r/", $response, 2);
+	  $response = preg_split("/\r\n|\n|\r/", $response);
 
-	  list($protocol, $code, $status_message) = explode(' ', trim(array_shift($split)), 3);
+	  // Parse the response status line.
+	  list($protocol, $code, $status_message) = explode(' ', trim(array_shift($response)), 3);
 	  $result->protocol = $protocol;
 	  $result->status_message = $status_message;
 
 	  $result->headers = array();
 
-	  // Parse headers.
-	  while ($line = trim(array_shift($split))) {
-	       list($header, $value) = explode(':', $line, 2);
-	       if (isset($result->headers[$header]) && $header == 'Set-Cookie') {
+	  // Parse the response headers.
+	  while ($line = trim(array_shift($response))) {
+	       list($name, $value) = explode(':', $line, 2);
+	       $name = strtolower($name);
+	       if (isset($result->headers[$name]) && $name == 'set-cookie') {
 		    // RFC 2109: the Set-Cookie response header comprises the token Set-
 		    // Cookie:, followed by a comma-separated list of one or more cookies.
-		    $result->headers[$header] .= ',' . trim($value);
+		    $result->headers[$name] .= ',' . trim($value);
 	       }
 	       else {
-		    $result->headers[$header] = trim($value);
+		    $result->headers[$name] = trim($value);
 	       }
 	  }
 
@@ -172,6 +229,7 @@ class TDT{
 	  if (!isset($responses[$code])) {
 	       $code = floor($code / 100) * 100;
 	  }
+	  $result->code = $code;
 
 	  switch ($code) {
 	  case 200: // OK
@@ -180,25 +238,66 @@ class TDT{
 	  case 301: // Moved permanently
 	  case 302: // Moved temporarily
 	  case 307: // Moved temporarily
-	       $location = $result->headers['Location'];
-
-	       if ($retry) {
-		    $result = self::HttpRequest($result->headers['Location'], $headers, $method, $data, --$retry);
-		    $result->redirect_code = $result->code;
+	       $location = $result->headers['location'];
+	       $options['timeout'] -= self::timer_read(__FUNCTION__) / 1000;
+	       if ($options['timeout'] <= 0) {
+		    $result->code = self::$HTTP_REQUEST_TIMEOUT;
+		    $result->error = 'request timed out';
 	       }
-	       $result->redirect_url = $location;
-
+	       elseif ($options['max_redirects']) {
+		    // Redirect to the new location.
+		    $options['max_redirects']--;
+		    $result = self::HttpRequest($location, $options);
+		    $result->redirect_code = $code;
+	       }
+	       if (!isset($result->redirect_url)) {
+		    $result->redirect_url = $location;
+	       }
 	       break;
 	  default:
-	       $result->error = $status_message;
+	       throw new CouldNotGetDataTDTException($url);
 	  }
-
-	  $result->code = $code;
 	  return $result;
      }
 
+     //Functions needed by drupal for http request
+     private static function timer_start($name) {
+	  global $timers;
+	  $timers[$name]['start'] = microtime(TRUE);
+	  $timers[$name]['count'] = isset($timers[$name]['count']) ? ++$timers[$name]['count'] : 1;
+     }
+
+     private static function timer_stop($name) {
+	  global $timers;
+
+	  if (isset($timers[$name]['start'])) {
+	       $stop = microtime(TRUE);
+	       $diff = round(($stop - $timers[$name]['start']) * 1000, 2);
+	       if (isset($timers[$name]['time'])) {
+		    $timers[$name]['time'] += $diff;
+	       }
+	       else {
+		    $timers[$name]['time'] = $diff;
+	       }
+	       unset($timers[$name]['start']);
+	  }
+
+	  return $timers[$name];
+     }
+
+     private static function timer_read($name) {
+	  global $timers;
+
+	  if (isset($timers[$name]['start'])) {
+	       $stop = microtime(TRUE);
+	       $diff = round(($stop - $timers[$name]['start']) * 1000, 2);
+
+	       if (isset($timers[$name]['time'])) {
+		    $diff += $timers[$name]['time'];
+	       }
+	       return $diff;
+	  }
+	  return $timers[$name]['time'];
+     }
 }
-
-
-
 ?>
