@@ -21,7 +21,7 @@ class PrinterFactory{
 	  }
 	  $formatName = $format;
 	  include_once("printer/$format.php");
-	  return new $format($rootname, $objectToPrint, $formatName);
+	  return new $format($rootname, $objectToPrint);
      }
 }
 ?>

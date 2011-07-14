@@ -54,7 +54,7 @@ class Feed{
 
      private function getData(){
 	  $scrapeUrl = "http://www.verkeerscentrum.be/verkeersinfo/tekstoverzicht_actueel?lastFunction=info&sortCriterionString=TYPE&sortAscending=true&autoUpdate=&cbxFILE=CHECKED&cbxINC=CHECKED&cbxRMT=CHECKED&cbxINF=CHECKED&cbxVlaanderen=CHECKED&cbxWallonie=CHECKED&cbxBrussel=CHECKED&searchString=&searchStringExactMatch=true";
-	  return TDT::HttpRequest($scrapeUrl)->data;
+	  return utf8_encode(TDT::HttpRequest($scrapeUrl)->data);
      }
      
      private function parseData($data){
@@ -73,10 +73,10 @@ class Feed{
 	       $cat = str_ireplace("werkman","works",$cat);
 
 	       $this->item[$i] = new Item();
-	       $this->item[$i]->category = trim($cat);
-	       $this->item[$i]->location = trim($match[2]);
-	       $this->item[$i]->message =trim($match[3]);
-	       $this->item[$i]->time = trim($match[4]);
+	       $this->item[$i]->category = trim(str_replace("\s\s+","",strip_tags($cat)));
+	       $this->item[$i]->location = trim(str_replace("\s\s+","",strip_tags($match[2])));
+	       $this->item[$i]->message =trim(str_replace("\s\s+","",strip_tags($match[3])));
+	       $this->item[$i]->time = trim(str_replace("\s\s+","",strip_tags($match[4])));
 	       $i++;
 	  }
      }

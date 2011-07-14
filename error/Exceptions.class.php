@@ -212,4 +212,19 @@ class HttpOutTDTException extends AbstractTDTException{
 	  parent::__construct("Could not connect to " . $url);
      }
 }
+class InternalPrinterTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "Printerfail - Something is wrong in the object";
+     }
+
+     public static $error = 508;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($msg){
+	  parent::__construct("Object gives weird printeroutput - fix your module: " . $msg);
+     }
+}
 ?>

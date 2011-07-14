@@ -1,14 +1,6 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl */
+/**This is a stub, don't use it**/
 include_once("Printer.php");
-
-/**
- * Prints the Kml style output. This works only for stations!!!
- *
- * Todo: change in_array to isset key lookups. This should make the whole faster
- *
- * @package output
- */
 class Kml extends Printer{
      private $ATTRIBUTES=array("id", "locationX", "locationY", "standardname", "left","delay", "normal");
      private $rootname;

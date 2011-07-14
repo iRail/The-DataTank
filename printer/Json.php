@@ -1,6 +1,6 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl */
-  /**
+  /* Copyright (C) 2011 by iRail vzw/asbl 
+   *
    * Author: Jan Vansteenlandt <jan aŧ iRail.be>
    * Prints the Json style output
    *
@@ -10,8 +10,8 @@
 include_once("printer/Printer.php");
 class Json extends Printer{
      
-     public function __construct($rootname,$objectToPrint,$format){
-	  parent::__construct($rootname,$objectToPrint,$format);
+     public function __construct($rootname,$objectToPrint){
+	  parent::__construct($rootname,$objectToPrint);
      }
 
      public function printHeader(){

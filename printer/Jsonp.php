@@ -12,8 +12,8 @@ class Json extends Printer{
 
      private $callback;
 
-     public function __construct($rootname,$objectToPrint,$format,$callback){
-	  parent::__construct($rootname,$objectToPrint,$format);
+     public function __construct($rootname,$objectToPrint,$callback){
+	  parent::__construct($rootname,$objectToPrint);
      }
 
      public function printHeader(){
