@@ -129,7 +129,6 @@ function plotChart(dataArray) {
      if(dataToDisplay.length > 0) {
 	  /* construct the x-axis array, again conversion from unix to javascripttime */
 	  var data = [{
-		    //label: "Request logging",
 	       data: dataToDisplay
 	       }
 	       ];
