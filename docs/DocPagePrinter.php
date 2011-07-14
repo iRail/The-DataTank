@@ -29,8 +29,9 @@ if(sizeof($method::getRequiredParameters()) > 0){
      $args="?" . $params[0] . "=...";
      $i = 0;
      foreach($params as $var){
-	  if($i == 0) continue;
-	  $args .= "&$var=...";
+	  if($i != 0){
+	       $args .= "&$var=...";
+	  }
 	  $i++;
      }
 }

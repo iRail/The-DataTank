@@ -16,10 +16,9 @@ abstract class Printer {
      // version of The DataTank API
      protected $version = "1.0";
 
-     public function __construct($rootname, $objectToPrint, $format) {
+     public function __construct($rootname, $objectToPrint) {
 	  $this->rootname = $rootname;
 	  $this->objectToPrint = $objectToPrint;
-	  $this->format = $format;
      }
      
      public function printAll() {
