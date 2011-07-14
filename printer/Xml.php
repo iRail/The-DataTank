@@ -25,7 +25,7 @@ class Xml extends Printer{
 
      public function printBody(){
 	  echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
-	  $this->printObject($this->rootname,$this->objectToPrint);
+	  $this->printObject($this->rootname . " version=\"1.0\" timestamp=\"" . time() . "\"",$this->objectToPrint);
      }
 
      private function printObject($name,$object){
