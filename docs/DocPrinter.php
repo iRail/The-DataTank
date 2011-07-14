@@ -26,7 +26,7 @@ function getAllDerivedClasses($classname){
 
 //print page
 include_once("templates/TheDataTank/header.php");
-$stats = json_decode(TDT::HttpRequest(Config::$HOSTNAME . "TDTInfo/Modules/?format=json&federated=1") ->data);
+$stats = json_decode(TDT::HttpRequest(Config::$HOSTNAME . "TDTInfo/Modules/?format=json&proxy=1") ->data);
 
 if(isset($stats->module)){
 echo "<h1>Modules and methods</h1>";

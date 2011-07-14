@@ -9,6 +9,7 @@
 class TDTInfo{
      public static $methods = array (
 	  "Modules",
+	  "Module",
 	  "MostUsed",
 	  "Queries"
 	  );

@@ -10,7 +10,7 @@ ini_set("include_path", "../");
 ini_set("error_reporting", E_ALL);
 
 include_once("Config.class.php");
-include_once("modules/FederatedModules.php");
+include_once("modules/ProxyModules.php");
 include_once("modules/InstalledModules.php");
 
 $data = array();
@@ -39,7 +39,7 @@ include_once ("templates/TheDataTank/header.php");?>
      Module
      <select id="module">
 <?php
-     $mods = json_decode(file_get_contents("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&federated=1"));
+     $mods = json_decode(file_get_contents("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=1"));
      foreach($mods->module as $mod){
 	  echo "<option>".$mod->name."</option>";
      }
@@ -58,7 +58,7 @@ echo "</script>";
 Method
 <select id="method">
      <?php
-     $mods = json_decode(file_get_contents("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&federated=1"));
+     $mods = json_decode(file_get_contents("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=1"));
 if(count($mods->module) > 1){
      $mod = $mods->module[0];
      foreach($mod->method as $method){
