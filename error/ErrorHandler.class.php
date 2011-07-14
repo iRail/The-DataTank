@@ -40,7 +40,7 @@ class ErrorHandler{
 	  }
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.	 
-	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, 'logging');
+	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
 	  if(mysqli_connect_errno()){
 	       echo "Something went wrong !! . " . mysqli_connect_error();
 	       exit();
