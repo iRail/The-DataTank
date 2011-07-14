@@ -5,7 +5,10 @@
 # License: AGPLv3
 # This script creates a module and the necessary files in that module to get started.
 
-$METHODS = "methods.php";
+use warnings;
+use strict;
+
+my $METHODS = "methods.php";
 
 # if there are no arguments given, present the user with the proper usage of the script.
 if ( $#ARGV + 1 == 0 ) {
@@ -14,29 +17,29 @@ if ( $#ARGV + 1 == 0 ) {
     print "modulename is required, methodnames are not.\n";
 }
 else {
-    $basedir = shift;
+    my $concat = "";
+    my $basedir = shift;
     $basedir.="/modules";
     print "basedirectory : $basedir\n";
-    $modulename = $ARGV[0];
+    my $modulename = $ARGV[0];
     if ( -d "$basedir/$modulename" ) {
         print "[Error] The module $basedir/$modulename already exists.";
     }
     else {
 
         # if the module does not exist, create it!
-        $fullpathmodule = $basedir."/".$modulename;
+        my $fullpathmodule = $basedir."/".$modulename;
 	print "making dir: ".$fullpathmodule."\n";
         `mkdir $fullpathmodule`;
     }
 
     shift @ARGV;
-    @methodsGiven = @ARGV;
+    my @methodsGiven = @ARGV;
     # if there are still arguments left, then these are methods that should be created!
     if ( $#ARGV + 1 > 0 ) {
 
         # concatenate the methods
-        $file   = $modulename . "/" . $ARGV[0] . ".class.php";
-        $concat = "";
+        my $file   = $modulename . "/" . $ARGV[0] . ".class.php";
 
         # only allow new methods to be concatenated and constructed
         if ( !-f $basedir."/".$file ) {
@@ -64,27 +67,27 @@ else {
     }
 
 # making methods.php ( or editing it ). The file methods.php summarizes all used methods that have been declared.
-    $methodsumm = $basedir."/".$modulename . "/" . $METHODS;
+    my $methodsumm = $basedir."/".$modulename . "/" . $METHODS;
     if ( !-f $methodsumm ) {
         #print "Creating $methodsumm file.\n";
         `touch $methodsumm`;
-        open( HANDLE, ">>$methodsumm" );
-        $classname = "\$methods";
+        open( HANDLE, ">$methodsumm" );
+        my $classname = "\$methods";
         print HANDLE
           "<?php \nclass ${modulename}{ \npublic static ${classname} = array (";
         print HANDLE "$concat";
-        print HANDLE " );\n } \n?>";
+        print HANDLE " );\n} \n?>";
         close(HANDLE);
     }
     else {
-        open( HANDLE, "<$methodsumm" );
-        @lines = <HANDLE>;
+        open( HANDLE, ">$methodsumm" );
+        my @lines = <HANDLE>;
         close(HANDLE);
         chomp @lines;
-        $content = join( " ", @lines );
+        my $content = join( " ", @lines );
 	# methods that are already defined in the methods.php
-        @methods;
-
+        my @methods;
+	my $newmethods="";
         if ( $content =~ /.*,.*/ ) {
             $content =~ /array.*\((.*)\)/;
             @methods = split( ',', $1 );
@@ -100,7 +103,7 @@ else {
 
         # now we overwrite our methods.php
         open( HANDLE, ">$methodsumm" );
-        $classname = "\$methods";
+        my $classname = "\$methods";
         print HANDLE
           "<?php \nclass ${modulename}{ \npublic static ${classname} = array (";
         print HANDLE "$concat";
@@ -111,10 +114,10 @@ else {
 
 
 sub createMethod{
-  $file = shift;
-  @split = split(/\//,$file); # tweede element bevat de methodenaam => module/method.class.php
+  my $file = shift;
+  my @split = split(/\//,$file); # tweede element bevat de methodenaam => module/method.class.php
 
-  @split2 = split(/\./,$split[$#split]);
+  my @split2 = split(/\./,$split[$#split]);
   print "amount of the split: ".$#split2;
   open(HANDLE,">>$file");
   print HANDLE "<?php\n\ninclude_once(\"modules/AMethod.php\");\n\n";
