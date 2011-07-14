@@ -1,9 +1,9 @@
 <?php
   /* Copyright (C) 2011 by iRail vzw/asbl
    *
+   * Author: Pieter Colpaert <pieter aŧ iRail.be>
    * Author: Jan Vansteenlandt <jan aŧ iRail.be>
    * Prints the Xml style output
-   *
    *
    */
 include_once("printer/Printer.php");
@@ -41,7 +41,6 @@ class Xml extends Printer{
 		    echo "<".$key.">". $val ."</".$key.">";
 	       }
 	  }
-
 	  // if an array element has been passed then the name contains id=...
 	  // so we need to find the first part of the tag which only contains the name
 	  // i.e. $name =>  animal id='0', an explode(" ",$name)[0] should do the trick!
@@ -72,7 +71,7 @@ class Xml extends Printer{
 
      // check if we have an hash or a normal 'numberice array ( php doesn't know the difference btw, it just doesn't care. )
      private function isHash($arr){
-	  return ((array) $arr !== $arr);
+	  return array_keys($arr) !== range(0, count($arr) - 1);
      }
 
 };
