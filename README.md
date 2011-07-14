@@ -13,16 +13,11 @@ First of all, in order to get started with The DataTank you have to install some
 
 * PHP 5.3
 * MySQL
-* XML::Serializer
 
 To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
 
 * display_errors = On	
 * error_reporting = E_ALL | E_STRICT | E_PARSE
-
-In order to install XML::Serializer on Debian-like machines you can install this package:
-
-	$ sudo apt-get install php-xml-serializer 
 
 ## Usage of the framework ##
 
@@ -32,21 +27,25 @@ So go ahead and clone our repository on your machine. This can be done by the co
 	$ git clone git@github.com:iRail/The-DataTank.git	
 
 After that copy the entire directory to your /var/www folder.
-In order to keep track of your logging we have to initialise a database. This is done for you if you by going to the 
-'stats' directory and executing the 'set_up_database.sh' script.
+In order to keep track of your logging we have to initialise a database. This is done for you by running the setupdatabase.sh script. 
+This script is located in the bin directory. The arguments that need to be passed with this script are the username and the databasename. 
+The username will be used to log in to MySQL. You will be prompted for a password. After that the databasename is used to create 2 tables in that database, namely errors and requests.
 	 
-	$ cd stats
-	$ bash set_up_database.sh
+	$ bash setupdatabase.sh John MyDatabase
 
-Note that the script has to be executed from within the 'stats' directory.
+In order to communicate with our MySQL database from PHP the user and password need to be set in a config file. All you have to do is adjust the file 'Config.example.class.php' and rename it into 'Config.class.php'. Open the file and change the datamembers to your proper MySQL username, password and database. This database must be the one you passed along with the setupdatabase.sh script.
 
-The above commands will initialize an MySQL database called 'logging' and contains tables 'requests' and 'errors'.
-In order to communicate with our MySQL database we need to set our user and password. To make this work you have to adjust the file 'Config.example.class.php' and rename it into 'Config.class.php'. Open the file and change the datamembers to your proper MySQL username and password.
+Congratulations, the basis of your DataTank has been made.
 
-Congratulations, you now have your DataTank base initialized.
+The DataTank exists of modules and methods. Modules are directories that aggregate certain methods that mostly have a logical connection. A method returns a certain resulting object for a certain call to that module. I.e. the module TDTInfo contains a method Queries. This method handles queries for analysis purposes. It returns the result in a certain format.
 
-The next step is building your own module. To ease the process of learning how to build your own module, an example is given within the repository itself, namely module 'iRail' with a method
-'Liveboard'. 
+So the idea is fairly simple right? Now, in order to create your own module and method(s) a script has been made for you. You could always create your own directory and make the necessary methods.class.php and implement your own methods that all extend from AMethod.class.php. Or you could use a script in order to autogenerate all the obvious stuff. In our bin directory another script is given called setupmodulesandmethods.pl. This perl script will create your module (if it doesn't exist already) and will create the methods for you. The names of the methods are ofcourse to be passed along with the execution of the script. The script will also append or create the methods.class.php. This php file contains all the methods in the module it exists. 
+
+The arguments that need to be passed are 1) the absolute path to your DataTank directory 2) the modulename 3) methodnames
+
+	$ perl setupmodulesandmethods.pl /home/John/The-DataTank MyModule Method1 Method2 Method3 Method4
+
+This will make (if not already created) a directory for you in the directory modules called MyModule, and the necessary methods.class.php file. All given methodnames will result in methods that all extend from AMethod. If you open up a certain method created this way every function that should be overwrited or be adjusted will be there for you. All you have to do is just fill in the gaps. Let's face it, we all like being lazy, so we made sure the boring and obvious parts are being done by a script.
 		    
 # iRail #
 

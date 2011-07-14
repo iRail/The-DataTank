@@ -1,1 +1,2 @@
-Small stats page for internal use, mainly to check what apps are connecting to what API.
+Small stats page for internal use, mainly to check how many requests/errors are being made in 
+a certain time interval.
