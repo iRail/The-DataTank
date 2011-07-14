@@ -121,10 +121,9 @@ function plotChart(dataArray) {
      var timeArray = [];
      
      for (var i in dataset) {
-	  hackindex++;
 	  dataToDisplay.push([hackindex,dataset[i]]);
 	  timeArray.push(i*1000);
-	  
+	  hackindex++;
      }
 
      if(dataToDisplay.length > 0) {
