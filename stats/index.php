@@ -40,7 +40,7 @@ include_once ("templates/TheDataTank/header.php");?>
      Module
      <select id="module">
 <?php
-     $mods = json_decode(TDT::HttpRequest("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=0"));
+     $mods = json_decode(TDT::HttpRequest("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=0")->data);
      foreach($mods->module as $mod){
 	  echo "<option>".$mod->name."</option>";
      }
@@ -59,7 +59,7 @@ echo "</script>";
 Method
 <select id="method">
      <?php
-     $mods = json_decode(TDT::HttpRequest("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=0"));
+     $mods = json_decode(TDT::HttpRequest("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=0")->data);
 if(count($mods->module) > 1){
      $mod = $mods->module[0];
      foreach($mod->method as $method){
@@ -216,7 +216,7 @@ $("#module").change(function(e) {
 	   $("#method").empty();
 	   var arr = modmeths[moduleName];
 	   for(var i=0; i<arr.length; ++i){
-		$.append("<option value="+arr[i]+">"+arr[i]+"</option>");
+		$("#method").append("<option value="+arr[i]+">"+arr[i]+"</option>");
 	  }
 });
 
