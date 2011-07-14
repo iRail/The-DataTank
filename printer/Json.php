@@ -22,12 +22,11 @@ class Json extends Printer{
      public function printBody(){
 	  if(is_object($this->objectToPrint)){
 	       $hash = get_object_vars($this->objectToPrint);
+	  }else{
 	       $hash['version'] = $this->version;
 	       $hash['timestamp'] = time();
-	       echo json_encode($hash);
-	  }else{
-	       throw new PrinterTDTException("The object given is NULL");
 	  }
+	  echo json_encode($hash);
      }
 };
 ?>

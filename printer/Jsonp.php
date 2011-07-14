@@ -7,12 +7,17 @@
    *
    * @package output
    */
-include_once("printer/Printer.php");
-class Json extends Printer{
+include_once("printer/Json.php");
+class Jsonp extends Json{
 
      private $callback;
 
      public function __construct($rootname,$objectToPrint,$callback){
+	  if(isset($callback)){
+	       $this->callback = $callback;
+	  }else{
+	       throw new PrinterTDTException("With Jsonp you should add a callback: &callback=yourfunctionname");
+	  }
 	  parent::__construct($rootname,$objectToPrint);
      }
 
@@ -22,15 +27,9 @@ class Json extends Printer{
      }
 
      public function printBody(){
-	  if(is_object($this->objectToPrint)){
-	       $hash = get_object_vars($this->objectToPrint);
-	       $hash['version'] = $this->version;
-	       $hash['timestamp'] = time();
-	       
-	       echo $callback . '(' . json_encode($hash) . ')';
-	  }else{
-	       throw new PrinterTDTException("The object given is NULL");
-	  }
+	  echo $this->callback . '(';
+	  parent::printBody();
+	  echo ')';
      }
 };
 ?>

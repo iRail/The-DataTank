@@ -27,7 +27,7 @@ abstract class AMethod{
 	       if($key != "method" && $key != "module" && $key != "format"){
 		    //check whether this parameter is in the documented parameters
 		    $params = $classname::getParameters();
-		    if(isset($params[$key]) || $params[0] == "*"){
+		    if(isset($params[$key])){
 			 $this->setParameter($key,$value);
 		    }else{
 			 throw new ParameterDoesntExistTDTException($key);

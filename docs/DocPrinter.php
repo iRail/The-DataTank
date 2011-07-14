@@ -8,6 +8,8 @@
  */
 ini_set("include_path", "../");
 include_once("error/Exceptions.class.php");
+include_once("Config.class.php");
+include_once("TDT.class.php");
 
 /**
  * Get all derived classes from another class
@@ -24,35 +26,19 @@ function getAllDerivedClasses($classname){
 
 //print page
 include_once("templates/TheDataTank/header.php");
+$stats = json_decode(TDT::HttpRequest(Config::$HOSTNAME . "TDTInfo/Modules/?format=json&federated=1") ->data);
 
+if(isset($stats->module)){
 echo "<h1>Modules and methods</h1>";
-if ($handle = opendir('../modules/')) {
-     $done_methods = array();
-     while (false !== ($modu = readdir($handle))) {
-	  if ($modu != "." && $modu != ".." && is_dir("../modules/" . $modu)) {
-	       echo "<h3>$modu</h3>\n";
-	       if ($handle2 = opendir('../modules/' . $modu)) {
-		    while (false !== ($metho = readdir($handle2))) {
-			 //Check if it is a rightfull php class
-			 $arr = explode(".class.", $metho);
-			 if ($metho != "." && $metho != ".." && sizeof($arr) > 1) {
-			      include_once("modules/" . $modu . "/" . $metho);
-			 }
-		    }
-		    closedir($handle2);
-	       }
-	       echo "<lu>";
-	       foreach(getAllDerivedClasses("AMethod") as $class){
-		    //BUG; functions with same name don't get shown!!!
-		    if(!in_array($class,$done_methods)){
-			 echo "<li><a href=\"/docs/$modu/$class/\">$class</a> - ". $class::getDoc() ."</li>";
-			 $done_methods[] = $class;
-		    }
-	       }
-	       echo "</lu>";
-	  }
+foreach($stats->module as $modu){
+     $name = $modu->name;
+     echo "<h3>$name</h3>\n";
+     echo "<lu>";
+     foreach($modu->method as $method){
+	  $methodname = $method->name;
+	  echo "<li><a href=\"/docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
      }
-     closedir($handle);
+     echo "</lu>";
 }
 
 echo "<h1>Errors</h1>";
@@ -61,6 +47,9 @@ foreach(getAllDerivedClasses("AbstractTDTException") as $class){
      echo "<h4>".$class::$error." - $class</h4>";
      echo $class::getDoc();
      echo "<br/>";
+}
+}else{
+     echo "";
 }
 
 include_once("templates/TheDataTank/footer.php");

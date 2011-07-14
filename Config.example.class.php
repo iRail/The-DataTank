@@ -1,13 +1,14 @@
 <?php
 /* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Jan Vansteenlandt <jan aŧ iRail.be>
  * License: AGPLv3
  *
- * This file prettyprints the Documentation
+ * Please configure this file by filling out the right elements and copy this to Config.class.php
  */
 class Config{
      public static $MySQL_USER_NAME = "...";
-     public static $MySQL_PASSWORD  = "...";    
+     public static $MySQL_PASSWORD  = "...";
+
+     //add a trailing slash!
+     public static $HOSTNAME = "http://localhost/";
 }
 ?>
