@@ -50,7 +50,7 @@ class Queries extends AMethod{
 	       'localhost',                    /* The host to connect to */
 	       Config::$MySQL_USER_NAME,       /* The user to connect with the MySQL database */
 	       Config::$MySQL_PASSWORD,        /* The password to use to connect with the db  */
-	       'logging');                     /* The default database to query */
+	       Config::$MySQL_DATABASE);                     /* The default database to query */
 
 	  if (!$link) {
 	       printf("Can't connect to MySQL Server. Errorcode: %s\n", mysqli_connect_error());

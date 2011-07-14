@@ -8,7 +8,11 @@ class Config{
      public static $MySQL_USER_NAME = "...";
      public static $MySQL_PASSWORD  = "...";
 
+     # The mysql database is the database where the errors and requests are being stored.
+     public static $MySQL_DATABASE =  "...";
+
      //add a trailing slash!
      public static $HOSTNAME = "http://localhost/";
+
 }
 ?>
