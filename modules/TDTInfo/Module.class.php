@@ -49,7 +49,6 @@ class Module extends AMethod{
 	       $o->parameter =  $meth::getParameters();
 	       $o->requiredparameter = $meth::getRequiredParameters();
 	  }
-	  
 	  return $o;
      }
      

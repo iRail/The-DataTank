@@ -44,14 +44,24 @@ class Modules extends AMethod{
 	       $proxymodules = ProxyModules::getAll();
 	       foreach($proxymodules as $mod => $url){
 		    $options = array("timeout" => 2);
-		    $resp = TDT::HttpRequest($url . "TDTInfo/Modules/?format=json&mod=$mod", $options); 
+		    //TODO - neat solution for this
+		    $arr = str_replace("http://", "", $url);
+		    $arr = str_replace("https://", "", $arr);
+		    
+		    $arr = explode("/",$arr);
+		    //echo "http://" . $arr[0] . "/TDTInfo/Modules/?format=json&mod=". $arr[1];
+		    
+		    $resp = TDT::HttpRequest("http://" . $arr[0] . "/TDTInfo/Modules/?format=json&mod=". $arr[1], $options); 
 		    if(!isset($resp->error)){
 			 $module = json_decode($resp->data);
 			 if(is_object($module)){
-			      $modules[$i] = $module->module;
+			      $modules[$i] = $module;
+			      $modules[$i]->url = "http://" . $arr[0];
 			      $i++;
 			 }
 		    }else{
+			 echo "ERROR";
+			 
 			 //Put the URL in quarantaine and poll it from time to time until it comes up again. Then we can add it back to the list.
 			 //TODO
 		    }
@@ -79,6 +89,7 @@ class Modules extends AMethod{
 		    $modules[$i]->method[] = $mm;
 	       }
 	       $modules[$i]->name = $mod;
+	       $modules[$i]->url = Config::$HOSTNAME;
 	       $i++;
 	  }
 	  $o->module = $modules;

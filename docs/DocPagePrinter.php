@@ -37,7 +37,7 @@ if(sizeof($method::getRequiredParameters()) > 0){
      }
 }
 
-$url = "http://". Config::$HOSTNAME . "/$module/$method/$args";
+$url = Config::$HOSTNAME . "$module/$method/$args";
 echo "<a href=\"$url\">$url</a>";
 echo "<h3>Description</h3>";
 echo $method::getDoc();
