@@ -33,7 +33,7 @@ if(isset($stats->module)){
 echo "<h1>Modules and methods</h1>";
 foreach($stats->module as $modu){
      $name = $modu->name;
-     echo "<h3>&laquo;<a href=\"" . $modu->url ."/docs/\">". $modu->url ."</a>&raquo; $name</h3>\n";
+     echo "<h3>&laquo;<a href=\"" . $modu->url ."docs/\">". $modu->url ."</a>&raquo; $name</h3>\n";
      echo "<lu>";
      foreach($modu->method as $method){
 	  $methodname = $method->name;
