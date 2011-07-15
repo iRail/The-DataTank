@@ -49,7 +49,7 @@ if(isset($stats->module)){
 	  echo "</lu>";
      }
 }else{
-     echo "Error occured: check " . url;
+     echo "Error occured: check " . $url;
 }
 
 echo "<h1>Errors</h1>";
