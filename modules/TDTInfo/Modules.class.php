@@ -56,7 +56,9 @@ class Modules extends AMethod{
 			 $module = json_decode($resp->data);
 			 if(is_object($module)){
 			      $modules[$i] = $module;
-			      $modules[$i]->url = "http://" . $arr[0];
+			      //alter the name of the module to our name in the system
+			      $modules[$i]->name = $mod;
+			      $modules[$i]->url = "http://" . $arr[0] . "/";
 			      $i++;
 			 }
 		    }else{

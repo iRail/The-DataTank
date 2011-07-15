@@ -26,20 +26,30 @@ function getAllDerivedClasses($classname){
 
 //print page
 include_once("templates/TheDataTank/header.php");
+$url = Config::$HOSTNAME . "TDTInfo/Modules/?format=json&proxy=1";
+$stats = "";
+try{
+     $stats = json_decode(TDT::HttpRequest($url)->data);
+}
+catch(Exception $e){
+     //...
+}
 
-$stats = json_decode(TDT::HttpRequest(Config::$HOSTNAME . "TDTInfo/Modules/?format=json&proxy=1") ->data);
-
+//Test whether HttpRequest succeeded 
 if(isset($stats->module)){
-echo "<h1>Modules and methods</h1>";
-foreach($stats->module as $modu){
-     $name = $modu->name;
-     echo "<h3>&laquo;<a href=\"" . $modu->url ."docs/\">". $modu->url ."</a>&raquo; $name</h3>\n";
-     echo "<lu>";
-     foreach($modu->method as $method){
-	  $methodname = $method->name;
-	  echo "<li><a href=\"/docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
+     echo "<h1>Modules and methods</h1>";
+     foreach($stats->module as $modu){
+	  $name = $modu->name;
+	  echo "<h2><a href=\"" . $modu->url ."docs/\">$name</a><small>(". $modu->url  .")</small></h2>\n";
+	  echo "<lu>";
+	  foreach($modu->method as $method){
+	       $methodname = $method->name;
+	       echo "<li><a href=\"/docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
+	  }
+	  echo "</lu>";
      }
-     echo "</lu>";
+}else{
+     echo "Error occured: check " . url;
 }
 
 echo "<h1>Errors</h1>";
@@ -49,9 +59,5 @@ foreach(getAllDerivedClasses("AbstractTDTException") as $class){
      echo $class::getDoc();
      echo "<br/>";
 }
-}else{
-     echo "";
-}
-
 include_once("templates/TheDataTank/footer.php");
 ?>

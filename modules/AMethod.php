@@ -9,6 +9,8 @@
 include_once("error/Exceptions.class.php");
 abstract class AMethod{
 
+     private static $BASICPARAMS = array("callback", "module","method","format");
+
      public function __construct($classname){
 	  // We're going to fetch all parameters and check wether the Required parameters are set. 
 	  
@@ -24,7 +26,7 @@ abstract class AMethod{
 	  foreach($_GET as $key => $value){
 	       //the method and module will already be parsed by another system
 	       //we don't need the format as well, this is used by printer
-	       if($key != "method" && $key != "module" && $key != "format"){
+	       if(!in_array($key,self::$BASICPARAMS)){
 		    //check whether this parameter is in the documented parameters
 		    $params = $classname::getParameters();
 		    if(isset($params[$key])){

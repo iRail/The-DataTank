@@ -13,7 +13,7 @@ include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
 include_once("requests/RequestLogger.class.php");
 include_once("error/ErrorHandler.class.php");
-include_once("modules/FederatedModules.php");
+include_once("modules/ProxyModules.php");
 include_once("TDT.class.php");
 include_once("Config.class.php");
 set_error_handler("wrapper_handler");
@@ -55,24 +55,27 @@ try{
 		    include_once ("modules/$module/$methodname.class.php");
 		    $method = new $methodname();
 
-			
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
 		    if(!in_array(strtolower($format),$method->allowedPrintMethods())){
 			 throw new FormatNotAllowedTDTException($format,$method);
 		    }
-	       }else if(array_key_exists($module,FederatedModules::$modules)){
-		    //TODO
-	       }else{
+		    //execute the method when no error occured
+		    $result = $method->call();
+	       }else if(array_key_exists($module,ProxyModules::$modules)){
+		    //If we cannot find the modulename locally, we're going to search for it through proxy
+		    unset($_GET["method"]);
+		    unset($_GET["module"]);
+		    $result = ProxyModules::call($module, $methodname, $_GET);
+	       }else{	    
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
 	       }
-	       //execute the method when no error occured
-	       $result = $method->call();
 	  }
      }else{
 	  throw new MethodOrModuleNotFoundTDTException("No module");
      }
+
      /*
       Now print the bloody thing in the preferred format or if none given and if allowed our default format.
      */

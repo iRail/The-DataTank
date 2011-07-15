@@ -21,8 +21,34 @@ class ProxyModules{
 	  "POI" => "http://172.22.32.72/POI/"
 	  );
 
+     /**
+      * Should fetch the active proxy modules out of the database
+      */
      public static function getAll(){
 	  return self::$modules;
+     }
+     
+     /**
+      * Make a proxycall
+      *  If timeout, then we should put the module on inactive in the db
+      */
+     public static function call($module, $method, array $args){
+	  $modules = self::getAll();
+	  $argstr = "";
+	  foreach($args as $key => $val){
+	       $argstr .= $key . "=" . $val . "&";
+	  }
+//	  $argstr = rtrim("&",$argstr);
+	  $url = $modules[$module] . $method . "/?" . $argstr;	  
+	  //do call
+	  $unser_object = unserialize(TDT::HttpRequest($url . "format=php")->data);
+	  //take the first key and return it: otherwise we have the timestamp and version of the other API
+	  $keys = array_keys($unser_object);
+	  $key = $keys[0];
+	  //var_dump($unser_object[$keys[0]]);
+	  $o = new stdClass();
+	  $o -> $key = $unser_object[$key];
+	  return $o;
      }
 }
 
