@@ -129,8 +129,9 @@ sub createMethod{
   print HANDLE "\n\tpublic static function getParameters(){\n";
   print HANDLE "\t\treturn array();\n\t\t//TODO Add your all your parameters here with documentation!";
   print HANDLE "\n\t\t// i.e. array(param1=>\"x-coordinate\",param2=>\"y-coordinate\");\n\t}\n";
+  print HANDLE "\n\tpublic function setParameter(\$name,\$val){\n\n\t}\n";
   print HANDLE "\n\tpublic static function getDoc(){\n";
-  print HANDLE "\t\treturn \"TODO Add your documentation about your module here\"\n\t}\n";
+  print HANDLE "\t\treturn \"TODO Add your documentation about your module here\";\n\t}\n";
   print HANDLE "\n\tpublic function call(){\n\t\treturn null;\n\t\t//TODO add your businesslogic here, the resulting";
   print HANDLE " object will be formatted in an allowed and preferred print method.\n\t}\n";
   print HANDLE "\n\tpublic function allowedPrintMethods(){\n\t\treturn array();\n";
