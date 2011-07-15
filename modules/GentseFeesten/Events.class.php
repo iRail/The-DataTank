@@ -4,29 +4,31 @@ include_once("modules/AMethod.php");
 
 class Events extends AMethod{
 
-     private $file = "modules/GentseFeesten/gentsefeesten.csv";
+     private $file = "modules/GentseFeesten/";
+     private $day;
+     
 
      public function __construct(){
 	  parent::__construct("Events");
      }
 
      public static function getRequiredParameters(){
-	  return array(); //TODO Add your required parameters here
+	  return array("day"); //TODO Add your required parameters here
      }
 
      public static function getParameters(){
-	  return array();
-	  //TODO Add your all your parameters here with documentation!
-	  // i.e. array(param1=>"x-coordinate",param2=>"y-coordinate");
+	  return array("day"=>"Expects a number [0-10] representing the day of the Gentse Feesten.");
      }
 
      public static function getDoc(){
-	  return "TODO Add your documentation about your module here";
+	  return "This method gets all the events for one specific day given with the parameter \"day\".";
 	  
      }
      
      public function setParameter($key,$val){
-	  
+	  if($key == "day"){
+	       $this->day = $val;
+	  }
      }
      
 
@@ -34,21 +36,16 @@ class Events extends AMethod{
 	  $b = new stdClass();
           $d = array();
           $row = 0;
-          $cols = array();
+	  $this->file.=$this->day.".csv";
+          $cols = array("titel","omschrijving","datum","begin","einde","plaats","indoor","plaats","latitude","longitude");
           if (($handle = fopen($this->file, "r")) !== FALSE) {
                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                    if($row == 0){
-                         for ($i=0; $i < sizeof($data); $i++) {
-                              $cols[] = $data[$i];
-                         }
-                    }else{
-                         $r = new stdClass();
-                         for ($i=0; $i < sizeof($data); $i++){
-                              $c = $cols[$i];
-                              $r->$c = $data[$i];
-                         }
-                         $d[] = $r;
-                    }
+		    $r = new stdClass();
+		    for ($i=0; $i < sizeof($data); $i++){
+			 $c = $cols[$i];
+			 $r->$c = $data[$i];
+		    }
+		    $d[] = $r;
                     $row++;
                }
                fclose($handle);

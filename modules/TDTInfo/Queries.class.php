@@ -58,7 +58,6 @@ class Queries extends AMethod{
 	  }
 
           /* Send a query to the server */
-	 
 	  if($this->errors == ""){
 	       $databasetable = "requests";
 	  }else{
