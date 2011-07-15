@@ -8,7 +8,6 @@
    *
    * An abstract class for a printer. It prints an object
    */
-include_once("printer/Formatter.php");
 abstract class Printer {
      protected $rootname;
      protected $objectToPrint;
