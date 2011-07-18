@@ -5,7 +5,7 @@ include_once("modules/AMethod.php");
 class Events extends AMethod{
 
      private $file = "modules/GentseFeesten/";
-     private $day;
+     private $day, $hour;
      
 
      public function __construct(){
@@ -17,7 +17,7 @@ class Events extends AMethod{
      }
 
      public static function getParameters(){
-	  return array("day"=>"Expects a number [0-10] representing the day of the Gentse Feesten.");
+	  return array("day"=>"Expects a number [0-10] representing the day of the Gentse Feesten.", "time" => "When time is set, we will return data fur the next hour only");
      }
 
      public static function getDoc(){
