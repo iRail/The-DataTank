@@ -4,7 +4,6 @@
    * Author: Pieter Colpaert <pieter aŧ iRail.be>
    * Author: Jan Vansteenlandt <jan aŧ iRail.be>
    * Prints the Xml style output
-   *
    */
 include_once("printer/Printer.php");
 class Xml extends Printer{
