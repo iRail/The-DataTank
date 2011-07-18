@@ -26,24 +26,6 @@ class Kml extends Printer{
 	   * the Locatable interface. The rest of it's datamembers will then be written in the extended
 	   * data part.
 	   */
-	  
-
- /*
-	   <kml xmlns="http://www.opengis.net/kml/2.2">
-	   <Placemark>
-	   <name>CampsiteData</name>
-	   <!-- Imported schema requires use of namespace prefix -->
-	   <ExtendedData xmlns:camp="http://campsites.com">
-	   <camp:number>14</camp:number>
-	   <camp:parkingSpaces>2</camp:parkingSpaces>
-	   <camp:tentSites>4</camp:tentSites>
-	   </ExtendedData>
-	   <Point>
-	   <coordinates>-114.041,53.7199</coordinates>
-	   </Point>
-	   </Placemark>	   
-	   </kml>
-	   */
 	  echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
 	  echo "<kml xmlns=\"http://www.opengis.net/kml/2.2\"><Placemark><name>".
 	       $this->objectToPrint->getName()."</name>";
@@ -101,7 +83,7 @@ class Kml extends Printer{
 		    }
 	       }
 	  }
-	  // *****  Workaround for array id's:
+	  // Workaround for array id's:
 	  // if an array element has been passed then the name contains id=...
 	  // so we need to find the first part of the tag which only contains the name
 	  // i.e. $name =>  animal id='0', an explode(" ",$name)[0] should do the trick!

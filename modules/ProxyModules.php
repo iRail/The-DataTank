@@ -17,8 +17,9 @@
  */
 class ProxyModules{
      public static $modules = array(
-	//  "StatsJan" => "http://172.22.32.119/TDTInfo/",
-	//  "POI" => "http://172.22.32.72/POI/"
+	  //  "StatsJan" => "http://172.22.32.119/TDTInfo/",
+	     "GF" => "http://jan.irail.be/GentseFeesten/"
+	  // "Pieter" => "http://171.22.32.50/"
 	  );
 
      /**
