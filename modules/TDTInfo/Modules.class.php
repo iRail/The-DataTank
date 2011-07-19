@@ -62,7 +62,7 @@ class Modules extends AMethod{
 			      $i++;
 			 }
 		    }else{
-			 echo "ERROR";
+			 throw new HttpOutTDTException("proxy");
 			 
 			 //Put the URL in quarantaine and poll it from time to time until it comes up again. Then we can add it back to the list.
 			 //TODO
