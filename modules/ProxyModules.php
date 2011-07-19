@@ -49,11 +49,10 @@ class ProxyModules{
 	  $formaturl = "http://".$boom[2]."/TDTInfo/Modules/?format=php&mod=".$boom[3];
 	  //var_dump(TDT::HttpRequest($formaturl));
 	  $formatsobj = unserialize(TDT::HttpRequest($formaturl)->data);
-	  var_dump($formatsobj);
 	  
-	  if(! in_array(ucfirst(strtolower($args["format"])),$formatsobj->method->format)){
+	  if(! in_array($args["format"],$formatsobj["method"][0]->format)){
 	       throw new FormatNotAllowedTDTException("module: ".$module ." method: ".$boom[3]
-						      ,$formatsobj->method->format);
+						      ,$formatsobj["method"][0]->format);
 	  }
 	  
 	  $unser_object = unserialize(TDT::HttpRequest($url . "format=php")->data);
