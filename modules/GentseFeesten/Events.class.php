@@ -1,6 +1,7 @@
 <?php
 
 include_once("modules/AMethod.php");
+include_once("error/Exceptions.class.php");
 
 class Events extends AMethod{
 
@@ -38,6 +39,8 @@ class Events extends AMethod{
           $row = 0;
 	  $this->file.=$this->day.".csv";
           $cols = array("titel","omschrijving","datum","begin","einde","locatie","indoor","plaats","latitude","longitude");
+	  try{
+	       
           if (($handle = fopen($this->file, "r")) !== FALSE) {
                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 		    $r = new stdClass();
@@ -52,7 +55,11 @@ class Events extends AMethod{
           }
           $b->event = $d;
           return $b;
-	  return null;
+	  }catch(Exception $ex){
+	       //file kon nie geopend worden, of er verliep iets fout tijdens het lezen van de file    
+	       throw new CouldNotGetDataTDTException($this->file);
+	       
+	  }
 	  //TODO add your businesslogic here, the resulting object will be formatted in an allowed and preferred print method.
      }
 
