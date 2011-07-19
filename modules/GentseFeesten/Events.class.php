@@ -41,20 +41,23 @@ class Events extends AMethod{
           $cols = array("titel","omschrijving","datum","begin","einde","locatie","indoor","plaats","latitude","longitude");
 	  try{
 	       
-          if (($handle = fopen($this->file, "r")) !== FALSE) {
-               while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-		    $r = new stdClass();
-		    for ($i=0; $i < sizeof($data); $i++){
-			 $c = $cols[$i];
-			 $r->$c = $data[$i];
+	       if (($handle = fopen($this->file, "r")) !== FALSE) {
+		    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+			 $r = new stdClass();
+			 for ($i=0; $i < sizeof($data); $i++){
+			      $c = $cols[$i];
+			      $r->$c = $data[$i];
+			 }
+			 $d[] = $r;
+			 $row++;
 		    }
-		    $d[] = $r;
-                    $row++;
-               }
-               fclose($handle);
-          }
-          $b->event = $d;
-          return $b;
+		    fclose($handle);
+	       }else{
+		    throw new CouldNotGetDataTDTException($this->file);
+	       }
+	       
+	       $b->event = $d;
+	       return $b;
 	  }catch(Exception $ex){
 	       //file kon nie geopend worden, of er verliep iets fout tijdens het lezen van de file    
 	       throw new CouldNotGetDataTDTException($this->file);
