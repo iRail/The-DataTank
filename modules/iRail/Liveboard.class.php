@@ -92,10 +92,6 @@ class Liveboard extends AMethod{
 	  }
 	  return $newarray;
      }
-
-     public function allowedPrintMethods(){
-	  return array("xml", "json", "php", "jsonp");
-     }
      
 
      public static function getAllowedPrintMethods(){

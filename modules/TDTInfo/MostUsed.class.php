@@ -45,10 +45,6 @@ class MostUsed extends AMethod{
 	  
 	  return $o;
      }
-     
-     public function allowedPrintMethods(){
-	  return array("xml","json","php","jsonp");
-     }
 
      public static function getAllowedPrintMethods(){
 	  return array("json","xml", "jsonp", "php");

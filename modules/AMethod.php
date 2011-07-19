@@ -60,9 +60,6 @@ abstract class AMethod{
 
      abstract public function setParameter($name,$val);
 
-     abstract public function allowedPrintMethods();
+}
 
-}
-class Object{
-}
 ?>
