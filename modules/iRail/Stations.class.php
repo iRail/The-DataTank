@@ -47,6 +47,11 @@ class Stations extends AMethod{
 	  return array("xml", "json", "php");
      }
 
+     public static function getAllowedPrintMethods(){
+	  return array("xml","json","php");
+     }
+     
+
      public static function getDoc(){
 	  return "Stations will return a list of all known stops of a system";
      }

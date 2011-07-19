@@ -255,7 +255,7 @@ class TDT{
 	       }
 	       break;
 	  default:
-	       throw new CouldNotGetDataTDTException($url);
+	       $result->error = $url;
 	  }
 	  return $result;
      }

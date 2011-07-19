@@ -148,6 +148,8 @@ sub createMethod {
 "\n\tpublic function call(){\n\t\treturn null;\n\t\t//TODO add your businesslogic here, the resulting";
     print HANDLE
 " object will be formatted in an allowed and preferred print method.\n\t}\n";
+    print HANDLE "\n\tpublic static function getAllowedPrintMethods(){\n\t\treturn";
+    print HANDLE " array();\n\t}\n";
     print HANDLE
       "\n\tpublic function allowedPrintMethods(){\n\t\treturn array();\n";
     print HANDLE
