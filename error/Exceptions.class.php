@@ -67,9 +67,9 @@ class FormatNotAllowedTDTException extends AbstractTDTException{
 	  return "When a certain format is given with the request and it is not allowed by the method. This exception is thrown, and the allowed formats are show to the user.";
      }
 
-     public function __construct($m, $method) {
+     public function __construct($m, $format) { // format = array of allowed formats
 	  $message = "Format not allowed: " . $m . ". Allowed formats are : <br> ";
-	  foreach($method->allowedPrintMethods() as $format){
+	  foreach($format as $format){
 	       $message  = $message . " $format <br>";
 	  }
 	  

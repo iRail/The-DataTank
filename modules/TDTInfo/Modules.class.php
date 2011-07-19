@@ -88,7 +88,7 @@ class Modules extends AMethod{
 		    $mm->doc = $method::getDoc();
 		    $mm->requiredparameters = $method::getRequiredParameters();
 		    $mm->parameters = $method::getParameters();
-		    $mm->formats = $method::getAllowedPrintMethods();
+		    $mm->format = $method::getAllowedPrintMethods();
 		    $modules[$i]->method[] = $mm;
 	       }
 	       $modules[$i]->name = $mod;

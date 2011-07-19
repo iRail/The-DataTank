@@ -6,9 +6,9 @@
  *
  * This should become a file which autodetects all modules on other servers.
  * The Federated aspect should care about:
- *    * Interchangability of documentation and stats
- *    * Errorhandling through proxy
- *    * Extra error if server unavailable and deletion when needed
+ *    * Interchangability of documentation and stats //done
+ *    * Errorhandling through proxy //in progress
+ *    * Extra error if server unavailable and deletion when needed //TODO
  */
 
 
@@ -42,11 +42,18 @@ class ProxyModules{
 	  // $argstr = rtrim("&",$argstr);
 	  $url = $modules[$module] . $method . "/?" . $argstr;	  
 	  //do call
-	  $answer = TDT::HttpRequest($url);
-	  var_dump($answer);
+	  /*
+	   * get all the allowed formats of the method
+	   */
+	  $boom = explode("/",$modules[$module]);
+	  $formaturl = "http://".$boom[2]."/TDTInfo/Modules/?format=php&mod=".$boom[3];
+	  //var_dump(TDT::HttpRequest($formaturl));
+	  $formatsobj = unserialize(TDT::HttpRequest($formaturl)->data);
+	  var_dump($formatsobj);
 	  
-	  if(isset($answer->error)){
-	       throw new Exception($answer->error,$answer->code);
+	  if(! in_array(ucfirst(strtolower($args["format"])),$formatsobj->method->format)){
+	       throw new FormatNotAllowedTDTException("module: ".$module ." method: ".$boom[3]
+						      ,$formatsobj->method->format);
 	  }
 	  
 	  $unser_object = unserialize(TDT::HttpRequest($url . "format=php")->data);
