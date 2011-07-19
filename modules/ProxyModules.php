@@ -30,7 +30,7 @@ class ProxyModules{
      }
      
      /**
-      * Make a proxycall
+      *  Make a proxycall
       *  If timeout, then we should put the module on inactive in the db
       */
      public static function call($module, $method, array $args){
@@ -39,9 +39,16 @@ class ProxyModules{
 	  foreach($args as $key => $val){
 	       $argstr .= $key . "=" . $val . "&";
 	  }
-//	  $argstr = rtrim("&",$argstr);
+	  // $argstr = rtrim("&",$argstr);
 	  $url = $modules[$module] . $method . "/?" . $argstr;	  
 	  //do call
+	  $answer = TDT::HttpRequest($url);
+	  var_dump($answer);
+	  
+	  if(isset($answer->error)){
+	       throw new Exception($answer->error,$answer->code);
+	  }
+	  
 	  $unser_object = unserialize(TDT::HttpRequest($url . "format=php")->data);
 	  //take the first key and return it: otherwise we have the timestamp and version of the other API
 	  $keys = array_keys($unser_object);

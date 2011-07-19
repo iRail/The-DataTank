@@ -96,6 +96,11 @@ class Liveboard extends AMethod{
      public function allowedPrintMethods(){
 	  return array("xml", "json", "php", "jsonp");
      }
+     
+
+     public static function getAllowedPrintMethods(){
+	  return array("xml", "json", "php", "jsonp");
+     }
 
      public static function getDoc(){
 	  return "Liveboard will return the next arrivals or departures in a station.";

@@ -32,5 +32,10 @@ class MyHouse extends AMethod{
 	public function allowedPrintMethods(){
 	     return array("kml");
 	}
+	
+	public static function getAllowedPrintMethods(){
+	     return array("kml");
+	}
+	
 }
 ?>

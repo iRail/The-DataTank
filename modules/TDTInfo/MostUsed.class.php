@@ -50,6 +50,10 @@ class MostUsed extends AMethod{
 	  return array("xml","json","php","jsonp");
      }
 
+     public static function getAllowedPrintMethods(){
+	  return array("json","xml", "jsonp", "php");
+     }
+
      public static function getDoc(){
 	  return "This is a function which will return all supported modules by this API";
      }

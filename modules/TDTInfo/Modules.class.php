@@ -88,6 +88,7 @@ class Modules extends AMethod{
 		    $mm->doc = $method::getDoc();
 		    $mm->requiredparameters = $method::getRequiredParameters();
 		    $mm->parameters = $method::getParameters();
+		    $mm->formats = $method::getAllowedPrintMethods();
 		    $modules[$i]->method[] = $mm;
 	       }
 	       $modules[$i]->name = $mod;
@@ -106,6 +107,10 @@ class Modules extends AMethod{
      
      public function allowedPrintMethods(){
 	  return array("xml","json","php","jsonp");
+     }
+     
+     public static function getAllowedPrintMethods(){
+	  return array("json","xml", "jsonp", "php");
      }
 
      public static function getDoc(){

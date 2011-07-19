@@ -56,6 +56,10 @@ class Module extends AMethod{
 	  return array("xml","json","php","jsonp");
      }
 
+     public static function getAllowedPrintMethods(){
+	  return array("json","xml", "jsonp", "php");
+     }
+
      public static function getDoc(){
 	  return "This function will get all information about a specific method and return it";
      }

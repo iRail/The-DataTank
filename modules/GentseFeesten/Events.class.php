@@ -58,7 +58,11 @@ class Events extends AMethod{
 
      public function allowedPrintMethods(){
 	  return array("php","xml","json","jsonp");
-	  //TODO add your allowed formats here, i.e. xml,json,kml,...
      }
+
+     public static function getAllowedPrintMethods(){
+	  return array("php","xml","json","jsonp");
+     }
+     
 }
 ?>

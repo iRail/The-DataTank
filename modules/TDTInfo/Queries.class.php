@@ -97,6 +97,10 @@ class Queries extends AMethod{
 	  return array("json","xml", "jsonp", "php");
      }
 
+     public static function getAllowedPrintMethods(){
+	  return array("json","xml", "jsonp", "php");
+     }
+
      public static function getDoc(){
 	  return "Lists the number of queries(requests/errors) to this datatank instance per day";
      }
