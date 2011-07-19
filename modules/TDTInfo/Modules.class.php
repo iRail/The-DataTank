@@ -83,7 +83,7 @@ class Modules extends AMethod{
 			 $modindex=$i;
 		    }
 		    
-		    $mm = new Object();
+		    $mm = new stdClass();
 		    $mm->name = $method;
 		    $mm->doc = $method::getDoc();
 		    $mm->requiredparameters = $method::getRequiredParameters();
