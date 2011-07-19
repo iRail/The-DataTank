@@ -10,15 +10,8 @@
 
 class RequestLogger{
 
-     public static function logRequest(){
-	  $pageURL = 'http';
-	  if (!empty($_SERVER['HTTPS'])) {if($_SERVER['HTTPS'] == 'on'){$pageURL .= "s";}}
-	  $pageURL .= "://";
-	  if ($_SERVER["SERVER_PORT"] != "80") {
-	       $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-	  } else {
-	       $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-	  }	
+    public static function logRequest(){
+      $pageURL = TDT::get_page_url();	
 	  
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.	 

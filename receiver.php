@@ -27,10 +27,10 @@ try{
 
      $format = "";
 
-     if(isset($_GET["format"])) {
+     if (isset($_GET["format"])) {
 	  $format = $_GET["format"];
      }
-     if($format == "") {
+     if ($format == "") {
 	  $format = "Xml";
      }
 
@@ -70,7 +70,12 @@ try{
 		    $result = ProxyModules::call($module, $methodname, $_GET);
 	       }else{	    
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
-	       }
+           }
+
+           // Use POST of feedback
+           //if (isset($_POST)) {
+               
+           //}
 	  }
      }else{
 	  throw new MethodOrModuleNotFoundTDTException("No module");
