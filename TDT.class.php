@@ -299,5 +299,19 @@ class TDT{
 	  }
 	  return $timers[$name]['time'];
      }
+
+    public static function sort_parameters($params) {
+        asort($params);
+        return $params;
+
+        //$query = preg_split('?', $url, 1, PREG_SPLIT_NO_EMPTY)[1];
+        //$pairs = preg_split('&', $query, PREG_SPLIT_NO_EMPTY);
+        //sort($pairs);
+        //$sorted_query = '';
+        //foreach ($pairs as $key => $val) {
+            //$sorted_query .= $val;
+        //}
+        //return $sorted_query;
+    }
 }
 ?>
