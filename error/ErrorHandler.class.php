@@ -45,6 +45,7 @@ class ErrorHandler{
 	  //echo $auto_incr . ", " . $time . ", " . $_SERVER['HTTP_USER_AGENT'] . ", " .$_SERVER['REMOTE_ADDR']. ", " . $pageURL;
 	  $ua = $_SERVER['HTTP_USER_AGENT'];
 	  $ip = $_SERVER['REMOTE_ADDR'];
+	  //var_dump($e);
 	  $err_message = $e->getDoc();
 	  $err_code = $e->getErrorCode();
 	  $stmt->bind_param('iisssss',$auto_incr,$time,$ua,$ip,$pageURL,$err_message,$err_code);

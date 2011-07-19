@@ -18,6 +18,9 @@ class Liveboard extends AMethod{
      private $system;
      private $time;
      private $direction;
+     private $date;
+     private $station;
+     
 
      public function __construct(){
 	  parent::__construct("Liveboard");
@@ -28,9 +31,10 @@ class Liveboard extends AMethod{
      public static function getParameters(){
 	  return array("station" => "This is a name of a station or an ID as specified by the iRail API: example: BE.NMBS.0942484",
 		       "time" => "time of the requested liveboard concatenated. The 3pm would be: 1500",
-		       "direction" => "Do you want to have the arrivals or the departures. Values: arrival or departures",
-		       "lang" => "Language for the stations",
-		       "system" => "The name of the public transport company: for instance De Lijn, or NMBS"
+		       "direction" => "Do you want to have the arrivals or the departures. Values: ARR or DEP, default = DEP",
+		       "lang" => "Language for the stations fr ,nl",
+		       "system" => "The name of the public transport company: for instance De Lijn, or NMBS",
+		       "date" => "date of depart/arrival - mmddyy"
 	       );
      }
 
@@ -55,10 +59,33 @@ class Liveboard extends AMethod{
 	       $this->direction = $val;
 	  }
 	  
+	  if($key=="station" && $val != ""){
+	       $this->station = $val;
+	  }
+
+	  if($key == "date" && $val != ""){
+	       $this->date = $val;
+	  }
      }
 
      public function call(){
-	  $dummyresult = new Object();
+	  $url = "http://api.irail.be/liveboard/?";
+	  $url =$url."1=1";
+	  if($this->station != "" || ! is_null($this->station)){
+	       $url.="&station=".$this->station;
+	       
+	  }
+	  
+	  $request = TDT::HttpRequest($url);
+	  //var_dump($request);
+	  $object = simplexml_load_string($request->data);
+	  
+	  
+	  return $object;
+	  
+	  
+	  /*
+	  $dummyresult = new stdCall();
 	  $body = "";
 	  $time = $this->time;
           //we want data for 1 hour. But we can only retrieve 15 minutes per request
@@ -69,7 +96,7 @@ class Liveboard extends AMethod{
 	       $time = iRailTools::addQuarter($time);
 	  }
 //	  return $this->parse($body);
-	  return $dummyresult;
+return $dummyresult;*/
      }
 
 /**
@@ -92,8 +119,9 @@ class Liveboard extends AMethod{
 	  }
 	  return $newarray;
      }
+     
 
-     public function allowedPrintMethods(){
+     public static function getAllowedPrintMethods(){
 	  return array("xml", "json", "php", "jsonp");
      }
 

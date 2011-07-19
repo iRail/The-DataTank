@@ -8,13 +8,16 @@
  * Logs a request to a MySQL database
  */
 
+ 
+ 
 class RequestLogger{
 
     public static function logRequest(){
       $pageURL = TDT::get_page_url();	
 	  
 	  // To conquer sql injection, one must become sql injection.... or use
-	  // prepared statements.	 
+	  // prepared statements.
+	   
 	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
 	  if(mysqli_connect_errno()){
 	       printf("Can't connect to MySQL Server. Errorcode: %s\n",mysqli_connect_error());

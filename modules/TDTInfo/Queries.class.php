@@ -92,8 +92,8 @@ class Queries extends AMethod{
 	  $this->getData();
 	  return $this->queryResults;
      }
-     
-     public function allowedPrintMethods(){
+
+     public static function getAllowedPrintMethods(){
 	  return array("json","xml", "jsonp", "php");
      }
 

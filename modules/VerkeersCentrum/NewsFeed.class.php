@@ -35,9 +35,9 @@ class NewsFeed extends AMethod{
      public function call(){
 	  return new Feed();
      }
-     
-     public function allowedPrintMethods(){
-	  return array("xml","json","php","jsonp");
+
+     public static function getAllowedPrintMethods(){
+	  return array("json","xml", "jsonp", "php");
      }
 
      public static function getDoc(){

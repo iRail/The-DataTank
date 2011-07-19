@@ -46,6 +46,12 @@ abstract class AMethod{
 	  return array();
      }
      
+
+     public static function getAllowedPrintMethods(){
+	  return array();
+     }
+     
+
      public static function getDoc(){
 	  echo "I'm undocumented Q_Q";
      }
@@ -54,9 +60,6 @@ abstract class AMethod{
 
      abstract public function setParameter($name,$val);
 
-     abstract public function allowedPrintMethods();
+}
 
-}
-class Object{
-}
 ?>

@@ -58,8 +58,8 @@ try{
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
-		    if(!in_array(strtolower($format),$method->allowedPrintMethods())){
-			 throw new FormatNotAllowedTDTException($format,$method);
+		    if(!in_array(strtolower($format),$method->getAllowedPrintMethods())){
+			 throw new FormatNotAllowedTDTException($format,$method::getAllowedPrintMethods());
 		    }
 		    //execute the method when no error occured
 		    $result = $method->call();
@@ -67,7 +67,7 @@ try{
 		    //If we cannot find the modulename locally, we're going to search for it through proxy
 		    unset($_GET["method"]);
 		    unset($_GET["module"]);
-		    $result = ProxyModules::call($module, $methodname, $_GET);
+		    $result = ProxyModules::call($module, $methodname, $_GET);		
 	       }else{	    
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
            }

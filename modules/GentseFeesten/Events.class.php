@@ -1,6 +1,7 @@
 <?php
 
 include_once("modules/AMethod.php");
+include_once("error/Exceptions.class.php");
 
 class Events extends AMethod{
 
@@ -38,27 +39,38 @@ class Events extends AMethod{
           $row = 0;
 	  $this->file.=$this->day.".csv";
           $cols = array("titel","omschrijving","datum","begin","einde","locatie","indoor","plaats","latitude","longitude");
-          if (($handle = fopen($this->file, "r")) !== FALSE) {
-               while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-		    $r = new stdClass();
-		    for ($i=0; $i < sizeof($data); $i++){
-			 $c = $cols[$i];
-			 $r->$c = $data[$i];
+	  
+	  if(!file_exists($this->file)){
+	       throw new CouldNotGetDataTDTException($this->file);
+	  }
+	  try{
+	       if (($handle = fopen($this->file, "r")) !== FALSE) {
+		    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+			 $r = new stdClass();
+			 for ($i=0; $i < sizeof($data); $i++){
+			      $c = $cols[$i];
+			      $r->$c = $data[$i];
+			 }
+			 $d[] = $r;
+			 $row++;
 		    }
-		    $d[] = $r;
-                    $row++;
-               }
-               fclose($handle);
-          }
-          $b->event = $d;
-          return $b;
-	  return null;
-	  //TODO add your businesslogic here, the resulting object will be formatted in an allowed and preferred print method.
+		    fclose($handle);
+	       }else{
+		    throw new CouldNotGetDataTDTException($this->file);
+	       }
+
+	       $b->event = $d;
+	       return $b;
+	  }catch(Exception $ex){
+	       //file kon nie geopend worden, of er verliep iets fout tijdens het lezen van de file    
+	       throw new CouldNotGetDataTDTException($this->file);
+	       
+	  }
      }
 
-     public function allowedPrintMethods(){
+     public static function getAllowedPrintMethods(){
 	  return array("php","xml","json","jsonp");
-	  //TODO add your allowed formats here, i.e. xml,json,kml,...
      }
+     
 }
 ?>
