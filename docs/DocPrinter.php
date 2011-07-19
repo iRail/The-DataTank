@@ -45,18 +45,8 @@ if(isset($stats->module)){
 	  echo "<lu>";
 	  foreach($modu->method as $method){
 	       $methodname = $method->name;
-	       if(array_key_exists($name,ProxyModules::$modules)){
-		    $modulename = ProxyModules::$modules[$name];
-		    // add docs to the url i.e. : http://john.irail.be/Module -> http://john.irail.be/docs/Module
-		    $smithereens = explode("/",$modulename);
-		    $baseurl = $smithereens[2];
-		    $url = "http://".$baseurl."/docs/".$smithereens[3]."/";
-		    
-		    echo "<li><a href=\"".$url."$methodname/\">$methodname</a> - " . $method->doc. "</li>";
-	       }else{
-		    echo "<li><a href=\"".$modu->url."docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
-	       }
-	       
+	       //echo "<li><a href=\"".$modu->url."docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
+	       echo "<li><a href=\"/docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
 	  }
 	  echo "</lu>";
      }
