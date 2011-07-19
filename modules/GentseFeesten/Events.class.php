@@ -39,8 +39,11 @@ class Events extends AMethod{
           $row = 0;
 	  $this->file.=$this->day.".csv";
           $cols = array("titel","omschrijving","datum","begin","einde","locatie","indoor","plaats","latitude","longitude");
-	  try{
-	       
+	  
+	       if(!file_exists($this->file)){
+		    throw new CouldNotGetDataTDTException($this->file);
+	       }
+	       try{
 	       if (($handle = fopen($this->file, "r")) !== FALSE) {
 		    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 			 $r = new stdClass();
