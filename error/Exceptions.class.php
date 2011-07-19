@@ -149,6 +149,23 @@ class InternalServerTDTException extends AbstractTDTException{
 	  parent::__construct($message);
      }
 }
+
+class RemoteServerTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "This error is thrown because a proxy call has gone wrong.".
+	         "This probably due to remoteserver problem.";
+     }
+
+     public static $error = 502;
+     public function getErrorCode(){
+	  return InternalServerTDTException::$error;
+     }
+
+     public function __construct($message){
+	  parent::__construct($message);
+     }
+}
+
 class NoPrinterTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "No printer is available or something went wrong in the Formatter class";

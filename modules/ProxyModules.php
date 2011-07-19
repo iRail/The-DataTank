@@ -39,7 +39,7 @@ class ProxyModules{
 	  foreach($args as $key => $val){
 	       $argstr .= $key . "=" . $val . "&";
 	  }
-	  // $argstr = rtrim("&",$argstr);
+	  //$argstr = rtrim("&",$argstr);
 	  $url = $modules[$module] . $method . "/?" . $argstr;	  
 	  //do call
 	  /*
@@ -50,12 +50,30 @@ class ProxyModules{
 	  //var_dump(TDT::HttpRequest($formaturl));
 	  $formatsobj = unserialize(TDT::HttpRequest($formaturl)->data);
 	  
+	  /*
+	   * We're going to make two different calls: 1) check if the format is ok
+	   *                                          2) call the method
+	   * We check the format because we need to do this separatly either way because 
+	   * we're passing format=php in the call so that our object can be serialized.
+	   * So in order to have a performant way of knowing wether or not a call contains
+	   * a valid format, we're calling the documentation of the method and look 
+	   * if it's one of the allowed formats.
+	   */
+
+	  // if the format is not allowed throw an error (functions as proxy error handler)
 	  if(! in_array($args["format"],$formatsobj["method"][0]->format)){
 	       throw new FormatNotAllowedTDTException("module: ".$module ." method: ".$boom[3]
 						      ,$formatsobj["method"][0]->format);
 	  }
+	  // if a remote error occurs (error on the remote methodcall) handle it right here
+	  // and throw it to an upper layer
+	  $request = TDT::HttpRequest($url."format=php");
 	  
-	  $unser_object = unserialize(TDT::HttpRequest($url . "format=php")->data);
+	  if(! is_null($request->error)){
+	       throw new RemoteServerTDTException($request->data);
+	  }
+	  
+	  $unser_object = unserialize($request->data);
 	  //take the first key and return it: otherwise we have the timestamp and version of the other API
 	  $keys = array_keys($unser_object);
 	  $key = $keys[0];
@@ -63,6 +81,8 @@ class ProxyModules{
 	  $o = new stdClass();
 	  $o -> $key = $unser_object[$key];
 	  return $o;
+	  
+	  
      }
 }
 
