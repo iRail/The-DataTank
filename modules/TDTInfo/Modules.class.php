@@ -37,7 +37,7 @@ class Modules extends AMethod{
      }
 
      public function call(){
-	  $o = new Object();
+	  $o = new stdClass();
 	  $modules = array();
 	  $i=0;
 	  if($this->proxy){
@@ -76,7 +76,7 @@ class Modules extends AMethod{
 	  foreach($mods as $mod){
 	       //Now that we have all modules, let's search for their methods
 	       include_once("modules/$mod/methods.php");
-	       $modules[$i] = new Object();
+	       $modules[$i] = new stdClass();
 	       foreach($mod::$methods as $method){
 		    include_once("modules/$mod/$method.class.php");
 		    if(isset($this->mod) && $mod == $this->mod){
@@ -103,10 +103,6 @@ class Modules extends AMethod{
 	       //otherwise, we will just return this module
 	       return $o->module[$modindex];
 	  }	  
-     }
-     
-     public function allowedPrintMethods(){
-	  return array("xml","json","php","jsonp");
      }
      
      public static function getAllowedPrintMethods(){

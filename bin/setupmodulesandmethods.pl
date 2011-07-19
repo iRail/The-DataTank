@@ -150,10 +150,6 @@ sub createMethod {
 " object will be formatted in an allowed and preferred print method.\n\t}\n";
     print HANDLE "\n\tpublic static function getAllowedPrintMethods(){\n\t\treturn";
     print HANDLE " array();\n\t}\n";
-    print HANDLE
-      "\n\tpublic function allowedPrintMethods(){\n\t\treturn array();\n";
-    print HANDLE
-      "\t\t//TODO add your allowed formats here, i.e. xml,json,kml,...\n\t}\n";
     print HANDLE "}\n?>";
     close(HANDLE);
 }

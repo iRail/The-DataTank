@@ -68,10 +68,6 @@ class Events extends AMethod{
 	  }
      }
 
-     public function allowedPrintMethods(){
-	  return array("php","xml","json","jsonp");
-     }
-
      public static function getAllowedPrintMethods(){
 	  return array("php","xml","json","jsonp");
      }

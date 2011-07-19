@@ -67,11 +67,7 @@ try{
 		    //If we cannot find the modulename locally, we're going to search for it through proxy
 		    unset($_GET["method"]);
 		    unset($_GET["module"]);
-//		    try{ 
-			 $result = ProxyModules::call($module, $methodname, $_GET);
-			 //	    }catch(Exception $ex){
-			 //var_dump($ex);	 
-			 //}
+		    $result = ProxyModules::call($module, $methodname, $_GET);		
 	       }else{	    
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
 	       }
