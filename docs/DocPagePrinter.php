@@ -56,7 +56,7 @@ include_once("templates/TheDataTank/header.php");
 echo "<h1>" . $module."/". $methodname ."</h1>";
 //get a sequence of the parameters
 $args = "";
-if(sizeof(! is_null($method["requiredparameter"]))){
+if(sizeof(($method["requiredparameter"])) > 0){
      $params = $method["requiredparameter"];
      $args="?" . $params[0] . "=...";
      $i = 0;

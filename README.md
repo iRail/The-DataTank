@@ -2,9 +2,9 @@
 
 This is The DataTank Git repo.
 
-The DataTank is a generic REST web-service. If you want to set up an API, you can take this code, add the needed modules and start building your web-service in no time.
+On the one hand The DataTank is a generic REST web-service. If you want to set up an API, you can take this code, add the needed modules and start building your web-service in no time.
 
-We are doing this by creating an Application Programming Interface. This interface is implemented in PHP and can be reused by various of other projects.
+On the other hand The DataTank is a data-aggregator. On http://api.TheDataTank.com you will be able to find all the webservices available.
 
 # Getting started #
 
