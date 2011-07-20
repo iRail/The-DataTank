@@ -37,7 +37,7 @@ class Messages extends AMethod {
 	       exit;
         }
 
-        $pageUrl = TDT::get_page_url();
+        $pageUrl = TDT::getPageUrl();
 
         $queryString = 'SELECT * FROM feedback_messages' . ' WHERE ' .
             ' WHERE url_request = ' . $pageUrl;
@@ -75,7 +75,7 @@ class Messages extends AMethod {
         }
         echo 'Msg: ' . $_POST['msg'];
 
-        $pageUrl = TDT::get_page_url();
+        $pageUrl = TDT::getPageUrl();
 
         $queryString = 'Insert Into feedback_messages (url_request, msg) values ("' .
             $pageUrl . '", "' . $_POST['msg'] . '");';

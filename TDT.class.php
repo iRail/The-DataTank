@@ -315,7 +315,7 @@ class TDT{
         //return $sorted_query;
     }
 
-    public static function get_page_url() {
+    public static function getPageUrl() {
         $pageURL = 'http';
         if (!empty($_SERVER['HTTPS'])) {
             if($_SERVER['HTTPS'] == 'on') {
