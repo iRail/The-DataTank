@@ -1,2 +1,6 @@
 stats/logging.db
 Config.class.php
+Documentation.aux
+Documentation.dvi
+Documentation.log
+Documentation.ps
