@@ -19,11 +19,11 @@ class Messages extends AMethod {
         //parent::__construct("Message");
     }
 
-    public static function getDoc(){
+    public static function getDoc() {
         return "TODO"; //TODO add doc
     }
 
-    public function getData(){
+    public function getData() {
 	    /* Connect to mysql database */
 	    $link = mysqli_connect(
 	        'localhost',              /* The host to connect to */
@@ -58,11 +58,51 @@ class Messages extends AMethod {
 
         /* Close the connection */
         mysqli_close($link);
-     }
+    }
+
+    public function setData() {
+        /* Connect to mysql database */
+	    $link = mysqli_connect(
+	        'localhost',              /* The host to connect to */
+	        Config::$MySQL_USER_NAME, /* The user to connect with the MySQL database */
+	        Config::$MySQL_PASSWORD,   /* The password to use to connect with the db  */
+	        Config::$MySQL_DATABASE);  /* The default database to query */
+
+        if (!$link) {
+            printf("Can't connect to MySQL Server. Errorcode: %s\n",
+                mysqli_connect_error());
+	       exit;
+        }
+        echo 'Msg: ' . $_POST['msg'];
+
+        $pageUrl = TDT::get_page_url();
+
+        $queryString = 'Insert Into feedback_messages (url_request, msg) values ("' .
+            $pageUrl . '", "' . $_POST['msg'] . '");';
+
+        $result = mysqli_query($link, $queryString);
+        echo '\n' . $result . '. ';
+
+        /* Close the connection */
+        mysqli_close($link);
+    }    
 
     public function call() {
-        $this->getData();
-        return $this->queryResults;
+        if (isset($_POST)) {
+            if (!isset($_POST['msg'])) {
+                //TODO return some error stuff.
+            } else {
+                echo 'Msg: ' . $_POST['msg'];
+                $this->setData();
+
+                //TODO this shoudn't be here, but then where o where should
+                //it be? Spaghetti code...
+                header('test', true, 201); // Set header to Created
+            }
+        } else {
+            $this->getData();
+            return $this->queryResults;
+        }
     }
 
     public function setParameter($name,$val) {
