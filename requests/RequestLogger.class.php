@@ -13,7 +13,7 @@
 class RequestLogger{
 
     public static function logRequest(){
-      $pageURL = TDT::getPageUrl;	
+      $pageURL = TDT::getPageUrl();	
 	  
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.

@@ -72,11 +72,6 @@ try{
 	       }else{	    
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
            }
-
-           // Use POST of feedback
-           //if (isset($_POST)) {
-               
-           //}
 	  }
      }else{
 	  throw new MethodOrModuleNotFoundTDTException("No module");
