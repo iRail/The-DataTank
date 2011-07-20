@@ -2,6 +2,7 @@
 /* Copyright (C) 2011 by iRail vzw/asbl
  * 
  * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * Author: Werner Laurensse <el.lauwer aŧ gmail.com>
  * License: AGPLv3
  * 
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
@@ -299,5 +300,46 @@ class TDT{
 	  }
 	  return $timers[$name]['time'];
      }
+
+    public static function sort_parameters($params) {
+        asort($params);
+        return $params;
+
+        //$query = preg_split('?', $url, 1, PREG_SPLIT_NO_EMPTY)[1];
+        //$pairs = preg_split('&', $query, PREG_SPLIT_NO_EMPTY);
+        //sort($pairs);
+        //$sorted_query = '';
+        //foreach ($pairs as $key => $val) {
+            //$sorted_query .= $val;
+        //}
+        //return $sorted_query;
+    }
+
+    public static function get_page_url() {
+        $pageURL = 'http';
+        if (!empty($_SERVER['HTTPS'])) {
+            if($_SERVER['HTTPS'] == 'on') {
+                $pageURL .= "s";
+            }
+        }
+        $pageURL .= "://" . $_SERVER['SERVER_NAME'];
+	    if ($_SERVER["SERVER_PORT"] != "80") {
+            $pageURL .= ":" . $_SERVER["SERVER_PORT"];
+        }
+        $pageURL .= $_SERVER["REQUEST_URI"];
+
+        // Sort all parameters and add tem to the pageURL
+        $pageURL .= '?';
+        $params = $_GET;
+        unset($params['format']);
+        asort($params);
+        $tmp_array = array();
+        foreach($params as $key => $value) {
+            $tmp_array[] = $key . '=' . $value;
+        }
+        $pageURL .= join('&', $tmp_array);
+
+        return $pageURL;
+    } 
 }
 ?>
