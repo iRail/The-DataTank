@@ -59,9 +59,8 @@ class ProxyModules{
 	   * a valid format, we're calling the documentation of the method and look 
 	   * if it's one of the allowed formats.
 	   */
-
-	  // if the format is not allowed throw an error (functions as proxy error handler)
-	  if(! in_array($args["format"],$formatsobj["method"][0]->format)){
+	  // if the format is not allowed throw an error (functions as proxy error handler). If format is not set, then format will be the standard format and thus no error needs to be thrown 
+	  if(isset($args["format"]) && !in_array($args["format"],$formatsobj["method"][0]->format)){
 	       throw new FormatNotAllowedTDTException("module: ".$module ." method: ".$boom[3]
 						      ,$formatsobj["method"][0]->format);
 	  }
@@ -69,7 +68,7 @@ class ProxyModules{
 	  // and throw it to an upper layer
 	  $request = TDT::HttpRequest($url."format=php");
 	  
-	  if(! is_null($request->error)){
+	  if(isset($request->error)){
 	       throw new RemoteServerTDTException($request->data);
 	  }
 	  
@@ -81,8 +80,6 @@ class ProxyModules{
 	  $o = new stdClass();
 	  $o -> $key = $unser_object[$key];
 	  return $o;
-	  
-	  
      }
 }
 

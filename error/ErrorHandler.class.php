@@ -29,15 +29,8 @@ class ErrorHandler{
      }
 
      private static function WriteToDB(Exception $e){
-	  // get the full request url
-	  $pageURL = 'http';
-	  if (!empty($_SERVER['HTTPS'])) {if($_SERVER['HTTPS'] == 'on'){$pageURL .= "s";}}
-	  $pageURL .= "://";
-	  if ($_SERVER["SERVER_PORT"] != "80") {	  
-	       $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-	  } else {
-	       $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-	  }
+         $pageURL = TDT::getPageUrl();
+
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.	 
 	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
@@ -52,7 +45,6 @@ class ErrorHandler{
 	  //echo $auto_incr . ", " . $time . ", " . $_SERVER['HTTP_USER_AGENT'] . ", " .$_SERVER['REMOTE_ADDR']. ", " . $pageURL;
 	  $ua = $_SERVER['HTTP_USER_AGENT'];
 	  $ip = $_SERVER['REMOTE_ADDR'];
-	  //var_dump($e);
 	  $err_message = $e->getDoc();
 	  $err_code = $e->getErrorCode();
 	  $stmt->bind_param('iisssss',$auto_incr,$time,$ua,$ip,$pageURL,$err_message,$err_code);

@@ -27,10 +27,10 @@ try{
 
      $format = "";
 
-     if(isset($_GET["format"])) {
+     if (isset($_GET["format"])) {
 	  $format = $_GET["format"];
      }
-     if($format == "") {
+     if ($format == "") {
 	  $format = "Xml";
      }
 
@@ -48,7 +48,8 @@ try{
 	  $module = $_GET["module"];
 
 	  if(isset($_GET["method"])) {
-	       $methodname = $_GET["method"];
+          $methodname = $_GET["method"];
+
 
 	       if(file_exists("modules/$module/$methodname.class.php")) {
 		    //get the new method
@@ -58,7 +59,7 @@ try{
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
-		    if(!in_array(strtolower($format),$method->getAllowedPrintMethods())){
+		    if((!in_array(strtolower($format),$method->getAllowedPrintMethods())) and $module != 'Feedback'){
 			 throw new FormatNotAllowedTDTException($format,$method::getAllowedPrintMethods());
 		    }
 		    //execute the method when no error occured
@@ -70,7 +71,12 @@ try{
 		    $result = ProxyModules::call($module, $methodname, $_GET);		
 	       }else{	    
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
-	       }
+           }
+
+           // Use POST of feedback
+           //if (isset($_POST)) {
+               
+           //}
 	  }
      }else{
 	  throw new MethodOrModuleNotFoundTDTException("No module");
