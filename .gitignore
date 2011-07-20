@@ -1,3 +1,7 @@
 stats/logging.db
 Config.class.php
-.DS_Store
+Documentation.aux
+Documentation.dvi
+Documentation.log
+Documentation.ps
+
