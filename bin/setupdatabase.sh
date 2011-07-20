@@ -32,16 +32,14 @@ Q2="CREATE TABLE IF NOT EXISTS requests (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-Q3="CREATE TABLE IF NOT EXCISTS feedback_messages (
+Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  request_id bigint(20) NOT NULL,
   url_request varchar(255) DEFAULT NULL,
   msg text NOT NULL,
-  FOREIGN KEY (request_id) REFERENCES requests(id),
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-SQL="${Q1}${Q2}"
+SQL="${Q1}${Q2}${Q3}"
 
 mysql -u "$1" -p -e "$SQL"
 

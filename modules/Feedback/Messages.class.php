@@ -7,7 +7,7 @@
 include_once("modules/AMethod.php");
 include_once("TDT.class.php");
 
-class Liveboard extends AMethod {
+class Messages extends AMethod {
     private $lang;
     private $system;
     private $time;
@@ -20,7 +20,7 @@ class Liveboard extends AMethod {
     }
 
     public static function getDoc(){
-        echo "TODO"; //TODO add doc
+        return "TODO"; //TODO add doc
     }
 
     public function getData(){
@@ -39,8 +39,8 @@ class Liveboard extends AMethod {
 
         $pageUrl = TDT::get_page_url();
 
-        $queryString = 'SELECT * FROM feedback_messages' . ' WHERE '
-            ' WHERE url_request = ' . $pageUrl
+        $queryString = 'SELECT * FROM feedback_messages' . ' WHERE ' .
+            ' WHERE url_request = ' . $pageUrl;
         //echo "queryString is ". $queryString;
 	  
         if ($result = mysqli_query($link, $queryString)) {
@@ -72,7 +72,7 @@ class Liveboard extends AMethod {
     public function allowedPrintMethods() {
 
     }
-    
+}
 
     
 

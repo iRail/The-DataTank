@@ -2,6 +2,7 @@
 /* Copyright (C) 2011 by iRail vzw/asbl
  * 
  * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * Author: Werner Laurensse <el.lauwer aŧ gmail.com>
  * License: AGPLv3
  * 
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
@@ -325,26 +326,20 @@ class TDT{
 	    if ($_SERVER["SERVER_PORT"] != "80") {
             $pageURL .= ":" . $_SERVER["SERVER_PORT"];
         }
-        $pageURL .= $_SERVER["REQUEST_URL"];
+        $pageURL .= $_SERVER["REQUEST_URI"];
 
         // Sort all parameters and add tem to the pageURL
         $pageURL .= '?';
         $params = $_GET;
         unset($params['format']);
         asort($params);
-        $tmp_array = array()
+        $tmp_array = array();
         foreach($params as $key => $value) {
-            $tmp_array .= $key . '=' $value;
+            $tmp_array[] = $key . '=' . $value;
         }
         $pageURL .= join('&', $tmp_array);
 
-
-
-
-    }
-
-
-
-    }
+        return $pageURL;
+    } 
 }
 ?>

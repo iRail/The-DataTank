@@ -6,9 +6,9 @@
  *
  */
 
-class iRail{
+class Feedback {
      public static $methods = array (
-          "Sessage"
+          "Messages"
           );
 }
 
