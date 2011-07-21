@@ -1,7 +1,11 @@
 stats/logging.db
 Config.class.php
-Documentation.aux
-Documentation.dvi
-Documentation.log
-Documentation.ps
-
+documentation/Documentation.aux
+documentation/Documentation.dvi
+documentation/Documentation.log
+documentation/Documentation.ps
+documentation/Documentation.pdf
+documentation/Documentation.toc
+documentation/UMLModelTDT.pdf.aux
+Documentation.pdf
+Makefile

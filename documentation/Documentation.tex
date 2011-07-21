@@ -2,13 +2,15 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{rotating}
 
 \title{The DataTank\\
-           \small A REST-ful webservice framework for PHP\\
-                  © iRail npo - CC By-Sa}
+  \small A REST-ful webservice framework for PHP\\
+  © iRail npo - CC By-Sa}
 \author{
-	Pieter Colpaert $<$pieter@iRail.be$>$\\
-	Jan Vansteenlandt $<$jan@iRail.be$>$
+  Pieter Colpaert $<$pieter@iRail.be$>$\\
+  Jan Vansteenlandt $<$jan@iRail.be$>$
 }
 \date{\today}
 \begin{document}
@@ -22,10 +24,6 @@
 
 %Write the preface here
 
-\begin{preface}
-
-test test
-\end{preface}
 
 %Normal pagenummering arabic
 \pagenumbering{arabic}
@@ -64,7 +62,13 @@ Everyone can set up its own "local" DataTank. All these local DataTanks will com
 
 % SECTION: ARCHITECTURE
 \chapter{Architecture}
-
+\begin{sidewaysfigure}
+  \centering
+  \scalebox{0.4}
+           {\includegraphics{graphics/UMLModelTDT.pdf}}
+           \caption{Architectuur}
+           \label{fig:Architectuur}
+\end{sidewaysfigure}
 \chapter{Near future work}
 
 \end{document}
