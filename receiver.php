@@ -1,11 +1,11 @@
-<?php
+< ?php
   /* Copyright (C) 2011 by iRail vzw/asbl
    * Author:  Jan Vansteenlandt <jan aŧ iRail.be>
    * Author:  Pieter Colpaert <pieter aŧ iRail.be>
    * License: AGPLv3
    *
    * This file contains the first frontier that dispaches requests to different method calls. This file will receive the call
-   *
+   * and return the result.
    * Notice: If this file reaches more than 100 lines a rewrite is needed
    */
 
@@ -50,7 +50,10 @@ try{
 	  if(isset($_GET["method"])) {
           $methodname = $_GET["method"];
 
-
+	  
+	       /*
+	        * Local call
+	        */
 	       if(file_exists("modules/$module/$methodname.class.php")) {
 		    //get the new method
 		    include_once ("modules/$module/$methodname.class.php");
@@ -59,13 +62,17 @@ try{
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
-		    if((!in_array(strtolower($format),$method->getAllowedPrintMethods())) and $module != 'Feedback'){
+		    if((!in_array(strtolower($format),$method->getAllowedPrintMethods())) && $module != 'Feedback'){
 			 throw new FormatNotAllowedTDTException($format,$method::getAllowedPrintMethods());
 		    }
 		    //execute the method when no error occured
 		    $result = $method->call();
-	       }else if(array_key_exists($module,ProxyModules::$modules)){
-		    //If we cannot find the modulename locally, we're going to search for it through proxy
+	       }
+	       /*
+		* Remote (proxy) call
+		*/
+	       else if(array_key_exists($module,ProxyModules::$modules)){
+		    //If we cannot find the modulename locally, we're going to search for it through a proxy call
 		    unset($_GET["method"]);
 		    unset($_GET["module"]);
 		    $result = ProxyModules::call($module, $methodname, $_GET);		
@@ -78,8 +85,8 @@ try{
      }
 
      /*
-      Now print the bloody thing in the preferred format or if none given and if allowed our default format.
-     */
+      * Now print the bloody thing in the preferred format or if none given and if allowed our default format.
+      */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
      $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);
