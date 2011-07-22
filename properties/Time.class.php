@@ -1,18 +1,18 @@
 <?php
-/**
+/*
  * Copyright (C) 2011 by iRail vzw/asbl
- * @Author  Jan Vansteenlandt <jan aŧ iRail.be>
- * @Author  Pieter Colpaert <pieter aŧ iRail.be>
- * @License AGPLv3
+ * Author  Jan Vansteenlandt <jan aŧ iRail.be>
+ * Author  Pieter Colpaert <pieter aŧ iRail.be>
+ * License AGPLv3
  *
  * 
- * @Usage $objectmodel->time = new Time(12345678900);
+ * Usage $objectmodel->time = new Time(12345678900);
  *
  */
 
 /**
    * This file contains the Time propertyclass.
-   * @package The-Datatank/property
+   * @package The-Datatank/properties
    * @copyright (C) 2011 by iRail vzw/asbl
    * @license AGPLv3
    * @author Jan Vansteenlandt <jan@iRail.be>
