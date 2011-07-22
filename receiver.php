@@ -75,7 +75,7 @@ try{
 		    unset($_GET["module"]);
 		    $result = ProxyModules::call($module, $methodname, $_GET);		
            }else{
-            //echo 'test: ' . $module . $methodname;
+            echo 'test: ' . $module . $methodname;
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
            }
 	  }

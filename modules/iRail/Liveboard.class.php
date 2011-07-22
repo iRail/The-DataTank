@@ -78,6 +78,7 @@ class Liveboard extends AMethod{
 	  
 	  $request = TDT::HttpRequest($url);
 	  //var_dump($request);
+      error_log('The Data: ' . $request->data);
 	  $object = simplexml_load_string($request->data);
 	  
 	  

@@ -36,7 +36,7 @@ try{
      $stats = json_decode(TDT::HttpRequest($url)->data);
 }
 catch(Exception $e){
-    echo "what?"
+    echo "what?";
      //...
 }
 
