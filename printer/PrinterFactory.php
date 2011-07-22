@@ -30,10 +30,10 @@ class PrinterFactory{
       * @param Mixed  $objectToPrinter This is the object that will be printed.
       * @return Correct printer according to the $format parameter.
       */
-     public static function getPrinter($rootname, $format, $rootname,$objectToPrint){
+     public static function getPrinter($rootname, $format,$objectToPrint){
 	  $callback = null;
 	  if(($format == "Json" || $format == "Jsonp") && isset($_GET["callback"])){
-	       $callback = $_GET["callback"];	    
+	       $callback = $_GET["callback"];
 	       $format = "Jsonp";
 	       include_once("printer/$format.php");
 	       return new $format($rootname,$objectToPrint,$callback);

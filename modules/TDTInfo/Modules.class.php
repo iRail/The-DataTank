@@ -51,7 +51,7 @@ class Modules extends AMethod{
 	  }
      }
 
-     public function call(){
+     public function call(){	  
 	  $o = new stdClass();
 	  $modules = array();
 	  $i=0;
@@ -83,6 +83,7 @@ class Modules extends AMethod{
 			 //TODO
 		    }
 	       }
+
 	  }
 
 	  $mods = InstalledModules::getAll();
@@ -111,7 +112,7 @@ class Modules extends AMethod{
 	       $i++;
 	  }
 	  $o->module = $modules;
-	  //check if our modindex has changed, if not, return everything
+	  //check if our modindex has changed, if not, return everything	  
 	  if($modindex == -1){
 	       return $o;
 	  }else{

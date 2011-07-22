@@ -1,8 +1,10 @@
 #
 # The DataTank .htaccess file
 #
-# by Jan Vansteenlandt (© iRail vzw/asbl)
-# by Pieter Colpaert (© iRail vzw/asbl)
+# © iRail vzw/asbl
+# by Jan Vansteenlandt
+# by Pieter Colpaert
+# by Werner Laurensse
 #
 # move to the root folder 
 #
@@ -19,11 +21,6 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php
-
-#RewriteBase /
-#RewriteRule ^Feedback/Messages/(.*?)/(.*?)/$ receiver.php?module=Feedback&method=Messages&tdtmodule=$1&tdtmethod=$2 [QSA,NC,L]
-#RewriteRule ^docs/(.*?)/(.*?)/$ docs/DocPagePrinter.php?module=$1&method=$2 [QSA,NC,L]
-#RewriteRule ^(.*?)/(.*?)/$ receiver.php?module=$1&method=$2 [QSA,NC,L]
 </IfModule>
 
 
