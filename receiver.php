@@ -5,9 +5,19 @@
    * License: AGPLv3
    *
    * This file contains the first frontier that dispaches requests to different method calls. This file will receive the call
-   *
+   * and return the result.
    * Notice: If this file reaches more than 100 lines a rewrite is needed
    */
+
+   /**
+    * This file contains the first frontier that dispaches requests to different method calls. This file will receive the call
+    * and return the result of that call.
+    * @package The-Datatank
+    * @copyright (C) 2011 by iRail vzw/asbl
+    * @license AGPLv3
+    * @author Jan Vansteenlandt <jan@iRail.be>
+    * @author Pieter Colpaert   <pieter@iRail.be>
+    */
 
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");
@@ -50,7 +60,10 @@ try{
 	  if(isset($_GET["method"])) {
           $methodname = $_GET["method"];
 
-
+	  
+	       /*
+	        * Local call
+	        */
 	       if(file_exists("modules/$module/$methodname.class.php")) {
 		    //get the new method
 		    include_once ("modules/$module/$methodname.class.php");
@@ -59,10 +72,11 @@ try{
 		    // check if the given format is allowed by the method
 		    // if not, throw an exception and return the allowed formats
 		    // to the user.
-		    if((!in_array(strtolower($format),$method->getAllowedPrintMethods())) and $module != 'Feedback'){
+		    if((!in_array(strtolower($format),$method->getAllowedPrintMethods())) && $module != 'Feedback'){
 			 throw new FormatNotAllowedTDTException($format,$method::getAllowedPrintMethods());
 		    }
 		    //execute the method when no error occured
+<<<<<<< HEAD
             if ($module == 'feedback' and isset($_POST)) {
                 $handler = FeedbackHandler();
                 $result = handler . handle();
@@ -84,8 +98,8 @@ try{
      }
 
      /*
-      Now print the bloody thing in the preferred format or if none given and if allowed our default format.
-     */
+      * Now print the bloody thing in the preferred format or if none given and if allowed our default format.
+      */
      $rootname = $methodname;
      $rootname = strtolower($rootname);
      $printer = PrinterFactory::getPrinter($rootname, $format,$rootname,$result);

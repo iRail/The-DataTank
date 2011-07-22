@@ -1,24 +1,49 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Jan Vansteenlandt <jan aŧ iRail.be>
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * License: AGPLv3
- *
- * This is an errorhandler, it will do everything that is expected when an error occured. It will as well save the error to a MySQL database
+  /* Copyright (C) 2011 by iRail vzw/asbl
+   *
+   * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+   * Author: Pieter Colpaert <pieter aŧ iRail.be>
+   * License: AGPLv3
+   *
+   * This is an errorhandler, it will do everything that is expected when an error occured. It will also save the error to a MySQL database.
+   */
+
+
+  /**
+ * This is an errorhandler, it will do everything that is expected when an error occured. It will also save the error to a MySQL database.
+ * @package The-Datatank/error
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt <Jan@iRail.be>
+ * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-// this function is called when an unexpected error occurs in receiver.php
+
+  /**
+   * This function is called when an unexpected error(non-exception) occurs in receiver.php.
+   * @param integer $number Number of the level of the error that's been raised.
+   * @param string  $string Contains errormessage.
+   * @param string  $file   Contains the filename in which the error occured.
+   * @param integer $line   Represents the linenumber on which the error occured.
+   * @param string  $context Context is an array that points to the active symbol table at the point the error occurred. In other words, errcontext will contain an array of every variable that existed in the scope the error was triggered in. User error handler must not modify error context.
+   */
 function wrapper_handler($number,$string,$file,$line,$context){
      $error_message = $string . " on line " . $line . " in file ". $file . ".";
      $exception = new InternalServerTDTException($error_message);
      ErrorHandler::logException($exception);
      //Exit when we received 1 error. No need to continue
      exit(0);
-}
+  }
 
+/**
+ * This class handles and logs errors and exceptions.
+ */
 class ErrorHandler{
 
+     /**
+      * This functions logs the exception.
+      * @param Exception $e Contains an Exception class.
+      */
      public static function logException($e){
 	  //HTTP Header information
 	  header("HTTP/1.1 ". $e->getCode() . " " . $e->getMessage());
@@ -29,7 +54,7 @@ class ErrorHandler{
      }
 
      private static function WriteToDB(Exception $e){
-         $pageURL = TDT::getPageUrl();
+	  $pageURL = TDT::getPageUrl();
 
 	  // To conquer sql injection, one must become sql injection.... or use
 	  // prepared statements.	 

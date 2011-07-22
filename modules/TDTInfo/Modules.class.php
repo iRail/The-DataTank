@@ -2,15 +2,30 @@
 /* Copyright (C) 2011 by iRail vzw/asbl
  *
  * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * Author: Jan Vansteenlandt <jan at iRail.be>
  * License: AGPLv3
  *
  * This is a class which will return all the available modules for this DataTank
+ */
+
+
+/**
+ * This file contains Modules.class.php
+ * @package The-Datatank/modules/TDTInfo
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Pieter Colpaert   <pieter@iRail.be>
+ * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
 include_once("modules/AMethod.php");
 include_once("modules/InstalledModules.php");
 include_once("modules/ProxyModules.php");
 include_once("TDT.class.php");
+
+/**
+ * This class is a method which returns all available modules for this DataTank.
+ */
 class Modules extends AMethod{
 
      private $mod;
