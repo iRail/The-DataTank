@@ -2,6 +2,7 @@
 /* Copyright (C) 2011 by iRail vzw/asbl
  *
  * Author: Pieter Colpaert <pieter aŧ iRail.be>
+ * Author: Jan Vansteenlandt <jan at iRail.be>
  * License: AGPLv3
  *
  * This is an abstract class that needs to be implemented by any method
@@ -10,7 +11,6 @@
 /**
  * This file contains AMethod.class.php
  * @package The-Datatank/modules
- * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert   <pieter@iRail.be>
  * @author Jan Vansteenlandt <jan@iRail.be>
@@ -103,6 +103,8 @@ abstract class AMethod{
 
      /**
       * This function is used to set a value for a certain parameter.
+      * @param string $name Name of the parameter
+      * @param mixed  $val  Value that will be set to the parameter.
       */
      abstract public function setParameter($name,$val);
 

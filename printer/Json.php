@@ -2,12 +2,27 @@
   /* Copyright (C) 2011 by iRail vzw/asbl 
    *
    * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+   * Author: Pieter Colpaert <pieter at iRail.be>
    * Prints the Json style output
    *
    *
    * @package output
    */
+
+  /**
+   * This file contains the Json printer.
+   * @package The-Datatank/printer
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @license AGPLv3
+   * @author Jan Vansteenlandt <jan@iRail.be>
+   * @author Pieter Colpaert   <pieter@iRail.be>
+   */
 include_once("printer/Printer.php");
+
+/**
+ * This class inherits from the abstract Printer. It will return our resultobject into a
+ * json datastructure.
+ */
 class Json extends Printer{
      
      public function __construct($rootname,$objectToPrint){

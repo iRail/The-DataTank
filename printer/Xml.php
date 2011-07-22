@@ -5,7 +5,21 @@
    * Author: Jan Vansteenlandt <jan aŧ iRail.be>
    * Prints the Xml style output
    */
+
+  /**
+   * This file contains the Xml printer.
+   * @package The-Datatank/printer
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @license AGPLv3
+   * @author Jan Vansteenlandt <jan@iRail.be>
+   * @author Pieter Colpaert   <pieter@iRail.be>
+   */
+
 include_once("printer/Printer.php");
+
+/**
+ * This class inherits from the abstract Printer. It will our resultobject into an XML datastructure.
+ */
 class Xml extends Printer{
      //make a stack of array information, always work on the last one
      //for nested array support
@@ -64,11 +78,11 @@ class Xml extends Printer{
 			 throw new InternalPrinterTDTException("Array in an array is trouble with XML-output. Don't do it!");
 		    }
 		    $value = htmlspecialchars($value);
-		     if($this->isHash($array)){
+		    if($this->isHash($array)){
 			 echo "<".$name. " id=\"". $index . "\"><key>".$key."</key><value>".$value."</value></".$name.">";
-		     }else{
-			  echo "<".$name. " id=\"". $index . "\">".$value."</".$name.">";
-		     }
+		    }else{
+			 echo "<".$name. " id=\"". $index . "\">".$value."</".$name.">";
+		    }
 	       }  
 	       $index++;
 	  }

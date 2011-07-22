@@ -7,7 +7,21 @@
    *
    * @package output
    */
+
+/**
+   * This file contains the Jsonp printer.
+   * @package The-Datatank/printer
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @license AGPLv3
+   * @author Jan Vansteenlandt <jan@iRail.be>
+   * @author Pieter Colpaert   <pieter@iRail.be>
+   */
 include_once("printer/Json.php");
+
+/**
+ * This class inherits the Json printer. It just needs the json value and it will add
+ * some data to make the json into a jsonp message.
+ */
 class Jsonp extends Json{
 
      private $callback;

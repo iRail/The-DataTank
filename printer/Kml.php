@@ -5,7 +5,22 @@
  *
  * Prints the kml style output - This is a hack which will search for the best possible kml output format
  */
+
+/**
+   * This file contains the Kml printer.
+   * @package The-Datatank/printer
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @license AGPLv3
+   * @author Jan Vansteenlandt <jan@iRail.be>
+   * @author Pieter Colpaert   <pieter@iRail.be>
+   */
 include_once("printer/Printer.php");
+// TODO modify this class in order to make it work properly again, after the decision to 
+// work with another architecture to represent types in return objects.
+/**
+ * This class inherits from the abstract Printer. It will return our resultobject into a kml
+ * datastructure.
+ */
 class Kml extends Printer{
 
      private $preamble = "";
