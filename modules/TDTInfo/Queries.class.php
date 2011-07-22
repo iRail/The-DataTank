@@ -8,8 +8,21 @@
    * Lists the number of queries to the API per day
    */
 
+
+/**
+ * This file contains Queries.class.php
+ * @package The-Datatank/modules/TDTInfo
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Pieter Colpaert   <pieter@iRail.be>
+ * @author Jan Vansteenlandt <jan@iRail.be>
+ */
+
 include_once("modules/AMethod.php");
 
+/**
+ * This class is returns the number of queries/errors made on/in the API/methods per day.
+ */
 class Queries extends AMethod{
 
      private $module; // must be set! Contains the value of the module that needs to be analysed.
@@ -43,7 +56,7 @@ class Queries extends AMethod{
 	  }
      }
 
-     public function getData(){
+     private function getData(){
 
 	  /* Connect to mysql database */
 	  $link = mysqli_connect(

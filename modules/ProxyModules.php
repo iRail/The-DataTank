@@ -1,37 +1,50 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * License: AGPLv3
- *
- * This should become a file which autodetects all modules on other servers.
- * The Federated aspect should care about:
- *    * Interchangability of documentation and stats //done
- *    * Errorhandling through proxy //in progress
- *    * Extra error if server unavailable and deletion when needed //TODO
- */
+  /* Copyright (C) 2011 by iRail vzw/asbl
+   *
+   * Author: Pieter Colpaert <pieter aŧ iRail.be>
+   * License: AGPLv3
+   *
+   * This should become a file which autodetects all modules on other servers.
+   * The Federated aspect should care about:
+   *    * Interchangability of documentation and stats //done
+   *    * Errorhandling through proxy //done
+   *    * Extra error if server unavailable and deletion when needed //TODO
+   */
 
+  /**
+   * This file contains AMethod.class.php
+   * @package The-Datatank/modules
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @license AGPLv3
+   * @author Pieter Colpaert   <pieter@iRail.be>
+   * @author Jan Vansteenlandt <jan@iRail.be>
+   */
 
-/**
- * An array of all known services
- */
+  /**
+   * This class autodetects all modules on other DataTanks. It should take care of:
+   *    * Interchangability of documentation and stats 
+   *    * Errorhandling through proxy 
+   *    * Extra error if server unavailable and deletion when needed 
+   */
 class ProxyModules{
      public static $modules = array(
 	  //  "StatsJan" => "http://172.22.32.119/TDTInfo/",
-	     "GF" =>  "http://jan.irail.be/GentseFeesten/"
+	  "GF" =>  "http://jan.irail.be/GentseFeesten/"
 	  // "Pieter" => "http://171.22.32.50/"
 	  );
 
      /**
-      * Should fetch the active proxy modules out of the database
+      * This function gets all the remote modules stored in this class.
+      * @return Array with the modulename mapped on the fully qualified URL to that module.
       */
      public static function getAll(){
 	  return self::$modules;
      }
      
+
+     //TODO If this function times out then the module is not reachable, adjust this in the db
      /**
-      *  Make a proxycall
-      *  If timeout, then we should put the module on inactive in the db
+      *  This function makes a proxycall to a remote method and returns the object returned by that remote call.
       */
      public static function call($module, $method, array $args){
 	  $modules = self::getAll();
@@ -81,6 +94,6 @@ class ProxyModules{
 	  $o -> $key = $unser_object[$key];
 	  return $o;
      }
-}
+  }
 
 ?>

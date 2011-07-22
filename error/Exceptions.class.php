@@ -1,30 +1,55 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * License: AGPLv3
- *
- * These classes extend the Exception class to make our own well-documented Exception-system
- */
+  /* Copyright (C) 2011 by iRail vzw/asbl
+   *
+   * Author: Pieter Colpaert <pieter aŧ iRail.be>
+   * License: AGPLv3
+   *
+   * These classes extend the Exception class to make our own well-documented Exception-system
+   */
 
-/**
- * The abstract function of TDT Exception
- */
+  /**
+   * This file contains all the Exceptions specifically made for the DataTank.
+   * @package The-Datatank/error
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @license AGPLv3
+   * @author Jan Vansteenlandt <Jan@iRail.be>
+   * @author Pieter Colpaert   <pieter@iRail.be>
+   */
+
+
+  /**
+   * This is the abstract class of a TDT Exception
+   */
 abstract class AbstractTDTException extends Exception{
+     /**
+      * This function returns the documentation describing this exception.
+      * @return The documentation of this exception.
+      */
      public static function getDoc(){
 	  return "No documentation given :(";
      }
+     /**
+      * This should return an errorcode which relates to the implemented exception class.
+      */
      abstract public function getErrorCode();
 
+     /**
+      * Constructor.
+      * @param string $message The message contains the error message.
+      */
      public function __construct($message) {
 	  //Needs to be overridden - getErrorCode will return a HTTP-like errorcode according to REST specs
 	  $code = $this->getErrorCode();
 	  parent::__construct($message, $code);
      }
-}
+  }
 
 /**
  * These are HTTP 400 errors: Parameter or Methods not found
+ */
+
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
  */
 class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
      public static function getDoc(){
@@ -43,7 +68,7 @@ class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
 }
 
 /**
- *
+ * This class reprents an exception which is thrown when the method given is not a valid method.
  */
 class NotAMethodTDTException extends AbstractTDTException{
      public static function getDoc(){
@@ -61,6 +86,9 @@ class NotAMethodTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given format is not a valid one.
+ */
 class FormatNotAllowedTDTException extends AbstractTDTException{
 
      public static function getDoc(){
@@ -83,6 +111,9 @@ class FormatNotAllowedTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given parameter is not found or incorrect.
+ */
 class ParameterTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "This exception is thrown when a parameter is incorrect. The constructor needs a parameter";
@@ -99,6 +130,9 @@ class ParameterTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class ParameterDoesntExistTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "This exception is thrown when a parameter does not exist. The constructor needs a parameter";
@@ -118,6 +152,10 @@ class ParameterDoesntExistTDTException extends AbstractTDTException{
 /**
  * These are HTTP 500 errors: internal server errors
  */
+
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class CouldNotGetDataTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "This exception is thrown when the data could not be resolved.";
@@ -134,10 +172,13 @@ class CouldNotGetDataTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class InternalServerTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "This exception is thrown when a fatal error occurs. This due unexpected errors i.e. a file that couldn't be opened."
-	          . "For further information check /var/log/apache2/error.log";
+	       . "For further information check /var/log/apache2/error.log";
      }
 
      public static $error = 502;
@@ -150,10 +191,13 @@ class InternalServerTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class RemoteServerTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "This error is thrown because a proxy call has gone wrong.".
-	         "This probably due to remoteserver problem.";
+	       "This probably due to remoteserver problem.";
      }
 
      public static $error = 502;
@@ -166,6 +210,9 @@ class RemoteServerTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class NoPrinterTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "No printer is available or something went wrong in the Formatter class";
@@ -182,6 +229,9 @@ class NoPrinterTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class PrinterTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "Printer is available but a problem occured while trying to print the element.";
@@ -198,6 +248,9 @@ class PrinterTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class CouldNotParseUrlTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "When a wrong url is given or when the server cannot handle or url";
@@ -214,6 +267,9 @@ class CouldNotParseUrlTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class HttpOutTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "We failed contacting an external server";
@@ -229,6 +285,10 @@ class HttpOutTDTException extends AbstractTDTException{
 	  parent::__construct("Could not connect to " . $url);
      }
 }
+
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
 class InternalPrinterTDTException extends AbstractTDTException{
      public static function getDoc(){
 	  return "Printerfail - Something is wrong in the object";

@@ -1,21 +1,37 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- * 
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * Author: Werner Laurensse <el.lauwer aŧ gmail.com>
- * License: AGPLv3
- * 
- * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
+  /* Copyright (C) 2011 by iRail vzw/asbl
+   * 
+   * Author: Pieter Colpaert <pieter aŧ iRail.be>
+   * Author: Werner Laurensse <el.lauwer aŧ gmail.com>
+   * License: AGPLv3
+   * 
+   * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
+   */
+
+
+/**
+ * This file contains the TDT helper class.
+ * @package The-Datatank
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt <jan@iRail.be>
+ * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
 include_once("error/Exceptions.class.php");
-
+/**
+ * Helper class specifically designed for TDT. When developing modules you can use these for better performance.
+ */
 class TDT{
-
+     
      private static $HTTP_REQUEST_TIMEOUT = 10; // set the standard timeout to 10
+
 /**
  * The HttpRequest stolen from Drupal 7. Drupal is licensed GPLv2 or later. This is compatible with our AGPL license.
  * Use this function to get some content
+ * @param string $url The url for the request
+ * @param array $options Additional arguments to pass along the httprequest.
+ * @return mixed Returns errorcode or result of the httprequest.
  */     
      public static function HttpRequest($url, array $options = array()) {
 	  $result = new stdClass();
@@ -49,12 +65,12 @@ class TDT{
 	  case 'http':
 	  case 'feed':
 	       $port = isset($uri['port']) ? $uri['port'] : 80;
-	       $socket = 'tcp://' . $uri['host'] . ':' . $port;
-	       // RFC 2616: "non-standard ports MUST, default ports MAY be included".
-	       // We don't add the standard port to prevent from breaking rewrite rules
-	       // checking the host that do not take into account the port number.
-	       $options['headers']['Host'] = $uri['host'] . ($port != 80 ? ':' . $port : '');
-	       break;
+	  $socket = 'tcp://' . $uri['host'] . ':' . $port;
+	  // RFC 2616: "non-standard ports MUST, default ports MAY be included".
+	  // We don't add the standard port to prevent from breaking rewrite rules
+	  // checking the host that do not take into account the port number.
+	  $options['headers']['Host'] = $uri['host'] . ($port != 80 ? ':' . $port : '');
+	  break;
 	  case 'https':
 	       // Note: Only works when PHP is compiled with OpenSSL support.
 	       $port = isset($uri['port']) ? $uri['port'] : 443;
@@ -261,13 +277,15 @@ class TDT{
 	  return $result;
      }
 
-     //Functions needed by drupal for http request
+     
      private static function timer_start($name) {
 	  global $timers;
 	  $timers[$name]['start'] = microtime(TRUE);
 	  $timers[$name]['count'] = isset($timers[$name]['count']) ? ++$timers[$name]['count'] : 1;
      }
-
+/** 
+ * Function needed by drupal for http request. 
+ */
      private static function timer_stop($name) {
 	  global $timers;
 
@@ -285,7 +303,10 @@ class TDT{
 
 	  return $timers[$name];
      }
-
+     
+     /** 
+      * Function needed by drupal for http request ({@link HttpRequest()}).
+      */
      private static function timer_read($name) {
 	  global $timers;
 
@@ -301,45 +322,51 @@ class TDT{
 	  return $timers[$name]['time'];
      }
 
-    public static function sort_parameters($params) {
-        asort($params);
-        return $params;
+     /**
+      * This functions sorts the parameters.
+      */
+     public static function sort_parameters($params) {
+	  asort($params);
+	  return $params;
 
-        //$query = preg_split('?', $url, 1, PREG_SPLIT_NO_EMPTY)[1];
-        //$pairs = preg_split('&', $query, PREG_SPLIT_NO_EMPTY);
-        //sort($pairs);
-        //$sorted_query = '';
-        //foreach ($pairs as $key => $val) {
-            //$sorted_query .= $val;
-        //}
-        //return $sorted_query;
-    }
+	  //$query = preg_split('?', $url, 1, PREG_SPLIT_NO_EMPTY)[1];
+	  //$pairs = preg_split('&', $query, PREG_SPLIT_NO_EMPTY);
+	  //sort($pairs);
+	  //$sorted_query = '';
+	  //foreach ($pairs as $key => $val) {
+	  //$sorted_query .= $val;
+	  //}
+	  //return $sorted_query;
+     }
 
-    public static function getPageUrl() {
-        $pageURL = 'http';
-        if (!empty($_SERVER['HTTPS'])) {
-            if($_SERVER['HTTPS'] == 'on') {
-                $pageURL .= "s";
-            }
-        }
-        $pageURL .= "://" . $_SERVER['SERVER_NAME'];
-	    if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= ":" . $_SERVER["SERVER_PORT"];
-        }
-        $pageURL .= $_SERVER["REQUEST_URI"];
+     /**
+      * This functions gets the current url.
+      */
+     public static function getPageUrl() {
+	  $pageURL = 'http';
+	  if (!empty($_SERVER['HTTPS'])) {
+	       if($_SERVER['HTTPS'] == 'on') {
+		    $pageURL .= "s";
+	       }
+	  }
+	  $pageURL .= "://" . $_SERVER['SERVER_NAME'];
+	  if ($_SERVER["SERVER_PORT"] != "80") {
+	       $pageURL .= ":" . $_SERVER["SERVER_PORT"];
+	  }
+	  $pageURL .= $_SERVER["REQUEST_URI"];
 
-        // Sort all parameters and add tem to the pageURL
-        $pageURL .= '?';
-        $params = $_GET;
-        unset($params['format']);
-        asort($params);
-        $tmp_array = array();
-        foreach($params as $key => $value) {
-            $tmp_array[] = $key . '=' . $value;
-        }
-        $pageURL .= join('&', $tmp_array);
+	  // Sort all parameters and add tem to the pageURL
+	  $pageURL .= '?';
+	  $params = $_GET;
+	  unset($params['format']);
+	  asort($params);
+	  $tmp_array = array();
+	  foreach($params as $key => $value) {
+	       $tmp_array[] = $key . '=' . $value;
+	  }
+	  $pageURL .= join('&', $tmp_array);
 
-        return $pageURL;
-    } 
+	  return $pageURL;
+     } 
 }
 ?>
