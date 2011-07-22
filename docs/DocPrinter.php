@@ -55,13 +55,13 @@ if(isset($stats->module)){
      foreach($stats->module as $modu){
 	  $name = $modu->name;
 	  echo "<h2><a href=\"" . $modu->url ."docs/\">$name</a><small>(". $modu->url  .")</small></h2>\n";
-	  echo "<lu>";
+	  echo "<ul>";
 	  foreach($modu->method as $method){
 	       $methodname = $method->name;
 	       //echo "<li><a href=\"".$modu->url."docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
 	       echo "<li><a href=\"/docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
 	  }
-	  echo "</lu>";
+	  echo "</ul>";
      }
 }else{
      echo "Error occured: check " . $url;
@@ -75,4 +75,5 @@ foreach(getAllDerivedClasses("AbstractTDTException") as $class){
      echo "<br/>";
 }
 include_once("templates/TheDataTank/footer.php");
+
 ?>

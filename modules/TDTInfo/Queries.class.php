@@ -89,7 +89,7 @@ class Queries extends AMethod{
 	       
 	       while( $row = mysqli_fetch_assoc($result) ){
 		    $amount = $row['amount'];
-		    $time  = $row['time'];
+		    $time  = $row['time'];		    
 		    $this->queryResults->result[$time] = $amount;
 	       }
 

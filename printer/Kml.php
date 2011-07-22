@@ -1,8 +1,10 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   * Author: Jan Vansteenlandt <jan aŧ iRail.be>
-   * Prints the kml style output
-   */
+/**
+ * Copyright (C) 2011 by iRail vzw/asbl
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ *
+ * Prints the kml style output - This is a hack which will search for the best possible kml output format
+ */
 include_once("printer/Printer.php");
 class Kml extends Printer{
 
@@ -33,7 +35,9 @@ class Kml extends Printer{
 	  echo "<Point><coordinates>".$this->objectToPrint->getLat().
 	       ",".$this->objectToPrint->getLong()."</coordinates></Point></Placemark></kml>";
      }
-
+     
+     
+     
      private function printExtendedData(){
 	  /*
 	   * Let's see if our object has other properties then just the locatable 

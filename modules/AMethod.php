@@ -18,6 +18,11 @@
 
 include_once("error/Exceptions.class.php");
 
+
+
+include_once("properties/Location.class.php");
+include_once("properties/Time.class.php");
+
 /**
  * This class is an abstract class that represent a php method that can be called. It provides certain
  * functionality, yet method specific functionality still needs to be implement by inheriting classes.
