@@ -76,7 +76,6 @@ try{
 			 throw new FormatNotAllowedTDTException($format,$method::getAllowedPrintMethods());
 		    }
 		    //execute the method when no error occured
-<<<<<<< HEAD
             if ($module == 'feedback' and isset($_POST)) {
                 $handler = FeedbackHandler();
                 $result = handler . handle();
