@@ -76,17 +76,20 @@ try{
 			 throw new FormatNotAllowedTDTException($format,$method::getAllowedPrintMethods());
 		    }
 		    //execute the method when no error occured
-		    $result = $method->call();
-	       }
-	       /*
-		* Remote (proxy) call
-		*/
-	       else if(array_key_exists($module,ProxyModules::$modules)){
-		    //If we cannot find the modulename locally, we're going to search for it through a proxy call
+<<<<<<< HEAD
+            if ($module == 'feedback' and isset($_POST)) {
+                $handler = FeedbackHandler();
+                $result = handler . handle();
+            } else {
+		        $result = $method->call();
+            }
+	       }else if(array_key_exists($module,ProxyModules::$modules)){
+		    //If we cannot find the modulename locally, we're going to search for it through proxy
 		    unset($_GET["method"]);
 		    unset($_GET["module"]);
 		    $result = ProxyModules::call($module, $methodname, $_GET);		
-	       }else{	    
+           }else{
+            echo 'test: ' . $module . $methodname;
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
            }
 	  }

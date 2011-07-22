@@ -46,6 +46,7 @@ try{
      $stats = json_decode(TDT::HttpRequest($url)->data);
 }
 catch(Exception $e){
+    echo "what?";
      //...
 }
 
@@ -75,5 +76,4 @@ foreach(getAllDerivedClasses("AbstractTDTException") as $class){
      echo "<br/>";
 }
 include_once("templates/TheDataTank/footer.php");
-
 ?>
