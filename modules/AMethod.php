@@ -7,6 +7,10 @@
  * This is an abstract class that needs to be implemented by any method
  */
 include_once("error/Exceptions.class.php");
+
+include_once("properties/Location.class.php");
+include_once("properties/Time.class.php");
+
 abstract class AMethod{
 
      private static $BASICPARAMS = array("callback", "module","method","format");
