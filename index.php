@@ -32,6 +32,10 @@ $urls = array(
      '/(?P<module>.*?)/(?P<method>.*?)/.*' => 'ModuleHandler'
      );
 
+//This function will do the magic. See glue.php
+glue::stick($urls);
+
+//TODO: make an abstract class Page.class.php with method GET() and POST()
 class Index {
      function GET() {
 	  require_once('contents.php');
@@ -39,9 +43,11 @@ class Index {
 	  echo $index_content;
 	  include_once("templates/TheDataTank/footer.php");
      }
+     //give error on POST?
 }
 
 class Docs {
+     //TODO: put all these things in PagePrinters
      function GET() {
 	  require_once("docs/DocPrinter.php");
      }
@@ -112,5 +118,5 @@ class ModuleHandler {
      }
 }
 
-glue::stick($urls);
+
 ?>
