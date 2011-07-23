@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is the router. It will accept a request en refer it elsewhere using glue
  * 
@@ -21,7 +20,9 @@ require_once("Config.class.php");
 set_error_handler("wrapper_handler");
 date_default_timezone_set("UTC");
 
-
+/*
+ * This is the former url-rewrite: it will map all urls to a certain class which will get the request 
+ */
 $urls = array(
      '/' => 'Index',
      '/docs/' => 'Docs',

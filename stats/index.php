@@ -93,7 +93,7 @@ $(document).ready( function() {
 
 		    var url = 'http://<?=$_SERVER["SERVER_NAME"] ?>/TDTInfo/Queries/?format=json'+args;
 		    $.ajax({
-			 type : 'POST',
+			 type : 'GET',
 				   url : 'http://<?=$_SERVER["SERVER_NAME"] ?>/TDTInfo/Queries/?format=json'+args,
 				   dataType : 'json',
 				   success : function(result) {
