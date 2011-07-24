@@ -12,7 +12,6 @@ include_once("printer/Printer.php");
 
 /**
  * This class inherits from the abstract Printer. It will generate a html-page with a print_r
- * datastructure.
  */
 class Html extends Printer{
 

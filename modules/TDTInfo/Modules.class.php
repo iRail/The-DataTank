@@ -93,6 +93,7 @@ class Modules extends AMethod{
 	       //Now that we have all modules, let's search for their methods
 	       include_once("modules/$mod/methods.php");
 	       $modules[$i] = new stdClass();
+	       $modules[$i]->method = array();
 	       foreach($mod::$methods as $method){
 		    include_once("modules/$mod/$method.class.php");
 		    if(isset($this->mod) && $mod == $this->mod){
@@ -118,7 +119,7 @@ class Modules extends AMethod{
 	  }else{
 	       //otherwise, we will just return this module
 	       return $o->module[$modindex];
-	  }	  
+	  }
      }
      
      public static function getAllowedPrintMethods(){
