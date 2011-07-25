@@ -1,14 +1,14 @@
 <?php
   /* Copyright (C) 2011 by iRail vzw/asbl */
-  /**
+  /*
    * Author: Jan Vansteenlandt <jan aŧ iRail.be>
    * Prints the Jsonp style output
    *
    *
-   * @package output
+   * package output
    */
 
-/**
+  /**
    * This file contains the Jsonp printer.
    * @package The-Datatank/printer
    * @copyright (C) 2011 by iRail vzw/asbl

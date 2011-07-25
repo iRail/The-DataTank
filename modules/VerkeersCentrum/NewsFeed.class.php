@@ -90,7 +90,7 @@ class NewsFeed extends AMethod{
      
 
      public static function getAllowedPrintMethods(){
-	  return array("json","xml", "jsonp", "php");
+	  return array("json","xml", "jsonp", "php", "html");
      }
 
      public static function getDoc(){

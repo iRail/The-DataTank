@@ -1,15 +1,8 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * Author: Jan Vansteenlandt <jan at iRail.be>
- * License: AGPLv3
- *
- * This is an abstract class that needs to be implemented by any method
- */
 
 /**
- * This file contains AMethod.class.php
+ * This is an abstract class that needs to be implemented by any method
+ *
  * @package The-Datatank/modules
  * @license AGPLv3
  * @author Pieter Colpaert   <pieter@iRail.be>

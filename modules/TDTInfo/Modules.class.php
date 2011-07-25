@@ -1,16 +1,7 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * Author: Jan Vansteenlandt <jan at iRail.be>
- * License: AGPLv3
- *
- * This is a class which will return all the available modules for this DataTank
- */
-
-
 /**
- * This file contains Modules.class.php
+ * This is a class which will return all the available modules for this DataTank
+ * 
  * @package The-Datatank/modules/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -51,7 +42,7 @@ class Modules extends AMethod{
 	  }
      }
 
-     public function call(){
+     public function call(){	  
 	  $o = new stdClass();
 	  $modules = array();
 	  $i=0;
@@ -83,6 +74,7 @@ class Modules extends AMethod{
 			 //TODO
 		    }
 	       }
+
 	  }
 
 	  $mods = InstalledModules::getAll();
@@ -92,6 +84,7 @@ class Modules extends AMethod{
 	       //Now that we have all modules, let's search for their methods
 	       include_once("modules/$mod/methods.php");
 	       $modules[$i] = new stdClass();
+	       $modules[$i]->method = array();
 	       foreach($mod::$methods as $method){
 		    include_once("modules/$mod/$method.class.php");
 		    if(isset($this->mod) && $mod == $this->mod){
@@ -111,13 +104,12 @@ class Modules extends AMethod{
 	       $i++;
 	  }
 	  $o->module = $modules;
-	  //check if our modindex has changed, if not, return everything
+	  //check if our modindex has changed, if not, return everything	  
 	  if($modindex == -1){
 	       return $o;
-	  }else{
-	       //otherwise, we will just return this module
-	       return $o->module[$modindex];
-	  }	  
+	  }
+	  //otherwise, we will just return this module
+	  return $o->module[$modindex];
      }
      
      public static function getAllowedPrintMethods(){

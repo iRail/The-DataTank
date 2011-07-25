@@ -1,36 +1,28 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   *
-   * Author: Pieter Colpaert <pieter aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * This should become a file which autodetects all modules on other servers.
-   * The Federated aspect should care about:
-   *    * Interchangability of documentation and stats //done
-   *    * Errorhandling through proxy //done
-   *    * Extra error if server unavailable and deletion when needed //TODO
-   */
 
-  /**
-   * This file contains AMethod.class.php
-   * @package The-Datatank/modules
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Pieter Colpaert   <pieter@iRail.be>
-   * @author Jan Vansteenlandt <jan@iRail.be>
-   */
+/**
+ * This should become a file which autodetects all modules on other servers.
+ * The Federated aspect should care about:
+ *    * Interchangability of documentation and stats //done
+ *    * Errorhandling through proxy //done
+ *    * Extra error if server unavailable and deletion when needed //TODO
+ *
+ * @package The-Datatank/modules
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Pieter Colpaert   <pieter@iRail.be>
+ * @author Jan Vansteenlandt <jan@iRail.be>
+ */
 
-  /**
-   * This class autodetects all modules on other DataTanks. It should take care of:
-   *    * Interchangability of documentation and stats 
-   *    * Errorhandling through proxy 
-   *    * Extra error if server unavailable and deletion when needed 
-   */
+/**
+ * This class autodetects all modules on other DataTanks. It should take care of:
+ *    * Interchangability of documentation and stats 
+ *    * Errorhandling through proxy 
+ *    * Extra error if server unavailable and deletion when needed 
+ */
 class ProxyModules{
      public static $modules = array(
-	  //  "StatsJan" => "http://172.22.32.119/TDTInfo/",
-	  "GF" =>  "http://jan.irail.be/GentseFeesten/"
-	  // "Pieter" => "http://171.22.32.50/"
+	  "GF" =>  "http://jan.irail.be/GentseFeesten/" // this is a testing datatank
 	  );
 
      /**
@@ -48,21 +40,14 @@ class ProxyModules{
       */
      public static function call($module, $method, array $args){
 	  $modules = self::getAll();
+
+	  //form url with arguments
 	  $argstr = "";
 	  foreach($args as $key => $val){
 	       $argstr .= $key . "=" . $val . "&";
 	  }
-	  //$argstr = rtrim("&",$argstr);
-	  $url = $modules[$module] . $method . "/?" . $argstr;	  
-	  //do call
-	  /*
-	   * get all the allowed formats of the method
-	   */
-	  $boom = explode("/",$modules[$module]);
-	  $formaturl = "http://".$boom[2]."/TDTInfo/Modules/?format=php&mod=".$boom[3];
-	  //var_dump(TDT::HttpRequest($formaturl));
-	  $formatsobj = unserialize(TDT::HttpRequest($formaturl)->data);
-	  
+	  $url = $modules[$module] . $method . "/?" . $argstr;
+
 	  /*
 	   * We're going to make two different calls: 1) check if the format is ok
 	   *                                          2) call the method
@@ -72,10 +57,25 @@ class ProxyModules{
 	   * a valid format, we're calling the documentation of the method and look 
 	   * if it's one of the allowed formats.
 	   */
-	  // if the format is not allowed throw an error (functions as proxy error handler). If format is not set, then format will be the standard format and thus no error needs to be thrown 
-	  if(isset($args["format"]) && !in_array($args["format"],$formatsobj["method"][0]->format)){
-	       throw new FormatNotAllowedTDTException("module: ".$module ." method: ".$boom[3]
-						      ,$formatsobj["method"][0]->format);
+
+	  /*
+	   * get all allowed formats of the method
+	   */
+	  $boom = explode("/",$modules[$module]);
+	  $formaturl = "http://".$boom[2]."/TDTInfo/Modules/?format=php&mod=".$boom[3];
+	  $formatsobj = unserialize(TDT::HttpRequest($formaturl)->data);
+	  
+	  // if the format is not allowed throw an exception (functions as proxy error handler). If format is not set, then format will be the standard format and thus no error needs to be thrown 
+	  $formatallowed = false;
+	  foreach($formatsobj["method"][0]->format as $format){
+	       if(strtolower($args["format"]) == strtolower($format)){
+		    $formatallowed = true;
+		    break;
+	       }
+	  }
+
+	  if(isset($args["format"]) && !$formatallowed){
+	       throw new FormatNotAllowedTDTException("module: ".$module ." method: ".$boom[3],$formatsobj["method"][0]->format);
 	  }
 	  // if a remote error occurs (error on the remote methodcall) handle it right here
 	  // and throw it to an upper layer

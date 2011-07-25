@@ -27,6 +27,8 @@ class MyHouse extends AMethod{
 	     $o = new stdClass();
 	     $o->house = new stdClass();
 	     $o->house->location = new Location(3.14158265,51.13142,"My House","description");
+	     $o->otherhouse = new stdClass();
+	     $o->otherhouse->location = new Location(3.141,51.10, "My other house", "it's more fancy");
 	     return $o;
 	}
 	
