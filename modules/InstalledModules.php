@@ -1,14 +1,8 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   *
-   * Author: Pieter Colpaert <pieter aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * This class will autodetect the installed modules. A module is a directory with a methods.php file in it
-   */
 
   /**
-   * This file contains the InstalledModules.class.php
+   * This class will autodetect the installed modules. A module is a directory with a methods.php file in it
+   * 
    * @package The-Datatank/modules
    * @copyright (C) 2011 by iRail vzw/asbl
    * @license AGPLv3
