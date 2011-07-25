@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Migration Between Releases</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:pgsql-docs@postgresql.org"><LINK
+REL="HOME"
+TITLE="PostgreSQL 9.0.4 Documentation"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Backup and Restore"
+HREF="backup.html"><LINK
+REL="PREVIOUS"
+TITLE="Continuous Archiving and Point-In-Time Recovery (PITR)"
+HREF="continuous-archiving.html"><LINK
+REL="NEXT"
+TITLE="High Availability, Load Balancing, and Replication"
+HREF="high-availability.html"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="stylesheet.css"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=ISO-8859-1"><META
+NAME="creation"
+CONTENT="2011-04-15T03:22:19"></HEAD
+><BODY
+CLASS="SECT1"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="5"
+ALIGN="center"
+VALIGN="bottom"
+><A
+HREF="index.html"
+>PostgreSQL 9.0.4 Documentation</A
+></TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="Continuous Archiving and Point-In-Time Recovery (PITR)"
+HREF="continuous-archiving.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="Backup and Restore"
+HREF="backup.html"
+>Fast Backward</A
+></TD
+><TD
+WIDTH="60%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 24. Backup and Restore</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="Backup and Restore"
+HREF="backup.html"
+>Fast Forward</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="High Availability, Load Balancing, and Replication"
+HREF="high-availability.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="MIGRATION"
+>24.4. Migration Between Releases</A
+></H1
+><P
+>   This section discusses how to migrate your database data from one
+   <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> release to a newer one.
+   The software installation procedure <I
+CLASS="FOREIGNPHRASE"
+>per se</I
+> is not the
+   subject of this section; those details are in <A
+HREF="installation.html"
+>Chapter 15</A
+>.
+  </P
+><P
+>   <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> major versions are represented by the
+   first two digit groups of the version number, e.g., 8.4.
+   <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> minor versions are represented by the
+   third group of version digits, e.g., 8.4.2 is the second minor
+   release of 8.4.  Minor releases never change the internal storage
+   format and are always compatible with earlier and later minor
+   releases of the same major version number, e.g., 8.4.2 is compatible
+   with 8.4, 8.4.1 and 8.4.6.  To update between compatible versions,
+   you simply replace the executables while the server is down and
+   restart the server.  The data directory remains unchanged &mdash;
+   minor upgrades are that simple.
+  </P
+><P
+>   For <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>major</I
+></SPAN
+> releases of <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+>, the
+   internal data storage format is subject to change, thus complicating
+   upgrades.  The traditional method for moving data to a new major version
+   is to dump and reload the database.  Other, less-well-tested possibilities
+   are available, as discussed below.
+  </P
+><P
+>   New major versions also typically introduce some user-visible
+   incompatibilities, so application programming changes may be required.
+   Cautious users will want to test their client applications on the new
+   version before switching over fully; therefore, it's often a good idea to
+   set up concurrent installations of old and new versions.  When
+   testing a <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> major upgrade, consider the
+   following categories of possible changes:
+  </P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>Administration</DT
+><DD
+><P
+>      The capabilities available for administrators to monitor and control
+      the server often change and improve in each major release.
+     </P
+></DD
+><DT
+>SQL</DT
+><DD
+><P
+>      Typically this includes new SQL command capabilities and not changes
+      in behavior, unless specifically mentioned in the release notes.
+     </P
+></DD
+><DT
+>Library API</DT
+><DD
+><P
+>      Typically libraries like <SPAN
+CLASS="APPLICATION"
+>libpq</SPAN
+> only add new
+      functionality, again unless mentioned in the release notes.
+     </P
+></DD
+><DT
+>System Catalogs</DT
+><DD
+><P
+>      System catalog changes usually only affect database management tools.
+     </P
+></DD
+><DT
+>Server C-language API</DT
+><DD
+><P
+>      This involves changes in the backend function API, which is written
+      in the C programming language.  Such changes affect code that
+      references backend functions deep inside the server.
+     </P
+></DD
+></DL
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="MIGRATION-METHODS-PGDUMP"
+>24.4.1. Migrating data via <SPAN
+CLASS="APPLICATION"
+>pg_dump</SPAN
+></A
+></H2
+><P
+>   To dump data from one major version of <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> and
+   reload it in another, you must use <SPAN
+CLASS="APPLICATION"
+>pg_dump</SPAN
+>; file system
+   level backup methods will not work. (There are checks in place that prevent
+   you from using a data directory with an incompatible version of
+   <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+>, so no great harm can be done by
+   trying to start the wrong server version on a data directory.)
+  </P
+><P
+>   It is recommended that you use the <SPAN
+CLASS="APPLICATION"
+>pg_dump</SPAN
+> and
+   <SPAN
+CLASS="APPLICATION"
+>pg_dumpall</SPAN
+> programs from the newer version of
+   <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+>, to take advantage of enhancements
+   that might have been made in these programs.  Current releases of the
+   dump programs can read data from any server version back to 7.0.
+  </P
+><P
+>   The least downtime can be achieved by installing the new server in
+   a different directory and running both the old and the new servers
+   in parallel, on different ports. Then you can use something like:
+
+</P><PRE
+CLASS="PROGRAMLISTING"
+>pg_dumpall -p 5432 | psql -d postgres -p 6543</PRE
+><P>
+
+   to transfer your data.  Or you can use an intermediate file if you wish.
+   Then you can shut down the old server and start the new server using
+   the port the old one was running on. You should make sure that the
+   old database is not updated after you begin to run
+   <SPAN
+CLASS="APPLICATION"
+>pg_dumpall</SPAN
+>, otherwise you will lose those updates. See
+   <A
+HREF="client-authentication.html"
+>Chapter 19</A
+> for information on how to prohibit
+   access.
+  </P
+><P
+>   If you cannot or do not want to run two servers in parallel, you can
+   do the backup step before installing the new version, bring down
+   the old server, move the old version out of the way, install the new
+   version, start the new server, and restore the data. For example:
+
+</P><PRE
+CLASS="PROGRAMLISTING"
+>pg_dumpall &gt; backup
+pg_ctl stop
+mv /usr/local/pgsql /usr/local/pgsql.old
+# Rename any tablespace directories as well
+cd ~/postgresql-9.0.4
+gmake install
+initdb -D /usr/local/pgsql/data
+postgres -D /usr/local/pgsql/data
+psql -f backup postgres</PRE
+><P>
+
+   See <A
+HREF="runtime.html"
+>Chapter 17</A
+> about ways to start and stop the
+   server and other details. The installation instructions will advise
+   you of strategic places to perform these steps.
+  </P
+><DIV
+CLASS="NOTE"
+><BLOCKQUOTE
+CLASS="NOTE"
+><P
+><B
+>Note: </B
+>    When you <SPAN
+CLASS="QUOTE"
+>"move the old installation out of the way"</SPAN
+>
+    it might no longer be perfectly usable. Some of the executable programs
+    contain absolute paths to various installed programs and data files.
+    This is usually not a big problem, but if you plan on using two
+    installations in parallel for a while you should assign them
+    different installation directories at build time.  (This problem
+    is rectified in <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> version 8.0 and later, so long
+    as you move all subdirectories containing installed files together;
+    for example if <TT
+CLASS="FILENAME"
+>/usr/local/postgres/bin/</TT
+> goes to
+    <TT
+CLASS="FILENAME"
+>/usr/local/postgres.old/bin/</TT
+>, then
+    <TT
+CLASS="FILENAME"
+>/usr/local/postgres/share/</TT
+> must go to
+    <TT
+CLASS="FILENAME"
+>/usr/local/postgres.old/share/</TT
+>.  In pre-8.0 releases
+    moving an installation like this will not work.)
+   </P
+></BLOCKQUOTE
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="MIGRATION-METHODS-OTHER"
+>24.4.2. Other data migration methods</A
+></H2
+><P
+>   The <TT
+CLASS="FILENAME"
+>contrib</TT
+> program
+   <A
+HREF="pgupgrade.html"
+><SPAN
+CLASS="APPLICATION"
+>pg_upgrade</SPAN
+></A
+>
+   allows an installation to be migrated in-place from one major
+   <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> version to the next.  Keep in mind that this
+   method does not provide any scope for running old and new versions
+   concurrently.  Also, <SPAN
+CLASS="APPLICATION"
+>pg_upgrade</SPAN
+> is much less
+   battle-tested than <SPAN
+CLASS="APPLICATION"
+>pg_dump</SPAN
+>, so having an
+   up-to-date backup is strongly recommended in case something goes wrong.
+  </P
+><P
+>   It is also possible to use certain replication methods, such as
+   <SPAN
+CLASS="PRODUCTNAME"
+>Slony</SPAN
+>, to create a standby server with the updated version of
+   <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+>.  The standby can be on the same computer or
+   a different computer.  Once it has synced up with the master server
+   (running the older version of <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+>), you can
+   switch masters and make the standby the master and shut down the older
+   database instance.  Such a switch-over results in only several seconds
+   of downtime for an upgrade.
+  </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="continuous-archiving.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="high-availability.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Continuous Archiving and Point-In-Time Recovery (PITR)</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="backup.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>High Availability, Load Balancing, and Replication</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

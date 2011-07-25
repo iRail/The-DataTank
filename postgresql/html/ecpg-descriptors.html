@@ -1,0 +1,943 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Using Descriptor Areas</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:pgsql-docs@postgresql.org"><LINK
+REL="HOME"
+TITLE="PostgreSQL 9.0.4 Documentation"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="ECPG - Embedded SQL in C"
+HREF="ecpg.html"><LINK
+REL="PREVIOUS"
+TITLE="pgtypes library"
+HREF="ecpg-pgtypes.html"><LINK
+REL="NEXT"
+TITLE="Informix compatibility mode"
+HREF="ecpg-informix-compat.html"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="stylesheet.css"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=ISO-8859-1"><META
+NAME="creation"
+CONTENT="2011-04-15T03:22:19"></HEAD
+><BODY
+CLASS="SECT1"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="5"
+ALIGN="center"
+VALIGN="bottom"
+><A
+HREF="index.html"
+>PostgreSQL 9.0.4 Documentation</A
+></TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="pgtypes library"
+HREF="ecpg-pgtypes.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="ECPG - Embedded SQL in C"
+HREF="ecpg.html"
+>Fast Backward</A
+></TD
+><TD
+WIDTH="60%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 33. <SPAN
+CLASS="APPLICATION"
+>ECPG</SPAN
+> - Embedded <ACRONYM
+CLASS="ACRONYM"
+>SQL</ACRONYM
+> in C</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="ECPG - Embedded SQL in C"
+HREF="ecpg.html"
+>Fast Forward</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="Informix compatibility mode"
+HREF="ecpg-informix-compat.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="ECPG-DESCRIPTORS"
+>33.9. Using Descriptor Areas</A
+></H1
+><P
+>   An SQL descriptor area is a more sophisticated method for processing
+   the result of a <TT
+CLASS="COMMAND"
+>SELECT</TT
+>, <TT
+CLASS="COMMAND"
+>FETCH</TT
+> or
+   a <TT
+CLASS="COMMAND"
+>DESCRIBE</TT
+> statement. An SQL descriptor area groups
+   the data of one row of data together with metadata items into one
+   data structure.  The metadata is particularly useful when executing
+   dynamic SQL statements, where the nature of the result columns might
+   not be known ahead of time. PostgreSQL provides two ways to use
+   Descriptor Areas: the named SQL Descriptor Areas and the C-structure
+   SQLDAs.
+  </P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="ECPG-NAMED-DESCRIPTORS"
+>33.9.1. Named SQL Descriptor Areas</A
+></H2
+><P
+>    A named SQL descriptor area consists of a header, which contains
+    information concerning the entire descriptor, and one or more item
+    descriptor areas, which basically each describe one column in the
+    result row.
+   </P
+><P
+>    Before you can use an SQL descriptor area, you need to allocate one:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL ALLOCATE DESCRIPTOR <TT
+CLASS="REPLACEABLE"
+><I
+>identifier</I
+></TT
+>;</PRE
+><P>
+    The identifier serves as the <SPAN
+CLASS="QUOTE"
+>"variable name"</SPAN
+> of the
+    descriptor area.  
+    When you don't need the descriptor anymore, you should deallocate
+    it:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL DEALLOCATE DESCRIPTOR <TT
+CLASS="REPLACEABLE"
+><I
+>identifier</I
+></TT
+>;</PRE
+><P>
+   </P
+><P
+>    To use a descriptor area, specify it as the storage target in an
+    <TT
+CLASS="LITERAL"
+>INTO</TT
+> clause, instead of listing host variables:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL FETCH NEXT FROM mycursor INTO SQL DESCRIPTOR mydesc;</PRE
+><P>
+    If the result set is empty, the Descriptor Area will still contain
+    the metadata from the query, i.e. the field names.
+   </P
+><P
+>    For not yet executed prepared queries, the <TT
+CLASS="COMMAND"
+>DESCRIBE</TT
+>
+    statement can be used to get the metadata of the result set:
+</P><PRE
+CLASS="PROGRAMLISTING"
+> 
+EXEC SQL BEGIN DECLARE SECTION;
+char *sql_stmt = "SELECT * FROM table1";
+EXEC SQL END DECLARE SECTION;
+
+EXEC SQL PREPARE stmt1 FROM :sql_stmt;
+EXEC SQL DESCRIBE stmt1 INTO SQL DESCRIPTOR mydesc;</PRE
+><P>
+   </P
+><P
+>    Before PostgreSQL 9.0, the <TT
+CLASS="LITERAL"
+>SQL</TT
+> keyword was optional,
+    so using <TT
+CLASS="LITERAL"
+>DESCRIPTOR</TT
+> and <TT
+CLASS="LITERAL"
+>SQL DESCRIPTOR</TT
+>
+    produced named SQL Descriptor Areas. Now it is mandatory, omitting
+    the <TT
+CLASS="LITERAL"
+>SQL</TT
+> keyword produces SQLDA Descriptor Areas,
+    see <A
+HREF="ecpg-descriptors.html#ECPG-SQLDA-DESCRIPTORS"
+>Section 33.9.2</A
+>. 
+   </P
+><P
+>    In <TT
+CLASS="COMMAND"
+>DESCRIBE</TT
+> and <TT
+CLASS="COMMAND"
+>FETCH</TT
+> statements,
+    the <TT
+CLASS="LITERAL"
+>INTO</TT
+> and <TT
+CLASS="LITERAL"
+>USING</TT
+> keywords can be
+    used to similarly: they produce the result set and the metadata in a
+    Descriptor Area.
+   </P
+><P
+>    Now how do you get the data out of the descriptor area?  You can
+    think of the descriptor area as a structure with named fields.  To
+    retrieve the value of a field from the header and store it into a
+    host variable, use the following command:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL GET DESCRIPTOR <TT
+CLASS="REPLACEABLE"
+><I
+>name</I
+></TT
+> :<TT
+CLASS="REPLACEABLE"
+><I
+>hostvar</I
+></TT
+> = <TT
+CLASS="REPLACEABLE"
+><I
+>field</I
+></TT
+>;</PRE
+><P>
+    Currently, there is only one header field defined:
+    <TT
+CLASS="REPLACEABLE"
+><I
+>COUNT</I
+></TT
+>, which tells how many item
+    descriptor areas exist (that is, how many columns are contained in
+    the result).  The host variable needs to be of an integer type.  To
+    get a field from the item descriptor area, use the following
+    command:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL GET DESCRIPTOR <TT
+CLASS="REPLACEABLE"
+><I
+>name</I
+></TT
+> VALUE <TT
+CLASS="REPLACEABLE"
+><I
+>num</I
+></TT
+> :<TT
+CLASS="REPLACEABLE"
+><I
+>hostvar</I
+></TT
+> = <TT
+CLASS="REPLACEABLE"
+><I
+>field</I
+></TT
+>;</PRE
+><P>
+    <TT
+CLASS="REPLACEABLE"
+><I
+>num</I
+></TT
+> can be a literal integer or a host
+    variable containing an integer. Possible fields are:
+
+    <P
+></P
+></P><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><TT
+CLASS="LITERAL"
+>CARDINALITY</TT
+> (integer)</DT
+><DD
+><P
+>        number of rows in the result set
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>DATA</TT
+></DT
+><DD
+><P
+>        actual data item (therefore, the data type of this field
+        depends on the query)
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>DATETIME_INTERVAL_CODE</TT
+> (integer)</DT
+><DD
+><P
+>        ?
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>DATETIME_INTERVAL_PRECISION</TT
+> (integer)</DT
+><DD
+><P
+>        not implemented
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>INDICATOR</TT
+> (integer)</DT
+><DD
+><P
+>        the indicator (indicating a null value or a value truncation)
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>KEY_MEMBER</TT
+> (integer)</DT
+><DD
+><P
+>        not implemented
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>LENGTH</TT
+> (integer)</DT
+><DD
+><P
+>        length of the datum in characters
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>NAME</TT
+> (string)</DT
+><DD
+><P
+>        name of the column
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>NULLABLE</TT
+> (integer)</DT
+><DD
+><P
+>        not implemented
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>OCTET_LENGTH</TT
+> (integer)</DT
+><DD
+><P
+>        length of the character representation of the datum in bytes
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>PRECISION</TT
+> (integer)</DT
+><DD
+><P
+>        precision (for type <TT
+CLASS="TYPE"
+>numeric</TT
+>)
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>RETURNED_LENGTH</TT
+> (integer)</DT
+><DD
+><P
+>        length of the datum in characters
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>RETURNED_OCTET_LENGTH</TT
+> (integer)</DT
+><DD
+><P
+>        length of the character representation of the datum in bytes
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>SCALE</TT
+> (integer)</DT
+><DD
+><P
+>        scale (for type <TT
+CLASS="TYPE"
+>numeric</TT
+>)
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>TYPE</TT
+> (integer)</DT
+><DD
+><P
+>        numeric code of the data type of the column
+       </P
+></DD
+></DL
+></DIV
+><P>
+   </P
+><P
+>    In <TT
+CLASS="COMMAND"
+>EXECUTE</TT
+>, <TT
+CLASS="COMMAND"
+>DECLARE</TT
+> and <TT
+CLASS="COMMAND"
+>OPEN</TT
+>
+    statements, the effect of the <TT
+CLASS="LITERAL"
+>INTO</TT
+> and <TT
+CLASS="LITERAL"
+>USING</TT
+>
+    keywords are different. A Descriptor Area can also be manually built to
+    provide the input parameters for a query or a cursor and
+    <TT
+CLASS="LITERAL"
+>USING SQL DESCRIPTOR <TT
+CLASS="REPLACEABLE"
+><I
+>name</I
+></TT
+></TT
+>
+    is the way to pass the input parameters into a parametrized query. The statement
+    to build a named SQL Descriptor Area is below:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL SET DESCRIPTOR <TT
+CLASS="REPLACEABLE"
+><I
+>name</I
+></TT
+> VALUE <TT
+CLASS="REPLACEABLE"
+><I
+>num</I
+></TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>field</I
+></TT
+> = :<TT
+CLASS="REPLACEABLE"
+><I
+>hostvar</I
+></TT
+>;</PRE
+><P>
+   </P
+><P
+>    PostgreSQL supports retrieving more that one record in one <TT
+CLASS="COMMAND"
+>FETCH</TT
+>
+    statement and storing the data in host variables in this case assumes that the
+    variable is an array. E.g.:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL BEGIN DECLARE SECTION;
+int id[5];
+EXEC SQL END DECLARE SECTION;
+
+EXEC SQL FETCH 5 FROM mycursor INTO SQL DESCRIPTOR mydesc;
+
+EXEC SQL GET DESCRIPTOR mydesc VALUE 1 :id = DATA;</PRE
+><P>
+
+   </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="ECPG-SQLDA-DESCRIPTORS"
+>33.9.2. SQLDA Descriptor Areas</A
+></H2
+><P
+>    An SQLDA Descriptor Area is a C language structure which can be also used
+    to get the result set and the metadata of a query. One structure stores one
+    record from the result set.
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL include sqlda.h;
+sqlda_t         *mysqlda;
+
+EXEC SQL FETCH 3 FROM mycursor INTO DESCRIPTOR mysqlda;</PRE
+><P>
+    Note that the <TT
+CLASS="LITERAL"
+>SQL</TT
+> keyword is omitted. The paragraphs about
+    the use cases of the <TT
+CLASS="LITERAL"
+>INTO</TT
+> and <TT
+CLASS="LITERAL"
+>USING</TT
+>
+    keywords in <A
+HREF="ecpg-descriptors.html#ECPG-NAMED-DESCRIPTORS"
+>Section 33.9.1</A
+> also apply here with an addition.
+    In a <TT
+CLASS="COMMAND"
+>DESCRIBE</TT
+> statement the <TT
+CLASS="LITERAL"
+>DESCRIPTOR</TT
+>
+    keyword can be completely omitted if the <TT
+CLASS="LITERAL"
+>INTO</TT
+> keyword is used:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>EXEC SQL DESCRIBE prepared_statement INTO mysqlda;</PRE
+><P>
+   </P
+><P
+>    The structure of SQLDA is:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>#define NAMEDATALEN 64
+
+struct sqlname
+{
+        short           length;
+        char            data[NAMEDATALEN];
+};
+
+struct sqlvar_struct
+{
+        short           sqltype;
+        short           sqllen;
+        char       *sqldata;
+        short      *sqlind;
+        struct sqlname sqlname;
+};
+
+struct sqlda_struct
+{
+        char            sqldaid[8];
+        long            sqldabc;
+        short           sqln;
+        short           sqld;
+        struct sqlda_struct *desc_next;
+        struct sqlvar_struct    sqlvar[1];
+};
+
+typedef struct sqlvar_struct    sqlvar_t;
+typedef struct sqlda_struct     sqlda_t;</PRE
+><P>
+   </P
+><P
+>    The allocated data for an SQLDA structure is variable as it depends on the
+    number of fields in a result set and also depends on the length of the string
+    data values in a record. The individual fields of the <TT
+CLASS="LITERAL"
+>SQLDA</TT
+>
+    structure are:
+
+    <P
+></P
+></P><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><TT
+CLASS="LITERAL"
+>sqldaid</TT
+></DT
+><DD
+><P
+>        It contains the "<TT
+CLASS="LITERAL"
+>SQLDA  </TT
+>" literal string.
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqldabc</TT
+></DT
+><DD
+><P
+>        It contains the size of the allocated space in bytes.
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqln</TT
+></DT
+><DD
+><P
+>        It contains the number of input parameters for a parametrized query
+        case it's passed into <TT
+CLASS="COMMAND"
+>OPEN</TT
+>, <TT
+CLASS="COMMAND"
+>DECLARE</TT
+> or
+        <TT
+CLASS="COMMAND"
+>EXECUTE</TT
+> statements using the <TT
+CLASS="LITERAL"
+>USING</TT
+>
+        keyword. In case it's used as output of <TT
+CLASS="COMMAND"
+>SELECT</TT
+>,
+        <TT
+CLASS="COMMAND"
+>EXECUTE</TT
+> or <TT
+CLASS="COMMAND"
+>FETCH</TT
+> statements,
+        its value is the same as <TT
+CLASS="LITERAL"
+>sqld</TT
+>
+        statement
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqld</TT
+></DT
+><DD
+><P
+>        It contains the number of fields in a result set.
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>desc_next</TT
+></DT
+><DD
+><P
+>        If the query returns more than one records, multiple linked SQLDA structures
+        are returned, the first record is stored in the SQLDA returned in the
+       </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqlvar</TT
+></DT
+><DD
+><P
+>        This is the array of the fields in the result set. The fields are:
+
+        <P
+></P
+></P><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><TT
+CLASS="LITERAL"
+>sqltype</TT
+></DT
+><DD
+><P
+>            It contains the type identifier of the field. For values,
+            see <TT
+CLASS="LITERAL"
+>enum ECPGttype</TT
+> in <TT
+CLASS="LITERAL"
+>ecpgtype.h</TT
+>.
+           </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqllen</TT
+></DT
+><DD
+><P
+>            It contains the binary length of the field. E.g. 4 bytes for <TT
+CLASS="TYPE"
+>ECPGt_int</TT
+>.
+           </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqldata</TT
+></DT
+><DD
+><P
+>            <TT
+CLASS="LITERAL"
+>(char *)sqldata</TT
+> points to the data.
+           </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqlind</TT
+></DT
+><DD
+><P
+>            <TT
+CLASS="LITERAL"
+>(char *)sqlind</TT
+> points to the NULL indicator for data.
+            0 means NOT NULL, -1 means NULL.
+           </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>sqlname</TT
+></DT
+><DD
+><P
+>            <TT
+CLASS="LITERAL"
+>struct sqlname sqlname</TT
+> contains the name of the field
+            in a structure:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>struct sqlname
+{
+        short           length;
+        char            data[NAMEDATALEN];
+};</PRE
+><P>
+
+            <P
+></P
+></P><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><TT
+CLASS="LITERAL"
+>length</TT
+></DT
+><DD
+><P
+>                 <TT
+CLASS="LITERAL"
+>sqlname.length</TT
+> contains the length of the field name.
+                </P
+></DD
+><DT
+><TT
+CLASS="LITERAL"
+>data</TT
+></DT
+><DD
+><P
+>                 <TT
+CLASS="LITERAL"
+>sqlname.data</TT
+> contains the actual field name.
+                </P
+></DD
+></DL
+></DIV
+><P>
+           </P
+></DD
+></DL
+></DIV
+><P>
+       </P
+></DD
+></DL
+></DIV
+><P>
+   </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="ecpg-pgtypes.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="ecpg-informix-compat.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>pgtypes library</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="ecpg.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><SPAN
+CLASS="PRODUCTNAME"
+>Informix</SPAN
+> compatibility mode</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

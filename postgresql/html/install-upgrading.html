@@ -1,0 +1,414 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Upgrading</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:pgsql-docs@postgresql.org"><LINK
+REL="HOME"
+TITLE="PostgreSQL 9.0.4 Documentation"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="  Installation from Source Code"
+HREF="installation.html"><LINK
+REL="PREVIOUS"
+TITLE="Getting The Source"
+HREF="install-getsource.html"><LINK
+REL="NEXT"
+TITLE="Installation Procedure"
+HREF="install-procedure.html"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="stylesheet.css"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=ISO-8859-1"><META
+NAME="creation"
+CONTENT="2011-04-15T03:22:19"></HEAD
+><BODY
+CLASS="SECT1"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="5"
+ALIGN="center"
+VALIGN="bottom"
+><A
+HREF="index.html"
+>PostgreSQL 9.0.4 Documentation</A
+></TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="Getting The Source"
+HREF="install-getsource.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="  Installation from Source Code"
+HREF="installation.html"
+>Fast Backward</A
+></TD
+><TD
+WIDTH="60%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 15. Installation from Source Code</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="  Installation from Source Code"
+HREF="installation.html"
+>Fast Forward</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="Installation Procedure"
+HREF="install-procedure.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="INSTALL-UPGRADING"
+>15.4. Upgrading</A
+></H1
+><P
+>   These instructions assume that your existing installation is under the
+   <TT
+CLASS="FILENAME"
+>/usr/local/pgsql</TT
+> directory, and that the data area is in
+   <TT
+CLASS="FILENAME"
+>/usr/local/pgsql/data</TT
+>.  Substitute your paths
+   appropriately.
+  </P
+><P
+>   The internal data storage format typically changes in every major
+   release of <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+>. Therefore, if you are upgrading
+   an existing installation that does not have a version number of
+   <SPAN
+CLASS="QUOTE"
+>"9.0.x"</SPAN
+>, you must back up and restore your
+   data.  If you are upgrading from <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+>
+   <SPAN
+CLASS="QUOTE"
+>"9.0.x"</SPAN
+>, the new version can use your current
+   data files so you should skip the backup and restore steps below because
+   they are unnecessary.
+  </P
+><DIV
+CLASS="PROCEDURE"
+><OL
+TYPE="1"
+><LI
+CLASS="STEP"
+><P
+>     If making a backup, make sure that your database is not being updated.
+     This does not affect the integrity of the backup, but the changed
+     data would of course not be included. If necessary, edit the
+     permissions in the file <TT
+CLASS="FILENAME"
+>/usr/local/pgsql/data/pg_hba.conf</TT
+>
+     (or equivalent) to disallow access from everyone except you.
+    </P
+><P
+>     
+
+     To back up your database installation, type:
+</P><PRE
+CLASS="SCREEN"
+><KBD
+CLASS="USERINPUT"
+>pg_dumpall &gt; <TT
+CLASS="REPLACEABLE"
+><I
+>outputfile</I
+></TT
+></KBD
+></PRE
+><P>
+     If you need to preserve OIDs (such as when using them as
+     foreign keys), then use the <TT
+CLASS="OPTION"
+>-o</TT
+> option when running
+     <SPAN
+CLASS="APPLICATION"
+>pg_dumpall</SPAN
+>.
+    </P
+><P
+>     To make the backup, you can use the <SPAN
+CLASS="APPLICATION"
+>pg_dumpall</SPAN
+>
+     command from the version you are currently running.  For best
+     results, however, try to use the <SPAN
+CLASS="APPLICATION"
+>pg_dumpall</SPAN
+>
+     command from <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> 9.0.4,
+     since this version contains bug fixes and improvements over older
+     versions.  While this advice might seem idiosyncratic since you
+     haven't installed the new version yet, it is advisable to follow
+     it if you plan to install the new version in parallel with the
+     old version.  In that case you can complete the installation
+     normally and transfer the data later.  This will also decrease
+     the downtime.
+    </P
+></LI
+><LI
+CLASS="STEP"
+><P
+>     Shut down the old server:
+</P><PRE
+CLASS="SCREEN"
+><KBD
+CLASS="USERINPUT"
+>pg_ctl stop</KBD
+></PRE
+><P>
+     On systems that have <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> started at boot time,
+     there is probably a start-up file that will accomplish the same thing. For
+     example, on a <SPAN
+CLASS="SYSTEMITEM"
+>Red Hat Linux</SPAN
+> system one
+     might find that this works:
+</P><PRE
+CLASS="SCREEN"
+><KBD
+CLASS="USERINPUT"
+>/etc/rc.d/init.d/postgresql stop</KBD
+></PRE
+><P>
+    </P
+></LI
+><LI
+CLASS="STEP"
+><P
+>     If restoring from backup, rename or delete the old installation
+     directory.  It is a good idea to rename the directory, rather than
+     delete it, in case you have trouble and need to revert to it.  Keep
+     in mind the directory might consume significant disk space.  To rename
+     the directory, use a command like this:
+</P><PRE
+CLASS="SCREEN"
+><KBD
+CLASS="USERINPUT"
+>mv /usr/local/pgsql /usr/local/pgsql.old</KBD
+></PRE
+><P>
+    </P
+></LI
+><LI
+CLASS="STEP"
+><P
+>     Install the new version of <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> as
+     outlined in 
+     <A
+HREF="install-procedure.html"
+>Section 15.5</A
+>.
+    </P
+></LI
+><LI
+CLASS="STEP"
+><P
+>     Create a new database cluster if needed.  Remember that you must
+     execute these commands while logged in to the special database user
+     account (which you already have if you are upgrading).
+</P><PRE
+CLASS="PROGRAMLISTING"
+><KBD
+CLASS="USERINPUT"
+>/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data</KBD
+></PRE
+><P>
+    </P
+></LI
+><LI
+CLASS="STEP"
+><P
+>     Restore your previous <TT
+CLASS="FILENAME"
+>pg_hba.conf</TT
+> and any
+     <TT
+CLASS="FILENAME"
+>postgresql.conf</TT
+> modifications.
+    </P
+></LI
+><LI
+CLASS="STEP"
+><P
+>     Start the database server, again using the special database user
+     account:
+</P><PRE
+CLASS="PROGRAMLISTING"
+><KBD
+CLASS="USERINPUT"
+>/usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data</KBD
+></PRE
+><P>
+    </P
+></LI
+><LI
+CLASS="STEP"
+><P
+>     Finally, restore your data from backup with:
+</P><PRE
+CLASS="SCREEN"
+><KBD
+CLASS="USERINPUT"
+>/usr/local/pgsql/bin/psql -d postgres -f <TT
+CLASS="REPLACEABLE"
+><I
+>outputfile</I
+></TT
+></KBD
+></PRE
+><P>
+     using the <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>new</I
+></SPAN
+> <SPAN
+CLASS="APPLICATION"
+>psql</SPAN
+>.
+    </P
+></LI
+></OL
+></DIV
+><P
+>   Further discussion appears in
+   
+   <A
+HREF="migration.html"
+>Section 24.4</A
+>,
+   including instructions on how the previous installation can continue
+   running while the new installation is installed.
+  </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="install-getsource.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="install-procedure.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Getting The Source</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="installation.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Installation Procedure</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Crash Recovery</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:pgsql-docs@postgresql.org"><LINK
+REL="HOME"
+TITLE="PostgreSQL 9.0.4 Documentation"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="GiST Indexes"
+HREF="gist.html"><LINK
+REL="PREVIOUS"
+TITLE="Examples"
+HREF="gist-examples.html"><LINK
+REL="NEXT"
+TITLE="GIN Indexes"
+HREF="gin.html"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="stylesheet.css"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=ISO-8859-1"><META
+NAME="creation"
+CONTENT="2011-04-15T03:22:19"></HEAD
+><BODY
+CLASS="SECT1"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="5"
+ALIGN="center"
+VALIGN="bottom"
+><A
+HREF="index.html"
+>PostgreSQL 9.0.4 Documentation</A
+></TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="Examples"
+HREF="gist-examples.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="GiST Indexes"
+HREF="gist.html"
+>Fast Backward</A
+></TD
+><TD
+WIDTH="60%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 52. GiST Indexes</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="GiST Indexes"
+HREF="gist.html"
+>Fast Forward</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="GIN Indexes"
+HREF="gin.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="GIST-RECOVERY"
+>52.5. Crash Recovery</A
+></H1
+><P
+>  Usually, replay of the WAL log is sufficient to restore the integrity
+  of a GiST index following a database crash.  However, there are some
+  corner cases in which the index state is not fully rebuilt.  The index
+  will still be functionally correct, but there might be some performance
+  degradation.  When this occurs, the index can be repaired by
+  <TT
+CLASS="COMMAND"
+>VACUUM</TT
+>ing its table, or by rebuilding the index using
+  <TT
+CLASS="COMMAND"
+>REINDEX</TT
+>.  In some cases a plain <TT
+CLASS="COMMAND"
+>VACUUM</TT
+> is
+  not sufficient, and either <TT
+CLASS="COMMAND"
+>VACUUM FULL</TT
+> or <TT
+CLASS="COMMAND"
+>REINDEX</TT
+>
+  is needed.  The need for one of these procedures is indicated by occurrence
+  of this log message during crash recovery:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>LOG:  index NNN/NNN/NNN needs VACUUM or REINDEX to finish crash recovery</PRE
+><P>
+  or this log message during routine index insertions:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>LOG:  index "FOO" needs VACUUM or REINDEX to finish crash recovery</PRE
+><P>
+  If a plain <TT
+CLASS="COMMAND"
+>VACUUM</TT
+> finds itself unable to complete recovery
+  fully, it will return a notice:
+</P><PRE
+CLASS="PROGRAMLISTING"
+>NOTICE:  index "FOO" needs VACUUM FULL or REINDEX to finish crash recovery</PRE
+><P>
+ </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="gist-examples.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="gin.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Examples</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="gist.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>GIN Indexes</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Limitations</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:pgsql-docs@postgresql.org"><LINK
+REL="HOME"
+TITLE="PostgreSQL 9.0.4 Documentation"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="GIN Indexes"
+HREF="gin.html"><LINK
+REL="PREVIOUS"
+TITLE="GIN tips and tricks"
+HREF="gin-tips.html"><LINK
+REL="NEXT"
+TITLE="Examples"
+HREF="gin-examples.html"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="stylesheet.css"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=ISO-8859-1"><META
+NAME="creation"
+CONTENT="2011-04-15T03:22:19"></HEAD
+><BODY
+CLASS="SECT1"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="5"
+ALIGN="center"
+VALIGN="bottom"
+><A
+HREF="index.html"
+>PostgreSQL 9.0.4 Documentation</A
+></TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="GIN tips and tricks"
+HREF="gin-tips.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="GIN Indexes"
+HREF="gin.html"
+>Fast Backward</A
+></TD
+><TD
+WIDTH="60%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 53. GIN Indexes</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="GIN Indexes"
+HREF="gin.html"
+>Fast Forward</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="Examples"
+HREF="gin-examples.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="GIN-LIMIT"
+>53.5. Limitations</A
+></H1
+><P
+>  <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> doesn't support full index scans.  The reason for
+  this is that <CODE
+CLASS="FUNCTION"
+>extractValue</CODE
+> is allowed to return zero keys,
+  as for example might happen with an empty string or empty array.  In such
+  a case the indexed value will be unrepresented in the index.  It is
+  therefore impossible for <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> to guarantee that a
+  scan of the index can find every row in the table.
+ </P
+><P
+>  Because of this limitation, when <CODE
+CLASS="FUNCTION"
+>extractQuery</CODE
+> returns
+  <TT
+CLASS="LITERAL"
+>nkeys = 0</TT
+> to indicate that all values match the query,
+  <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> will emit an error.  (If there are multiple ANDed
+  indexable operators in the query, this happens only if they all return zero
+  for <TT
+CLASS="LITERAL"
+>nkeys</TT
+>.)
+ </P
+><P
+>  It is possible for an operator class to circumvent the restriction against
+  full index scan.  To do that, <CODE
+CLASS="FUNCTION"
+>extractValue</CODE
+> must return at least
+  one (possibly dummy) key for every indexed value, and
+  <CODE
+CLASS="FUNCTION"
+>extractQuery</CODE
+> must convert an unrestricted search into
+  a partial-match query that will scan the whole index.  This is inefficient
+  but might be necessary to avoid corner-case failures with operators such
+  as <TT
+CLASS="LITERAL"
+>LIKE</TT
+> or subset inclusion.
+ </P
+><P
+>  <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> assumes that indexable operators are strict.
+  This means that <CODE
+CLASS="FUNCTION"
+>extractValue</CODE
+> will not be called at all on
+  a NULL value (so the value will go unindexed), and
+  <CODE
+CLASS="FUNCTION"
+>extractQuery</CODE
+> will not be called on a NULL comparison
+  value either (instead, the query is presumed to be unmatchable).
+ </P
+><P
+>  A possibly more serious limitation is that <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> cannot
+  handle NULL keys &mdash; for example, an array containing a NULL cannot
+  be handled except by ignoring the NULL.
+ </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="gin-tips.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="gin-examples.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>GIN tips and tricks</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="gin.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Examples</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

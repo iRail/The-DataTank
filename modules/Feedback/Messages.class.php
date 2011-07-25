@@ -61,21 +61,8 @@ class Messages extends AMethod {
     }
 
     public function call() {
-        if (isset($_POST)) {
-            if (!isset($_POST['msg'])) {
-                //TODO return some error stuff.
-            } else {
-                echo 'Msg: ' . $_POST['msg'];
-                $this->setData();
-
-                //TODO this shoudn't be here, but then where o where should
-                //it be? Spaghetti code...
-                header('test', true, 201); // Set header to Created
-            }
-        } else {
-            $this->getData();
-            return $this->queryResults;
-        }
+        $this->getData();
+        return $this->queryResults;
     }
 
     public function setParameter($name,$val) {

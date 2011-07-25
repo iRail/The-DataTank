@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Using C++ for Extensibility</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:pgsql-docs@postgresql.org"><LINK
+REL="HOME"
+TITLE="PostgreSQL 9.0.4 Documentation"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Extending SQL"
+HREF="extend.html"><LINK
+REL="PREVIOUS"
+TITLE="Interfacing Extensions To Indexes"
+HREF="xindex.html"><LINK
+REL="NEXT"
+TITLE="Triggers"
+HREF="triggers.html"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="stylesheet.css"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=ISO-8859-1"><META
+NAME="creation"
+CONTENT="2011-04-15T03:22:19"></HEAD
+><BODY
+CLASS="SECT1"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="5"
+ALIGN="center"
+VALIGN="bottom"
+><A
+HREF="index.html"
+>PostgreSQL 9.0.4 Documentation</A
+></TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="Interfacing Extensions To Indexes"
+HREF="xindex.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="Extending SQL"
+HREF="extend.html"
+>Fast Backward</A
+></TD
+><TD
+WIDTH="60%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 35. Extending <ACRONYM
+CLASS="ACRONYM"
+>SQL</ACRONYM
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="Extending SQL"
+HREF="extend.html"
+>Fast Forward</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="Triggers"
+HREF="triggers.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="EXTEND-CPP"
+>35.15. Using C++ for Extensibility</A
+></H1
+><P
+>    It is possible to use a compiler in C++ mode to build
+    <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> extensions by following these
+    guidelines:
+
+    <P
+></P
+></P><UL
+><LI
+><P
+>        All functions accessed by the backend must present a C interface
+        to the backend;  these C functions can then call C++ functions.
+        For example, <TT
+CLASS="LITERAL"
+>extern C</TT
+> linkage is required for
+        backend-accessed functions.  This is also necessary for any
+        functions that are passed as pointers between the backend and
+        C++ code.
+      </P
+></LI
+><LI
+><P
+>       Free memory using the appropriate deallocation method.  For example,
+       most backend memory is allocated using <CODE
+CLASS="FUNCTION"
+>palloc()</CODE
+>, so use
+       <CODE
+CLASS="FUNCTION"
+>pfree()</CODE
+> to free it, i.e. using C++
+       <CODE
+CLASS="FUNCTION"
+>delete()</CODE
+> in such cases will fail.
+      </P
+></LI
+><LI
+><P
+>       Prevent exceptions from propagating into the C code (use a
+       catch-all block at the top level of all <TT
+CLASS="LITERAL"
+>extern C</TT
+>
+       functions).  This is necessary even if the C++ code does not
+       throw any exceptions because events like out-of-memory still
+       throw exceptions.  Any exceptions must be caught and appropriate
+       errors passed back to the C interface.  If possible, compile C++
+       with <TT
+CLASS="OPTION"
+>-fno-exceptions</TT
+> to eliminate exceptions entirely;
+       in such cases, you must check for failures in your C++ code, e.g.
+       check for NULL returned by <CODE
+CLASS="FUNCTION"
+>new()</CODE
+>.
+      </P
+></LI
+><LI
+><P
+>       If calling backend functions from C++ code, be sure that the
+       C++ call stack contains only plain old data structures
+       (<ACRONYM
+CLASS="ACRONYM"
+>POD</ACRONYM
+>).  This is necessary because backend errors
+       generate a distant <CODE
+CLASS="FUNCTION"
+>longjmp()</CODE
+> that does not properly
+       unroll a C++ call stack with non-POD objects.
+      </P
+></LI
+></UL
+><P>
+   </P
+><P
+>    In summary, it is best to place C++ code behind a wall of
+    <TT
+CLASS="LITERAL"
+>extern C</TT
+> functions that interface to the backend,
+    and avoid exception, memory, and call stack leakage.
+   </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="xindex.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="triggers.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Interfacing Extensions To Indexes</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="extend.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Triggers</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

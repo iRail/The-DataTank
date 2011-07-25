@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Introduction</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"><LINK
+REV="MADE"
+HREF="mailto:pgsql-docs@postgresql.org"><LINK
+REL="HOME"
+TITLE="PostgreSQL 9.0.4 Documentation"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="GIN Indexes"
+HREF="gin.html"><LINK
+REL="PREVIOUS"
+TITLE="GIN Indexes"
+HREF="gin.html"><LINK
+REL="NEXT"
+TITLE="Extensibility"
+HREF="gin-extensibility.html"><LINK
+REL="STYLESHEET"
+TYPE="text/css"
+HREF="stylesheet.css"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=ISO-8859-1"><META
+NAME="creation"
+CONTENT="2011-04-15T03:22:19"></HEAD
+><BODY
+CLASS="SECT1"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="5"
+ALIGN="center"
+VALIGN="bottom"
+><A
+HREF="index.html"
+>PostgreSQL 9.0.4 Documentation</A
+></TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="GIN Indexes"
+HREF="gin.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="top"
+><A
+TITLE="GIN Indexes"
+HREF="gin.html"
+>Fast Backward</A
+></TD
+><TD
+WIDTH="60%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 53. GIN Indexes</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="GIN Indexes"
+HREF="gin.html"
+>Fast Forward</A
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="top"
+><A
+TITLE="Extensibility"
+HREF="gin-extensibility.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="GIN-INTRO"
+>53.1. Introduction</A
+></H1
+><P
+>   <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> stands for Generalized Inverted Index.  It is
+   an index structure storing a set of (key, posting list) pairs, where
+   a <SPAN
+CLASS="QUOTE"
+>"posting list"</SPAN
+> is a set of rows in which the key occurs. Each
+   indexed value can contain many keys, so the same row ID can appear in
+   multiple posting lists.
+ </P
+><P
+>   It is generalized in the sense that a <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> index
+   does not need to be aware of the operation that it accelerates.
+   Instead, it uses custom strategies defined for particular data types.
+ </P
+><P
+>  One advantage of <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> is that it allows the development
+  of custom data types with the appropriate access methods, by
+  an expert in the domain of the data type, rather than a database expert.
+  This is much the same advantage as using <ACRONYM
+CLASS="ACRONYM"
+>GiST</ACRONYM
+>.
+ </P
+><P
+>  The <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+>
+  implementation in <SPAN
+CLASS="PRODUCTNAME"
+>PostgreSQL</SPAN
+> is primarily
+  maintained by Teodor Sigaev and Oleg Bartunov. There is more
+  information about <ACRONYM
+CLASS="ACRONYM"
+>GIN</ACRONYM
+> on their
+  <A
+HREF="http://www.sai.msu.su/~megera/wiki/Gin"
+TARGET="_top"
+>website</A
+>.
+ </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="gin.html"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="gin-extensibility.html"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>GIN Indexes</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="gin.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Extensibility</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
