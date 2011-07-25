@@ -1,11 +1,4 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   *
-   * Author: Pieter Colpaert <pieter aŧ iRail.be>
-   * Author: Jan Vansteenlandt <jan aŧ iRail.be>
-   * Prints the Xml style output
-   */
-
   /**
    * This file contains the Xml printer.
    * @package The-Datatank/printer

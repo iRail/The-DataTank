@@ -1,13 +1,4 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   * Author:  Jan Vansteenlandt <jan aŧ iRail.be>
-   * Author:  Pieter Colpaert <pieter aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * This file contains the first frontier that dispaches requests to different method calls. This file will receive the call
-   * and return the result.
-   * Notice: If this file reaches more than 100 lines a rewrite is needed
-   */
 
    /**
     * This file contains the first frontier that dispaches requests to different method calls. This file will receive the call
@@ -17,7 +8,7 @@
     * @license AGPLv3
     * @author Jan Vansteenlandt <jan@iRail.be>
     * @author Pieter Colpaert   <pieter@iRail.be>
-    */
+    */	
 
 include_once("printer/PrinterFactory.php");
 include_once("error/Exceptions.class.php");

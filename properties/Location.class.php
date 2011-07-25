@@ -1,14 +1,4 @@
 <?php
-/*
- * Copyright (C) 2011 by iRail vzw/asbl
- * Author:  Jan Vansteenlandt <jan aŧ iRail.be>
- * Author:  Pieter Colpaert <pieter aŧ iRail.be>
- * License: AGPLv3
- *
- * This class contains the basic needs for a kml <Placemark>
- * needs -> name, description Point(= made out of latitude and longitude)
- *
- */
 
  /**
    * This file contains the Location propertyclass.

@@ -1,14 +1,4 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   * 
-   * Author: Pieter Colpaert <pieter aŧ iRail.be>
-   * Author: Werner Laurensse <el.lauwer aŧ gmail.com>
-   * License: AGPLv3
-   * 
-   * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
-   */
-
-
 /**
  * This file contains the TDT helper class.
  * @package The-Datatank
@@ -16,6 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>
  * @author Pieter Colpaert   <pieter@iRail.be>
+ * @author Werner Laurensse  <el.lauwer@gmail.com>
  */
 
 include_once("error/Exceptions.class.php");

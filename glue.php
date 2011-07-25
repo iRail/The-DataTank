@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file contains the glue class.
+ * 
+ * @package The-Datatank
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Werner Laurensse <el.lauw@gmail.com>
+ */
+
     /**
      * glue
      *

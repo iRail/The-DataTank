@@ -1,9 +1,5 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   * License: AGPLv3
-   *
-   * Please configure this file by filling out the right elements and copy this to Config.class.php
-   */
+ 
   /**
    * Please configure this file by filling out the right elements and copy this to Config.class.php. Ofcourse renaming this file to Config.class.php is equally good.
    * @package The-Datatank

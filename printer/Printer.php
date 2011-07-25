@@ -1,13 +1,4 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   *
-   * Author: Werner Laurensse
-   * Author: Jan Vansteenlandt <jan aŧ iRail.be>
-   * Author: Pieter Colpaert   <pieter aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * An abstract class for a printer. It prints an object
-   */
 
 /**
  * This file contains the abstract Printer.

@@ -1,11 +1,4 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   *
-   * Author: Pieter Colpaert <pieter aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * These classes extend the Exception class to make our own well-documented Exception-system
-   */
 
   /**
    * This file contains all the Exceptions specifically made for the DataTank.
