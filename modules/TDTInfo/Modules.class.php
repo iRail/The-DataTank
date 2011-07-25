@@ -87,19 +87,17 @@ class Modules extends AMethod{
 	  }
 
 	  $mods = InstalledModules::getAll();
-	  
 	  $modindex = -1;
 	  foreach($mods as $mod){
 	       //Now that we have all modules, let's search for their methods
 	       include_once("modules/$mod/methods.php");
 	       $modules[$i] = new stdClass();
-	       $modules[$i]->method = array();
+	       $modules[$i]->method = array();	       
 	       foreach($mod::$methods as $method){
 		    include_once("modules/$mod/$method.class.php");
 		    if(isset($this->mod) && $mod == $this->mod){
 			 $modindex=$i;
 		    }
-		    
 		    $mm = new stdClass();
 		    $mm->name = $method;
 		    $mm->doc = $method::getDoc();

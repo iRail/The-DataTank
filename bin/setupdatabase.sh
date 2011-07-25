@@ -45,6 +45,6 @@ mysql -u "$1" -p -e "$SQL"
 
 else
     echo -e "$NUMBER_OF_ARGS arguments should be passed along with the script. 
-Usage : bash set_up_database.sh MySQL_USERNAME MySQL_database";
+Usage : bash set_up_database.sh MySQL_USERNAME MySQL_DATABASE";
 fi
 

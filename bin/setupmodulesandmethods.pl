@@ -49,7 +49,7 @@ else {
             $file = $basedir . "/" . $file;
             `touch $file`;
             createMethod($file);
-            print "[Notification] $ARGV[0].class.php was succesfully created in module $ARGV[0].\n;
+            print "[Notification] $ARGV[0].class.php was succesfully created in module $ARGV[0].\n";
             $concat .= "\"$ARGV[0]\"";
         }
 
@@ -83,7 +83,7 @@ else {
         close(HANDLE);
     }
     else {
-        open( HANDLE, ">$methodsumm" );
+        open( HANDLE, "<$methodsumm" );
         my @lines = <HANDLE>;
         close(HANDLE);
         chomp @lines;
@@ -93,18 +93,17 @@ else {
         my @methods;
         my $newmethods = "";
         if ( $content =~ /.*,.*/ ) {
-            $content =~ /array.*\((.*)\)/;
+            $content =~ /array.*?\((.*?)\)/;
             @methods = split( ',', $1 );
             $newmethods = join( ',', @methods );
-            $newmethods = $newmethods;
         }
         else {
-            $content =~ /array.*\((.*)\)/;
+            $content =~ /array.*?\((.*?)\)/gi;
             push( @methods, $1 );
             $newmethods = $methods[0];
         }
         $concat = $concat . ',' . $newmethods;
-
+	close(HANDLE);
         # now we overwrite our methods.php
         open( HANDLE, ">$methodsumm" );
         my $classname = "\$methods";
