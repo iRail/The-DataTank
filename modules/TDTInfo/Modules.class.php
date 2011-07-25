@@ -1,16 +1,7 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * Author: Jan Vansteenlandt <jan at iRail.be>
- * License: AGPLv3
- *
- * This is a class which will return all the available modules for this DataTank
- */
-
-
 /**
- * This file contains Modules.class.php
+ * This is a class which will return all the available modules for this DataTank
+ * 
  * @package The-Datatank/modules/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -116,10 +107,9 @@ class Modules extends AMethod{
 	  //check if our modindex has changed, if not, return everything	  
 	  if($modindex == -1){
 	       return $o;
-	  }else{
-	       //otherwise, we will just return this module
-	       return $o->module[$modindex];
 	  }
+	  //otherwise, we will just return this module
+	  return $o->module[$modindex];
      }
      
      public static function getAllowedPrintMethods(){
