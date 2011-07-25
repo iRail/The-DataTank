@@ -47,7 +47,7 @@ if(isset($stats->module)){
      foreach($stats->module as $modu){
 	  $name = $modu->name;
 	  echo "<h2><a href=\"" . $modu->url ."docs/\">$name</a><small>(". $modu->url  .")</small></h2>\n";
-	  if(isset($modu->method)){
+	  if(sizeof($modu->method) > 0){
 	       echo "<ul>";
 	       foreach($modu->method as $method){
 		    $methodname = $method->name;
