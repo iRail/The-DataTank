@@ -57,20 +57,14 @@ class Stats {
 }
 
 class FeedbackHandler {
-    function GET() {
-        include_once('modules/Feedback/Messages.php');
-        
-    }
-    function POST() {
-        include_once('feedback/Message.class.php');
-        $message = Message();
-        echo 'hihi' . $message.create();
-    }
+     function GET() {
+
+     }
 }
 
 class ModuleHandler {
      function GET($matches) {
-	  //TODO add try and catch, throw error.
+	  //TODO add try and catch, throw error, logging.
 	  try {
 	       $result;
 	       $module = $matches['module'];
