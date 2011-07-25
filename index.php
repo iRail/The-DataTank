@@ -1,40 +1,41 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   * Author: Werner Laurensse
-   * License: AGPLv3
-   */
+/**
+ * This file is the router. It will accept a request en refer it elsewhere using glue
+ * 
+ * @package The-Datatank
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Werner Laurensse
+ */
 
-  /**
-   * This file contains the first frontier that dispatches requests to different method calls. This file will receive the call
-   * and return the result of that call.
-   * @package The-Datatank
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Werner Laurensse
-   */
-
-
-require_once('glue.php');
+require_once("glue.php");
 require_once("printer/PrinterFactory.php");
 require_once("error/Exceptions.class.php");
 require_once("requests/RequestLogger.class.php");
 require_once("error/ErrorHandler.class.php");
 require_once("modules/ProxyModules.php");
 require_once("TDT.class.php");
-require_once('Config.class.php');
+require_once("Config.class.php");
 
 set_error_handler("wrapper_handler");
 date_default_timezone_set("UTC");
 
-
+/*
+ * This is the former url-rewrite: it will map all urls to a certain class which will get the request 
+ */
 $urls = array(
      '/' => 'Index',
      '/docs/' => 'Docs',
+     '/docs/(?P<module>.*?)/(?P<method>.*?)/.*' => 'DocPage',
      '/stats/' => 'Stats',
-     '/Feedback/Messages/(.*)/(.*)/' => 'FeedbackHandler',
+     '/Feedback/Messages/(.*?)/(.*?)/.*' => 'FeedbackHandler',
      '/(?P<module>.*?)/(?P<method>.*?)/.*' => 'ModuleHandler'
      );
 
+//This function will do the magic. See glue.php
+glue::stick($urls);
+
+//TODO: make an abstract class Page.class.php with method GET() and POST()
 class Index {
      function GET() {
 	  require_once('contents.php');
@@ -42,13 +43,23 @@ class Index {
 	  echo $index_content;
 	  include_once("templates/TheDataTank/footer.php");
      }
+     //give error on POST?
 }
 
 class Docs {
+     //TODO: put all these things in PagePrinters
      function GET() {
 	  require_once("docs/DocPrinter.php");
      }
 }
+
+class DocPage{
+     function GET($matches) {
+
+	  require_once("docs/DocPagePrinter.php");
+     }
+}
+
 
 class Stats {
      function GET() {
@@ -64,9 +75,9 @@ class FeedbackHandler {
 
 class ModuleHandler {
      function GET($matches) {
-	  //TODO add try and catch, throw error, logging.
+	  RequestLogger::logRequest();
 	  try {
-	       $result;
+	       $result = new stdClass();
 	       $module = $matches['module'];
 	       $methodname = $matches['method'];
 	       // Make sure that format is set and that the first letter is uppercase.
@@ -94,21 +105,18 @@ class ModuleHandler {
 		    //If we cannot find the modulename locally, we're going to search for it through proxy
 		    $result = ProxyModules::call($module, $methodname, $_GET);		
 	       } else {
-		    echo 'test: ' . $module . $methodname;
 		    throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
 	       }
 
 	       $rootname = $methodname;
 	       $rootname = strtolower($rootname);
-	       $printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $rootname, $result);
+	       $printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $result);
 	       $printer->printAll();
 	  } catch(Exception $e) {
 	       ErrorHandler::logException($e);
 	  }
-
-	  RequestLogger::logRequest();
      }
 }
 
-glue::stick($urls);
+
 ?>
