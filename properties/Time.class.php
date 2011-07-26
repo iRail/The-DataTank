@@ -1,14 +1,4 @@
 <?php
-/*
- * Copyright (C) 2011 by iRail vzw/asbl
- * Author  Jan Vansteenlandt <jan aŧ iRail.be>
- * Author  Pieter Colpaert <pieter aŧ iRail.be>
- * License AGPLv3
- *
- * 
- * Usage $objectmodel->time = new Time(12345678900);
- *
- */
 
 /**
    * This file contains the Time propertyclass.

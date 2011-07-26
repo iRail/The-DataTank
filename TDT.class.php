@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
  * 
@@ -8,6 +7,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>
  * @author Pieter Colpaert   <pieter@iRail.be>
+ * @author Werner Laurensse  <el.lauwer@gmail.com>
  */
 
 include_once("error/Exceptions.class.php");

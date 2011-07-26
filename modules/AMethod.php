@@ -28,7 +28,7 @@ abstract class AMethod{
       * Constructor of AMethod
       * @param string $classname Contains the classname, needed to check if i.e. all the correct parameters are passed along.
       */
-     public function __construct($classname){
+      public function __construct($classname){
 	  // We're going to fetch all parameters and check wether the Required parameters are set. 
 	  
 	  // Checking the required parameters first

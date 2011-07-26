@@ -1,13 +1,4 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl 
-   *
-   * Author: Jan Vansteenlandt <jan aŧ iRail.be>
-   * Author: Pieter Colpaert <pieter at iRail.be>
-   * Prints the Json style output
-   *
-   *
-   * @package output
-   */
 
   /**
    * This file contains the Json printer.
