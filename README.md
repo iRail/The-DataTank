@@ -13,6 +13,8 @@ First of all, in order to get started with The DataTank you have to install some
 
 * PHP 5.3
 * MySQL
+* MDB2
+* MDB2#mysqli
 
 To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
 
@@ -47,6 +49,11 @@ The arguments that need to be passed are 1) the absolute path to your DataTank d
 
 This will make (if not already created) a directory for you in the directory modules called MyModule, and the necessary methods.class.php file. All given methodnames will result in methods that all extend from AMethod. If you open up a certain method created this way every function that should be overwrited or be adjusted will be there for you. All you have to do is just fill in the gaps. Let's face it, we all like being lazy, so we made sure the boring and obvious parts are being done by a script.
 		    
+## Feedback ##
+TODO explain feedback stuff
+
+curl -XPOST --encode-data="msg='test123'" localhost/Feedback/Messages/(module)/(method)/?param1=value1&param2=value2 
+
 # iRail #
 
 iRail is an attempt to make transportation time schedules easily available for anyone

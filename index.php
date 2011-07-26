@@ -8,17 +8,17 @@
  * @author Werner Laurensse
  */
 
-require_once("glue.php");
-require_once("printer/PrinterFactory.php");
-require_once("error/Exceptions.class.php");
-require_once("requests/RequestLogger.class.php");
-require_once("error/ErrorHandler.class.php");
-require_once("modules/ProxyModules.php");
-require_once("TDT.class.php");
-require_once("Config.class.php");
+require_once('glue.php');
+require_once('printer/PrinterFactory.php');
+require_once('error/Exceptions.class.php');
+require_once('requests/RequestLogger.class.php');
+require_once('error/ErrorHandler.class.php');
+require_once('modules/ProxyModules.php');
+require_once('TDT.class.php');
+require_once('Config.class.php');
 
-set_error_handler("wrapper_handler");
-date_default_timezone_set("UTC");
+set_error_handler('wrapper_handler');
+date_default_timezone_set('UTC');
 
 /*
  * This is the former url-rewrite: it will map all urls to a certain class which will get the request 
@@ -28,7 +28,7 @@ $urls = array(
      '/docs/' => 'Docs',
      '/docs/(?P<module>.*?)/(?P<method>.*?)/.*' => 'DocPage',
      '/stats/' => 'Stats',
-     '/Feedback/Messages/(.*?)/(.*?)/.*' => 'FeedbackHandler',
+     '/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler',
      '/(?P<module>.*?)/(?P<method>.*?)/.*' => 'ModuleHandler'
      );
 
@@ -53,9 +53,8 @@ class Docs {
      }
 }
 
-class DocPage{
+class DocPage {
      function GET($matches) {
-
 	  require_once("docs/DocPagePrinter.php");
      }
 }
@@ -68,8 +67,18 @@ class Stats {
 }
 
 class FeedbackHandler {
-     function GET() {
-
+     function GET($matches) {
+        require_once('modules/Feedback/Messages.class.php');
+        $message = Messages();
+        $result = $message->call();
+        $rootname = 'feedback';
+	    $printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $result);
+	    $printer->printAll();
+     }
+     function POST($matches) {
+         require_once('feedback/PostMessage.class.php');
+         $post = new PostMessage();
+         $post->post();
      }
 }
 
