@@ -40,18 +40,19 @@ if(array_key_exists($module,ProxyModules::$modules)){
       * If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)
       * to return the object with the proper documentation.
       */
-     $url = "http://localhost/TDTInfo/Module/?format=php&mod=".$module."&meth=".$method;
+     $url = "http://localhost/TDTInfo/Module/?format=json&mod=".$module."&meth=".$method;
 }
 
 
-$method = unserialize(TDT::HttpRequest($url)->data);
+$method = json_decode(TDT::HttpRequest($url)->data);
+
 include_once("templates/TheDataTank/header.php");
 
 echo "<h1>" . $module."/". $methodname ."</h1>";
 //get a sequence of the parameters
 $args = "";
-if(sizeof(($method["requiredparameter"])) > 0){
-     $params = $method["requiredparameter"];
+if(sizeof(($method->requiredparameter)) > 0){
+     $params = $method->requiredparameter;
      $args="?" . $params[0] . "=...";
      $i = 0;
      foreach($params as $var){
@@ -65,11 +66,11 @@ if(sizeof(($method["requiredparameter"])) > 0){
 $url = Config::$HOSTNAME . "$module/$methodname/$args";
 echo "<a href=\"$url\">$url</a>";
 echo "<h3>Description</h3>";
-echo $method["doc"];
-if(sizeof($method["parameter"])>0){
+echo $method->doc;
+if(sizeof($method->parameter)>0){
      echo "<h3>All possible parameters:</h3>";
      echo "<ul>\n";
-     foreach($method["parameter"] as $var => $doc){
+     foreach($method->parameter as $var => $doc){
 	  echo "<li><strong>$var:</strong> $doc\n";
      }
      echo "</ul>\n";
