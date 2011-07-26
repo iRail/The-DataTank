@@ -1,12 +1,18 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl *
- * Author: Werner Laurensse <el.lauwer aŧ gmail.com>
- * License: AGPLv3
- */
+  /**
+   * This file contains the Messages method needed for the feedback concept.
+   * @package The-DataTank	
+   * @copyright (C) 2011 by iRail vzw/asbl 
+   * @author: Werner Laurensse <el.lauwer aŧ gmail.com>
+   * @license: AGPLv3
+   */
 
 include_once("modules/AMethod.php");
 include_once("TDT.class.php");
 
+/**
+ * Class messages. Allows to push a feedback for a certain method.
+ */
 class Messages extends AMethod {
     private $lang;
     private $system;

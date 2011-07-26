@@ -148,7 +148,7 @@ function plotChart(dataArray) {
 	       autoHighlight: true
 
 	  },
-	  bars: {
+	  lines: {
 	       show: true,
 	       hoverable: true
 	  },

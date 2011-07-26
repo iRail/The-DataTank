@@ -14,11 +14,12 @@ class Events extends AMethod{
      }
 
      public static function getRequiredParameters(){
-	  return array("day"); //TODO Add your required parameters here
+	  return array("day"); 
      }
 
      public static function getParameters(){
-	  return array("day"=>"Expects a number [0-10] representing the day of the Gentse Feesten.", "time" => "When time is set, we will return data fur the next hour only");
+	  return array("day"=>"Expects a number [0-10] representing the day of the Gentse Feesten.",
+                   "time" => "When time is set, we will return data fur the next hour only");
      }
 
      public static function getDoc(){

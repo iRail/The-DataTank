@@ -1,14 +1,4 @@
 <?php
-/* Copyright (C) 2011 by iRail vzw/asbl
- *
- * Author: Pieter Colpaert <pieter aŧ iRail.be>
- * Author: Jan Vansteenlandt <jan at iRail.be>
- * License: AGPLv3
- *
- * For a given module and method this will return the needed information
- */
-
-
 /**
  * This file contains Module.class.php
  * @package The-Datatank/modules/TDTInfo
