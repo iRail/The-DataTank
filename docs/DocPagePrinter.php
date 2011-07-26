@@ -40,7 +40,7 @@ if(array_key_exists($module,ProxyModules::$modules)){
       * If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)
       * to return the object with the proper documentation.
       */
-     $url = "http://localhost/TDTInfo/Module/?format=json&mod=".$module."&meth=".$method;
+     $url = Config::$HOSTNAME."TDTInfo/Module/?format=json&mod=".$module."&meth=".$method;
 }
 
 
