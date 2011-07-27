@@ -358,6 +358,7 @@ class TDT{
           $pageURL .= join('&', $tmp_array);
 
           return $pageURL;
-     } 
+     }
 }
+
 ?>

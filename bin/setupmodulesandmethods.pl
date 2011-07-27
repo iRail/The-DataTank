@@ -17,20 +17,26 @@ if ( $#ARGV + 1 == 0 ) {
     print "modulename is required, methodnames are not.\n";
 }
 else {
-    my $concat  = "";
+    my $concat = "";
+
     # base
-    my $basedir = shift;
+    my $basedir    = shift;
+    my $installdir = $basedir;
     $basedir .= "/modules";
+
     # debug purposes
     print "basedirectory : $basedir\n";
     my $modulename = $ARGV[0];
     if ( -d "$basedir/$modulename" ) {
-        print "[Notification] The module $basedir/$modulename already exists.\n";
+        print
+          "[Notification] The module $basedir/$modulename already exists.\n";
     }
     else {
+
         # if the module does not exist, create it!
         my $fullpathmodule = $basedir . "/" . $modulename;
-	# debug purposes
+
+        # debug purposes
         print "[Notification ] Making dir: " . $fullpathmodule . "\n";
         `mkdir $fullpathmodule`;
     }
@@ -38,7 +44,7 @@ else {
     shift @ARGV;
     my @methodsGiven = @ARGV;
 
-    # if there are still arguments left, then these are methods that should be created!
+# if there are still arguments left, then these are methods that should be created!
     if ( $#ARGV + 1 > 0 ) {
 
         # concatenate the methods
@@ -48,27 +54,31 @@ else {
         if ( !-f $basedir . "/" . $file ) {
             $file = $basedir . "/" . $file;
             `touch $file`;
-            createMethod($file);
-            print "[Notification] $ARGV[0].class.php was succesfully created in module $ARGV[0].\n";
+            createMethod( $file, $installdir );
+            print
+"[Notification] $ARGV[0].class.php was succesfully created in module $ARGV[0].\n";
             $concat .= "\"$ARGV[0]\"";
         }
 
         shift @ARGV;
-	# for every methodname
+
+        # for every methodname
         foreach (@ARGV) {
             $file = $basedir . "/" . $modulename . "/" . $_ . ".class.php";
             if ( !-f $file ) {
                 $concat .= "," . "\"" . $_ . "\"";
                 `touch $file`;
-                print "[Notification] $_.class.php was succesfully created in module $modulename.\n";
+                print
+"[Notification] $_.class.php was succesfully created in module $modulename.\n";
             }
             else {
-                print "[Notification] Method $_ in module $basedir/$modulename already exists.\n";
+                print
+"[Notification] Method $_ in module $basedir/$modulename already exists.\n";
             }
         }
     }
 
-    # making the file methods.php ( or editing it ). The file methods.php summarizes all used methods that have been declared.
+# making the file methods.php ( or editing it ). The file methods.php summarizes all used methods that have been declared.
     my $methodsumm = $basedir . "/" . $modulename . "/" . $METHODS;
     if ( !-f $methodsumm ) {
 
@@ -87,7 +97,7 @@ else {
         my @lines = <HANDLE>;
         close(HANDLE);
         chomp @lines;
-        my $content = join(" ", @lines );
+        my $content = join( " ", @lines );
 
         # methods that are already defined in the methods.php
         my @methods;
@@ -103,7 +113,8 @@ else {
             $newmethods = $methods[0];
         }
         $concat = $concat . ',' . $newmethods;
-	close(HANDLE);
+        close(HANDLE);
+
         # now we overwrite our methods.php
         open( HANDLE, ">$methodsumm" );
         my $classname = "\$methods";
@@ -121,34 +132,24 @@ else {
 # a few clicks.
 sub createMethod {
     my $file = shift;
+	my $installdir = shift;
     my @split = split( /\//, $file )
       ;    # tweede element bevat de methodenaam => module/method.class.php
 
     my @split2 = split( /\./, $split[$#split] );
-    print "amount of the split: " . $#split2;
-    open( HANDLE, ">>$file" );
-    print HANDLE "<?php\n\ninclude_once(\"modules/AMethod.php\");\n\n";
-    print HANDLE "class " . $split2[0] . " extends AMethod{\n\n";
-    print HANDLE "\tpublic function __construct(){\n";
-    print HANDLE "\t\tparent::__construct(\"" . $split2[0] . "\");\n\t}\n";
-    print HANDLE "\n\tpublic static function getRequiredParameters(){\n";
-    print HANDLE
-      "\t\treturn array(); //TODO Add your required parameters here\n\t}\n";
-    print HANDLE "\n\tpublic static function getParameters(){\n";
-    print HANDLE
-"\t\treturn array();\n\t\t//TODO Add your all your parameters here with documentation!";
-    print HANDLE
-"\n\t\t// i.e. array(param1=>\"x-coordinate\",param2=>\"y-coordinate\");\n\t}\n";
-    print HANDLE "\n\tpublic function setParameter(\$name,\$val){\n\n\t}\n";
-    print HANDLE "\n\tpublic static function getDoc(){\n";
-    print HANDLE
-"\t\treturn \"TODO Add your documentation about your module here\";\n\t}\n";
-    print HANDLE
-"\n\tpublic function call(){\n\t\treturn null;\n\t\t//TODO add your businesslogic here, the resulting";
-    print HANDLE
-" object will be formatted in an allowed and preferred print method.\n\t}\n";
-    print HANDLE "\n\tpublic static function getAllowedPrintMethods(){\n\t\treturn";
-    print HANDLE " array();\n\t}\n";
-    print HANDLE "}\n?>";
+
+    #   print "amount of the split: " . $#split2;
+    open( WRITEHANDLE, ">>$file" );
+
+    # get the AMethod template
+    my $templatefile =
+      $installdir . "/modules/methodtemplates/NormalMethodTemplate.class.php";
+    open( TEMPLATEHANDLE, "<$templatefile" );
+    my @templatecontent = <TEMPLATEHANDLE>;
+    foreach my $line (@templatecontent) {
+        $line =~ s/(.*?)CLASSNAME(.*?)/$1$split2[0]$2/smg;
+        print WRITEHANDLE $line;
+    }
+    close(TEMPLATEHANDLE);
     close(HANDLE);
 }

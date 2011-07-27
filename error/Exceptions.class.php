@@ -297,4 +297,23 @@ class InternalPrinterTDTException extends AbstractTDTException{
 	  parent::__construct("Object gives weird printeroutput - fix your module: " . $msg);
      }
 }
+
+/**
+ * This class represents an exception which is trhown when a database related error occurs.
+ */
+class DatabaseTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "Something went wrong whilst contacting the database.";
+     }
+
+     public static $error = 509;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($msg){
+	  parent::__construct("Something went wrong whilst contact the database: " . $msg);
+     }
+}
 ?>
