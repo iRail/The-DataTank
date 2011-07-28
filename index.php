@@ -90,10 +90,18 @@ class ModuleHandler {
 	       $module = $matches['module'];
 	       $methodname = $matches['method'];
 	       // Make sure that format is set and that the first letter is uppercase.
-	       if (!isset($_GET['format'])) {
-		    $_GET['format'] = 'Xml';
+		   $headerlines = getallheaders();
+		   if(isset($headerlines["Content-type"])){
+				if(preg_match('/.*\/(.*?);.*?/', $headerlines["Content-type"], $matches)){ 
+					 var_dump($matches);
+					 $match = $matches[1];//See php doc for this [0] contains the full match, 1 contains the first group
+					$_GET['format']= ucfirst(strtolower($match));
+				}
+				
+		   }elseif (!isset($_GET['format'])) {
+			    $_GET['format'] = 'Xml';
 	       } else {
-		    $_GET['format'] = ucfirst(strtolower($_GET['format']));
+			    $_GET['format'] = ucfirst(strtolower($_GET['format']));
 	       }
 
 	       if(file_exists("modules/$module/$methodname.class.php")) {
