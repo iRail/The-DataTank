@@ -8,7 +8,6 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 ini_set("include_path", "../");
-include_once("Config.class.php");
 include_once("modules/ProxyModules.php");
 include_once("TDT.class.php");
 

@@ -1,11 +1,11 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   *
-   * Author: Jan Vansteenlandt <jan aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * This file displays some basic analysis of the request logging and error logging.
-   */
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This file displays some basic analysis of the request logging and error logging.
+ */
 ini_set("include_path", "../");
 ini_set("error_reporting", E_ALL);
 
@@ -19,7 +19,8 @@ $time = array();
 
 /*********************************** Start output *************************************/
 
-include_once ("templates/TheDataTank/header.php");?>
+include_once ("templates/TheDataTank/header.php");
+?>
 <!--[if lte IE 8]><script language="javascript" src="flot/excanvas.min.js"></script><![endif]-->
      <script language="javascript" src="/templates/TheDataTank/js/flot/jquery.js"></script>
      <script language="javascript" src="/templates/TheDataTank/js/flot/jquery.flot.js"></script>
@@ -223,4 +224,5 @@ $("#module").change(function(e) {
 
 </script>
 <?php
-include_once ("templates/TheDataTank/footer.php");?>
+include_once ("templates/TheDataTank/footer.php");
+?>

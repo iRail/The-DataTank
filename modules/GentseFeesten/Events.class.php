@@ -1,7 +1,6 @@
 <?php
 
 include_once("modules/AMethod.php");
-include_once("error/Exceptions.class.php");
 
 class Events extends AMethod{
 
