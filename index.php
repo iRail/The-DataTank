@@ -52,7 +52,7 @@ class Resources {
 	}
 	//create a method
 	function POST(){
-		print_r($_POST);
+		
 	}
 }
 
