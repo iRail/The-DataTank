@@ -3,7 +3,8 @@
 # Copyright (C) 2011 by iRail vzw/asbl
 # Author: Jan Vansteenlandt <jan at iRail.be>
 # License: AGPLv3
-# This script creates a module and the necessary files in that module that are required for the module to work properly
+# This script works similar like the setupmodulesandmethods, but will generate a CSVMethod
+# Don't worry the functionality will be integrated in a webinterface. Scripts are only temporary.
 
 use warnings;
 use strict;
@@ -25,7 +26,7 @@ else {
     $basedir .= "/modules";
 
     # debug purposes
-    print "basedirectory : $basedir\n";
+    print "[Notification] Basedirectory : $basedir\n";
     my $modulename = $ARGV[0];
     if ( -d "$basedir/$modulename" ) {
         print
@@ -37,7 +38,7 @@ else {
         my $fullpathmodule = $basedir . "/" . $modulename;
 
         # debug purposes
-        print "[Notification ] Making dir: " . $fullpathmodule . "\n";
+        print "[Notification] Making dir: " . $fullpathmodule . "\n";
         `mkdir $fullpathmodule`;
     }
 
@@ -131,19 +132,19 @@ else {
 # In the near future we'll make a separate php page which allows setting up modules and methods through
 # a few clicks.
 sub createMethod {
-    my $file = shift;
-	my $installdir = shift;
-    my @split = split( /\//, $file )
+    my $file       = shift;
+    my $installdir = shift;
+    my @split      = split( /\//, $file )
       ;    # tweede element bevat de methodenaam => module/method.class.php
 
     my @split2 = split( /\./, $split[$#split] );
 
-    #   print "amount of the split: " . $#split2;
-    open( WRITEHANDLE, ">>$file" );
+    #    print "amount of the split: " . $#split2;
+    open( WRITEHANDLE, ">$file" );
 
-    # get the AMethod template
+    # get the CSV-template, it's located in installdir/methodtemplates
     my $templatefile =
-      $installdir . "/modules/methodtemplates/NormalMethodTemplate.class.php";
+      $installdir . "/modules/methodtemplates/CSVMethodTemplate.class.php";
     open( TEMPLATEHANDLE, "<$templatefile" );
     my @templatecontent = <TEMPLATEHANDLE>;
     foreach my $line (@templatecontent) {
@@ -151,5 +152,5 @@ sub createMethod {
         print WRITEHANDLE $line;
     }
     close(TEMPLATEHANDLE);
-    close(HANDLE);
+    close(WRITEHANDLE);
 }
