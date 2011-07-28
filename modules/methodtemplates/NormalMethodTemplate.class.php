@@ -9,30 +9,28 @@ class CLASSNAME extends AMethod{
 	}
 
 	public static function getRequiredParameters(){
-		return array(); //TODO Add your required parameters here
+		return array(ALLPARAMETERS); 
 	}
 
 	public static function getParameters(){
-		return array();
-		//TODO Add your all your parameters here with documentation!
-		// i.e. array(param1=>"x-coordinate",param2=>"y-coordinate");
+		return array(PARAMETERS);
 	}
 
 	public function setParameter($name,$val){
-
+		//TODO add your logic to assign certain values to your keys from the httprequest
 	}
 
 	public static function getDoc(){
-		return "TODO Add your documentation about your module here";
+		return "DOCUMENTATION";
 	}
 
 	public function call(){
-		return null;
 		//TODO add your businesslogic here, the resulting object will be formatted in an allowed and preferred print method.
+		return null;
 	}
 
 	public static function getAllowedPrintMethods(){
-		return array();
+		return array(FORMATS);
 	}
 }
 ?>

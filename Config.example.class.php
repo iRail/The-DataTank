@@ -17,6 +17,8 @@ class Config{
 
      //add a trailing slash!
      public static $HOSTNAME = "http://localhost/";
+	 //add a trailing slash!
+	 public static $INSTALLDIR = "/home/jan/DataTank/The-DataTank/";
 
   }
 ?>
