@@ -29,7 +29,7 @@ $urls = array(
      '/docs/(?P<module>.*?)/(?P<method>.*?)/.*' => 'DocPage',
      '/stats/' => 'Stats',
      '/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler',
-     '/(?P<module>.*?)/(?P<method>.*?)/.*' => 'ModuleHandler'
+     '/(?P<module>.*?)/(?P<method>.*?)/(?P<resources>.*)' => 'ModuleHandler'
      );
 
 //This function will do the magic. See glue.php
@@ -93,6 +93,12 @@ class ModuleHandler {
 	  $result = new stdClass();
 	  $module = $matches['module'];
 	  $methodname = $matches['method'];
+
+	  $resources=array();
+	  if(isset($matches['resources'])){
+	       $resources = explode("/",$matches['resources']);
+	  }
+
 	  // Make sure that format is set and that the first letter is uppercase.
 	  if (!isset($_GET['format'])) {
 	       $_GET['format'] = 'Xml';
@@ -121,6 +127,27 @@ class ModuleHandler {
 	       throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
 	  }
 
+	  //Support REST actions:
+	  //allow to specify deeper requests
+	  if(sizeof($resources) > 0){
+	       foreach($resources as $resource){
+		    if(is_object($result) && isset($result->$resource)){
+			 $result = $result->$resource;
+		    }elseif(is_array($result) && isset($result[$resource])){
+			 $result = $result[$resource];
+		    }elseif(isset($result->$resource)){
+			 //Pack our value in an object, because otherwise the printers can't handle it
+			 $o = new StdClass();
+			 $o->$resource = $result->$resource;
+			 $result = $o;
+			 var_dump($result);
+			 
+		    }else{
+			 break;//on error, just return what we have so far
+		    }
+	       }
+	  }
+ 
 	  $rootname = $methodname;
 	  $rootname = strtolower($rootname);
 	  $printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $result);

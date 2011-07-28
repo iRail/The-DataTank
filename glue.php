@@ -69,16 +69,16 @@
                         if (method_exists($obj, $method)) {
                             $obj->$method($matches);
                         } else {
-                            throw new BadMethodCallException("Method, $method, not supported.");
+                            throw new BadMethodCallTDTException("Method, $method, not supported.");
                         }
                     } else {
-                        throw new Exception("Class, $class, not found.");
+                        throw new NotFoundTDTException("Class, $class, not found.");
                     }
                     break;
                 }
             }
             if (!$found) {
-                throw new Exception("URL, $path, not found.");
+                throw new NotFoundTDTException("URL, $path, not found.");
             }
         }
     }
