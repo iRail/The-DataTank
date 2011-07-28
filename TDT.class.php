@@ -10,7 +10,6 @@
  * @author Werner Laurensse  <el.lauwer@gmail.com>
  */
 
-include_once("error/Exceptions.class.php");
 /**
  * Helper class specifically designed for TDT. When developing modules you can use these for better performance.
  */
