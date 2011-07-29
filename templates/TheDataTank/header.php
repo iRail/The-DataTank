@@ -12,7 +12,7 @@
 		<div id="page">
 			<div id="header">
 				<div id="headerimg">
-					<h1><a href="/"><img src="/templates/TheDataTank/css/img/logo.png" alt="The Data Tank" /></a></h1>
+					<h1><a href="/"><img src="/templates/TheDataTank/css/img/logo.png" alt="The DataTank" /></a></h1>
 				</div>
 			</div>
 			<span class="clear">&nbsp;</span>
@@ -20,7 +20,8 @@
 				<ul>
 					<li><a href="/" title="Home">Home</a></li>
 					<li><a href="/docs/" title="Data">Data</a></li> 
-					<li><a href="/stats/" title="Stats">Stats</a></li> 
+					<li><a href="/stats/" title="Stats">Stats</a></li>
+					<li><a href="/resources/" title="Resources">Resources</a></li> 
 				</ul>
 			</div>
 			<span class="clear">&nbsp;</span>

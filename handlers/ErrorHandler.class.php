@@ -24,7 +24,7 @@ function wrapper_handler($number,$string,$file,$line,$context){
      ErrorHandler::logException($exception);
      //Exit when we received 1 error. No need to continue
      exit(0);
-  }
+}
 
 /**
  * This class handles and logs errors and exceptions.
@@ -52,7 +52,7 @@ class ErrorHandler{
 	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
 	  if(mysqli_connect_errno()){
 	       echo "Something went wrong !! . " . mysqli_connect_error();
-	       exit();
+	       exit(0);
 	  }	
 	  // if id = 0, the auto incrementer will trigger
 	  $auto_incr = 0;

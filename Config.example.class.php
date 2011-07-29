@@ -17,6 +17,5 @@ class Config{
 
      //add a trailing slash!
      public static $HOSTNAME = "http://localhost/";
-
   }
 ?>

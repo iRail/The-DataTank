@@ -334,4 +334,5 @@ class DatabaseTDTException extends AbstractTDTException{
 	  parent::__construct("Something went wrong whilst contact the database: " . $msg);
      }
 }
+
 ?>
