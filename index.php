@@ -184,20 +184,29 @@ class ModuleHandler {
 	       $method = new $methodname();
 
 	       //Now let's separate the required parameters from the filters
-	       
+               $reqs = $methodname::getRequiredParameters();
+               foreach($reqs as $param){
+		   //set the parameter of the method
+		   if(!isset($resources[0])){
+		       throw new ParameterTDTException($param);
+		   }
+		   $method->setParameter($param, $resources[0]);
+		   //removes the first element and reindex the array
+		   array_shift($resources);
+               }
 
 	       // check if the given format is allowed by the method
 	       // if not, throw an exception and return the allowed formats
 	       // to the user.
 	       if((!in_array(strtolower($_GET['format']),$method->getAllowedPrintMethods()))){
-		    throw new FormatNotAllowedTDTException($_GET['format'],$method::getAllowedPrintMethods());
+		   throw new FormatNotAllowedTDTException($_GET['format'],$method::getAllowedPrintMethods());
 	       }
-
+	       
 	       //execute the method when no error occured
 	       $result = $method->call();
 	  } else if (array_key_exists($module,ProxyModules::$modules)) {
-	       //If we cannot find the modulename locally, we're going to search for it through proxy
-	       $result = ProxyModules::call($module, $methodname, $_GET);		
+	      //If we cannot find the modulename locally, we're going to search for it through proxy
+	      $result = ProxyModules::call($module, $methodname, $_GET);		
 	  } else {
 	       throw new MethodOrModuleNotFoundTDTException($module . "/" .$methodname);
 	  }

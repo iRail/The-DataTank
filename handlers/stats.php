@@ -25,9 +25,9 @@ include_once ("templates/TheDataTank/header.php");
      <script language="javascript" src="/<?=CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.js"></script>
      <script language="javascript" src="/<?=CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.flot.js"></script>
 
-     <h1 id="title"></h1>
+     <h1 id="title">Stats</h1>
      <br>
-     <div id="placeholder" style="width:600px;height:300px;">
+     <div id="placeholder" style="width:510px;height:300px;">
      </div>
 
      <p>
@@ -83,19 +83,18 @@ $(document).ready( function() {
 	  $('#submit').click( function() {
 		    var moduleName = $('#module').val();
 		    var methodName = $('#method').val();
-		    var args = "&mod="+ moduleName;
+		    var args =  moduleName + "/";
 		    if(methodName != "") {
-			 args+="&meth="+methodName;
+			 args+= methodName + "/";
 		    }
 		    var table = $('#datasource').val();
 		    if(table != "requests") {
 			 args+="&err=true";
 		    }
 
-		    var url = '<?=Config::$HOSTNAME . "".Config::$SUBDIR ?>TDTInfo/Queries/?format=json'+args;
 		    $.ajax({
 			 type : 'GET',
-				   url : '<?=Config::$HOSTNAME ."".Config::$SUBDIR ?>TDTInfo/Queries/?format=json'+args,
+				   url : '<?=Config::$HOSTNAME ."".Config::$SUBDIR ?>TDTInfo/Queries/' + args +'?format=json',
 				   dataType : 'json',
 				   success : function(result) {
 				   plotChart(result);
