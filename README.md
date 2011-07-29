@@ -13,7 +13,7 @@ First of all, in order to get started with The DataTank you have to install some
 
 * PHP 5.3
 * MySQL
-* MDB2
+* MDB2-2.5.0b3 
 * MDB2#mysqli
 
 To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
