@@ -7,7 +7,6 @@
 </head>
 
 <body>
-
 	<div id="wrapper">
 		<div id="page">
 			<div id="header">

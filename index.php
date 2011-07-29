@@ -59,6 +59,10 @@ class Resources {
 	function GET(){
 		require_once("handlers/Resources.php");
 	}
+	//create a method
+	function POST(){
+		
+	}
 }
 
 class Docs {
