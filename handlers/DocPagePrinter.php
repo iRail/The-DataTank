@@ -32,13 +32,15 @@ if(array_key_exists($module, ProxyModules::$modules)) {
 	$moduleURL = ProxyModules::$modules[$module];
 	$boom = explode("/", $moduleURL);
 	// take third part of the explode = baseurl
-	$url = "http://" . $boom[2] . "/TDTInfo/Module/?format=php&mod=" . $boom[3] . "&meth=" . $method;
+	$url = "http://" . $boom[2] . "/TDTInfo/Module/?format=json&mod=" . $boom[3] . "&meth=" . $method;
+	echo $url;
 } else {
 	/*
 	 * If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)
 	 * to return the object with the proper documentation.
 	 */
-	$url = Config::$HOSTNAME . "TDTInfo/Module/?format=json&mod=" . $module . "&meth=" . $method;
+	$url = Config::$HOSTNAME .Config::$SUBDIR. "TDTInfo/Module/?format=json&mod=" . $module . "&meth=" . $method;
+	echo $url;
 }
 
 $method = json_decode(TDT::HttpRequest($url) -> data);
@@ -60,7 +62,7 @@ if(sizeof(($method -> requiredparameter)) > 0) {
 	}
 }
 /* build the proper URL's to invoke when doing a call for a certain method */
-$url = Config::$HOSTNAME . "$module/$methodname/$args";
+$url = Config::$HOSTNAME . CONFIG::$SUBDIR."$module/$methodname/$args";
 echo "<a href=\"$url\">$url</a>";
 echo "<h3>Description</h3>";
 echo $method -> doc;
@@ -76,5 +78,5 @@ if(sizeof($method -> parameter) > 0) {
 }
 
 echo "<br/>";
-echo "<a href=\"/docs/\">&laquo; Back to the datasets</a>";
+echo "<a href=\"/".Config::$SUBDIR."docs/\">&laquo; Back to the datasets</a>";
 include_once ("templates/TheDataTank/footer.php");?>

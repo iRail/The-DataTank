@@ -54,7 +54,7 @@
 
             $method = strtoupper($_SERVER['REQUEST_METHOD']);
             $path = $_SERVER['REQUEST_URI'];
-
+			$path = substr($path,strlen(Config::$SUBDIR));
             $found = false;
 
             krsort($urls);

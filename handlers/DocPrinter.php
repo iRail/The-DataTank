@@ -30,7 +30,7 @@ function getAllDerivedClasses($classname){
 
 //print page
 include_once("templates/TheDataTank/header.php");
-$url = Config::$HOSTNAME . "TDTInfo/Modules/?format=json&proxy=1";
+$url = Config::$HOSTNAME . Config::$SUBDIR."TDTInfo/Modules/?format=json&proxy=1";
 $stats = "";
 try{
      $stats = json_decode(TDT::HttpRequest($url)->data);
@@ -45,13 +45,13 @@ if(isset($stats->module)){
      echo "<h1>Modules and methods</h1>";
      foreach($stats->module as $modu){
 	  $name = $modu->name;
-	  echo "<h2><a href=\"" . $modu->url ."docs/\">$name</a><small>(". $modu->url  .")</small></h2>\n";
+	  echo "<h2><a href=\"/" .Config::$SUBDIR. $modu->url ."docs/\">$name</a><small>(". $modu->url  .")</small></h2>\n";
 	  if(sizeof($modu->method) > 0){
 	       echo "<ul>";
 	       foreach($modu->method as $method){
 		    $methodname = $method->name;
 		    //echo "<li><a href=\"".$modu->url."docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
-		    echo "<li><a href=\"/docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
+		    echo "<li><a href=\"/".Config::$SUBDIR."docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
 	       }
 	       echo "</ul>";
 	  }else{

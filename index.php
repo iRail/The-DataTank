@@ -25,7 +25,13 @@ date_default_timezone_set('UTC');
 /*
  * This is the former url-rewrite: it will map all urls to a certain class which will get the request
  */
-$urls = array('/' => 'Index', '/docs/' => 'Docs', '/resources/' => 'Resources', '/docs/(?P<module>.*?)/(?P<method>.*?)/.*' => 'DocPage', '/stats/' => 'Stats', '/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler', '/(?P<module>.*?)/(?P<method>.*?)/.*' => 'ModuleHandler');
+$urls = array(	'/' => 'Index',
+ 				'/docs/' => 'Docs', 
+ 				'/resources/' => 'Resources',
+  				'/docs/(?P<module>.*?)/(?P<method>.*?)/.*' => 'DocPage',
+   				'/stats/' => 'Stats',
+    			'/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler',
+     			'/(?P<module>.*?)/(?P<method>.*?)/.*' => 'ModuleHandler');
 
 //This function will do the magic. See glue.php
 try {
