@@ -22,6 +22,13 @@ class Config {
 
 	//the webserver subdirectory, if it's not in a subdir, fill in blank
 	public static $SUBDIR = "";
+    
+    public static $DSN = 'mysqli://user:passwd@localhost/db_name';
+    public static $DB_OPTIONS;
 
 }
+Config::$DB_OPTIONS = array(
+    'debug' => 2,
+    'result_buffering' => false
+);
 ?>
