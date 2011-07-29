@@ -32,13 +32,7 @@ function getAllDerivedClasses($classname){
 include_once("templates/TheDataTank/header.php");
 $url = Config::$HOSTNAME . Config::$SUBDIR."TDTInfo/Modules/?format=json&proxy=1";
 $stats = "";
-try{
-     $stats = json_decode(TDT::HttpRequest($url)->data);
-}
-catch(Exception $e){
-    echo "what?";
-     //...
-}
+$stats = json_decode(TDT::HttpRequest($url)->data);
 
 //Test whether HttpRequest succeeded 
 if(isset($stats->module)){
@@ -66,8 +60,7 @@ echo "<h1>Errors</h1>";
 
 foreach(getAllDerivedClasses("AbstractTDTException") as $class){
      echo "<h4>".$class::$error." - $class</h4>";
-     echo $class::getDoc();
-     echo "<br/>";
+     echo "<p>" .$class::getDoc() . "</p>";
 }
 include_once("templates/TheDataTank/footer.php");
 ?>

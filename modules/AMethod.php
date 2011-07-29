@@ -25,16 +25,6 @@ abstract class AMethod{
       * @param string $classname Contains the classname, needed to check if i.e. all the correct parameters are passed along.
       */
       public function __construct($classname){
-	  // We're going to fetch all parameters and check wether the Required parameters are set. 
-	  
-	  // Checking the required parameters first
-	  foreach($classname::getRequiredParameters() as $key){
-	       // If a certain required parameter is not found, throw exception
-	       if(!isset($_GET[$key])){
-		    throw new ParameterTDTException($key);
-	       }
-	  }
-
 	  // Now check all GET parameters and give them to setParameter, which needs to be handled by the extended method.
 	  foreach($_GET as $key => $value){
 	       //the method and module will already be parsed by another system

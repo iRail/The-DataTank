@@ -32,15 +32,14 @@ if(array_key_exists($module, ProxyModules::$modules)) {
 	$moduleURL = ProxyModules::$modules[$module];
 	$boom = explode("/", $moduleURL);
 	// take third part of the explode = baseurl
-	$url = "http://" . $boom[2] . "/TDTInfo/Module/?format=json&mod=" . $boom[3] . "&meth=" . $method;
+	$url = "http://" . $boom[2] . "/TDTInfo/Module/".  $boom[3]."/$method/?format=json";
 	echo $url;
 } else {
 	/*
 	 * If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)
 	 * to return the object with the proper documentation.
 	 */
-	$url = Config::$HOSTNAME .Config::$SUBDIR. "TDTInfo/Module/?format=json&mod=" . $module . "&meth=" . $method;
-	echo $url;
+	$url = Config::$HOSTNAME .Config::$SUBDIR. "TDTInfo/Module/$module/$method/?format=json";
 }
 
 $method = json_decode(TDT::HttpRequest($url) -> data);
@@ -52,20 +51,15 @@ echo "<h1>" . $module . "/" . $methodname . "</h1>";
 $args = "";
 if(sizeof(($method -> requiredparameter)) > 0) {
 	$params = $method -> requiredparameter;
-	$args = "?" . $params[0] . "=...";
-	$i = 0;
 	foreach($params as $var) {
-		if($i != 0) {
-			$args .= "&$var=...";
-		}
-		$i++;
+			$args .= "?$var?/";
 	}
 }
 /* build the proper URL's to invoke when doing a call for a certain method */
 $url = Config::$HOSTNAME . CONFIG::$SUBDIR."$module/$methodname/$args";
 echo "<a href=\"$url\">$url</a>";
 echo "<h3>Description</h3>";
-echo $method -> doc;
+echo "<p>" . $method -> doc . "</p>";
 if(sizeof($method -> parameter) > 0) {
 	echo "<h3>All possible parameters:</h3>";
 	echo "<ul>\n";
