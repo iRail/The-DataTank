@@ -16,10 +16,12 @@ class Config {
 
 	//add a trailing slash!
 	public static $HOSTNAME = "http://localhost/";
+	
 	//add a trailing slash!
-	public static $INSTALLDIR = "...";
+	public static $INSTALLDIR = "\$PWD";
 
 	//the webserver subdirectory, if it's not in a subdir, fill in blank
 	public static $SUBDIR = "";
+
 }
 ?>
