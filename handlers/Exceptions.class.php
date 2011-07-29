@@ -335,4 +335,23 @@ class DatabaseTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class represents an exception which thrown when the creation of a method fails.
+ */
+class ResourceTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "Something resource related went wrong.";
+     }
+
+     public static $error = 510;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($msg){
+	  parent::__construct("Something went wrong: " . $msg);
+     }
+}
+
 ?>

@@ -62,11 +62,51 @@ class Resources {
 	}
 	//create a method in a certain module
 	function POST(){
+	    try{
+	        
+	   
 		$cwd = getcwd(); 
 		$path = $cwd."/modules/";
-		$ourFileName = "testFile.txt";
-		$ourFileHandle = fopen($path.$ourFileName, 'w') or die("can't open file");
-		fclose($ourFileHandle);
+		$path.=$_POST["module"];
+		// create the directory
+		if(!is_dir($path)){		    
+		  mkdir($path,0777);    
+        }
+		//methodfile
+		//TODO Check if file exists already !!
+		$methodFileHandle = fopen($path."/".$_POST["method"].".class.php", 'w'); //returns handle or FALSE when error
+		if($methodFileHandle===FALSE){
+			throw new ResourceTDTException("Can't create method.");
+		}
+		$templateFile = "/var/www/modules/methodtemplates/template.php";//
+		filesize($templateFile);
+		//echo "fileurl: " . $templateFile." ; ";
+		$templatehandle = fopen($templateFile,'r');		
+		//$data = fgets($templatehandle);//,filesize($templateFile)
+		if(file_exists($templateFile)){
+			echo "file exists !";
+            echo filesize($templateFile);
+			$data = fread($templatehandle,filesize($templateFile));
+            if($data === FALSE){
+                echo "oops";
+            }else{
+                echo $data;
+            }
+        }
+		fclose($methodFileHandle);
+        $dir = "/var/www/modules/methodtemplates/";
+        if (is_dir($dir)){
+            if ($dh = opendir($dir)) {
+                while (($file = readdir($dh)) !== false) {
+                    echo $file."; ";
+                }
+                closedir($dh);
+            }
+        }
+		fclose($templatehandle);		
+		}catch(Exception $ex){
+		    echo "Something went wrong";
+		}
 	}
 }
 
