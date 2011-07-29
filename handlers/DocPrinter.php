@@ -39,13 +39,12 @@ if(isset($stats->module)){
      echo "<h1>Modules and methods</h1>";
      foreach($stats->module as $modu){
 	  $name = $modu->name;
-	  echo "<h2><a href=\"/" .Config::$SUBDIR. $modu->url ."docs/\">$name</a><small>(". $modu->url  .")</small></h2>\n";
+	  echo "<h2><a href=\"". Config::$HOSTNAME .Config::$SUBDIR. $modu->url ."docs/\">$name</a>&nbsp;<small>(". $modu->url  .")</small></h2>\n";
 	  if(sizeof($modu->method) > 0){
 	       echo "<ul>";
 	       foreach($modu->method as $method){
 		    $methodname = $method->name;
-		    //echo "<li><a href=\"".$modu->url."docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
-		    echo "<li><a href=\"/".Config::$SUBDIR."docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
+		    echo "<li><a href=\"". Config::$HOSTNAME . Config::$SUBDIR . "docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
 	       }
 	       echo "</ul>";
 	  }else{

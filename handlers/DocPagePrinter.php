@@ -70,6 +70,5 @@ if(sizeof($method -> parameter) > 0) {
 	echo "<h3>This method has no parameters.</h3>";
 }
 
-echo "<br/>";
-echo "<a href=\"/".Config::$SUBDIR."docs/\">&laquo; Back to the datasets</a>";
+echo "<p><a href=\"/".Config::$SUBDIR."docs/\">&laquo; Back to the datasets</a></p>";
 include_once ("templates/TheDataTank/footer.php");?>
