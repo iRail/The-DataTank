@@ -1,7 +1,6 @@
 <?php
 
 include_once("modules/AMethod.php");
-include_once("error/Exceptions.class.php");
 
 class Events extends AMethod{
 
@@ -70,7 +69,7 @@ class Events extends AMethod{
      }
 
      public static function getAllowedPrintMethods(){
-	  return array("php","xml","json","jsonp");
+		return array("php","xml","json","jsonp");
      }
      
 }

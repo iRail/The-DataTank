@@ -225,22 +225,40 @@ class NoPrinterTDTException extends AbstractTDTException{
 /**
  * This class reprents an exception which is thrown when a given method or module is not valid.
  */
-class PrinterTDTException extends AbstractTDTException{
+class BadMethodCallTDTException extends AbstractTDTException{
      public static function getDoc(){
-	  return "Printer is available but a problem occured while trying to print the element.";
+	  return "Bad method call";
      }
 
-     public static $error = 505;
+     public static $error = 450;
 
      public function getErrorCode(){
-	  return PrinterTDTException::$error;
+	  return self::$error;
      }
 
      public function __construct($message){
-	  parent::__construct("Do you think the Printer cares? No it doesn't care, it just throws an exception. It's so bad-ass: " . $message);
+	  parent::__construct($message);
      }
 }
 
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
+class NotFoundTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "Class not found!";
+     }
+
+     public static $error = 451;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($message){
+	  parent::__construct($message);
+     }
+}
 /**
  * This class reprents an exception which is thrown when a given method or module is not valid.
  */
@@ -297,4 +315,24 @@ class InternalPrinterTDTException extends AbstractTDTException{
 	  parent::__construct("Object gives weird printeroutput - fix your module: " . $msg);
      }
 }
+
+/**
+ * This class represents an exception which is trhown when a database related error occurs.
+ */
+class DatabaseTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "Something went wrong whilst contacting the database.";
+     }
+
+     public static $error = 509;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($msg){
+	  parent::__construct("Something went wrong whilst contact the database: " . $msg);
+     }
+}
+
 ?>

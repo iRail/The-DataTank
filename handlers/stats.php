@@ -1,11 +1,11 @@
 <?php
-  /* Copyright (C) 2011 by iRail vzw/asbl
-   *
-   * Author: Jan Vansteenlandt <jan aŧ iRail.be>
-   * License: AGPLv3
-   *
-   * This file displays some basic analysis of the request logging and error logging.
-   */
+/* Copyright (C) 2011 by iRail vzw/asbl
+ *
+ * Author: Jan Vansteenlandt <jan aŧ iRail.be>
+ * License: AGPLv3
+ *
+ * This file displays some basic analysis of the request logging and error logging.
+ */
 ini_set("include_path", "../");
 ini_set("error_reporting", E_ALL);
 
@@ -19,14 +19,15 @@ $time = array();
 
 /*********************************** Start output *************************************/
 
-include_once ("templates/TheDataTank/header.php");?>
+include_once ("templates/TheDataTank/header.php");
+?>
 <!--[if lte IE 8]><script language="javascript" src="flot/excanvas.min.js"></script><![endif]-->
-     <script language="javascript" src="/templates/TheDataTank/js/flot/jquery.js"></script>
-     <script language="javascript" src="/templates/TheDataTank/js/flot/jquery.flot.js"></script>
+     <script language="javascript" src="/<?=CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.js"></script>
+     <script language="javascript" src="/<?=CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.flot.js"></script>
 
-     <h1 id="title"></h1>
+     <h1 id="title">Stats</h1>
      <br>
-     <div id="placeholder" style="width:600px;height:300px;">
+     <div id="placeholder" style="width:510px;height:300px;">
      </div>
 
      <p>
@@ -40,7 +41,7 @@ include_once ("templates/TheDataTank/header.php");?>
      Module
      <select id="module">
 <?php
-     $mods = json_decode(TDT::HttpRequest("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=0")->data);
+     $mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME."".Config::$SUBDIR. "TDTInfo/Modules/?format=json&proxy=0")->data);
      foreach($mods->module as $mod){
 	  echo "<option>".$mod->name."</option>";
      }
@@ -59,7 +60,7 @@ echo "</script>";
 Method
 <select id="method">
      <?php
-     $mods = json_decode(TDT::HttpRequest("http://" . $_SERVER["SERVER_NAME"] . "/TDTInfo/Modules/?format=json&proxy=0")->data);
+     $mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME. "".Config::$SUBDIR . "TDTInfo/Modules/?format=json&proxy=0")->data);
 if(count($mods->module) > 1){
      $mod = $mods->module[0];
      foreach($mod->method as $method){
@@ -82,19 +83,18 @@ $(document).ready( function() {
 	  $('#submit').click( function() {
 		    var moduleName = $('#module').val();
 		    var methodName = $('#method').val();
-		    var args = "&mod="+ moduleName;
+		    var args =  moduleName + "/";
 		    if(methodName != "") {
-			 args+="&meth="+methodName;
+			 args+= methodName + "/";
 		    }
 		    var table = $('#datasource').val();
 		    if(table != "requests") {
 			 args+="&err=true";
 		    }
 
-		    var url = 'http://<?=$_SERVER["SERVER_NAME"] ?>/TDTInfo/Queries/?format=json'+args;
 		    $.ajax({
 			 type : 'GET',
-				   url : 'http://<?=$_SERVER["SERVER_NAME"] ?>/TDTInfo/Queries/?format=json'+args,
+				   url : '<?=Config::$HOSTNAME ."".Config::$SUBDIR ?>TDTInfo/Queries/' + args +'?format=json',
 				   dataType : 'json',
 				   success : function(result) {
 				   plotChart(result);
@@ -223,4 +223,5 @@ $("#module").change(function(e) {
 
 </script>
 <?php
-include_once ("templates/TheDataTank/footer.php");?>
+include_once ("templates/TheDataTank/footer.php");
+?>
