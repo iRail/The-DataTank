@@ -32,8 +32,7 @@ if(array_key_exists($module, ProxyModules::$modules)) {
 	$moduleURL = ProxyModules::$modules[$module];
 	$boom = explode("/", $moduleURL);
 	// take third part of the explode = baseurl
-	$url = "http://" . $boom[2] . "/TDTInfo/Module/".  $boom[3]."/$method/?format=json";
-	echo $url;
+	$url = "http://" . $boom[2] . "/TDTInfo/Module/?format=json&mod=" . $boom[3] . "&meth=" . $method;
 } else {
 	/*
 	 * If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)

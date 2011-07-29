@@ -60,9 +60,13 @@ class Resources {
 	function GET(){
 		require_once("handlers/Resources.php");
 	}
-	//create a method
+	//create a method in a certain module
 	function POST(){
-		
+		$cwd = getcwd(); 
+		$path = $cwd."/modules/";
+		$ourFileName = "testFile.txt";
+		$ourFileHandle = fopen($path.$ourFileName, 'w') or die("can't open file");
+		fclose($ourFileHandle);
 	}
 }
 
