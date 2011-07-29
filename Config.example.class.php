@@ -18,5 +18,13 @@ class Config{
      //add a trailing slash!
      public static $HOSTNAME = "http://localhost/";
 
-  }
+     public static $DSN = 'mysqli://user:passwd@localhost/db_name';
+     public static $DB_OPTIONS;
+}
+
+Config::$DB_OPTIONS = array(
+    'debug' => 2,
+    'result_buffering' => false
+);
+
 ?>
