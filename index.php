@@ -22,6 +22,7 @@ require_once('pages/Docs.class.php');
 require_once('pages/Stats.class.php');
 require_once('pages/Index.class.php');
 require_once('pages/Resources.class.php');
+require_once('pages/DocPage.class.php');
 
 set_error_handler('wrapper_handler');
 date_default_timezone_set('UTC');
