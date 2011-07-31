@@ -18,6 +18,10 @@ require_once ('handlers/ErrorHandler.class.php');
 require_once ('modules/ProxyModules.php');
 require_once ('TDT.class.php');
 require_once ('Config.class.php');
+require_once('pages/Docs.class.php');
+require_once('pages/Stats.class.php');
+require_once('pages/Index.class.php');
+require_once('pages/Resources.class.php');
 
 set_error_handler('wrapper_handler');
 date_default_timezone_set('UTC');
@@ -42,95 +46,6 @@ try {
 	glue::stick($urls);
 } catch(Exception $e) {
 	ErrorHandler::logException($e);
-}
-
-//TODO: make an abstract class Page.class.php with method GET() and POST()
-class Index {
-	function GET() {
-		require_once ('contents.php');
-		include_once ("templates/TheDataTank/header.php");
-		echo $index_content;
-		include_once ("templates/TheDataTank/footer.php");
-	}
-
-	//give error on POST?
-}
-
-class Resources {
-	function GET(){
-		require_once("handlers/Resources.php");
-	}
-	//create a method in a certain module
-	function POST(){
-	    try{
-	        
-	   
-		$cwd = getcwd(); 
-		$path = $cwd."/modules/";
-		$path.=$_POST["module"];
-		// create the directory
-		if(!is_dir($path)){		    
-		  mkdir($path,0777);    
-        }
-		//methodfile
-		//TODO Check if file exists already !!
-		$methodFileHandle = fopen($path."/".$_POST["method"].".class.php", 'w'); //returns handle or FALSE when error
-		if($methodFileHandle===FALSE){
-			throw new ResourceTDTException("Can't create method.");
-		}
-		$templateFile = "/var/www/modules/methodtemplates/template.php";//
-		filesize($templateFile);
-		//echo "fileurl: " . $templateFile." ; ";
-		$templatehandle = fopen($templateFile,'r');		
-		//$data = fgets($templatehandle);//,filesize($templateFile)
-		if(file_exists($templateFile)){
-			echo "file exists !";
-            echo filesize($templateFile);
-			$data = fread($templatehandle,filesize($templateFile));
-            if($data === FALSE){
-                echo "oops";
-            }else{
-                echo $data;
-            }
-        }
-		fclose($methodFileHandle);
-        $dir = "/var/www/modules/methodtemplates/";
-        if (is_dir($dir)){
-            if ($dh = opendir($dir)) {
-                while (($file = readdir($dh)) !== false) {
-                    echo $file."; ";
-                }
-                closedir($dh);
-            }
-        }
-		fclose($templatehandle);		
-		}catch(Exception $ex){
-		    echo "Something went wrong";
-		}
-	}
-}
-
-class Docs {
-
-	//TODO: put all these things in PagePrinters
-	function GET() {
-		require_once ("handlers/DocPrinter.php");
-	}
-
-}
-
-class DocPage {
-	function GET($matches) {
-		require_once ("handlers/DocPagePrinter.php");
-	}
-
-}
-
-class Stats {
-	function GET() {
-		require_once ("handlers/stats.php");
-	}
-
 }
 
 class FeedbackHandler {
