@@ -1,7 +1,8 @@
 <?php
  
 /**
- * This file contains Queries.class.php
+ * This class is returns the number of queries/errors made on/in the API/methods per day.
+ *
  * @package The-Datatank/modules/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -9,40 +10,30 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-include_once("modules/AMethod.php");
-
-/**
- * This class is returns the number of queries/errors made on/in the API/methods per day.
- */
-class Queries extends AMethod{
+class Queries extends AResource{
 
      private $module; // must be set! Contains the value of the module that needs to be analysed.
      private $method; // if set only look at certain data from a certain method within the given module.
      private $errors = ""; // if set, get data from errors table. ( not set or true )
      private $queryResults;
-     
-
-     public function __construct(){
-	  parent::__construct("Queries");
-     }
 
      public static function getParameters(){
-	  return array("mod" => "Name of a module that needs to be analysed, must be set !",
-		       "meth" => "Name of a method within the given module, is not required.",
-		       "err" => "If set then the analysis will get it's data from the error table if not from the request table."
+	  return array("module" => "Name of a module that needs to be analysed, must be set !",
+		       "method" => "Name of a method within the given module, is not required.",
+		       "error" => "If set then the analysis will get it's data from the error table if not from the request table."
 	       );
      }
 
      public static function getRequiredParameters(){
-	  return array("mod");
+	  return array("module");
      }
 
      public function setParameter($key,$val){
-	  if($key == "mod"){
+	  if($key == "modume"){
 	       $this->module = $val;
-	  }elseif($key == "meth"){
+	  }elseif($key == "method"){
 	       $this->method = $val;
-	  }elseif($key == "err"){
+	  }elseif($key == "error"){
 	       $this->errors = $val;
 	  }
      }

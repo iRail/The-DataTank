@@ -1,12 +1,12 @@
 <?php
-  /**
-   * Index class, homepage of the datatank
-   *
-   * @package The-Datatank/pages
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Jan Vansteenlandt
-   */
+/**
+ * Index class, homepage of the datatank
+ *
+ * @package The-Datatank/pages
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt
+ */
 
 
 class Index{
@@ -18,8 +18,8 @@ class Index{
               <p>This project aims at serving giving you the right data. Check out <a href="/docs/">the datasets</a> that are currently available.</p>
               <h2>The DataTank for a data-owner</h2>
               <p>We have the right platform for you to <strong>open your data</strong>. We believe that opening your data is not only a political interesting thing to do, it is as well economically relevant. Combining your data with other data online has never been this easy!</p>';
-
+	
 	include_once ("templates/TheDataTank/footer.php");
     }
-  }
+}
 ?>

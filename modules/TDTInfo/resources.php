@@ -17,7 +17,7 @@ class TDTInfo{
      /**
       * All available methods in the module TDTInfo
       */
-     public static $methods = array (
+     public static $resources = array (
 	  "Modules",
 	  "Module",
 	  "Queries"

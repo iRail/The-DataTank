@@ -46,8 +46,9 @@ class Xml extends Printer{
 		    }elseif(is_array($value)){
 			 $this->printArray($key,$value);
 		    }else{
-			 $val = htmlspecialchars($value);
-			 echo "<".$key.">". $val ."</".$key.">";
+			$key = htmlspecialchars(str_replace(" ","",$key));
+			$val = htmlspecialchars($value);
+			echo "<".$key.">". $val ."</".$key.">";
 		    }
 	       }
 	  }
@@ -70,6 +71,7 @@ class Xml extends Printer{
 		    if(is_array($value)){
 			 throw new InternalPrinterTDTException("Array in an array is trouble with XML-output. Don't do it!");
 		    }
+		    $name = htmlspecialchars(str_replace(" ","",$name));
 		    $value = htmlspecialchars($value);
 		    if($this->isHash($array)){
 			 echo "<".$name. " id=\"". $index . "\"><key>".$key."</key><value>".$value."</value></".$name.">";

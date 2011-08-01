@@ -7,13 +7,6 @@
    * @license AGPLv3
    * @author Jan Vansteenlandt
    */
-ini_set("include_path", "../");
-ini_set("error_reporting", E_ALL);
-
-include_once("Config.class.php");
-include_once("modules/ProxyModules.php");
-include_once("modules/InstalledModules.php");
-include_once("TDT.class.php");
 
 class Stats {
     function GET() {

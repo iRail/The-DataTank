@@ -8,28 +8,16 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-include_once("modules/AMethod.php");
-include_once("modules/InstalledModules.php");
-include_once("modules/ProxyModules.php");
-include_once("Config.class.php");
-
-/**
- * This class implements an AMethod handling calls that look for information about a certain method.
- */
-class Module extends AMethod{
+class Module extends AResource{
 
      private $mod,$meth;
 
-     public function __construct(){
-	  parent::__construct("Module");
-     }
-
      public static function getParameters(){
-	  return array("mod" => "Module name","meth" => "Method name");
+	  return array("module" => "Module name","resource" => "This is the name of the resource");
      }
 
      public static function getRequiredParameters(){
-	  return array("mod","meth");
+	  return array("module","resource");
      }
 
      public function setParameter($key,$val){
@@ -45,12 +33,13 @@ class Module extends AMethod{
      public function call(){
 	  $o = new stdClass();
 	  if(in_array($this->mod,ProxyModules::getAll())){
-	       //If we are only a proxy, refer the jsonthing
-	       return json_decode(TDT::HttpRequest(Config::HOSTNAME . "TDTInfo/Module/?format=json&meth=" . $this->meth . "&mod=" . $this->mod));
+	       //If we are only a proxy, return the jsonthing
+	       return unserialize(TDT::HttpRequest(Config::HOSTNAME . "TDTInfo/Module/". $this->mod ."/" . $this->meth . "/?format=php")->data);
 	  }else{
 	       include_once("modules/" . $this->mod . "/" . $this->meth.".class.php");
 	       $meth = $this->meth;
 	       $o->doc = $meth::getDoc();
+	       $o->url = Config::$HOSTNAME . Config::$SUBDIR;
 	       $o->parameter =  $meth::getParameters();
 	       $o->requiredparameter = $meth::getRequiredParameters();
 	  }

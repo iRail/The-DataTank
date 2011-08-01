@@ -8,20 +8,20 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 class Config {
-	public static $MySQL_USER_NAME = "...";
-	public static $MySQL_PASSWORD = "...";
+    public static $MySQL_USER_NAME = "...";
+    public static $MySQL_PASSWORD = "...";
 
-	//The mysql database is the database where the errors and requests are being stored.
-	public static $MySQL_DATABASE = "...";
+    //The mysql database is the database where the errors and requests are being stored.
+    public static $MySQL_DATABASE = "...";
 
-	//add a trailing slash!
-	public static $HOSTNAME = "http://localhost/";
+    //add a trailing slash!
+    public static $HOSTNAME = "http://localhost/";
 	
-	//add a trailing slash!
-	public static $INSTALLDIR = "\$PWD";
+    //add a trailing slash!
+    public static $INSTALLDIR = "\$PWD";
 
-	//the webserver subdirectory, if it's not in a subdir, fill in blank
-	public static $SUBDIR = "";
+    //the webserver subdirectory, if it's not in a subdir, fill in blank
+    public static $SUBDIR = "";
     
     public static $DSN = 'mysqli://user:passwd@localhost/db_name';
     public static $DB_OPTIONS;

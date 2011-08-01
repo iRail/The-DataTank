@@ -1,13 +1,12 @@
 <?php
-
- /**
-   * This file contains the PrinterFactory.
-   * @package The-Datatank/printer
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Jan Vansteenlandt <jan@iRail.be>
-   * @author Pieter Colpaert   <pieter@iRail.be>
-   */
+/**
+ * This file contains the PrinterFactory.
+ * @package The-Datatank/printer
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt <jan@iRail.be>
+ * @author Pieter Colpaert   <pieter@iRail.be>
+ */
 
 include_once("printer/Printer.php");
 
@@ -16,23 +15,54 @@ include_once("printer/Printer.php");
  */
 class PrinterFactory{
 
-     /**
-      * This function will return a printer instance of a certain type.
-      * @param string $rootname This is needed for some printers.
-      * @param string $format   This string will be used to classload the correct printer.
-      * @param Mixed  $objectToPrinter This is the object that will be printed.
-      * @return Correct printer according to the $format parameter.
-      */
-     public static function getPrinter($rootname, $format,$objectToPrint){
-	  $callback = null;
-	  if(($format == "Json" || $format == "Jsonp") && isset($_GET["callback"])){
-	       $callback = $_GET["callback"];
-	       $format = "Jsonp";
-	       include_once("printer/$format.php");
-	       return new $format($rootname,$objectToPrint,$callback);
-	  }
-	  include_once("printer/$format.php");
-	  return new $format($rootname, $objectToPrint);
-     }
+    private $format;
+
+    /**
+     * The constructor will get the right format and will decide which printer should be used to print the object.
+     */
+    public function __construct(){
+	//let's define the format of the output:
+	// * First we check the headers for a content-type.
+	// * If not given, we'll check the format GET parameter
+	// * If not given, standard output is xml
+	$headerlines = getallheaders();
+	if(isset($headerlines["Content-type"])) {
+	    if(preg_match('/.*\/(.*?);.*?/', $headerlines["Content-type"], $matches)) {
+		$match = $matches[1];
+		//See php doc for this [0] contains the full match, 1 contains the first group
+		$this->format = ucfirst(strtolower($match));
+	    }
+	} elseif(isset($_GET['format'])) {
+	    $this->format = ucfirst(strtolower($_GET['format']));
+	} else {
+	    //default value; if format GET param has not been set, nor 
+	    $this->format = 'Xml';
+	}
+    }
+    
+    public function getFormat(){
+	return $this->format;
+    }
+
+    /**
+     * This function will return a printer instance of a certain type.
+     * @param string $rootname This is needed for some printers.
+     * @param string $format   This string will be used to classload the correct printer.
+     * @param Mixed  $objectToPrinter This is the object that will be printed.
+     * @return Correct printer according to the $format parameter.
+     */
+    public function getPrinter($rootname, $objectToPrint){
+	$callback = null;
+	//this is a fallback for jsonp - if callback is given, just return jsonp anyway
+	if(($this->format == "Json" || $this->format == "Jsonp") && isset($_GET["callback"])){
+	    $callback = $_GET["callback"];
+	    $this->format = "Jsonp";
+	    include_once("printer/".$this->format . ".php");
+	    return new $format($rootname,$objectToPrint,$callback);
+	}
+	$format=$this->format;
+	include_once("printer/". $this->format . ".php");
+	return new $format($rootname, $objectToPrint);
+    }
 }
 ?>

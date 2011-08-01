@@ -9,23 +9,15 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-include_once("modules/AMethod.php");
-include_once("modules/InstalledModules.php");
-include_once("modules/ProxyModules.php");
-include_once("TDT.class.php");
+//TODO
 
 /**
  * This class is a method which returns all available modules for this DataTank.
  */
-class Modules extends AMethod{
-
+class Modules extends AResource{
 
      private $mod;
      private $proxy = false;
-
-     public function __construct(){
-	  parent::__construct("Modules");
-     }
 
      public static function getParameters(){
 	  return array("mod" => "if you want only one module specify it here", "proxy" =>"this is a boolean: 1 or 0 - if the boolean is true (default), the proxy methods will be inluded in the call. When false, only native functions will be included.");
@@ -58,7 +50,7 @@ class Modules extends AMethod{
 		    $arr = explode("/",$arr);
 		    //echo "http://" . $arr[0] . "/TDTInfo/Modules/?format=json&mod=". $arr[1];
 		    
-		    $resp = TDT::HttpRequest("http://" . $arr[0] . "/TDTInfo/Modules/?format=json&mod=". $arr[1], $options); 
+		    $resp = TDT::HttpRequest("http://" . $arr[0] . "/TDTInfo/Modules/" . $arr[1] . "?format=json", $options); 
 		    if(!isset($resp->error)){
 			 $module = json_decode($resp->data);
 			 if(is_object($module)){
@@ -99,7 +91,7 @@ class Modules extends AMethod{
 		    $modules[$i]->method[] = $mm;
 	       }
 	       $modules[$i]->name = $mod;
-	       $modules[$i]->url = Config::$HOSTNAME;
+	       $modules[$i]->url = Config::$HOSTNAME . Config::$SUBDIR;
 	       $i++;
 	  }
 	  $o->module = $modules;

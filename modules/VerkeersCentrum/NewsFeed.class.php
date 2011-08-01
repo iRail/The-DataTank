@@ -7,22 +7,15 @@
  * This method of Verkeerscentrum will get the newsfeed of Belgian traffic jams, accidents and works
  */
 
-
-include_once("modules/AMethod.php");
-
-class NewsFeed extends AMethod{
+class NewsFeed extends AResource{
 
      private $lang;
 
-     public function __construct(){
-	  parent::__construct("NewsFeed");
-     }
-
-     public static function getParameters(){
+     public function getParameters(){
 	  return array("lang" => "Language in which the newsfeed should be returned");
      }
 
-     public static function getRequiredParameters(){
+     public function getRequiredParameters(){
 	  return array();
      }
 
@@ -89,11 +82,11 @@ class NewsFeed extends AMethod{
      }
      
 
-     public static function getAllowedPrintMethods(){
+     public function getAllowedPrintMethods(){
 	  return array("json","xml", "jsonp", "php", "html");
      }
 
-     public static function getDoc(){
+     public function getDoc(){
 	  return "This is a function which will return all the latest news";
      }
 
