@@ -53,7 +53,7 @@ class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
 	  parent::__construct("Method or module not found: " . $m);
      }
 
-     public static $error = 404;
+     public static $error = 451;
 
      public function getErrorCode(){
 	  return MethodOrModuleNotFoundTDTException::$error;
@@ -72,7 +72,7 @@ class NotAMethodTDTException extends AbstractTDTException{
 	  parent::__construct("Not a method");
      }
 
-     public static $error = 410;
+     public static $error = 452;
 
      public function getErrorCode(){
 	  return NotAMethodTDTException::$error;
@@ -97,7 +97,7 @@ class FormatNotAllowedTDTException extends AbstractTDTException{
 	  parent::__construct($message);
      }
 
-     public static $error = 405;
+     public static $error = 453;
 
      public function getErrorCode(){
 	  return FormatNotAllowedTDTException::$error;
@@ -112,7 +112,7 @@ class ParameterTDTException extends AbstractTDTException{
 	  return "This exception is thrown when a parameter is incorrect. The constructor needs a parameter";
      }
 
-     public static $error = 401;
+     public static $error = 454;
 
      public function getErrorCode(){
 	  return ParameterTDTException::$error;
@@ -131,7 +131,7 @@ class ParameterDoesntExistTDTException extends AbstractTDTException{
 	  return "This exception is thrown when a parameter does not exist. The constructor needs a parameter";
      }
 
-     public static $error = 402;
+     public static $error = 455;
 
      public function getErrorCode(){
 	  return ParameterDoesntExistTDTException::$error;
@@ -154,7 +154,7 @@ class CouldNotGetDataTDTException extends AbstractTDTException{
 	  return "This exception is thrown when the data could not be resolved.";
      }
 
-     public static $error = 501;
+     public static $error = 551;
 
      public function getErrorCode(){
 	  return CouldNotGetDataTDTException::$error;
@@ -174,7 +174,7 @@ class InternalServerTDTException extends AbstractTDTException{
 	       . "For further information check /var/log/apache2/error.log";
      }
 
-     public static $error = 502;
+     public static $error = 552;
      public function getErrorCode(){
 	  return InternalServerTDTException::$error;
      }
@@ -193,7 +193,7 @@ class RemoteServerTDTException extends AbstractTDTException{
 	       "This probably due to remoteserver problem.";
      }
 
-     public static $error = 502;
+     public static $error = 553;
      public function getErrorCode(){
 	  return InternalServerTDTException::$error;
      }
@@ -211,7 +211,7 @@ class NoPrinterTDTException extends AbstractTDTException{
 	  return "No printer is available or something went wrong in the Formatter class";
      }
 
-     public static $error = 504;
+     public static $error = 554;
 
      public function getErrorCode(){
 	  return NoPrinterTDTException::$error;
@@ -230,7 +230,7 @@ class BadMethodCallTDTException extends AbstractTDTException{
 	  return "Bad method call";
      }
 
-     public static $error = 450;
+     public static $error = 555;
 
      public function getErrorCode(){
 	  return self::$error;
@@ -249,7 +249,7 @@ class NotFoundTDTException extends AbstractTDTException{
 	  return "Class not found!";
      }
 
-     public static $error = 451;
+     public static $error = 556;
 
      public function getErrorCode(){
 	  return self::$error;
@@ -267,7 +267,7 @@ class CouldNotParseUrlTDTException extends AbstractTDTException{
 	  return "When a wrong url is given or when the server cannot handle or url";
      }
 
-     public static $error = 506;
+     public static $error = 557;
 
      public function getErrorCode(){
 	  return self::$error;
@@ -286,7 +286,7 @@ class HttpOutTDTException extends AbstractTDTException{
 	  return "We failed contacting an external server";
      }
 
-     public static $error = 507;
+     public static $error = 558;
 
      public function getErrorCode(){
 	  return self::$error;
@@ -305,7 +305,7 @@ class InternalPrinterTDTException extends AbstractTDTException{
 	  return "Printerfail - Something is wrong in the object";
      }
 
-     public static $error = 508;
+     public static $error = 559;
 
      public function getErrorCode(){
 	  return self::$error;
@@ -324,7 +324,7 @@ class DatabaseTDTException extends AbstractTDTException{
 	  return "Something went wrong whilst contacting the database.";
      }
 
-     public static $error = 509;
+     public static $error = 560;
 
      public function getErrorCode(){
 	  return self::$error;
@@ -343,7 +343,7 @@ class ResourceTDTException extends AbstractTDTException{
 	  return "Something resource related went wrong.";
      }
 
-     public static $error = 510;
+     public static $error = 561;
 
      public function getErrorCode(){
 	  return self::$error;

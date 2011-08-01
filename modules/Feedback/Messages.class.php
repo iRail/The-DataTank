@@ -7,6 +7,7 @@
    * @license: AGPLv3
    */
 
+//include_once("MDB2.php");
 include_once("modules/AMethod.php");
 include_once("TDT.class.php");
 
@@ -20,7 +21,7 @@ class Messages extends AMethod {
     private $direction;
 
     public function __construct() {
-        // We need to be able to hande any combination of parameters so we do 
+        // We need to be able to handle any combination of parameters so we do 
         // not call the constructor.
         //parent::__construct("Message");
     }
@@ -30,66 +31,46 @@ class Messages extends AMethod {
     }
 
     public function getData() {
-	    /* Connect to mysql database */
-	    $link = mysqli_connect(
-	        'localhost',              /* The host to connect to */
-	        Config::$MySQL_USER_NAME, /* The user to connect with the MySQL database */
-	        Config::$MySQL_PASSWORD,   /* The password to use to connect with the db  */
-	        Config::$MySQL_DATABASE);  /* The default database to query */
-
-        if (!$link) {
-            printf("Can't connect to MySQL Server. Errorcode: %s\n",
-                mysqli_connect_error());
-	       exit;
-        }
+	    /* Connect to database */
+        $conn = MDB2::factory(Config::$DSN, Config::$DB_OPTIONS);
 
         $pageUrl = TDT::getPageUrl();
 
-        $queryString = 'SELECT * FROM feedback_messages' . ' WHERE ' .
-            ' WHERE url_request = ' . $pageUrl;
-        //echo "queryString is ". $queryString;
-	  
-        if ($result = mysqli_query($link, $queryString)) {
-            /* Fetch the results of the query */
-	        $this->queryResults = new QueryResults();
+        $stmt = $conn->prepare('SELECT * FROM feedback_messages WHERE url_request = ?',
+            array('text'));
+        $result = $stmt->execute($pageUrl, MDB2_FETCHMODE_OBJECT);
+        $this->queryResult = $result->fetchAll();
+        vardump($this->queryResult);
 
-            while( $row = mysqli_fetch_assoc($result) ) {
-                foreach($row as $key => $value) {
-                    $this->queryResult->result[$key] = $value;
-                }
-            }
-	        /* Destroy the result set and free the memory used for it. */
-	        mysqli_free_result($result);
-        }
+        $conn->disconnect();
+        //if ($result = mysqli_query($link, $queryString)) {
+            //[> Fetch the results of the query <]
+			//$this->queryResults = new QueryResults();
 
-        /* Close the connection */
-        mysqli_close($link);
+            //while( $row = mysqli_fetch_assoc($result) ) {
+                //foreach($row as $key => $value) {
+                    //$this->queryResult->result[$key] = $value;
+                //}
+            //}
+			//[> Destroy the result set and free the memory used for it. <]
+			//mysqli_free_result($result);
+        //}
+
+        //[> Close the connection <]
+        //mysqli_close($link);
     }
 
     public function call() {
-        if (isset($_POST)) {
-            if (!isset($_POST['msg'])) {
-                //TODO return some error stuff.
-            } else {
-                echo 'Msg: ' . $_POST['msg'];
-                $this->setData();
-
-                //TODO this shoudn't be here, but then where o where should
-                //it be? Spaghetti code...
-                header('test', true, 201); // Set header to Created
-            }
-        } else {
-            $this->getData();
-            return $this->queryResults;
-        }
+        $this->getData();
+        return $this->queryResults;
     }
 
     public function setParameter($name,$val) {
 
     }
 
-    public function allowedPrintMethods() {
-
+    public static function getAllowedPrintMethods() {
+        return array("php","xml","json","jsonp");
     }
 }
 

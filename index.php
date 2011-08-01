@@ -10,23 +10,23 @@
  * @author Jan Vansteenlandt
  */
 
-require_once('glue.php');
-require_once('handlers/Exceptions.class.php');
-require_once('handlers/ErrorHandler.class.php');
-require_once('handlers/ModuleHandler.class.php');
-require_once('TDT.class.php'); //general purpose static class
-require_once('Config.class.php'); //Configfile
-require_once('factories/AResourceFactory.class.php');
-require_once('factories/GenericResourceFactory.class.php');
-require_once('factories/InstalledResourceFactory.class.php');
-require_once('factories/RemoteResourceFactory.class.php');
-require_once('resources/AResource.class.php');
+include_once('glue.php');
+include_once('MDB2.php');
+include_once('handlers/Exceptions.class.php');
+include_once('handlers/ErrorHandler.class.php');
+include_once('handlers/ModuleHandler.class.php');
+include_once('TDT.class.php'); //general purpose static class
+include_once('Config.class.php'); //Configfile
+include_once('factories/AResourceFactory.class.php');
+include_once('factories/GenericResourceFactory.class.php');
+include_once('factories/InstalledResourceFactory.class.php');
+include_once('factories/RemoteResourceFactory.class.php');
+include_once('resources/AResource.class.php');
 
 //Autoloader for pages:
 function __autoload($name){
-    require_once('pages/' . $name . '.class.php');
+    include_once('pages/' . $name . '.class.php');
 }
-
 
 set_error_handler('wrapper_handler');
 date_default_timezone_set('UTC');
@@ -54,13 +54,13 @@ catch(Exception $e){
 class FeedbackHandler {
     function GET($matches) {
 	require_once ('modules/Feedback/Messages.class.php');
-	$message = Messages();
-	$result = $message -> call();
+	$message = new Messages();
+	$result = $message->call();
 	$rootname = 'feedback';
 	$printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $result);
 	$printer -> printAll();
     }
-
+    
     function POST($matches) {
 	require_once ('handlers/PostMessage.class.php');
 	$post = new PostMessage();
