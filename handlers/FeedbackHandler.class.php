@@ -15,28 +15,19 @@ class FeedbackHandler {
 
     private function setData() {
         /* Connect to mysql database */
-	    $link = mysqli_connect(
-	        'localhost',              /* The host to connect to */
-	        Config::$MySQL_USER_NAME, /* The user to connect with the MySQL database */
-	        Config::$MySQL_PASSWORD,  /* The password to use to connect with the db  */
-	        Config::$MySQL_DATABASE); /* The default database to query */
-
-        if (!$link) {
-            printf("Can't connect to MySQL Server. Errorcode: %s\n",
-                mysqli_connect_error());
-	       exit;
-        }
-
+        $conn = MDB2::factory(Config::$DSN, Config::$OPTION);
+        
         $pageUrl = TDT::getPageUrl();
 
-        $queryString = 'Insert Into feedback_messages (url_request, msg) values ("' .
-            $pageUrl . '", "' . $_POST['msg'] . '");';
+        $queryString = 'Insert Into feedback_messages (url_request, msg) values ('
+            . $conn->quote($pageUrl, 'text') . ', '
+            . $conn->quote($_POST['msg'], 'text') . ')';
 
-        $result = mysqli_query($link, $queryString);
+        $result = $conn->exec($queryString);
         echo '\n' . $result . '. ';
 
         /* Close the connection */
-        mysqli_close($link);
+        $conn->disconnect();
     }
 
     /**

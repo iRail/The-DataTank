@@ -10,19 +10,20 @@
  * @author Jan Vansteenlandt
  */
 
-require_once ('glue.php');
-require_once ('printer/PrinterFactory.php');
-require_once ('handlers/Exceptions.class.php');
-require_once ('handlers/RequestLogger.class.php');
-require_once ('handlers/ErrorHandler.class.php');
-require_once ('modules/ProxyModules.php');
-require_once ('TDT.class.php');
-require_once ('Config.class.php');
-require_once('pages/Docs.class.php');
-require_once('pages/Stats.class.php');
-require_once('pages/Index.class.php');
-require_once('pages/Resources.class.php');
-require_once('pages/DocPage.class.php');
+include_once('glue.php');
+include_once('MDB2.php');
+include_once('printer/PrinterFactory.php');
+include_once('handlers/Exceptions.class.php');
+include_once('handlers/RequestLogger.class.php');
+include_once('handlers/ErrorHandler.class.php');
+include_once('modules/ProxyModules.php');
+include_once('TDT.class.php');
+include_once('Config.class.php');
+include_once('pages/Docs.class.php');
+include_once('pages/Stats.class.php');
+include_once('pages/Index.class.php');
+include_once('pages/Resources.class.php');
+include_once('pages/DocPage.class.php');
 
 set_error_handler('wrapper_handler');
 date_default_timezone_set('UTC');
@@ -52,8 +53,8 @@ try {
 class FeedbackHandler {
 	function GET($matches) {
 		require_once ('modules/Feedback/Messages.class.php');
-		$message = Messages();
-		$result = $message -> call();
+		$message = new Messages();
+		$result = $message->call();
 		$rootname = 'feedback';
 		$printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $result);
 		$printer -> printAll();
