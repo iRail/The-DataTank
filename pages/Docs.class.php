@@ -64,7 +64,7 @@ class Docs {
 
 	echo "<h1>Errors</h1>";
 
-	foreach(getAllDerivedClasses("AbstractTDTException") as $class){
+	foreach(Docs::getAllDerivedClasses("AbstractTDTException") as $class){
 	    echo "<h4>".$class::$error." - $class</h4>";
 	    echo "<p>" .$class::getDoc() . "</p>";
 	}
