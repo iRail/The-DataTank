@@ -7,7 +7,7 @@
  */
 
 class Feedback {
-     public static $methods = array (
+     public static $resources = array (
           "Messages"
           );
 }

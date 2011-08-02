@@ -8,13 +8,12 @@
    */
 
 //include_once("MDB2.php");
-include_once("modules/AMethod.php");
-include_once("TDT.class.php");
+include_once("resources/AResource.class.php");
 
 /**
  * Class messages. Allows to push a feedback for a certain method.
  */
-class Messages extends AMethod {
+class Messages extends AResource {
     private $lang;
     private $system;
     private $time;
@@ -26,7 +25,7 @@ class Messages extends AMethod {
         //parent::__construct("Message");
     }
 
-    public static function getDoc() {
+    public function getDoc() {
         return "TODO"; //TODO add doc
     }
 
@@ -69,10 +68,15 @@ class Messages extends AMethod {
 
     }
 
-    public static function getAllowedPrintMethods() {
+    public function getAllowedPrintMethods() {
         return array("php","xml","json","jsonp");
     }
+
+    public function getRequiredParameters() {
+        return array();
+    }
+
+    public function getParameters() {
+        return array();
+    }
 }
-
-    
-
