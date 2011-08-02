@@ -29,7 +29,7 @@ abstract class AResource{
 	    //we don't need the format as well, this is used by printer
 	    if(!in_array($key,self::$BASICPARAMS)){
 		//check whether this parameter is in the documented parameters
-		$params = $classname::getParameters();
+		$params = $this->getParameters();
 		if(isset($params[$key])){
 		    $this->setParameter($key,$value);
 		}else{

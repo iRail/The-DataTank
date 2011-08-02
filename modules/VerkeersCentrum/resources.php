@@ -7,7 +7,7 @@
  */
 
 class VerkeersCentrum{
-     public static $methods = array (
+     public static $resources = array (
 	  "NewsFeed"
 	  );
 }

@@ -19,8 +19,7 @@ class InstalledResourceFactory extends AResourceFactory{
      */
     public function hasResource(){
 	return file_exists("modules/" . $this->module . "/" . $this->resource . ".class.php");
-    }
-    
+    }    
 
     /**
      * Scans the folder modules for other resources
@@ -34,7 +33,7 @@ class InstalledResourceFactory extends AResourceFactory{
 		//if the object read is a directory and the configuration methods file exists, then add it to the installed modules
 		if ($modu != "." && $modu != ".." && is_dir("modules/" . $modu) && file_exists("modules/" . $modu ."/resources.php")) {
 		    include("modules/" . $modu ."/resources.php");
-		    $modules[$modu] = $mode::$resources;
+		    $modules[$modu] = $modu::$resources;
 		}
 	    }
 	    closedir($handle);

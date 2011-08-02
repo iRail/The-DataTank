@@ -19,11 +19,11 @@ class Modules extends AResource{
      private $mod;
      private $proxy = false;
 
-     public static function getParameters(){
+     public function getParameters(){
 	  return array("mod" => "if you want only one module specify it here", "proxy" =>"this is a boolean: 1 or 0 - if the boolean is true (default), the proxy methods will be inluded in the call. When false, only native functions will be included.");
      }
 
-     public static function getRequiredParameters(){
+     public function getRequiredParameters(){
 	  return array();
      }
 
@@ -40,7 +40,7 @@ class Modules extends AResource{
 	  $modules = array();
 	  $i=0;
 	  if($this->proxy){
-	       $proxymodules = ProxyModules::getAll();
+	      $proxymodules = RemoteResourceFactory::getAllResourceNames();
 	       foreach($proxymodules as $mod => $url){
 		    $options = array("timeout" => 2);
 		    //TODO - neat solution for this
@@ -70,25 +70,24 @@ class Modules extends AResource{
 
 	  }
 
-	  $mods = InstalledModules::getAll();
+	  $mods = InstalledResourceFactory::getAllResourceNames();
 	  $modindex = -1;
-	  foreach($mods as $mod){
+	  foreach($mods as $mod => $resources){
 	       //Now that we have all modules, let's search for their methods
-	       include_once("modules/$mod/methods.php");
 	       $modules[$i] = new stdClass();
-	       $modules[$i]->method = array();	       
-	       foreach($mod::$methods as $method){
-		    include_once("modules/$mod/$method.class.php");
+	       $modules[$i]->resource = array();
+	       foreach($resources as $resource){
+		    include_once("modules/$mod/$resource.class.php");
 		    if(isset($this->mod) && $mod == $this->mod){
 			 $modindex=$i;
 		    }
 		    $mm = new stdClass();
-		    $mm->name = $method;
-		    $mm->doc = $method::getDoc();
-		    $mm->requiredparameters = $method::getRequiredParameters();
-		    $mm->parameters = $method::getParameters();
-		    $mm->format = $method::getAllowedPrintMethods();
-		    $modules[$i]->method[] = $mm;
+		    $mm->name = $resource;
+		    //$mm->doc = $resource::getDoc();
+		    //$mm->requiredparameters = $resource::getRequiredParameters();
+		    //$mm->parameters = $method::getParameters();
+		    //$mm->format = $method::getAllowedPrintMethods();
+		    $modules[$i]->resource[] = $mm;
 	       }
 	       $modules[$i]->name = $mod;
 	       $modules[$i]->url = Config::$HOSTNAME . Config::$SUBDIR;
@@ -103,11 +102,11 @@ class Modules extends AResource{
 	  return $o->module[$modindex];
      }
      
-     public static function getAllowedPrintMethods(){
+     public function getAllowedPrintMethods(){
 	  return array("json","xml", "jsonp", "php");
      }
 
-     public static function getDoc(){
+     public function getDoc(){
 	  return "This is a function which will return all supported modules by this API";
      }
 }
