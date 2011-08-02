@@ -1,27 +1,20 @@
 <?php
 
-include_once("modules/AMethod.php");
-
-class Events extends AMethod{
+class Events extends AResource{
 
      private $file = "modules/GentseFeesten/";
      private $day, $hour;
-     
 
-     public function __construct(){
-	  parent::__construct("Events");
-     }
-
-     public static function getRequiredParameters(){
+     public function getRequiredParameters(){
 	  return array("day"); 
      }
 
-     public static function getParameters(){
+     public function getParameters(){
 	  return array("day"=>"Expects a number [0-10] representing the day of the Gentse Feesten.",
                    "time" => "When time is set, we will return data fur the next hour only");
      }
 
-     public static function getDoc(){
+     public function getDoc(){
 	  return "This method gets all the events for one specific day given with the parameter \"day\".";
 	  
      }
@@ -68,7 +61,7 @@ class Events extends AMethod{
 	  }
      }
 
-     public static function getAllowedPrintMethods(){
+     public function getAllowedPrintMethods(){
 		return array("php","xml","json","jsonp");
      }
      

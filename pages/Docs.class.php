@@ -35,7 +35,7 @@ class Docs {
 
 	//Test whether HttpRequest succeeded 
 	if(isset($stats->module)){
-	    echo "<h1>Modules and methods</h1>";
+	    echo "<h1>Modules and their resources</h1>";
 	    foreach($stats->module as $modu){
 		$name = $modu->name;
 		echo "<h2><a href=\"". $modu->url ."docs/\">$name</a>&nbsp;<small>(". $modu->url  .")</small></h2>\n";
