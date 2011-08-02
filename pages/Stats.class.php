@@ -19,8 +19,8 @@ class Stats {
 	include_once ("templates/TheDataTank/header.php");
 	?>
 	    <!--[if lte IE 8]><script language="javascript" src="flot/excanvas.min.js"></script><![endif]-->
-		 <script language="javascript" src="/<?=CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.js"></script>
-		 <script language="javascript" src="/<?=CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.flot.js"></script>
+		 <script language="javascript" src="/<?php echo CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.js"></script>
+		 <script language="javascript" src="/<?php echo CONFIG::$SUBDIR ?>templates/TheDataTank/js/flot/jquery.flot.js"></script>
 
 		 <h1 id="title">Stats</h1>
 		 <br>
