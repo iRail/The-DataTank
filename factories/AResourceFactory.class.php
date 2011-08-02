@@ -21,10 +21,7 @@ abstract class AResourceFactory{
     /**
      * @return returns whether the Factory can return a resource
      */
-    public function hasResource(){
-	$rn = self::getAllResourceNames();
-	return in_array($this->resource, $rn[$this->module]);
-    }
+    abstract public function hasResource();
          
     /**
      * 

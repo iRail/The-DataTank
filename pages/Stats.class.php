@@ -38,7 +38,7 @@ class Stats {
 		 Module
 		 <select id="module">
 		 <?php
-		 $mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME."".Config::$SUBDIR. "TDTInfo/Modules/?format=json&proxy=0")->data);
+		 $mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME . Config::$SUBDIR. "TDTInfo/Modules/?format=json&proxy=0")->data);
 	foreach($mods->module as $mod){
 	    echo "<option>".$mod->name."</option>";
 	}

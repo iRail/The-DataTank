@@ -19,6 +19,14 @@ class RemoteResourceFactory extends AResourceFactory{
     );
 
 
+    public function hasResource(){
+	$rn = self::getAllResourceNames();
+	if(isset($rn[$this->module])){
+	    return in_array($this->resource, $rn[$this->module]);
+	}
+	return false;
+    }
+
     public function __construct($module,$resource){
 	parent::__construct($module,$resource);
     }
