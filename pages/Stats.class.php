@@ -47,8 +47,8 @@ class Stats {
 	if (count($mods->module)>1) {
 	    foreach ($mods->module as $mod){
 		echo "modmeths['".$mod->name."'] = new Array();";
-		foreach($mod->method as $method){    
-		    echo "modmeths['".$mod->name."'].push('".$method->name."');";
+		foreach($mod->resource as $resource){    
+		    echo "modmeths['".$mod->name."'].push('".$resource->name."');";
 		}
 	    }
 	}
@@ -60,8 +60,8 @@ class Stats {
 		$mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME. "".Config::$SUBDIR . "TDTInfo/Modules/?format=json&proxy=0")->data);
 	    if(count($mods->module) > 1){
 		$mod = $mods->module[0];
-		foreach($mod->method as $method){
-		    echo "<option>".$method->name."</option>";
+		foreach($mod->resource as $resource){
+		    echo "<option>".$resource->name."</option>";
 		}
 	    }
 	    echo "</select>";
