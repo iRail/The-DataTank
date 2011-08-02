@@ -32,9 +32,9 @@ class Module extends AResource{
 	  $o = new stdClass();
 	  if(in_array($this->module,RemoteResourceFactory::getAllResourceNames())){
 	       //If we are only a proxy, return the jsonthing
-	       return unserialize(TDT::HttpRequest(Config::HOSTNAME . "TDTInfo/Module/". $this->mod ."/" . $this->meth . "/?format=php")->data);
+	       return unserialize(TDT::HttpRequest(Config::HOSTNAME . "TDTInfo/Module/". $this->module ."/" . $this->resource . "/?format=php")->data);
 	  }else{
-	       include_once("modules/" . $this->module . "/" . $this->method.".class.php");
+	       include_once("modules/" . $this->module . "/" . $this->resource.".class.php");
 	       $resource = $this->resource;
 	       //$o->doc = $meth::getDoc();
 	       $o->url = Config::$HOSTNAME . Config::$SUBDIR;

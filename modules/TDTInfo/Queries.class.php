@@ -59,9 +59,8 @@ class Queries extends AResource{
 	    $databasetable = "errors";
 	}	  
 
-    $queryString = 'select count(1) as amount, time from ? where url_request '
-        'regexp \'?/?\' group by from_unixtime(time, ,\'%D %M %Y\')';
-    $stmt = $conn->prepare($queryString, array('text', 'text', 'text');
+    $queryString = 'select count(1) as amount, time from ? where url_request regexp \'?/?\' group by from_unixtime(time, ,\'%D %M %Y\')';
+    $stmt = $conn->prepare($queryString, array('text', 'text', 'text'));
     $this->resultQuery->result = $stmt->execute(array(databasetable, $this->module,
         $this->resource,
         MDB2_FETCHMODE_OBJECT)); 
