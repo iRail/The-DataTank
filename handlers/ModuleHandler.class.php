@@ -61,7 +61,7 @@ class ModuleHandler {
 	foreach($resource->getRequiredParameters() as $parameter){
 	    //set the parameter of the method
 	    if(!isset($RESTparameters[0])){
-		throw new ParameterTDTException($param);
+		throw new ParameterTDTException($parameter);
 	    }
 	    $resource->setParameter($parameter, $RESTparameters[0]);
 	    //removes the first element and reindex the array
@@ -102,8 +102,8 @@ class ModuleHandler {
 	}
 	if(!is_object($result)){
 	    $o = new stdClass();
-	    $resource = $resources[sizeof($resources)-1];
-	    $o->$resource = $result;
+	    $RESTresource = $RESTparameters[sizeof($RESTparameters)-1];
+	    $o->$RESTresource = $result;
 	    $result = $o;
 	}
  
