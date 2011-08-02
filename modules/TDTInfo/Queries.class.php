@@ -50,6 +50,7 @@ class Queries extends AResource{
 	    printf("Can't connect to MySQL Server. Errorcode: %s\n", mysqli_connect_error());
 	    exit;
 	}
+    $conn = MDB2::factory(Config::$DSN, Config::$OPTION);
 
 	/* Send a query to the server */
 	if($this->errors == ""){
@@ -58,28 +59,34 @@ class Queries extends AResource{
 	    $databasetable = "errors";
 	}	  
 
-	$queryString = 'SELECT count(1) as amount, time FROM '
-	    . $databasetable . ' WHERE url_request REGEXP \''. $this->module . '/'.$this->resource .
-	    '\' group by from_unixtime(time,\'%D %M %Y\')';
-	//echo "queryString is ". $queryString;
+    $queryString = 'select count(1) as amount, time from ? where url_request '
+        'regexp \'?/?\' group by from_unixtime(time, ,\'%D %M %Y\')';
+    $stmt = $conn->prepare($queryString, array('text', 'text', 'text');
+    $this->resultQuery->result = $stmt->execute(array(databasetable, $this->module,
+        $this->resource,
+        MDB2_FETCHMODE_OBJECT)); 
+
+    $conn->disconnect();
+    
+	//$queryString = 'SELECT count(1) as amount, time FROM ' . $databasetable . ' WHERE url_request REGEXP \''. $this->module . '/'.$this->resource .  '\' group by from_unixtime(time,\'%D %M %Y\')'; //echo "queryString is ". $queryString;
 	  
-	if ($result = mysqli_query($link,$queryString)) {
+	//if ($result = mysqli_query($link,$queryString)) {
 
-	    /* Fetch the results of the query */
-	    $this->queryResults = new StdClass();
-	       
-	    while( $row = mysqli_fetch_assoc($result) ){
-		$amount = $row['amount'];
-		$time  = $row['time'];
-		$this->queryResults->result[$time] = $amount;
-	    }
+		//[> Fetch the results of the query <]
+		//$this->queryResults = new StdClass();
+		   
+		//while($row = mysqli_fetch_assoc($result)) {
+		//$amount = $row['amount'];
+		//$time  = $row['time'];
+		//$this->queryResults->result[$time] = $amount;
+		//}
 
-	    /* Destroy the result set and free the memory used for it. */
-	    mysqli_free_result($result);
-	}
+		//[> Destroy the result set and free the memory used for it. <]
+		//mysqli_free_result($result);
+	//}
 
-	/* Close the connection */
-	mysqli_close($link);
+	//[> Close the connection <]
+	//mysqli_close($link);
     }
 
     public function call(){

@@ -24,7 +24,6 @@ class FeedbackHandler {
             . $conn->quote($_POST['msg'], 'text') . ')';
 
         $result = $conn->exec($queryString);
-        echo '\n' . $result . '. ';
 
         /* Close the connection */
         $conn->disconnect();

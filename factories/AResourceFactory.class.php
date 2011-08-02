@@ -23,14 +23,15 @@ abstract class AResourceFactory{
      */
     public function hasResource(){
 	$rn = self::getAllResourceNames();
-	return in_array($resource, $rn[$this->module]);
+	return in_array($this->resource, $rn[$this->module]);
     }
          
     /**
      * 
      * @return an array containing all the resourcenames available
      */
-    static function getAllResourceNames(){
+    static function getAllResourceNames() {
+        return array();
     }
     
     
