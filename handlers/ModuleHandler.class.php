@@ -102,8 +102,8 @@ class ModuleHandler {
 	}
 	if(!is_object($result)){
 	    $o = new stdClass();
-	    $resource = $resources[sizeof($resources)-1];
-	    $o->$resource = $result;
+	    $RESTresource = $RESTparameters[sizeof($RESTparameters)-1];
+	    $o->$RESTresource = $result;
 	    $result = $o;
 	}
  
