@@ -25,22 +25,11 @@ class DocPage {
 	 */
 	$methodname = $method;
 
-	if(array_key_exists($module, ProxyModules::$modules)) {
-	    /*
-	     * If it's a proxymodule we need to split the URL listed in ProxyModules by the "/" sign
-	     * and build the url from scratch.
-	     */
-	    $moduleURL = ProxyModules::$modules[$module];
-	    $boom = explode("/", $moduleURL);
-	    // take third part of the explode = baseurl
-	    $url = "http://" . $boom[2] . "/TDTInfo/Module/?format=json&mod=" . $boom[3] . "&meth=" . $method;
-	} else {
-	    /*
-	     * If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)
-	     * to return the object with the proper documentation.
-	     */
-	    $url = Config::$HOSTNAME .Config::$SUBDIR. "TDTInfo/Module/$module/$method/?format=json";
-	}
+	/*
+	 * TODO: If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)
+	 * to return the object with the proper documentation.
+	 */
+	$url = Config::$HOSTNAME .Config::$SUBDIR. "TDTInfo/Module/$module/$method/?format=json";
 
 	$method = json_decode(TDT::HttpRequest($url) -> data);
 
