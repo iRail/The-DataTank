@@ -17,7 +17,7 @@ class InstalledResourceFactory extends AResourceFactory{
     /**
      * We're overriding this one since it can be done faster
      */
-    abstract public function hasResource(){
+    public function hasResource(){
 	return file_exists("modules/" . $this->module . "/" . $this->resource . ".class.php");
     } 
 
