@@ -63,7 +63,7 @@ class ModuleHandler {
 	    if(!isset($RESTparameters[0])){
 		throw new ParameterTDTException($param);
 	    }
-	    $method->setParameter($parameter, $RESTparameters[0]);
+	    $resource->setParameter($parameter, $RESTparameters[0]);
 	    //removes the first element and reindex the array
 	    array_shift($RESTparameters);
 	}

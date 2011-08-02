@@ -39,15 +39,15 @@ class Docs {
 	    foreach($stats->module as $modu){
 		$name = $modu->name;
 		echo "<h2><a href=\"". $modu->url ."docs/\">$name</a>&nbsp;<small>(". $modu->url  .")</small></h2>\n";
-		if(sizeof($modu->method) > 0){
+		if(sizeof($modu->resource) > 0){
 		    echo "<ul>";
-		    foreach($modu->method as $method){
-			$methodname = $method->name;
-			echo "<li><a href=\"". Config::$HOSTNAME . Config::$SUBDIR . "docs/$name/$methodname/\">$methodname</a> - ". $method->doc ."</li>";
+		    foreach($modu->resource as $resource){
+			$resourcename = $resource->name;
+			echo "<li><a href=\"". Config::$HOSTNAME . Config::$SUBDIR . "docs/$name/$resourcename/\">$resourcename</a> - ". "</li>";//$resource->doc . → temp unavailable...
 		    }
 		    echo "</ul>";
 		}else{
-		    echo "<p>No methods in this module</p>";
+		    echo "<p>No resources in this module</p>";
 		}
 	    }
 	}else{
