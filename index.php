@@ -10,6 +10,7 @@
  * @author Jan Vansteenlandt
  */
 
+include_once('resources/AResource.class.php');
 include_once('glue.php');
 include_once('MDB2.php');
 include_once('handlers/Exceptions.class.php');
@@ -21,7 +22,7 @@ include_once('factories/AResourceFactory.class.php');
 include_once('factories/GenericResourceFactory.class.php');
 include_once('factories/InstalledResourceFactory.class.php');
 include_once('factories/RemoteResourceFactory.class.php');
-include_once('resources/AResource.class.php');
+//include_once("resources/AResource.class.php");
 
 //Autoloader for pages:
 function __autoload($name){
