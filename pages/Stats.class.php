@@ -91,7 +91,7 @@ class Stats {
 
 			    $.ajax({
 				type : 'GET',
-					url : '<?=Config::$HOSTNAME ."".Config::$SUBDIR ?>TDTInfo/Queries/' + args +'?format=json',
+					url : '<?php echo Config::$HOSTNAME ."". Config::$SUBDIR ?>TDTInfo/Queries/' + args +'?format=json',
 					dataType : 'json',
 					success : function(result) {
 					plotChart(result);

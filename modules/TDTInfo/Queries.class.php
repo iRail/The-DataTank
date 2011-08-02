@@ -50,7 +50,7 @@ class Queries extends AResource{
 	    printf("Can't connect to MySQL Server. Errorcode: %s\n", mysqli_connect_error());
 	    exit;
 	}
-    $conn = MDB2::factory(Config::$DSN, Config::$OPTION);
+    $conn = MDB2::factory(Config::$DSN, Config::$DB_OPTIONS);
 
 	/* Send a query to the server */
 	if($this->errors == ""){
