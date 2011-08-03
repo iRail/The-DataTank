@@ -18,12 +18,6 @@ then
   user_agent varchar(255) DEFAULT NULL,
   ip varchar(255) DEFAULT NULL,
   url_request varchar(255) DEFAULT NULL,
-  module varchar(64) DEFAULT NULL,
-  resource varchar(64) DEFAULT NULL,
-  format varchar(24) DEFAULT NULL,
-  subresources varchar(128) DEFAULT NULL,
-  reqparameters varchar(128) DEFAULT NULL,
-  allparameters varchar(164) DEFAULT NULL,
   error_message varchar(255) DEFAULT NULL,
   error_code varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)

@@ -4,8 +4,8 @@ include_once('Config.class.php');
 
 function createTables() {
     $conn = MDB2::connect(Config::$DSN, Config::$DB_OPTIONS);
-    if(PEAR::isError($con)) {
-        die("=== Error while connecting : " . $con->getMessage() . ' ===');
+    if(PEAR::isError($conn)) {
+        die("=== Error while connecting : " . $conn->getMessage() . ' ===');
     }
 
     $r = $conn->loadModule('Manager'); //, null, false);
@@ -37,7 +37,7 @@ function createTables() {
     $request_fields = array(
         'id' => array(
             'type' => 'integer',
-            'unsingned' => true,
+            'unsigned' => true,
             'notnull' => true,
         ),
         'time' => array(
@@ -57,9 +57,40 @@ function createTables() {
         ),
         'url_request' => array(
             'type' => 'text',
-            'length' => 255,
+            'length' => 512,
             'notnull' => true,
         ),
+	'module' => array(
+	    'type' => 'text',
+            'length' => 64,
+            'notnull' => true,
+	),
+	'resource' => array(
+	    'type' => 'text',
+            'length' => 64,
+            'notnull' => true,
+	),
+	'format' => array(
+	    'type' => 'text',
+            'length' => 64,
+            'notnull' => true,
+	),
+	'subresources' => array(
+	    'type' => 'text',
+            'length' => 128,
+            'notnull' => false,
+	),
+	'reqparameters' => array(
+	    'type' => 'text',
+            'length' => 128,
+            'notnull' => false,
+	),
+	'allparameters' => array(
+	    'type' => 'text',
+            'length' => 164,
+            'notnull' => false,
+	)
+	
     );
 
     $error_fields = array(
