@@ -29,7 +29,7 @@ class Docs {
 
 	//print page
 	include_once("templates/TheDataTank/header.php");
-	$url = Config::$HOSTNAME . Config::$SUBDIR."TDTInfo/Modules/?format=json&proxy=1";
+	$url = Config::$HOSTNAME . Config::$SUBDIR."TDTInfo/Modules/?format=json";
 	$stats = "";
 	$stats = json_decode(TDT::HttpRequest($url)->data);
 
@@ -38,12 +38,12 @@ class Docs {
 	    echo "<h1>Modules and their resources</h1>";
 	    foreach($stats->module as $modu){
 		$name = $modu->name;
-		echo "<h2><a href=\"". $modu->url ."docs/\">$name</a>&nbsp;<small>(". $modu->url  .")</small></h2>\n";
+		echo "<h2>$name</h2>\n";
 		if(sizeof($modu->resource) > 0){
 		    echo "<ul>";
 		    foreach($modu->resource as $resource){
 			$resourcename = $resource->name;
-			echo "<li><a href=\"". Config::$HOSTNAME . Config::$SUBDIR . "docs/$name/$resourcename/\">$resourcename</a> - ". "</li>";//$resource->doc . → temp unavailable...
+			echo "<li><a href=\"". Config::$HOSTNAME . Config::$SUBDIR . "docs/$name/$resourcename/\">$resourcename</a> - ".$resource->doc . "</li>";
 		    }
 		    echo "</ul>";
 		}else{

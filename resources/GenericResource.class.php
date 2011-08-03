@@ -9,29 +9,21 @@
  */
 
 class GenericResource extends AResource {
+    
+    private $strategy; //this contains the right stratege for the job
 
-    public static function getRequiredParameters(){
-	return array(); //TODO get from db
+    public function __construct($module,$resource){
+	parent::__construct($module,$resource);
+	//todo - chose the right strategy according to the "call" field in the db
     }
-
-    public static function getParameters(){
-	return array();
-    }
-     
-    public static function getAllowedPrintMethods(){
-	return array();
-    }
-
-    public static function getDoc(){
-	echo "I'm undocumented Q_Q";
-    }
+    
 
     public function call(){
-	
-    }    
+	$this->strategy->call();//TODO: add parameters?
+    }
 
     public function setParameter($name,$val){
-	
+	//TODO: set parameters here
     }
 
 }

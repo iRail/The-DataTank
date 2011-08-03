@@ -39,36 +39,6 @@ abstract class AResource{
 	}	
     }
     
-
-    /**
-     * This function returns the required parameters for this method in order to function correctly.
-     * @return Array with the names of the required parameters.
-     */
-    abstract public function getRequiredParameters();
-
-    /**
-     * This function returns all parameters that this call can use.
-     * @return Array with the names of all the parameters plus documentation
-     */
-    abstract public function getParameters();
-    
-     
-    /**
-     * This function returns the names of all the allowed formats in which a resulting object can be
-     * printed.
-     * @return Array with the names of the allowed print formats for this method.
-     */
-    abstract public function getAllowedPrintMethods();
-    
-
-    /**
-     * This function returns the documentation of this method.
-     * @return String with the documentation of the method.
-     */
-    public function getDoc(){
-	echo "I'm undocumented";
-    }
-
     /**
      * This functions contains the businesslogic of the method
      * @return Object representing the result of the businesslogic.
@@ -81,7 +51,6 @@ abstract class AResource{
      * @param mixed  $val  Value that will be set to the parameter.
      */
     abstract public function setParameter($name,$val);
-
 }
 
 ?>

@@ -12,11 +12,11 @@ class Module extends AResource{
 
      private $module,$resource;
 
-     public function getParameters(){
+     public static function getParameters(){
 	  return array("module" => "Module name","resource" => "This is the name of the resource");
      }
 
-     public function getRequiredParameters(){
+     public static function getRequiredParameters(){
 	  return array("module","resource");
      }
 
@@ -30,25 +30,14 @@ class Module extends AResource{
 
      public function call(){
 	  $o = new stdClass();
-	  if(in_array($this->module,RemoteResourceFactory::getAllResourceNames())){
-	       //If we are only a proxy, return the jsonthing
-	       return unserialize(TDT::HttpRequest(Config::HOSTNAME . "TDTInfo/Module/". $this->module ."/" . $this->resource . "/?format=php")->data);
-	  }else{
-	       include_once("modules/" . $this->module . "/" . $this->resource.".class.php");
-	       $resource = $this->resource;
-	       //$o->doc = $meth::getDoc();
-	       $o->url = Config::$HOSTNAME . Config::$SUBDIR;
-	       //$o->parameter =  $meth::getParameters();
-	       //$o->requiredparameter = $meth::getRequiredParameters();
-	  }
 	  return $o;
      }
 
-     public function getAllowedPrintMethods(){
+     public static function getAllowedPrintMethods(){
 	 return array("json","xml", "jsonp", "php", "html");
      }
 
-     public function getDoc(){
+     public static function getDoc(){
 	  return "This function will get all information about a specific method and return it";
      }
 }

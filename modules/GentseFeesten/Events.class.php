@@ -5,16 +5,16 @@ class Events extends AResource{
      private $file = "modules/GentseFeesten/";
      private $day, $hour;
 
-     public function getRequiredParameters(){
+     public static function getRequiredParameters(){
 	  return array("day"); 
      }
 
-     public function getParameters(){
+     public static function getParameters(){
 	  return array("day"=>"Expects a number [0-10] representing the day of the Gentse Feesten.",
                    "time" => "When time is set, we will return data fur the next hour only");
      }
 
-     public function getDoc(){
+     public static function getDoc(){
 	  return "This method gets all the events for one specific day given with the parameter \"day\".";
 	  
      }
@@ -61,7 +61,7 @@ class Events extends AResource{
 	  }
      }
 
-     public function getAllowedPrintMethods(){
+     public static function getAllowedPrintMethods(){
 		return array("php","xml","json","jsonp");
      }
      

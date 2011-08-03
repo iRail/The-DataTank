@@ -16,14 +16,14 @@ class Queries extends AResource{
     private $errors = ""; // if set, get data from errors table. ( not set or true )
     private $queryResults;
 
-    public function getParameters(){
+    public static function getParameters(){
 	return array("module" => "Name of a module that needs to be analysed, must be set !",
 		     "resource" => "Name of a resource within the given module, is not required.",
 		     "error" => "If set then the analysis will get it's data from the error table if not from the request table."
 	);
     }
 
-    public function getRequiredParameters(){
+    public static function getRequiredParameters(){
 	return array("module");
     }
 
@@ -93,11 +93,11 @@ class Queries extends AResource{
 	return $this->queryResults;
     }
 
-    public function getAllowedPrintMethods(){
+    public static function getAllowedPrintMethods(){
 	return array("json","xml", "jsonp", "php", "html");
     }
 
-    public function getDoc(){
+    public static function getDoc(){
 	return "Lists the number of queries(requests/errors) to this datatank instance per day";
     }
 }

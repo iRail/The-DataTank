@@ -25,7 +25,7 @@ class Messages extends AResource {
         //parent::__construct("Message");
     }
 
-    public function getDoc() {
+    public static function getDoc() {
         return "TODO"; //TODO add doc
     }
 
@@ -68,15 +68,15 @@ class Messages extends AResource {
 
     }
 
-    public function getAllowedPrintMethods() {
+    public static function getAllowedPrintMethods() {
         return array("php","xml","json","jsonp");
     }
 
-    public function getRequiredParameters() {
+    public static function getRequiredParameters() {
         return array();
     }
 
-    public function getParameters() {
+    public static function getParameters() {
         return array();
     }
 }

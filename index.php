@@ -21,11 +21,16 @@ include_once('factories/AResourceFactory.class.php');
 include_once('factories/GenericResourceFactory.class.php');
 include_once('factories/InstalledResourceFactory.class.php');
 include_once('factories/RemoteResourceFactory.class.php');
+include_once('factories/AllResourceFactory.class.php');
 include_once('resources/AResource.class.php');
 
 //Autoloader for pages:
 function __autoload($name){
-    include_once('pages/' . $name . '.class.php');
+    if(file_exists('pages/' . $name . '.class.php')){
+	include_once('pages/' . $name . '.class.php');
+    }else{
+	echo $name . " not found";
+    }
 }
 
 set_error_handler('wrapper_handler');

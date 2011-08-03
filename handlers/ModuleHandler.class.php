@@ -10,7 +10,6 @@
  */
 require_once('printer/PrinterFactory.php');
 require_once('handlers/RequestLogger.class.php');
-
 class ModuleHandler {
 
     private $printerfactory;
@@ -23,31 +22,12 @@ class ModuleHandler {
 	$module = $matches['module'];
 	$resourcename = $matches['resource'];
 
+	//This will create an instance of a factory depending on which format is set
 	$this->printerfactory = new PrinterFactory();
 	
-	//Now it's time to make us some factories. But what kind of factory do we need? 
-	//The only way to find out is to create an instance of each factory and try to get an object of a resource
-	$factories = array(); //(ordening does matter here! Put the least expensive method on top)
-	$factories[] = new GenericResourceFactory($module, $resourcename);
-	$factories[] = new InstalledResourceFactory($module,$resourcename);
-	$factories[] = new RemoteResourceFactory($module, $resourcename);
-
-	//find the one who has the resource!
-	$resource = NULL;
-	foreach($factories as $factory){
-	    if($factory->hasResource()){
-		$resource = $factory->getResource();
-		break; //I know I have sinned
-	    }
-	}
-
-	//if not really any factory has the resource, throw an exception
-	if(is_null($resource)){
-	    throw new MethodOrModuleNotFoundTDTException($module . "/" .$resourcename);
-	}
-
-	// It's official, we have a resource object!
-	// Let's populate it!
+	//This will create an instance of AResource
+	$factory= AllResourceFactory::getInstance();
+	$resource = $factory->getResource($module,$resourcename);
 	
 	// First up: check the required parameters - TODO: what if a param hasn't been given?
 
@@ -84,7 +64,7 @@ class ModuleHandler {
 
 	//if the printmethod is not allowed, just throw an exception
 	if($printmethod == ""){
-	    throw new FormatNotAllowedTDTException($this->format,$resource->getAllowedPrintMethods());
+	    throw new FormatNotAllowedTDTException($this->printerfactory->getFormat(),$resource->getAllowedPrintMethods());
 	}
 
 	//Let's do the call!
@@ -112,4 +92,6 @@ class ModuleHandler {
 	//this is it!
     }
 }
+//--- BEWARE: this file should be less than 100 lines of code!
+//42
 ?>

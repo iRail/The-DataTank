@@ -11,35 +11,11 @@
 class RemoteResource extends AResource {
 
     private $baseurl, $resource, $module;
-    private $docs;
     
     public function __construct($baseurl, $remotemodule, $remoteresource){
 	$this->baseurl = $baseurl;
 	$this->module = $remotemodule;
 	$this->resource = $remoteresource;
-	//get documentation object from remote
-	$formaturl = $baseurl . "/TDTInfo/Module/" . $remotemodule . "/". $remoteresource."/?format=php";
-	$request= TDT::HttpRequest($formaturl);
-	if(isset($request->error)){
-	    throw new RemoteServerTDTException($request->data);
-	}
-	$this->docs = unserialize($request->data);
-    }
-
-    public function getRequiredParameters(){
-	return $this->docs->requiredparameter;
-    }
-
-    public function getParameters(){
-	return $this->docs->parameter;
-    }
-     
-    public function getAllowedPrintMethods(){
-	return $this->docs->allowedprintmethod;
-    }
-
-    public function getDoc(){
-	return $this->docs->doc;
     }
 
     public function call(){

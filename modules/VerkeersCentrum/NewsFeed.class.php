@@ -11,11 +11,11 @@ class NewsFeed extends AResource{
 
      private $lang;
 
-     public function getParameters(){
+     public static function getParameters(){
 	  return array("lang" => "Language in which the newsfeed should be returned");
      }
 
-     public function getRequiredParameters(){
+     public static function getRequiredParameters(){
 	  return array();
      }
 
@@ -82,11 +82,11 @@ class NewsFeed extends AResource{
      }
      
 
-     public function getAllowedPrintMethods(){
+     public static function getAllowedPrintMethods(){
 	  return array("json","xml", "jsonp", "php", "html");
      }
 
-     public function getDoc(){
+     public static function getDoc(){
 	  return "This is a function which will return all the latest news";
      }
 
