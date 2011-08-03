@@ -16,8 +16,6 @@ class ModuleHandler {
 
     function GET($matches) {
 
-	RequestLogger::logRequest();
-
 	//always required: a module and a resource. This will always be given since the regex should be matched.
 	$module = $matches['module'];
 	$resourcename = $matches['resource'];
@@ -35,8 +33,11 @@ class ModuleHandler {
 	$RESTparameters = array();
 	if(isset($matches['RESTparameters'])){
 	    $RESTparameters = explode("/",$matches['RESTparameters']);
-	    array_pop($RESTparameters); // remove the last elemenet because that just contains the GET parameters
+	    array_pop($RESTparameters); // remove the last element because that just contains the GET parameters
 	}
+	
+	// for logging purposes
+	$requiredparams = array();
 	
 	foreach($resource->getRequiredParameters() as $parameter){
 	    //set the parameter of the method
@@ -44,6 +45,8 @@ class ModuleHandler {
 		throw new ParameterTDTException($parameter);
 	    }
 	    $resource->setParameter($parameter, $RESTparameters[0]);
+	    array_push($requiredparams,$RESTparameters[0]);
+	    
 	    //removes the first element and reindex the array
 	    array_shift($RESTparameters);
 	}
@@ -69,7 +72,9 @@ class ModuleHandler {
 
 	//Let's do the call!
 	$result = $resource->call();
-	
+	// for logging purposes
+	$subresources = array();
+
 	//Support RESTful URI lookups
 	foreach($RESTparameters as $resource){
 	    if(is_object($result) && isset($result->$resource)){
@@ -79,6 +84,7 @@ class ModuleHandler {
 	    }else{
 		break;//on error, just return what we have so far
 	    }
+	    array_push($subresources,$resource);
 	}
 	if(!is_object($result)){
 	    $o = new stdClass();
@@ -86,7 +92,10 @@ class ModuleHandler {
 	    $o->$RESTresource = $result;
 	    $result = $o;
 	}
- 
+	
+	// Log our succesful request
+	RequestLogger::logRequest($matches,$requiredparams,$subresources);
+
 	$printer = $this->printerfactory->getPrinter(strtolower($resourcename), $result);
 	$printer->printAll();
 	//this is it!

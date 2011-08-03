@@ -15,28 +15,44 @@
    */
 class RequestLogger{
 
-     /**
-      * This function implements the logging part of the RequestLogger functionality.
-      */
-     public static function logRequest(){
-	  $pageURL = TDT::getPageUrl();	
+    /**
+     * This function implements the logging part of the RequestLogger functionality.
+     */
+    public static function logRequest($matches,$requiredparams,$subresources){
+	//var_dump($matches);
+	//var_dump($requiredparams);
+	//var_dump($subresources);
+	$module = $matches["module"];
+	$resource = $matches["resource"];
+	$subresrc = implode(";",$subresources);
+	$reqparams = implode(";",$requiredparams);
+	$restparams = $matches["RESTparameters"];
+	
+	//get the format out of the RESTparameters, if none specified put in "default"
+	preg_match("/format=(.*)&.*/",$matches["RESTparameters"],$formatmatch);
+	$format = $formatmatch[1];
+	if($format == ""){
+	    $format = "default";
+	}
+
+	$pageURL = TDT::getPageUrl();	
 	  
-	  // To conquer sql injection, one must become sql injection.... or use
-	  // prepared statements.
+	// To conquer sql injection, one must become sql injection.... or use
+	// prepared statements.
 	   
-	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
-	  if(mysqli_connect_errno()){
-	       printf("Can't connect to MySQL Server. Errorcode: %s\n",mysqli_connect_error());
-	       exit();
-	  }	
-	  // if id = 0, the auto incrementer will trigger
-	  $auto_incr = 0;
-	  $stmt = $mysqli->prepare("INSERT INTO requests VALUES (?,?,?,?,?)");
-	  $seconds = time();
-	  $stmt->bind_param('iisss',$auto_incr,$seconds,$_SERVER['HTTP_USER_AGENT'],$_SERVER['REMOTE_ADDR'],$pageURL);
-	  $stmt->execute();
-	  $stmt->close();
-	  $mysqli->close();
-     }
+	$mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
+	if(mysqli_connect_errno()){
+	    printf("Can't connect to MySQL Server. Errorcode: %s\n",mysqli_connect_error());
+	    exit();
+	}	
+	// if id = 0, the auto incrementer will trigger
+	$auto_incr = 0;
+	$stmt = $mysqli->prepare("INSERT INTO requests VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+	$seconds = time();
+	$stmt->bind_param('iisssssssss',$auto_incr,$seconds,$_SERVER['HTTP_USER_AGENT'],$_SERVER['REMOTE_ADDR'],$pageURL,$module,$resource,$format,$subresrc,$reqparams,$restparams);
+	$stmt->execute();
+	$stmt->close();
+	$mysqli->close();
+    }
   }
 ?>

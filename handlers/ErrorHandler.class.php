@@ -51,14 +51,14 @@ class ErrorHandler{
 	  // prepared statements.	 
 	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
 	  if(mysqli_connect_errno()){
-	       echo "Something went wrong !! . " . mysqli_connect_error();
+	       echo "Something went wrong while contacting the database. " . mysqli_connect_error();
 	       exit(0);
 	  }	
 	  // if id = 0, the auto incrementer will trigger
 	  $auto_incr = 0;
 	  $stmt = $mysqli->prepare("INSERT INTO errors VALUES (?,?,?,?,?,?,?)");
 	  $time = time();
-	  //echo $auto_incr . ", " . $time . ", " . $_SERVER['HTTP_USER_AGENT'] . ", " .$_SERVER['REMOTE_ADDR']. ", " . $pageURL;
+
 	  $ua = $_SERVER['HTTP_USER_AGENT'];
 	  $ip = $_SERVER['REMOTE_ADDR'];
 	  $err_message = $e->getDoc();

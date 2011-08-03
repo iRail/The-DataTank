@@ -86,7 +86,7 @@ class Stats {
 			    }
 			    var table = $('#datasource').val();
 			    if(table != "requests") {
-				args+="&err=true";
+				args+="&error=true";
 			    }
 
 			    $.ajax({

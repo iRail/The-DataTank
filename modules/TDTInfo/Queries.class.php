@@ -40,16 +40,17 @@ class Queries extends AResource{
     private function getData(){
 
 	/* Connect to mysql database */
-	$link = mysqli_connect(
-	    'localhost',                    /* The host to connect to */
-	    Config::$MySQL_USER_NAME,       /* The user to connect with the MySQL database */
-	    Config::$MySQL_PASSWORD,        /* The password to use to connect with the db  */
-	    Config::$MySQL_DATABASE);                     /* The default database to query */
+	//$link = mysqli_connect(
+		//'localhost',                    [> The host to connect to <]
+		//Config::$MySQL_USER_NAME,       [> The user to connect with the MySQL database <]
+		//Config::$MySQL_PASSWORD,        [> The password to use to connect with the db  <]
+		//Config::$MySQL_DATABASE);                     [> The default database to query <]
 
-	if (!$link) { //Who wrote this piece of code? Please throw TDTExceptions ffs
-	    printf("Can't connect to MySQL Server. Errorcode: %s\n", mysqli_connect_error());
-	    exit;
-	}
+	//if (!$link) { //Who wrote this piece of code? Please throw TDTExceptions ffs
+		//printf("Can't connect to MySQL Server. Errorcode: %s\n", mysqli_connect_error());
+		//exit;
+	//}
+
     $conn = MDB2::factory(Config::$DSN, Config::$DB_OPTIONS);
 
 	/* Send a query to the server */
@@ -57,13 +58,20 @@ class Queries extends AResource{
 	    $databasetable = "requests";
 	}else{
 	    $databasetable = "errors";
-	}	  
+    }
+
+    echo '1';
 
     $queryString = 'select count(1) as amount, time from ? where url_request regexp \'?/?\' group by from_unixtime(time, ,\'%D %M %Y\')';
+    echo '2';
     $stmt = $conn->prepare($queryString, array('text', 'text', 'text'));
+    echo '3';
     $this->resultQuery->result = $stmt->execute(array(databasetable, $this->module,
         $this->resource,
         MDB2_FETCHMODE_OBJECT)); 
+
+    echo '4';
+    vardump($this->resultQuery->result);
 
     $conn->disconnect();
     
