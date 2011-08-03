@@ -28,13 +28,16 @@ class RequestLogger{
 	$reqparams = implode(";",$requiredparams);
 	$restparams = $matches["RESTparameters"];
 	
-	//get the format out of the RESTparameters, if none specified put in "default"
+	//get the format out of the RESTparameters, if none specified fill in 'XML'!
+	//@Jan: what if format is given through Content Type? Shouldn't we just ask the printerfactory->getFormat() about what format it was?
 	preg_match("/format=(.*)&.*/",$matches["RESTparameters"],$formatmatch);
-	$format = $formatmatch[1];
-	if($format == ""){
-	    $format = "default";
+	
+	if(!isset($formatmatch[1])){
+	    $format = "xml";
+	}else{
+	    $format = $formatmatch[1];
 	}
-
+	
 	$pageURL = TDT::getPageUrl();	
 	  
 	// To conquer sql injection, one must become sql injection.... or use
