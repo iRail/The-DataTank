@@ -38,7 +38,7 @@ class Stats {
 		 Module
 		 <select id="module">
 		 <?php
-		 $mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME . Config::$SUBDIR. "TDTInfo/Modules/?format=json&proxy=0")->data);
+		 $mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME . Config::$SUBDIR. "TDTInfo/Modules/?format=json")->data);
 	foreach($mods->module as $mod){
 	    echo "<option>".$mod->name."</option>";
 	}
@@ -57,7 +57,7 @@ class Stats {
 	    Method
 		<select id="method">
 		<?php
-		$mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME. "".Config::$SUBDIR . "TDTInfo/Modules/?format=json&proxy=0")->data);
+		$mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME. "".Config::$SUBDIR . "TDTInfo/Modules/?format=json")->data);
 	    if(count($mods->module) > 1){
 		$mod = $mods->module[0];
 		foreach($mod->resource as $resource){
