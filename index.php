@@ -53,18 +53,18 @@ catch(Exception $e){
 //TODO Werner: needs to move.
 class FeedbackHandler {
     function GET($matches) {
-	require_once ('modules/Feedback/Messages.class.php');
-	$message = new Messages();
-	$result = $message->call();
-	$rootname = 'feedback';
-	$printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $result);
-	$printer -> printAll();
+        require_once ('modules/Feedback/Messages.class.php');
+        $message = new Messages();
+        $result = $message->call();
+        $rootname = 'feedback';
+        $printer = PrinterFactory::getPrinter($rootname, $_GET['format'], $result);
+        $printer->printAll();
     }
     
     function POST($matches) {
-	require_once ('handlers/PostMessage.class.php');
-	$post = new PostMessage();
-	$post -> post();
+        require_once ('handlers/PostMessage.class.php');
+        $post = new PostMessage();
+        $post->post();
     }
 }
 
