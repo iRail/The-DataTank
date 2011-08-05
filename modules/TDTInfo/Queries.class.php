@@ -40,7 +40,7 @@ class Queries extends AResource{
     }
 
     private function getData() {
-        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
         /* Send a query to the server */
         if($this->errors == ""){

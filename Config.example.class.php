@@ -8,12 +8,6 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 class Config {
-    public static $MySQL_USER_NAME = "...";
-    public static $MySQL_PASSWORD = "...";
-
-    //The mysql database is the database where the errors and requests are being stored.
-    public static $MySQL_DATABASE = "...";
-
     //add a trailing slash!
     public static $HOSTNAME = "http://localhost/";
 	
@@ -23,13 +17,9 @@ class Config {
     //the webserver subdirectory, if it's not in a subdir, fill in blank
     public static $SUBDIR = "";
     
-    public static $DB = 'mysql:host=localhost;dbname=db_name';
-    public static $DSN = 'mysqli://user:passwd@localhost/db_name';
-    public static $DB_OPTIONS;
+    public static $DB = 'mysql:host=localhost;dbname=NAME';
+    public static $DB_USER = 'root';
+    public static $DB_PASSWORD = 'root';
 
 }
-Config::$DB_OPTIONS = array(
-    'debug' => 2,
-    'result_buffering' => false
-);
 ?>

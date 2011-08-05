@@ -45,7 +45,7 @@ class ErrorHandler{
     }
 
     private static function WriteToDB(Exception $e) {
-        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         
         //get the format out of the RESTparameters, if none specified fill in 'XML'!
         //@Jan: what if format is given through Content Type? Shouldn't we just ask

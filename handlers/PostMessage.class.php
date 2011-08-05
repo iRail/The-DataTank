@@ -23,7 +23,7 @@ class PostMessage {
     private $result;
 
     private function setData() {
-        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
         $message = R::dispense('feedback_messages');
         $message->url_request = TDT::getPageUrl();

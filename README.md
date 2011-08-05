@@ -51,7 +51,7 @@ This will make (if not already created) a directory for you in the directory mod
 ## Feedback ##
 TODO explain feedback stuff
 
-curl -XPOST --encode-data="msg='test123'" localhost/Feedback/Messages/(module)/(method)/?param1=value1&param2=value2 
+curl -XPOST -d msg=test123 localhost/Feedback/Messages/(module)/(method)/?param1=value1&param2=value2 
 
 # iRail #
 
