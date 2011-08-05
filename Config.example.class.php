@@ -23,6 +23,7 @@ class Config {
     //the webserver subdirectory, if it's not in a subdir, fill in blank
     public static $SUBDIR = "";
     
+    public static $DB = 'mysql:host=localhost;dbname=db_name';
     public static $DSN = 'mysqli://user:passwd@localhost/db_name';
     public static $DB_OPTIONS;
 

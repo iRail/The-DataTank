@@ -23,25 +23,12 @@ class PostMessage {
     private $result;
 
     private function setData() {
-        $pageURL = TDT::getPageUrl();
+        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
 
-	  // To conquer sql injection, one must become sql injection.... or use
-	  // prepared statements.	 
-	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
-	  if(mysqli_connect_errno()){
-	       echo "Something went wrong !! . " . mysqli_connect_error();
-	       exit();
-	  }	
-	  // if id = 0, the auto incrementer will trigger
-	  $auto_incr = 0;
-	  $stmt = $mysqli->prepare("INSERT INTO feedback_messages VALUES (?, ?, ?)");
-	  $stmt->bind_param('iss', $auto_incr, $pageURL, $_POST['msg']);
-	  $result = $stmt->execute();
-      if ($result === false) {
-          header('Failed to create new Message', true, 400);
-      }
-	  $stmt->close();
-	  $mysqli->close();
+        $message = R::dispense('feedback_messages');
+        $message->url_request = TDT::getPageUrl();
+        $message->msg = $_POST['msg'];
+        R::store($message);
     }
 
     /**
@@ -51,7 +38,6 @@ class PostMessage {
     public function post() {
         $this->setData();
         header('Created', true, 201);
-        //return self->result;
     }
 }
 ?>

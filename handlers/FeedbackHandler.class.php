@@ -14,19 +14,13 @@ class FeedbackHandler {
     private $result;
 
     private function setData() {
-        /* Connect to mysql database */
-        $conn = MDB2::factory(Config::$DSN, Config::$OPTION);
-        
-        $pageUrl = TDT::getPageUrl();
+        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
 
-        $queryString = 'Insert Into feedback_messages (url_request, msg) values ('
-            . $conn->quote($pageUrl, 'text') . ', '
-            . $conn->quote($_POST['msg'], 'text') . ')';
-
-        $result = $conn->exec($queryString);
-
-        /* Close the connection */
-        $conn->disconnect();
+        self->result = R::find(
+            'feedback_messages',
+            'url_request = :url_request',
+            array(':url_request' => TDT::getPageUrl())
+        ); 
     }
 
     /**

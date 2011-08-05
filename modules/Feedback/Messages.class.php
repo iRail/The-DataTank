@@ -8,6 +8,7 @@
    */
 
 //include_once("MDB2.php");
+include_once('rb.php');
 include_once("resources/AResource.class.php");
 
 /**
@@ -30,33 +31,13 @@ class Messages extends AResource {
     }
 
     public function getData() {
-	    /* Connect to database */
-        $conn = MDB2::factory(Config::$DSN, Config::$DB_OPTIONS);
+        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
 
-        $pageUrl = TDT::getPageUrl();
-
-        $stmt = $conn->prepare('SELECT * FROM feedback_messages WHERE url_request = ?',
-            array('text'));
-        $result = $stmt->execute($pageUrl, MDB2_FETCHMODE_OBJECT);
-        $this->queryResult = $result->fetchAll();
-        vardump($this->queryResult);
-
-        $conn->disconnect();
-        //if ($result = mysqli_query($link, $queryString)) {
-            //[> Fetch the results of the query <]
-			//$this->queryResults = new QueryResults();
-
-            //while( $row = mysqli_fetch_assoc($result) ) {
-                //foreach($row as $key => $value) {
-                    //$this->queryResult->result[$key] = $value;
-                //}
-            //}
-			//[> Destroy the result set and free the memory used for it. <]
-			//mysqli_free_result($result);
-        //}
-
-        //[> Close the connection <]
-        //mysqli_close($link);
+        $self->queryResult = R::find(
+            'feedback_messages',
+            'url_request = :url_request',
+            array(':url_request' => TDT::getPageUrl())
+        ); 
     }
 
     public function call() {

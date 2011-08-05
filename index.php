@@ -11,6 +11,7 @@
  */
 
 include_once('glue.php');
+include_once('rb.php');
 include_once('MDB2.php');
 include_once('handlers/Exceptions.class.php');
 include_once('handlers/ErrorHandler.class.php');
@@ -26,11 +27,13 @@ include_once('resources/AResource.class.php');
 
 //Autoloader for pages:
 function __autoload($name){
-    if(file_exists('pages/' . $name . '.class.php')){
-	include_once('pages/' . $name . '.class.php');
-    }else{
-	echo $name . " not found";
+    if(file_exists('pages/' . $name . '.class.php')) {
+        include_once('pages/' . $name . '.class.php');
     }
+    // This conflicts with rb.php
+    //} else {
+		//echo $name . " not found";
+    //}
 }
 
 set_error_handler('wrapper_handler');
