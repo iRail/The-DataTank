@@ -13,10 +13,9 @@ First of all, in order to get started with The DataTank you have to install some
 
 * PHP 5.3
 * MySQL
-* MDB2-2.5.0b3 
-* MDB2#mysqli
+* memcached
 
-To make sure your errors are shown in your browser while developping. This can be done by modifying your PHP.ini file:
+When developing, make sure your errors are shown in your browser. This can be done by modifying your php.ini file:
 
 * display_errors = On	
 * error_reporting = E_ALL | E_STRICT | E_PARSE
