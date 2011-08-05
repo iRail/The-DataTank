@@ -35,39 +35,38 @@ class ErrorHandler{
       * This functions logs the exception.
       * @param Exception $e Contains an Exception class.
       */
-     public static function logException($e){
-	  //HTTP Header information
-	  header("HTTP/1.1 ". $e->getCode() . " " . $e->getMessage());
-	  //In the body, put the message of the error
-	  echo $e->getMessage();
-	  //and store it to the DB
-	  ErrorHandler::WriteToDB($e);
-     }
+     public static function logException($e) {
+        //HTTP Header information
+        header("HTTP/1.1 ". $e->getCode() . " " . $e->getMessage());
+        //In the body, put the message of the error
+        echo $e->getMessage();
+        //and store it to the DB
+        ErrorHandler::WriteToDB($e);
+    }
 
-     private static function WriteToDB(Exception $e){
-	  $pageURL = TDT::getPageUrl();
+    private static function WriteToDB(Exception $e) {
+        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
+        
+        //get the format out of the RESTparameters, if none specified fill in 'XML'!
+        //@Jan: what if format is given through Content Type? Shouldn't we just ask
+        //the printerfactory->getFormat() about what format it was?
+        // the format should be something like this:
+        // /module/resource/.json
+        preg_match("/format=(.*)&.*/",$matches["RESTparameters"], $formatmatch); 
+        if(!isset($formatmatch[1])){
+            $format = "xml";
+        }else{
+            $format = $formatmatch[1];
+        }
 
-	  // To conquer sql injection, one must become sql injection.... or use
-	  // prepared statements.	 
-	  $mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
-	  if(mysqli_connect_errno()){
-	       echo "Something went wrong while contacting the database. " . mysqli_connect_error();
-	       exit(0);
-	  }	
-	  // if id = 0, the auto incrementer will trigger
-	  $auto_incr = 0;
-	  $stmt = $mysqli->prepare("INSERT INTO errors VALUES (?,?,?,?,?,?,?)");
-	  $time = time();
-
-	  $ua = $_SERVER['HTTP_USER_AGENT'];
-	  $ip = $_SERVER['REMOTE_ADDR'];
-	  $err_message = $e->getDoc();
-	  $err_code = $e->getErrorCode();
-	  $stmt->bind_param('iisssss',$auto_incr,$time,$ua,$ip,$pageURL,$err_message,$err_code);
-	  $stmt->execute();
-	  $stmt->close();
-	  $mysqli->close();
-     }
-     
+        $error = R::dispense('errors');
+        $error->time = time();
+        $error->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $error->ip = $_SERVER['REMOTE_ADDR'];
+        $error->url_request = TDT::getPageUrl();
+        $error->error_message = $e->getDoc();
+        $error->error_code = $e->getErrorCode();
+        R::store($error);
+    }
 }
 ?>
