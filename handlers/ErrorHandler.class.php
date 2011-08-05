@@ -52,7 +52,7 @@ class ErrorHandler{
         //the printerfactory->getFormat() about what format it was?
         // the format should be something like this:
         // /module/resource/.json
-        preg_match("/format=(.*)&.*/",$matches["RESTparameters"], $formatmatch); 
+        //preg_match("/format=(.*)&.*/", $matches["RESTparameters"], $formatmatch); 
         if(!isset($formatmatch[1])){
             $format = "xml";
         }else{
