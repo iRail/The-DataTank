@@ -18,44 +18,33 @@ class RequestLogger{
     /**
      * This function implements the logging part of the RequestLogger functionality.
      */
-    public static function logRequest($matches,$requiredparams,$subresources){
-	//var_dump($matches);
-	//var_dump($requiredparams);
-	//var_dump($subresources);
-	$module = $matches["module"];
-	$resource = $matches["resource"];
-	$subresrc = implode(";",$subresources);
-	$reqparams = implode(";",$requiredparams);
-	$restparams = $matches["RESTparameters"];
-	
-	//get the format out of the RESTparameters, if none specified fill in 'XML'!
-	//@Jan: what if format is given through Content Type? Shouldn't we just ask the printerfactory->getFormat() about what format it was?
-	preg_match("/format=(.*)&.*/",$matches["RESTparameters"],$formatmatch);
-	
-	if(!isset($formatmatch[1])){
-	    $format = "xml";
-	}else{
-	    $format = $formatmatch[1];
-	}
-	
-	$pageURL = TDT::getPageUrl();	
-	  
-	// To conquer sql injection, one must become sql injection.... or use
-	// prepared statements.
-	   
-	$mysqli = new mysqli('localhost', Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD, Config::$MySQL_DATABASE);
-	if(mysqli_connect_errno()){
-	    printf("Can't connect to MySQL Server. Errorcode: %s\n",mysqli_connect_error());
-	    exit();
-	}	
-	// if id = 0, the auto incrementer will trigger
-	$auto_incr = 0;
-	$stmt = $mysqli->prepare("INSERT INTO requests VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-	$seconds = time();
-	$stmt->bind_param('iisssssssss',$auto_incr,$seconds,$_SERVER['HTTP_USER_AGENT'],$_SERVER['REMOTE_ADDR'],$pageURL,$module,$resource,$format,$subresrc,$reqparams,$restparams);
-	$stmt->execute();
-	$stmt->close();
-	$mysqli->close();
+    public static function logRequest($matches,$requiredparams,$subresources) {
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+        
+        //get the format out of the RESTparameters, if none specified fill in 'XML'!
+        //@Jan: what if format is given through Content Type? Shouldn't we just ask
+        //the printerfactory->getFormat() about what format it was?
+        // the format should be something like this:
+        // /module/resource/.json
+        preg_match("/format=(.*)&.*/",$matches["RESTparameters"], $formatmatch); 
+        if(!isset($formatmatch[1])){
+            $format = "xml";
+        }else{
+            $format = $formatmatch[1];
+        }
+
+        $request = R::dispense('requests');
+        $request->time = time();
+        $request->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $request->ip = $_SERVER['REMOTE_ADDR'];
+        $request->url_request = TDT::getPageUrl();
+        $request->module = $matches["module"];
+        $request->resource = $matches['resource'];
+        $request->format = $format;
+        $request->subresources = implode(";",$subresources);
+        $request->requiredparameter = implode(";",$requiredparams);
+        $request->allparameters = $matches["RESTparameters"];
+        R::store($request);
     }
-  }
+}
 ?>

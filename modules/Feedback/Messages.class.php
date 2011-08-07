@@ -31,7 +31,7 @@ class Messages extends AResource {
     }
 
     public function getData() {
-        R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
         $self->queryResult = R::find(
             'feedback_messages',

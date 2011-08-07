@@ -10,10 +10,12 @@
  */
 
 class Queries extends AResource{
-
-    private $module; // must be set! Contains the value of the module that needs to be analysed.
-    private $resource; // if set only look at certain data from a certain method within the given module.
-    private $errors = ""; // if set, get data from errors table. ( not set or true )
+    // must be set! Contains the value of the module that needs to be analysed.
+    private $module; 
+    // if set only look at certain data from a certain method within the given module.
+    private $resource;
+    // if set, get data from errors table. ( not set or true )
+    private $errors = "";
     private $queryResults;
 
     public static function getParameters(){
@@ -24,89 +26,52 @@ class Queries extends AResource{
     }
 
     public static function getRequiredParameters(){
-	return array("module");
+        return array("module");
     }
 
     public function setParameter($key,$val){
-	if($key == "module"){
-	    $this->module = $val;
-	}elseif($key == "resource"){
-	    $this->resource = $val;
-	}elseif($key == "error"){
-	    $this->errors = $val;
-	}
+        if($key == "module"){
+            $this->module = $val;
+        }elseif($key == "resource"){
+            $this->resource = $val;
+        }elseif($key == "error"){
+            $this->errors = $val;
+        }
     }
 
-    private function getData(){
+    private function getData() {
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
-	/* Connect to mysql database */
-	//$link = mysqli_connect(
-		//'localhost',                    [> The host to connect to <]
-		//Config::$MySQL_USER_NAME,       [> The user to connect with the MySQL database <]
-		//Config::$MySQL_PASSWORD,        [> The password to use to connect with the db  <]
-		//Config::$MySQL_DATABASE);                     [> The default database to query <]
+        /* Send a query to the server */
+        if($this->errors == ""){
+            $databasetable = "requests";
+        }else{
+            $databasetable = "errors";
+        }
 
-	//if (!$link) { //Who wrote this piece of code? Please throw TDTExceptions ffs
-		//printf("Can't connect to MySQL Server. Errorcode: %s\n", mysqli_connect_error());
-		//exit;
-	//}
+        $queries = R::find(
+            $databasetable,
+            "url_request regexp ':module/:resource' GROUP BY " .
+            "from_unixtime(time , ,'%D %M %Y')",
+            array(':module' => $this->module, ':resource' => $this->resource)
+        );
 
-    $conn = MDB2::factory(Config::$DSN, Config::$DB_OPTIONS);
-
-	/* Send a query to the server */
-	if($this->errors == ""){
-	    $databasetable = "requests";
-	}else{
-	    $databasetable = "errors";
-    }
-
-    echo '1';
-
-    $queryString = 'select count(1) as amount, time from ? where url_request regexp \'?/?\' group by from_unixtime(time, ,\'%D %M %Y\')';
-    echo '2';
-    $stmt = $conn->prepare($queryString, array('text', 'text', 'text'));
-    echo '3';
-    $this->resultQuery->result = $stmt->execute(array(databasetable, $this->module,
-        $this->resource,
-        MDB2_FETCHMODE_OBJECT)); 
-
-    echo '4';
-    vardump($this->resultQuery->result);
-
-    $conn->disconnect();
-    
-	//$queryString = 'SELECT count(1) as amount, time FROM ' . $databasetable . ' WHERE url_request REGEXP \''. $this->module . '/'.$this->resource .  '\' group by from_unixtime(time,\'%D %M %Y\')'; //echo "queryString is ". $queryString;
-	  
-	//if ($result = mysqli_query($link,$queryString)) {
-
-		//[> Fetch the results of the query <]
-		//$this->queryResults = new StdClass();
-		   
-		//while($row = mysqli_fetch_assoc($result)) {
-		//$amount = $row['amount'];
-		//$time  = $row['time'];
-		//$this->queryResults->result[$time] = $amount;
-		//}
-
-		//[> Destroy the result set and free the memory used for it. <]
-		//mysqli_free_result($result);
-	//}
-
-	//[> Close the connection <]
-	//mysqli_close($link);
+        $this->queryResults = new stdClass();
+        $this->queryResults->result = $queries;
     }
 
     public function call(){
-	$this->getData();
-	return $this->queryResults;
+        $this->getData();
+        return $this->queryResults;
     }
 
     public static function getAllowedPrintMethods(){
-	return array("json","xml", "jsonp", "php", "html");
+        return array("json","xml", "jsonp", "php", "html");
     }
 
     public static function getDoc(){
-	return "Lists the number of queries(requests/errors) to this datatank instance per day";
+        return "Lists the number of queries(requests/errors) to this datatank"
+            . "instance per day";
     }
 }
 ?>
