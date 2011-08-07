@@ -14,8 +14,6 @@ class Queries extends AResource{
     private $module; 
     // if set only look at certain data from a certain method within the given module.
     private $resource;
-    // if set, get data from errors table. ( not set or true )
-    private $errors = "";
     private $queryResults;
 
     public static function getParameters(){
@@ -34,30 +32,31 @@ class Queries extends AResource{
             $this->module = $val;
         }elseif($key == "resource"){
             $this->resource = $val;
-        }elseif($key == "error"){
-            $this->errors = $val;
         }
     }
 
     private function getData() {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-
         /* Send a query to the server */
-        if($this->errors == ""){
-            $databasetable = "requests";
-        }else{
-            $databasetable = "errors";
-        }
+	$requeststable = "requests";
+	$errorstable = "errors";
 
-        $queries = R::find(
-            $databasetable,
+        $requests = R::find(
+            $requeststable,
             "url_request regexp ':module/:resource' GROUP BY " .
-            "from_unixtime(time , ,'%D %M %Y')",
+            "from_unixtime(time,'%D %M %Y')",
+            array(':module' => $this->module, ':resource' => $this->resource)
+        );
+	$errors = R::find(
+            $errorstable,
+            "url_request regexp ':module/:resource' GROUP BY " .
+            "from_unixtime(time,'%D %M %Y')",
             array(':module' => $this->module, ':resource' => $this->resource)
         );
 
         $this->queryResults = new stdClass();
-        $this->queryResults->result = $queries;
+        $this->queryResults->requests = $requests;
+        $this->queryResults->errors = $errors;
     }
 
     public function call(){

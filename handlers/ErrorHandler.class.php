@@ -58,8 +58,8 @@ class ErrorHandler{
         $error->user_agent = $_SERVER['HTTP_USER_AGENT'];
         $error->ip = $_SERVER['REMOTE_ADDR'];
         $error->url_request = TDT::getPageUrl();
-        $error->error_message = $e->getDoc();
-        $error->error_code = $e->getErrorCode();
+        $error->error_message = $e->getMessage();
+        $error->error_code = $e->getCode();
         R::store($error);
     }
 }
