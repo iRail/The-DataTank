@@ -19,7 +19,6 @@ class Queries extends AResource{
     public static function getParameters(){
 	return array("module" => "Name of a module that needs to be analysed, must be set !",
 		     "resource" => "Name of a resource within the given module, is not required.",
-		     "error" => "If set then the analysis will get it's data from the error table if not from the request table."
 	);
     }
 
