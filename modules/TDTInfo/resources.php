@@ -19,7 +19,6 @@ class TDTInfo{
       */
      public static $resources = array (
 	  "Modules",
-	  "Module",
 	  "Queries"
 	  );
 }

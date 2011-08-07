@@ -22,15 +22,13 @@ class Json extends Printer{
 
      public function printHeader(){
 	  header("Access-Control-Allow-Origin: *");
-	  header("Content-Type: application/json;charset=UTF-8");	  
+	  header("Content-Type: application/json;charset=UTF-8");	  	  
      }
 
      public function printBody(){
 	  if(is_object($this->objectToPrint)){
 	       $hash = get_object_vars($this->objectToPrint);
 	  }
-	  $hash['version'] = $this->version;
-	  $hash['timestamp'] = time();
 	  echo json_encode($hash);
      }
 };

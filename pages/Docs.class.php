@@ -30,19 +30,19 @@ class Docs {
 	//print page
 	include_once("templates/TheDataTank/header.php");
 	$url = Config::$HOSTNAME . Config::$SUBDIR."TDTInfo/Modules/?format=json";
-	$stats = "";
 	$stats = json_decode(TDT::HttpRequest($url)->data);
 
 	//Test whether HttpRequest succeeded 
-	if(isset($stats->module)){
+	if(is_object($stats)){
 	    echo "<h1>Modules and their resources</h1>";
-	    foreach($stats->module as $modu){
-		$name = $modu->name;
+	    $modules = get_object_vars($stats);
+	    
+	    foreach($modules as $name => $modu){
 		echo "<h2>$name</h2>\n";
-		if(sizeof($modu->resource) > 0){
+		if(is_object($modu)){
+		    $resources = get_object_vars($modu);
 		    echo "<ul>";
-		    foreach($modu->resource as $resource){
-			$resourcename = $resource->name;
+		    foreach($resources as $resourcename => $resource){
 			echo "<li><a href=\"". Config::$HOSTNAME . Config::$SUBDIR . "docs/$name/$resourcename/\">$resourcename</a> - ".$resource->doc . "</li>";
 		    }
 		    echo "</ul>";

@@ -13,52 +13,51 @@ class DocPage {
     function GET($matches) {
 
 	$module = $matches[1];
-	$method = $matches[2];
+	$resource = $matches[2];
 
 	/*
-	 * There are two possibilities: the module/method is a local one OR the module/method is a remote one
+	 * There are two possibilities: the module/resource is a local one OR the module/resource is a remote one
 	 * We'll have to check our proxymodules in order to know which one it is.
 	 *
 	 * If it's a remote one we need to get the documentation through a documentation module which is
-	 * called TDTInfo, the method Module expects the mod="modulename" and meth="methodname" and returns it's
+	 * called TDTInfo, the resource Module expects the mod="modulename" and meth="resourcename" and returns it's
 	 * documentation.
 	 */
-	$methodname = $method;
+	$resourcename = $resource;
 
-	/*
-	 * TODO: If it's not a proxymodule we ask our own module (yes the TDT documentation is a TDT module itself :D)
-	 * to return the object with the proper documentation.
-	 */
-	$url = Config::$HOSTNAME .Config::$SUBDIR. "TDTInfo/Module/$module/$method/?format=json";
+	$url = Config::$HOSTNAME .Config::$SUBDIR. "TDTInfo/Modules/$module/$resource/?format=json";
 
-	$method = json_decode(TDT::HttpRequest($url) -> data);
+	$resource = json_decode(TDT::HttpRequest($url)->data);
 
 	include_once ("templates/TheDataTank/header.php");
 
-	echo "<h1>" . $module . "/" . $methodname . "</h1>";
+	echo "<h1>" . $module . "/" . $resourcename . "</h1>";
 	//get a sequence of the parameters
 	$args = "";
-	if(sizeof(($method -> requiredparameter)) > 0) {
-	    $params = $method -> requiredparameter;
+	
+	if(sizeof(($resource->requiredparameters)) > 0) {
+	    $params = $resource->requiredparameters;
 	    foreach($params as $var) {
-		$args .= "?$var?/";
+		$args .= "%$var%/";
 	    }
 	}
-	/* build the proper URL's to invoke when doing a call for a certain method */
-	$url = Config::$HOSTNAME . CONFIG::$SUBDIR."$module/$methodname/$args";
+	// build the proper URL's to invoke when doing a call for a certain resource
+	$url = Config::$HOSTNAME . CONFIG::$SUBDIR."$module/$resourcename/$args";
 	echo "<a href=\"$url\">$url</a>";
 	echo "<h3>Description</h3>";
-	echo "<p>" . $method -> doc . "</p>";
-	if(sizeof($method -> parameter) > 0) {
+	echo "<p>" . $resource->doc . "</p>";
+	if(sizeof($resource->parameters) > 0) {
 	    echo "<h3>All possible parameters:</h3>";
 	    echo "<ul>\n";
-	    foreach($method->parameter as $var => $doc) {
+	    foreach($resource->parameters as $var => $doc) {
 		echo "<li><strong>$var:</strong> $doc\n";
 	    }
 	    echo "</ul>\n";
 	} else {
-	    echo "<h3>This method has no parameters.</h3>";
+	    echo "<h3>This resource has no parameters.</h3>";
 	}
+
+	echo "<h4>You can use RESTful identifiers on any resource</h4>";
 
 	echo "<p><a href=\"/".Config::$SUBDIR."docs/\">&laquo; Back to the datasets</a></p>";
 	include_once ("templates/TheDataTank/footer.php");

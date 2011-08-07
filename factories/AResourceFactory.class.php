@@ -17,23 +17,15 @@ abstract class AResourceFactory{
      */
     public function getAllDocs(){
 	$docs = new StdClass();
-	$docs->module = array();
-	$i = 0;
 	foreach($this->getAllResourceNames() as $module => $resources){
-	    $docs->module[$i] = new StdClass();
-	    $docs->module[$i]->name = $module;
-	    $docs->module[$i]->resource = array();
-	    $j = 0;
+	    $docs->$module = new StdClass();
 	    foreach($resources as $resource){
-		$docs->module[$i]->resource[$j] = new StdClass();
-		$docs->module[$i]->resource[$j]->name = $resource;
-		$docs->module[$i]->resource[$j]->doc = $this->getResourceDoc($module,$resource);
-		$docs->module[$i]->resource[$j]->requiredparameters = $this->getResourceRequiredParameters($module,$resource);
-		$docs->module[$i]->resource[$j]->parameters = $this->getResourceParameters($module,$resource);
-		$docs->module[$i]->resource[$j]->formats = $this->getAllowedPrintMethods($module,$resource);
-		$j++;
+		$docs->$module->$resource = new StdClass();
+		$docs->$module->$resource->doc = $this->getResourceDoc($module,$resource);
+		$docs->$module->$resource->requiredparameters = $this->getResourceRequiredParameters($module,$resource);
+		$docs->$module->$resource->parameters = $this->getResourceParameters($module,$resource);
+		$docs->$module->$resource->formats = $this->getAllowedPrintMethods($module,$resource);
 	    }
-	    $i++;
 	}
 	return $docs;
     }

@@ -35,38 +35,30 @@ class Stats {
 		 </select>
 		 </p>
 		 <p>
-		 Module
+		 <label>Module</label>
 		 <select id="module">
+		 <option>Select a module</option>
 		 <?php
 		 $mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME . Config::$SUBDIR. "TDTInfo/Modules/?format=json")->data);
-	foreach($mods->module as $mod){
-	    echo "<option>".$mod->name."</option>";
+	$modules = get_object_vars($mods);
+	foreach($modules as $name => $mod){
+	    echo "<option>".$name."</option>";
 	}
 	echo "</select>";
 	echo '<script language="javascript"> '. " modmeths = new Array();\n";
-	if (count($mods->module)>1) {
-	    foreach ($mods->module as $mod){
-		echo "modmeths['".$mod->name."'] = new Array();";
-		foreach($mod->resource as $resource){    
-		    echo "modmeths['".$mod->name."'].push('".$resource->name."');";
-		}
+	foreach ($modules as $name => $mod){
+	    echo "modmeths['".$name."'] = new Array();";
+	    $resources = get_object_vars($mod);
+	    foreach($resources as $nameresource => $resource){    
+		echo "modmeths['".$name."'].push('".$nameresource."');";
 	    }
 	}
 	echo "</script>";
 	?>
-	    Method
+	    <label>Resource</label>
 		<select id="method">
-		<?php
-		$mods = json_decode(TDT::HttpRequest(Config::$HOSTNAME. "".Config::$SUBDIR . "TDTInfo/Modules/?format=json")->data);
-	    if(count($mods->module) > 1){
-		$mod = $mods->module[0];
-		foreach($mod->resource as $resource){
-		    echo "<option>".$resource->name."</option>";
-		}
-	    }
-	    echo "</select>";
-	    ?>
-
+		 <option>Select a module first</option>
+	</select>
 		</p>
 		      <p>
 		      <input id="submit" type="button" value="Fetch results">

@@ -9,17 +9,10 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-//TODO
-
-/**
- * This class is a method which returns all available modules for this DataTank.
- */
 class Modules extends AResource{
 
-    private $mod;
-
     public static function getParameters(){
-	return array("mod" => "if you want only one module specify it here");
+	return array();
     }
 
     public static function getRequiredParameters(){
@@ -27,28 +20,16 @@ class Modules extends AResource{
     }
 
     public function setParameter($key,$val){
-	if($key == "proxy" && $val == "1"){
-	    $this->proxy = true;
-	}else if($key == "mod"){
-	    $this->mod = $val;
-	}
     }
 
     public function call(){
-	$f = AllResourceFactory::getInstance();
-	$o = $f->getAllDocs();
-	
-	foreach($o->module as $module){
-	    if($module->name == $this->mod){
-		$o = $module;
-		break;
-	    }
-	}
+	$resourcefactory = AllResourceFactory::getInstance();
+	$o = $resourcefactory->getAllDocs();	
 	return $o;
     }
      
     public static function getAllowedPrintMethods(){
-	return array("json","xml", "jsonp", "php");
+	return array("json","xml", "jsonp", "php", "html");
     }
 
     public static function getDoc(){
