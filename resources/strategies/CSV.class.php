@@ -1,30 +1,17 @@
 <?php
+/**
+ * This handles a CSV file
+ *
+ * @package The-Datatank/resources/strategies
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt
+ */
 
-  /**
-   *This file contains the CSVResource.
-   *@author Jan Vansteenlandt <jan@iRail.be>
-   */
-
-
-require_once("error/Exceptions.class.php");
-require_once("AResource.class.php");
-
-class CSVResource extends GenericResource {
-
-    private $filename; // name of the .csv to address
-    
-    private fetchFields(){
-	// fetch logic
-	// $uniqueKeyForSpecificRow = "dummy";
-	// connect with db and fetch the fields needed
-    }
+class CSV extends AResourceStrategy {
 
     public function call(){
-
-	// fetch the necessary fields from the database table representing 
-	// CSV resources
-	self::fetchFields();
-
+/* NEEDS TO BE REWRITTEN
 	// generic CSV logic
 	$b = new stdClass();
 	$d = array();
@@ -68,10 +55,9 @@ class CSVResource extends GenericResource {
 
 	    $b->object = $d;
 	    return $b;
-	}catch( Exception $ex) { 
-	    // file kon nie geopend worden,of er verliep iets fout tijdens het lezen van de file 
+	}catch( Exception $ex) {
 	    throw new CouldNotGetDataTDTException( $this->filename );
-	}
+	    }*/
     }
 }
 ?>

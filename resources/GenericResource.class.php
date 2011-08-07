@@ -8,24 +8,25 @@
  * @author Pieter Colpaert
  */
 
+include_once("resources/strategies/AResourceStrategy.class.php");
+
 class GenericResource extends AResource {
     
-    private $strategy; //this contains the right stratege for the job
+    private $strategy; //this contains the right strategy to handle the call
 
     public function __construct($module,$resource){
 	parent::__construct($module,$resource);
 	//todo - chose the right strategy according to the "call" field in the db
+	
     }
-    
 
     public function call(){
 	$this->strategy->call();//TODO: add parameters?
     }
 
     public function setParameter($name,$val){
-	//TODO: set parameters here
+	$this->strategy->$name = $val;
     }
-
 }
 
 ?>

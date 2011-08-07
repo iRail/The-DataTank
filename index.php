@@ -30,10 +30,6 @@ function __autoload($name){
     if(file_exists('pages/' . $name . '.class.php')) {
         include_once('pages/' . $name . '.class.php');
     }
-    // This conflicts with rb.php
-    //} else {
-		//echo $name . " not found";
-    //}
 }
 
 set_error_handler('wrapper_handler');
