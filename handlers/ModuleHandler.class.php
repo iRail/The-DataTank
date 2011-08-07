@@ -21,7 +21,7 @@ class ModuleHandler {
 	$resourcename = $matches['resource'];
 
 	//This will create an instance of a factory depending on which format is set
-	$this->printerfactory = new PrinterFactory();
+	$this->printerfactory = PrinterFactory::getInstance();
 	
 	//This will create an instance of AResource
 	$factory= AllResourceFactory::getInstance();

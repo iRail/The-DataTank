@@ -20,18 +20,9 @@ class RequestLogger{
      */
     public static function logRequest($matches,$requiredparams,$subresources) {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-        
-        //get the format out of the RESTparameters, if none specified fill in 'XML'!
-        //@Jan: what if format is given through Content Type? Shouldn't we just ask
-        //the printerfactory->getFormat() about what format it was?
-        // the format should be something like this:
-        // /module/resource/.json
-        preg_match("/format=(.*)&.*/",$matches["RESTparameters"], $formatmatch); 
-        if(!isset($formatmatch[1])){
-            $format = "xml";
-        }else{
-            $format = $formatmatch[1];
-        }
+
+	//an instance of printerfactory so we can check the format
+	$pf = PrinterFactory::getInstance();
 
         $request = R::dispense('requests');
         $request->time = time();
@@ -40,7 +31,7 @@ class RequestLogger{
         $request->url_request = TDT::getPageUrl();
         $request->module = $matches["module"];
         $request->resource = $matches['resource'];
-        $request->format = $format;
+        $request->format = $pf->getFormat();
         $request->subresources = implode(";",$subresources);
         $request->requiredparameter = implode(";",$requiredparams);
         $request->allparameters = $matches["RESTparameters"];

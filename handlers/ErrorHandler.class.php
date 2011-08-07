@@ -47,18 +47,12 @@ class ErrorHandler{
     private static function WriteToDB(Exception $e) {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         
-        //get the format out of the RESTparameters, if none specified fill in 'XML'!
-        //@Jan: what if format is given through Content Type? Shouldn't we just ask
-        //the printerfactory->getFormat() about what format it was?
-        // the format should be something like this:
-        // /module/resource/.json
-        //preg_match("/format=(.*)&.*/", $matches["RESTparameters"], $formatmatch); 
-        if(!isset($formatmatch[1])){
-            $format = "xml";
-        }else{
-            $format = $formatmatch[1];
-        }
+	//ask the printerfactory which format we should store in the db
+	$pf = PrinterFactory::getInstance();
+	$format = $pf->getFormat();
 
+	//TODO: Jan, Werner: add "format" to the error table please?
+        
         $error = R::dispense('errors');
         $error->time = time();
         $error->user_agent = $_SERVER['HTTP_USER_AGENT'];

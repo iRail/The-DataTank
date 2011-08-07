@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the PrinterFactory.
+ * This file contains the PrinterFactory. It is a singleton which creates an object of the right formatprinter
  * @package The-Datatank/printer
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -17,10 +17,12 @@ class PrinterFactory{
 
     private $format;
 
+    private static $printerfactory;
+
     /**
      * The constructor will get the right format and will decide which printer should be used to print the object.
      */
-    public function __construct(){
+    private function __construct(){
 	//let's define the format of the output:
 	// * First we check the headers for a content-type.
 	// * If not given, we'll check the format GET parameter
@@ -40,6 +42,14 @@ class PrinterFactory{
 	}
     }
     
+    public static function getInstance(){
+	if(!isset(self::$printerfactory)){
+	    self::$printerfactory = new PrinterFactory();
+	}
+	return self::$printerfactory;
+    }
+    
+
     public function getFormat(){
 	return $this->format;
     }
