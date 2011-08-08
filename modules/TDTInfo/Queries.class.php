@@ -39,23 +39,42 @@ class Queries extends AResource{
         /* Send a query to the server */
 	$requeststable = "requests";
 	$errorstable = "errors";
-
-        $requests = R::find(
-            $requeststable,
-            "url_request regexp ':module/:resource' GROUP BY " .
-            "from_unixtime(time,'%D %M %Y')",
-            array(':module' => $this->module, ':resource' => $this->resource)
+	
+	// to make a correct query we need to find out if the resource is set, if not
+	// we cannot use it in our query
+	$clausule;
+	$params = array();
+	
+	if(isset($this->resource)){
+	    $clausule = "module=:module and resource=:resource";
+	    $params = array(':module' => $this->module, ':resource' => $this->resource);
+	}else{
+	    $clausule = "module=:module";
+	    $params = array(':module' => $this->module);
+	}
+	
+	/*
+	 * Simple count of the amount of errors and requests
+	 */
+        $requests = R::getAll(
+            "select count(1) as amount, time from $requeststable where $clausule GROUP BY from_unixtime(time,'%D %M %Y')",
+	    $params
         );
-	$errors = R::find(
-            $errorstable,
-            "url_request regexp ':module/:resource' GROUP BY " .
-            "from_unixtime(time,'%D %M %Y')",
-            array(':module' => $this->module, ':resource' => $this->resource)
+	
+	/*
+	 * Errors are trickier to query, because we do not know even if a resource is specified along with 
+	 * the request, if that resource is to be found in a certain url_request that returned an error
+	 * because the error might just be a wrong resource call. So, where only taking the module in consideration !
+	 */
+	$regexp = "'".Config::$HOSTNAME.$this->module."'";
+	$errors = R::getAll(
+            "select count(1) as amount,time from $errorstable where url_request regexp $regexp GROUP BY from_unixtime(time,'%D %M %Y')"
         );
 
         $this->queryResults = new stdClass();
         $this->queryResults->requests = $requests;
         $this->queryResults->errors = $errors;
+	
     }
 
     public function call(){

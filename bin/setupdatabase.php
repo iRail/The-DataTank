@@ -1,6 +1,6 @@
 <?php
 include_once('MDB2.php');
-include_once('Config.class.php');
+include_once('../Config.class.php');
 
 function createTables() {
     $conn = MDB2::connect(Config::$DSN, Config::$DB_OPTIONS);

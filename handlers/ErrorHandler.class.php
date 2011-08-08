@@ -36,7 +36,8 @@ class ErrorHandler{
       * @param Exception $e Contains an Exception class.
       */
      public static function logException($e) {
-        //HTTP Header information
+	 //HTTP Header information
+
         header("HTTP/1.1 ". $e->getCode() . " " . $e->getMessage());
         //In the body, put the message of the error
         echo $e->getMessage();

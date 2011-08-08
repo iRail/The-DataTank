@@ -77,10 +77,7 @@ class Stats {
 				args+= methodName + "/";
 			    }
 			    var table = $('#datasource').val();
-			    if(table != "requests") {
-				args+="&error=true";
-			    }
-
+			   
 			    $.ajax({
 				type : 'GET',
 					url : '<?php echo Config::$HOSTNAME ."". Config::$SUBDIR ?>TDTInfo/Queries/' + args +'?format=json',
@@ -100,26 +97,41 @@ class Stats {
 	    function plotChart(dataArray) {
 
 		/* dataset given, get the resulting array of the result object*/
-		var dataset = dataArray["result"];
-
+		var dataset = dataArray["requests"];
+		
 		/* our dataArray contains data that needs to be kinda tweaked -> unix to javascripttime */
-		var dataToDisplay = [];
+		var dataToDisplayRequests = [];
 
 		var hackindex = 0;
 		var empty=[];
      
-		var timeArray = [];
-     
+		var timeArray = new Array();
+		timeArray["requests"] = [];
+		timeArray["errors"] = [];
+		
 		for (var i in dataset) {
-		    dataToDisplay.push([hackindex,dataset[i]]);
-		    timeArray.push(i*1000);
+		    dataToDisplayRequests.push([hackindex,dataset[i].amount]);
+		    timeArray["requests"].push(dataset[i].time*1000);
 		    hackindex++;
 		}
 
-		if(dataToDisplay.length > 0) {
+		dataset = dataArray["errors"];
+		var dataToDisplayErrors = [];
+		var hackindex = 0;
+		for(var i in dataset){
+		    dataToDisplayErrors.push([hackindex,dataset[i].amount]);
+		    timeArray["errors"].push(dataset[i].time*1000);
+		    hackindex++;
+		}
+		
+
+		if(dataToDisplayRequests.length > 0 || dataToDisplayErrors.length > 0) {
 		    /* construct the x-axis array, again conversion from unix to javascripttime */
 		    var data = [{
-			data: dataToDisplay
+			label:"requests",data: dataToDisplayRequests
+			},
+			{
+			label:"errors",data: dataToDisplayErrors
 			}
 		    ];
 
@@ -136,8 +148,7 @@ class Stats {
 			hoverable: true,
 			autoHighlight: true
 
-		    },
-		    lines: {
+		    },lines: {
 			show: true,
 			hoverable: true
 		    },
@@ -150,7 +161,8 @@ class Stats {
 			ticks: empty
 		    },
 		    yaxis: {
-			tickDecimals: 0
+			tickDecimals: 0,
+			min: 0
 		    }
 		    };
 
@@ -176,9 +188,10 @@ class Stats {
 			    if (item) {
 				if (previousPoint != item.dataIndex) {
 				    previousPoint = item.dataIndex;
-
+				    item.series.label
+				    
 				    $("#tooltip").remove();
-				    var javascripttime = timeArray[item.datapoint[0]], yvalue = item.datapoint[1];
+				    var javascripttime = timeArray[item.series.label][item.datapoint[0]], yvalue = item.datapoint[1];
 				    var date        = new Date(javascripttime);
 				    var month       = date.getMonth()+1;
 				    var day         = date.getDate();
