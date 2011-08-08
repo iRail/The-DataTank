@@ -7,7 +7,7 @@ include_once('Config.class.php');
  * This class parses tabular data and imports it into a custom defined table.
  * NOTE: Be carefull with whitespace and trailing newlines.
  */
-class TabularDataImported {
+class TabularDataImporter {
     private $data;
     private $text;
     private $tableName;
@@ -109,7 +109,7 @@ function test_importer() {
     $csv = "Werner,a,b,c,10\n" 
          . "Pieter,d,e,f,5\n"
          . "Jan,g,h,i,12";
-    $importer = new TabularDataImported('coders', 'ssssi', 'name,fst,snd,thrd,nr');
+    $importer = new TabularDataImporter('coders', 'ssssi', 'name,fst,snd,thrd,nr');
     $importer->save($csv);
 
     R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);

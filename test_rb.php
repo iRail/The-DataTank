@@ -3,7 +3,7 @@ include_once('Config.class.php');
 include_once('rb.php');
 
 // This is how you configure it.
-R::setup(Config::$DB, Config::$MySQL_USER_NAME, Config::$MySQL_PASSWORD);
+R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
 // This is how you create a bean.
 $message1 = R::dispense('feedback_messages');
