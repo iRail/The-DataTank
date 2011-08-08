@@ -26,14 +26,6 @@ class Stats {
 		 <br>
 		 <div id="placeholder" style="width:510px;height:300px;">
 		 </div>
-
-		 <p>
-		 Datasource
-		 <select id="datasource">
-		 <option>requests</option>
-		 <option>errors</option>
-		 </select>
-		 </p>
 		 <p>
 		 <label>Module</label>
 		 <select id="module">
@@ -76,7 +68,6 @@ class Stats {
 			    if(methodName != "") {
 				args+= methodName + "/";
 			    }
-			    var table = $('#datasource').val();
 			   
 			    $.ajax({
 				type : 'GET',
@@ -196,10 +187,9 @@ class Stats {
 				    var month       = date.getMonth()+1;
 				    var day         = date.getDate();
 				    var year        = date.getFullYear();
-				    var type        = $('#datasource').val();
 
 				    showTooltip(item.pageX, item.pageY,
-						yvalue + " " + type + " on " + day + "/"+month+"/"+year);
+						yvalue + " " + item.series.label + " on " + day + "/"+month+"/"+year);
 				}
 			    } else {
 				$("#tooltip").remove();
