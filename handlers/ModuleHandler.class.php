@@ -94,7 +94,7 @@ class ModuleHandler {
 	
 	// Log our succesful request
 	RequestLogger::logRequest($matches,$requiredparams,$subresources);
-
+	
 	$printer = $this->printerfactory->getPrinter(strtolower($resourcename), $result);
 	$printer->printAll();
 	//this is it!
