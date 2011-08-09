@@ -143,6 +143,25 @@ class ParameterDoesntExistTDTException extends AbstractTDTException{
 }
 
 /**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
+class FilterTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	 return "This exception is thrown when an error occured while applying a filter to our result.";
+     }
+
+     public static $error = 456;
+
+     public function getErrorCode(){
+	  return ParameterDoesntExistTDTException::$error;
+     }
+
+     public function __construct($message){
+	  parent::__construct("Something went wrong while applying the filter on the result: " . $message);
+     }
+}
+
+/**
  * These are HTTP 500 errors: internal server errors
  */
 

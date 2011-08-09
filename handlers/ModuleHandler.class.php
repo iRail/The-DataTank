@@ -11,6 +11,8 @@
  */
 require_once('printer/PrinterFactory.php');
 require_once('handlers/RequestLogger.class.php');
+require_once('handlers/Filter.class.php');
+
 class ModuleHandler {
 
     private $printerfactory;
@@ -37,12 +39,17 @@ class ModuleHandler {
 	    array_pop($RESTparameters); // remove the last element because that just contains the GET parameters
 	}
 	
+	//for logging purposes: requiredparameter values
+	$requiredparams = array();
+	
+
 	foreach($resource->getRequiredParameters() as $parameter){
 	    //set the parameter of the method
 	    if(!isset($RESTparameters[0])){
 		throw new ParameterTDTException($parameter);
 	    }
 	    $resource->setParameter($parameter, $RESTparameters[0]);
+	    $requiredparams[$parameter]=$RESTparameters[0];
 	    
 	    //removes the first element and reindex the array
 	    array_shift($RESTparameters);
@@ -73,24 +80,9 @@ class ModuleHandler {
 	$subresources = array();
 
 	//Support RESTful URI lookups
-	foreach($RESTparameters as $resource){
-	    if(is_object($result) && isset($result->$resource)){
-		$result = $result->$resource;
-	    }elseif(is_array($result) && isset($result[$resource])){
-		$result = $result[$resource];
-	    }else{
-		break;//on error, just return what we have so far
-	    }
-	    array_push($subresources,$resource);
-	}
-	if(!is_object($result)){
-	    $o = new stdClass();
-	    $RESTresource = $RESTparameters[sizeof($RESTparameters)-1];
-	    $o->$RESTresource = $result;
-	    $result = $o;
-	}
-
-	$requiredparams = $factory->getResourceRequiredParameters($module,$resourcename);
+	$resultset = Filter::RESTLookup($result,$RESTparameters);
+	$result = $resultset->result;
+	$subresources = $resultset->subresources;
 	
 	// Log our succesful request
 	RequestLogger::logRequest($matches,$requiredparams,$subresources);

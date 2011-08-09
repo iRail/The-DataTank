@@ -17,7 +17,7 @@ include_once("properties/Time.class.php");
  */
 abstract class AResource{
 
-    public static $BASICPARAMS = array("callback", "format");
+    public static $BASICPARAMS = array("callback", "format","filterBy","filterValue");
 
     /**
      * This function need to be called to set all parameters correctly
