@@ -7,6 +7,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
  */
 require_once('printer/PrinterFactory.php');
 require_once('handlers/RequestLogger.class.php');
@@ -36,16 +37,12 @@ class ModuleHandler {
 	    array_pop($RESTparameters); // remove the last element because that just contains the GET parameters
 	}
 	
-	// for logging purposes
-	$requiredparams = array();
-	
 	foreach($resource->getRequiredParameters() as $parameter){
 	    //set the parameter of the method
 	    if(!isset($RESTparameters[0])){
 		throw new ParameterTDTException($parameter);
 	    }
 	    $resource->setParameter($parameter, $RESTparameters[0]);
-	    array_push($requiredparams,$RESTparameters[0]);
 	    
 	    //removes the first element and reindex the array
 	    array_shift($RESTparameters);
@@ -92,6 +89,8 @@ class ModuleHandler {
 	    $o->$RESTresource = $result;
 	    $result = $o;
 	}
+
+	$requiredparams = $factory->getResourceRequiredParameters($module,$resourcename);
 	
 	// Log our succesful request
 	RequestLogger::logRequest($matches,$requiredparams,$subresources);
