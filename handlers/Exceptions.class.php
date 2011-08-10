@@ -153,11 +153,30 @@ class FilterTDTException extends AbstractTDTException{
      public static $error = 456;
 
      public function getErrorCode(){
-	  return ParameterDoesntExistTDTException::$error;
+	  return FilterTDTException::$error;
      }
 
      public function __construct($message){
 	  parent::__construct("Something went wrong while applying the filter on the result: " . $message);
+     }
+}
+
+/**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
+class RESTTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	 return "This exception is thrown when an error occured while applying a filter to our result.";
+     }
+
+     public static $error = 457;
+
+     public function getErrorCode(){
+	  return RESTTDTException::$error;
+     }
+
+     public function __construct($message){
+	  parent::__construct("The REST-ful path given was incorrect: " . $message);
      }
 }
 

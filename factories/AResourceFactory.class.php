@@ -50,7 +50,6 @@ abstract class AResourceFactory{
      */
     abstract public function getAllowedPrintMethods($module,$resource);
 
-
     /**
      * @return returns whether the Factory can return a resource
      */

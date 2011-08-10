@@ -1,17 +1,18 @@
 <?php
-/**
- * The module handler will look for GET and POST requests on a certain module. It will ask the factories to return the right Resource instance.
- * If it checked all required parameters, checked the format, it will perform the call and get a result. This result is printer by a printer returned from the PrinterFactory
- *
- * @package The-Datatank/handlers
- * @copyright (C) 2011 by iRail vzw/asbl
- * @license AGPLv3
- * @author Pieter Colpaert
- * @author Jan Vansteenlandt
- */
+  /**
+   * The module handler will look for GET and POST requests on a certain module. It will ask the factories to return the right Resource instance.
+   * If it checked all required parameters, checked the format, it will perform the call and get a result. This result is printer by a printer returned from the PrinterFactory
+   *
+   * @package The-Datatank/handlers
+   * @copyright (C) 2011 by iRail vzw/asbl
+   * @license AGPLv3
+   * @author Pieter Colpaert
+   * @author Jan Vansteenlandt
+   */
 require_once('printer/PrinterFactory.php');
 require_once('handlers/RequestLogger.class.php');
-require_once('handlers/Filter.class.php');
+require_once('factories/FilterFactory.class.php');
+
 
 class ModuleHandler {
 
@@ -78,11 +79,34 @@ class ModuleHandler {
 	$result = $resource->call();
 	// for logging purposes
 	$subresources = array();
-
-	//Support RESTful URI lookups
-	$resultset = Filter::RESTLookup($result,$RESTparameters);
-	$result = $resultset->result;
+	$filterfactory = FilterFactory::getInstance();
+	// apply RESTFilter
+	$RESTFilter = $filterfactory->getFilter("RESTFilter",$RESTparameters);
+	$resultset = $RESTFilter->filter($result);
 	$subresources = $resultset->subresources;
+	$result = $resultset->result;
+	//Apply Lookup filter if asked
+	
+	if(isset($_GET["filterBy"]) && isset($_GET["filterValue"])){
+	    if(!is_array($result)){
+		throw new FilterTDTException("The object provided is not a collection."); 
+	    }else{
+		$filterparameters = array();
+		$filterparameters["filterBy"] = $_GET["filterBy"];
+		$filterparameters["filterValue"] = $_GET["filterValue"];
+		$searchFilter = $filterfactory->getFilter("SearchFilter",$filterparameters);
+		$result = $searchFilter->filter($result);
+	    }
+	    
+	}
+	
+	if(!is_object($result)){
+	    $o = new stdClass();
+	    $RESTresource = $RESTparameters[sizeof($RESTparameters)-1];
+	    $o->$RESTresource = $result;
+	    $result = $o;
+	}
+
 	
 	// Log our succesful request
 	RequestLogger::logRequest($matches,$requiredparams,$subresources);
