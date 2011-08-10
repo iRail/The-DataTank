@@ -86,11 +86,11 @@ class Stats {
 /* plotChart with own Data !! */
 
 	    function plotChart(dataArray) {
-
+		
 		/* dataset given, get the resulting array of the result object*/
 		var dataset = dataArray["requests"];
 		
-		/* our dataArray contains data that needs to be kinda tweaked -> unix to javascripttime */
+		/* our dataArray contains data that needs to be tweaked -> unix to javascripttime */
 		var dataToDisplayRequests = [];
 
 		var hackindex = 0;
@@ -101,17 +101,17 @@ class Stats {
 		timeArray["errors"] = [];
 		
 		for (var i in dataset) {
-		    dataToDisplayRequests.push([hackindex,dataset[i].amount]);
-		    timeArray["requests"].push(dataset[i].time*1000);
+		    dataToDisplayRequests.push([hackindex,dataset[i]]);
+		    timeArray["requests"].push(i*1000);
 		    hackindex++;
 		}
-
+		/* create our error dataset */
 		dataset = dataArray["errors"];
 		var dataToDisplayErrors = [];
 		var hackindex = 0;
 		for(var i in dataset){
-		    dataToDisplayErrors.push([hackindex,dataset[i].amount]);
-		    timeArray["errors"].push(dataset[i].time*1000);
+		    dataToDisplayErrors.push([hackindex,dataset[i]]);
+		    timeArray["errors"].push(i*1000);
 		    hackindex++;
 		}
 		
