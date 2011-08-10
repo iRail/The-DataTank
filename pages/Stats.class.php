@@ -64,14 +64,17 @@ class Stats {
 		    $('#submit').click( function() {
 			    var moduleName = $('#module').val();
 			    var methodName = $('#method').val();
+			    
 			    var args =  moduleName + "/";
+			    var resource ="";
+			    
 			    if(methodName != "") {
-				args+= methodName + "/";
+				resource= "&resource="+methodName;
 			    }
-			   
+			    
 			    $.ajax({
 				type : 'GET',
-					url : '<?php echo Config::$HOSTNAME ."". Config::$SUBDIR ?>TDTInfo/Queries/' + args +'?format=json',
+					url : '<?php echo Config::$HOSTNAME ."". Config::$SUBDIR ?>TDTInfo/Queries/' + args +'?format=json'+resource,
 					dataType : 'json',
 					success : function(result) {
 					plotChart(result);
