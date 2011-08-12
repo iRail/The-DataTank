@@ -94,6 +94,10 @@ class ModuleHandler {
 		$filterparameters = array();
 		$filterparameters["filterBy"] = $_GET["filterBy"];
 		$filterparameters["filterValue"] = $_GET["filterValue"];
+		if(isset($_GET["filterOp"])){
+		    $filterparameters["filterOp"] = $_GET["filterOp"];
+		}
+		
 		$searchFilter = $filterfactory->getFilter("SearchFilter",$filterparameters);
 		$result = $searchFilter->filter($result);
 	    }
