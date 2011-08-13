@@ -66,7 +66,7 @@ class Queries extends AResource{
 	 * the request, if that resource is to be found in a certain url_request that returned an error
 	 * because the error might just be a wrong resource call. So, where only taking the module in consideration !
 	 */
-	$regexp = Config::$HOSTNAME.$this->module;
+	$regexp = Config::$HOSTNAME. Config::$SUBDIR . $this->module;
 	$errors = R::getAll(
             "select count(1) as amount,time from $errorstable where url_request regexp :regexp GROUP BY from_unixtime(time,'%D %M %Y')"
 	    ,array(':regexp' => $regexp)
