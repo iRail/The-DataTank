@@ -1,12 +1,12 @@
 <?php
-  /**
-   * The abstract class for a factory: check documentation on the Factory Method Pattern if you don't understand this code.
-   *
-   * @package The-Datatank/resources
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Pieter Colpaert
-   */
+/**
+ * The abstract class for a factory: check documentation on the Factory Method Pattern if you don't understand this code.
+ *
+ * @package The-Datatank/resources
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Pieter Colpaert
+ */
 
 include_once("resources/strategies/AResourceStrategy.class.php");
 include_once("resources/AResource.class.php");
@@ -18,8 +18,8 @@ class GenericResource extends AResource {
     private $resource;
     
     public function __construct($module,$resource){
-	$this->module = $module;
-	$this->resource = $resource;
+        $this->module = $module;
+        $this->resource = $resource;
 	
 	//parent::__construct($module,$resource); // pieter you can't use a constructor 
 	// on an abstract class......?!!
@@ -36,23 +36,19 @@ class GenericResource extends AResource {
     }
 
     public function call(){
-	if($this->strategy == "CSV"){
-	    R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	    $queryTable = "generic_resource_param";
-	    $param = array(':module' => $this->module, ':resource' => $this->resource);
-	    $result = R::getAll(
-		"select call_params from $queryTable where module=:module and resource=:resource",
-		$param
-	    );
-	    
-	    $parameters = explode("=",$result[0]["call_params"]);
-	    //TODO tweak this code so that columns and name are taken out and passed along correctly
-	    // atm only name is implemented, these parameters are split in the database with ";"
-	    include_once("resources/strategies/$this->strategy.class.php");
-	    $this->strategy = new $this->strategy();
-	    $this->strategy->fillInGenericParameters($parameters[1],array());
-	    return $this->strategy->call();
-	}
+        R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+        $queryTable = "generic_resource_param";
+        $param = array(':module' => $this->module, ':resource' => $this->resource);
+        $result = R::getAll(
+            "select call_params from $queryTable where module=:module and resource=:resource",
+            $param
+        );
+        
+        $parameters = explode("=",$result[0]["call_params"]);
+        include_once("resources/strategies/" . $this->strategy. ".class.php");
+        $this->strategy = new $this->strategy();
+        $this->strategy->fillInGenericParameters($parameters[1],array());
+        return $this->strategy->call();
     }
 
     public function setParameter($name,$val){
