@@ -45,15 +45,39 @@ Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-Q4="CREATE TABLE IF NOT EXISTS custom_tables (
-    id bigint(20) NOT NULL AUTO_INCREMENT,
-    name varchar(255) not null,
-    format varchar(255) not null,
-    columns varchar(255) not null,
-    PRIMARY KEY (id)
+#what does this do? commited by Werner?
+    Q4="CREATE TABLE IF NOT EXISTS custom_tables (
+        id bigint(20) NOT NULL AUTO_INCREMENT,
+        name varchar(255) not null,
+        format varchar(255) not null,
+        columns varchar(255) not null,
+        PRIMARY KEY (id)
+        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    Q5="CREATE TABLE IF NOT EXISTS generic_resource_param (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  module varchar(40) DEFAULT NULL,
+  resource varchar(40) DEFAULT NULL,
+  type varchar(40) DEFAULT NULL,
+  req_params varchar(512) DEFAULT NULL,
+  non_req_params varchar(512) DEFAULT NULL,
+  resource_doc varchar(512) DEFAULT NULL,
+  print_methods varchar(60) DEFAULT NULL,
+  call_params varchar(512) DEFAULT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q4}"
+    Q6="CREATE TABLE IF NOT EXISTS generic_resource_doc (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  module varchar(40) DEFAULT NULL,
+  resource varchar(40) DEFAULT NULL,
+  param varchar(40) DEFAULT NULL,
+  doc varchar(512) DEFAULT NULL,
+  is_param_req varchar(2) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}"
 
     mysql -u "$1" -p -e "$SQL"
 

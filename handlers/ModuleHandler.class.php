@@ -13,7 +13,6 @@ require_once('printer/PrinterFactory.php');
 require_once('handlers/RequestLogger.class.php');
 require_once('factories/FilterFactory.class.php');
 
-
 class ModuleHandler {
 
     private $printerfactory;
