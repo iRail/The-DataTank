@@ -6,7 +6,10 @@
    * @copyright (C) 2011 by iRail vzw/asbl
    * @license AGPLv3
    * @author Pieter Colpaert
+   * @author Jan Vansteenlandt
    */
+
+include_once("resources/GenericResource.class.php");
 
 class GenericResourceFactory extends AResourceFactory{
 
@@ -48,6 +51,7 @@ class GenericResourceFactory extends AResourceFactory{
      * @return returns an associative array with the documentation for each parameter for a specific resource 
      */
     public function getResourceParameters($module, $resource){
+
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$queryTable = "generic_resource_doc";
 	$param = array(':module' => $module, ':resource' => $resource);
@@ -68,6 +72,7 @@ class GenericResourceFactory extends AResourceFactory{
      * @return returns an array with all required parameters
      */
     public function getResourceRequiredParameters($module,$resource){
+
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$queryTable = "generic_resource_doc";
 	$param = array(':module' => $module, ':resource' => $resource);
@@ -86,7 +91,7 @@ class GenericResourceFactory extends AResourceFactory{
     }
     
     public function getAllowedPrintMethods($module,$resource){
-	//get allowed printers from db
+
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$queryTable = "generic_resource_param";
 	$param = array(':module' => $module, ':resource' => $resource);
@@ -103,6 +108,7 @@ class GenericResourceFactory extends AResourceFactory{
      * @return a hash in which an array of resources is mapped on its module 
      */
     public function getAllResourceNames(){
+
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$queryTable = "generic_resource_param";
 	$results = R::getAll(
@@ -121,6 +127,7 @@ class GenericResourceFactory extends AResourceFactory{
     }
 
     public function hasResource($module,$resource){
+
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$queryTable = "generic_resource_param";
 	$param = array(':module' => $module, ':resource' => $resource);
@@ -139,7 +146,7 @@ class GenericResourceFactory extends AResourceFactory{
      * @return gets an instance of a AResource class.
      */
     public function getResource($module,$resource){
-	
+	return new GenericResource($module,$resource);	
     }
     
   }
