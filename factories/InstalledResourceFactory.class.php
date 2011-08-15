@@ -88,6 +88,7 @@ class InstalledResourceFactory extends AResourceFactory{
 	    }
 	    closedir($handle);
 	}
+
 	return $modules;
     }
     
