@@ -38,20 +38,20 @@ then
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
+Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   url_request varchar(255) DEFAULT NULL,
   msg text NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    Q4="CREATE TABLE IF NOT EXISTS custom_tables (
-        id bigint(20) NOT NULL AUTO_INCREMENT,
-        name varchar(255) not null,
-        format varchar(255) not null,
-        columns varchar(255) not null,
-        PRIMARY KEY (id)
-        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+Q4="CREATE TABLE IF NOT EXISTS custom_tables (
+    id bigint(20) NOT NULL AUTO_INCREMENT,
+    name varchar(255) not null,
+    format varchar(255) not null,
+    columns varchar(255) not null,
+    PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
     SQL="${Q1}${Q2}${Q3}${Q4}"
 
