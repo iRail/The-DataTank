@@ -15,7 +15,9 @@ include_once('rb.php');
 include_once('handlers/Exceptions.class.php');
 include_once('handlers/ErrorHandler.class.php');
 include_once('handlers/ModuleHandler.class.php');
-include_once('handlers/UploadFile.class.php');
+include_once('handlers/AdminHandler.class.php');
+include_once('handlers/AdminModuleHandler.class.php');
+include_once('handlers/AdminResourceHandler.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
 include_once('factories/AResourceFactory.class.php');
@@ -38,12 +40,12 @@ date_default_timezone_set('UTC');
 //map urls to a classname
 $urls = array(
     '/' => 'Index',
-    '/resources/' => 'Resources',
     '/docs/' => 'Docs',
     '/docs/(?P<module>.*?)/(?P<resource>.*?)/.*' => 'DocPage',
     '/stats/' => 'Stats',
-    '/add_module' => 'AddModule',
-    '/add_resource' => 'AddResource',
+    '/admin/' => 'AdminHandler',
+    '/admin/modules/' => 'AdminModuleHandler',
+    '/admin/resources/' => 'AdminResourceHandler',
     '/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler',
     '/(?P<module>.*?)/(?P<resource>.*?)/(?P<RESTparameters>.*)' => 'ModuleHandler'
 );
