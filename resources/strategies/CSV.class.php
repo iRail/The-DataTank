@@ -71,5 +71,5 @@ class CSV extends AResourceStrategy {
 	    throw new CouldNotGetDataTDTException( $this->filename );
 	}
     }
-  }
+}
 ?>
