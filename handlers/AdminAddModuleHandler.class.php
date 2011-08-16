@@ -7,17 +7,18 @@ class AdminAddModuleHandler {
             <h2>Add Module</h2>
             <form name="Add Module" method="POST">
                 name: <input type="text" name="name" /><br /><br />
-                <input type="submit" value="Save" /><br />
-            </form>
-            <form name="Add Module" method="">
-            <input type="hidden" name="/>
+                <input type="submit" value="Save" />
             </form>';
         echo $add_form;
         include_once ("templates/TheDataTank/footer.php");
     }
 
     public function POST() {
-
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+        $module = R::dispense('module');
+        $module->module_name = $_POST['name'];
+        $id = R::store($module);
+        header('Location: ' . Config::$HOSTNAME . Config::$SUBDIR . 'admin/modules/');
     }
 }
 

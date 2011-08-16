@@ -183,3 +183,7 @@ code {
 .clear {
 	clear: both;
 }
+
+.line_img {
+    line-height: 1;
+}

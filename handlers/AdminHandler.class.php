@@ -3,8 +3,11 @@
 class AdminHandler {
     public function GET() {
         include_once ("templates/TheDataTank/header.php");
-        echo '<div><a href="/admin/modules/">Modules</a></div>';
-        echo '<div><a href="/admin/resources/">Resources</a></div>';
+        echo '<h2>Admin</h2>';
+        echo '<ul>';
+        echo '<li><a href="/admin/modules/">Modules</a></li>';
+        echo '<li><a href="/admin/resources/">Resources</a></li>';
+        echo '</ul>';
         include_once ("templates/TheDataTank/footer.php");
     }
 }
