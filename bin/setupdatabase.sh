@@ -5,13 +5,16 @@
 # License: AGPLv3
 
 
-# This script uses your MySQL to initialize some tables used for logging purposes -> errors and requests
+# This script uses MySQL-code to initialize some tables used for the back-end of the DataTank
 
 
 NUMBER_OF_ARGS=2;
 if [ $# -eq $NUMBER_OF_ARGS ]
 then
 
+###############
+# error table #
+###############
     Q1=" use $2; CREATE TABLE IF NOT EXISTS errors (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   time bigint(20) DEFAULT NULL,
@@ -23,6 +26,9 @@ then
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
+##################
+# requests table #
+##################
     Q2="CREATE TABLE IF NOT EXISTS requests (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   time bigint(20) DEFAULT NULL,
@@ -38,7 +44,10 @@ then
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
+###########################
+# feedback_messages table #
+###########################
+    Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   url_request varchar(255) DEFAULT NULL,
   msg text NOT NULL,
@@ -54,12 +63,18 @@ Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
         PRIMARY KEY (id)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-Q5="CREATE TABLE IF NOT EXISTS module (
+################
+# module table #
+################
+    Q5="CREATE TABLE IF NOT EXISTS module (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         module_name varchar(255) not null,
         PRIMARY KEY (id)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
+##########################
+# generic_resource table #
+##########################
     Q6="CREATE TABLE IF NOT EXISTS generic_resource (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   module_id bigint(20) NOT NULL,
@@ -71,6 +86,9 @@ Q5="CREATE TABLE IF NOT EXISTS module (
   FOREIGN KEY (module_id) references modules(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
+##############################
+# generic_resource_csv table #
+##############################
     Q7="CREATE TABLE IF NOT EXISTS generic_resource_csv (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   resource_id bigint(20) NOT NULL,
@@ -80,7 +98,23 @@ Q5="CREATE TABLE IF NOT EXISTS module (
   FOREIGN KEY(resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}"
+##############################
+#  generic_resource_db table #
+##############################
+    Q8="CREATE TABLE IF NOT EXISTS generic_resource_db (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  resource_id bigint(20) NOT NULL,
+  db_name varchar(128) NOT NULL,
+  db_table varchar(256) NOT NULL,
+  host varchar(256) NOT NULL,
+  port int,
+  db_type varchar(20) NOT NULL,
+  columns varchar(256) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(resource_id) references generic_resource(id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}"
 
     mysql -u "$1" -p -e "$SQL"
 

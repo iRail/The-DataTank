@@ -68,7 +68,6 @@ class GenericResourceFactory extends AResourceFactory{
     public function getAllowedPrintMethods($module,$resource){
 
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_param";
 	$param = array(':module' => $module, ':resource' => $resource);
 	$results = R::getAll(
 	    "select generic_resource.print_methods as print_methods from module,generic_resource 
