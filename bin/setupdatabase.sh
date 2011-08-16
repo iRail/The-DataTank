@@ -54,30 +54,32 @@ then
         PRIMARY KEY (id)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    Q5="CREATE TABLE IF NOT EXISTS generic_resource_param (
+Q5="CREATE TABLE IF NOT EXISTS modules (
+        id bigint(20) NOT NULL AUTO_INCREMENT,
+        module_name varchar(255) not null,
+        PRIMARY KEY (id)
+        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    Q6="CREATE TABLE IF NOT EXISTS generic_resource (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  module varchar(40) DEFAULT NULL,
-  resource varchar(40) DEFAULT NULL,
-  type varchar(40) DEFAULT NULL,
-  req_params varchar(512) DEFAULT NULL,
-  non_req_params varchar(512) DEFAULT NULL,
-  resource_doc varchar(512) DEFAULT NULL,
-  print_methods varchar(60) DEFAULT NULL,
-  call_params varchar(512) DEFAULT NULL,
-  PRIMARY KEY (id)
+  module_id bigint(20) NOT NULL,
+  resource_name varchar(40) NOT NULL,
+  type varchar(40) NOT NULL,
+  print_methods varchar(60) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (module_id) references modules(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    Q6="CREATE TABLE IF NOT EXISTS generic_resource_doc (
+    Q7="CREATE TABLE IF NOT EXISTS generic_resource_csv (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  module varchar(40) DEFAULT NULL,
-  resource varchar(40) DEFAULT NULL,
-  param varchar(40) DEFAULT NULL,
-  doc varchar(512) DEFAULT NULL,
-  is_param_req varchar(2) DEFAULT NULL,
-  PRIMARY KEY (id)
+  resource_id bigint(20) NOT NULL,
+  uri varchar(128) NOT NULL,
+  columns varchar(256) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}"
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}"
 
     mysql -u "$1" -p -e "$SQL"
 
