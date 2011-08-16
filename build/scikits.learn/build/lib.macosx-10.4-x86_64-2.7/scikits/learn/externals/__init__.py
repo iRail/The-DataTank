@@ -1,6 +1,0 @@
-
-"""
-External, bundled dependencies.
-
-"""
-
