@@ -108,7 +108,7 @@ then
   db_table varchar(256) NOT NULL,
   host varchar(256) NOT NULL,
   port int,
-  type varchar(20) NOT NULL,
+  db_type varchar(20) NOT NULL,
   columns varchar(256) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(resource_id) references generic_resource(id)
