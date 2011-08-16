@@ -378,7 +378,7 @@ class DatabaseTDTException extends AbstractTDTException{
  */
 class ResourceTDTException extends AbstractTDTException{
      public static function getDoc(){
-	  return "Something resource related went wrong.";
+	  return "Resource error.";
      }
 
      public static $error = 561;

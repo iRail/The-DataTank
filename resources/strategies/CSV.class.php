@@ -13,20 +13,39 @@ class CSV extends AResourceStrategy {
     private $filename;
     private $columns = array();
 
-    public function fillInGenericParameters($filename, array $columns){
-	$this->filename = $filename;
-	$this->columns = $columns;
-    }
-
     public function __construct(){
 	
     }
 
-    public function call(){
+    public function call($module,$resource){
+
+        /*
+         * First retrieve the values for the generic fields of the CSV logic
+         */
+
+        R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+        $param = array(':module' => $module, ':resource' => $resource);
+        $result = R::getAll(
+            "select generic_resource_csv.uri as uri, generic_resource_csv.columns as columns
+             from module, generic_resource, generic_resource_csv
+             where module.module_name=:module and generic_resource.resource_name=:resource
+             and module.id=generic_resource.module_id 
+             and generic_resource.id=generic_resource_csv.resource_id",
+             $param
+        );
+
+        if(isset($result[0]["uri"])){
+            $this->filename = $result[0]["uri"];
+        }else{
+            throw new ResourceTDTException("Can't find URI of the CSV");
+        }
+        
+        
 	//TODO implement the columns logic, so that if the columns array is empty, all
 	// columns are passed along with the result, and if it's filled with names,
 	// only those columns can join in.
 	// generic CSV logic
+
 	$resultobject = new stdClass();
 	$arrayOfRowObjects = array();
         $row = 0;
