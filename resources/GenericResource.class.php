@@ -20,14 +20,13 @@ class GenericResource extends AResource {
     public function __construct($module,$resource){
         $this->module = $module;
         $this->resource = $resource;
-	
-	//parent::__construct($module,$resource); // pieter you can't use a constructor 
-	// on an abstract class......?!!
+
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_param";
 	$param = array(':module' => $this->module, ':resource' => $this->resource);
 	$result = R::getAll(
-	    "select type from $queryTable where module=:module and resource=:resource",
+	    "select generic_resource.type as type from module,generic_resource
+             where module.module_name=:module and generic_resource.resource_name=:resource
+             and module.id=generic_resource.module_id",
 	    $param
 	);
 	
@@ -36,19 +35,9 @@ class GenericResource extends AResource {
     }
 
     public function call(){
-        R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-        $queryTable = "generic_resource_param";
-        $param = array(':module' => $this->module, ':resource' => $this->resource);
-        $result = R::getAll(
-            "select call_params from $queryTable where module=:module and resource=:resource",
-            $param
-        );
-        
-        $parameters = explode("=",$result[0]["call_params"]);
         include_once("resources/strategies/" . $this->strategy. ".class.php");
         $this->strategy = new $this->strategy();
-        $this->strategy->fillInGenericParameters($parameters[1],array());
-        return $this->strategy->call();
+        return $this->strategy->call($this->module,$this->resource);
     }
 
     public function setParameter($name,$val){
@@ -57,10 +46,11 @@ class GenericResource extends AResource {
 
     public function getAllowedPrintMethods(){
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_param";
 	$param = array(':module' => $this->module, ':resource' => $this->resource);
 	$results = R::getAll(
-	    "select print_methods from $queryTable where module=:module and resource =:resource",
+	    "select generic_resource.print_methods as print_methods from module,generic_resource
+             where module.module_name=:module and generic_resource.resource_name =:resource 
+             and module.id=generic_resource.module_id",
 	    $param
 	);
 	$print_methods = explode(";", $results[0]["print_methods"]);

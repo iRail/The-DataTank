@@ -13,7 +13,7 @@ abstract class AResourceStrategy{
      * This functions contains the businesslogic of the method
      * @return StdClass object representing the result of the businesslogic.
      */
-    abstract public function call();
+    abstract public function call($module,$resource);
 }
 
 ?>

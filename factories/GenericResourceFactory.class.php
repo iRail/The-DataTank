@@ -32,10 +32,11 @@ class GenericResourceFactory extends AResourceFactory{
     public function getResourceDoc($module, $resource){
 	
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_param";
 	$param = array(':module' => $module, ':resource' => $resource);
 	$result = R::getAll(
-	    "select resource_doc as doc from $queryTable where module=:module and resource =:resource",
+	    "select generic_resource.documentation as doc from module,generic_resource 
+             where module.module_name=:module and generic_resource.resource_name =:resource
+             and module.id=generic_resource.module_id",
 	    $param
 	);
 	
@@ -51,20 +52,8 @@ class GenericResourceFactory extends AResourceFactory{
      * @return returns an associative array with the documentation for each parameter for a specific resource 
      */
     public function getResourceParameters($module, $resource){
-
-	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_doc";
-	$param = array(':module' => $module, ':resource' => $resource);
-	$results = R::getAll(
-	    "select param,doc from $queryTable where module=:module and resource =:resource",
-	    $param
-	);
-
-	$paramdocs = array();
-	foreach($results as $result){
-	    $paramdocs[$result["param"]] = $result["doc"];
-	}
-	return $paramdocs;
+        // generic resources don't have parameters that can be passed along with the RESTful call
+        return array();
     }
     
 
@@ -72,22 +61,8 @@ class GenericResourceFactory extends AResourceFactory{
      * @return returns an array with all required parameters
      */
     public function getResourceRequiredParameters($module,$resource){
-
-	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_doc";
-	$param = array(':module' => $module, ':resource' => $resource);
-	$results = R::getAll(
-	    "select param from $queryTable where module=:module and resource =:resource and is_param_req = 1",
-	    $param
-	);
-	
-	$reqparams = array();
-	
-	foreach($results as $result){
-	    array_push($reqparams,$result["param"]);
-	}
-
-	return $reqparams;
+        // same remark as with getResourceParameters().
+        return array();
     }
     
     public function getAllowedPrintMethods($module,$resource){
@@ -96,7 +71,9 @@ class GenericResourceFactory extends AResourceFactory{
 	$queryTable = "generic_resource_param";
 	$param = array(':module' => $module, ':resource' => $resource);
 	$results = R::getAll(
-	    "select print_methods from $queryTable where module=:module and resource =:resource",
+	    "select generic_resource.print_methods as print_methods from module,generic_resource 
+             where module.module_name=:module and generic_resource.resource_name =:resource 
+             and module.id=generic_resource.module_id",
 	    $param
 	);
 	$print_methods = explode(";", $results[0]["print_methods"]);
@@ -110,9 +87,9 @@ class GenericResourceFactory extends AResourceFactory{
     public function getAllResourceNames(){
 
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_param";
 	$results = R::getAll(
-	    "select module,resource from $queryTable"
+            "select generic_resource.resource_name as resource, module.module_name as module
+             from module,generic_resource where generic_resource.module_id=module.id"
 	);
 	$resources = array();
 	
@@ -122,17 +99,17 @@ class GenericResourceFactory extends AResourceFactory{
 	    }
 	    array_push($resources[$result["module"]],$result["resource"]);
 	}
-	
 	return $resources;
     }
 
     public function hasResource($module,$resource){
 
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$queryTable = "generic_resource_param";
 	$param = array(':module' => $module, ':resource' => $resource);
 	$resource = R::getAll(
-	    "select count(1) as present from $queryTable where module=:module and resource=:resource",
+	    "select count(1) as present from module,generic_resource 
+             where module.module_name=:module and generic_resource.resource_name=:resource
+             and generic_resource.module_id=module.id",
 	    $param
 	);
 	

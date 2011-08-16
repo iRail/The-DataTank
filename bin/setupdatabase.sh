@@ -54,7 +54,7 @@ Q3="CREATE TABLE IF NOT EXISTS feedback_messages (
         PRIMARY KEY (id)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-Q5="CREATE TABLE IF NOT EXISTS modules (
+Q5="CREATE TABLE IF NOT EXISTS module (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         module_name varchar(255) not null,
         PRIMARY KEY (id)
