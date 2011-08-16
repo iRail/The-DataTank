@@ -17,6 +17,7 @@ include_once('handlers/ErrorHandler.class.php');
 include_once('handlers/ModuleHandler.class.php');
 include_once('handlers/AdminHandler.class.php');
 include_once('handlers/AdminModuleHandler.class.php');
+include_once('handlers/AdminAddModuleHandler.class.php');
 include_once('handlers/AdminResourceHandler.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
@@ -45,6 +46,7 @@ $urls = array(
     '/stats/' => 'Stats',
     '/admin/' => 'AdminHandler',
     '/admin/modules/' => 'AdminModuleHandler',
+    '/admin/modules/add' => 'AdminAddModuleHandler',
     '/admin/resources/' => 'AdminResourceHandler',
     '/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler',
     '/(?P<module>.*?)/(?P<resource>.*?)/(?P<RESTparameters>.*)' => 'ModuleHandler'
