@@ -65,6 +65,7 @@ Q5="CREATE TABLE IF NOT EXISTS modules (
   module_id bigint(20) NOT NULL,
   resource_name varchar(40) NOT NULL,
   type varchar(40) NOT NULL,
+  documentation varchar(512) NOT NULL,
   print_methods varchar(60) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (module_id) references modules(id)
