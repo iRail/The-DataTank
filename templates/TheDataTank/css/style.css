@@ -187,3 +187,8 @@ code {
 .line_img {
     line-height: 1;
 }
+
+/* Admin */
+#tabs ul {
+    margin: 0;
+}
