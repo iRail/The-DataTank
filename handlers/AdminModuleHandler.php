@@ -52,9 +52,10 @@ class AdminViewModuleHandler {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         $module = R::load('module', $matches['module_id']);
         if (!$module) {
-            throw new Exception('404: page not found'); //TODO 404
+            throw new MethodOrModuleNotFoundTDTException('Module not found.');
+            //throw new Exception('404: page not found'); //TODO 404
         }
-        $modules = '<h2>' . $module->module_name . '</h2>';
+        echo '<h2>' . $module->module_name . '</h2>';
         //TODO api url, and list resources in module
         echo '<p>api: ...</p>';
         echo '<p>resources: ...</p>';

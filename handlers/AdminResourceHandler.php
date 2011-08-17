@@ -26,15 +26,8 @@ class AdminResourceHandler {
 class AdminAddResourceHandler {
     public function GET() {
         include_once ("templates/TheDataTank/header.php");
-        //TODO add better form.
-        $add_form = '
-            <h2>Add Resource</h2>
-            <form name="Add Resource" method="POST">
-                name: <input type="text" name="name" /><br /><br />
-                <input type="submit" value="Save" />
-            </form>';
-        echo $add_form;
-        include_once ("templates/TheDataTank/footer.php");
+        include_once('templates/TheDataTank/admin_add_resource.php');
+        include_once("templates/TheDataTank/footer.php");
     }
 
     public function POST() {
@@ -55,7 +48,7 @@ class AdminViewResourceHandler {
         if (!$resource) {
             throw new Exception('404: page not found'); //TODO 404
         }
-        $resources = '<h2>' . $resource->resource_name . '</h2>';
+        echo '<h2>' . $resource->resource_name . '</h2>';
         //TODO api url, and list resources in resource
         echo '<p>api: ...</p>';
         echo '<p>resources: ...</p>';
