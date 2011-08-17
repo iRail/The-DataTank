@@ -188,7 +188,30 @@ code {
     line-height: 1;
 }
 
+form.admin {
+    font-size: 14px;
+}
+
+label.admin {
+    width: 120px;
+    float: left;
+}
+
 /* Admin */
+#tabs {
+    padding: 0;
+    border: none;
+}
+
 #tabs ul {
     margin: 0;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #cccccc;
+}
+
+.form_row {
+    clear: both;
+    margin: 10px 0px;
+    border-bottom: 0px solid #cccccc;
 }
