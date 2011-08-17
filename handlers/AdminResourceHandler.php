@@ -23,9 +23,10 @@ class AdminResourceHandler {
 }
 
 // Add resource
-class AdminAddResourceHandlers {
+class AdminAddResourceHandler {
     public function GET() {
         include_once ("templates/TheDataTank/header.php");
+        //TODO add better form.
         $add_form = '
             <h2>Add Resource</h2>
             <form name="Add Resource" method="POST">
@@ -46,7 +47,7 @@ class AdminAddResourceHandlers {
 }
 
 // View single resource
-class AdminViewResourceHandlers {
+class AdminViewResourceHandler {
     public function GET($matches) {
         include_once ("templates/TheDataTank/header.php");
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
@@ -63,7 +64,7 @@ class AdminViewResourceHandlers {
 }
 
 // Remove resource
-class AdminRemoveResourceHandlers {
+class AdminRemoveResourceHandler {
     public function GET($matches) {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         $resource = R::load('resource', $matches['resource_id']);

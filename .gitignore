@@ -8,3 +8,8 @@ documentation/Documentation.toc
 documentation/UMLModelTDT.pdf.aux
 Documentation.pdf
 Makefile
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+*/*/*/.DS_Store
+*/*/*/*/.DS_Store
