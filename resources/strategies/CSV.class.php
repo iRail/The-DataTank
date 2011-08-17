@@ -66,7 +66,7 @@ class CSV extends AResourceStrategy {
                                 $rowobject->$c = $data[ $fieldhash[$c] ];
                             }
 			}
-			$arrayOfRowObjects[] = $rowobject;
+			array_push($arrayOfRowObjects,$rowobject);
 		    }
 		    $row++;
 		}

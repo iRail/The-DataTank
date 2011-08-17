@@ -109,6 +109,8 @@ then
   host varchar(256) NOT NULL,
   port int,
   db_type varchar(20) NOT NULL,
+  db_user varchar(50) NOT NULL,
+  db_password varchar(50) NOT NULL,
   columns varchar(256) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(resource_id) references generic_resource(id)
@@ -122,4 +124,5 @@ else
     echo -e "$NUMBER_OF_ARGS arguments should be passed along with the script. 
 Usage : bash set_up_database.sh MySQL_USERNAME MySQL_DATABASE";
 fi
+
 
