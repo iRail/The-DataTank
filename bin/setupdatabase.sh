@@ -83,7 +83,7 @@ then
   documentation varchar(512) NOT NULL,
   print_methods varchar(60) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (module_id) references modules(id)
+  FOREIGN KEY (module_id) references module(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 ##############################
@@ -116,7 +116,20 @@ then
   FOREIGN KEY(resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}"
+##########################
+#  remote_resource table #
+##########################
+    Q9="CREATE TABLE IF NOT EXISTS remote_resource (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  module_id bigint(20) NOT NULL,
+  resource_name varchar(40) NOT NULL,
+  module_name varchar(64) NOT NULL,
+  base_url varchar(50) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(module_id) references module(id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}"
 
     mysql -u "$1" -p -e "$SQL"
 
