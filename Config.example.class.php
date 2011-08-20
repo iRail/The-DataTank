@@ -21,5 +21,9 @@ class Config {
     public static $DB_USER = 'root';
     public static $DB_PASSWORD = 'root';
 
+    // validation for API calls to remotely add resources and modules
+    public static $API_USER = "";
+    public static $API_PASSWD = "";
+    
 }
 ?>

@@ -181,6 +181,45 @@ class RESTTDTException extends AbstractTDTException{
 }
 
 /**
+ * This class reprents an exception which is thrown when a given method or module is not valid.
+ */
+class ResourceAdditionTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	 return "This exception is thrown when an error while trying to add a resource.";
+     }
+
+     public static $error = 458;
+
+     public function getErrorCode(){
+	  return RESTTDTException::$error;
+     }
+
+     public function __construct($message){
+         parent::__construct("An error occured while trying to add a resource: " . $message);
+     }
+}
+
+
+/**
+ * This class reprents an exception which is thrown when a user isn't allowed to make a certain action
+ */
+class ValidationTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	 return "This exception is thrown when a user performs an non-allowed action.";
+     }
+
+     public static $error = 459;
+
+     public function getErrorCode(){
+	  return RESTTDTException::$error;
+     }
+
+     public function __construct($message){
+	  parent::__construct("User authentication failed: " . $message);
+     }
+}
+
+/**
  * These are HTTP 500 errors: internal server errors
  */
 

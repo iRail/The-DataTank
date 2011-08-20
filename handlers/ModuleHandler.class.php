@@ -107,7 +107,13 @@ class ModuleHandler {
 	
         if(!is_object($result)){
             $o = new stdClass();
-            $RESTresource = $RESTparameters[sizeof($RESTparameters)-1];
+            $RESTresource = "";
+            if(sizeof($RESTparameters)>0){
+                $RESTresource = $RESTparameters[sizeof($RESTparameters)-1];
+            }else{
+                $RESTresource = $resourcename;
+            }
+            
             $o->$RESTresource = $result;
             $result = $o;
         }
@@ -120,7 +126,118 @@ class ModuleHandler {
         $printer->printAll();
         //this is it!
     }
+
+    function PUT($matches){
+        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
+            parse_str(file_get_contents("php://input"),$put_vars);
+            var_dump($put_vars);
+            $resource = $matches["resource"];
+            $module = $matches["module"];
+            /*
+             * Check if a correct resource_type has been set, 
+             * after that apply the correct database interfacing to add the resource,
+             * and provide the correct feedback towards the user (errorhandling etc.)
+             * Note: There are alot of Exceptions that can be thrown here, this in order to provide
+             * the best feedback towards the user. If this is used as the back-end of a form
+             * that logic will need to know what field was incorrect, or what else went wrong (i.e. resource already exists)
+             */
+            if(isset($put_vars["resource_type"])){
+                $resource_type = $put_vars["resource_type"];
+                if($resource_type == "generic_resource"){
+                    try{
+                        $generic_type = $put_vars["generic_type"];  
+                        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+                        // check if the module exists, if not create it. Either way, retrieve
+                        // the id from the module entry
+                        $module_id = $this->evaluateModule($module);
+                        $resource_id = $this->evaluateGenericResource($module_id,$module,$put_vars);
+                        if($generic_type == "DB"){
+                            $this->evaluateDBResource($resource_id,$put_vars);
+                        }elseif($generic_type == "CSV"){
+                            $this->evaluateCSVResource($resource_id,$put_vars);
+                        }else{
+                            throw new Exception("resource type: ".$resource_type. " is not supported.");
+                        }
+                    }catch(Exception $ex){
+                        throw new ResourceAdditionTDTException("Something went wrong while adding the resource: "
+                                                               . $ex->getMessage());
+                    }
+                }elseif($resource_type == "remote_resource"){
+                    try{
+                        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+                        $module_id = evaluateModule($module);
+                        $this->evaluateRemoteResource($module_id,$resource,$put_vars);
+                    }catch(Exception $ex){
+                        throw new ResourceAdditionTDTException("Something went wrong while adding the resource: "
+                                                               . $ex->getErrorMessage());
+                    }
+                }else{
+                    throw new ResourceAdditionTDTException("The addition type given, "
+                                                           .$put_vars["resource_type"] . ", is not supported.");
+                }
+            }else{
+                throw new ResourceAdditionTDTException("No addition type was given. Addition types are: generic_resource and remote_resource");
+            }
+        }else{
+            throw new ValidationTDTException("You're not allowed to perform this action.");
+        }
+    }
+
+    private function evaluateModule($module){
+        $result = R::getAll(
+            "select id from module where module_name=:module_name",
+            array(":module_name"=>$module)
+        );
+        if(sizeof($result)==0){
+            $newmodule = R::dispense("module");
+            $newmodule->module_name = $module;
+            $id = R::store($newmodule);
+            return $id;
+        }else{
+            return $result[0]["id"];
+        }
+    }
+
+    private function evaluateGenericResource($module_id,$resource,$put_vars){
+        $genres = R::dispense("generic_resource");
+        $genres->module_id = $module_id;
+        $genres->resource_name = $resource;
+        $genres->type = $put_vars["generic_type"];
+        $genres->documentation = $put_vars["documentation"];
+        $genres->print_methods =  $put_vars["printmethods"];;
+        return R::store($genres);
+    }
+
+    private function evaluateDBResource($resource_id,$put_vars){
+        $dbresource = R::dispense("generic_resource_db");
+        $dbresource->resource_id = $resource_id;
+        $dbresource->dbtype = $put_vars["dbtype"];
+        $dbresource->dbname = $put_vars["dbname"];
+        $dbresource->dbtable = $put_vars["dbtable"];
+        $dbresource->host = $put_vars["host"];
+        $dbresource->port = $put_vars["port"]; // is this obliged ? default port?
+        $dbresource->user = $put_vars["user"];
+        $dbresource->password = $put_vars["password"];
+        $dbresource->columns = $put_vars["columns"];    
+        R::store($dbresource);
+    }
+
+    private function evaluateCSVResource($resource_id,$put_vars){
+        $csvresource = R::dispense("generic_resource_csv");
+        $csvresource->resource_id = $resource_id;
+        $csvresource->uri = $put_vars["uri"];
+        $csvresource->columns = $put_vars["columns"];
+        R::store($csvresource);
+    }
+
+    private function evaluateRemoteResource($module_id,$resource,$put_vars){
+        $remres = R::dispense("remote_resource");
+        $remres->module_id = $module_id;
+        $remres->resource_name = $resource;
+        $remres->module_name = $put_vars["module_name"];
+        $remres->base_url = $put_vars["url"]; // make sure this url ends with a /
+        R::store($remres);
+    }  
 }
-//--- BEWARE: this file should be less than 100 lines of code!
-//42
+
 ?>
