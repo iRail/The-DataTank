@@ -34,7 +34,7 @@ class TDT{
             throw new CouldNotParseUrlTDTException($url);
         }
         $memcache = new Memcache;
-        if(!$memcache->connect('localhost', 11211)){
+        if(!$memcache->connect(Config::$CACHE_HOST, 11211)){
             // TODO log this to somewhere ? So that the error of not being able to connect
             // to the cache is stored somewhere.
         }else{
