@@ -10,7 +10,10 @@
 class Config {
     //add a trailing slash!
     public static $HOSTNAME = "http://localhost/";
-	
+
+    // host for caching purposes
+    public static $CACHE_HOST = "localhost";
+
     //add a trailing slash!
     public static $INSTALLDIR = "\$PWD";
 
