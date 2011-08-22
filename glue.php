@@ -61,15 +61,14 @@ class glue {
         $found = false;
             
         krsort($urls);
-
+        
         foreach ($urls as $regex => $class) {
             $regex = str_replace('/', '\/', $regex);
             $regex = '^' . $regex . '\/?$';
             if (preg_match("/$regex/i", $path, $matches)) {
                 $found = true;
                 if (class_exists($class)) {
-                    $obj = new $class;
-                        
+                    $obj = new $class;    
                     if (method_exists($obj, $method)) {
                         $obj->$method($matches);
                     } else {
@@ -84,5 +83,6 @@ class glue {
         if (!$found) {
             throw new NotFoundTDTException("URL, $path, not found.");
         }
+        
     }
   }

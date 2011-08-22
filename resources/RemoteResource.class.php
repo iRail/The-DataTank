@@ -60,7 +60,6 @@ class RemoteResource extends AResource {
 
     public function setParameter($name,$val){
 	if(!in_array($name,$this->requiredparams)){
-            echo "$name => $val";
             $this->optionalparams[$name] = $val;
         }else{
             $this->requiredparametervalues[] = $val;
