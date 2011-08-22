@@ -17,9 +17,9 @@ include_once('resources/GenericResource.class.php');
 class ModuleHandler {
 
     private $printerfactory;
-
+    
     function GET($matches) {
-
+        
 	//always required: a module and a resource. This will always be given since the regex should be matched.
 	$module = $matches['module'];
 	$resourcename = $matches['resource'];
@@ -36,7 +36,7 @@ class ModuleHandler {
 	    $RESTparameters = explode("/",$matches['RESTparameters']);
 	    array_pop($RESTparameters); // remove the last element because that just contains the GET parameters
 	}
-
+        
         $requiredparams = array();
 
         foreach($factory->getResourceRequiredParameters($module,$resourcename) as $parameter){
@@ -101,8 +101,7 @@ class ModuleHandler {
 		
                 $searchFilter = $filterfactory->getFilter("SearchFilter",$filterparameters);
                 $result = $searchFilter->filter($result);
-            }
-	    
+            }	    
         }
 	
         if(!is_object($result)){
@@ -117,7 +116,6 @@ class ModuleHandler {
             $o->$RESTresource = $result;
             $result = $o;
         }
-
 	
         // Log our succesful request
         RequestLogger::logRequest($matches,$requiredparams,$subresources);
@@ -130,7 +128,7 @@ class ModuleHandler {
     function PUT($matches){
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             parse_str(file_get_contents("php://input"),$put_vars);
-            var_dump($put_vars);
+            // var_dump($put_vars);
             $resource = $matches["resource"];
             $module = $matches["module"];
             /*
