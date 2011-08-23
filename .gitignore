@@ -8,7 +8,6 @@ documentation/Documentation.toc
 documentation/UMLModelTDT.pdf.aux
 Documentation.pdf
 bin/testAPI_DB.php
-bin/testAPI_DB_gitignore.php
 Makefile
 .DS_Store
 */.DS_Store
