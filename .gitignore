@@ -7,9 +7,11 @@ documentation/Documentation.pdf
 documentation/Documentation.toc
 documentation/UMLModelTDT.pdf.aux
 Documentation.pdf
+bin/testAPI_DB.php
 Makefile
 .DS_Store
 */.DS_Store
 */*/.DS_Store
 */*/*/.DS_Store
 */*/*/*/.DS_Store
+bin/testAPI_DB.php

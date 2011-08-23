@@ -148,7 +148,7 @@ class ModuleHandler {
                         // check if the module exists, if not create it. Either way, retrieve
                         // the id from the module entry
                         $module_id = $this->evaluateModule($module);
-                        $resource_id = $this->evaluateGenericResource($module_id,$module,$put_vars);
+                        $resource_id = $this->evaluateGenericResource($module_id,$resource,$put_vars);
                         if($generic_type == "DB"){
                             $this->evaluateDBResource($resource_id,$put_vars);
                         }elseif($generic_type == "CSV"){
@@ -209,13 +209,13 @@ class ModuleHandler {
     private function evaluateDBResource($resource_id,$put_vars){
         $dbresource = R::dispense("generic_resource_db");
         $dbresource->resource_id = $resource_id;
-        $dbresource->dbtype = $put_vars["dbtype"];
-        $dbresource->dbname = $put_vars["dbname"];
-        $dbresource->dbtable = $put_vars["dbtable"];
+        $dbresource->db_type = $put_vars["dbtype"];
+        $dbresource->db_name = $put_vars["dbname"];
+        $dbresource->db_table = $put_vars["dbtable"];
         $dbresource->host = $put_vars["host"];
-        $dbresource->port = $put_vars["port"]; // is this obliged ? default port?
-        $dbresource->user = $put_vars["user"];
-        $dbresource->password = $put_vars["password"];
+        $dbresource->port = $put_vars["port"]; // is this a required parameter ? default port?
+        $dbresource->db_user = $put_vars["user"];
+        $dbresource->db_password = $put_vars["password"];
         $dbresource->columns = $put_vars["columns"];    
         R::store($dbresource);
     }
