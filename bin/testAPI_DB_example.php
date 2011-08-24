@@ -1,7 +1,7 @@
 <?php
 
 // HTTP authentication 
-$url = "http://localhost/apimoduledbno/apiresourcedbno/"; 
+$url = "http://localhost/foreigntest/address/"; 
 $ch = curl_init();     
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
 curl_setopt($ch, CURLOPT_URL, $url);  
@@ -12,7 +12,7 @@ $data = array( "resource_type" =>"generic_resource",
                "generic_type"  => "DB",
                "documentation" => "this is some documentation for our DB resource.",
                "dbname"       => "logging",
-               "dbtable"      => "testdb",
+               "dbtable"      => "test_address",
                "port"          => "",
                "host"         => "localhost",
                "dbtype"       => "MySQL", //sqlite,mysql and postgres are supported
