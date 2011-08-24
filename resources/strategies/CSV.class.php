@@ -38,8 +38,15 @@ class CSV extends AResourceStrategy {
             throw new ResourceTDTException("Can't find URI of the CSV");
         }
 
-        $columns = explode(";",$result[0]["columns"]);
-
+        // if we no columns are defined the columns field, ""-value. 
+        // Then we need to publish all the columns, by passing an empty array
+        if($result[0]["columns"] != ""){
+            $columns = explode(";",$result[0]["columns"]);
+        }else{
+            $columns = array();
+        }
+        
+        
 	$resultobject = new stdClass();
 	$arrayOfRowObjects = array();
         $row = 0;
@@ -62,7 +69,7 @@ class CSV extends AResourceStrategy {
 			$keys = array_keys($fieldhash);
 			for ( $i = 0 ; $i < sizeof($keys) ; $i++ ) {
 			    $c = $keys[$i];
-                            if(in_array($c,$columns)){
+                            if(sizeof($columns) == 0 || in_array($c,$columns)){
                                 $rowobject->$c = $data[ $fieldhash[$c] ];
                             }
 			}

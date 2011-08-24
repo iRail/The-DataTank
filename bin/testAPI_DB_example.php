@@ -1,7 +1,7 @@
 <?php
 
 // HTTP authentication 
-$url = "http://localhost/apimoduledb/apiresourcedb/"; 
+$url = "http://localhost/apimoduledbno/apiresourcedbno/"; 
 $ch = curl_init();     
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
 curl_setopt($ch, CURLOPT_URL, $url);  
@@ -11,13 +11,13 @@ $data = array( "resource_type" =>"generic_resource",
                "printmethods"  => "json;xml",
                "generic_type"  => "DB",
                "documentation" => "this is some documentation for our DB resource.",
-               "dbname"       => "",
-               "dbtable"      => "",
+               "dbname"       => "logging",
+               "dbtable"      => "testdb",
                "port"          => "",
-               "host"         => "",
+               "host"         => "localhost",
                "dbtype"       => "MySQL", //sqlite,mysql and postgres are supported
-               "user"       => "",
-               "password"   => "",
+               "user"       => "root",
+               "password"   => "loezer",
                "columns"       => "" //i.e. age;city;... separate columns with ;
 );
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));

@@ -39,7 +39,14 @@ class DB extends AResourceStrategy{
             $dbhost = $results[0]["host"];
             $user = $results[0]["db_user"];
             $passwrd = $results[0]["db_password"];
-            $dbcolumns = explode(";",$results[0]["columns"]);
+            // if no columns are passed along, by an "" value in the field "columns"
+            // then we need to pass along an empty array for the $dbcolumns value
+            if($results[0]["columns"] != ""){
+                $dbcolumns = explode(";",$results[0]["columns"]);    
+            }else{
+                $dbcolumns = array();
+            }
+            
 
             /*
              * According to the type of db we're going to connect with the database and 
@@ -78,7 +85,10 @@ class DB extends AResourceStrategy{
      * NoSQL, this could be used as a general build-up method.
      */
     private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable){
-        $columns = implode(",",$dbcolumns);
+        $columns = "*";
+        if(sizeof($dbcolumns) > 0){
+            $columns = implode(",",$dbcolumns);   
+        }
         $results = R::getAll(
             "select $columns from $dbtable"
         );
@@ -86,8 +96,8 @@ class DB extends AResourceStrategy{
 
         foreach($results as $result){
             $rowobject = new stdClass();
-            foreach($dbcolumns as $dbcolumn){
-                $rowobject->$dbcolumn = $result[$dbcolumn];
+            foreach($result as $key => $value){
+                $rowobject->$key = $value;
             }
             array_push($arrayOfRowObjects,$rowobject);
         }
