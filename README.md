@@ -15,10 +15,12 @@ First of all, in order to get started with The DataTank you have to install some
 * MySQL
 * memcached
 
+Debian/Ubuntu: apt-get install apache php5 mysql-server php5-dev php5-memcache memcached
+
 When developing, make sure your errors are shown in your browser. This can be done by modifying your php.ini file:
 
 * display_errors = On	
-* error_reporting = E_ALL | E_STRICT | E_PARSE
+* error_reporting = E_ALL | E_STRICT
 
 ## Usage of the framework ##
 
@@ -40,18 +42,17 @@ Congratulations, the basis of your DataTank has been made.
 
 The DataTank exists of modules and methods. Modules are directories that aggregate certain methods that mostly have a logical connection. A method returns a certain resulting object for a certain call to that module. I.e. the module TDTInfo contains a method Queries. This method handles queries for analysis purposes. It returns the result in a certain format.
 
-So the idea is fairly simple right? Now, in order to create your own module and method(s) a script has been made for you. You could always create your own directory and make the necessary methods.class.php and implement your own methods that all extend from AMethod.class.php. Or you could use a script in order to autogenerate all the obvious stuff. In our bin directory another script is given called setupmodulesandmethods.pl. This perl script will create your module (if it doesn't exist already) and will create the methods for you. The names of the methods are ofcourse to be passed along with the execution of the script. The script will also append or create the methods.class.php. This php file contains all the methods in the module it exists. 
+# Adding modules
 
-The arguments that need to be passed are 1) the absolute path to your DataTank directory 2) the modulename 3) methodnames
+You can add modules in three different ways. More specific documentation soon.
 
-	$ perl setupmodulesandmethods.pl /home/John/The-DataTank MyModule Method1 Method2 Method3 Method4
+* If you added your credentials in Config.class.php, you can add Remote resources (these are resources from other DataTank which you should be able to proxy through your datatank)
+* You can add datasets to your instance. We try to be as comprehensive as possible. If you add a csv file, we'll try to create the best API for it
+* Install a 3d party module. These modules, for instance an NMBS/SNCB webscraper, fulfills tasks that cannot be made generic. You can install such a module by copying the directory inside /modules/.
 
-This will make (if not already created) a directory for you in the directory modules called MyModule, and the necessary methods.class.php file. All given methodnames will result in methods that all extend from AMethod. If you open up a certain method created this way every function that should be overwrited or be adjusted will be there for you. All you have to do is just fill in the gaps. Let's face it, we all like being lazy, so we made sure the boring and obvious parts are being done by a script.
-		    
-## Feedback ##
-TODO explain feedback stuff
+# Help developing
 
-curl -XPOST -d msg=test123 localhost/Feedback/Messages/(module)/(method)/?param1=value1&param2=value2 
+Take a look here: [[http://datatank.demo.ibbt.be/redmine/projects/datatank]]
 
 # iRail #
 
