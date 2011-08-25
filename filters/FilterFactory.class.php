@@ -2,7 +2,7 @@
   /**
    * This factory will provide Filters such as RESTFilter and SearchFilter
    *
-   * @package The-Datatank/factories
+   * @package The-Datatank/filters
    * @copyright (C) 2011 by iRail vzw/asbl
    * @license AGPLv3
    * @author Jan Vansteenlandt
@@ -24,7 +24,7 @@ class FilterFactory{
     }
 
     public static function getFilter($filter,$params){
-	require_once("handlers/filters/$filter.class.php");
+	require_once("filters/$filter.class.php");
 	return new $filter($params);
     }
     

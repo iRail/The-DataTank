@@ -1,16 +1,16 @@
 <?php
+/**
+ * This filter will filter the collection returned by the request REST-URL, 
+ * if that URL contains the filtering properties filterBy and filterValue.
+ *
+ * @package The-Datatank/filters
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
+ */
 
-  /**
-   * This filter will filter the collection returned by the request REST-URL, 
-   * if that URL contains the filtering properties filterBy and filterValue.
-   *
-   * @package The-Datatank/handlers/filters
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Jan Vansteenlandt
-   */
-
-require_once("handlers/filters/AFilter.class.php");
+include_once('filters/AFilter.class.php');
 
 class SearchFilter extends AFilter{
     

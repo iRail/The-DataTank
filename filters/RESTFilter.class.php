@@ -1,14 +1,14 @@
 <?php
-  /**
-   * This class represents the REST-ful lookup of our API
-   *
-   * @package The-Datatank/handlers/filters
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Jan Vansteenlandt
-   */
-require_once("handlers/filters/AFilter.class.php");
-
+/**
+ * This class represents the RESTful lookup of our API
+ *
+ * @package The-Datatank/filters
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
+ */
+include_once('filters/AFilter.class.php');
 
 class RESTFilter extends AFilter{
 
