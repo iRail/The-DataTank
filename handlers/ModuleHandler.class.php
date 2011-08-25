@@ -11,7 +11,7 @@
    */
 include_once('printer/PrinterFactory.php');
 include_once('handlers/RequestLogger.class.php');
-include_once('factories/FilterFactory.class.php');
+include_once('filters/FilterFactory.class.php');
 include_once('resources/GenericResource.class.php');
 
 class ModuleHandler {

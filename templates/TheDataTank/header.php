@@ -23,7 +23,6 @@
 					<li><a href="/<?php echo CONFIG::$SUBDIR ?>" title="Home">Home</a></li>
 					<li><a href="/<?php echo CONFIG::$SUBDIR ?>docs/" title="Data">Data</a></li> 
 					<li><a href="/<?php echo CONFIG::$SUBDIR ?>stats/" title="Stats">Stats</a></li>
-					<li><a href="/<?php echo CONFIG::$SUBDIR ?>admin/" title="Admin">Admin</a></li> 
 				</ul>
 			</div>
 			<span class="clear">&nbsp;</span>

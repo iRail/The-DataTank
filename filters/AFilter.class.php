@@ -2,7 +2,7 @@
   /**
    * This class is an abstract class for a filter instance.
    *
-   * @package The-Datatank/handlers/filters
+   * @package The-Datatank/filters
    * @copyright (C) 2011 by iRail vzw/asbl
    * @license AGPLv3
    * @author Jan Vansteenlandt
