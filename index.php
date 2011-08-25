@@ -12,6 +12,7 @@
 
 include_once('glue.php');
 include_once('rb.php');
+include_once('caching/Cache.class.php');
 include_once('handlers/Exceptions.class.php');
 include_once('handlers/ErrorHandler.class.php');
 include_once('handlers/ModuleHandler.class.php');

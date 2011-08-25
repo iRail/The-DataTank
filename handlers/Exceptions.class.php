@@ -413,11 +413,11 @@ class DatabaseTDTException extends AbstractTDTException{
 }
 
 /**
- * This class represents an exception which thrown when the creation of a method fails.
+ * This class represents an exception which thrown when the creation of a resource fails.
  */
 class ResourceTDTException extends AbstractTDTException{
      public static function getDoc(){
-	  return "Resource error.";
+         return "When a creation of a resource fails";
      }
 
      public static $error = 561;
@@ -431,4 +431,22 @@ class ResourceTDTException extends AbstractTDTException{
      }
 }
 
+/**
+ * This class represents an exception which thrown when the creation of a method fails.
+ */
+class CacheTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "There was an error with the cache";
+     }
+
+     public static $error = 562;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($msg){
+	  parent::__construct("Cache error: " . $msg);
+     }
+}
 ?>
