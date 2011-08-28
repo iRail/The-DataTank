@@ -12,12 +12,10 @@
 
 include_once('glue.php');
 include_once('rb.php');
+include_once('caching/Cache.class.php');
 include_once('handlers/Exceptions.class.php');
 include_once('handlers/ErrorHandler.class.php');
 include_once('handlers/ModuleHandler.class.php');
-include_once('handlers/AdminHandler.class.php');
-include_once('handlers/AdminModuleHandler.php');
-include_once('handlers/AdminResourceHandler.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
 include_once('factories/AResourceFactory.class.php');
@@ -43,15 +41,6 @@ $urls = array(
     '/docs/' => 'Docs',
     '/docs/(?P<module>.*?)/(?P<resource>.*?)/.*' => 'DocPage',
     '/stats/' => 'Stats',
-    '/admin/' => 'AdminHandler',
-    '/admin/modules/' => 'AdminModuleHandler',
-    '/admin/modules/add/' => 'AdminAddModuleHandler',
-    '/admin/modules/(?P<module_id>[0-9]+?)/' => 'AdminViewModuleHandler',
-    '/admin/modules/(?P<module_id>[0-9]+?)/delete/' => 'AdminRemoveModuleHandler',
-    '/admin/resources/' => 'AdminResourceHandler',
-    '/admin/resources/add/' => 'AdminAddResourceHandler',
-    '/admin/resources/(?P<resource_id>[0-9]+?)/' => 'AdminViewResourceHandler',
-    '/admin/resources/(?P<resource_id>[0-9]+?)/delete/' => 'AdminRemoveResourceHandler',
     '/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler',
     '/(?P<module>.*?)/(?P<resource>.*?)/(?P<RESTparameters>.*)' => 'ModuleHandler'
 );

@@ -12,7 +12,7 @@ $data = array( "resource_type" =>"generic_resource",
                "generic_type"  => "CSV",
                "documentation" => "this is some documentation.",
                "uri"           => "/var/www/test.csv",
-               "columns"       => "name;age;city"
+               "columns"       => ""
 );
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 $result = curl_exec($ch);  

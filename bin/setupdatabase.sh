@@ -129,7 +129,21 @@ then
   FOREIGN KEY(module_id) references module(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}"
+
+##########################
+#   db_foreign_relation  #
+##########################
+    Q9="CREATE TABLE IF NOT EXISTS db_foreign_relation (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  main_object_id bigint(20) NOT NULL,
+  foreign_object_id bigint(20) NOT NULL,
+  main_object_column_name varchar(50) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(main_object_id) references generic_resource_db(id),
+  FOREIGN KEY(foreign_object_id) references generic_resource_db(id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}${Q10}"
 
     mysql -u "$1" -p -e "$SQL"
 
@@ -137,5 +151,3 @@ else
     echo -e "$NUMBER_OF_ARGS arguments should be passed along with the script. 
 Usage : bash set_up_database.sh MySQL_USERNAME MySQL_DATABASE";
 fi
-
-
