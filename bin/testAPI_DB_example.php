@@ -1,7 +1,7 @@
 <?php
 
 // HTTP authentication 
-$url = "http://localhost/foreigntest/address/"; 
+$url = "http://localhost/foreigntest/person/"; 
 $ch = curl_init();     
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
 curl_setopt($ch, CURLOPT_URL, $url);  
@@ -12,7 +12,7 @@ $data = array( "resource_type" =>"generic_resource",
                "generic_type"  => "DB",
                "documentation" => "this is some documentation for our DB resource.",
                "dbname"       => "logging",
-               "dbtable"      => "test_address",
+               "dbtable"      => "test_person",
                "port"          => "",
                "host"         => "localhost",
                "dbtype"       => "MySQL", //sqlite,mysql and postgres are supported

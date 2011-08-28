@@ -126,59 +126,108 @@ class ModuleHandler {
     }
 
     function PUT($matches){
+
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             parse_str(file_get_contents("php://input"),$put_vars);
-            // var_dump($put_vars);
+            
             $resource = $matches["resource"];
             $module = $matches["module"];
-            /*
-             * Check if a correct resource_type has been set, 
-             * after that apply the correct database interfacing to add the resource,
-             * and provide the correct feedback towards the user (errorhandling etc.)
-             * Note: There are alot of Exceptions that can be thrown here, this in order to provide
-             * the best feedback towards the user. If this is used as the back-end of a form
-             * that logic will need to know what field was incorrect, or what else went wrong (i.e. resource already exists)
-             */
-            if(isset($put_vars["resource_type"])){
-                $resource_type = $put_vars["resource_type"];
-                if($resource_type == "generic_resource"){
-                    try{
-                        $generic_type = $put_vars["generic_type"];  
-                        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-                        // check if the module exists, if not create it. Either way, retrieve
-                        // the id from the module entry
-                        $module_id = $this->evaluateModule($module);
-                        $resource_id = $this->evaluateGenericResource($module_id,$resource,$put_vars);
-                        if($generic_type == "DB"){
-                            $this->evaluateDBResource($resource_id,$put_vars);
-                        }elseif($generic_type == "CSV"){
-                            $this->evaluateCSVResource($resource_id,$put_vars);
-                        }else{
-                            throw new Exception("resource type: ".$resource_type. " is not supported.");
+            if($resource == ""){
+                $this->evaluateModule($module);
+            }else{
+                /*
+                 * Check if a correct resource_type has been set, 
+                 * after that apply the correct database interfacing to add the resource,
+                 * and provide the correct feedback towards the user (errorhandling etc.)
+                 * Note: There are alot of Exceptions that can be thrown here, this in order to provide
+                 * the best feedback towards the user. If this is used as the back-end of a form
+                 * that logic will need to know what field was incorrect, or what else went wrong (i.e. resource already exists)
+                 */
+                if(isset($put_vars["resource_type"])){
+                    $resource_type = $put_vars["resource_type"];
+                    if($resource_type == "generic_resource"){
+                        try{
+                            $generic_type = $put_vars["generic_type"];  
+                            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+                            // check if the module exists, if not create it. Either way, retrieve
+                            // the id from the module entry
+                            $module_id = $this->evaluateModule($module);
+                            $resource_id = $this->evaluateGenericResource($module_id,$resource,$put_vars);
+                            if($generic_type == "DB"){
+                                $this->evaluateDBResource($resource_id,$put_vars);
+                            }elseif($generic_type == "CSV"){
+                                $this->evaluateCSVResource($resource_id,$put_vars);
+                            }else{
+                                throw new Exception("resource type: ".$resource_type. " is not supported.");
+                            }
+                        }catch(Exception $ex){
+                            throw new ResourceAdditionTDTException("Something went wrong while adding the resource: "
+                                                                   . $ex->getMessage());
                         }
-                    }catch(Exception $ex){
-                        throw new ResourceAdditionTDTException("Something went wrong while adding the resource: "
-                                                               . $ex->getMessage());
-                    }
-                }elseif($resource_type == "remote_resource"){
-                    try{
+                    }elseif($resource_type == "remote_resource"){
+                        try{
+                            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+                            $module_id = evaluateModule($module);
+                            $this->evaluateRemoteResource($module_id,$resource,$put_vars);
+                        }catch(Exception $ex){
+                            throw new ResourceAdditionTDTException("Something went wrong while adding the resource: "
+                                                                   . $ex->getErrorMessage());
+                        }
+                    }elseif($resource_type == "foreign_relation"){
                         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-                        $module_id = evaluateModule($module);
-                        $this->evaluateRemoteResource($module_id,$resource,$put_vars);
-                    }catch(Exception $ex){
-                        throw new ResourceAdditionTDTException("Something went wrong while adding the resource: "
-                                                               . $ex->getErrorMessage());
+                        $this->evaluateDBForeignRelation($module,$resource,$put_vars);
+                    }else{
+                        throw new ResourceAdditionTDTException("The addition type given, "
+                                                               .$put_vars["resource_type"] . ", is not supported.");
                     }
                 }else{
-                    throw new ResourceAdditionTDTException("The addition type given, "
-                                                           .$put_vars["resource_type"] . ", is not supported.");
+                    throw new ResourceAdditionTDTException("No addition type was given. Addition types are: generic_resource and remote_resource");
                 }
-            }else{
-                throw new ResourceAdditionTDTException("No addition type was given. Addition types are: generic_resource and remote_resource");
             }
         }else{
             throw new ValidationTDTException("You're not allowed to perform this action.");
         }
+        
+    }
+
+    private function evaluateDBForeignRelation($module,$resource,$put_vars){
+        /*
+         * Don't add relations between non-existing modules/resources !!
+         */
+        $original_id_query = R::getAll(
+            "select gen_res_db.id from 
+             module, generic_resource as gen_res, generic_resource_db as gen_res_db
+             where module.module_name=:module_name and gen_res.module_id=module.id and gen_res.resource_name=:resource_name
+             and gen_res.id=gen_res_db.resource_id",
+            array(":module_name" => $module, ":resource_name" => $resource)
+        );
+
+        $original_id = $original_id_query[0]["id"];
+        
+        /*
+         * Get the FK relation
+         */
+        $fk_module = $put_vars["foreign_module"];
+        $fk_resource = $put_vars["foreign_resource"];
+        $original_column_name = $put_vars["original_column_name"];
+        $fk_id_query = R::getAll(
+            "select gen_res_db.id from 
+             module, generic_resource as gen_res, generic_resource_db as gen_res_db
+             where module.module_name=:module_name and gen_res.module_id=module.id and gen_res.resource_name=:resource_name
+             and gen_res.id=gen_res_db.resource_id",
+            array(":module_name" => $fk_module, ":resource_name" => $fk_resource)
+        );
+        
+        $fk_id = $fk_id_query[0]["id"];
+
+        /*
+         * Add the foreign relation to the back-end
+         */
+        $db_foreign_relation = R::dispense("db_foreign_relation");
+        $db_foreign_relation->main_object_id = $original_id;
+        $db_foreign_relation->foreign_object_id = $fk_id;
+        $db_foreign_relation->main_object_column_name = $original_column_name;
+        return R::store($db_foreign_relation);
     }
 
     private function evaluateModule($module){
