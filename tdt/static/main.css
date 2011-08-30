@@ -1,0 +1,57 @@
+html {
+    background-color: #fafafa;
+}
+
+body {
+    background-color: #fafafa;
+    padding-bottom: 18px;
+}
+
+
+#masterhead {
+    margin: 0 auto;
+    padding-top: 18px;
+}
+
+.columns {
+    /*border-bottom: 1px solid green;*/
+}
+
+#menu {
+    text-align: right;
+    padding-top: 37px;
+    float: right;
+    margin-top: 20px;
+}
+
+#menu a {
+    font-size: 1.2em;
+    padding-left: 18px;
+}
+
+#test {
+    padding: 500px 0;
+    vertical-align: text-bottom;
+
+}
+
+#test2 {
+    
+}
+
+#main {
+    margin: 0 auto;
+    width: 960px;
+    border: 1px solid #cfcfcf;
+    border-radius: 10px;
+    padding: 10px 0;
+    background-color: white;
+}
+
+a.delete_input {
+    opacity: 0.6;
+}
+
+a.delete_input:hover {
+    opacity: 1;
+}
