@@ -31,7 +31,7 @@
                   <div class="fill">
                     <div class="container">
                       <ul>
-                          <li class="active"><a href="#">Home</a></li>
+                          <li class="active"><a href="#">Admin</a></li>
                           <li><a href="#">Modules</a></li>
                           <li><a href="#">Resources</a></li>
                           <li><a href="#">Statistics</a></li>
@@ -45,10 +45,85 @@
             </div></div>
             
             <h1>Admin</h1>
-                <ul>
-                    <li><a href="#">Modules</a></li>
-                    <li><a href="#">Resources</a></li>
-                </ul>
+            <div class="row">
+                <div class="span7 columns">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Open Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#">Modules</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Resources</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">CKAN Repositories</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Other</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#">Statistics</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Profile</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span5 columns offset1">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Recent Changes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 1</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 2</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 3</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 4</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 5</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 6</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 7</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 8</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 9</a></td>
+                            </tr>
+                            <tr>
+                                <td>Added resource: <a href="#">Dag 10</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div class="row">
 
             <h1>Modules</h1>
             <table id="admin-modules" class="zebra-striped">
@@ -239,9 +314,21 @@
                         </div>                        
                     </div>
                     <div class="clearfix">
+                        <label>Module</label>
+                        <div class="input">
+                            <select class="xlarge"></select>
+                        </div>
+                    </div>
+                    <div class="clearfix">
                         <label>Documentation</label>
                         <div class="input">
                             <textarea class="xxlarge" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <label>Publish to CKAN</label>
+                        <div class="input">
+                            <input type="checkbox" class="xlarge">
                         </div>
                     </div>
                     <div class="actions">
