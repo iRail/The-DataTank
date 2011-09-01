@@ -189,7 +189,145 @@ class ModuleHandler {
         }
         
     }
+ 
+    /**
+     * Delete a resource
+     */
+    public function DELETE($matches){
 
+        if(isset($matches["module"]) && isset($matches["resource"]) && $matches["resource"] != ""){
+            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+            /*
+             * Try remote resources
+             */
+            $deleteRemoteResource = R::exec(
+                "DELETE FROM remote_resource 
+                 WHERE resource_name=:resource and 
+                 module_id IN (SELECT id FROM module WHERE module_name=:module)",
+                array(":module" => $matches["module"], ":resource" => $matches["resource"])
+            );
+            if($deleteRemoteResource == 0){
+                 /*
+                 * With generic resources we have to dig deeper, we have to delete db/csv rows as well, and
+                 * if there are relations between db tables, then we need to delete those as well. Imo, there 
+                 * are 2 ways to do this.
+                 * 1. get all the id's from all the tables, means checking every table (csv or db & db_foreign_relation)
+                 * 2. delete all the rows.
+                 * OR 
+                 * we could try to delete from all tables, and if we deleted something succesfully we'll know when to stop
+                 * i.e. if it's a cvs we have deleted we know we don't have to look in the database resource.
+                 * either trying to delete them directly or looking them up first, and then deleting them is kind of the same 
+                 * (yes I know it's not entirely the same, but the number of db transactions almost is)
+                 * Clue of the story: either way, we have to check all the tables ( at worst case ) for the deletion
+                 * we might as well try to delete stuff in the process. 
+                 * NOTE: Every deletion has to be done bottom up,(unless you work as in the first way, were you collect
+                 * all the id's first).
+                 */
+                $deleteCSVResource = R::exec(
+                    "DELETE FROM generic_resource_csv 
+                     WHERE resource_id IN 
+                           (SELECT generic_resource.id FROM generic_resource,module WHERE resource_name=:resource
+                                                                                    and module_name=:module
+                                                                                    and module.id=module_id)",
+                    array(":module" => $matches["module"], ":resource" => $matches["resource"])
+                );
+                if($deleteCSVResource == 0){
+                     /**
+                     * try the database resources
+                     */
+                    $deleteForeignRelation = R::exec(
+                        "DELETE FROM db_foreign_relation WHERE main_object_id IN 
+                                ( SELECT db.id FROM generic_resource as gen_res, module as modu, generic_resource_db as db 
+                                  WHERE module_name=:module and modu.id=module_id and resource_name=:resource 
+                                  and gen_res.id=db.resource_id ) OR foreign_object_id IN 
+                                  ( SELECT db.id FROM generic_resource as gen_res, module as modu, generic_resource_db as db 
+                                  WHERE module_name=:module and modu.id=module_id and resource_name=:resource 
+                                  and gen_res.id=db.resource_id )",
+                        array(":module" => $matches["module"], ":resource" => $matches["resource"])
+                    );
+                    
+                    $deleteDBResource = R::exec(
+                        "DELETE FROM generic_resource_db 
+                         WHERE resource_id IN 
+                           (SELECT generic_resource.id FROM generic_resource,module WHERE resource_name=:resource
+                                                                                    and module_name=:module
+                                                                                    and module.id=module_id)",
+                        array(":module" => $matches["module"], ":resource" => $matches["resource"])
+                    );  
+                }
+                // if we have deleted a csv or a db, that means we have a valid generic resource, so let's delete that as well.
+                $deleteGenericResource = R::exec(
+                    "DELETE FROM generic_resource 
+                          WHERE resource_name=:resource and module_id IN 
+                            (SELECT id FROM module WHERE module_name=:module)",
+                    array(":module" => $matches["module"], ":resource" => $matches["resource"])
+                );
+            }
+        }elseif(isset($matches["module"])){
+            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+            /**
+             * delete all resources related to the module and the module itself
+             * basically we do the same as when a resource is given, but without the resourcename check + 
+             * we delete the entry in module containing the $matches["module"] as module_name as well.
+             */
+            $deleteRemoteResource = R::exec(
+                "DELETE FROM remote_resource 
+                 WHERE module_id IN (SELECT id FROM module WHERE module_name=:module)",
+                array(":module" => $matches["module"])
+            );
+            
+            $deleteCSVResource = R::exec(
+                "DELETE FROM generic_resource_csv 
+                 WHERE resource_id IN 
+                           (SELECT generic_resource.id FROM generic_resource,module WHERE module_name=:module
+                                                                                    and module.id=module_id)",
+                array(":module" => $matches["module"])
+            );
+               
+            $deleteForeignRelation = R::exec(
+                "DELETE FROM db_foreign_relation WHERE main_object_id IN 
+                                ( SELECT db.id FROM generic_resource as gen_res, module as modu, generic_resource_db as db 
+                                  WHERE module_name=:module and modu.id=module_id
+                                  and gen_res.id=db.resource_id ) OR foreign_object_id IN 
+                                  ( SELECT db.id FROM generic_resource as gen_res, module as modu, generic_resource_db as db 
+                                  WHERE module_name=:module and modu.id=module_id 
+                                  and gen_res.id=db.resource_id )",
+                array(":module" => $matches["module"])
+            );
+                    
+            $deleteDBResource = R::exec(
+                "DELETE FROM generic_resource_db 
+                         WHERE resource_id IN 
+                           (SELECT generic_resource.id FROM generic_resource,module WHERE module_name=:module
+                                                                                    and module.id=module_id)",
+                array(":module" => $matches["module"])
+            );
+                    
+                        
+                
+            // if we have deleted a csv or a db, that means we have a valid generic resource, so let's delete that as well.
+            $deleteGenericResource = R::exec(
+                "DELETE FROM generic_resource 
+                          WHERE module_id IN 
+                            (SELECT id FROM module WHERE module_name=:module)",
+                array(":module" => $matches["module"])
+            );
+            
+            $deleteModule = R::exec(
+                "DELETE from module WHERE module_name=:module",
+                array(":module" => $matches["module"])
+            );
+            
+        }
+        
+    }
+        
+    
+
+    /**
+     * Just to make clear these following functions shouldn't be here imho. Should be in some kind of
+     * DB model who does all the interfacing from/to database.
+     */
     private function evaluateDBForeignRelation($module,$resource,$put_vars){
         /*
          * Don't add relations between non-existing modules/resources !!

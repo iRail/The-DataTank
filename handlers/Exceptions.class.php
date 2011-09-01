@@ -46,7 +46,7 @@ abstract class AbstractTDTException extends Exception{
  */
 class MethodOrModuleNotFoundTDTException extends AbstractTDTException{
      public static function getDoc(){
-	  return "When a method or module is not found this Exception is thrown. The constructor expects the name of the module or the name of the method. This is a 404 error: not found";
+	  return "When a method or module is not found this Exception is thrown. The constructor expects the name of the module or the name of the method. This is a 451 error: not found";
      }
 
      public function __construct($m) {
