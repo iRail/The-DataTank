@@ -55,3 +55,30 @@ a.delete_input {
 a.delete_input:hover {
     opacity: 1;
 }
+
+.hidden {
+    /*visibility:hidden;*/
+    display: none;
+}
+
+.headerSortDown, .headerSortUp {
+    background-color: #da840a;
+}
+
+.topbar-wrapper {
+    position: relative;
+    height: 40px;
+    z-index: 5;
+}
+
+.topbar .fill {
+    border: 0px solid #cfcfcf;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.topbar-wrapper .topbar {
+    
+    position: absolute;
+    margin: -10px -11px 0 -10px;
+}

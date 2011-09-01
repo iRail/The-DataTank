@@ -1,9 +1,15 @@
-var AdminAddModule = Backbone.Model.extend({
+App = (function($) {
+    Module = Backbone.Model.extend({
+        
+    });
+    
+    Resource = Backbone.Model.extend({
+        
+    });
 
-});
+    var AdminAddResource = Backbone.Model.extend({
 
-var AdminAddResource = Backbone.Model.extend({
-
+    });
 });
 
 $(document).ready(function() {
@@ -27,4 +33,6 @@ $(document).ready(function() {
         file.addClass('hidden');
         upload.removeClass('hidden');
     });
+
+    $('#admin-modules').tablesorter({ sortList: [[1,0]] });
 });
