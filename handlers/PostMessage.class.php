@@ -5,7 +5,7 @@
    * Author: Werner Laurensse
    * License: AGPLv3
    *
-   * These classes extend the Exception class to make our own well-documented Exception-system
+   * This class posts a message as a form of feedback to the data publisher.
    */
 
   /**
@@ -20,6 +20,7 @@
    * This class forwards some feedback given by the user to our database for further analysis.
    */
 class PostMessage {
+
     private $result;
 
     private function setData() {
