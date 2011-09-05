@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Documentation</h1>
+{% for module, resources in modules %}
+<h2>{{ module }}</h2>
+    <ul>
+    {% for name, doc in resources %}
+    <li>
+        <a href="{{subpath}}/docs/{{ module }}/{{ name }}">{{ name }}</a> -
+        {{ doc }}
+    </li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+{% endblock %}

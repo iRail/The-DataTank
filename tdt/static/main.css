@@ -82,3 +82,8 @@ a.delete_input:hover {
     position: absolute;
     margin: -10px -11px 0 -10px;
 }
+
+#footer {
+    padding-top: 25px;
+    text-align: center;
+}

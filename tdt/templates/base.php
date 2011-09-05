@@ -29,6 +29,7 @@
 
         <!-- Main Content -->
         <div id="main"><div class="container">
+                {{ phpinfo() }}
             <div class="topbar-wrapper"><div class="topbar">
                   <div class="fill">
                     <div class="container">
