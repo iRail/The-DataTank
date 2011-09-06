@@ -32,7 +32,7 @@ class RequestLogger{
         $request->module = $matches["module"];
         $request->resource = $matches['resource'];
         $request->format = $pf->getFormat();
-        $request->subresources = implode(";",$subresources);
+        $request->subresources = implode(";",$subresources); // DEPRECATED !!!!!!!
         $request->requiredparameter = implode(";",$requiredparams);
         $request->allparameters = $matches["RESTparameters"];
         R::store($request);

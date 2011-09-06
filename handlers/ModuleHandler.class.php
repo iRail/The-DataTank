@@ -32,9 +32,8 @@ class ModuleHandler {
 	$resource = $factory->getResource($module,$resourcename);
 
 	$RESTparameters = array();
-	if(isset($matches['RESTparameters'])){
-	    $RESTparameters = explode("/",$matches['RESTparameters']);
-	    array_pop($RESTparameters); // remove the last element because that just contains the GET parameters
+	if(isset($matches['RESTparameters']) && $matches['RESTparameters'] != ""){
+	    $RESTparameters = explode("/",rtrim($matches['RESTparameters'],"/"));
 	}
         
         $requiredparams = array();

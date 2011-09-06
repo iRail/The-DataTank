@@ -56,7 +56,9 @@ class ErrorHandler{
         
         $error = R::dispense('errors');
         $error->time = time();
-        $error->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if(isset($_SERVER['HTTP_USER_AGENT'])){
+            $error->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        }
         $error->ip = $_SERVER['REMOTE_ADDR'];
         $error->url_request = TDT::getPageUrl();
         $error->error_message = $e->getMessage();

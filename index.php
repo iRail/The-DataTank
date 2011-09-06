@@ -42,7 +42,7 @@ $urls = array(
     '/docs/(?P<module>.*?)/(?P<resource>.*?)/.*' => 'DocPage',
     '/stats/' => 'Stats',
     '/Feedback/Messages/(?P<module>.*?)/(?P<method>.*?)/.*' => 'FeedbackHandler',
-    '/(?P<module>.*?)/(?P<resource>.*?)/(?P<RESTparameters>.*)' => 'ModuleHandler'
+    '/(?P<module>[^/]*)/(?P<resource>[^/]*)/?(?P<RESTparameters>[^?]*)/?.*' => 'ModuleHandler'
 );
 
 //This function will do the magic. See glue.php
