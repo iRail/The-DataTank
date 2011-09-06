@@ -54,21 +54,13 @@ then
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-#what does this do? commited by Werner?
-    Q4="CREATE TABLE IF NOT EXISTS custom_tables (
-        id bigint(20) NOT NULL AUTO_INCREMENT,
-        name varchar(255) not null,
-        format varchar(255) not null,
-        columns varchar(255) not null,
-        PRIMARY KEY (id)
-        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
-
 ################
 # module table #
 ################
     Q5="CREATE TABLE IF NOT EXISTS module (
         id bigint(20) NOT NULL AUTO_INCREMENT,
-        module_name varchar(255) not null,
+        module_name varchar(255) NOT NULL,
+        timestamp bigint(20) NOT NULL,
         PRIMARY KEY (id)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
@@ -82,6 +74,7 @@ then
   type varchar(40) NOT NULL,
   documentation varchar(512) NOT NULL,
   print_methods varchar(60) NOT NULL,
+  timestamp bigint(20) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (module_id) references module(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
@@ -93,7 +86,6 @@ then
   id bigint(20) NOT NULL AUTO_INCREMENT,
   resource_id bigint(20) NOT NULL,
   uri varchar(128) NOT NULL,
-  columns varchar(256) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
@@ -111,7 +103,6 @@ then
   db_type varchar(20) NOT NULL,
   db_user varchar(50) NOT NULL,
   db_password varchar(50) NOT NULL,
-  columns varchar(256) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
@@ -125,6 +116,7 @@ then
   resource_name varchar(40) NOT NULL,
   module_name varchar(64) NOT NULL,
   base_url varchar(50) NOT NULL,
+  timestamp bigint(20) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(module_id) references module(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
@@ -133,7 +125,7 @@ then
 ##########################
 #   db_foreign_relation  #
 ##########################
-    Q9="CREATE TABLE IF NOT EXISTS db_foreign_relation (
+    Q10="CREATE TABLE IF NOT EXISTS db_foreign_relation (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   main_object_id bigint(20) NOT NULL,
   foreign_object_id bigint(20) NOT NULL,
@@ -143,7 +135,22 @@ then
   FOREIGN KEY(foreign_object_id) references generic_resource_db(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}${Q10}"
+
+####################
+#     columns      #
+####################
+
+    Q11="CREATE TABLE IF NOT EXISTS published_columns (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  generic_resource_id bigint(20) NOT NULL,
+  column_name varchar(50) NOT NULL,
+  is_primary_key integer,
+  meaning varchar(125) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(generic_resource_id) references generic_resource(id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}${Q10}${Q11}"
 
     mysql -u "$1" -p -e "$SQL"
 

@@ -25,7 +25,7 @@ class DB extends AResourceStrategy{
             R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
             $param = array(':module' => $module, ':resource' => $resource);
             $results = R::getAll(
-                "select generic_resource_db.id,db_name,db_table,host,port,db_type,columns,db_user,db_password 
+                "select generic_resource.id as gen_res_id,generic_resource_db.id,db_name,db_table,host,port,db_type,db_user,db_password 
              from module,generic_resource_db,generic_resource 
              where module.module_name=:module and module.id=generic_resource.module_id 
              and generic_resource.resource_name=:resource 
@@ -40,13 +40,22 @@ class DB extends AResourceStrategy{
             $user = $results[0]["db_user"];
             $passwrd = $results[0]["db_password"];
             $id = $results[0]["id"];
+            $gen_res_id = $results[0]["gen_res_id"];
             
-            // if no columns are passed along, by an "" value in the field "columns"
-            // then we need to pass along an empty array for the $dbcolumns value
-            if($results[0]["columns"] != ""){
-                $dbcolumns = explode(";",$results[0]["columns"]);    
-            }else{
-                $dbcolumns = array();
+            // get the columns from the columns table
+            $allowed_columns = R::getAll(
+                "SELECT column_name, is_primary_key
+                 WHERE generic_resource_id=:id",
+                array(":id" => $gen_res_id)
+            );
+            
+            $dbcolumns = array();
+            $PK = "";
+            foreach($allowed_columns as $result){
+                array_push($db_columns,$result["column_name"]);
+                if($result["is_primary_key"] == 1){
+                    $PK = $result["column_name"];
+                }
             }
 
             /*
@@ -60,16 +69,16 @@ class DB extends AResourceStrategy{
             $resultobject = new stdClass();
             if(strtolower($dbtype) == "mysql"){
                 R::setup("mysql:host=$dbhost;dbname=$dbname",$user,$passwrd);
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost);
+                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "sqlite"){
                 //$dbtable is used as path to the sqlite file. 
                 R::setup("sqlite:$dbtable",$user,$passwrd); //sqlite
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost);
+                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "postgresql"){
                 R::setup("pgsql:host=$dbhost;dbname=$dbname",$user,$passwrd); //postgresql
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost);
+                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }else{
-                // provide interfacing with other db's too.
+                // TODO: provide interfacing with other db's too.
                 throw new DatabaseTDTException("The database you're trying to reach is not yet supported.");
             }   
             return $resultobject;
@@ -84,7 +93,7 @@ class DB extends AResourceStrategy{
      * Note: If similar functionality is found in other db-interfacing such as
      * NoSQL, this could be used as a general build-up method.
      */
-    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host){
+    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK){
         $columns = "*";
         if(sizeof($dbcolumns) > 0){
             $columns = implode(",",$dbcolumns);  
@@ -103,15 +112,29 @@ class DB extends AResourceStrategy{
             $rowobject = new stdClass();
             // create hash for every key that's a Foreign relation in the result.
             $foreignrelations = $this->createForeignRelationURLs($id,$host);
-
+            
             foreach($result as $key => $value){
                 if(array_key_exists($key,$foreignrelations)){
                     $rowobject->$key = $foreignrelations[$key].$value;
-                }else{
+                }else{ 
                     $rowobject->$key = $value;
                 }
             }
-            array_push($arrayOfRowObjects,$rowobject);
+            /* 
+             * if a column is submitted as primary key, then we dont build up our objects
+             * as a normal array, but as a hash. Using the PK as identifier.
+             * Note: The PK must be unique, this responsibility lies with the data publisher,
+             * the datatank cannot forsee if the PK is unique in some table in some database.
+             * Thus, when returning a resulting object, we look if the key alrdy exists in the hash, if so,
+             * we choose not to override it.
+             */
+            if($PK == ""){
+                array_push($arrayOfRowObjects,$rowobject);   
+            }else{
+                if(!isset($arrayOfRowObjects[$rowobject->$PK])){
+                    $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                }
+            }
         }
         $resultobject->object=$arrayOfRowObjects;
         return $resultobject;
