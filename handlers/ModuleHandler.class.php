@@ -1,14 +1,14 @@
 <?php
-  /**
-   * The module handler will look for GET and POST requests on a certain module. It will ask the factories to return the right Resource instance.
-   * If it checked all required parameters, checked the format, it will perform the call and get a result. This result is printer by a printer returned from the PrinterFactory
-   *
-   * @package The-Datatank/handlers
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Pieter Colpaert
-   * @author Jan Vansteenlandt
-   */
+/**
+ * The module handler will look for GET and POST requests on a certain module. It will ask the factories to return the right Resource instance.
+ * If it checked all required parameters, checked the format, it will perform the call and get a result. This result is printer by a printer returned from the PrinterFactory
+ *
+ * @package The-Datatank/handlers
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
+ */
 include_once('printer/PrinterFactory.php');
 include_once('handlers/RequestLogger.class.php');
 include_once('filters/FilterFactory.class.php');
@@ -155,8 +155,10 @@ class ModuleHandler {
                             $resource_id = $this->evaluateGenericResource($module_id,$resource,$put_vars);
                             if($generic_type == "DB"){
                                 $this->evaluateDBResource($resource_id,$put_vars);
+                                $this->evaluateColumns($put_vars["columns"],$put_vars["PK"],$resource_id);
                             }elseif($generic_type == "CSV"){
                                 $this->evaluateCSVResource($resource_id,$put_vars);
+                                $this->evaluateColumns($put_vars["columns"],$put_vars["PK"],$resource_id);
                             }else{
                                 throw new Exception("resource type: ".$resource_type. " is not supported.");
                             }
@@ -191,7 +193,7 @@ class ModuleHandler {
     }
  
     /**
-     * Delete a resource
+     * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now, this'll do the trick)
      */
     public function DELETE($matches){
 
@@ -207,7 +209,7 @@ class ModuleHandler {
                 array(":module" => $matches["module"], ":resource" => $matches["resource"])
             );
             if($deleteRemoteResource == 0){
-                 /*
+                /*
                  * With generic resources we have to dig deeper, we have to delete db/csv rows as well, and
                  * if there are relations between db tables, then we need to delete those as well. Imo, there 
                  * are 2 ways to do this.
@@ -232,7 +234,7 @@ class ModuleHandler {
                     array(":module" => $matches["module"], ":resource" => $matches["resource"])
                 );
                 if($deleteCSVResource == 0){
-                     /**
+                    /**
                      * try the database resources
                      */
                     $deleteForeignRelation = R::exec(
@@ -376,6 +378,7 @@ class ModuleHandler {
         if(sizeof($result)==0){
             $newmodule = R::dispense("module");
             $newmodule->module_name = $module;
+            $newmodule->timestamp = time();
             $id = R::store($newmodule);
             return $id;
         }else{
@@ -389,8 +392,33 @@ class ModuleHandler {
         $genres->resource_name = $resource;
         $genres->type = $put_vars["generic_type"];
         $genres->documentation = $put_vars["documentation"];
-        $genres->print_methods =  $put_vars["printmethods"];;
+        $genres->print_methods =  $put_vars["printmethods"];
+        $genres->timestamp = time();
         return R::store($genres);
+    }
+
+    /*
+     * This functions associates column names with a certain resource
+     */
+    private function evaluateColumns($columns_concat,$PK,$gen_res_id){
+        if($columns_concat != ""){
+            $columns = explode(";",$columns_concat);
+            // if no columns are given, all columns are to be published
+            // obviously there's no need to push anything to published columns
+        
+            foreach($columns as $column){
+                $db_columns = R::dispense("published_columns");
+                $db_columns->generic_resource_id = $gen_res_id;
+                $db_columns->column_name = $column;
+                if($PK == $column){
+                    $db_columns->is_primary_key = 1;
+                }else{
+                    $db_columns->is_primary_key = 0;
+                }
+                R::store($db_columns);
+            }
+        }
+        
     }
 
     private function evaluateDBResource($resource_id,$put_vars){
@@ -403,7 +431,6 @@ class ModuleHandler {
         $dbresource->port = $put_vars["port"]; // is this a required parameter ? default port?
         $dbresource->db_user = $put_vars["user"];
         $dbresource->db_password = $put_vars["password"];
-        $dbresource->columns = $put_vars["columns"];    
         R::store($dbresource);
     }
 
@@ -411,7 +438,6 @@ class ModuleHandler {
         $csvresource = R::dispense("generic_resource_csv");
         $csvresource->resource_id = $resource_id;
         $csvresource->uri = $put_vars["uri"];
-        $csvresource->columns = $put_vars["columns"];
         R::store($csvresource);
     }
 

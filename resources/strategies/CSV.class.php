@@ -1,12 +1,12 @@
 <?php
-  /**
-   * This class handles a CSV file
-   *
-   * @package The-Datatank/resources/strategies
-   * @copyright (C) 2011 by iRail vzw/asbl
-   * @license AGPLv3
-   * @author Jan Vansteenlandt
-   */
+/**
+ * This class handles a CSV file
+ *
+ * @package The-Datatank/resources/strategies
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt
+ */
 
 class CSV extends AResourceStrategy {
 
@@ -24,13 +24,15 @@ class CSV extends AResourceStrategy {
         R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
         $param = array(':module' => $module, ':resource' => $resource);
         $result = R::getAll(
-            "select generic_resource_csv.uri as uri, generic_resource_csv.columns as columns
+            "select generic_resource.id as gen_res_id,generic_resource_csv.uri as uri, generic_resource_csv.columns as columns
              from module, generic_resource, generic_resource_csv
              where module.module_name=:module and generic_resource.resource_name=:resource
              and module.id=generic_resource.module_id 
              and generic_resource.id=generic_resource_csv.resource_id",
-             $param
+            $param
         );
+        
+        $gen_res_id = $result[0]["gen_res_id"];
 
         if(isset($result[0]["uri"])){
             $filename = $result[0]["uri"];
@@ -38,12 +40,23 @@ class CSV extends AResourceStrategy {
             throw new ResourceTDTException("Can't find URI of the CSV");
         }
 
-        // if we no columns are defined the columns field, ""-value. 
-        // Then we need to publish all the columns, by passing an empty array
-        if($result[0]["columns"] != ""){
-            $columns = explode(";",$result[0]["columns"]);
-        }else{
-            $columns = array();
+        $columns = array();
+        
+        // get the columns from the columns table
+        $allowed_columns = R::getAll(
+            "SELECT column_name, is_primary_key
+                 FROM published_columns
+                 WHERE generic_resource_id=:id",
+            array(":id" => $gen_res_id)
+        );
+            
+        $columns = array();
+        $PK = "";
+        foreach($allowed_columns as $result){
+            array_push($columns,$result["column_name"]);
+            if($result["is_primary_key"] == 1){
+                $PK = $result["column_name"];
+            }
         }
         
         
@@ -73,7 +86,13 @@ class CSV extends AResourceStrategy {
                                 $rowobject->$c = $data[ $fieldhash[$c] ];
                             }
 			}
-			array_push($arrayOfRowObjects,$rowobject);
+                        if($PK == ""){
+                            array_push($arrayOfRowObjects,$rowobject);   
+                        }else{
+                            if(!isset($arrayOfRowObjects[$rowobject->$PK])){
+                                $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                            }
+                        }
 		    }
 		    $row++;
 		}
