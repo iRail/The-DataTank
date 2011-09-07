@@ -92,7 +92,7 @@ class Queries extends AResource{
 	    }elseif($pair["time"] > $enddate){
 		$enddate = $pair["time"];
 	    }
-	    $requestsmap[date("Y/m/d",$pair["time"])] = $pair["amount"];
+	    $requestsmap[date("Y/m/d",$pair["time"])] =(int) $pair["amount"];
 	}
 	
 	foreach($errors as $pair){
@@ -101,7 +101,7 @@ class Queries extends AResource{
 	    }elseif($pair["time"] > $enddate){
 		$enddate = $pair["time"];
 	    }
-	    $errorsmap[date("Y/m/d",$pair["time"])] = $pair["amount"];
+	    $errorsmap[date("Y/m/d",$pair["time"])] =(int) $pair["amount"];
 	}
 
 	$dates= array();
@@ -117,17 +117,17 @@ class Queries extends AResource{
 	    // fill in the requests gap
 	   
 	    if(!array_key_exists($day,$requestsmap)){
-		$requests[strtotime($day)] = 0;
+		$requests[(int)strtotime($day)] = 0;
 	    }else{
 
-		$requests[strtotime($day)] = $requestsmap[$day];
+		$requests[(int)strtotime($day)] = $requestsmap[$day];
 	    }
 	    
 	    // fill in the errors gap
 	    if(!array_key_exists($day,$errorsmap)){
-		$errors[strtotime($day)] = 0;
+		$errors[(int)strtotime($day)] = 0;
 	    }else{
-		$errors[strtotime($day)] = $errorsmap[$day];
+		$errors[(int)strtotime($day)] = $errorsmap[$day];
 	    }
 	    $unixday = strtotime($day);
 	    $unixday+= 60*60*24;
