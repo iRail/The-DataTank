@@ -32,6 +32,7 @@ class ModuleHandler {
 	$resource = $factory->getResource($module,$resourcename);
 
 	$RESTparameters = array();
+        
 	if(isset($matches['RESTparameters']) && $matches['RESTparameters'] != ""){
 	    $RESTparameters = explode("/",rtrim($matches['RESTparameters'],"/"));
 	}

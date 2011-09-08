@@ -117,17 +117,28 @@ class Queries extends AResource{
 	    // fill in the requests gap
 	   
 	    if(!array_key_exists($day,$requestsmap)){
-		$requests[(int)strtotime($day)] = 0;
+                $pair = new stdClass();
+                $pair->time =(int)strtotime($day);
+                $pair->amount = 0;
+		array_push($requests,$pair);
 	    }else{
-
-		$requests[(int)strtotime($day)] = $requestsmap[$day];
+                $pair = new stdClass();
+                $pair->time =(int)strtotime($day);
+                $pair->amount = $requestsmap[$day];
+		array_push($requests,$pair);
 	    }
 	    
 	    // fill in the errors gap
 	    if(!array_key_exists($day,$errorsmap)){
-		$errors[(int)strtotime($day)] = 0;
+                $pair = new stdClass();
+                $pair->time =(int)strtotime($day);
+                $pair->amount = 0;
+		array_push($errors,$pair);
 	    }else{
-		$errors[(int)strtotime($day)] = $errorsmap[$day];
+                $pair = new stdClass();
+                $pair->time =(int)strtotime($day);
+                $pair->amount = $errorsmap[$day];
+		array_push($errors,$pair);
 	    }
 	    $unixday = strtotime($day);
 	    $unixday+= 60*60*24;
@@ -135,13 +146,19 @@ class Queries extends AResource{
 	    
 	}
 
-	krsort($requests);
-	krsort($errors);
+        $this->osort($requests,'time');
+	$this->osort($errors,'time');
 	
         $this->queryResults = new stdClass();
         $this->queryResults->requests = $requests;
         $this->queryResults->errors = $errors;
 	
+    }
+
+    private function osort(&$array, $prop){
+        usort($array, function($a, $b) use ($prop) {
+                return $a->$prop > $b->$prop ? 1 : -1;
+            }); 
     }
 
     public function call(){
