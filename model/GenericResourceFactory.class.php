@@ -72,14 +72,15 @@ class GenericResourceFactory extends AResourceFactory{
     }
 
     public function hasResource($package,$resource){
-
 	$param = array(':module' => $package, ':resource' => $resource);
+        
 	$resource = R::getAll(
 	    "select count(1) as present from module,generic_resource 
              where module.module_name=:module and generic_resource.resource_name=:resource
              and generic_resource.module_id=module.id",
 	    $param
-	);    
+	);   
+        
 	return isset($resource[0]["present"]) && $resource[0]["present"] == 1;   
     }
     
@@ -91,10 +92,12 @@ class GenericResourceFactory extends AResourceFactory{
 
     public function deleteResource($package,$resource){
         //first we need to check what kind of strategy we are dealing with and delete it according to the strategy
+       
+        
         if($this->hasResource($package, $resource)){
             $res = $this->getResource($package,$resource);
             $strategy = $res->getStrategy();
-            $strategy->onDelete();
+            $strategy->onDelete($package,$resource);
 
             //now the only thing left to delete is the main row
             $deleteGenericResource = R::exec(
@@ -112,10 +115,15 @@ class GenericResourceFactory extends AResourceFactory{
      */
     public function deletePackage($package){
         //this will get /all/ resource names
+        
         $resources = $this->getAllResourceNames();
-
+        // you now have ALL the resources of the generic type
+        // we now want the ones with $package as package name
+        $resources = $resources[$package];
+        
         //this will try to delete non-existing resources as well
         foreach($resources as $resource){
+            echo "delete generic resource\n";
             $this->deleteResource($package,$resource);
         }
     }

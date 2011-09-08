@@ -14,20 +14,17 @@ abstract class ATabularData extends AResourceStrategy{
      * This functions associates column names with a certain resource
      */
     private function evaluateColumns($columns_concat,$PK,$gen_res_id){
-            foreach($columns as $column){
-                $db_columns = R::dispense("published_columns");
-                $db_columns->generic_resource_id = $gen_res_id;
-                $db_columns->column_name = $column;
-                if($PK == $column){
-                    $db_columns->is_primary_key = 1;
-                }else{
-                    $db_columns->is_primary_key = 0;
-                }
-                R::store($db_columns);
+        foreach($columns as $column){
+            $db_columns = R::dispense("published_columns");
+            $db_columns->generic_resource_id = $gen_res_id;
+            $db_columns->column_name = $column;
+            if($PK == $column){
+                $db_columns->is_primary_key = 1;
+            }else{
+                $db_columns->is_primary_key = 0;
             }
-        }   
-    }
+            R::store($db_columns);
+        }
+    }   
 }
-
-
 ?>

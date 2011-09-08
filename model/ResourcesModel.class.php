@@ -135,11 +135,15 @@ class ResourcesModel extends AResourceFactory{
     }
     
     public function deletePackage($package){
+        echo "Delete package\n";
+        
         //delete all resources in every factory
         foreach($this->factories as $factory){
             $factory->deletePackage($package);
         }
         //now also delete the package-entry in the db
+        echo "delete module in resourcesmodel\n";
+        
         $deleteModule = R::exec(
             "DELETE from module WHERE module_name=:module",
             array(":module" => $package)

@@ -36,7 +36,7 @@ class GenericResource extends AResource {
 
     public function getStrategy(){
         if(is_null($this->strategy)){
-            include_once("resources/strategies/" . $this->strategyname . ".class.php");
+            include_once("model/resources/strategies/" . $this->strategyname . ".class.php");
             $this->strategy = new $this->strategyname();
         }
         return $this->strategy;

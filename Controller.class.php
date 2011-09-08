@@ -155,11 +155,19 @@ class Controller extends AController{
      */
     public function DELETE($matches){
         $package = $matches["package"];
-        $resource = $matches["resources"];
+        $resource = "";
+        if(isset($matches["resources"])){    
+            $resource = $matches["resources"];
+        }
+        
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();
-            $model->deleteResource($package,$resource);
+            if($resource == ""){
+                $model->deletePackage($package);
+            }else{
+                $model->deleteResource($package,$resource);
+            }
         }
     }
 

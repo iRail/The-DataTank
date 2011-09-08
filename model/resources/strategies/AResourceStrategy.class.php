@@ -23,7 +23,7 @@ abstract class AResourceStrategy{
     /**
      * When a strategy is added, execute this piece of code
      */
-    abstract public function onAdd($package, $resource,$content);
+    abstract public function onAdd($package_id, $resource_id,$content);
 
 }
 

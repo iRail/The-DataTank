@@ -186,7 +186,7 @@ class DB extends ATabularData{
         );
     }
 
-    public function onAdd($package_id, $resource_id){
+    public function onAdd($package_id, $resource_id,$content){
         $this->evaluateDBResource($resource_id,$content);
         parent::$evaluateColumns($content["columns"],$content["PK"],$resource_id);
     }
