@@ -52,7 +52,7 @@ You can add modules in three different ways. More specific documentation soon.
 
 # Help developing
 
-Take a look here: [[http://datatank.demo.ibbt.be/redmine/projects/datatank]]
+Take a look here: http://datatank.demo.ibbt.be/redmine/projects/datatank
 
 # iRail #
 
