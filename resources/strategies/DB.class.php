@@ -45,6 +45,7 @@ class DB extends AResourceStrategy{
             // get the columns from the columns table
             $allowed_columns = R::getAll(
                 "SELECT column_name, is_primary_key
+                 from published_columns
                  WHERE generic_resource_id=:id",
                 array(":id" => $gen_res_id)
             );
@@ -161,7 +162,7 @@ class DB extends AResourceStrategy{
 
         foreach($results as $result){
             $urls[ $result["keyname"] ] = $host."/".$result["module_name"]."/".$result["resource_name"]
-                ."/object/?format=:format&filterBy=id&filterValue=";
+                ."/object/?filterBy=id&filterValue=";
             
         }
         

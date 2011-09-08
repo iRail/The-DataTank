@@ -157,5 +157,5 @@ then
 
 else
     echo -e "$NUMBER_OF_ARGS arguments should be passed along with the script. 
-Usage : bash set_up_database.sh MySQL_USERNAME MySQL_DATABASE";
+Usage : bash setupdatabase.sh MySQL_USERNAME MySQL_DATABASE";
 fi
