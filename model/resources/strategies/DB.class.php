@@ -50,7 +50,7 @@ class DB extends ATabularData{
             $dbcolumns = array();
             $PK = "";
             foreach($allowed_columns as $result){
-                array_push($db_columns,$result["column_name"]);
+                array_push($dbcolumns,$result["column_name"]);
                 if($result["is_primary_key"] == 1){
                     $PK = $result["column_name"];
                 }
@@ -93,7 +93,7 @@ class DB extends ATabularData{
      */
     private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK){
         $columns = "*";
-        if(sizeof($dbcolumns) > 0){
+        if(sizeof($dbcolumns) > 0 && $dbcolumns[0] != ""){
             $columns = implode(",",$dbcolumns);  
             $columns = $columns . ", id ";
         }
@@ -188,7 +188,7 @@ class DB extends ATabularData{
 
     public function onAdd($package_id, $resource_id,$content){
         $this->evaluateDBResource($resource_id,$content);
-        parent::$evaluateColumns($content["columns"],$content["PK"],$resource_id);
+        parent::evaluateColumns($content["columns"],$content["PK"],$resource_id);
     }
     
 
