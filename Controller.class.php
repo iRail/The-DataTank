@@ -136,7 +136,7 @@ class Controller extends AController{
 
     function PUT($matches){
         $package = $matches["package"];
-        $resource = $matches["resources"];
+        $resource = $matches["resource"];
 
         //fetch all the PUT variables in one array
         parse_str(file_get_contents("php://input"),$_PUT);
@@ -144,7 +144,12 @@ class Controller extends AController{
         //we need to be authenticated
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             $model = ResourcesModel::getInstance();
-            $model->addResource($package,$resource, $_PUT);
+            // a package_id is passed along, but in model, a package_id is made
+            // this because resourcefactory serves as a superclass for both 
+            // generic resources as resourcesmodel. So it's either calling the makePackageId
+            // multipletimes ...for the same package, or changing the parameter list in 
+            // AResourcefactory.
+            $model->addResource($package,0,$resource, $_PUT);
         }else{
             throw new AuthenticationTDTException("Cannot PUT");
         }
@@ -156,8 +161,8 @@ class Controller extends AController{
     public function DELETE($matches){
         $package = $matches["package"];
         $resource = "";
-        if(isset($matches["resources"])){    
-            $resource = $matches["resources"];
+        if(isset($matches["resource"])){    
+            $resource = $matches["resource"];
         }
         
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        

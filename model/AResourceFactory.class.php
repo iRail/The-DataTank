@@ -80,7 +80,7 @@ abstract class AResourceFactory{
      /**
       * Add a resource to a (existing/non-existing) package
       */
-     abstract public function addResource($package,$resource, $content);
+     abstract public function addResource($package,$package_id,$resource, $content);
      
      /**
       * If the package/resource exists, then update the resource with the content provided

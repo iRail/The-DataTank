@@ -89,7 +89,7 @@ class CoreResourceFactory extends AResourceFactory{
     /**
      * Add a resource to a (existing/non-existing) package
      */
-    public function addResource($package,$resource, $content){
+    public function addResource($package,$package_id,$resource, $content){
         //cannot be called upon, throw exception
     }
      

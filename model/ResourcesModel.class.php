@@ -135,14 +135,11 @@ class ResourcesModel extends AResourceFactory{
     }
     
     public function deletePackage($package){
-        echo "Delete package\n";
-        
         //delete all resources in every factory
         foreach($this->factories as $factory){
             $factory->deletePackage($package);
         }
         //now also delete the package-entry in the db
-        echo "delete module in resourcesmodel\n";
         
         $deleteModule = R::exec(
             "DELETE from module WHERE module_name=:module",
@@ -150,7 +147,7 @@ class ResourcesModel extends AResourceFactory{
         );
     }
     
-    public function addResource($package,$resource, $content){
+    public function addResource($package,$package_id,$resource, $content){
         //validation of add parameters
         if(!isset($content["resource_type"])){
             throw new ParameterTDTException("resource_type");
@@ -163,7 +160,7 @@ class ResourcesModel extends AResourceFactory{
         }
 
         $factory = $this->factories[$resource_type];
-        $factory->addResource($package_id,$resource,$content);
+        $factory->addResource($package,$package_id,$resource,$content);
     }
 
 

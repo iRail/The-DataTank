@@ -13,7 +13,8 @@ abstract class ATabularData extends AResourceStrategy{
     /*
      * This functions associates column names with a certain resource
      */
-    private function evaluateColumns($columns_concat,$PK,$gen_res_id){
+    protected function evaluateColumns($columns_concat,$PK,$gen_res_id){
+        $columns = explode(";",$columns_concat);
         foreach($columns as $column){
             $db_columns = R::dispense("published_columns");
             $db_columns->generic_resource_id = $gen_res_id;

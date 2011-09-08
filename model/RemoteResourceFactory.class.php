@@ -155,7 +155,7 @@ class RemoteResourceFactory extends AResourceFactory{
         );
     }
 
-    public function addResource($package_id,$resource, $content){
+    public function addResource($package,$package_id,$resource, $content){
         //insert a row with the right URI to the package/resource
         $remres = R::dispense("remote_resource");
         $remres->module_id = $package_id;

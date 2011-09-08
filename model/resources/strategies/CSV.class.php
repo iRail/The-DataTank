@@ -10,7 +10,7 @@
 include_once("model/resources/strategies/ATabularData.class.php");
 class CSV extends ATabularData {
 
-    public function call($package,$resource){
+    public function onCall($package,$resource){
 
         /*
          * First retrieve the values for the generic fields of the CSV logic

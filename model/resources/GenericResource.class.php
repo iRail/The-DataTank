@@ -45,7 +45,7 @@ class GenericResource extends AResource {
 
     public function call(){
         $strat = $this->getStrategy();
-        return $strat->call($this->package,$this->resource);
+        return $strat->onCall($this->package,$this->resource);
     }
 
     public function setParameter($name,$val){

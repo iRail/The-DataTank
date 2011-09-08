@@ -119,26 +119,27 @@ class GenericResourceFactory extends AResourceFactory{
         $resources = $this->getAllResourceNames();
         // you now have ALL the resources of the generic type
         // we now want the ones with $package as package name
-        $resources = $resources[$package];
-        
-        //this will try to delete non-existing resources as well
-        foreach($resources as $resource){
-            echo "delete generic resource\n";
-            $this->deleteResource($package,$resource);
+        if(isset($resources[$package])){
+            $resources = $resources[$package];
+            //this will try to delete non-existing resources as well
+            foreach($resources as $resource){
+                $this->deleteResource($package,$resource);
+            }
         }
     }
 
     /**
      * Add a resource to a (existing/non-existing) package
      */
-    public function addResource($package_id,$resource, $content){
+    public function addResource($package,$package_id,$resource, $content){
+        
         if($this->hasResource($package,$resource)){
             throw new ResourceAdditionTDTException("package/resource already exists");
         }
         if(!isset($content["generic_type"])){
             throw new ParameterTDTException("generic_type");
         }
-        if(!file_exists("model/resources/strategies/" . $type . ".class.php")){
+        if(!file_exists("model/resources/strategies/" . $content["generic_type"] . ".class.php")){
             throw new ResourceAdditionTDTException("Generic type does not exist");
         }
 
@@ -148,7 +149,7 @@ class GenericResourceFactory extends AResourceFactory{
         $type = $content["generic_type"];
         include_once("model/resources/strategies/" . $type . ".class.php");
         $strategy = new $type();
-        $strategy->onAdd($packageid,$resourceid,$content);
+        $strategy->onAdd($package_id,$resource_id,$content);
     }
 
     private function makeGenericResourceId($package_id,$resource,$content){
