@@ -167,6 +167,12 @@ class Controller extends AController{
         $package = $matches["package"];
         $resource = $matches["resource"];
         //TODO
+        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
+            //delete the package and resource when authenticated and authorized in the model
+            $model = ResourcesModel::getInstance();
+            $model->updateResource($package,$resource);
+        }
+
     }
     
 }

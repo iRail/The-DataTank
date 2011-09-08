@@ -37,10 +37,11 @@ class ErrorHandler{
       */
      public static function logException($e) {
 	 //HTTP Header information
-
         header("HTTP/1.1 ". $e->getCode() . " " . $e->getMessage());
+
         //In the body, put the message of the error
         echo $e->getMessage();
+
         //and store it to the DB
         ErrorHandler::WriteToDB($e);
     }
@@ -51,14 +52,13 @@ class ErrorHandler{
 	//ask the printerfactory which format we should store in the db
 	$ff = FormatterFactory::getInstance();
 	$format = $ff->getFormat();
-
-	//TODO: Jan, Werner: add "format" to the error table please?
         
         $error = R::dispense('errors');
         $error->time = time();
         if(isset($_SERVER['HTTP_USER_AGENT'])){
             $error->user_agent = $_SERVER['HTTP_USER_AGENT'];
         }
+        $error->format = $format;
         $error->ip = $_SERVER['REMOTE_ADDR'];
         $error->url_request = TDT::getPageUrl();
         $error->error_message = $e->getMessage();

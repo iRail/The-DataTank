@@ -10,7 +10,7 @@
  * @author Jan Vansteenlandt
  */
 
-include_once('filters/AFilter.class.php');
+include_once("model/filters/AFilter.class.php");
 
 class SearchFilter extends AFilter{
     
@@ -66,7 +66,7 @@ class SearchFilter extends AFilter{
 		array_push($matches,$possiblematch);
 	    }
 	}
-	if(sizeof($matches)){
+	if(sizeof($matches) > 0){
 	    return $matches;
 	}else{
 	    throw new FilterTDTException("No matching entries were found.");

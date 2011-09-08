@@ -16,12 +16,11 @@ class InstalledResourceFactory extends AResourceFactory{
      */
     private function includeResource($package,$resource){
 	if($this->hasResource($package,$resource)){
-	    include_once("modules/$package/$resource.class.php");
+	    include_once("custom/packages/$package/$resource.class.php");
 	}else{
-	    throw new MethodOrPackageNotFoundTDTException($package,$resource);
+	    throw new ResourceOrPackageNotFoundTDTException($package,$resource);
 	}
-    }
-    
+    }   
 	
     /**
      * @return returns a string containing the documentation about the resource. It returns an empty string when the resource could not be found
@@ -51,7 +50,7 @@ class InstalledResourceFactory extends AResourceFactory{
      * @return a boolean if resource exists
      */
     public function hasResource($package,$resource){
-	return file_exists("modules/" . $package . "/" . $resource . ".class.php");
+	return file_exists("custom/packages/" . $package . "/" . $resource . ".class.php");
     }
  
     public function getAllowedPrintMethods($package,$resource){
@@ -85,11 +84,9 @@ class InstalledResourceFactory extends AResourceFactory{
      * @return gets an instance of a AResource class.
      */
     public function getResource($package, $resource){
-	include_once("modules/" . $package . "/" . $resource . ".class.php");
+	include_once("custom/packages/" . $package . "/" . $resource . ".class.php");
 	return new $resource($package,$resource);
     }
-    
-    /***********************************************SETTERS******************************************************/
 
     public function deletePackage($package){
         //do nothing - you cannot delete an installed package. You can however uninstall it by removing the folder through ssh/ftp/...
@@ -99,18 +96,12 @@ class InstalledResourceFactory extends AResourceFactory{
         //do nothing
     }
 
-    /**
-     * Add a resource to a (existing/non-existing) package
-     */
     public function addResource($package,$resource, $content){
-        //cannot be called upon, throw exception
+        //do nothing
     }
      
-    /**
-     * If the package/resource exists, then update the resource with the content provided
-     */
     public function updateResource($package,$resource,$content){
-        //cannnot be called, throw exception
+        //do nothing
     }
     
 }

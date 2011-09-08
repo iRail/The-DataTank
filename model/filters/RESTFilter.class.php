@@ -8,7 +8,7 @@
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */
-include_once('filters/AFilter.class.php');
+include_once("model/filters/AFilter.class.php");
 
 class RESTFilter extends AFilter{
 

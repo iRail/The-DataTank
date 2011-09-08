@@ -21,6 +21,7 @@ then
   user_agent varchar(255) DEFAULT NULL,
   ip varchar(255) DEFAULT NULL,
   url_request varchar(255) DEFAULT NULL,
+  format varchar(24) DEFAULT NULL,
   error_message varchar(255) DEFAULT NULL,
   error_code varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)

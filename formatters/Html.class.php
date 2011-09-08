@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
-include_once("formatters/AFormatter.php");
+include_once("formatters/AFormatter.class.php");
 
 /**
  * This class inherits from the abstract Formatter. It will generate a html-page with a print_r
