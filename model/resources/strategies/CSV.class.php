@@ -17,7 +17,7 @@ class CSV extends ATabularData {
          */
         $param = array(':package' => $package, ':resource' => $resource);
         $result = R::getAll(
-            "select generic_resource.id as gen_res_id,generic_resource_csv.uri as uri, generic_resource_csv.columns as columns
+            "select generic_resource.id as gen_res_id,generic_resource_csv.uri as uri
              from package, generic_resource, generic_resource_csv
              where package.package_name=:package and generic_resource.resource_name=:resource
              and package.id=generic_resource.package_id 
