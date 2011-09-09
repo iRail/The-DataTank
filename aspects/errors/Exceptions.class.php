@@ -219,6 +219,26 @@ class AuthenticationTDTException extends AbstractTDTException{
      }
 }
 
+
+/**
+ * This class represents an exception which is thrown when an update on a resource isn't valid.
+ */
+class ResourceUpdateTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	 return "This exception is thrown when an update on a resource isn't valid.";
+     }
+
+     public static $error = 460;
+
+     public function getErrorCode(){
+	  return RESTTDTException::$error;
+     }
+
+     public function __construct($message){
+         parent::__construct("An error occured while trying to update a resource: " . $message);
+     }
+}
+
 /**
  * These are HTTP 500 errors: internal server errors
  */
