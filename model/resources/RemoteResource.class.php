@@ -11,17 +11,17 @@
 
 class RemoteResource extends AResource {
 
-    private $resource, $module;
+    private $resource, $package;
     private $optionalparams;
     private $requiredparams;
     private $base_url;
     private $requiredparametervalues;
     
-    public function __construct($remotemodule, $remoteresource,$reqparams = array(),$base_url){
+    public function __construct($remotepackage, $remoteresource,$reqparams = array(),$base_url){
         // we don't need to pass along the requiredparameters
         // because we'll pass them along the url, just as they were entered
         // in the given url.
-	$this->module = $remotemodule;
+	$this->package = $remotepackage;
 	$this->resource = $remoteresource;
         $this->optionalparams = array();
         $this->base_url = $base_url;
@@ -41,7 +41,7 @@ class RemoteResource extends AResource {
 
 	//the url consists of the baseurl (this has a trailing slash and contains the subdir) - the resource is a specifier in the baseurl
 	//params is a url containing the possible 
-	$url = $this->base_url . $this->module . "/".$this->resource . "/";
+	$url = $this->base_url . $this->package . "/".$this->resource . "/";
         foreach($this->requiredparametervalues as $param){
             $url = $url . $param."/";
         }

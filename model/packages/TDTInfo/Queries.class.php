@@ -10,6 +10,7 @@
  */
 
 class Queries extends AResource{
+
     // must be set! Contains the value of the module that needs to be analysed.
     private $package; 
     // if set only look at certain data from a certain method within the given module.
@@ -18,7 +19,7 @@ class Queries extends AResource{
 
     public static function getParameters(){
 	return array("package" => "Name of a package that needs to be analysed, must be set !",
-		     "resource" => "Name of a resource within the given module, is not required.",
+		     "resource" => "Name of a resource within the given package, is not required.",
 	);
     }
 
@@ -45,11 +46,11 @@ class Queries extends AResource{
 	$params = array();
 	
 	if(isset($this->resource)){
-	    $clausule = "module=:module and resource=:resource";
-	    $params = array(':module' => $this->package, ':resource' => $this->resource);
+	    $clausule = "package=:package and resource=:resource";
+	    $params = array(':package' => $this->package, ':resource' => $this->resource);
 	}else{
-	    $clausule = "module=:module";
-	    $params = array(':module' => $this->package);
+	    $clausule = "package=:package";
+	    $params = array(':package' => $this->package);
 	}
 	
 	/*
@@ -59,45 +60,48 @@ class Queries extends AResource{
             "select count(1) as amount, time from $requeststable where $clausule GROUP BY from_unixtime(time,'%D %M %Y')",
 	    $params
         );
-	
+        
 	/*
 	 * Errors are trickier to query, because we do not know even if a resource is specified along with 
 	 * the request, if that resource is to be found in a certain url_request that returned an error
-	 * because the error might just be a wrong resource call. So, where only taking the module in consideration !
+	 * because the error might just be a wrong resource call. So, where only taking the package in consideration !
 	 */
 	$regexp = Config::$HOSTNAME. Config::$SUBDIR . $this->package;
 	$errors = R::getAll(
             "select count(1) as amount,time from $errorstable where url_request regexp :regexp GROUP BY from_unixtime(time,'%D %M %Y')"
 	    ,array(':regexp' => $regexp)
         );
-	
+        
 	
 	/* there could be some gaps in our timeresults, which we don't want, even if there were 0 requests on a certain day,
 	 * it's a good practice to actually return a 0 for that day. So we need to fill the time gaps.
 	 */
+
 	/*
 	 * the redbeans layer returns an array with the pair amount and time as entry. i.e. 0 => [amount,time]
 	 * we need a hash that maps time => amount, as is expected in the stats-page. A hash mapped on time => amount
 	 * is also easier to work with. (i.e. to fill up gaps)
 	 */
-	$requestsmap;
-	$errorsmap;
+	$requestsmap = array();
+	$errorsmap = array();
 	$startdate = 9999999999;
 	$enddate   = 0;
 	
 	foreach($requests as $pair){
 	    if($pair["time"]<$startdate){
 		$startdate = $pair["time"];
-	    }elseif($pair["time"] > $enddate){
+	    }
+            if($pair["time"] >= $enddate){
 		$enddate = $pair["time"];
 	    }
 	    $requestsmap[date("Y/m/d",$pair["time"])] =(int) $pair["amount"];
 	}
-	
+
 	foreach($errors as $pair){
 	    if($pair["time"]<$startdate){
 		$startdate = $pair["time"];
-	    }elseif($pair["time"] > $enddate){
+	    }
+            if($pair["time"] >= $enddate){
 		$enddate = $pair["time"];
 	    }
 	    $errorsmap[date("Y/m/d",$pair["time"])] =(int) $pair["amount"];
@@ -106,7 +110,8 @@ class Queries extends AResource{
 	$dates= array();
 	$startdate = date("Y/m/d",$startdate);
 	$enddate = date("Y/m/d",$enddate);
-	
+        
+        
 	$requests = array();
 	$errors = array();
 
@@ -142,9 +147,9 @@ class Queries extends AResource{
 	    $unixday = strtotime($day);
 	    $unixday+= 60*60*24;
 	    $day = date("Y/m/d",$unixday);
-	    
 	}
-
+        
+        
         $this->osort($requests,'time');
 	$this->osort($errors,'time');
 	

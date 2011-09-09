@@ -19,7 +19,6 @@ class RequestLogger{
      * This function implements the logging part of the RequestLogger functionality.
      */
     public static function logRequest($matches,$requiredparams,$subresources) {
-        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
 	//an instance of printerfactory so we can check the format
 	$ff = FormatterFactory::getInstance();
@@ -29,13 +28,13 @@ class RequestLogger{
         $request->user_agent = $_SERVER['HTTP_USER_AGENT'];
         $request->ip = $_SERVER['REMOTE_ADDR'];
         $request->url_request = TDT::getPageUrl();
-        $request->module = $matches["package"];
+        $request->package = $matches["package"];
         $request->resource = $matches["resource"];
         $request->format = $ff->getFormat();
         $request->subresources = implode(";",$subresources); // DEPRECATED !!!!!!!
         $request->requiredparameter = implode(";",$requiredparams);
         $request->allparameters = $matches["RESTparameters"];
-        R::store($request);
+        $result = R::store($request);        
     }
 }
 ?>

@@ -23,11 +23,11 @@ class GenericResource extends AResource {
         $this->resource = $resource;
 
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$param = array(':module' => $this->package, ':resource' => $this->resource);
+	$param = array(':package' => $this->package, ':resource' => $this->resource);
 	$result = R::getAll(
-	    "select generic_resource.type as type from module,generic_resource
-             where module.module_name=:module and generic_resource.resource_name=:resource
-             and module.id=generic_resource.module_id",
+	    "select generic_resource.type as type from package,generic_resource
+             where package.package_name=:package and generic_resource.resource_name=:resource
+             and package.id=generic_resource.package_id",
 	    $param
 	);
 	
@@ -36,7 +36,7 @@ class GenericResource extends AResource {
 
     public function getStrategy(){
         if(is_null($this->strategy)){
-            include_once("resources/strategies/" . $this->strategyname . ".class.php");
+            include_once("model/resources/strategies/" . $this->strategyname . ".class.php");
             $this->strategy = new $this->strategyname();
         }
         return $this->strategy;
@@ -45,7 +45,7 @@ class GenericResource extends AResource {
 
     public function call(){
         $strat = $this->getStrategy();
-        return $strat->call($this->package,$this->resource);
+        return $strat->onCall($this->package,$this->resource);
     }
 
     public function setParameter($name,$val){
@@ -54,11 +54,11 @@ class GenericResource extends AResource {
 
     public function getAllowedPrintMethods(){
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$param = array(':module' => $this->package, ':resource' => $this->resource);
+	$param = array(':package' => $this->package, ':resource' => $this->resource);
 	$results = R::getAll(
-	    "select generic_resource.print_methods as print_methods from module,generic_resource
-             where module.module_name=:module and generic_resource.resource_name =:resource 
-             and module.id=generic_resource.module_id",
+	    "select generic_resource.print_methods as print_methods from package,generic_resource
+             where package.package_name=:package and generic_resource.resource_name =:resource 
+             and package.id=generic_resource.package_id",
 	    $param
 	);
 	$print_methods = explode(";", $results[0]["print_methods"]);

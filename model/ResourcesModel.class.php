@@ -140,9 +140,10 @@ class ResourcesModel extends AResourceFactory{
             $factory->deletePackage($package);
         }
         //now also delete the package-entry in the db
-        $deleteModule = R::exec(
-            "DELETE from module WHERE module_name=:module",
-            array(":module" => $package)
+        
+        $deletePackage = R::exec(
+            "DELETE from package WHERE package_name=:package",
+            array(":package" => $package)
         );
     }
     
@@ -151,7 +152,6 @@ class ResourcesModel extends AResourceFactory{
         if(!isset($content["resource_type"])){
             throw new ParameterTDTException("resource_type");
         }
-        $package_id = $this->makePackageId($package);
 
         $resource_type = $content["resource_type"];
         if(!isset($this->factories[$resource_type])){
@@ -159,23 +159,23 @@ class ResourcesModel extends AResourceFactory{
         }
 
         $factory = $this->factories[$resource_type];
-        $factory->addResource($package_id,$resource,$content);
+        $factory->addResource($package,$resource,$content);
     }
 
 
-    private function makePackageId($package){
+    public function makePackageId($package){
         //will return the ID of the package. If package does not exists, it will be added
-        //if we're requesting an installed or core module, it doesn't matter since the package is not resourcetype dependant
+        //if we're requesting an installed or core package, it doesn't matter since the package is not resourcetype dependant
         //so adding it won't do any harm
         $result = R::getAll(
-            "select id from module where module_name=:module_name",
-            array(":module_name"=>$package)
+            "select id from package where package_name=:package_name",
+            array(":package_name"=>$package)
         );
         if(sizeof($result) == 0){
-            $newmodule = R::dispense("module");
-            $newmodule->module_name = $package;
-            $newmodule->timestamp = time();
-            $id = R::store($newmodule);
+            $newpackage = R::dispense("package");
+            $newpackage->package_name = $package;
+            $newpackage->timestamp = time();
+            $id = R::store($newpackage);
             return $id;
         }else{
             return $result[0]["id"];
