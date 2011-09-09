@@ -170,7 +170,8 @@ class GenericResourceFactory extends AResourceFactory{
      */
     public function updateResource($package,$resource,$content){
         $type = $this->getResource($package,$resource);
-        $type->onUpdate($package,$resource,$content);
+        $strategy = $type->getStrategy();
+        $strategy->onUpdate($package,$resource,$content);
     }
 }
 
