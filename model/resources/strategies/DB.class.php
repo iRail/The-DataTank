@@ -176,6 +176,19 @@ class DB extends ATabularData{
     }
 
     public function onDelete($package,$resource){
+       
+        
+        $deleteForeignRelation = R::exec(
+                        "DELETE FROM db_foreign_relation WHERE main_object_id IN 
+                                ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
+                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
+                                  and gen_res.id=db.resource_id ) OR foreign_object_id IN 
+                                  ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
+                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
+                                  and gen_res.id=db.resource_id )",
+                        array(":package" => $package, ":resource" => $resource)
+        );
+
         $deleteDBResource = R::exec(
             "DELETE FROM generic_resource_db 
                          WHERE resource_id IN 
