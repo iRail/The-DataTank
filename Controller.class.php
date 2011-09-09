@@ -88,7 +88,6 @@ class Controller extends AController{
         $filterfactory = FilterFactory::getInstance();
         // apply RESTFilter
         if(sizeof($RESTparameters)>0){
-	    
             $RESTFilter = $filterfactory->getFilter("RESTFilter",$RESTparameters);
             $resultset = $RESTFilter->filter($result);
             $subresources = $resultset->subresources;
@@ -98,9 +97,7 @@ class Controller extends AController{
         //Apply Lookup filter if asked, according to the Open Search specifications
 	
         if(isset($_GET["filterBy"]) && isset($_GET["filterValue"])){
-            if(!is_array($result)){
-                throw new FilterTDTException("The object provided is not a collection."); 
-            }else{
+            if(is_array($result)){
                 $filterparameters = array();
                 $filterparameters["filterBy"] = $_GET["filterBy"];
                 $filterparameters["filterValue"] = $_GET["filterValue"];

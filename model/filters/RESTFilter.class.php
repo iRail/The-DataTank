@@ -26,7 +26,11 @@ class RESTFilter extends AFilter{
 	    }elseif(is_array($result) && isset($result[$resource])){
 		$result = $result[$resource];
 	    }else{
-		throw new RESTTDTException("Incorrect REST-parameter: $resource.");
+                array_push($subresources,$resource);
+		$invalidObject = new stdClass();
+                $invalidObject->subresources = $subresources;
+                $invalidObject->result = new stdClass();
+                return $invalidObject;
 	    }
 	    array_push($subresources,$resource);
 	}
