@@ -147,12 +147,11 @@ class ResourcesModel extends AResourceFactory{
         );
     }
     
-    public function addResource($package,$package_id,$resource, $content){
+    public function addResource($package,$resource, $content){
         //validation of add parameters
         if(!isset($content["resource_type"])){
             throw new ParameterTDTException("resource_type");
         }
-        $package_id = $this->makePackageId($package);
 
         $resource_type = $content["resource_type"];
         if(!isset($this->factories[$resource_type])){
@@ -160,11 +159,11 @@ class ResourcesModel extends AResourceFactory{
         }
 
         $factory = $this->factories[$resource_type];
-        $factory->addResource($package,$package_id,$resource,$content);
+        $factory->addResource($package,$resource,$content);
     }
 
 
-    private function makePackageId($package){
+    public function makePackageId($package){
         //will return the ID of the package. If package does not exists, it will be added
         //if we're requesting an installed or core module, it doesn't matter since the package is not resourcetype dependant
         //so adding it won't do any harm

@@ -131,7 +131,7 @@ class GenericResourceFactory extends AResourceFactory{
     /**
      * Add a resource to a (existing/non-existing) package
      */
-    public function addResource($package,$package_id,$resource, $content){
+    public function addResource($package,$resource, $content){
         
         if($this->hasResource($package,$resource)){
             throw new ResourceAdditionTDTException("package/resource already exists");
@@ -142,7 +142,8 @@ class GenericResourceFactory extends AResourceFactory{
         if(!file_exists("model/resources/strategies/" . $content["generic_type"] . ".class.php")){
             throw new ResourceAdditionTDTException("Generic type does not exist");
         }
-
+        $model = ResourcesModel::getInstance();
+        $package_id = $model->makePackageId($package);
         //So when the resource doesn't exist yet, when the generic type is set and when the strategy exists, do
         $resource_id = $this->makeGenericResourceId($package_id,$resource,$content);
 
@@ -169,6 +170,40 @@ class GenericResourceFactory extends AResourceFactory{
      */
     public function updateResource($package,$resource,$content){
         //TODO
+        /*
+         * Don't add relations between non-existing modules/resources !!
+         */
+        $original_id_query = R::getAll(
+            "select gen_res_db.id from 
+             module, generic_resource as gen_res, generic_resource_db as gen_res_db
+             where module.module_name=:module_name and gen_res.module_id=module.id and gen_res.resource_name=:resource_name
+            and gen_res.id=gen_res_db.resource_id",
+            array(":module_name" => $module, ":resource_name" => $resource)
+        );
+
+        $original_id = $original_id_query[0]["id"];
+        
+        /*
+         * Get the FK relation
+         */
+        $fk_module = $put_vars["foreign_module"];
+        $fk_resource = $put_vars["foreign_resource"];
+        $original_column_name = $put_vars["original_column_name"];
+        $fk_id_query = R::getAll("select gen_res_db.id from 
+             module, generic_resource as gen_res, generic_resource_db as gen_res_db
+             where module.module_name=:module_name and gen_res.module_id=module.id and gen_res.resource_name=:resource_name
+             and gen_res.id=gen_res_db.resource_id",
+            array(":module_name" => $fk_module, ":resource_name" => $fk_resource)
+        );
+       $fk_id = $fk_id_query[0]["id"];
+        /*
+         * Add the foreign relation to the back-end
+         */
+        $db_foreign_relation = R::dispense("db_foreign_relation");
+        $db_foreign_relation->main_object_id = $original_id;
+        $db_foreign_relation->foreign_object_id = $fk_id;
+       $db_foreign_relation->main_object_column_name = $original_column_name;
+    return R::store($db_foreign_relation);
     }
 }
 

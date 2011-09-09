@@ -144,12 +144,7 @@ class Controller extends AController{
         //we need to be authenticated
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             $model = ResourcesModel::getInstance();
-            // a package_id is passed along, but in model, a package_id is made
-            // this because resourcefactory serves as a superclass for both 
-            // generic resources as resourcesmodel. So it's either calling the makePackageId
-            // multipletimes ...for the same package, or changing the parameter list in 
-            // AResourcefactory.
-            $model->addResource($package,0,$resource, $_PUT);
+            $model->addResource($package,$resource, $_PUT);
         }else{
             throw new AuthenticationTDTException("Cannot PUT");
         }

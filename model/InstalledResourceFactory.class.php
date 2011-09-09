@@ -96,7 +96,7 @@ class InstalledResourceFactory extends AResourceFactory{
         //do nothing
     }
 
-    public function addResource($package,$package_id,$resource, $content){
+    public function addResource($package,$resource, $content){
         //do nothing
     }
      
