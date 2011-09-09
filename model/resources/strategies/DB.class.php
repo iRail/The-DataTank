@@ -168,7 +168,7 @@ class DB extends ATabularData{
         );
 
         foreach($results as $result){
-            $urls[ $result["keyname"] ] = $host."/".$result["package_name"]."/".$result["resource_name"]
+            $urls[ $result["keyname"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
                 ."/object/?filterBy=id&filterValue=";
             
         }

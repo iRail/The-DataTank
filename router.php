@@ -31,7 +31,7 @@ R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 
 //map urls to a classname
 $urls = array(
-    '/(?P<package>[^/]*)/(?P<resource>[^/]*)/?(?P<RESTparameters>[^?]*)/?.*' => 'Controller'
+    '/(?P<package>[^/]*)/(?P<resource>[^/]*)?/?(?P<RESTparameters>[^?]*)/?.*' => 'Controller'
 );
 
 //This function will do the magic. See glue.php
