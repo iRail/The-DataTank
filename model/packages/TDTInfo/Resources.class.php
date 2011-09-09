@@ -23,8 +23,8 @@ class Resources extends AResource{
     }
 
     public function call(){
-	$resourcefactory = AllResourceFactory::getInstance();
-	$o = $resourcefactory->getAllDocs();
+	$resmod = ResourcesModel::getInstance();
+	$o = $resmod->getAllDocs();
 	return $o;
     }
      

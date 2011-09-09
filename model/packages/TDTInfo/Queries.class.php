@@ -35,7 +35,6 @@ class Queries extends AResource{
     }
 
     private function getData() {
-        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         /* Send a query to the server */
 	$requeststable = "requests";
 	$errorstable = "errors";
