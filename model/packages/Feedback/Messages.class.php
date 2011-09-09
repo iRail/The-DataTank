@@ -7,8 +7,7 @@
    * @license: AGPLv3
    */
 
-include_once("rb.php");
-include_once("resources/AResource.class.php");
+include_once("model/resources/AResource.class.php");
 
 /**
  * Class messages. Allows to push a feedback for a certain method.
@@ -51,7 +50,6 @@ class Messages extends AResource {
     }
 
     public static function getParameters() {
-        return array("package" => "The package name of the resource"
-			"resource" => "The specific resource name");
+        return array("package" => "The package name of the resource", "resource" => "The specific resource name");
     }
 }
