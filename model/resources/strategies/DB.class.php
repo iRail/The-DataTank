@@ -20,11 +20,11 @@ class DB extends ATabularData{
         try{
             
             R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-            $param = array(':module' => $package, ':resource' => $resource);
+            $param = array(':package' => $package, ':resource' => $resource);
             $results = R::getAll(
                 "select generic_resource.id as gen_res_id,generic_resource_db.id,db_name,db_table,host,port,db_type,db_user,db_password 
-             from module,generic_resource_db,generic_resource 
-             where module.module_name=:module and module.id=generic_resource.module_id 
+             from package,generic_resource_db,generic_resource 
+             where module.package_name=:package and package.id=generic_resource.package_id 
              and generic_resource.resource_name=:resource 
              and generic_resource_db.resource_id=generic_resource.id",
                 $param
@@ -144,21 +144,21 @@ class DB extends ATabularData{
         $param[":id"] = $id;
         
         $results = R::getAll(
-            "select module.module_name as module_name, gen_res.resource_name as resource_name, 
+            "select package.package_name as package_name, gen_res.resource_name as resource_name, 
              main_object_column_name as keyname
              from db_foreign_relation as for_rel,
              generic_resource_db as gen_res_db,
              generic_resource as gen_res,
-             module
+             package
              where for_rel.main_object_id =:id and
                    for_rel.foreign_object_id=gen_res_db.id and
                    gen_res_db.resource_id=gen_res.id and
-                   gen_res.module_id = module.id",
+                   gen_res.package_id = package.id",
             $param
         );
 
         foreach($results as $result){
-            $urls[ $result["keyname"] ] = $host."/".$result["module_name"]."/".$result["resource_name"]
+            $urls[ $result["keyname"] ] = $host."/".$result["package_name"]."/".$result["resource_name"]
                 ."/object/?filterBy=id&filterValue=";
             
         }
@@ -170,19 +170,19 @@ class DB extends ATabularData{
         $deleteDBResource = R::exec(
             "DELETE FROM generic_resource_db 
                          WHERE resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,module WHERE resource_name=:resource
-                                                                                    and module_name=:module
-                                                                                    and module.id=module_id)",
-            array(":module" => $package, ":resource" => $resource)
+                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
+                                                                                    and package_name=:package
+                                                                                    and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource)
         );
         //if($deleteDBResource==0) throw new TDTException
         $deleteDBResource = R::exec(
             "DELETE FROM generic_resource_db 
                          WHERE resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,module WHERE resource_name=:resource
-                                                                                    and module_name=:module
-                                                                                    and module.id=module_id)",
-            array(":module" => $package, ":resource" => $resource)
+                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
+                                                                                    and package_name=:package
+                                                                                    and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource)
         );
     }
 
@@ -206,16 +206,13 @@ class DB extends ATabularData{
     }
 
     public function onUpdate($package,$resource,$content){
-        /*
-         * Don't add relations between non-existing modules/resources !!
-         */
         
         $original_id_query = R::getAll(
             "select gen_res_db.id from 
-             module, generic_resource as gen_res, generic_resource_db as gen_res_db
-             where module.module_name=:module_name and gen_res.module_id=module.id and gen_res.resource_name=:resource_name
+             package, generic_resource as gen_res, generic_resource_db as gen_res_db
+             where package.package_name=:package_name and gen_res.package_id=package.id and gen_res.resource_name=:resource_name
             and gen_res.id=gen_res_db.resource_id",
-            array(":module_name" => $package, ":resource_name" => $resource)
+            array(":package_name" => $package, ":resource_name" => $resource)
         );
 
         $original_id = $original_id_query[0]["id"];
@@ -223,16 +220,17 @@ class DB extends ATabularData{
         /*
          * Get the FK relation
          */
-        $fk_module = $content["foreign_package"];
+        $fk_package = $content["foreign_package"];
         $fk_resource = $content["foreign_resource"];
         $original_column_name = $content["original_column_name"];
         $fk_id_query = R::getAll("select gen_res_db.id from 
-             module, generic_resource as gen_res, generic_resource_db as gen_res_db
-             where module.module_name=:module_name and gen_res.module_id=module.id and gen_res.resource_name=:resource_name
+             package, generic_resource as gen_res, generic_resource_db as gen_res_db
+             where package.package_name=:package_name and gen_res.package_id=package.id and gen_res.resource_name=:resource_name
              and gen_res.id=gen_res_db.resource_id",
-            array(":module_name" => $fk_module, ":resource_name" => $fk_resource)
+            array(":package_name" => $fk_package, ":resource_name" => $fk_resource)
         );
         $fk_id = $fk_id_query[0]["id"];
+
         /*
          * Add the foreign relation to the back-end
          */

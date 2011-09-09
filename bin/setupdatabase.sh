@@ -36,7 +36,7 @@ then
   user_agent varchar(255) DEFAULT NULL,
   ip varchar(40) DEFAULT NULL,
   url_request varchar(512) DEFAULT NULL,
-  module varchar(64) DEFAULT NULL,
+  package varchar(64) DEFAULT NULL,
   resource varchar(64) DEFAULT NULL,
   format varchar(24) DEFAULT NULL,
   subresources varchar(128) DEFAULT NULL,
@@ -56,11 +56,11 @@ then
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 ################
-# module table #
+# package table #
 ################
-    Q5="CREATE TABLE IF NOT EXISTS module (
+    Q5="CREATE TABLE IF NOT EXISTS package (
         id bigint(20) NOT NULL AUTO_INCREMENT,
-        module_name varchar(255) NOT NULL,
+        package_name varchar(255) NOT NULL,
         timestamp bigint(20) NOT NULL,
         PRIMARY KEY (id)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
@@ -70,14 +70,14 @@ then
 ##########################
     Q6="CREATE TABLE IF NOT EXISTS generic_resource (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  module_id bigint(20) NOT NULL,
+  package_id bigint(20) NOT NULL,
   resource_name varchar(40) NOT NULL,
   type varchar(40) NOT NULL,
   documentation varchar(512) NOT NULL,
   print_methods varchar(60) NOT NULL,
   timestamp bigint(20) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (module_id) references module(id)
+  FOREIGN KEY (package_id) references package(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 ##############################
@@ -113,13 +113,13 @@ then
 ##########################
     Q9="CREATE TABLE IF NOT EXISTS remote_resource (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  module_id bigint(20) NOT NULL,
+  package_id bigint(20) NOT NULL,
   resource_name varchar(40) NOT NULL,
-  module_name varchar(64) NOT NULL,
+  package_name varchar(64) NOT NULL,
   base_url varchar(50) NOT NULL,
   timestamp bigint(20) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY(module_id) references module(id)
+  FOREIGN KEY(package_id) references package(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 
@@ -146,7 +146,6 @@ then
   generic_resource_id bigint(20) NOT NULL,
   column_name varchar(50) NOT NULL,
   is_primary_key integer,
-  meaning varchar(125) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY(generic_resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"

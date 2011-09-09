@@ -14,11 +14,11 @@ include_once("model/resources/GenericResource.class.php");
 class GenericResourceFactory extends AResourceFactory{
 
     public function getResourceDoc($package, $resource){
-	$param = array(':module' => $package, ':resource' => $resource);
+	$param = array(':package' => $package, ':resource' => $resource);
 	$result = R::getAll(
-	    "select generic_resource.documentation as doc from module,generic_resource 
-             where module.module_name=:module and generic_resource.resource_name =:resource
-             and module.id=generic_resource.module_id",
+	    "select generic_resource.documentation as doc from package,generic_resource 
+             where package.package_name=:package and generic_resource.resource_name =:resource
+             and package.id=generic_resource.package_id",
 	    $param
 	);
 	
@@ -41,11 +41,11 @@ class GenericResourceFactory extends AResourceFactory{
     
     public function getAllowedPrintMethods($package,$resource){
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$param = array(':module' => $package, ':resource' => $resource);
+	$param = array(':package' => $package, ':resource' => $resource);
 	$results = R::getAll(
-	    "select generic_resource.print_methods as print_methods from module,generic_resource 
-             where module.module_name=:module and generic_resource.resource_name =:resource 
-             and module.id=generic_resource.module_id",
+	    "select generic_resource.print_methods as print_methods from package,generic_resource 
+             where package.package_name=:package and generic_resource.resource_name =:resource 
+             and package.id=generic_resource.package_id",
 	    $param
 	);
 	$print_methods = explode(";", $results[0]["print_methods"]);
@@ -57,27 +57,27 @@ class GenericResourceFactory extends AResourceFactory{
 
 
 	$results = R::getAll(
-            "select generic_resource.resource_name as resource, module.module_name as module
-             from module,generic_resource where generic_resource.module_id=module.id"
+            "select generic_resource.resource_name as resource, package.package_name as package
+             from package,generic_resource where generic_resource.package_id=package.id"
 	);
 	$resources = array();
 	
 	foreach($results as $result){
-	    if(!array_key_exists($result["module"],$resources)){
-		$resources[$result["module"]] = array();
+	    if(!array_key_exists($result["package"],$resources)){
+		$resources[$result["package"]] = array();
 	    }
-	    array_push($resources[$result["module"]],$result["resource"]);
+	    array_push($resources[$result["package"]],$result["resource"]);
 	}
 	return $resources;
     }
 
     public function hasResource($package,$resource){
-	$param = array(':module' => $package, ':resource' => $resource);
+	$param = array(':package' => $package, ':resource' => $resource);
         
 	$resource = R::getAll(
-	    "select count(1) as present from module,generic_resource 
-             where module.module_name=:module and generic_resource.resource_name=:resource
-             and generic_resource.module_id=module.id",
+	    "select count(1) as present from package,generic_resource 
+             where package.package_name=:package and generic_resource.resource_name=:resource
+             and generic_resource.package_id=package.id",
 	    $param
 	);   
         
@@ -102,9 +102,9 @@ class GenericResourceFactory extends AResourceFactory{
             //now the only thing left to delete is the main row
             $deleteGenericResource = R::exec(
                 "DELETE FROM generic_resource 
-                          WHERE resource_name=:resource and module_id IN 
-                            (SELECT id FROM module WHERE module_name=:module)",
-                array(":module" => $package, ":resource" => $resource)
+                          WHERE resource_name=:resource and package_id IN 
+                            (SELECT id FROM package WHERE package_name=:package)",
+                array(":package" => $package, ":resource" => $resource)
             );
         }
         
@@ -156,7 +156,7 @@ class GenericResourceFactory extends AResourceFactory{
     private function makeGenericResourceId($package_id,$resource,$content){
         //will return the id of the new generic resource
         $genres = R::dispense("generic_resource");
-        $genres->module_id = $package_id;
+        $genres->package_id = $package_id;
         $genres->resource_name = $resource;
         $genres->type = $content["generic_type"];
         $genres->documentation = $content["documentation"];

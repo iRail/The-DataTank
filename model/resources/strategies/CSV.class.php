@@ -15,16 +15,16 @@ class CSV extends ATabularData {
         /*
          * First retrieve the values for the generic fields of the CSV logic
          */
-        $param = array(':module' => $package, ':resource' => $resource);
+        $param = array(':package' => $package, ':resource' => $resource);
         $result = R::getAll(
-            "select generic_resource.id as gen_res_id,generic_resource_csv.uri as uri, generic_resource_csv.columns as columns
-             from module, generic_resource, generic_resource_csv
-             where module.module_name=:module and generic_resource.resource_name=:resource
-             and module.id=generic_resource.module_id 
+            "select generic_resource.id as gen_res_id,generic_resource_csv.uri as uri
+             from package, generic_resource, generic_resource_csv
+             where package.package_name=:package and generic_resource.resource_name=:resource
+             and package.id=generic_resource.package_id 
              and generic_resource.id=generic_resource_csv.resource_id",
             $param
         );
-        
+
         $gen_res_id = $result[0]["gen_res_id"];
 
         if(isset($result[0]["uri"])){
@@ -106,10 +106,10 @@ class CSV extends ATabularData {
         $deleteCSVResource = R::exec(
             "DELETE FROM generic_resource_csv 
                      WHERE resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,module WHERE resource_name=:resource
-                                                                                    and module_name=:module
-                                                                                    and module.id=module_id)",
-            array(":module" => $package, ":resource" => $resource)
+                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
+                                                                                    and package_name=:package
+                                                                                    and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource)
         );
     }
 
@@ -118,7 +118,7 @@ class CSV extends ATabularData {
         parent::evaluateColumns($content["columns"],$content["PK"],$resource_id);
     }
 
-    public function onUpdate($package,$resource){
+    public function onUpdate($package,$resource,$content){
         // At the moment there's no request for foreign relationships between CSV files
         // Yet this could be perfectly possible!
     }
