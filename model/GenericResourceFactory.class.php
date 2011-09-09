@@ -169,20 +169,8 @@ class GenericResourceFactory extends AResourceFactory{
      * If the package/resource exists, then update the resource with the content provided
      */
     public function updateResource($package,$resource,$content){
-        //TODO
-        
-        if(!isset($content["generic_type"])){
-            throw new ParameterTDTException("generic type");
-        }
-        
-        if(!file_exists("model/resources/strategies/" . $content["generic_type"] . ".class.php")){
-            throw new ResourceAdditionTDTException("Generic type does not exist");
-        }
-
-        $type = $content["generic_type"];
-        include_once("model/resources/strategies/" . $type . ".class.php");
-        $strategy = new $type();
-        $strategy->onUpdate($package,$resource,$content);
+        $type = $this->getResource($package,$resource);
+        $type->onUpdate($package,$resource,$content);
     }
 }
 

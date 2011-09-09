@@ -22,9 +22,10 @@ class DB extends ATabularData{
             R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
             $param = array(':package' => $package, ':resource' => $resource);
             $results = R::getAll(
-                "select generic_resource.id as gen_res_id,generic_resource_db.id,db_name,db_table,host,port,db_type,db_user,db_password 
+                "select generic_resource.id as gen_res_id,generic_resource_db.id,db_name,db_table
+                 ,host,port,db_type,db_user,db_password 
              from package,generic_resource_db,generic_resource 
-             where module.package_name=:package and package.id=generic_resource.package_id 
+             where package.package_name=:package and package.id=generic_resource.package_id 
              and generic_resource.resource_name=:resource 
              and generic_resource_db.resource_id=generic_resource.id",
                 $param
