@@ -25,6 +25,12 @@ abstract class AResourceStrategy{
      */
     abstract public function onAdd($package_id, $resource_id,$content);
 
+     /**
+     * When a strategy is updated, execute this piece of code
+     */
+    abstract public function onUpdate($package,$resource,$content);
+    
+
 }
 
 ?>

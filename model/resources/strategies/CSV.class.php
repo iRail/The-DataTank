@@ -118,6 +118,12 @@ class CSV extends ATabularData {
         parent::evaluateColumns($content["columns"],$content["PK"],$resource_id);
     }
 
+    public function onUpdate($package,$resource){
+        // At the moment there's no request for foreign relationships between CSV files
+        // Yet this could be perfectly possible!
+    }
+    
+
     private function evaluateCSVResource($resource_id,$content){
         $csvresource = R::dispense("generic_resource_csv");
         $csvresource->resource_id = $resource_id;
