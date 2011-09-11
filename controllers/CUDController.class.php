@@ -14,8 +14,6 @@ include_once('model/filters/FilterFactory.class.php');
 
 class CUDController extends AController{
 
-    private $formatterfactory;
-
     /**
      * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
      */
@@ -32,8 +30,7 @@ class CUDController extends AController{
             }
         }
 
-        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object
-        
+        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
         if(!$model->hasResource($package,$resource)){
             throw new ResourceOrPackageNotFoundTDTException($package,$resource);
         }
@@ -51,6 +48,7 @@ class CUDController extends AController{
         //add .about before the ?
         if(sizeof($_GET)>0){
             $pageURL = str_replace("?", ".about?", $pageURL);
+            $pageURL = str_replace("/.about",".about",$pageURL);
         }else{
             $pageURL .= ".about";
         }
@@ -104,8 +102,6 @@ class CUDController extends AController{
             $model = ResourcesModel::getInstance();
             $model->updateResource($package,$resource,$_POST);
         }
-
     }
 }
-
 ?>
