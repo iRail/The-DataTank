@@ -104,6 +104,24 @@ class FormatNotAllowedTDTException extends AbstractTDTException{
      }
 }
 
+class FormatNotFoundTDTException extends AbstractTDTException{
+
+     public static function getDoc(){
+         return "Format does not exist";   
+     }
+
+     public function __construct($m) {
+         $message = "Formatter not found: " . $m ;
+         parent::__construct($message);
+     }
+
+     public static $error = 460;
+
+     public function getErrorCode(){
+	  return FormatNotAllowedTDTException::$error;
+     }
+}
+
 /**
  * This class reprents an exception which is thrown when a given parameter is not found or incorrect.
  */
@@ -469,4 +487,22 @@ class CacheTDTException extends AbstractTDTException{
 	  parent::__construct("Cache error: " . $msg);
      }
 }
+
+
+class RepresentationCUDCallTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "Happens when you POST, PUT or DELETE on a representation";
+     }
+
+     public static $error = 571;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct(){
+	  parent::__construct("You cannot write to a representation. Delete the format identifier (eg. .about or .json or .xml) and try again");
+     }
+}
+
 ?>

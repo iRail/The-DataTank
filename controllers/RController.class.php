@@ -3,7 +3,7 @@
  * The controller will look for GET and POST requests on a certain module. It will ask the factories to return the right Resource instance.
  * If it checked all required parameters, checked the format, it will perform the call and get a result. This result is printer by a printer returned from the PrinterFactory
  *
- * @package The-Datatank
+ * @package The-Datatank/controllers
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
@@ -13,18 +13,7 @@ include_once('formatters/FormatterFactory.class.php');
 include_once('aspects/logging/RequestLogger.class.php');
 include_once('model/filters/FilterFactory.class.php');
 
-/**
- * The Abstract controller sends 
- */
-abstract class AController{
-    abstract function GET($matches);
-    abstract function POST($matches);
-    abstract function PUT($matches);
-    abstract function DELETE($matches);
-}
-
-
-class Controller extends AController{
+class RController extends AController{
 
     private $formatterfactory;
     
@@ -35,7 +24,7 @@ class Controller extends AController{
 	$resourcename = $matches['resource'];
 
 	//This will create an instance of a factory depending on which format is set
-	$this->formatterfactory = FormatterFactory::getInstance();
+	$this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 	
 	//This will create an instance of AResource
 	$model = ResourcesModel::getInstance();
@@ -76,7 +65,7 @@ class Controller extends AController{
         }
 
         //if the printmethod is not allowed, just throw an exception
-        if($printmethod == ""){
+        if($printmethod == "" || strtolower($this->formatterfactory->getFormat()) == "about"){
             throw new FormatNotAllowedTDTException($this->formatterfactory->getFormat(),$resource->getAllowedPrintMethods());
         }
 
@@ -131,53 +120,25 @@ class Controller extends AController{
         //this is it!
     }
 
+    /**
+     * You cannot PUT on a representation
+     */
     function PUT($matches){
-        $package = $matches["package"];
-        $resource = $matches["resource"];
-
-        //fetch all the PUT variables in one array
-        parse_str(file_get_contents("php://input"),$_PUT);
-
-        //we need to be authenticated
-        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
-            $model = ResourcesModel::getInstance();
-            $model->addResource($package,$resource, $_PUT);
-        }else{
-            throw new AuthenticationTDTException("Cannot PUT");
-        }
+        throw new RepresentationCUDCallTDTException();
     }
  
     /**
-     * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now, this'll do the trick)
+     * You cannot delete a representation
      */
     public function DELETE($matches){
-        $package = $matches["package"];
-        $resource = "";
-        if(isset($matches["resource"])){    
-            $resource = $matches["resource"];
-        }
-        
-        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
-            //delete the package and resource when authenticated and authorized in the model
-            $model = ResourcesModel::getInstance();
-            if($resource == ""){
-                $model->deletePackage($package);
-            }else{
-                $model->deleteResource($package,$resource);
-            }
-        }
+        throw new RepresentationCUDCallTDTException();
     }
 
+    /**
+     * You cannot use post on a representation
+     */
     public function POST($matches){
-        $package = $matches["package"];
-        $resource = $matches["resource"];
-        //TODO
-        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
-            //delete the package and resource when authenticated and authorized in the model
-            $model = ResourcesModel::getInstance();
-            $model->updateResource($package,$resource,$_POST);
-        }
-
+        throw new RepresentationCUDCallTDTException();
     }
     
 }
