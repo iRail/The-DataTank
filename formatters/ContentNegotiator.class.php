@@ -58,10 +58,10 @@ class ContentNegotiator{
         //this removes whitespace from each type
         $types = array_map('trim', $types);
         foreach($types as $type){
-            $q = 1;
+            $q = 1.0;
             $qa = explode(";q=",$type);
             if(isset($qa[1])){
-                $q = $qa[1];
+                $q = (float)$qa[1];
             }
             $type = $qa[0];
             //throw away the first part of the media type
@@ -74,8 +74,8 @@ class ContentNegotiator{
             $stack[$type] = $q;
         }
         //all that is left for us to do is sorting the array according to their q
-        arsort($stack);
-        $this->stack = array_keys($stack);
+        asort($stack);
+        $this->stack = array_keys($stack);        
     }
 }
 ?>
