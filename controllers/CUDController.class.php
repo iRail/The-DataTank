@@ -20,6 +20,24 @@ class CUDController extends AController{
      * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
      */
     function GET($matches) {
+        $package = $matches["package"];
+        $resource = trim($matches["resource"]);
+        $model = ResourcesModel::getInstance();
+        if($resource == ""){
+            $allresources = $model->getAllResourceNames();
+            if(isset($allresources[$package])){    
+                throw new NoResourceGivenTDTException($allresources[$package]);
+            }else{
+                throw new NoResourceGivenTDTException(array());
+            }
+        }
+
+        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object
+        
+        if(!$model->hasResource($package,$resource)){
+            throw new ResourceOrPackageNotFoundTDTException($package,$resource);
+        }
+
         //get the current URL
         $pageURL = 'http';
         if (isset($_SERVER["HTTPS"])) {$pageURL .= "s";}

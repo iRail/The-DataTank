@@ -18,8 +18,7 @@ class RController extends AController{
     private $formatterfactory;
     
     function GET($matches) {
-        
-	//always required: a module and a resource. This will always be given since the regex should be matched.
+	//always required: a package and a resource. This will always be given since the regex should be matched.
 	$package = $matches['package'];
 	$resourcename = $matches['resource'];
 

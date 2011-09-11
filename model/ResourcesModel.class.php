@@ -103,7 +103,7 @@ class ResourcesModel extends AResourceFactory{
 
     public function hasResource($package,$resource){
 	foreach($this->factories as $factory){
-	    if($factory->hasResource($package,$resourcename)){
+	    if($factory->hasResource($package,$resource)){
 		return true;
 	    }
 	}
