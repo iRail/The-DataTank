@@ -38,7 +38,7 @@ class DB extends ATabularData{
              WHERE package.package_name=:package and package.id=resource.package_id 
                    and resource.resource_name=:resource 
                    and resource.id = generic_resource.resource_id 
-                   and generic_resource_db.gen_resource_id=generic_resource.id",
+                   and generic_resource.id = generic_resource_db.gen_resource_id",
              $param
             );
 
@@ -183,11 +183,11 @@ class DB extends ATabularData{
                         "DELETE FROM foreign_relation WHERE main_object_id IN 
                                 ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
                                   generic_resource as gen_res 
-                                  WHERE package_name=:package and package.id=package_id and resource_name=:resource 
+                                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
                                   and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id ) OR foreign_object_id IN 
                                   ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
                                   generic_resource as gen_res 
-                                  WHERE package_name=:package and package.id=package_id and resource_name=:resource 
+                                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
                                   and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id
                                    )",
                         array(":package" => $package, ":resource" => $resource)
@@ -196,9 +196,9 @@ class DB extends ATabularData{
         $deleteDBResource = R::exec(
             "DELETE FROM generic_resource_db
                          WHERE gen_resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource_name=:resource
+                           (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource.resource_name=:resource
                                                                                       and package_name=:package
-                                                                                      and resource_id = resource.id
+                                                                                      and resource.resource_id = resource.id
                                                                                       and package.id=package_id)",
             array(":package" => $package, ":resource" => $resource) 
         );
@@ -212,7 +212,7 @@ class DB extends ATabularData{
 
     private function evaluateDBResource($resource_id,$put_vars){
         $dbresource = R::dispense("generic_resource_db");
-        $dbresource->resource_id = $resource_id;
+        $dbresource->gen_resource_id = $resource_id;
         $dbresource->db_type = $put_vars["dbtype"];
         $dbresource->db_name = $put_vars["dbname"];
         $dbresource->db_table = $put_vars["dbtable"];

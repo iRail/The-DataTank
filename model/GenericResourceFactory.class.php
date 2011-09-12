@@ -59,17 +59,17 @@ class GenericResourceFactory extends AResourceFactory{
 
 
 	$results = R::getAll(
-            "SELECT resource_name, package.package_name as package
+            "SELECT resource.resource_name as res_name, package.package_name
              FROM package,generic_resource,resource 
              WHERE resource.package_id=package.id and generic_resource.resource_id=resource.id"
 	);
 	$resources = array();
 	
 	foreach($results as $result){
-	    if(!array_key_exists($result["package"],$resources)){
-		$resources[$result["package"]] = array();
+	    if(!array_key_exists($result["package_name"],$resources)){
+		$resources[$result["package_name"]] = array();
 	    }
-	    array_push($resources[$result["package"]],$result["resource_name"]);
+	    array_push($resources[$result["package_name"]],$result["res_name"]);
 	}
 	return $resources;
     }
@@ -83,7 +83,7 @@ class GenericResourceFactory extends AResourceFactory{
              WHERE package.package_name=:package and resource.resource_name=:resource
              and resource.package_id=package.id and generic_resource.resource_id=resource.id",
 	    $param
-	);   
+	);
         
 	return isset($resource[0]["present"]) && $resource[0]["present"] == 1;   
     }

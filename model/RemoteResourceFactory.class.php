@@ -80,18 +80,20 @@ class RemoteResourceFactory extends AResourceFactory{
      */
     public function getAllResourceNames(){
          R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-
+         
 	$resultset = R::getAll(
-             "SELECT resource_name as resource, package_name as package
+             "SELECT resource.resource_name as res_name, package.package_name
               FROM package,remote_resource,resource 
-              WHERE resource.package_id=package.id and remote_resource.resource_id=resource.id"
+              WHERE resource.package_id=package.id 
+                    and remote_resource.resource_id=resource.id"
 	);
+        
         $resources = array();
         foreach($resultset as $result){
-            if(!isset($resources[$result["package"]])){
-                $resources[$result["package"]] = array();
+            if(!isset($resources[$result["package_name"]])){
+                $resources[$result["package_name"]] = array();
             }
-            $resources[$result["package"]][] = $result["resource"];
+            $resources[$result["package_name"]][] = $result["res_name"];
         }
         return $resources;
     }

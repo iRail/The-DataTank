@@ -42,8 +42,7 @@ class GenericResource extends AResource {
             $this->strategy = new $this->strategyname();
         }
         return $this->strategy;
-    }
-    
+    }    
 
     public function call(){
         $strat = $this->getStrategy();
