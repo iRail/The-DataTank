@@ -1,7 +1,7 @@
 <?php
 /**
- * The controller will look for GET and POST requests on a certain module. It will ask the factories to return the right Resource instance.
- * If it checked all required parameters, checked the format, it will perform the call and get a result. This result is printer by a printer returned from the PrinterFactory
+ * The controller will look for GET and POST requests on a certain module. It will ask the factories to return the correct Resource instance.
+ * If it checked all required parameters, checked the format, it will perform the call and get a result. This result is a printer returned from the PrinterFactory
  *
  * @package The-Datatank/controllers
  * @copyright (C) 2011 by iRail vzw/asbl
