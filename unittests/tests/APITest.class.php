@@ -19,9 +19,14 @@ include_once(dirname(__FILE__)."/../../Config.class.php");
  */
 class APITest extends UnitTestCase{
 
-    private $user = Config::$API_USER;
-    private $pwd =  Config::$API_PASSWD;
-
+    private $user; 
+    private $pwd;  
+    
+    public function __construct(){
+        $this->user = Config::$API_USER;
+        $this->pwd  = Config::$API_PASSWD;
+        
+    }
 
     /*
      * PUT functionality of the API
@@ -33,12 +38,12 @@ class APITest extends UnitTestCase{
          * PUT a csv-resource, this requires a test.csv file in your /var/www
          * you can always change the file URI ofcourse to w/e valid csv you might have
          */
-        $url = "http://localhost/csvpackage/person/";
+        $url = Config::$HOSTNAME ."csvpackage/person/";
         $data = array( "resource_type" => "generic",
                        "printmethods"  => "json;xml;jsonp",
                        "generic_type"  => "CSV",
-                       "documentation" => "this is some documentation.",
-                       "uri"           => "/var/www/test.csv",
+                       "documentation" => "This resource represents a CSV resource about some persons.",
+                       "uri"           => "../temp/person.csv",
                        "columns"       => "name;age;city",
                        "PK"            => "name"
         );
@@ -60,7 +65,7 @@ class APITest extends UnitTestCase{
      */
     
     function testDeleteAction(){
-        $url = "http://localhost/csvpackage/person/"; 
+        $url = Config::$HOSTNAME."csvpackage/person/"; 
         $data = array();
         $deleteAction = new DeleteAction($url,$data,$this->user,$this->pwd);
         
