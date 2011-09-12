@@ -505,4 +505,27 @@ class RepresentationCUDCallTDTException extends AbstractTDTException{
      }
 }
 
+
+class NoResourceGivenTDTException extends AbstractTDTException{
+     public static function getDoc(){
+	  return "No resource given.";
+     }
+
+     public static $error = 572;
+
+     public function getErrorCode(){
+	  return self::$error;
+     }
+
+     public function __construct($resources){
+         $message = "";
+         
+         foreach($resources as $resource => $v){
+             $message .= $v . ",";
+         }
+         $message = rtrim($message,",");
+         parent::__construct("You didn't specify a resource. The resources in this package are: " . $message);
+     }
+}
+
 ?>
