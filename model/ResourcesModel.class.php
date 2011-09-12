@@ -154,16 +154,16 @@ class ResourcesModel extends AResourceFactory{
             $factory->deletePackage($package);
         }
         //now also delete the package-entry in the db
-        
-        $deletePackage = R::exec(
-            "DELETE FROM package WHERE package_name=:package",
+
+        $deleteResourceEntries = R::exec(
+            "DELETE FROM resource 
+                     WHERE package_id IN
+                                      (SELECT id FROM package WHERE package_name=:package)",
             array(":package" => $package)
         );
 
-        $deleteResourceEntry = R::exec(
-            "DELETE FROM resource 
-                     WHERE resource.resource_name=:resource and package_id IN
-                                      (SELECT id FROM package WHERE package_name=:package)",
+         $deletePackage = R::exec(
+            "DELETE FROM package WHERE package_name=:package",
             array(":package" => $package)
         );
     }

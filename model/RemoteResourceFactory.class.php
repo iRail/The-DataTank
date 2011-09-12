@@ -144,10 +144,10 @@ class RemoteResourceFactory extends AResourceFactory{
 
     public function deletePackage($package){
         $deleteRemoteResource = R::exec(
-            "DELETE FROM remote_resource,resource 
+            "DELETE FROM remote_resource
                     WHERE package_id IN 
-                                    (SELECT id 
-                                     FROM package 
+                                    (SELECT package.id 
+                                     FROM package,resource 
                                      WHERE package_name=:package 
                                      and resource_id = resource.id
                                      and package_id = package.id)",
@@ -158,9 +158,8 @@ class RemoteResourceFactory extends AResourceFactory{
     public function deleteResource($package, $resource){
         $deleteRemoteResource = R::exec(
             "DELETE FROM remote_resource
-                    WHERE resource_name=:resource and 
-                    package_id IN (SELECT id 
-                                   FROM package 
+                    WHERE package_id IN (SELECT package.id 
+                                   FROM package,resource 
                                    WHERE package_name=:package and package_id = package.id
                                    and resource_id = resource.id and resource_name =:resource
                                    )",

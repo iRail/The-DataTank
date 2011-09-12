@@ -198,7 +198,7 @@ class DB extends ATabularData{
                          WHERE gen_resource_id IN 
                            (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource.resource_name=:resource
                                                                                       and package_name=:package
-                                                                                      and resource.resource_id = resource.id
+                                                                                      and generic_resource.resource_id = resource.id
                                                                                       and package.id=package_id)",
             array(":package" => $package, ":resource" => $resource) 
         );
