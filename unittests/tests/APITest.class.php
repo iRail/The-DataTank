@@ -11,14 +11,16 @@
 include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/../classes/PutAction.class.php");
 include_once(dirname(__FILE__)."/../classes/DeleteAction.class.php");
+include_once(dirname(__FILE__)."/../../Config.class.php");
+
 /*
  * Note: fill in your credentials for authentication
  * All API transactions are done with curl ! (install if if you don't have it yet)
  */
 class APITest extends UnitTestCase{
 
-    private $user = "jan";
-    private $pwd = "janpwd";
+    private $user = Config::$API_USER;
+    private $pwd =  Config::$API_PASSWD;
 
 
     /*

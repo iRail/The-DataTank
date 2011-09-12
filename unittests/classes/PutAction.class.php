@@ -26,7 +26,6 @@ class PutAction extends RESTAction{
         }
         return 200;
     }
-    
 
 }
 ?>
