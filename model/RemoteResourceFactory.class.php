@@ -102,7 +102,7 @@ class RemoteResourceFactory extends AResourceFactory{
         if( $this->currentRemoteResource->package != $package || $this->currentRemoteResource->resource != $resource){
             $this->fetchResource($package,$resource);
         }
-	return new RemoteResource($this->currentRemoteResource->remote_package, $resource,
+        return new RemoteResource($this->currentRemoteResource->remote_package, $resource,
                                   $this->currentRemoteResource->reqparams,
                                   $this->currentRemoteResource->base_url);
     }
@@ -121,7 +121,7 @@ class RemoteResourceFactory extends AResourceFactory{
         if(sizeof($result) == 0){
             throw new ResourceOrPackageNotFoundTDTException("Cannot find the remote resource with package and resource pair as: ".$package."/".$resource);
         }else{
-            $url = $result[0]["url"]."TDTInfo/Resources/".$result[0]["module"]."/".$result[0]["resource"]."/?format=php";
+            $url = $result[0]["url"]."TDTInfo/Resources/".$result[0]["package"]."/".$result[0]["resource"]."/?format=php";
         }
         $options = array("cache-time" => 3600); //cache for 1 hour
         $request = TDT::HttpRequest($url, $options);

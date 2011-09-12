@@ -21,8 +21,8 @@ class RemoteResource extends AResource {
         // we don't need to pass along the requiredparameters
         // because we'll pass them along the url, just as they were entered
         // in the given url.
-	$this->package = $remotepackage;
-	$this->resource = $remoteresource;
+	    $this->package = $remotepackage;
+	    $this->resource = $remoteresource;
         $this->optionalparams = array();
         $this->base_url = $base_url;
         $this->requiredparams = $reqparams;
@@ -49,7 +49,8 @@ class RemoteResource extends AResource {
         $url = $url . $params;
 
 	//Request the remote server and check for errors. If no error, unserialize the data
-	$request = TDT::HttpRequest($url);	  
+	$options = array("cache-time" => 0, "headers" => array("User-Agent" => $_SERVER['HTTP_USER_AGENT']));
+	$request = TDT::HttpRequest($url, $options);
 	if(isset($request->error)){
 	    throw new RemoteServerTDTException($request->data);
 	}
