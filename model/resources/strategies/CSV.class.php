@@ -108,9 +108,9 @@ class CSV extends ATabularData {
 
     public function onDelete($package,$resource){
         $deleteCSVResource = R::exec(
-            "DELETE FROM generic_resource_csv, resource
+            "DELETE FROM generic_resource_csv
                      WHERE gen_resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
+                           (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource_name=:resource
                                                                                     and package_name=:package
                                                                                     and resource_id = resource.id
                                                                                     and package.id=package_id)",

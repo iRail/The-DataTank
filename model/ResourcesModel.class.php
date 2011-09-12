@@ -127,13 +127,27 @@ class ResourcesModel extends AResourceFactory{
     public function deleteResource($package,$resource){
         foreach($this->factories as $factory){
             if($factory->hasResource($package,$resource)){
+                /*
+                 * deletes specific resource type
+                 */
                 $factory->deleteResource($package,$resource);
+                /*
+                 * also delete resource entry in resource table
+                 */
+                
+                $result = R::exec(
+                    "DELETE FROM resource 
+                     WHERE resource.resource_name=:resource and package_id IN
+                                      (SELECT id FROM package WHERE package_name=:package)",
+                    array(":package" => $package, ":resource" => $resource)
+                );
+                
                 break;
             }
-        }
-        
+        }    
     }
     
+
     public function deletePackage($package){
         //delete all resources in every factory
         foreach($this->factories as $factory){
@@ -143,6 +157,13 @@ class ResourcesModel extends AResourceFactory{
         
         $deletePackage = R::exec(
             "DELETE FROM package WHERE package_name=:package",
+            array(":package" => $package)
+        );
+
+        $deleteResourceEntry = R::exec(
+            "DELETE FROM resource 
+                     WHERE resource.resource_name=:resource and package_id IN
+                                      (SELECT id FROM package WHERE package_name=:package)",
             array(":package" => $package)
         );
     }

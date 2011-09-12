@@ -194,7 +194,7 @@ class DB extends ATabularData{
         );
 
         $deleteDBResource = R::exec(
-            "DELETE FROM generic_resource_db,resource
+            "DELETE FROM generic_resource_db
                          WHERE gen_resource_id IN 
                            (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource_name=:resource
                                                                                       and package_name=:package

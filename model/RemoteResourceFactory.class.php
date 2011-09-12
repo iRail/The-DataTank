@@ -155,7 +155,7 @@ class RemoteResourceFactory extends AResourceFactory{
 
     public function deleteResource($package, $resource){
         $deleteRemoteResource = R::exec(
-            "DELETE FROM remote_resource,resource 
+            "DELETE FROM remote_resource
                     WHERE resource_name=:resource and 
                     package_id IN (SELECT id 
                                    FROM package 

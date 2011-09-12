@@ -105,12 +105,12 @@ class GenericResourceFactory extends AResourceFactory{
 
             //now the only thing left to delete is the main row
             $deleteGenericResource = R::exec(
-                "DELETE FROM generic_resource,resource 
-                          WHERE resource_name=:resource and package_id IN 
-                            (SELECT package.id 
-                             FROM package,resource,generic_resource 
+                "DELETE FROM generic_resource
+                          WHERE resource_id IN 
+                            (SELECT resource.id 
+                             FROM package,resource
                              WHERE package_name=:package and resource.id = generic_resource.resource_id
-                             and resource_name =:resource and package_id = package.id  
+                             and resource.resource_name =:resource and resource.package_id = package.id  
                              )",
                 array(":package" => $package, ":resource" => $resource)
             );
