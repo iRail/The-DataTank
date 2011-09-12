@@ -44,7 +44,7 @@ class ResourcesModel extends AResourceFactory{
 	    }
 	}
 	//if not really any factory has the resource, throw an exception
-	throw new ResourceOrModuleNotFoundTDTException($package . "/" .$resource);
+	throw new ResourceOrPackageNotFoundTDTException($package . "/" .$resource);
     }
 
     /**
