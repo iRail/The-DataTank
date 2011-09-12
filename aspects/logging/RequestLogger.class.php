@@ -25,7 +25,10 @@ class RequestLogger{
 
         $request = R::dispense('requests');
         $request->time = time();
-        $request->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if(isset($_SERVER['HTTP_USER_AGENT'])){    
+            $request->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        }
+        
         $request->ip = $_SERVER['REMOTE_ADDR'];
         $request->url_request = TDT::getPageUrl();
         $request->package = $matches["package"];

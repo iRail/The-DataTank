@@ -19,36 +19,67 @@ class FormatterFactory{
 
     private static $formatterfactory;
 
+    public static function getInstance($urlformat = ""){
+	if(!isset(self::$formatterfactory)){
+	    self::$formatterfactory = new FormatterFactory($urlformat);
+	}
+	return self::$formatterfactory;
+    }    
+
     /**
      * The constructor will get the right format and will decide which printer should be used to print the object.
      */
-    private function __construct(){
-	//let's define the format of the output:
-	// * First we check the headers for a content-type.
-	// * If not given, we'll check the format GET parameter
-	// * If not given, standard output is xml
-	$headerlines = getallheaders();
-	if(isset($headerlines["Content-type"])) {
-	    if(preg_match('/.*\/(.*?);.*?/', $headerlines["Content-type"], $matches)) {
-		$match = $matches[1];
-		//See php doc for this [0] contains the full match, 1 contains the first group
-		$this->format = ucfirst(strtolower($match));
-	    }
-	} elseif(isset($_GET['format'])) {
-	    $this->format = ucfirst(strtolower($_GET['format']));
-	} else {
-	    //default value; if format GET param has not been set, nor 
-	    $this->format = 'Xml';
-	}
+    private function __construct($urlformat = ""){
+        //We define the format like this:
+        // * Check if $urlformat has been set
+        //   - if not: probably something fishy happened, set format as error for logging purpose
+        //   - else if is about: do content negotiation
+        //   - else check if format exists 
+        //        × throw exception when it doesn't
+        //        × if it does, set $this->format with ucfirst
+
+        //first, let's be sure about the case of the format
+        $urlformat = ucfirst(strtolower($urlformat));
+        
+        if($urlformat == ""){
+            $this->format = "error";
+        }else if(strtolower($urlformat) == "about"){
+            include_once("formatters/ContentNegotiator.class.php");
+            $cn = ContentNegotiator::getInstance();
+            $format = $cn->pop();
+            while(!$this->formatExists($format) && $cn->hasNext()){
+                $format = $cn->pop();
+                if($format == "*"){
+                    $format == "Xml";
+                }
+            }
+            if(!$this->formatExists($format)){
+                throw new FormatNotFoundTDTException($format); // could not find a suitible format
+            }
+            $this->format = $format;
+            //We've found our format through about, so let's set the header for content-location to the right one
+            //to do this we're building our current URL and changing .about in .format
+            $format= strtolower($this->format);
+            $pageURL = 'http';
+            if (isset($_SERVER["HTTPS"])) {$pageURL .= "s";}
+            $pageURL .= "://";
+            if ($_SERVER["SERVER_PORT"] != "80") {
+                $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+            } else {
+                $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+            }
+            $contentlocation = str_replace(".about", "." . $format, $pageURL);
+            header("Content-Location:" . $contentlocation);
+        }else if($this->formatExists($urlformat)){
+            $this->format = $urlformat;
+        }else{
+            throw new FormatNotFoundTDTException($urlformat);
+        }
     }
-    
-    public static function getInstance(){
-	if(!isset(self::$formatterfactory)){
-	    self::$formatterfactory = new FormatterFactory();
-	}
-	return self::$formatterfactory;
+
+    private function formatExists($format){
+        return file_exists("formatters/". $format . ".class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
     }
-    
 
     public function getFormat(){
 	return $this->format;

@@ -8,9 +8,18 @@
  * @author Jan Vansteenlandt
  */
 include_once("model/resources/strategies/ATabularData.class.php");
+include_once("model/resources/actions/DBForeignRelation.class.php");
+
 class DB extends ATabularData{
     
+    private $updateActions; //array with possible updateActions
+
+    public function __construct(){
+        $this->updateActions = array();
+        $this->updateActions["db_foreign_relation"] = new DBForeignRelation();
+    }
     
+
     public function onCall($package,$resource){
         /*
          * Here we'll extract all the db-related info and return an object for the RESTful call
@@ -159,15 +168,27 @@ class DB extends ATabularData{
         );
 
         foreach($results as $result){
-            $urls[ $result["keyname"] ] = $host."/".$result["package_name"]."/".$result["resource_name"]
+            $urls[ $result["keyname"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
                 ."/object/?filterBy=id&filterValue=";
             
         }
-        
         return $urls;
     }
 
     public function onDelete($package,$resource){
+       
+        
+        $deleteForeignRelation = R::exec(
+                        "DELETE FROM db_foreign_relation WHERE main_object_id IN 
+                                ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
+                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
+                                  and gen_res.id=db.resource_id ) OR foreign_object_id IN 
+                                  ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
+                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
+                                  and gen_res.id=db.resource_id )",
+                        array(":package" => $package, ":resource" => $resource)
+        );
+
         $deleteDBResource = R::exec(
             "DELETE FROM generic_resource_db 
                          WHERE resource_id IN 
@@ -207,39 +228,14 @@ class DB extends ATabularData{
     }
 
     public function onUpdate($package,$resource,$content){
-        
-        $original_id_query = R::getAll(
-            "select gen_res_db.id from 
-             package, generic_resource as gen_res, generic_resource_db as gen_res_db
-             where package.package_name=:package_name and gen_res.package_id=package.id and gen_res.resource_name=:resource_name
-            and gen_res.id=gen_res_db.resource_id",
-            array(":package_name" => $package, ":resource_name" => $resource)
-        );
 
-        $original_id = $original_id_query[0]["id"];
-        
-        /*
-         * Get the FK relation
-         */
-        $fk_package = $content["foreign_package"];
-        $fk_resource = $content["foreign_resource"];
-        $original_column_name = $content["original_column_name"];
-        $fk_id_query = R::getAll("select gen_res_db.id from 
-             package, generic_resource as gen_res, generic_resource_db as gen_res_db
-             where package.package_name=:package_name and gen_res.package_id=package.id and gen_res.resource_name=:resource_name
-             and gen_res.id=gen_res_db.resource_id",
-            array(":package_name" => $fk_package, ":resource_name" => $fk_resource)
-        );
-        $fk_id = $fk_id_query[0]["id"];
-
-        /*
-         * Add the foreign relation to the back-end
-         */
-        $db_foreign_relation = R::dispense("db_foreign_relation");
-        $db_foreign_relation->main_object_id = $original_id;
-        $db_foreign_relation->foreign_object_id = $fk_id;
-        $db_foreign_relation->main_object_column_name = $original_column_name;
-        return R::store($db_foreign_relation);
+        if(isset($content["update_type"]) && 
+           isset($this->updateActions[$content["update_type"]])){
+                $updateAction = $this->updateActions[$content["update_type"]];
+                $updateAction->update($package,$resource,$content);
+        }else{
+            throw new ResourceUpdateTDTException ("update type hasn't been specified or isn't applicable for the given package and resource: $package/$resource");
+        }
     }
 }
 ?>
