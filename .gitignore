@@ -16,3 +16,7 @@ Makefile
 */*/*/.DS_Store
 */*/*/*/.DS_Store
 bin/testAPI_DB.php
+nbproject/*
+nbproject/private/*
+
+

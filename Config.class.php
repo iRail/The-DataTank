@@ -20,15 +20,15 @@ class Config {
     public static $INSTALLDIR = "\$PWD";
 
     //the webserver subdirectory, if it's not in a subdir, fill in blank
-    public static $SUBDIR = "";
+    public static $SUBDIR = "DT/";
     
-    public static $DB = 'mysql:host=localhost;dbname=NAME';
+    public static $DB = 'mysql:host=localhost;dbname=datatank_db';
     public static $DB_USER = 'root';
-    public static $DB_PASSWORD = 'root';
+    public static $DB_PASSWORD = '';
 
     // validation for API calls to remotely add resources and modules
-    public static $API_USER = "";
-    public static $API_PASSWD = "";
+    public static $API_USER = "usr";
+    public static $API_PASSWD = "usr";
     
 }
 ?>
