@@ -12,10 +12,6 @@ include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
 include_once(dirname(__FILE__)."/../classes/PutAction.class.php");
 
-/*
- * Note: fill in your credentials for authentication
- * All API transactions are done with curl ! (install if if you don't have it yet)
- */
 class APITestPutAction extends TDTUnitTest{
 
     /*
