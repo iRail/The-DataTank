@@ -29,16 +29,19 @@ class DB extends ATabularData{
         try{
             
             R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+
             $param = array(':package' => $package, ':resource' => $resource);
             $results = R::getAll(
-                "select generic_resource.id as gen_res_id,generic_resource_db.id,db_name,db_table
+                "SELECT generic_resource.id as gen_res_id,resource.id,db_name,db_table
                  ,host,port,db_type,db_user,db_password 
-             from package,generic_resource_db,generic_resource 
-             where package.package_name=:package and package.id=generic_resource.package_id 
-             and generic_resource.resource_name=:resource 
-             and generic_resource_db.resource_id=generic_resource.id",
-                $param
+             FROM package,generic_resource_db,generic_resource,resource 
+             WHERE package.package_name=:package and package.id=resource.package_id 
+                   and resource.resource_name=:resource 
+                   and resource.id = generic_resource.resource_id 
+                   and generic_resource_db.gen_resource_id=generic_resource.id",
+             $param
             );
+
             $dbtype = $results[0]["db_type"];
             $dbname = $results[0]["db_name"];
             $dbtable = $results[0]["db_table"];
@@ -49,10 +52,10 @@ class DB extends ATabularData{
             $id = $results[0]["id"];
             $gen_res_id = $results[0]["gen_res_id"];
             
-            // get the columns from the columns table
+            // get the columns FROM the columns table
             $allowed_columns = R::getAll(
                 "SELECT column_name, is_primary_key
-                 from published_columns
+                 FROM published_columns
                  WHERE generic_resource_id=:id",
                 array(":id" => $gen_res_id)
             );
@@ -97,7 +100,7 @@ class DB extends ATabularData{
     }
 
     /**
-     * Creates result from a resultset returned by a RedBean php query
+     * Creates result FROM a resultset returned by a RedBean php query
      * Note: If similar functionality is found in other db-interfacing such as
      * NoSQL, this could be used as a general build-up method.
      */
@@ -109,7 +112,7 @@ class DB extends ATabularData{
         }
 
         $results = R::getAll(
-            "select $columns from $dbtable"
+            "SELECT $columns FROM $dbtable"
         );
 
         // create resulting object
@@ -154,16 +157,14 @@ class DB extends ATabularData{
         $param[":id"] = $id;
         
         $results = R::getAll(
-            "select package.package_name as package_name, gen_res.resource_name as resource_name, 
+            "SELECT package.package_name as package_name, resource.resource_name as resource_name, 
              main_object_column_name as keyname
-             from db_foreign_relation as for_rel,
-             generic_resource_db as gen_res_db,
-             generic_resource as gen_res,
-             package
-             where for_rel.main_object_id =:id and
-                   for_rel.foreign_object_id=gen_res_db.id and
-                   gen_res_db.resource_id=gen_res.id and
-                   gen_res.package_id = package.id",
+             FROM foreign_relation as for_rel,
+             package,
+             resource
+             WHERE for_rel.main_object_id =:id and
+                   for_rel.foreign_object_id=resource.id and
+                   package_id = package.id",
             $param
         );
 
@@ -179,32 +180,27 @@ class DB extends ATabularData{
        
         
         $deleteForeignRelation = R::exec(
-                        "DELETE FROM db_foreign_relation WHERE main_object_id IN 
-                                ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
-                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
-                                  and gen_res.id=db.resource_id ) OR foreign_object_id IN 
-                                  ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
-                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
-                                  and gen_res.id=db.resource_id )",
+                        "DELETE FROM foreign_relation WHERE main_object_id IN 
+                                ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
+                                  generic_resource as gen_res 
+                                  WHERE package_name=:package and package.id=package_id and resource_name=:resource 
+                                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id ) OR foreign_object_id IN 
+                                  ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
+                                  generic_resource as gen_res 
+                                  WHERE package_name=:package and package.id=package_id and resource_name=:resource 
+                                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id
+                                   )",
                         array(":package" => $package, ":resource" => $resource)
         );
 
         $deleteDBResource = R::exec(
-            "DELETE FROM generic_resource_db 
-                         WHERE resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
-                                                                                    and package_name=:package
-                                                                                    and package.id=package_id)",
-            array(":package" => $package, ":resource" => $resource)
-        );
-        //if($deleteDBResource==0) throw new TDTException
-        $deleteDBResource = R::exec(
-            "DELETE FROM generic_resource_db 
-                         WHERE resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
-                                                                                    and package_name=:package
-                                                                                    and package.id=package_id)",
-            array(":package" => $package, ":resource" => $resource)
+            "DELETE FROM generic_resource_db,resource
+                         WHERE gen_resource_id IN 
+                           (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource_name=:resource
+                                                                                      and package_name=:package
+                                                                                      and resource_id = resource.id
+                                                                                      and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource) 
         );
     }
 

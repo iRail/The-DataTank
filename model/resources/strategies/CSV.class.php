@@ -15,13 +15,16 @@ class CSV extends ATabularData {
         /*
          * First retrieve the values for the generic fields of the CSV logic
          */
+
         $param = array(':package' => $package, ':resource' => $resource);
+        
         $result = R::getAll(
-            "select generic_resource.id as gen_res_id,generic_resource_csv.uri as uri
-             from package, generic_resource, generic_resource_csv
-             where package.package_name=:package and generic_resource.resource_name=:resource
-             and package.id=generic_resource.package_id 
-             and generic_resource.id=generic_resource_csv.resource_id",
+            "SELECT generic_resource.id as gen_res_id,generic_resource_csv.uri as uri
+             FROM package,resource, generic_resource, generic_resource_csv
+             WHERE package.package_name=:package and resource.resource_name=:resource
+                   and package.id=resource.package_id 
+                   and resource.id = generic_resource.resource_id
+                   and generic_resource.id=generic_resource_csv.gen_resource_id",
             $param
         );
         
@@ -36,7 +39,7 @@ class CSV extends ATabularData {
 
         $columns = array();
         
-        // get the columns from the columns table
+        // get the columns FROM the columns table
         $allowed_columns = R::getAll(
             "SELECT column_name, is_primary_key
                  FROM published_columns
@@ -105,10 +108,11 @@ class CSV extends ATabularData {
 
     public function onDelete($package,$resource){
         $deleteCSVResource = R::exec(
-            "DELETE FROM generic_resource_csv 
-                     WHERE resource_id IN 
+            "DELETE FROM generic_resource_csv, resource
+                     WHERE gen_resource_id IN 
                            (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
                                                                                     and package_name=:package
+                                                                                    and resource_id = resource.id
                                                                                     and package.id=package_id)",
             array(":package" => $package, ":resource" => $resource)
         );
@@ -127,7 +131,7 @@ class CSV extends ATabularData {
 
     private function evaluateCSVResource($resource_id,$content){
         $csvresource = R::dispense("generic_resource_csv");
-        $csvresource->resource_id = $resource_id;
+        $csvresource->gen_resource_id = $resource_id;
         $csvresource->uri = $content["uri"];
         R::store($csvresource);
     }    

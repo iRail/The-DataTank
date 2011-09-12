@@ -13,7 +13,8 @@ include_once("model/resources/RemoteResource.class.php");
 class RemoteResourceFactory extends AResourceFactory{
     
     /*
-     * This object contains all the information from the last used
+     * This object contains all the information 
+     * FROM the last used
      * requested object. This way we wont have to call the remote resource
      * every single call to this factory. If we receive a call
      * for another resource, we replace it by the newly asked factory.
@@ -81,17 +82,17 @@ class RemoteResourceFactory extends AResourceFactory{
          R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 
 	$resultset = R::getAll(
-            "select resource_name as resource, module.module_name as module from remote_resource,module
-             where module.id = remote_resource.module_id"
+             "SELECT resource_name as resource, package_name as package
+              FROM package,remote_resource,resource 
+              WHERE resource.package_id=package.id and remote_resource.resource_id=resource.id"
 	);
         $resources = array();
         foreach($resultset as $result){
-            if(!isset($resources[$result["module"]])){
-                $resources[$result["module"]] = array();
+            if(!isset($resources[$result["package"]])){
+                $resources[$result["package"]] = array();
             }
-            $resources[$result["module"]][] = $result["resource"];
+            $resources[$result["package"]][] = $result["resource"];
         }
-        
         return $resources;
     }
     
@@ -110,12 +111,13 @@ class RemoteResourceFactory extends AResourceFactory{
     private function fetchResource($package,$resource){
         
         R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$param = array(':module' => $package, ':resource' => $resource);
+	$param = array(':package' => $package, ':resource' => $resource);
 	$result = R::getAll(
-	    "select rem_rec.base_url as url ,rem_rec.module_name as module,rem_rec.resource_name as resource
-             from module,remote_resource as rem_rec
-             where module.module_name=:module and rem_rec.resource_name =:resource
-             and module.id=rem_rec.module_id",
+	    "SELECT rem_rec.base_url as url ,rem_rec.package_name as package,
+                    resource_name as resource
+             FROM  package,remote_resource as rem_rec,resource
+             WHERE package_name=:package and resource_name =:resource
+                   and package.id = package_id and resource_id = resource.id",
 	    $param
 	);
         if(sizeof($result) == 0){
@@ -140,28 +142,39 @@ class RemoteResourceFactory extends AResourceFactory{
 
     public function deletePackage($package){
         $deleteRemoteResource = R::exec(
-            "DELETE FROM remote_resource 
-                 WHERE module_id IN (SELECT id FROM module WHERE module_name=:module)",
-            array(":module" => $package)
+            "DELETE FROM remote_resource,resource 
+                    WHERE package_id IN 
+                                    (SELECT id 
+                                     FROM package 
+                                     WHERE package_name=:package 
+                                     and resource_id = resource.id
+                                     and package_id = package.id)",
+            array(":package" => $package)
         );
     }
 
     public function deleteResource($package, $resource){
         $deleteRemoteResource = R::exec(
-            "DELETE FROM remote_resource 
-                 WHERE resource_name=:resource and 
-                 module_id IN (SELECT id FROM module WHERE module_name=:module)",
-            array(":module" => $package, ":resource" => $resource)
+            "DELETE FROM remote_resource,resource 
+                    WHERE resource_name=:resource and 
+                    package_id IN (SELECT id 
+                                   FROM package 
+                                   WHERE package_name=:package and package_id = package.id
+                                   and resource_id = resource.id and resource_name =:resource
+                                   )",
+            array(":package" => $package, ":resource" => $resource)
         );
     }
 
     public function addResource($package,$resource, $content){
         //insert a row with the right URI to the package/resource
+        $model = ResourcesModel::getInstance();
+        $resource_id = $model->getResourceId($package_id,$resource);
+
         $remres = R::dispense("remote_resource");
-        $remres->module_id = $package_id;
-        $remres->resource_name = $resource;
-        $remres->module_name = $put_vars["module_name"];
-        $remres->base_url = $put_vars["url"];
+        $remres->resource_id = $resource_id;
+        $remres->package_name = $content["package_name"];
+        $remres->base_url = $content["url"];
         // make sure this url ends with a /
         if(substr(strrev($remres->base_url),0,1) != "/"){
             $remres->base_url .= "/";
