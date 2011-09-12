@@ -38,16 +38,16 @@ class APITest extends UnitTestCase{
          * PUT a csv-resource, this requires a test.csv file in your /var/www
          * you can always change the file URI ofcourse to w/e valid csv you might have
          */
-        $url = Config::$HOSTNAME ."csvpackage/person/";
+        $url = Config::$HOSTNAME . "csvpackage/person/";
         $data = array( "resource_type" => "generic",
                        "printmethods"  => "json;xml;jsonp",
                        "generic_type"  => "CSV",
-                       "documentation" => "This resource represents a CSV resource about some persons.",
-                       "uri"           => "../temp/person.csv",
+                       "documentation" => "this is some documentation.",
+                       "uri"           => Config::$INSTALLDIR."/unittests/temp/person.csv",
                        "columns"       => "name;age;city",
                        "PK"            => "name"
         );
-
+        
         $putAction = new PutAction($url,$data,$this->user,$this->pwd);
 
         // get the expected http response code in order to know that the tested functionality is A-ok !
@@ -65,7 +65,7 @@ class APITest extends UnitTestCase{
      */
     
     function testDeleteAction(){
-        $url = Config::$HOSTNAME."csvpackage/person/"; 
+        $url = Config::$HOSTNAME . "csvpackage/person/"; 
         $data = array();
         $deleteAction = new DeleteAction($url,$data,$this->user,$this->pwd);
         
