@@ -187,12 +187,12 @@ class ResourcesModel extends AResourceFactory{
         /*
          * create/fetch package
          */
-        $package_id = $this->makePackageId($package);
+        $package_id = parent::makePackageId($package);
 
         /*
          * create the resource entry, or throw an exception package/resource already exists
          */
-        $this->makeResourceId($resource,$package_id,$resource_type);
+        parent::makeResourceId($resource,$package_id,$resource_type);
 
         /*
          * Add the rest of the specific information for that type of resource
@@ -200,78 +200,6 @@ class ResourcesModel extends AResourceFactory{
         $factory->addResource($package,$resource,$content);
     }
 
-
-    public function makePackageId($package){
-        /* 
-         * will return the ID of the package. If package does not exists, it will be added
-         * if we're requesting an installed or core package, it doesn't matter since the package is not resourcetype dependant
-         * so adding it won't do any harm
-         */
-        $result = R::getAll(
-            "SELECT package.id as id 
-             FROM package 
-             WHERE package_name=:package_name",
-            array(":package_name"=>$package)
-
-        );
-        
-        if(sizeof($result) == 0){
-            $newpackage = R::dispense("package");
-            $newpackage->package_name = $package;
-            $newpackage->timestamp = time();
-            $id = R::store($newpackage);
-            return $id;
-        }else{
-            return $result[0]["id"];
-        }
-    }
-
-    public function makeResourceId($resource,$package_id,$resource_type){
-        /* 
-         * will return the ID of the resource. If resource doesn't exist, it will be added
-         * this resource doesn't have a type specified yet! It just contains the name, and a FK to a package
-         * So if we see that there's already package-resource pair, we throw an exception.
-         */
-        $checkExistence = R::getAll(
-            "SELECT resource.id
-             FROM resource, package
-             WHERE :package_id = package.id and resource_name =:resource and package_id = package.id",
-            array(":package_id" => $package_id, ":resource" => $resource)
-        );
-
-        if(sizeof($checkExistence) == 0){
-            $newResource = R::dispense("resource");
-            $newResource->package_id = $package_id;
-            $newResource->resource_name = $resource;
-            $newResource->creation_timestamp = time();
-            $newResource->last_update_timestamp = time();
-            $newResource->type = $resource_type;
-            return R::store($newResource);
-        }else{
-            throw new ResourceAdditionTDTException("package/resource already exists");
-        }
-    }
-
-    /*
-     * This function is meant to be called by resource factories
-     * In our business logic the resource ($resource) will already exist 
-     * so we can expect a valid return id. If the resource doesn't exist, throw an error
-     * This is different from makeResourceId because in make Resource, we want to create a 
-     * fresh resource, and prohibit overriding resources !
-     */
-    public function getResourceId($package_id,$resource){
-        $getId = R::getAll(
-            "SELECT resource.id as res_id
-             FROM   resource,package
-             WHERE  resource_name =:resource and package.id = :package_id",
-            array(":resource" => $resource, ":package_id" => $package_id)
-        );
-        if(sizeof($getId) == 0){
-            throw new ResourceAdditionTDTException("Resource hasn't been created yet.");
-        }else{
-            return $getId[0]["res_id"];
-        }
-    }
     
     public function updateResource($package,$resource,$content){
         foreach($this->factories as $factory){
