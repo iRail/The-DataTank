@@ -210,7 +210,7 @@ class ResourcesModel extends AResourceFactory{
          * this resource doesn't have a type specified yet! It just contains the name, and a FK to a package
          * So if we see that there's already package-resource pair, we throw an exception.
          */
-        $checkExistence = DBQueries::getResourceId($package, $resource);
+        $checkExistence = DBQueries::getResourceId($package_id, $resource);
 
         if(sizeof($checkExistence) == 0){
             return DBQueries::storeResource($package_id, $resource, $resource_type);

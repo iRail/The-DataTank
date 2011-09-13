@@ -21,7 +21,7 @@ class GenericResource extends AResource {
     public function __construct($package,$resource){
         $this->package = $package;
         $this->resource = $resource;
-        $result = DBQueries::getGenericResourceType();
+        $result = DBQueries::getGenericResourceType($package, $resource);
         $this->strategyname = $result["type"];
     }
 
