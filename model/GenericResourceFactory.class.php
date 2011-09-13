@@ -16,9 +16,10 @@ class GenericResourceFactory extends AResourceFactory{
     public function getResourceDoc($package, $resource){
 	$param = array(':package' => $package, ':resource' => $resource);
 	$result = R::getAll(
-	    "select generic_resource.documentation as doc from package,generic_resource 
-             where package.package_name=:package and generic_resource.resource_name =:resource
-             and package.id=generic_resource.package_id",
+	    "SELECT generic_resource.documentation as doc 
+             FROM package,generic_resource,resource 
+             WHERE package.package_name=:package and resource.resource_name =:resource
+             and package.id=resource.package_id and resource.id = generic_resource.resource_id",
 	    $param
 	);
 	
@@ -43,9 +44,10 @@ class GenericResourceFactory extends AResourceFactory{
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$param = array(':package' => $package, ':resource' => $resource);
 	$results = R::getAll(
-	    "select generic_resource.print_methods as print_methods from package,generic_resource 
-             where package.package_name=:package and generic_resource.resource_name =:resource 
-             and package.id=generic_resource.package_id",
+	    "SELECT generic_resource.print_methods as print_methods 
+             FROM package,generic_resource,resource 
+             WHERE package.package_name=:package and resource.resource_name =:resource 
+             and package.id=resource.package_id and resource.id = generic_resource.resource_id",
 	    $param
 	);
 	$print_methods = explode(";", $results[0]["print_methods"]);
@@ -57,16 +59,17 @@ class GenericResourceFactory extends AResourceFactory{
 
 
 	$results = R::getAll(
-            "select generic_resource.resource_name as resource, package.package_name as package
-             from package,generic_resource where generic_resource.package_id=package.id"
+            "SELECT resource.resource_name as res_name, package.package_name
+             FROM package,generic_resource,resource 
+             WHERE resource.package_id=package.id and generic_resource.resource_id=resource.id"
 	);
 	$resources = array();
 	
 	foreach($results as $result){
-	    if(!array_key_exists($result["package"],$resources)){
-		$resources[$result["package"]] = array();
+	    if(!array_key_exists($result["package_name"],$resources)){
+		$resources[$result["package_name"]] = array();
 	    }
-	    array_push($resources[$result["package"]],$result["resource"]);
+	    array_push($resources[$result["package_name"]],$result["res_name"]);
 	}
 	return $resources;
     }
@@ -75,11 +78,12 @@ class GenericResourceFactory extends AResourceFactory{
 	$param = array(':package' => $package, ':resource' => $resource);
         
 	$resource = R::getAll(
-	    "select count(1) as present from package,generic_resource 
-             where package.package_name=:package and generic_resource.resource_name=:resource
-             and generic_resource.package_id=package.id",
+	    "SELECT count(1) as present 
+             FROM package,generic_resource,resource 
+             WHERE package.package_name=:package and resource.resource_name=:resource
+             and resource.package_id=package.id and generic_resource.resource_id=resource.id",
 	    $param
-	);   
+	);
         
 	return isset($resource[0]["present"]) && $resource[0]["present"] == 1;   
     }
@@ -101,9 +105,13 @@ class GenericResourceFactory extends AResourceFactory{
 
             //now the only thing left to delete is the main row
             $deleteGenericResource = R::exec(
-                "DELETE FROM generic_resource 
-                          WHERE resource_name=:resource and package_id IN 
-                            (SELECT id FROM package WHERE package_name=:package)",
+                "DELETE FROM generic_resource
+                          WHERE resource_id IN 
+                            (SELECT resource.id 
+                             FROM package,resource
+                             WHERE package_name=:package and resource.id = generic_resource.resource_id
+                             and resource.resource_name =:resource and resource.package_id = package.id  
+                             )",
                 array(":package" => $package, ":resource" => $resource)
             );
         }
@@ -144,6 +152,7 @@ class GenericResourceFactory extends AResourceFactory{
         }
         $model = ResourcesModel::getInstance();
         $package_id = $model->makePackageId($package);
+
         //So when the resource doesn't exist yet, when the generic type is set and when the strategy exists, do
         $resource_id = $this->makeGenericResourceId($package_id,$resource,$content);
 
@@ -155,9 +164,11 @@ class GenericResourceFactory extends AResourceFactory{
 
     private function makeGenericResourceId($package_id,$resource,$content){
         //will return the id of the new generic resource
+        $model = ResourcesModel::getInstance();
+        $resource_id = $model->getResourceId($package_id,$resource);
+        
         $genres = R::dispense("generic_resource");
-        $genres->package_id = $package_id;
-        $genres->resource_name = $resource;
+        $genres->resource_id = $resource_id;
         $genres->type = $content["generic_type"];
         $genres->documentation = $content["documentation"];
         $genres->print_methods =  $content["printmethods"];

@@ -25,9 +25,11 @@ class GenericResource extends AResource {
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$param = array(':package' => $this->package, ':resource' => $this->resource);
 	$result = R::getAll(
-	    "select generic_resource.type as type from package,generic_resource
-             where package.package_name=:package and generic_resource.resource_name=:resource
-             and package.id=generic_resource.package_id",
+	    "SELECT generic_resource.type as type 
+             FROM package,generic_resource,resource
+             WHERE package_name=:package and resource.resource_name=:resource
+                   and resource_id = resource.id
+                   and package.id= resource.package_id",
 	    $param
 	);
 	
@@ -40,8 +42,7 @@ class GenericResource extends AResource {
             $this->strategy = new $this->strategyname();
         }
         return $this->strategy;
-    }
-    
+    }    
 
     public function call(){
         $strat = $this->getStrategy();
@@ -56,9 +57,10 @@ class GenericResource extends AResource {
 	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 	$param = array(':package' => $this->package, ':resource' => $this->resource);
 	$results = R::getAll(
-	    "select generic_resource.print_methods as print_methods from package,generic_resource
-             where package.package_name=:package and generic_resource.resource_name =:resource 
-             and package.id=generic_resource.package_id",
+	    "SELECT generic_resource.print_methods as print_methods 
+             FROM package,generic_resource,resource
+             WHERE package.package_name=:package and resource.resource_name =:resource 
+             and resource_id = resource.id and package.id=resource.package_id",
 	    $param
 	);
 	$print_methods = explode(";", $results[0]["print_methods"]);

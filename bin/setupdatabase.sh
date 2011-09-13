@@ -65,38 +65,51 @@ then
         PRIMARY KEY (id)
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
+##################
+# resource table #
+##################
+
+    Q6="CREATE TABLE IF NOT EXISTS resource (
+        id bigint(20) NOT NULL AUTO_INCREMENT,
+        resource_name varchar(255) NOT NULL,
+        package_id varchar(255) NOT NULL,
+        creation_timestamp bigint(20) NOT NULL,
+        last_update_timestamp bigint(20) NOT NULL,
+        type varchar(60) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (package_id) references package(id)        
+        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
 ##########################
 # generic_resource table #
 ##########################
-    Q6="CREATE TABLE IF NOT EXISTS generic_resource (
+    Q7="CREATE TABLE IF NOT EXISTS generic_resource (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  package_id bigint(20) NOT NULL,
-  resource_name varchar(40) NOT NULL,
+  resource_id bigint(20) NOT NULL,
   type varchar(40) NOT NULL,
   documentation varchar(512) NOT NULL,
   print_methods varchar(60) NOT NULL,
-  timestamp bigint(20) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (package_id) references package(id)
+  FOREIGN KEY (resource_id) references resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 ##############################
 # generic_resource_csv table #
 ##############################
-    Q7="CREATE TABLE IF NOT EXISTS generic_resource_csv (
+    Q8="CREATE TABLE IF NOT EXISTS generic_resource_csv (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  resource_id bigint(20) NOT NULL,
+  gen_resource_id bigint(20) NOT NULL,
   uri varchar(128) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY(resource_id) references generic_resource(id)
+  FOREIGN KEY(gen_resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 ##############################
 #  generic_resource_db table #
 ##############################
-    Q8="CREATE TABLE IF NOT EXISTS generic_resource_db (
+    Q9="CREATE TABLE IF NOT EXISTS generic_resource_db (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  resource_id bigint(20) NOT NULL,
+  gen_resource_id bigint(20) NOT NULL,
   db_name varchar(128) NOT NULL,
   db_table varchar(256) NOT NULL,
   host varchar(256) NOT NULL,
@@ -105,35 +118,33 @@ then
   db_user varchar(50) NOT NULL,
   db_password varchar(50) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY(resource_id) references generic_resource(id)
+  FOREIGN KEY(gen_resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 ##########################
 #  remote_resource table #
 ##########################
-    Q9="CREATE TABLE IF NOT EXISTS remote_resource (
+    Q10="CREATE TABLE IF NOT EXISTS remote_resource (
   id bigint(20) NOT NULL AUTO_INCREMENT,
-  package_id bigint(20) NOT NULL,
-  resource_name varchar(40) NOT NULL,
-  package_name varchar(64) NOT NULL,
+  resource_id bigint(20) NOT NULL,
+  package_name varchar(100) NOT NULL,
   base_url varchar(50) NOT NULL,
-  timestamp bigint(20) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY(package_id) references package(id)
+  FOREIGN KEY (resource_id) references resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 
 ##########################
-#   db_foreign_relation  #
+#   foreign_relation  #
 ##########################
-    Q10="CREATE TABLE IF NOT EXISTS db_foreign_relation (
+    Q11="CREATE TABLE IF NOT EXISTS foreign_relation (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   main_object_id bigint(20) NOT NULL,
   foreign_object_id bigint(20) NOT NULL,
   main_object_column_name varchar(50) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY(main_object_id) references generic_resource_db(id),
-  FOREIGN KEY(foreign_object_id) references generic_resource_db(id)
+  FOREIGN KEY(main_object_id) references resource(id),
+  FOREIGN KEY(foreign_object_id) references resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 
@@ -141,7 +152,7 @@ then
 #     columns      #
 ####################
 
-    Q11="CREATE TABLE IF NOT EXISTS published_columns (
+    Q12="CREATE TABLE IF NOT EXISTS published_columns (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   generic_resource_id bigint(20) NOT NULL,
   column_name varchar(50) NOT NULL,
@@ -150,7 +161,7 @@ then
   FOREIGN KEY(generic_resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}${Q10}${Q11}"
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}${Q10}${Q11}${Q12}"
 
     mysql -u "$1" -p -e "$SQL"
 
