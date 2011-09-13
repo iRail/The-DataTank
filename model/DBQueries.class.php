@@ -84,6 +84,19 @@ class DBQueries {
              and resource.package_id=package.id and generic_resource.resource_id=resource.id",
     	    array(':package' => $package, ':resource' => $resource)
     	);
+    } 
+    
+    /**
+     * Store a generic resource
+     */
+    static function storeGenericResource($resource_id, $type, $documentation, $print_methods) {
+        $genres = R::dispense("generic_resource");
+        $genres->resource_id = $resource_id;
+        $genres->type = $type;
+        $genres->documentation = $documentation;
+        $genres->print_methods =  $print_methods;
+        $genres->timestamp = time();
+        return R::store($genres);
     }
     
     /**
@@ -99,19 +112,6 @@ class DBQueries {
                          and resource.resource_name =:resource and resource.package_id = package.id)",
             array(":package" => $package, ":resource" => $resource)
         );
-    }
-    
-    /**
-     * Store a generic resource
-     */
-    static function storeGenericResource($resource_id, $type, $documentation, $print_methods) {
-        $genres = R::dispense("generic_resource");
-        $genres->resource_id = $resource_id;
-        $genres->type = $type;
-        $genres->documentation = $documentation;
-        $genres->print_methods =  $print_methods;
-        $genres->timestamp = time();
-        return R::store($genres);
     }
     
     /**
@@ -138,6 +138,17 @@ class DBQueries {
               WHERE resource.package_id=package.id 
                     and remote_resource.resource_id=resource.id"
         );
+    }
+    
+    /**
+     * Store a remote resource
+     */
+    static function storeRemoteResource($resource_id, $package_name, $base_url) {
+        $remres = R::dispense("remote_resource");
+        $remres->resource_id = $resource_id;
+        $remres->package_name = $package_name;
+        $remres->base_url = $base_url;
+        return R::store($remres);
     }
     
     /**
@@ -169,17 +180,6 @@ class DBQueries {
                                    )",
             array(":package" => $package, ":resource" => $resource)
         );
-    }
-    
-    /**
-     * Store a remote resource
-     */
-    static function storeRemoteResource($resource_id, $package_name, $base_url) {
-        $remres = R::dispense("remote_resource");
-        $remres->resource_id = $resource_id;
-        $remres->package_name = $package_name;
-        $remres->base_url = $base_url;
-        return R::store($remres);
     }
     
     /**
@@ -264,19 +264,9 @@ class DBQueries {
         );
     }
     
-    static function getDBResource($package, $resource) {
-        return R::getRow(
-            "SELECT generic_resource.id as gen_res_id,resource.id,db_name,db_table
-           			,host,port,db_type,db_user,db_password 
-         	FROM package,generic_resource_db,generic_resource,resource 
-         	WHERE package.package_name=:package and package.id=resource.package_id 
-    			  and resource.resource_name=:resource 
-               	  and resource.id = generic_resource.resource_id 
-                  and generic_resource.id = generic_resource_db.gen_resource_id",
-            array(':package' => $package, ':resource' => $resource)
-        );
-    }
-    
+    /**
+     * Get all published columns of a generic resource
+     */
     static function getPublishedColumns($generic_resource_id) {
         return R::getAll(
             "SELECT column_name, is_primary_key
@@ -285,7 +275,21 @@ class DBQueries {
             array(":id" => $generic_resource_id)
         );
     }
+   
+    /**
+     * Store a published column
+     */
+    static function storePublishedColumn($generic_resource_id, $column_name, $is_primary_key) {
+        $db_columns = R::dispense("published_columns");
+        $db_columns->generic_resource_id = $generic_resource_id;
+        $db_columns->column_name = $column_name;
+        $db_columns->is_primary_key = $is_primary_key;
+        return R::store($db_columns);
+    }
     
+    /**
+     * Get a specific foreign key relation
+     */
     static function getForeignRelations($main_object_id) {
         $results = R::getAll(
             "SELECT package.package_name as package_name, resource.resource_name as resource_name, 
@@ -300,6 +304,20 @@ class DBQueries {
         );
     }
     
+	/**
+     * Store a foreign key relation
+     */
+    static function storeForeignRelation($main_object_id, $foreign_object_id, $main_object_column_name) {
+        $db_foreign_relation = R::dispense("db_foreign_relation");
+        $db_foreign_relation->main_object_id = $main_object_id;
+        $db_foreign_relation->foreign_object_id = $foreign_object_id;
+        $db_foreign_relation->main_object_column_name = $main_object_column_name;
+        return R::store($db_foreign_relation);
+    }
+    
+    /**
+     * Delete a specific foreign key relation
+     */
     static function deleteForeignRelation($package, $resource) {
         return R::exec(
             "DELETE FROM foreign_relation WHERE main_object_id IN 
@@ -315,19 +333,27 @@ class DBQueries {
             array(":package" => $package, ":resource" => $resource)
         );
     }
-    
-    static function deleteDBResource($package, $resource) {
-         return R::exec(
-            "DELETE FROM generic_resource_db
-                    WHERE gen_resource_id IN 
-                         (SELECT generic_resource.id FROM generic_resource,package,resource
-                          WHERE resource.resource_name=:resource
-                                and package_name=:package
-                                and generic_resource.resource_id = resource.id
-                                and package.id=package_id)",
-            array(":package" => $package, ":resource" => $resource));
+
+    /**
+     * Get a specific DB resource
+     */
+    static function getDBResource($package, $resource) {
+        return R::getRow(
+            "SELECT generic_resource.id as gen_res_id,resource.id,db_name,db_table
+           			,host,port,db_type,db_user,db_password 
+         	FROM package,generic_resource_db,generic_resource,resource 
+         	WHERE package.package_name=:package and package.id=resource.package_id 
+    			  and resource.resource_name=:resource 
+               	  and resource.id = generic_resource.resource_id 
+                  and generic_resource.id = generic_resource_db.gen_resource_id",
+            array(':package' => $package, ':resource' => $resource)
+        );
     }
     
+    
+    /**
+     * Store a DB resource
+     */
     static function storeDBResource($resource_id, $db_type, $db_name, $db_table, $host, $port, $db_user, $db_password) {
         $dbresource = R::dispense("generic_resource_db");
         $dbresource->gen_resource_id = $resource_id;
@@ -341,6 +367,24 @@ class DBQueries {
         return R::store($dbresource);
     }
     
+	/**
+     * Delete a specific DB resource
+     */
+    static function deleteDBResource($package, $resource) {
+         return R::exec(
+            "DELETE FROM generic_resource_db
+                    WHERE gen_resource_id IN 
+                         (SELECT generic_resource.id FROM generic_resource,package,resource
+                          WHERE resource.resource_name=:resource
+                                and package_name=:package
+                                and generic_resource.resource_id = resource.id
+                                and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource));
+    }
+    
+    /**
+     * Retrieve a specific CSV resource
+     */
     static function getCSVResource($package, $resource) {
         return R::getRow(
             "SELECT generic_resource.id as gen_res_id,generic_resource_csv.uri as uri
@@ -353,6 +397,9 @@ class DBQueries {
         );
     }
    
+    /**
+     * Store a CSV resource
+     */
     static function storeCSVResource($resource_id, $uri) {
         $csvresource = R::dispense("generic_resource_csv");
         $csvresource->gen_resource_id = $resource_id;
@@ -360,6 +407,9 @@ class DBQueries {
         return R::store($csvresource);
     }
     
+    /**
+     * Delete a specific CSV resource
+     */
     static function deleteCSVResource($package, $resource) {
         return R::exec(
             "DELETE FROM generic_resource_csv
@@ -371,22 +421,6 @@ class DBQueries {
                                  and package.id=package_id)",
             array(":package" => $package, ":resource" => $resource)
         );
-    }
-    
-    static function storePublishedColumn($generic_resource_id, $column_name, $is_primary_key) {
-        $db_columns = R::dispense("published_columns");
-        $db_columns->generic_resource_id = $generic_resource_id;
-        $db_columns->column_name = $column_name;
-        $db_columns->is_primary_key = $is_primary_key;
-        return R::store($db_columns);
-    }
-    
-    static function storeForeignRelation($main_object_id, $foreign_object_id, $main_object_column_name) {
-        $db_foreign_relation = R::dispense("db_foreign_relation");
-        $db_foreign_relation->main_object_id = $main_object_id;
-        $db_foreign_relation->foreign_object_id = $foreign_object_id;
-        $db_foreign_relation->main_object_column_name = $main_object_column_name;
-        return R::store($db_foreign_relation);
     }
 }
 ?>
