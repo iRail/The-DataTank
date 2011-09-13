@@ -16,15 +16,7 @@ abstract class ATabularData extends AResourceStrategy{
     protected function evaluateColumns($columns_concat,$PK,$gen_res_id){
         $columns = explode(";",$columns_concat);
         foreach($columns as $column){
-            $db_columns = R::dispense("published_columns");
-            $db_columns->generic_resource_id = $gen_res_id;
-            $db_columns->column_name = $column;
-            if($PK == $column){
-                $db_columns->is_primary_key = 1;
-            }else{
-                $db_columns->is_primary_key = 0;
-            }
-            R::store($db_columns);
+            DBQueries::storePublishedColumn($gen_res_id, $column, ($PK == $column?1:0));
         }
     }   
 }

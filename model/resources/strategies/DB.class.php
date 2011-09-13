@@ -27,38 +27,20 @@ class DB extends ATabularData{
          * per separate database. Perhaps this could also be implemented in a strategypattern.....
          */
         try{
-            
-            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+            $results = DBQueries::getDBResource($package, $resource);
 
-            $param = array(':package' => $package, ':resource' => $resource);
-            $results = R::getAll(
-                "SELECT generic_resource.id as gen_res_id,resource.id,db_name,db_table
-                 ,host,port,db_type,db_user,db_password 
-             FROM package,generic_resource_db,generic_resource,resource 
-             WHERE package.package_name=:package and package.id=resource.package_id 
-                   and resource.resource_name=:resource 
-                   and resource.id = generic_resource.resource_id 
-                   and generic_resource.id = generic_resource_db.gen_resource_id",
-             $param
-            );
-
-            $dbtype = $results[0]["db_type"];
-            $dbname = $results[0]["db_name"];
-            $dbtable = $results[0]["db_table"];
-            $dbport = $results[0]["port"];
-            $dbhost = $results[0]["host"];
-            $user = $results[0]["db_user"];
-            $passwrd = $results[0]["db_password"];
-            $id = $results[0]["id"];
-            $gen_res_id = $results[0]["gen_res_id"];
+            $dbtype = $results["db_type"];
+            $dbname = $results["db_name"];
+            $dbtable = $results["db_table"];
+            $dbport = $results["port"];
+            $dbhost = $results["host"];
+            $user = $results["db_user"];
+            $passwrd = $results["db_password"];
+            $id = $results["id"];
+            $gen_res_id = $results["gen_res_id"];
             
-            // get the columns FROM the columns table
-            $allowed_columns = R::getAll(
-                "SELECT column_name, is_primary_key
-                 FROM published_columns
-                 WHERE generic_resource_id=:id",
-                array(":id" => $gen_res_id)
-            );
+            // get the columns from the columns table
+            $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
             
             $dbcolumns = array();
             $PK = "";
@@ -153,21 +135,8 @@ class DB extends ATabularData{
 
     private function createForeignRelationURLs($id,$host){
         $urls = array();
-        $param = array();
-        $param[":id"] = $id;
         
-        $results = R::getAll(
-            "SELECT package.package_name as package_name, resource.resource_name as resource_name, 
-             main_object_column_name as keyname
-             FROM foreign_relation as for_rel,
-             package,
-             resource
-             WHERE for_rel.main_object_id =:id and
-                   for_rel.foreign_object_id=resource.id and
-                   package_id = package.id",
-            $param
-        );
-
+        $results = DBQueries::getForeignRelations($id);
         foreach($results as $result){
             $urls[ $result["keyname"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
                 ."/object/?filterBy=id&filterValue=";
@@ -177,31 +146,8 @@ class DB extends ATabularData{
     }
 
     public function onDelete($package,$resource){
-       
-        
-        $deleteForeignRelation = R::exec(
-                        "DELETE FROM foreign_relation WHERE main_object_id IN 
-                                ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
-                                  generic_resource as gen_res 
-                                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
-                                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id ) OR foreign_object_id IN 
-                                  ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
-                                  generic_resource as gen_res 
-                                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
-                                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id
-                                   )",
-                        array(":package" => $package, ":resource" => $resource)
-        );
-
-        $deleteDBResource = R::exec(
-            "DELETE FROM generic_resource_db
-                         WHERE gen_resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource.resource_name=:resource
-                                                                                      and package_name=:package
-                                                                                      and generic_resource.resource_id = resource.id
-                                                                                      and package.id=package_id)",
-            array(":package" => $package, ":resource" => $resource) 
-        );
+        DBQueries::deleteForeignRelation($package, $resource);
+        DBQueries::deleteDBResource($package, $resource);
     }
 
     public function onAdd($package_id, $resource_id,$content){
@@ -211,20 +157,10 @@ class DB extends ATabularData{
     
 
     private function evaluateDBResource($resource_id,$put_vars){
-        $dbresource = R::dispense("generic_resource_db");
-        $dbresource->gen_resource_id = $resource_id;
-        $dbresource->db_type = $put_vars["dbtype"];
-        $dbresource->db_name = $put_vars["dbname"];
-        $dbresource->db_table = $put_vars["dbtable"];
-        $dbresource->host = $put_vars["host"];
-        $dbresource->port = $put_vars["port"]; // is this a required parameter ? default port?
-        $dbresource->db_user = $put_vars["user"];
-        $dbresource->db_password = $put_vars["password"];
-        R::store($dbresource);
+        DBQueries::storeDBResource($resource_id, $put_vars["dbtype"], $put_vars["dbname"], $put_vars["dbtable"], $put_vars["host"], $put_vars["port"], $put_vars["user"], $put_vars["password"]);
     }
 
     public function onUpdate($package,$resource,$content){
-
         if(isset($content["update_type"]) && 
            isset($this->updateActions[$content["update_type"]])){
                 $updateAction = $this->updateActions[$content["update_type"]];
