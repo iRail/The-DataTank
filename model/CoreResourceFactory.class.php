@@ -63,7 +63,7 @@ class CoreResourceFactory extends AResourceFactory{
      * @return an array containing all the resourcenames available
      */
     public function getAllResourceNames(){
-	$packages = array("TDTInfo" => array("Resources", "Queries"), "Feedback" => array("Messages"));
+	$packages = array("TDTInfo" => array("Resources", "Queries", "Mapping"), "Feedback" => array("Messages"));
 	return $packages;
     }
     

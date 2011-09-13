@@ -26,6 +26,13 @@ include_once('model/InstalledResourceFactory.class.php');
 include_once('model/RemoteResourceFactory.class.php');
 include_once('model/ResourcesModel.class.php');
 include_once('model/resources/AResource.class.php');
+include_once('model/semantics/RDFMapper.class.php');
+
+define("RDFAPI_INCLUDE_DIR", "model/semantics/rdfapi-php/api/"); 
+include_once(RDFAPI_INCLUDE_DIR . "RdfAPI.php");
+include_once(RDFAPI_INCLUDE_DIR . "util/RdfUtil.php");
+include_once(RDFAPI_INCLUDE_DIR . "vocabulary/VocabularyRes.php");
+include_once(RDFAPI_INCLUDE_DIR . "resModel/ResModelP.php");
 
 // The code for the wrapper_handler is in aspects/logging/ErrorLogger.class.php
 set_error_handler('wrapper_handler');
@@ -44,7 +51,7 @@ $urls = array(
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
     '/(?P<package>[^/]*)/(?P<resource>[^/]*)/?(?P<RESTparameters>[^.]*)\.(?P<format>[^?]*).*' => 'RController',
     
-    // Calling the Create, Update, Delete- controller
+    // Calling the Create, Update, Delete- controller 
     // This is a request on the real-world object
     // examples of matches:
     //  PUT /package/
