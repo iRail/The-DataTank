@@ -116,6 +116,14 @@ class ResourcesModel extends AResourceFactory{
         return $rn;
     }
 
+    public function getAllPackages(){
+        $backendpackages = DBQueries::getAllPackages();
+        $installedpackages = $this->factories["installed"]->getAllPackages();
+        $corepackages =  $this->factories["core"]->getAllPackages();
+        $merge = array_merge($installedpackages,$backendpackages,$corepackages);
+        return $merge;
+    }
+
     public function hasResource($package,$resource){
         foreach($this->factories as $factory){
             if($factory->hasResource($package,$resource)){
