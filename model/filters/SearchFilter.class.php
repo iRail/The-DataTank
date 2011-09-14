@@ -69,7 +69,7 @@ class SearchFilter extends AFilter{
 	if(sizeof($matches) > 0){
 	    return $matches;
 	}else{
-	    throw new FilterTDTException("No matching entries were found.");
+	    return array();
 	}
     }
 }
