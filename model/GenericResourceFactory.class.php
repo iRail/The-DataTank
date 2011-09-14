@@ -103,6 +103,23 @@ class GenericResourceFactory extends AResourceFactory{
             $strategy = $res->getStrategy();
             $strategy->onDelete($package,$resource);
 
+            $deleteForeignRelation = R::exec(
+                        "DELETE FROM foreign_relation 
+                                WHERE main_object_id IN 
+                                (SELECT gen_res.id 
+                                 FROM  resource, package, generic_resource as gen_res
+                                 WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
+                                       and gen_res.resource_id = resource.id) 
+                                 OR 
+                                 foreign_object_id IN 
+                                (SELECT gen_res.id 
+                                 FROM resource, package, generic_resource as gen_res
+                                 WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
+                                       and gen_res.resource_id = resource.id
+                                 )",
+                        array(":package" => $package, ":resource" => $resource)
+            );
+            
             //now the only thing left to delete is the main row
             $deleteGenericResource = R::exec(
                 "DELETE FROM generic_resource
@@ -174,15 +191,6 @@ class GenericResourceFactory extends AResourceFactory{
         $genres->print_methods =  $content["printmethods"];
         $genres->timestamp = time();
         return R::store($genres);
-    }
-
-    /**
-     * If the package/resource exists, then update the resource with the content provided
-     */
-    public function updateResource($package,$resource,$content){
-        $type = $this->getResource($package,$resource);
-        $strategy = $type->getStrategy();
-        $strategy->onUpdate($package,$resource,$content);
     }
 }
 

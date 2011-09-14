@@ -50,7 +50,6 @@ abstract class AResource{
      * @param string $name Name of the parameter
      * @param mixed  $val  Value that will be set to the parameter.
      */
-    abstract public function setParameter($name,$val);
+    abstract public function setParameter($name,$val);   
 }
-
 ?>

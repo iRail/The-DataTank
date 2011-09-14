@@ -6,25 +6,36 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
  */
 
+include_once("model/AResourceFactory.class.php");
 include_once("model/GenericResourceFactory.class.php");
 include_once("model/InstalledResourceFactory.class.php");
 include_once("model/RemoteResourceFactory.class.php");
 include_once("model/CoreResourceFactory.class.php");
-
+include_once("model/resources/actions/ForeignRelation.class.php");
 class ResourcesModel extends AResourceFactory{
 
     private static $uniqueinstance;
 
     private $factories;//array of factories
-
+    private $updateActions;
+    
     private function __construct(){
 	$this->factories = array(); //(ordening does matter here! Put the least expensive on top)
-	$this->factories["generic"] = new GenericResourceFactory();
-        $this->factories["core"] = new CoreResourceFactory();
-	$this->factories["remote"] = new RemoteResourceFactory();
+	$this->factories["generic"]   = new GenericResourceFactory();
+        $this->factories["core"]      = new CoreResourceFactory();
+	$this->factories["remote"]    = new RemoteResourceFactory();
 	$this->factories["installed"] = new InstalledResourceFactory();
+
+        /*
+         * This array maps all the update types to the correct delegation methods
+         * these methods are methods that are part of the resourcemodel, but are not
+         * part of the resource itself. i.e. a foreign relation between two resources
+         */
+        $this->updateActions = array();
+        $this->updateActions["foreign_relation"] = "addForeignRelation";
     }
     
     public static function getInstance(){
@@ -35,7 +46,8 @@ class ResourcesModel extends AResourceFactory{
     }
 
     /**
-     * @return returns a string containing the documentation about the resource. It returns an empty string when the resource could not be found
+     * @return returns a string containing the documentation about the resource. 
+     * It returns an empty string when the resource could not be found
      */
     public function getResourceDoc($package, $resource){
 	foreach($this->factories as $factory){
@@ -100,7 +112,6 @@ class ResourcesModel extends AResourceFactory{
 	return $rn;
     }
 
-
     public function hasResource($package,$resource){
 	foreach($this->factories as $factory){
 	    if($factory->hasResource($package,$resource)){
@@ -131,22 +142,20 @@ class ResourcesModel extends AResourceFactory{
                  * deletes specific resource type
                  */
                 $factory->deleteResource($package,$resource);
+
                 /*
                  * also delete resource entry in resource table
-                 */
-                
+                 */                
                 $result = R::exec(
                     "DELETE FROM resource 
                      WHERE resource.resource_name=:resource and package_id IN
                                       (SELECT id FROM package WHERE package_name=:package)",
                     array(":package" => $package, ":resource" => $resource)
                 );
-                
                 break;
             }
         }    
     }
-    
 
     public function deletePackage($package){
         //delete all resources in every factory
@@ -157,13 +166,14 @@ class ResourcesModel extends AResourceFactory{
 
         $deleteResourceEntries = R::exec(
             "DELETE FROM resource 
-                     WHERE package_id IN
+                    WHERE package_id IN
                                       (SELECT id FROM package WHERE package_name=:package)",
             array(":package" => $package)
         );
 
          $deletePackage = R::exec(
-            "DELETE FROM package WHERE package_name=:package",
+            "DELETE FROM package 
+                    WHERE package_name=:package",
             array(":package" => $package)
         );
     }
@@ -180,7 +190,7 @@ class ResourcesModel extends AResourceFactory{
         }
 
         /*
-         * create fitting resource factory
+         * create fitting resource factory for a given resource type
          */
         $factory = $this->factories[$resource_type];
 
@@ -236,7 +246,7 @@ class ResourcesModel extends AResourceFactory{
             "SELECT resource.id
              FROM resource, package
              WHERE :package_id = package.id and resource_name =:resource and package_id = package.id",
-            array(":package_id" => $package_id, ":resource" => $resource)
+             array(":package_id" => $package_id, ":resource" => $resource)
         );
 
         if(sizeof($checkExistence) == 0){
@@ -272,15 +282,61 @@ class ResourcesModel extends AResourceFactory{
             return $getId[0]["res_id"];
         }
     }
-    
-    public function updateResource($package,$resource,$content){
-        foreach($this->factories as $factory){
-            if($factory->hasResource($package,$resource)){
-                $factory->updateResource($package,$resource,$content);
-                break;
-            }
-        }
+
+    /*
+     * This function gets the foreign relations out of our model 
+     * @returns array( propertyname => RESTful URL ,...)
+     */
+    public function createForeignRelationURLs($package,$resourcename){
+        $urls = array();
+
+        $results = R::getAll(
+            "SELECT package.package_name as package_name, resource.resource_name as resource_name, 
+                    main_object_column_name as main_key, foreign_object_column_name as foreign_key
+             FROM   foreign_relation as for_rel,
+                    package,
+                    resource,
+                    generic_resource
+             WHERE  for_rel.foreign_object_id = generic_resource.id and resource_id = resource.id and
+                    package_id = package.id and for_rel.main_object_id IN
+                                 (
+                                  SELECT generic_resource.id
+                                  FROM   resource,package,generic_resource
+                                  WHERE  package.id = resource. package_id 
+                                         and package_name = :package 
+                                         and resource.resource_name = :resource
+                                         and resource_id = resource.id
+                                 )",
+
+            array(":package" => $package,":resource" => $resourcename)
+
+        );
         
+        foreach($results as $result){
+            $urls[ $result["main_key"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
+                ."/".$result["resource_name"]."/?filterBy=".$result["foreign_key"]."&filterValue=";
+        }
+        return $urls;
+    }
+
+    public function updateResource($package,$resource,$content){
+        /*
+         * Check if the given update type is a supported one
+         * if so execute the proper update method
+         */
+        echo "update resource";
+        
+        if(isset($this->updateActions[$content["update_type"]])){
+            $method = $this->updateActions[$content["update_type"]];
+            $this->$method($package,$resource,$content);
+        }else{
+            throw new ResourceUpdateTDTException($content["update_type"] ." is not a supported update type.");
+        }
+    }
+
+    public function addForeignRelation($package,$resource,$content){
+        $foreignRelation = new ForeignRelation();
+        $foreignRelation->update($package,$resource,$content);
     }
 }
 ?>

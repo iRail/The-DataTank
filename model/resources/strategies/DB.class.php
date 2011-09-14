@@ -8,15 +8,10 @@
  * @author Jan Vansteenlandt
  */
 include_once("model/resources/strategies/ATabularData.class.php");
-include_once("model/resources/actions/DBForeignRelation.class.php");
 
 class DB extends ATabularData{
-    
-    private $updateActions; //array with possible updateActions
 
     public function __construct(){
-        $this->updateActions = array();
-        $this->updateActions["db_foreign_relation"] = new DBForeignRelation();
     }
     
 
@@ -33,9 +28,9 @@ class DB extends ATabularData{
             $param = array(':package' => $package, ':resource' => $resource);
             $results = R::getAll(
                 "SELECT generic_resource.id as gen_res_id,resource.id,db_name,db_table
-                 ,host,port,db_type,db_user,db_password 
-             FROM package,generic_resource_db,generic_resource,resource 
-             WHERE package.package_name=:package and package.id=resource.package_id 
+                   ,host,port,db_type,db_user,db_password 
+                   FROM package,generic_resource_db,generic_resource,resource 
+                   WHERE package.package_name=:package and package.id=resource.package_id 
                    and resource.resource_name=:resource 
                    and resource.id = generic_resource.resource_id 
                    and generic_resource.id = generic_resource_db.gen_resource_id",
@@ -80,18 +75,16 @@ class DB extends ATabularData{
             $resultobject = new stdClass();
             if(strtolower($dbtype) == "mysql"){
                 R::setup("mysql:host=$dbhost;dbname=$dbname",$user,$passwrd);
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "sqlite"){
                 //$dbtable is used as path to the sqlite file. 
                 R::setup("sqlite:$dbtable",$user,$passwrd); //sqlite
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "postgresql"){
                 R::setup("pgsql:host=$dbhost;dbname=$dbname",$user,$passwrd); //postgresql
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }else{
                 // TODO: provide interfacing with other db's too.
                 throw new DatabaseTDTException("The database you're trying to reach is not yet supported.");
             }   
+            $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK,$resource);
             return $resultobject;
         }catch(Exception $ex){
             throw new InternalServerTDTException("Something went wrong while fetching the 
@@ -104,7 +97,7 @@ class DB extends ATabularData{
      * Note: If similar functionality is found in other db-interfacing such as
      * NoSQL, this could be used as a general build-up method.
      */
-    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK){
+    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK,$resource){
         $columns = "*";
         if(sizeof($dbcolumns) > 0 && $dbcolumns[0] != ""){
             $columns = implode(",",$dbcolumns);  
@@ -121,15 +114,9 @@ class DB extends ATabularData{
         // foreach result check if they have an entry in the foreign relation table
         foreach($results as $result){
             $rowobject = new stdClass();
-            // create hash for every key that's a Foreign relation in the result.
-            $foreignrelations = $this->createForeignRelationURLs($id,$host);
-            
+     
             foreach($result as $key => $value){
-                if(array_key_exists($key,$foreignrelations)){
-                    $rowobject->$key = $foreignrelations[$key].$value;
-                }else{ 
-                    $rowobject->$key = $value;
-                }
+                $rowobject->$key = $value;
             }
             /* 
              * if a column is submitted as primary key, then we dont build up our objects
@@ -147,59 +134,22 @@ class DB extends ATabularData{
                 }
             }
         }
-        $resultobject->object=$arrayOfRowObjects;
+        $resultobject->$resource=$arrayOfRowObjects;
         return $resultobject;
     }
 
-    private function createForeignRelationURLs($id,$host){
-        $urls = array();
-        $param = array();
-        $param[":id"] = $id;
-        
-        $results = R::getAll(
-            "SELECT package.package_name as package_name, resource.resource_name as resource_name, 
-             main_object_column_name as keyname
-             FROM foreign_relation as for_rel,
-             package,
-             resource
-             WHERE for_rel.main_object_id =:id and
-                   for_rel.foreign_object_id=resource.id and
-                   package_id = package.id",
-            $param
-        );
-
-        foreach($results as $result){
-            $urls[ $result["keyname"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
-                ."/object/?filterBy=id&filterValue=";
-            
-        }
-        return $urls;
-    }
-
     public function onDelete($package,$resource){
-       
-        
-        $deleteForeignRelation = R::exec(
-                        "DELETE FROM foreign_relation WHERE main_object_id IN 
-                                ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
-                                  generic_resource as gen_res 
-                                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
-                                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id ) OR foreign_object_id IN 
-                                  ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
-                                  generic_resource as gen_res 
-                                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
-                                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id
-                                   )",
-                        array(":package" => $package, ":resource" => $resource)
-        );
 
         $deleteDBResource = R::exec(
             "DELETE FROM generic_resource_db
-                         WHERE gen_resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package,resource WHERE resource.resource_name=:resource
-                                                                                      and package_name=:package
-                                                                                      and generic_resource.resource_id = resource.id
-                                                                                      and package.id=package_id)",
+                    WHERE gen_resource_id IN 
+                    (SELECT generic_resource.id 
+                     FROM generic_resource,package,resource 
+                     WHERE resource.resource_name=:resource
+                           and package_name=:package
+                           and generic_resource.resource_id = resource.id
+                           and package.id=package_id
+                    )",
             array(":package" => $package, ":resource" => $resource) 
         );
     }
@@ -221,17 +171,6 @@ class DB extends ATabularData{
         $dbresource->db_user = $put_vars["user"];
         $dbresource->db_password = $put_vars["password"];
         R::store($dbresource);
-    }
-
-    public function onUpdate($package,$resource,$content){
-
-        if(isset($content["update_type"]) && 
-           isset($this->updateActions[$content["update_type"]])){
-                $updateAction = $this->updateActions[$content["update_type"]];
-                $updateAction->update($package,$resource,$content);
-        }else{
-            throw new ResourceUpdateTDTException ("update type hasn't been specified or isn't applicable for the given package and resource: $package/$resource");
-        }
     }
 }
 ?>
