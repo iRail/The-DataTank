@@ -16,9 +16,6 @@ class Config {
     public static $CACHE_HOST = "localhost";
     public static $CACHE_PORT = 11211;
 
-    //add a trailing slash!
-    public static $INSTALLDIR = "\$PWD";
-
     //the webserver subdirectory, if it's not in a subdir, fill in blank
     public static $SUBDIR = "";
     
