@@ -34,8 +34,7 @@ class RemoteResourceFactory extends AResourceFactory{
         if( $this->currentRemoteResource->package != $package || $this->currentRemoteResource->resource != $resource){
             $this->fetchResource($package,$resource);
         }
-        
-        return $this->currentRemoteResource->data["doc"];
+        return $this->currentRemoteResource->doc;
     }
 
     /**
@@ -45,7 +44,7 @@ class RemoteResourceFactory extends AResourceFactory{
         if( $this->currentRemoteResource->package != $package || $this->currentRemoteResource->resource != $resource){
             $this->fetchResource($package,$resource);
         }
-        return $this->currentRemoteResource->data["parameters"];
+        return $this->currentRemoteResource->parameters;
     }    
 
     /**
@@ -55,14 +54,15 @@ class RemoteResourceFactory extends AResourceFactory{
         if( $this->currentRemoteResource->package != $package || $this->currentRemoteResource->resource != $resource){
             $this->fetchResource($package,$resource);
         }
-        return $this->currentRemoteResource->data["requiredparameters"];
+        return $this->currentRemoteResource->reqparams;
     }
 
     public function getAllowedPrintMethods($package,$resource){
         if( $this->currentRemoteResource->package != $package || $this->currentRemoteResource->resource != $resource){
             $this->fetchResource($package,$resource);
         }
-        return $this->currentRemoteResource->data["formats"];
+
+        return $this->currentRemoteResource->formats;
     }
     
 
@@ -106,8 +106,6 @@ class RemoteResourceFactory extends AResourceFactory{
         $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
         $options = array("cache-time" => 1); //cache for 1 hour
         $request = TDT::HttpRequest($url, $options);
-        echo $url;
-        
         if(isset($request->error)){
             throw new HttpOutTDTException($url);
         }
@@ -115,9 +113,11 @@ class RemoteResourceFactory extends AResourceFactory{
         $this->currentRemoteResource = new stdClass();
         $this->currentRemoteResource->package = $package;
         $this->currentRemoteResource->remote_package = $result["package"];
+        $this->currentRemoteResource->doc = $data["doc"];
         $this->currentRemoteResource->resource = $resource;
+        $this->currentRemoteResource->formats = $data["formats"];
         $this->currentRemoteResource->base_url = $result["url"];
-        $this->currentRemoteResource->parameter_keys = $data["parameters"];
+        $this->currentRemoteResource->parameters = $data["parameters"];
         $this->currentRemoteResource->reqparams = $data["requiredparameters"];
     }
     
@@ -132,8 +132,14 @@ class RemoteResourceFactory extends AResourceFactory{
     }
 
     public function addResource($package,$resource, $content){
-        //insert a row with the right URI to the package/resource
-        $model = ResourcesModel::getInstance();
+        //0. Do we have the resource already? If so, throw error
+        
+        //1. First check if it really exists on the remote server
+        //TODO
+
+        //2. Check if the resource on the server contains an "orginal" resource URI and take that URI instead if exist
+
+        //3. 
         $package_id = parent::makePackageId($package);
         $resource_id = parent::makeResourceId($resource, $package_id, "remote");
         $base_url = $content["base_url"];
