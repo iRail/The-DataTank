@@ -8,7 +8,6 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-
 class Mapping extends AResource {
 
     // must be set! Contains the value of the module that needs to be analysed.
@@ -45,7 +44,7 @@ class Mapping extends AResource {
     }
 
     public static function getAllowedPrintMethods() {
-        return array("html", "rdf");
+        return array("html", "rdf_xml", "rdf_ntriple", "rdf_n3", "rdf_json");
     }
 
     private function getData() {
@@ -53,8 +52,8 @@ class Mapping extends AResource {
         //Build a mapping file for package
         $this->mapping = $rdfmapper->suggestMapping($this->package);
     }
-    
-    public static function getDoc(){
+
+    public static function getDoc() {
         return "Lists a RDF Mapping";
     }
 

@@ -4,9 +4,9 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@base <http://www.thedatatank.org/tdml/1.0> .
+@base <http://thedatatank.com/tdml/1.0> .
 
-<http://www.thedatatank.org/tdml/1.0> rdf:type owl:Ontology .
+<http://thedatatank.com/tdml/1.0> rdf:type owl:Ontology .
 
 
 #################################################################

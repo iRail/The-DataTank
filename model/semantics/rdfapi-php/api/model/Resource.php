@@ -31,9 +31,7 @@ class Resource extends Node {
      * @access	private
      */
     var $uri;
-    //added fix by Miel Vander Sande
-    var $rdfutil;
-
+    
     /**
      * Constructor
      * Takes an URI or a namespace/localname combination
@@ -49,7 +47,6 @@ class Resource extends Node {
             $this->uri = $namespace_or_uri . $localName;
         }
         
-        $this->rdfutil = new RDFUtil();
     }
 
     /**
@@ -78,8 +75,9 @@ class Resource extends Node {
     function getNamespace() {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
-
-        return $this->rdfutil->guessNamespace($this->uri);
+        //added fix by Miel Vander Sande
+        $rdfutil = new RDFUtil();
+        return $rdfutil->guessNamespace($this->uri);
     }
 
     /**
@@ -90,8 +88,9 @@ class Resource extends Node {
     function getLocalName() {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
-
-        return $this->rdfutil->guessName($this->uri);
+        //added fix by Miel Vander Sande
+        $rdfutil = new RDFUtil();
+        return $rdfutil->guessName($this->uri);
     }
 
     /**

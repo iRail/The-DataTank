@@ -1,10 +1,10 @@
-8
+10
 
 dir
 556
 https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2
 https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
-
+delete
 
 
 2007-09-20T07:35:41.061956Z
@@ -26,89 +26,153 @@ svn:special svn:externals svn:needs-lock
 
 b2ee660e-c932-0410-bdee-d8da4d8102f4
 
-basic
-dir
+LICENSE
+file
+
+
+
+delete
+2008-02-29T14:57:25.387487Z
+306f4f74832408db0935c6eec0f6fe1b
+2007-09-20T07:35:41.061956Z
+540
+cweiske
 
-distinct
-dir
+README
+file
+
+
+
+delete
+2008-02-29T14:57:25.403107Z
+1788396506bfbb9165b4a1b9c919288c
+2007-09-20T07:35:41.061956Z
+540
+cweiske
 
-construct
+algebra
 dir
-
-optional
-dir
-
-dataset
-dir
-
-open-world
-dir
-
-triple-match
-dir
+
+
+
+delete
 
 algebra-expressions.txt
 file
 
 
 
-
+delete
 2008-02-29T14:57:25.371866Z
 d1f2ba15d0a29cb9acfa2127893a260a
 2007-09-20T07:35:41.061956Z
 540
 cweiske
 
-manifest-syntax.ttl
-file
-
-
-
-
-2008-02-29T14:57:25.387487Z
-5b34ebc439a2767942afdc9020e3cbb4
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-graph
-dir
-
-optional-filter
-dir
-
-regex
-dir
-
-manifest-evaluation.ttl
-file
-
-
-
-
-2008-02-29T14:57:25.387487Z
-7bb4bb26478697065018b6b7981ccf32
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
 ask
 dir
+
+
+
+delete
 
-i18n
+basic
 dir
+
+
+
+delete
+
+bnode-coreference
+dir
+
+
+
+delete
+
+boolean-effective-value
+dir
+
+
+
+delete
+
+bound
+dir
+
+
+
+delete
+
+cast
+dir
+
+
+
+delete
+
+construct
+dir
+
+
+
+delete
+
+dataset
+dir
+
+
+
+delete
+
+distinct
+dir
+
+
+
+delete
 
 expr-builtin
 dir
+
+
+
+delete
 
-LICENSE
+expr-equals
+dir
+
+
+
+delete
+
+expr-ops
+dir
+
+
+
+delete
+
+extended-manifest-evaluation.ttl
 file
 
 
 
+delete
+2008-02-29T14:57:25.418728Z
+d17513f60581ef3ceee5cb5ca5e55747
+2007-09-20T07:35:41.061956Z
+540
+cweiske
+
+files-to-fix
+file
 
-2008-02-29T14:57:25.387487Z
-306f4f74832408db0935c6eec0f6fe1b
+
+
+delete
+2008-02-29T14:57:25.403107Z
+958363aa072419754f8c2e7bc365ffd1
 2007-09-20T07:35:41.061956Z
 540
 cweiske
@@ -118,94 +182,146 @@ file
 
 
 
-
+delete
 2008-02-29T14:57:25.403107Z
 5c44c9e90b9f5f0a3bf61d5d7e2381cd
 2007-09-20T07:35:41.061956Z
 540
 cweiske
 
-syntax
+graph
 dir
+
+
+
+delete
 
-boolean-effective-value
+i18n
 dir
+
+
+
+delete
 
-sort
-dir
-
-cast
-dir
-
-algebra
-dir
-
-README
+manifest-evaluation.ttl
 file
 
 
 
-
-2008-02-29T14:57:25.403107Z
-1788396506bfbb9165b4a1b9c919288c
+delete
+2008-02-29T14:57:25.387487Z
+7bb4bb26478697065018b6b7981ccf32
 2007-09-20T07:35:41.061956Z
 540
 cweiske
+
+manifest-syntax.ttl
+file
+
+
+
+delete
+2008-02-29T14:57:25.387487Z
+5b34ebc439a2767942afdc9020e3cbb4
+2007-09-20T07:35:41.061956Z
+540
+cweiske
+
+open-world
+dir
+
+
+
+delete
+
+optional
+dir
+
+
+
+delete
+
+optional-filter
+dir
+
+
+
+delete
+
+regex
+dir
+
+
+
+delete
 
 slice
 dir
+
+
+
+delete
 
 solution-seq
 dir
-
-type-promotion
-dir
-
-bnode-coreference
-dir
-
-expr-equals
-dir
-
-files-to-fix
-file
 
 
 
-
-2008-02-29T14:57:25.403107Z
-958363aa072419754f8c2e7bc365ffd1
-2007-09-20T07:35:41.061956Z
-540
-cweiske
+delete
 
-bound
+sort
 dir
+
+
+
+delete
+
+syntax
+dir
+
+
+
+delete
 
 syntax-sparql1
 dir
+
+
+
+delete
 
 syntax-sparql2
 dir
+
+
+
+delete
 
 syntax-sparql3
 dir
+
+
+
+delete
 
 syntax-sparql4
 dir
+
+
+
+delete
 
-extended-manifest-evaluation.ttl
-file
-
-
-
-
-2008-02-29T14:57:25.418728Z
-d17513f60581ef3ceee5cb5ca5e55747
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-expr-ops
+triple-match
 dir
+
+
+
+delete
+
+type-promotion
+dir
+
+
+
+delete
 

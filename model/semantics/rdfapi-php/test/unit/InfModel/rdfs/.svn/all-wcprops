@@ -9,17 +9,71 @@ svn:wc:ra_dav:version-url
 V 85
 /svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/result7.rdf
 END
+tbox1.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/tbox1.rdf
+END
 result8.rdf
 K 25
 svn:wc:ra_dav:version-url
 V 85
 /svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/result8.rdf
 END
+manifest-standard.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/manifest-standard.rdf
+END
 result9.rdf
 K 25
 svn:wc:ra_dav:version-url
 V 85
 /svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/result9.rdf
+END
+query9.nt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query9.nt
+END
+query8.nt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query8.nt
+END
+query7.nt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query7.nt
+END
+query5.nt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query5.nt
+END
+query4.nt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query4.nt
+END
+query3.nt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query3.nt
+END
+query2.nt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query2.nt
 END
 data1.rdf
 K 25
@@ -33,41 +87,17 @@ svn:wc:ra_dav:version-url
 V 83
 /svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/data2.rdf
 END
-tbox1.rdf
+query-res.nt
 K 25
 svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/tbox1.rdf
-END
-query2.nt
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query2.nt
-END
-query3.nt
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query3.nt
-END
-query4.nt
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query4.nt
+V 86
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query-res.nt
 END
 result1.rdf
 K 25
 svn:wc:ra_dav:version-url
 V 85
 /svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/result1.rdf
-END
-query5.nt
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query5.nt
 END
 result2.rdf
 K 25
@@ -81,39 +111,9 @@ svn:wc:ra_dav:version-url
 V 85
 /svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/result3.rdf
 END
-query-res.nt
-K 25
-svn:wc:ra_dav:version-url
-V 86
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query-res.nt
-END
-query7.nt
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query7.nt
-END
 result4.rdf
 K 25
 svn:wc:ra_dav:version-url
 V 85
 /svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/result4.rdf
-END
-query8.nt
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query8.nt
-END
-query9.nt
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/query9.nt
-END
-manifest-standard.rdf
-K 25
-svn:wc:ra_dav:version-url
-V 95
-/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/rdfs/manifest-standard.rdf
 END

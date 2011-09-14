@@ -1,10 +1,10 @@
-8
+10
 
 dir
 556
 https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/slice
 https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
-
+delete
 
 
 2007-09-20T07:35:41.061956Z

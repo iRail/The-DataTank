@@ -29,78 +29,70 @@ class RDFMapper {
         //limit the rources to the required package
         $allresources = $allresources[$this->package];
 
-        $model = $this->createModel();
+        $rdfmodel = $this->createRdfModel();
 
         $foafModel = new FOAF_RES();
 
-        $tdtmlURI = "http://thedatatank.org/tdtml/1.0#";
+        $tdtmlURI = "http://thedatatank.com/tdtml/1.0#";
         $mapURI = Config::$HOSTNAME . Config::$SUBDIR;
 
-        $model->setBaseURI($mapURI);
+        $rdfmodel->setBaseURI($mapURI);
 
-        $model->addNamespace("tdtml", $tdtmlURI);
-        $model->addNamespace("map", $mapURI);
-        $model->addNamespace("foaf", FOAF_NS);
-
-
+        $rdfmodel->addNamespace("tdtml", $tdtmlURI);
+        $rdfmodel->addNamespace("foaf", FOAF_NS);
 
         // Using the Resource-Centric method        
         // Create the resources
-        $package_res = $model->createResource($this->package);
+        $package_res = $rdfmodel->createResource($this->package);
 
-        $tdtpackage_res = $model->createResource($tdtmlURI . "TDTPackage");
-        $tdtresource_res = $model->createResource($tdtmlURI . "TDTResource");
-        $tdtproperty_res = $model->createResource($tdtmlURI . "TDTProperty");
+        $tdtpackage_res = $rdfmodel->createResource($tdtmlURI . "TDTPackage");
+        $tdtresource_res = $rdfmodel->createResource($tdtmlURI . "TDTResource");
+        $tdtproperty_res = $rdfmodel->createResource($tdtmlURI . "TDTProperty");
 
         //creating TDTML property resources
-        $is_a_prop = $model->createProperty($tdtmlURI . "is_a");
-        $name_prop = $model->createProperty($tdtmlURI . "name");
-        $has_resources_prop = $model->createProperty($tdtmlURI . "has_resources");
-        $maps_prop = $model->createProperty($tdtmlURI . "maps");
+        $is_a_prop = $rdfmodel->createProperty($tdtmlURI . "is_a");
+        $name_prop = $rdfmodel->createProperty($tdtmlURI . "name");
+        $has_resources_prop = $rdfmodel->createProperty($tdtmlURI . "has_resources");
+        $maps_prop = $rdfmodel->createProperty($tdtmlURI . "maps");
 
         //Creating literal
-        $package_name_lit = $model->createTypedLiteral($this->package, "datatype:STRING");
+        $package_name_lit = $rdfmodel->createTypedLiteral($this->package, "datatype:STRING");
 
         // Add the properties
         $package_res->addProperty($is_a_prop, $tdtpackage_res);
         $package_res->addProperty($name_prop, $package_name_lit);
 
 
-        $resources_bag = $model->createBag();
+        $resources_bag = $rdfmodel->createBag();
         $package_res->addProperty($has_resources_prop, $resources_bag);
         /* Using the Statement-Centric method -- less useful for this project
           $packageResource = new Resource($mapURI, $this->package);
-          $model->add(new Statement($packageResource, new Resource($tdtmlURI, "is_a"), new Resource($tdtmlURI, "Package")));
-          $model->add(new Statement($packageResource, new Resource($tdtmlURI, "package_name"), new Literal($this->package, "en", "STRING")));
+          $rdfmodel->add(new Statement($packageResource, new Resource($tdtmlURI, "is_a"), new Resource($tdtmlURI, "Package")));
+          $rdfmodel->add(new Statement($packageResource, new Resource($tdtmlURI, "package_name"), new Literal($this->package, "en", "STRING")));
          */
 
-
-
         foreach ($allresources as $resource) {
-            $resource_res = $model->createResource($resource);
+            $resource_res = $rdfmodel->createResource($resource);
             $resources_bag->add($resource_res);
 
-            $resource_name_lit = $model->createTypedLiteral($resource, "datatype:STRING");
+            $resource_name_lit = $rdfmodel->createTypedLiteral($resource, "datatype:STRING");
             $resource_res->addProperty($name_prop, $resource_name_lit);
             $resource_res->addProperty($is_a_prop, $tdtresource_res);
             $resource_res->addProperty($maps_prop, OWL_RES::OWL_CLASS());
+            
+            //echo $model->
 
             /* $resourceResource = new Resource($mapURI, $this->package . "/" . $resource);
-              $model->add(new Statement($packageResource, new Resource($tdtmlURI, "has_resource"), $resourceResource));
-              $model->add(new Statement($resourceResource, new Resource($tdtmlURI, "is_a"), new Resource($tdtmlURI, "Resource")));
-              $model->add(new Statement($resourceResource, new Resource($tdtmlURI, "maps"), FOAF::PERSON()));
+              $rdfmodel->add(new Statement($packageResource, new Resource($tdtmlURI, "has_resource"), $resourceResource));
+              $rdfmodel->add(new Statement($resourceResource, new Resource($tdtmlURI, "is_a"), new Resource($tdtmlURI, "Resource")));
+              $rdfmodel->add(new Statement($resourceResource, new Resource($tdtmlURI, "maps"), FOAF::PERSON()));
              */
         }
 
-
-        $mapping = $model->writeRdfToString();
-
-        $model->getModel()->close();
-
-        return $mapping;
+        return $rdfmodel;
     }
 
-    private function createModel() {
+    private function createRdfModel() {
         //Future: dbmodel: automatic storing of rdl model in DB. Find out compatibility with required RDBMS systems first.
         /*
           $db_values = explode(";", Config::$DB);

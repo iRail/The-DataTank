@@ -1,10 +1,10 @@
-8
+10
 
 dir
 557
 https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/rap-pubby/templ
 https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
-
+delete
 
 
 2008-02-29T15:03:46.371483Z
@@ -14,14 +14,14 @@ cax
 
 svn:special svn:externals svn:needs-lock
 
-script.js
+404_notFound.html
 file
 
 
 
-
-2007-12-12T10:43:16.000000Z
-69f7211056f0874ce924c038342d18c4
+delete
+2007-12-17T00:02:58.000000Z
+e0a875c9cc2970af591d386058bca62b
 2008-02-29T15:03:46.371483Z
 557
 cax
@@ -31,7 +31,7 @@ file
 
 
 
-
+delete
 2007-12-12T10:43:16.000000Z
 93693591e90e8a3fb93b4597514aa1cb
 2008-02-29T15:03:46.371483Z
@@ -39,14 +39,14 @@ file
 cax
 has-props
 
-404_notFound.html
+script.js
 file
 
 
 
-
-2007-12-17T00:02:58.000000Z
-e0a875c9cc2970af591d386058bca62b
+delete
+2007-12-12T10:43:16.000000Z
+69f7211056f0874ce924c038342d18c4
 2008-02-29T15:03:46.371483Z
 557
 cax
@@ -56,7 +56,7 @@ file
 
 
 
-
+delete
 2007-12-19T10:49:17.031250Z
 28cb2c4f57cf377205b3fe135bacc051
 2008-02-29T15:03:46.371483Z
@@ -68,7 +68,7 @@ file
 
 
 
-
+delete
 2007-12-19T16:03:39.406250Z
 9d7e8f024986af34395fe38e4493e0af
 2008-02-29T15:03:46.371483Z

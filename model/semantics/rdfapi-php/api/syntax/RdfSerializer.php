@@ -42,7 +42,6 @@ class RdfSerializer extends Object {
     var $m_attributeStatements = array();
     var $m_contentStatements = array();
     var $rdf_qname_prefix;
-    
     //added fix by Miel Vander Sande
     var $rdfutil;
 
@@ -59,10 +58,10 @@ class RdfSerializer extends Object {
         $this->sort_model = SER_SORT_MODEL;
         $this->rdf_qnames = SER_RDF_QNAMES;
         $this->use_xml_declaration = SER_XML_DECLARATION;
-        
+
         //Fix by Miel Vander Sande
         $this->rdfutil = new RDFUtil();
-                
+
 
         global $default_prefixes;
         foreach ($default_prefixes as $key => $value) {
