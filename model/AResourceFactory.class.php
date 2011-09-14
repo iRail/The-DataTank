@@ -51,28 +51,8 @@ abstract class AResourceFactory{
             $newResource->last_update_timestamp = time();
             $newResource->type = $resource_type;
             return R::store($newResource);
-        }else{
-            throw new ResourceAdditionTDTException("package already exists");
         }
-    }
-
-    /**
-     * This gets a resource ID from DB for a certain resource/package pair.
-     * @param resource Name of the resource
-     * @param package_id ID of the package (you can resolve this with getPackageId($packagename))
-     * @return id of the requested resource
-     */
-    public function getResourceId($package_id,$resource){
-        $getId = R::getAll(
-            "SELECT resource.id as res_id
-             FROM   resource,package
-             WHERE  resource_name =:resource and package.id = :package_id",
-            array(":resource" => $resource, ":package_id" => $package_id)
-        );
-        if(sizeof($getId) == 0){
-            throw new ResourceAdditionTDTException("Resource hasn't been created yet: $resource");
-        }
-        return $getId[0]["res_id"];
+        return $checkExistence[0]["id"];
     }
 
     /**
@@ -101,24 +81,6 @@ abstract class AResourceFactory{
     }
 
 
-    /**
-     * Searches an Id for a package and returns it. If it doesn't exist an exception is thrown
-     * @param name of a package
-     * @return id of a package
-     */
-    public function getPackageId($package){
-        $result = R::getAll(
-            "SELECT package.id as id 
-             FROM package 
-             WHERE package_name=:package_name",
-            array(":package_name"=>$package)
-
-        );
-        if(sizeof($result) == 0){
-            throw new ResourceAdditionTDTException("Package hasn't been created yet: $package");
-        }
-        return $result[0]["id"];
-    }
 
     /*********************************************ABSTRACT***GETTERS*****************************************************************/
 

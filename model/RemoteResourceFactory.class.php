@@ -106,6 +106,11 @@ class RemoteResourceFactory extends AResourceFactory{
         $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
         $options = array("cache-time" => 1); //cache for 1 hour
         $request = TDT::HttpRequest($url, $options);
+        echo $url;
+        
+        if(isset($request->error)){
+            throw new HttpOutTDTException($url);
+        }
         $data = unserialize($request->data);
         $this->currentRemoteResource = new stdClass();
         $this->currentRemoteResource->package = $package;
@@ -129,8 +134,9 @@ class RemoteResourceFactory extends AResourceFactory{
     public function addResource($package,$resource, $content){
         //insert a row with the right URI to the package/resource
         $model = ResourcesModel::getInstance();
-        $resource_id = parent::getResourceId($package, $resource);
-        $base_url = $content["url"];
+        $package_id = parent::makePackageId($package);
+        $resource_id = parent::makeResourceId($resource, $package_id, "remote");
+        $base_url = $content["base_url"];
         // make sure te base_url ends with a /
         if(substr(strrev($base_url),0,1) != "/"){
             $base_url .= "/";
