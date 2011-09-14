@@ -12,7 +12,7 @@ include_once("formatters/AFormatter.class.php");
 /**
  * This class inherits from the abstract Formatter. It will return our object in a php datastrucutre.
  */
-class Php extends Formatter{
+class Php extends AFormatter{
      
      public function __construct($rootname,$objectToPrint){
 	  parent::__construct($rootname,$objectToPrint);
