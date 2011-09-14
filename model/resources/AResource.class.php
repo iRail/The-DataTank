@@ -17,7 +17,7 @@ include_once("properties/Time.class.php");
  */
 abstract class AResource{
 
-    public static $BASICPARAMS = array("callback", "format","filterBy","filterValue","filterOp");
+    public static $BASICPARAMS = array("callback", "filterBy","filterValue","filterOp");
 
     /**
      * This function need to be called to set all parameters correctly
@@ -50,7 +50,6 @@ abstract class AResource{
      * @param string $name Name of the parameter
      * @param mixed  $val  Value that will be set to the parameter.
      */
-    abstract public function setParameter($name,$val);
+    abstract public function setParameter($name,$val);   
 }
-
 ?>

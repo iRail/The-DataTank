@@ -14,19 +14,8 @@ include_once("model/resources/GenericResource.class.php");
 class GenericResourceFactory extends AResourceFactory{
 
     public function getResourceDoc($package, $resource){
-	$param = array(':package' => $package, ':resource' => $resource);
-	$result = R::getAll(
-	    "select generic_resource.documentation as doc from package,generic_resource 
-             where package.package_name=:package and generic_resource.resource_name =:resource
-             and package.id=generic_resource.package_id",
-	    $param
-	);
-	
-	$doc = "";
-	if(isset($result[0]["doc"])){
-	    $doc = $result[0]["doc"];
-	}
-	return $doc;
+        $result = DBQueries::getGenericResourceDoc($package, $resource);
+        return isset($result["doc"])?$result["doc"]:"";
     }
     
     public function getResourceParameters($package, $resource){
@@ -40,52 +29,30 @@ class GenericResourceFactory extends AResourceFactory{
     }
     
     public function getAllowedPrintMethods($package,$resource){
-	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$param = array(':package' => $package, ':resource' => $resource);
-	$results = R::getAll(
-	    "select generic_resource.print_methods as print_methods from package,generic_resource 
-             where package.package_name=:package and generic_resource.resource_name =:resource 
-             and package.id=generic_resource.package_id",
-	    $param
-	);
-	$print_methods = explode(";", $results[0]["print_methods"]);
-
-	return $print_methods;
+        $result = DBQueries::getGenericResourcePrintMethods($package, $resource);
+        return isset($result["print_methods"])?explode(";", $result["print_methods"]):array();
     }    
 
     public function getAllResourceNames(){
-
-
-	$results = R::getAll(
-            "select generic_resource.resource_name as resource, package.package_name as package
-             from package,generic_resource where generic_resource.package_id=package.id"
-	);
-	$resources = array();
-	
-	foreach($results as $result){
-	    if(!array_key_exists($result["package"],$resources)){
-		$resources[$result["package"]] = array();
-	    }
-	    array_push($resources[$result["package"]],$result["resource"]);
-	}
-	return $resources;
+        $results = DBQueries::getAllGenericResourceNames();
+        $resources = array();
+        
+        foreach($results as $result){
+            if(!array_key_exists($result["package_name"],$resources)){
+        	    $resources[$result["package_name"]] = array();
+            }
+            array_push($resources[$result["package_name"]],$result["res_name"]);
+        }
+        return $resources;
     }
 
     public function hasResource($package,$resource){
-	$param = array(':package' => $package, ':resource' => $resource);
-        
-	$resource = R::getAll(
-	    "select count(1) as present from package,generic_resource 
-             where package.package_name=:package and generic_resource.resource_name=:resource
-             and generic_resource.package_id=package.id",
-	    $param
-	);   
-        
-	return isset($resource[0]["present"]) && $resource[0]["present"] == 1;   
+        $resource = DBQueries::hasGenericResource($package, $resource);
+        return isset($resource["present"]) && $resource["present"] == 1;   
     }
     
     public function getResource($package,$resource){
-	return new GenericResource($package,$resource);	
+        return new GenericResource($package,$resource);	
     }
 
     /*************************************SETTERS*****************************************************/
@@ -93,21 +60,17 @@ class GenericResourceFactory extends AResourceFactory{
     public function deleteResource($package,$resource){
         //first we need to check what kind of strategy we are dealing with and delete it according to the strategy
        
-        
         if($this->hasResource($package, $resource)){
             $res = $this->getResource($package,$resource);
             $strategy = $res->getStrategy();
             $strategy->onDelete($package,$resource);
-
+            // delete any foreign relation of which either the main or foreign id
+            // relates to
+            DBQueries::deleteForeignRelation($package,$resource);
+            
             //now the only thing left to delete is the main row
-            $deleteGenericResource = R::exec(
-                "DELETE FROM generic_resource 
-                          WHERE resource_name=:resource and package_id IN 
-                            (SELECT id FROM package WHERE package_name=:package)",
-                array(":package" => $package, ":resource" => $resource)
-            );
+            DBQueries::deleteGenericResource($package, $resource);
         }
-        
     }
  
     /**
@@ -143,7 +106,8 @@ class GenericResourceFactory extends AResourceFactory{
             throw new ResourceAdditionTDTException("Generic type does not exist");
         }
         $model = ResourcesModel::getInstance();
-        $package_id = $model->makePackageId($package);
+        $package_id = parent::makePackageId($package);
+
         //So when the resource doesn't exist yet, when the generic type is set and when the strategy exists, do
         $resource_id = $this->makeGenericResourceId($package_id,$resource,$content);
 
@@ -155,23 +119,9 @@ class GenericResourceFactory extends AResourceFactory{
 
     private function makeGenericResourceId($package_id,$resource,$content){
         //will return the id of the new generic resource
-        $genres = R::dispense("generic_resource");
-        $genres->package_id = $package_id;
-        $genres->resource_name = $resource;
-        $genres->type = $content["generic_type"];
-        $genres->documentation = $content["documentation"];
-        $genres->print_methods =  $content["printmethods"];
-        $genres->timestamp = time();
-        return R::store($genres);
-    }
-
-    /**
-     * If the package/resource exists, then update the resource with the content provided
-     */
-    public function updateResource($package,$resource,$content){
-        $type = $this->getResource($package,$resource);
-        $strategy = $type->getStrategy();
-        $strategy->onUpdate($package,$resource,$content);
+        $model = ResourcesModel::getInstance();
+        $resource_id = parent::getResourceId($package_id,$resource);
+        return DBQueries::storeGenericResource($resource_id, $content["generic_type"], $content["documentation"], $content["printmethods"]);
     }
 }
 

@@ -14,11 +14,11 @@ class CoreResourceFactory extends AResourceFactory{
      * This function loads a resource if not yet included. On fail throw an error.
      */
     private function includeResource($package,$resource){
-	if($this->hasResource($package,$resource)){
-	    include_once("model/packages/$package/$resource.class.php");
-	}else{
-	    throw new ResourceOrPackageNotFoundTDTException($package,$resource);
-	}
+        if($this->hasResource($package,$resource)){
+            include_once("model/packages/$package/$resource.class.php");
+        }else{
+            throw new ResourceOrPackageNotFoundTDTException($package,$resource);
+        }
     }
     
 	
@@ -26,31 +26,31 @@ class CoreResourceFactory extends AResourceFactory{
      * @return returns a string containing the documentation about the resource. It returns an empty string when the resource could not be found
      */
     public function getResourceDoc($package, $resource){
-	$this->includeResource($package,$resource);	
-	return $resource::getDoc();
+        $this->includeResource($package,$resource);	
+        return $resource::getDoc();
     }
 
     /**
      * @return returns an associative array with the documentation for each parameter for a specific resource 
      */
     public function getResourceParameters($package, $resource){
-	$this->includeResource($package,$resource);
-	return $resource::getParameters();	
+        $this->includeResource($package,$resource);
+        return $resource::getParameters();	
     }
 
     /**
      * @return returns an array with all required parameters
      */
     public function getResourceRequiredParameters($package,$resource){
-	$this->includeResource($package,$resource);
-	return $resource::getRequiredParameters();
+        $this->includeResource($package,$resource);
+        return $resource::getRequiredParameters();
     }
 
     /**
      * @return a boolean if resource exists
      */
     public function hasResource($package,$resource){
-	return file_exists("model/packages/" . $package . "/" . $resource . ".class.php");
+        return file_exists("model/packages/" . $package . "/" . $resource . ".class.php");
     }
  
     public function getAllowedPrintMethods($package,$resource){
@@ -91,13 +91,6 @@ class CoreResourceFactory extends AResourceFactory{
      */
     public function addResource($package,$resource, $content){
         //cannot be called upon, throw exception
-    }
-     
-    /**
-     * If the package/resource exists, then update the resource with the content provided
-     */
-    public function updateResource($package,$resource,$content){
-        //cannnot be called, throw exception
     }
 
 }

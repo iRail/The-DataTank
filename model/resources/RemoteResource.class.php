@@ -21,8 +21,8 @@ class RemoteResource extends AResource {
         // we don't need to pass along the requiredparameters
         // because we'll pass them along the url, just as they were entered
         // in the given url.
-	$this->package = $remotepackage;
-	$this->resource = $remoteresource;
+        $this->package = $remotepackage;
+        $this->resource = $remoteresource;
         $this->optionalparams = array();
         $this->base_url = $base_url;
         $this->requiredparams = $reqparams;
@@ -36,8 +36,7 @@ class RemoteResource extends AResource {
 	foreach($this->optionalparams as $key => $val){
 	    $params .= $key . "=" . urlencode($val) . "&";
 	}
-	//We need php output to unserialize it afterwards
-	$params .= "format=php";
+	$params = rtrim($params, "&");
 
 	//the url consists of the baseurl (this has a trailing slash and contains the subdir) - the resource is a specifier in the baseurl
 	//params is a url containing the possible 
@@ -45,11 +44,15 @@ class RemoteResource extends AResource {
         foreach($this->requiredparametervalues as $param){
             $url = $url . $param."/";
         }
+        $url= rtrum($url, "/");
+        //add format: php because we're going to deserialize this
+        $url .= ".php";
         
         $url = $url . $params;
 
 	//Request the remote server and check for errors. If no error, unserialize the data
-	$request = TDT::HttpRequest($url);	  
+	$options = array("cache-time" => 0, "headers" => array("User-Agent" => $_SERVER['HTTP_USER_AGENT']));
+	$request = TDT::HttpRequest($url, $options);
 	if(isset($request->error)){
 	    throw new RemoteServerTDTException($request->data);
 	}

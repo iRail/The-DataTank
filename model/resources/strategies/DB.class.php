@@ -8,15 +8,10 @@
  * @author Jan Vansteenlandt
  */
 include_once("model/resources/strategies/ATabularData.class.php");
-include_once("model/resources/actions/DBForeignRelation.class.php");
-
+include_once("model/DBQueries.class.php");
 class DB extends ATabularData{
-    
-    private $updateActions; //array with possible updateActions
 
     public function __construct(){
-        $this->updateActions = array();
-        $this->updateActions["db_foreign_relation"] = new DBForeignRelation();
     }
     
 
@@ -27,35 +22,20 @@ class DB extends ATabularData{
          * per separate database. Perhaps this could also be implemented in a strategypattern.....
          */
         try{
-            
-            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-            $param = array(':package' => $package, ':resource' => $resource);
-            $results = R::getAll(
-                "select generic_resource.id as gen_res_id,generic_resource_db.id,db_name,db_table
-                 ,host,port,db_type,db_user,db_password 
-             from package,generic_resource_db,generic_resource 
-             where package.package_name=:package and package.id=generic_resource.package_id 
-             and generic_resource.resource_name=:resource 
-             and generic_resource_db.resource_id=generic_resource.id",
-                $param
-            );
-            $dbtype = $results[0]["db_type"];
-            $dbname = $results[0]["db_name"];
-            $dbtable = $results[0]["db_table"];
-            $dbport = $results[0]["port"];
-            $dbhost = $results[0]["host"];
-            $user = $results[0]["db_user"];
-            $passwrd = $results[0]["db_password"];
-            $id = $results[0]["id"];
-            $gen_res_id = $results[0]["gen_res_id"];
-            
+            $results = DBQueries::getDBResource($package, $resource);
+
+            $dbtype = $results["db_type"];
+            $dbname = $results["db_name"];
+            $dbtable = $results["db_table"];
+            $dbport = $results["port"];
+            $dbhost = $results["host"];
+            $user = $results["db_user"];
+            $passwrd = $results["db_password"];
+            $id = $results["id"];
+            $gen_res_id = $results["gen_res_id"];
+
             // get the columns from the columns table
-            $allowed_columns = R::getAll(
-                "SELECT column_name, is_primary_key
-                 from published_columns
-                 WHERE generic_resource_id=:id",
-                array(":id" => $gen_res_id)
-            );
+            $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
             
             $dbcolumns = array();
             $PK = "";
@@ -77,18 +57,16 @@ class DB extends ATabularData{
             $resultobject = new stdClass();
             if(strtolower($dbtype) == "mysql"){
                 R::setup("mysql:host=$dbhost;dbname=$dbname",$user,$passwrd);
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "sqlite"){
                 //$dbtable is used as path to the sqlite file. 
                 R::setup("sqlite:$dbtable",$user,$passwrd); //sqlite
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "postgresql"){
                 R::setup("pgsql:host=$dbhost;dbname=$dbname",$user,$passwrd); //postgresql
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }else{
                 // TODO: provide interfacing with other db's too.
                 throw new DatabaseTDTException("The database you're trying to reach is not yet supported.");
             }   
+            $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK,$resource);
             return $resultobject;
         }catch(Exception $ex){
             throw new InternalServerTDTException("Something went wrong while fetching the 
@@ -97,11 +75,11 @@ class DB extends ATabularData{
     }
 
     /**
-     * Creates result from a resultset returned by a RedBean php query
+     * Creates result FROM a resultset returned by a RedBean php query
      * Note: If similar functionality is found in other db-interfacing such as
      * NoSQL, this could be used as a general build-up method.
      */
-    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK){
+    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK,$resource){
         $columns = "*";
         if(sizeof($dbcolumns) > 0 && $dbcolumns[0] != ""){
             $columns = implode(",",$dbcolumns);  
@@ -109,7 +87,7 @@ class DB extends ATabularData{
         }
 
         $results = R::getAll(
-            "select $columns from $dbtable"
+            "SELECT $columns FROM $dbtable"
         );
 
         // create resulting object
@@ -118,15 +96,9 @@ class DB extends ATabularData{
         // foreach result check if they have an entry in the foreign relation table
         foreach($results as $result){
             $rowobject = new stdClass();
-            // create hash for every key that's a Foreign relation in the result.
-            $foreignrelations = $this->createForeignRelationURLs($id,$host);
-            
+     
             foreach($result as $key => $value){
-                if(array_key_exists($key,$foreignrelations)){
-                    $rowobject->$key = $foreignrelations[$key].$value;
-                }else{ 
-                    $rowobject->$key = $value;
-                }
+                $rowobject->$key = $value;
             }
             /* 
              * if a column is submitted as primary key, then we dont build up our objects
@@ -144,68 +116,13 @@ class DB extends ATabularData{
                 }
             }
         }
-        $resultobject->object=$arrayOfRowObjects;
+
+        $resultobject->$resource=$arrayOfRowObjects;
         return $resultobject;
     }
 
-    private function createForeignRelationURLs($id,$host){
-        $urls = array();
-        $param = array();
-        $param[":id"] = $id;
-        
-        $results = R::getAll(
-            "select package.package_name as package_name, gen_res.resource_name as resource_name, 
-             main_object_column_name as keyname
-             from db_foreign_relation as for_rel,
-             generic_resource_db as gen_res_db,
-             generic_resource as gen_res,
-             package
-             where for_rel.main_object_id =:id and
-                   for_rel.foreign_object_id=gen_res_db.id and
-                   gen_res_db.resource_id=gen_res.id and
-                   gen_res.package_id = package.id",
-            $param
-        );
-
-        foreach($results as $result){
-            $urls[ $result["keyname"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
-                ."/object/?filterBy=id&filterValue=";
-            
-        }
-        return $urls;
-    }
-
     public function onDelete($package,$resource){
-       
-        
-        $deleteForeignRelation = R::exec(
-                        "DELETE FROM db_foreign_relation WHERE main_object_id IN 
-                                ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
-                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
-                                  and gen_res.id=db.resource_id ) OR foreign_object_id IN 
-                                  ( SELECT db.id FROM generic_resource as gen_res, package as modu, generic_resource_db as db 
-                                  WHERE package_name=:package and modu.id=package_id and resource_name=:resource 
-                                  and gen_res.id=db.resource_id )",
-                        array(":package" => $package, ":resource" => $resource)
-        );
-
-        $deleteDBResource = R::exec(
-            "DELETE FROM generic_resource_db 
-                         WHERE resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
-                                                                                    and package_name=:package
-                                                                                    and package.id=package_id)",
-            array(":package" => $package, ":resource" => $resource)
-        );
-        //if($deleteDBResource==0) throw new TDTException
-        $deleteDBResource = R::exec(
-            "DELETE FROM generic_resource_db 
-                         WHERE resource_id IN 
-                           (SELECT generic_resource.id FROM generic_resource,package WHERE resource_name=:resource
-                                                                                    and package_name=:package
-                                                                                    and package.id=package_id)",
-            array(":package" => $package, ":resource" => $resource)
-        );
+        DBQueries::deleteDBResource($package, $resource);
     }
 
     public function onAdd($package_id, $resource_id,$content){
@@ -215,20 +132,13 @@ class DB extends ATabularData{
     
 
     private function evaluateDBResource($resource_id,$put_vars){
-        $dbresource = R::dispense("generic_resource_db");
-        $dbresource->resource_id = $resource_id;
-        $dbresource->db_type = $put_vars["dbtype"];
-        $dbresource->db_name = $put_vars["dbname"];
-        $dbresource->db_table = $put_vars["dbtable"];
-        $dbresource->host = $put_vars["host"];
-        $dbresource->port = $put_vars["port"]; // is this a required parameter ? default port?
-        $dbresource->db_user = $put_vars["user"];
-        $dbresource->db_password = $put_vars["password"];
-        R::store($dbresource);
+        DBQueries::storeDBResource($resource_id, $put_vars["dbtype"], $put_vars["dbname"], 
+                                   $put_vars["dbtable"], $put_vars["host"], $put_vars["port"],
+                                   $put_vars["user"], $put_vars["password"]);
     }
 
-    public function onUpdate($package,$resource,$content){
 
+    public function onUpdate($package,$resource,$content){
         if(isset($content["update_type"]) && 
            isset($this->updateActions[$content["update_type"]])){
                 $updateAction = $this->updateActions[$content["update_type"]];

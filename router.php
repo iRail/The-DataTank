@@ -61,7 +61,7 @@ $urls = array(
     // But also:
     //  GET /package/ - should give all resources in package in an exception
     //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
-    '/(?P<package>[^/.]*)/(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*).*' => 'CUDController' 
+    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*).*' => 'CUDController' 
 );
 
 //This function will do the magic. See includes/glue.php

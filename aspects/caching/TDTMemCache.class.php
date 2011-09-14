@@ -27,7 +27,9 @@ class TDTMemCache extends Cache{
     }
 
     public function set($key,$value,$timeout=60){
-        $this->memcache->set($key, $value, FALSE, $timeout); //the true flag will compress the value using zlib
+	if($timeout>0){
+        	$this->memcache->set($key, $value, FALSE, $timeout); //the true flag will compress the value using zlib
+	}
     }
 
     public function get($key){
