@@ -14,7 +14,10 @@ include_once("model/GenericResourceFactory.class.php");
 include_once("model/InstalledResourceFactory.class.php");
 include_once("model/RemoteResourceFactory.class.php");
 include_once("model/CoreResourceFactory.class.php");
+
 include_once("model/resources/actions/ForeignRelation.class.php");
+include_once("model/DBQueries.class.php");
+
 class ResourcesModel extends AResourceFactory{
 
     private static $uniqueinstance;
@@ -23,6 +26,7 @@ class ResourcesModel extends AResourceFactory{
     private $updateActions;
     
     private function __construct(){
+
 	$this->factories = array(); //(ordening does matter here! Put the least expensive on top)
 	$this->factories["generic"]   = new GenericResourceFactory();
         $this->factories["core"]      = new CoreResourceFactory();
@@ -39,10 +43,10 @@ class ResourcesModel extends AResourceFactory{
     }
     
     public static function getInstance(){
-	if(!isset(self::$uniqueinstance)){
-	    self::$uniqueinstance = new ResourcesModel();
-	}
-	return self::$uniqueinstance;
+        if(!isset(self::$uniqueinstance)){
+            self::$uniqueinstance = new ResourcesModel();
+        }
+        return self::$uniqueinstance;
     }
 
     /**
@@ -50,88 +54,88 @@ class ResourcesModel extends AResourceFactory{
      * It returns an empty string when the resource could not be found
      */
     public function getResourceDoc($package, $resource){
-	foreach($this->factories as $factory){
-	    if($factory->hasResource($package,$resource)){
-		return $factory->getResourceDoc($package,$resource);
-	    }
-	}
-	//if not really any factory has the resource, throw an exception
-	throw new ResourceOrPackageNotFoundTDTException($package . "/" .$resource);
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+        	return $factory->getResourceDoc($package,$resource);
+            }
+        }
+        //if not really any factory has the resource, throw an exception
+        throw new ResourceOrPackageNotFoundTDTException($package . "/" .$resource);
     }
 
     /**
      * @return returns an associative array with the documentation for each parameter for a specific resource 
      */
     public function getResourceParameters($package, $resource){
-	foreach($this->factories as $factory){
-	    if($factory->hasResource($package,$resource)){
-		return $factory->getResourceParameters($package,$resource);
-	    }
-	}
-	//if not really any factory has the resource, throw an exception
-	throw new ResourceOrPackageNotFoundTDTException($package . "/" .$resource);
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+        	return $factory->getResourceParameters($package,$resource);
+            }
+        }
+        //if not really any factory has the resource, throw an exception
+        throw new ResourceOrPackageNotFoundTDTException($package . "/" .$resource);
     }
 
     /**
      * @return returns an array with all required parameters
      */
     public function getResourceRequiredParameters($package,$resource){
-	foreach($this->factories as $factory){
-	    if($factory->hasResource($package,$resource)){
-		return $factory->getResourceRequiredParameters($package,$resource);
-	    }
-	}
-	//if not really any factory has the resource, throw an exception
-	throw new ResourceOrModuleNotFoundTDTException($package . "/" .$resource);
-    }
-    
-    public function getAllowedPrintMethods($package,$resource){
-	foreach($this->factories as $factory){
-	    if($factory->hasResource($package,$resource)){
-		return $factory->getAllowedPrintMethods($package,$resource);
-	    }
-	}
-	//if not really any factory has the resource, throw an exception
-	throw new ResourceOrModuleNotFoundTDTException($package . "/" .$resource);
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+        	return $factory->getResourceRequiredParameters($package,$resource);
+            }
+        }
+        //if not really any factory has the resource, throw an exception
+        throw new ResourceOrModuleNotFoundTDTException($package . "/" .$resource);
+        }
+        
+        public function getAllowedPrintMethods($package,$resource){
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factory->getAllowedPrintMethods($package,$resource);
+            }
+        }
+        //if not really any factory has the resource, throw an exception
+        throw new ResourceOrModuleNotFoundTDTException($package . "/" .$resource);
     }
 
     /**
      * @return an array containing all the resourcenames available
      */
     public function getAllResourceNames(){
-	$rn = array();
-	foreach($this->factories as $factory){
-	    foreach($factory->getAllResourceNames() as $package => $resourcenames){
-		if(isset($rn[$package])){
-		    $rn[$package] = array_merge($rn[$package],$resourcenames);
-		}else{
-		    $rn[$package] = $resourcenames;
-		}	
-	    }
-	}
-	return $rn;
+        $rn = array();
+        foreach($this->factories as $factory){
+            foreach($factory->getAllResourceNames() as $package => $resourcenames){
+                if(isset($rn[$package])){
+                    $rn[$package] = array_merge($rn[$package],$resourcenames);
+                }else{
+                    $rn[$package] = $resourcenames;
+                }	
+            }
+        }
+        return $rn;
     }
 
     public function hasResource($package,$resource){
-	foreach($this->factories as $factory){
-	    if($factory->hasResource($package,$resource)){
-		return true;
-	    }
-	}
-	return false;
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                return true;
+            }
+        }
+        return false;
     }    
 
     /**
      * @return gets an instance of a AResource class.
      */
     public function getResource($package,$resource){
-	//find the one who has the resource!
-	foreach($this->factories as $factory){
-	    if($factory->hasResource($package,$resource)){
-		return $factory->getResource($package,$resource);
-	    }
-	}
-	throw new ResourceOrPackageNotFoundTDTException($package . "/" . $resource);
+        //find the one who has the resource!
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factory->getResource($package,$resource);
+            }
+        }
+        throw new ResourceOrPackageNotFoundTDTException($package . "/" . $resource);
     }
 
     /*****************************************SETTERS****************************************/
@@ -145,13 +149,9 @@ class ResourcesModel extends AResourceFactory{
 
                 /*
                  * also delete resource entry in resource table
-                 */                
-                $result = R::exec(
-                    "DELETE FROM resource 
-                     WHERE resource.resource_name=:resource and package_id IN
-                                      (SELECT id FROM package WHERE package_name=:package)",
-                    array(":package" => $package, ":resource" => $resource)
-                );
+                 */
+                
+                DBQueries::deleteResource($package, $resource);
                 break;
             }
         }    
@@ -164,18 +164,9 @@ class ResourcesModel extends AResourceFactory{
         }
         //now also delete the package-entry in the db
 
-        $deleteResourceEntries = R::exec(
-            "DELETE FROM resource 
-                    WHERE package_id IN
-                                      (SELECT id FROM package WHERE package_name=:package)",
-            array(":package" => $package)
-        );
+        DBQueries::deletePackageResources($package);
+        DBQueries::deletePackage($package);
 
-         $deletePackage = R::exec(
-            "DELETE FROM package 
-                    WHERE package_name=:package",
-            array(":package" => $package)
-        );
     }
     
     public function addResource($package,$resource, $content){
@@ -217,22 +208,13 @@ class ResourcesModel extends AResourceFactory{
          * if we're requesting an installed or core package, it doesn't matter since the package is not resourcetype dependant
          * so adding it won't do any harm
          */
-        $result = R::getAll(
-            "SELECT package.id as id 
-             FROM package 
-             WHERE package_name=:package_name",
-            array(":package_name"=>$package)
-
-        );
+        $result = DBQueries::getPackageId($package);
         
         if(sizeof($result) == 0){
-            $newpackage = R::dispense("package");
-            $newpackage->package_name = $package;
-            $newpackage->timestamp = time();
-            $id = R::store($newpackage);
+            $id = DBQueries::storePackage($package);
             return $id;
         }else{
-            return $result[0]["id"];
+            return $result["id"];
         }
     }
 
@@ -242,21 +224,11 @@ class ResourcesModel extends AResourceFactory{
          * this resource doesn't have a type specified yet! It just contains the name, and a FK to a package
          * So if we see that there's already package-resource pair, we throw an exception.
          */
-        $checkExistence = R::getAll(
-            "SELECT resource.id
-             FROM resource, package
-             WHERE :package_id = package.id and resource_name =:resource and package_id = package.id",
-             array(":package_id" => $package_id, ":resource" => $resource)
-        );
+
+        $checkExistence = DBQueries::getResourceId($package_id, $resource);
 
         if(sizeof($checkExistence) == 0){
-            $newResource = R::dispense("resource");
-            $newResource->package_id = $package_id;
-            $newResource->resource_name = $resource;
-            $newResource->creation_timestamp = time();
-            $newResource->last_update_timestamp = time();
-            $newResource->type = $resource_type;
-            return R::store($newResource);
+            return DBQueries::storeResource($package_id, $resource, $resource_type);
         }else{
             throw new ResourceAdditionTDTException("package/resource already exists");
         }
@@ -270,53 +242,12 @@ class ResourcesModel extends AResourceFactory{
      * fresh resource, and prohibit overriding resources !
      */
     public function getResourceId($package_id,$resource){
-        $getId = R::getAll(
-            "SELECT resource.id as res_id
-             FROM   resource,package
-             WHERE  resource_name =:resource and package.id = :package_id",
-            array(":resource" => $resource, ":package_id" => $package_id)
-        );
+        $getId = DBQueries::getResourceId($package_id, $resource);
         if(sizeof($getId) == 0){
             throw new ResourceAdditionTDTException("Resource hasn't been created yet.");
         }else{
-            return $getId[0]["res_id"];
+            return $getId["id"];
         }
-    }
-
-    /*
-     * This function gets the foreign relations out of our model 
-     * @returns array( propertyname => RESTful URL ,...)
-     */
-    public function createForeignRelationURLs($package,$resourcename){
-        $urls = array();
-
-        $results = R::getAll(
-            "SELECT package.package_name as package_name, resource.resource_name as resource_name, 
-                    main_object_column_name as main_key, foreign_object_column_name as foreign_key
-             FROM   foreign_relation as for_rel,
-                    package,
-                    resource,
-                    generic_resource
-             WHERE  for_rel.foreign_object_id = generic_resource.id and resource_id = resource.id and
-                    package_id = package.id and for_rel.main_object_id IN
-                                 (
-                                  SELECT generic_resource.id
-                                  FROM   resource,package,generic_resource
-                                  WHERE  package.id = resource. package_id 
-                                         and package_name = :package 
-                                         and resource.resource_name = :resource
-                                         and resource_id = resource.id
-                                 )",
-
-            array(":package" => $package,":resource" => $resourcename)
-
-        );
-        
-        foreach($results as $result){
-            $urls[ $result["main_key"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
-                ."/".$result["resource_name"]."/?filterBy=".$result["foreign_key"]."&filterValue=";
-        }
-        return $urls;
     }
 
     public function updateResource($package,$resource,$content){
@@ -324,7 +255,6 @@ class ResourcesModel extends AResourceFactory{
          * Check if the given update type is a supported one
          * if so execute the proper update method
          */
-        echo "update resource";
         
         if(isset($this->updateActions[$content["update_type"]])){
             $method = $this->updateActions[$content["update_type"]];

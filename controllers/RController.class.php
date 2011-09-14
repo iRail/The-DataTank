@@ -13,6 +13,7 @@ include_once('formatters/FormatterFactory.class.php');
 include_once('aspects/logging/RequestLogger.class.php');
 include_once('model/filters/FilterFactory.class.php');
 include_once('model/ResourcesModel.class.php');
+include_once("model/DBQueries.class.php");
 
 class RController extends AController{
 
@@ -75,8 +76,8 @@ class RController extends AController{
          * Add foreign the required foreign relations URL's to the resulting object
          * If you do not know what these are, check our wiki on github.
          */
-        $model = ResourcesModel::getInstance();
-        $for_rel_urls = $model->createForeignRelationURLs($package,$resourcename);
+        
+        $for_rel_urls = DBQueries::getForeignRelations($package,$resourcename);
  
         /*
          * If there are foreign relations between resources, then add them to the resulting object

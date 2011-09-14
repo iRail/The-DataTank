@@ -21,19 +21,8 @@ class GenericResource extends AResource {
     public function __construct($package,$resource){
         $this->package = $package;
         $this->resource = $resource;
-
-	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$param = array(':package' => $this->package, ':resource' => $this->resource);
-	$result = R::getAll(
-	    "SELECT generic_resource.type as type 
-             FROM package,generic_resource,resource
-             WHERE package_name=:package and resource.resource_name=:resource
-                   and resource_id = resource.id
-                   and package.id= resource.package_id",
-	    $param
-	);
-	
-	$this->strategyname = $result[0]["type"];
+        $result = DBQueries::getGenericResourceType($package, $resource);
+        $this->strategyname = $result["type"];
     }
 
     public function getStrategy(){
@@ -50,23 +39,14 @@ class GenericResource extends AResource {
     }
 
     public function setParameter($name,$val){
-	$this->strategy->$name = $val;
+        $this->strategy->$name = $val;
     }
-
+    
+    /* TO BE REMOVED
     public function getAllowedPrintMethods(){
-	R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
-	$param = array(':package' => $this->package, ':resource' => $this->resource);
-	$results = R::getAll(
-	    "SELECT generic_resource.print_methods as print_methods 
-             FROM package,generic_resource,resource
-             WHERE package.package_name=:package and resource.resource_name =:resource 
-             and resource_id = resource.id and package.id=resource.package_id",
-	    $param
-	);
-	$print_methods = explode(";", $results[0]["print_methods"]);
-
-	return $print_methods;
-    }
+        $results = DBQueries::getGenericResourcePrintMethods($this->package, $this->resource);
+        return isset($results["print_methods"])?explode(";", $results["print_methods"]):array();
+    }*/
     
 }
 

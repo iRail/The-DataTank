@@ -21,8 +21,8 @@ class RemoteResource extends AResource {
         // we don't need to pass along the requiredparameters
         // because we'll pass them along the url, just as they were entered
         // in the given url.
-	    $this->package = $remotepackage;
-	    $this->resource = $remoteresource;
+        $this->package = $remotepackage;
+        $this->resource = $remoteresource;
         $this->optionalparams = array();
         $this->base_url = $base_url;
         $this->requiredparams = $reqparams;
