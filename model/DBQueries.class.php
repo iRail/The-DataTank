@@ -72,6 +72,27 @@ class DBQueries {
              WHERE resource.package_id=package.id and generic_resource.resource_id=resource.id"
 	    );
     }
+
+    /**
+     * Retrieve all packages
+     */
+    static function getAllPackages(){
+        $results =  R::getAll(
+            "SELECT package_name, timestamp
+             FROM package"
+        ); 
+        
+        $packages = array();
+        foreach($results as $result){
+            $package = array();
+            $package["package_name"] = $result["package_name"];
+            $package["timestamp"] = (int)$result["timestamp"];
+            array_push($packages,$package);
+        }
+
+        return $packages;
+    }
+    
     
     /**
      * Check if a specific package has a specific resource

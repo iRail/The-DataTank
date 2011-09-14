@@ -11,10 +11,11 @@
 abstract class AResourceFactory{
 
     /**
-     * @return an object with all documentation of all packages and resources. It can be used directly for 
+     * @return an object with all documentation of all packages and resources.
      */
     public function getAllDocs(){
 	$docs = new StdClass();
+        
 	foreach($this->getAllResourceNames() as $package => $resources){
 	    $docs->$package = new StdClass();
 	    foreach($resources as $resource){
@@ -27,6 +28,20 @@ abstract class AResourceFactory{
 	}
 	return $docs;
     }
+
+    /**
+     * @return an object with all existing packages
+     */
+    public function getAllPackages(){
+        $result = new StdClass();
+        $packages = array();
+        foreach($this->getAllPackages() as $package){
+            array_push($packages,$package);
+        }
+        $result->packages = $packages;
+        return $result;
+    }
+    
 
     /**
      * This creates a resource ID for a certain resource/package pair.

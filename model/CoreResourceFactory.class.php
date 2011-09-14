@@ -63,10 +63,34 @@ class CoreResourceFactory extends AResourceFactory{
      * @return an array containing all the resourcenames available
      */
     public function getAllResourceNames(){
-	$packages = array("TDTInfo" => array("Resources", "Queries"), "Feedback" => array("Messages"));
+	$packages = array("TDTInfo" => array("Resources", "Queries","Packages"), "Feedback" => array("Messages"));
 	return $packages;
     }
-    
+
+    /**
+     * Scan the custom folder for packages
+     * @return an array containing all the available packages 
+     */
+    public function getAllPackages(){
+        $packages = array();
+        //open the custom directory and loop through it
+        if ($handle = opendir('model/packages')) {
+            while (false !== ($pack = readdir($handle))) {
+                if ($pack != "." && $pack != ".." && is_dir("model/packages/" . $pack)) {
+                    $pair = new stdClass();
+                    $pair->package_name = $pack;
+                    $pair->timestamp = filemtime("model/packages/".$pack);
+                    array_push($packages,$pair);
+                }
+               
+            }
+            closedir($handle);
+        }
+        
+        return $packages;
+
+    }
+
     /**
      * @return gets an instance of a AResource class.
      */
