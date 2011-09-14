@@ -79,7 +79,7 @@ class RDFMapper {
             $resource_res->addProperty($name_prop, $resource_name_lit);
             $resource_res->addProperty($is_a_prop, $tdtresource_res);
             $resource_res->addProperty($maps_prop, OWL_RES::OWL_CLASS());
-            
+
             //echo $model->
 
             /* $resourceResource = new Resource($mapURI, $this->package . "/" . $resource);
@@ -94,30 +94,19 @@ class RDFMapper {
 
     private function createRdfModel() {
         //Future: dbmodel: automatic storing of rdl model in DB. Find out compatibility with required RDBMS systems first.
-        /*
-          $db_values = explode(";", Config::$DB);
-          $db_host = explode("=", $db_values[0]);
-          $db_host = $db_host[1];
-          $db_name = explode("=", $db_values[0]);
-          $db_name = $db_name[1];
 
-          $mysql_database = ModelFactory::getDbStore('MySQL', $db_host, $db_name, Config::$DB_USER ,Config::$DB_PASSWORD );
-          $mysql_database->createTables('MySQL');
-
-          $modelURI = Config::$HOSTNAME.  Config::$SUBDIR. $this->package."_db";
-
-          $dbmodel;
-
-          if ($access_database->modelExists($modelURI))
-          echo "WARNING! DbModel with the same URI: '$modelURI' already exists";
-          else
-          $dbmodel = $access_database->getNewModel($modelURI);
-
-          return dbmodel;
-
-         */
-
+        $db_values = explode(";", Config::$DB);
+        $db_host = explode("=", $db_values[0]);
+        $db_host = $db_host[1];
+        $db_name = explode("=", $db_values[0]);
+        $db_name = $db_name[1];
+        
         $modelfactory = new ModelFactory();
+
+        //$mysql_database = $modelfactory->getDbStore('MySQL', $db_host, $db_name, Config::$DB_USER, Config::$DB_PASSWORD);
+        //$mysql_database->createTables('MySQL');
+
+        
 
         //Return MemModel
         //return $modelfactory->getDefaultModel();
