@@ -43,7 +43,7 @@ class DBQueries {
         return R::getRow(
             "SELECT generic_resource.type as type 
              FROM package,generic_resource,resource
-             WHERE package_name=:package and resource.resource_name=:resource
+             WHERE package.package_name=:package and resource.resource_name=:resource
                    and resource_id = resource.id
                    and package.id= resource.package_id",
             array(':package' => $package, ':resource' => $resource)
@@ -108,7 +108,7 @@ class DBQueries {
                       WHERE resource_id IN 
                         (SELECT resource.id 
                          FROM package,resource
-                         WHERE package_name=:package and resource.id = generic_resource.resource_id
+                         WHERE package.package_name=:package and resource.id = generic_resource.resource_id
                          and resource.resource_name =:resource and resource.package_id = package.id)",
             array(":package" => $package, ":resource" => $resource)
         );
@@ -122,7 +122,7 @@ class DBQueries {
             "SELECT rem_rec.base_url as url ,rem_rec.package_name as package,
                     resource_name as resource
              FROM   package,remote_resource as rem_rec,resource
-             WHERE  package_name=:package and resource_name =:resource
+             WHERE  package.package_name=:package and resource_name =:resource
                     and package.id = package_id and resource_id = resource.id",
             array(':package' => $package, ':resource' => $resource)
         );
@@ -160,7 +160,7 @@ class DBQueries {
                     WHERE package_id IN 
                                     (SELECT package.id 
                                      FROM package,resource 
-                                     WHERE package_name=:package 
+                                     WHERE package.package_name=:package 
                                      and resource_id = resource.id
                                      and package_id = package.id)",
             array(":package" => $package)
@@ -175,7 +175,7 @@ class DBQueries {
             "DELETE FROM remote_resource
                     WHERE package_id IN (SELECT package.id 
                                    FROM package,resource 
-                                   WHERE package_name=:package and package_id = package.id
+                                   WHERE package.package_name=:package and package_id = package.id
                                    and resource_id = resource.id and resource_name =:resource
                                    )",
             array(":package" => $package, ":resource" => $resource)
@@ -306,7 +306,7 @@ class DBQueries {
                                   SELECT generic_resource.id
                                   FROM   resource,package,generic_resource
                                   WHERE  package.id = resource. package_id 
-                                         and package_name = :package 
+                                         and package.package_name = :package 
                                          and resource.resource_name = :resource
                                          and resource_id = resource.id
                                  )",
@@ -374,13 +374,13 @@ class DBQueries {
                                 WHERE main_object_id IN 
                                 (SELECT gen_res.id 
                                  FROM  resource, package, generic_resource as gen_res
-                                 WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
+                                 WHERE package.package_name=:package and package.id=package_id and resource.resource_name=:resource 
                                        and gen_res.resource_id = resource.id) 
                                  OR 
                                  foreign_object_id IN 
                                 (SELECT gen_res.id 
                                  FROM resource, package, generic_resource as gen_res
-                                 WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
+                                 WHERE package_package_name=:package and package.id=package_id and resource.resource_name=:resource 
                                        and gen_res.resource_id = resource.id
                                  )",
                         array(":package" => $package, ":resource" => $resource)
