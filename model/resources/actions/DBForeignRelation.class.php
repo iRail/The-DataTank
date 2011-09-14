@@ -19,15 +19,8 @@ class DBForeignRelation extends AUpdateAction{
     }
     
     public function update($package,$resource,$content){
-        $original_id_query = R::getAll(
-            "select gen_res_db.id from 
-             package, generic_resource as gen_res, generic_resource_db as gen_res_db
-             where package.package_name=:package_name and gen_res.package_id=package.id and gen_res.resource_name=:resource_name
-            and gen_res.id=gen_res_db.resource_id",
-            array(":package_name" => $package, ":resource_name" => $resource)
-        );
-
-        $original_id = $original_id_query[0]["id"];
+        $result = DBQueries::getGenericResourceId($package, $resource);
+        $original_id = $result["id"];
         
         /*
          * Get the FK relation
@@ -35,22 +28,13 @@ class DBForeignRelation extends AUpdateAction{
         $fk_package = $content["foreign_package"];
         $fk_resource = $content["foreign_resource"];
         $original_column_name = $content["original_column_name"];
-        $fk_id_query = R::getAll("select gen_res_db.id from 
-             package, generic_resource as gen_res, generic_resource_db as gen_res_db
-             where package.package_name=:package_name and gen_res.package_id=package.id and gen_res.resource_name=:resource_name
-             and gen_res.id=gen_res_db.resource_id",
-                                 array(":package_name" => $fk_package, ":resource_name" => $fk_resource)
-        );
-        $fk_id = $fk_id_query[0]["id"];
+        $fk_id_query = DBQueries::getGenericResourceId($fk_package, $fk_resource);
+        $fk_id = $fk_id_query["id"];
 
         /*
          * Add the foreign relation to the back-end
          */
-        $db_foreign_relation = R::dispense("db_foreign_relation");
-        $db_foreign_relation->main_object_id = $original_id;
-        $db_foreign_relation->foreign_object_id = $fk_id;
-        $db_foreign_relation->main_object_column_name = $original_column_name;
-        return R::store($db_foreign_relation);
+        return DBQueries::storeForeignRelation($original_id, $fk_id, $original_column_name);
     }
 }
 ?>
