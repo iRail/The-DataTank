@@ -140,9 +140,6 @@ class RController extends AController{
             $result = $o;
         }
 	
-        // Log our succesful request
-        RequestLogger::logRequest($matches,$requiredparams,$subresources);
-	
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
     }

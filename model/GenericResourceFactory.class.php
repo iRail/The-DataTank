@@ -106,7 +106,7 @@ class GenericResourceFactory extends AResourceFactory{
             throw new ResourceAdditionTDTException("Generic type does not exist");
         }
         $model = ResourcesModel::getInstance();
-        $package_id = $model->makePackageId($package);
+        $package_id = parent::makePackageId($package);
 
         //So when the resource doesn't exist yet, when the generic type is set and when the strategy exists, do
         $resource_id = $this->makeGenericResourceId($package_id,$resource,$content);
@@ -120,7 +120,7 @@ class GenericResourceFactory extends AResourceFactory{
     private function makeGenericResourceId($package_id,$resource,$content){
         //will return the id of the new generic resource
         $model = ResourcesModel::getInstance();
-        $resource_id = $model->getResourceId($package_id,$resource);
+        $resource_id = parent::getResourceId($package_id,$resource);
         return DBQueries::storeGenericResource($resource_id, $content["generic_type"], $content["documentation"], $content["printmethods"]);
     }
 }

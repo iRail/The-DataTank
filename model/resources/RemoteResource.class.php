@@ -36,8 +36,7 @@ class RemoteResource extends AResource {
 	foreach($this->optionalparams as $key => $val){
 	    $params .= $key . "=" . urlencode($val) . "&";
 	}
-	//We need php output to unserialize it afterwards
-	$params .= "format=php";
+	$params = rtrim($params, "&");
 
 	//the url consists of the baseurl (this has a trailing slash and contains the subdir) - the resource is a specifier in the baseurl
 	//params is a url containing the possible 
@@ -45,6 +44,9 @@ class RemoteResource extends AResource {
         foreach($this->requiredparametervalues as $param){
             $url = $url . $param."/";
         }
+        $url= rtrum($url, "/");
+        //add format: php because we're going to deserialize this
+        $url .= ".php";
         
         $url = $url . $params;
 

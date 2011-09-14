@@ -150,7 +150,6 @@ class ResourcesModel extends AResourceFactory{
                 /*
                  * also delete resource entry in resource table
                  */
-                
                 DBQueries::deleteResource($package, $resource);
                 break;
             }
@@ -163,7 +162,6 @@ class ResourcesModel extends AResourceFactory{
             $factory->deletePackage($package);
         }
         //now also delete the package-entry in the db
-
         DBQueries::deletePackageResources($package);
         DBQueries::deletePackage($package);
 
@@ -188,66 +186,17 @@ class ResourcesModel extends AResourceFactory{
         /*
          * create/fetch package
          */
-        $package_id = $this->makePackageId($package);
+        $package_id = parent::makePackageId($package);
 
         /*
          * create the resource entry, or throw an exception package/resource already exists
          */
-        $this->makeResourceId($resource,$package_id,$resource_type);
+        parent::makeResourceId($resource,$package_id,$resource_type);
 
         /*
          * Add the rest of the specific information for that type of resource
          */
         $factory->addResource($package,$resource,$content);
-    }
-
-
-    public function makePackageId($package){
-        /* 
-         * will return the ID of the package. If package does not exists, it will be added
-         * if we're requesting an installed or core package, it doesn't matter since the package is not resourcetype dependant
-         * so adding it won't do any harm
-         */
-        $result = DBQueries::getPackageId($package);
-        
-        if(sizeof($result) == 0){
-            $id = DBQueries::storePackage($package);
-            return $id;
-        }else{
-            return $result["id"];
-        }
-    }
-
-    public function makeResourceId($resource,$package_id,$resource_type){
-        /* 
-         * will return the ID of the resource. If resource doesn't exist, it will be added
-         * this resource doesn't have a type specified yet! It just contains the name, and a FK to a package
-         * So if we see that there's already package-resource pair, we throw an exception.
-         */
-
-        $checkExistence = DBQueries::getResourceId($package_id, $resource);
-
-        if(sizeof($checkExistence) == 0){
-            return DBQueries::storeResource($package_id, $resource, $resource_type);
-        }else{
-            throw new ResourceAdditionTDTException("package/resource already exists");
-        }
-    }
-
-    /*
-     * This function is meant to be called by resource factories
-     * In our business logic the resource ($resource) will already exist 
-     * so we can expect a valid return id. If the resource doesn't exist, throw an error
-     * This is different from makeResourceId because in make Resource, we want to create a 
-     * fresh resource, and prohibit overriding resources !
-     */
-    public function getResourceId($package_id,$resource){
-        $getId = DBQueries::getResourceId($package_id, $resource);
-        if(sizeof($getId) == 0){
-            throw new ResourceAdditionTDTException("Resource hasn't been created yet.");
-        }else{
-            return $getId["id"];
-        }
     }
 
     public function updateResource($package,$resource,$content){
@@ -264,7 +213,7 @@ class ResourcesModel extends AResourceFactory{
         }
     }
 
-    public function addForeignRelation($package,$resource,$content){
+    private function addForeignRelation($package,$resource,$content){
         $foreignRelation = new ForeignRelation();
         $foreignRelation->update($package,$resource,$content);
     }

@@ -46,7 +46,6 @@ class RemoteResourceFactory extends AResourceFactory{
             $this->fetchResource($package,$resource);
         }
         return $this->currentRemoteResource->data["parameters"];
-        
     }    
 
     /**
@@ -68,19 +67,15 @@ class RemoteResourceFactory extends AResourceFactory{
     
 
     public function hasResource($package,$resource){
-        $rn = $this->getAllResourceNames();
-        if(isset($rn[$package])){ 
-            return in_array($resource, $rn[$package]);
-        }
-        return false;
+	$rn = $this->getAllResourceNames();
+        return isset($rn[$package]) && in_array($resource, $rn[$package]);
     }
 
     /**
      * @return an array containing all the remote resourcenames available
      */
     public function getAllResourceNames(){
-        $resultset = DBQueries::getAllRemoteResourceNames();
-        
+        $resultset = DBQueries::getAllRemoteResourceNames();        
         $resources = array();
         foreach($resultset as $result){
             if(!isset($resources[$result["package_name"]])){
@@ -102,25 +97,22 @@ class RemoteResourceFactory extends AResourceFactory{
                                   $this->currentRemoteResource->reqparams,
                                   $this->currentRemoteResource->base_url);
     }
-
     private function fetchResource($package,$resource){
 	    $result = DBQueries::getRemoteResource($package, $resource);
 	    
         if(sizeof($result) == 0){
             throw new ResourceOrPackageNotFoundTDTException("Cannot find the remote resource with package and resource pair as: ".$package."/".$resource);
-        }else{
-            $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"]."/?format=php";
         }
-        $options = array("cache-time" => 3600); //cache for 1 hour
+        $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
+        $options = array("cache-time" => 1); //cache for 1 hour
         $request = TDT::HttpRequest($url, $options);
         $data = unserialize($request->data);
         $this->currentRemoteResource = new stdClass();
         $this->currentRemoteResource->package = $package;
         $this->currentRemoteResource->remote_package = $result["package"];
         $this->currentRemoteResource->resource = $resource;
-        $this->currentRemoteResource->data = $data;
         $this->currentRemoteResource->base_url = $result["url"];
-        $this->currentRemoteResource->parameter_keys = array_keys($data["parameters"]);
+        $this->currentRemoteResource->parameter_keys = $data["parameters"];
         $this->currentRemoteResource->reqparams = $data["requiredparameters"];
     }
     
@@ -137,8 +129,7 @@ class RemoteResourceFactory extends AResourceFactory{
     public function addResource($package,$resource, $content){
         //insert a row with the right URI to the package/resource
         $model = ResourcesModel::getInstance();
-        $resource_id = $model->getResourceId($package, $resource);
-
+        $resource_id = parent::getResourceId($package, $resource);
         $base_url = $content["url"];
         // make sure te base_url ends with a /
         if(substr(strrev($base_url),0,1) != "/"){
@@ -150,7 +141,6 @@ class RemoteResourceFactory extends AResourceFactory{
     public function updateResource($package,$resource,$content){
         //update a URI to a resource
     }
-
 }
 
 ?>
