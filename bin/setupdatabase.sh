@@ -135,16 +135,18 @@ then
 
 
 ##########################
-#   foreign_relation  #
+#   foreign_relation     #
 ##########################
+
     Q11="CREATE TABLE IF NOT EXISTS foreign_relation (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   main_object_id bigint(20) NOT NULL,
   foreign_object_id bigint(20) NOT NULL,
   main_object_column_name varchar(50) NOT NULL,
+  foreign_object_column_name varchar(50) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY(main_object_id) references resource(id),
-  FOREIGN KEY(foreign_object_id) references resource(id)
+  FOREIGN KEY(main_object_id) references generic_resource(id),
+  FOREIGN KEY(foreign_object_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
 

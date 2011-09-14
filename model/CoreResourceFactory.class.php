@@ -92,13 +92,6 @@ class CoreResourceFactory extends AResourceFactory{
     public function addResource($package,$resource, $content){
         //cannot be called upon, throw exception
     }
-     
-    /**
-     * If the package/resource exists, then update the resource with the content provided
-     */
-    public function updateResource($package,$resource,$content){
-        //cannnot be called, throw exception
-    }
 
 }
 

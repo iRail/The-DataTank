@@ -173,16 +173,5 @@ abstract class AResourceFactory{
       * Add a resource to a (existing/non-existing) package
       */
      abstract public function addResource($package,$resource, $content);
-     
-     /**
-      * If the package/resource exists, then update the resource with the content provided
-      */
-     abstract public function updateResource($package,$resource,$content);
-
-     /**
-      * Add ontology-information to the specific resource
-      */
-     //abstract public function addOntologyInformation($package, $resource, $RESTid, $object);
 }
-
 ?>

@@ -12,6 +12,8 @@
 include_once('formatters/FormatterFactory.class.php');
 include_once('aspects/logging/RequestLogger.class.php');
 include_once('model/filters/FilterFactory.class.php');
+include_once('model/ResourcesModel.class.php');
+include_once("model/DBQueries.class.php");
 
 class RController extends AController{
 
@@ -52,7 +54,6 @@ class RController extends AController{
 
         //also give the non REST parameters to the resource class
         $resource->processParameters();
-    
 	
         // check if the given format is allowed by the method
         $printmethod = "";
@@ -71,10 +72,37 @@ class RController extends AController{
         //Let's do the call!
         $result = $resource->call();
 
-        // for logging purposes
+        /*
+         * Add foreign the required foreign relations URL's to the resulting object
+         * If you do not know what these are, check our wiki on github.
+         */
+        
+        $for_rel_urls = DBQueries::getForeignRelations($package,$resourcename);
+ 
+        /*
+         * If there are foreign relations between resources, then add them to the resulting object
+         */
+        if(!empty($for_rel_urls)){
+            foreach($result->$resourcename as $key => $item){
+                $properties = get_object_vars($item);
+                foreach($properties as $property => $value){
+                    if(array_key_exists($property,$for_rel_urls)){
+                        /* 
+                         * the property now contains a field that has to be matched, so we we add it
+                         * to the end of our RESTful URL i.e. the address field of a person object is 
+                         * a FK with id = 5 then my object person->address = 5 will be translated to 
+                         * person->address = myhost/mypackage/addresslist/object/?filterBy=FK&filterValue=5
+                         */
+                        $result->{$resourcename}[$key]->$property = $for_rel_urls[$property].$value;
+                    }
+                }
+            }
+        }
+        
+        // apply RESTFilter
         $subresources = array();
         $filterfactory = FilterFactory::getInstance();
-        // apply RESTFilter
+        
         if(sizeof($RESTparameters)>0){
             $RESTFilter = $filterfactory->getFilter("RESTFilter",$RESTparameters);
             $resultset = $RESTFilter->filter($result);
@@ -82,7 +110,8 @@ class RController extends AController{
             $result = $resultset->result;
         }
 	
-        //Apply Lookup filter if asked, according to the Open Search specifications
+        // Apply Lookup filter if asked, this has been implemented according to the 
+        // open search specifications
 	
         if(isset($_GET["filterBy"]) && isset($_GET["filterValue"])){
             if(is_array($result)){
@@ -113,7 +142,6 @@ class RController extends AController{
 	
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
-        //this is it!
     }
 
     /**

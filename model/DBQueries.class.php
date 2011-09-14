@@ -290,29 +290,79 @@ class DBQueries {
     /**
      * Get a specific foreign key relation
      */
-    static function getForeignRelations($main_object_id) {
+    static function getForeignRelations($package,$resourcename) {
+        $urls = array();
+
         $results = R::getAll(
             "SELECT package.package_name as package_name, resource.resource_name as resource_name, 
-             main_object_column_name as keyname
-             FROM foreign_relation as for_rel,
-             package,
-             resource
-             WHERE for_rel.main_object_id =:id and
-                   for_rel.foreign_object_id=resource.id and
-                   package_id = package.id",
-            array(":id"=>$main_object_id)
+                    main_object_column_name as main_key, foreign_object_column_name as foreign_key
+             FROM   foreign_relation as for_rel,
+                    package,
+                    resource,
+                    generic_resource
+             WHERE  for_rel.foreign_object_id = generic_resource.id and resource_id = resource.id and
+                    package_id = package.id and for_rel.main_object_id IN
+                                 (
+                                  SELECT generic_resource.id
+                                  FROM   resource,package,generic_resource
+                                  WHERE  package.id = resource. package_id 
+                                         and package_name = :package 
+                                         and resource.resource_name = :resource
+                                         and resource_id = resource.id
+                                 )",
+
+            array(":package" => $package,":resource" => $resourcename)
+
         );
+        
+        foreach($results as $result){
+            $urls[ $result["main_key"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
+                ."/".$result["resource_name"]."/?filterBy=".$result["foreign_key"]."&filterValue=";
+        }
+        return $urls;
     }
-    
-	/**
+
+    /**
      * Store a foreign key relation
      */
-    static function storeForeignRelation($main_object_id, $foreign_object_id, $main_object_column_name) {
-        $db_foreign_relation = R::dispense("db_foreign_relation");
-        $db_foreign_relation->main_object_id = $main_object_id;
-        $db_foreign_relation->foreign_object_id = $foreign_object_id;
-        $db_foreign_relation->main_object_column_name = $main_object_column_name;
-        return R::store($db_foreign_relation);
+    static function storeForeignRelation($package,$resource,$content) {
+
+        $original_id_query = R::getAll(
+            "SELECT generic_resource.id 
+             FROM  package, resource,generic_resource
+             WHERE package.package_name=:package_name and resource.package_id and resource.resource_name = :resource_name
+                   and resource_id = resource.id",
+            array(":package_name" => $package, ":resource_name" => $resource)
+        );
+
+        $original_id = $original_id_query[0]["id"];
+        
+        /*
+         * Get the FK relation
+         */
+
+        $fk_package = $content["foreign_package"];
+        $fk_resource = $content["foreign_resource"];
+        $original_column_name = $content["original_column_name"];
+        $foreign_column_name = $content["foreign_column_name"];
+        $fk_id_query = R::getAll(
+             "SELECT generic_resource.id 
+              FROM  package, resource,generic_resource
+              WHERE package.package_name=:package_name and package.id = package_id and resource_name = :resource_name
+                    and resource_id = resource.id",
+              array(":package_name" => $fk_package, ":resource_name" => $fk_resource)
+        );
+        $fk_id = $fk_id_query[0]["id"];
+
+        /*
+         * Add the foreign relation to the back-end
+         */
+        $foreign_relation = R::dispense("foreign_relation");
+        $foreign_relation->main_object_id             = $original_id;
+        $foreign_relation->foreign_object_id          = $fk_id;
+        $foreign_relation->main_object_column_name    = $original_column_name;
+        $foreign_relation->foreign_object_column_name = $foreign_column_name;
+        return R::store($foreign_relation);
     }
     
     /**
@@ -320,18 +370,21 @@ class DBQueries {
      */
     static function deleteForeignRelation($package, $resource) {
         return R::exec(
-            "DELETE FROM foreign_relation WHERE main_object_id IN 
-                ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
-                  generic_resource as gen_res
-                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
-                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id ) OR foreign_object_id IN 
-                  ( SELECT resource.id FROM resource, package, generic_resource_db as gen_db,
-                  generic_resource as gen_res 
-                  WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
-                  and gen_res.resource_id = resource.id and gen_res.id=db.gen_resource_id
-                   )",
-            array(":package" => $package, ":resource" => $resource)
-        );
+                        "DELETE FROM foreign_relation 
+                                WHERE main_object_id IN 
+                                (SELECT gen_res.id 
+                                 FROM  resource, package, generic_resource as gen_res
+                                 WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
+                                       and gen_res.resource_id = resource.id) 
+                                 OR 
+                                 foreign_object_id IN 
+                                (SELECT gen_res.id 
+                                 FROM resource, package, generic_resource as gen_res
+                                 WHERE package_name=:package and package.id=package_id and resource.resource_name=:resource 
+                                       and gen_res.resource_id = resource.id
+                                 )",
+                        array(":package" => $package, ":resource" => $resource)
+            );
     }
 
     /**

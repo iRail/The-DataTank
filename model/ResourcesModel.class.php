@@ -6,12 +6,16 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
  */
 
+include_once("model/AResourceFactory.class.php");
 include_once("model/GenericResourceFactory.class.php");
 include_once("model/InstalledResourceFactory.class.php");
 include_once("model/RemoteResourceFactory.class.php");
 include_once("model/CoreResourceFactory.class.php");
+
+include_once("model/resources/actions/ForeignRelation.class.php");
 include_once("model/DBQueries.class.php");
 
 class ResourcesModel extends AResourceFactory{
@@ -19,13 +23,23 @@ class ResourcesModel extends AResourceFactory{
     private static $uniqueinstance;
 
     private $factories;//array of factories
-
+    private $updateActions;
+    
     private function __construct(){
-        $this->factories = array(); //(ordening does matter here! Put the least expensive on top)
-        $this->factories["generic"] = new GenericResourceFactory();
-        $this->factories["core"] = new CoreResourceFactory();
-        $this->factories["remote"] = new RemoteResourceFactory();
-        $this->factories["installed"] = new InstalledResourceFactory();
+
+	$this->factories = array(); //(ordening does matter here! Put the least expensive on top)
+	$this->factories["generic"]   = new GenericResourceFactory();
+        $this->factories["core"]      = new CoreResourceFactory();
+	$this->factories["remote"]    = new RemoteResourceFactory();
+	$this->factories["installed"] = new InstalledResourceFactory();
+
+        /*
+         * This array maps all the update types to the correct delegation methods
+         * these methods are methods that are part of the resourcemodel, but are not
+         * part of the resource itself. i.e. a foreign relation between two resources
+         */
+        $this->updateActions = array();
+        $this->updateActions["foreign_relation"] = "addForeignRelation";
     }
     
     public static function getInstance(){
@@ -36,7 +50,8 @@ class ResourcesModel extends AResourceFactory{
     }
 
     /**
-     * @return returns a string containing the documentation about the resource. It returns an empty string when the resource could not be found
+     * @return returns a string containing the documentation about the resource. 
+     * It returns an empty string when the resource could not be found
      */
     public function getResourceDoc($package, $resource){
         foreach($this->factories as $factory){
@@ -101,7 +116,6 @@ class ResourcesModel extends AResourceFactory{
         return $rn;
     }
 
-
     public function hasResource($package,$resource){
         foreach($this->factories as $factory){
             if($factory->hasResource($package,$resource)){
@@ -132,10 +146,11 @@ class ResourcesModel extends AResourceFactory{
                  * deletes specific resource type
                  */
                 $factory->deleteResource($package,$resource);
+
                 /*
                  * also delete resource entry in resource table
                  */
-                DBQueries::deleteResource($package, $resource);        
+                DBQueries::deleteResource($package, $resource);
                 break;
             }
         }    
@@ -149,6 +164,7 @@ class ResourcesModel extends AResourceFactory{
         //now also delete the package-entry in the db
         DBQueries::deletePackageResources($package);
         DBQueries::deletePackage($package);
+
     }
     
     public function addResource($package,$resource, $content){
@@ -163,7 +179,7 @@ class ResourcesModel extends AResourceFactory{
         }
 
         /*
-         * create fitting resource factory
+         * create fitting resource factory for a given resource type
          */
         $factory = $this->factories[$resource_type];
 
@@ -182,14 +198,24 @@ class ResourcesModel extends AResourceFactory{
          */
         $factory->addResource($package,$resource,$content);
     }
-    
+
     public function updateResource($package,$resource,$content){
-        foreach($this->factories as $factory){
-            if($factory->hasResource($package,$resource)){
-                $factory->updateResource($package,$resource,$content);
-                break;
-            }
+        /*
+         * Check if the given update type is a supported one
+         * if so execute the proper update method
+         */
+        
+        if(isset($this->updateActions[$content["update_type"]])){
+            $method = $this->updateActions[$content["update_type"]];
+            $this->$method($package,$resource,$content);
+        }else{
+            throw new ResourceUpdateTDTException($content["update_type"] ." is not a supported update type.");
         }
+    }
+
+    private function addForeignRelation($package,$resource,$content){
+        $foreignRelation = new ForeignRelation();
+        $foreignRelation->update($package,$resource,$content);
     }
 }
 ?>

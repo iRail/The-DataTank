@@ -64,7 +64,10 @@ class GenericResourceFactory extends AResourceFactory{
             $res = $this->getResource($package,$resource);
             $strategy = $res->getStrategy();
             $strategy->onDelete($package,$resource);
-
+            // delete any foreign relation of which either the main or foreign id
+            // relates to
+            DBQueries::deleteForeignRelation($package,$resource);
+            
             //now the only thing left to delete is the main row
             DBQueries::deleteGenericResource($package, $resource);
         }
@@ -106,7 +109,7 @@ class GenericResourceFactory extends AResourceFactory{
         $package_id = parent::makePackageId($package);
 
         //So when the resource doesn't exist yet, when the generic type is set and when the strategy exists, do
-        $resource_id = parent::makeGenericResourceId($package_id,$resource,$content);
+        $resource_id = $this->makeGenericResourceId($package_id,$resource,$content);
 
         $type = $content["generic_type"];
         include_once("model/resources/strategies/" . $type . ".class.php");
@@ -119,15 +122,6 @@ class GenericResourceFactory extends AResourceFactory{
         $model = ResourcesModel::getInstance();
         $resource_id = parent::getResourceId($package_id,$resource);
         return DBQueries::storeGenericResource($resource_id, $content["generic_type"], $content["documentation"], $content["printmethods"]);
-    }
-
-    /**
-     * If the package/resource exists, then update the resource with the content provided
-     */
-    public function updateResource($package,$resource,$content){
-        $type = $this->getResource($package,$resource);
-        $strategy = $type->getStrategy();
-        $strategy->onUpdate($package,$resource,$content);
     }
 }
 

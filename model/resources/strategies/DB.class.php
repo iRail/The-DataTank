@@ -8,15 +8,10 @@
  * @author Jan Vansteenlandt
  */
 include_once("model/resources/strategies/ATabularData.class.php");
-include_once("model/resources/actions/DBForeignRelation.class.php");
-
+include_once("model/DBQueries.class.php");
 class DB extends ATabularData{
-    
-    private $updateActions; //array with possible updateActions
 
     public function __construct(){
-        $this->updateActions = array();
-        $this->updateActions["db_foreign_relation"] = new DBForeignRelation();
     }
     
 
@@ -38,7 +33,7 @@ class DB extends ATabularData{
             $passwrd = $results["db_password"];
             $id = $results["id"];
             $gen_res_id = $results["gen_res_id"];
-            
+
             // get the columns from the columns table
             $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
             
@@ -62,18 +57,16 @@ class DB extends ATabularData{
             $resultobject = new stdClass();
             if(strtolower($dbtype) == "mysql"){
                 R::setup("mysql:host=$dbhost;dbname=$dbname",$user,$passwrd);
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "sqlite"){
                 //$dbtable is used as path to the sqlite file. 
                 R::setup("sqlite:$dbtable",$user,$passwrd); //sqlite
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }elseif(strtolower($dbtype) == "postgresql"){
                 R::setup("pgsql:host=$dbhost;dbname=$dbname",$user,$passwrd); //postgresql
-                $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK);
             }else{
                 // TODO: provide interfacing with other db's too.
                 throw new DatabaseTDTException("The database you're trying to reach is not yet supported.");
             }   
+            $resultobject = $this->createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK,$resource);
             return $resultobject;
         }catch(Exception $ex){
             throw new InternalServerTDTException("Something went wrong while fetching the 
@@ -86,7 +79,7 @@ class DB extends ATabularData{
      * Note: If similar functionality is found in other db-interfacing such as
      * NoSQL, this could be used as a general build-up method.
      */
-    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK){
+    private function createResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$host,$PK,$resource){
         $columns = "*";
         if(sizeof($dbcolumns) > 0 && $dbcolumns[0] != ""){
             $columns = implode(",",$dbcolumns);  
@@ -103,15 +96,9 @@ class DB extends ATabularData{
         // foreach result check if they have an entry in the foreign relation table
         foreach($results as $result){
             $rowobject = new stdClass();
-            // create hash for every key that's a Foreign relation in the result.
-            $foreignrelations = $this->createForeignRelationURLs($id,$host);
-            
+     
             foreach($result as $key => $value){
-                if(array_key_exists($key,$foreignrelations)){
-                    $rowobject->$key = $foreignrelations[$key].$value;
-                }else{ 
-                    $rowobject->$key = $value;
-                }
+                $rowobject->$key = $value;
             }
             /* 
              * if a column is submitted as primary key, then we dont build up our objects
@@ -129,24 +116,12 @@ class DB extends ATabularData{
                 }
             }
         }
-        $resultobject->object=$arrayOfRowObjects;
+
+        $resultobject->$resource=$arrayOfRowObjects;
         return $resultobject;
     }
 
-    private function createForeignRelationURLs($id,$host){
-        $urls = array();
-        
-        $results = DBQueries::getForeignRelations($id);
-        foreach($results as $result){
-            $urls[ $result["keyname"] ] = Config::$HOSTNAME."".$result["package_name"]."/".$result["resource_name"]
-                ."/object/?filterBy=id&filterValue=";
-            
-        }
-        return $urls;
-    }
-
     public function onDelete($package,$resource){
-        DBQueries::deleteForeignRelation($package, $resource);
         DBQueries::deleteDBResource($package, $resource);
     }
 
@@ -157,8 +132,11 @@ class DB extends ATabularData{
     
 
     private function evaluateDBResource($resource_id,$put_vars){
-        DBQueries::storeDBResource($resource_id, $put_vars["dbtype"], $put_vars["dbname"], $put_vars["dbtable"], $put_vars["host"], $put_vars["port"], $put_vars["user"], $put_vars["password"]);
+        DBQueries::storeDBResource($resource_id, $put_vars["dbtype"], $put_vars["dbname"], 
+                                   $put_vars["dbtable"], $put_vars["host"], $put_vars["port"],
+                                   $put_vars["user"], $put_vars["password"]);
     }
+
 
     public function onUpdate($package,$resource,$content){
         if(isset($content["update_type"]) && 
