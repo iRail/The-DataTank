@@ -83,7 +83,8 @@ class ConfigCheck extends InstallController {
                         
                         $subdirs = explode("/", $path);
                         // remove empty first item and installer
-                        unset($subdirs[0]);
+                        if(empty($subdirs[0]))
+                            unset($subdirs[0]);
                         unset($subdirs[array_search("installer", $subdirs)]);
                         $subdir = implode("/", $subdirs);
                         
