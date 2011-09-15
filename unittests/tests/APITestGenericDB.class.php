@@ -11,14 +11,20 @@ include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
 include_once(dirname(__FILE__)."/../classes/REST.class.php");
 
-class APITestGenericCSV extends TDTUnitTest{
-
-    private $location = "/../temp/person.csv";
-    private $install_as = "csvpackage/person/";
-    private $generic_type = "CSV";
+class APITestGenericDB extends TDTUnitTest{
+    
+    private $install_as = "dbpackage/person/";
+    private $generic_type = "DB";
     private $printmethods = "json;xml;jsonp";
     private $columns = "name;age;city";
     private $PK = "name";
+   
+    private $db_name = "test";
+    private $db_table = "person";
+    private $host = "localhost";
+    private $db_type = "My_SQL";
+    private $db_user = "root";
+    private $db_password = "root";
     
     function testPutCSV(){
         
@@ -27,9 +33,14 @@ class APITestGenericCSV extends TDTUnitTest{
                        "printmethods"  => $this->printmethods,
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
-                       "uri"           => dirname(__FILE__).$this->location,
                        "columns"       => $this->columns,
-                       "PK"            => $this->PK
+                       "PK"            => $this->PK,
+                       "db_name"	   => $this->db_name,
+                       "db_table"	   => $this->db_table,
+                       "host"		   => $this->host,
+                       "db_type"	   => $this->db_type,
+                       "db_user"	   => $this->db_user,
+                       "db_password"   => $this->db_password
         );
         
         $request = new REST($url, $data, "PUT");
@@ -38,10 +49,12 @@ class APITestGenericCSV extends TDTUnitTest{
         if($request->result)
             echo $request->result;
         
+        print_r($request->curl_info);
+            
         $this->assertEqual($request->http_code, 200);
     }
     
-    function testDeleteCSV() {
+    function testDeleteDB() {
         $url = Config::$HOSTNAME . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();

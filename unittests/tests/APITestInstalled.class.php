@@ -23,6 +23,8 @@ class APITestInstalled extends TDTUnitTest{
         $request->execute();
         
         $this->assertEqual($request->http_code, 572);
+        if($this->http_code != 572 && $request->result)
+            echo $request->result;
     }
     
     function testGetResource(){
@@ -30,12 +32,19 @@ class APITestInstalled extends TDTUnitTest{
         $request = new REST($url, array(), "GET");
         $request->execute();
         
-        if($request->http_code == 200)
+        if($request->http_code == 200) {
             $this->pass();
-        elseif($request->http_code == 454)
+        }
+        elseif($request->http_code == 454) {
+            if($request->result)
+                echo $request->result;
             $this->pass($request->result);
-        else
+        }
+        else {
+            if($request->result)
+                echo $request->result;
             $this->fail();
+        }
     }
 
 }

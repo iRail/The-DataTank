@@ -132,9 +132,15 @@ class DB extends ATabularData{
     
 
     private function evaluateDBResource($resource_id,$put_vars){
-        DBQueries::storeDBResource($resource_id, $put_vars["dbtype"], $put_vars["dbname"], 
-                                   $put_vars["dbtable"], $put_vars["host"], $put_vars["port"],
-                                   $put_vars["user"], $put_vars["password"]);
+        $default_ports = array("My_SQL"=>3306, "PostgreSQL"=>5432, "SQLite"=>"");
+        
+        if((!isset($put_vars["port"]) || !$put_vars["port"]) && array_key_exists($put_vars["db_type"], $default_ports)) {
+            $put_vars["port"] = $default_ports[$put_vars["db_type"]];
+        }
+        
+        DBQueries::storeDBResource($resource_id, $put_vars["db_type"], $put_vars["db_name"], 
+                                   $put_vars["db_table"], $put_vars["host"], $put_vars["port"],
+                                   $put_vars["db_user"], $put_vars["db_password"]);
     }
 
 
