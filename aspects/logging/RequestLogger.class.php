@@ -28,7 +28,7 @@ class RequestLogger{
         $request->format = $ff->getFormat();
         $request->subresources = implode(";",$subresources); // DEPRECATED !!!!!!!
         $request->requiredparameter = implode(";",$requiredparams);
-        $request->allparameters = $subresources;
+        $request->allparameters = implode(";",$subresources);
         $result = R::store($request);        
     }
 }
