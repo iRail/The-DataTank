@@ -274,7 +274,7 @@ class DBQueries {
         if(!$timestamp){
             return 0;
         }
-        return $timestamp;
+        return (int)$timestamp;
     }
     
 
