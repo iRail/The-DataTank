@@ -213,7 +213,7 @@ class ResourcesModel extends AResourceFactory{
      * @param $content the POST parameters
      */
     public function updateResource($package,$resource,$content){
-        if(isset($this->updateActions[$content["update_type"]])){
+        if(isset($content["update_type"]) && isset($this->updateActions[$content["update_type"]])){
             $method = $this->updateActions[$content["update_type"]];
             $this->$method($package,$resource,$content);
         }else{
