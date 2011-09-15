@@ -1,4 +1,4 @@
-<?
+<?php
 // check if PHP is running
 if ( false ) {
 ?>
