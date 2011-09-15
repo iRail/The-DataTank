@@ -57,6 +57,8 @@ abstract class AResourceFactory{
              WHERE :package_id = package.id and resource_name =:resource and package_id = package.id",
             array(":package_id" => $package_id, ":resource" => $resource)
         );
+        var_dump($checkExistence);
+        
 
         if(sizeof($checkExistence) == 0){
             $newResource = R::dispense("resource");
