@@ -209,7 +209,7 @@ class ResourcesModel extends AResourceFactory{
         $package_id = parent::makePackageId($package);
 
         //create the resource entry, or throw an exception package/resource already exists
-        parent::makeResourceId($resource,$package_id,$resource_type);
+        parent::makeResourceId($package_id,$resource,$resource_type);
 
         //Add the rest of the specific information for that type of resource
         $factory->addResource($package,$resource,$content);
