@@ -215,7 +215,6 @@ class ResourcesModel extends AResourceFactory{
         $factory->addResource($package,$resource,$content);
     }
 
-
     /**
      * Check if the given update type is a supported one
      * if so execute the proper update method
