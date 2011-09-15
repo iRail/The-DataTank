@@ -19,6 +19,7 @@ class TestAPISuite extends TestSuite{
         $this->addFile(dirname(__FILE__) . "/APITestInstalled.class.php");
         $this->addFile(dirname(__FILE__) . "/APITestGenericCSV.class.php");
         $this->addFile(dirname(__FILE__) . "/APITestGenericDB.class.php");
+        $this->addFile(dirname(__FILE__) . "/APITestRemote.class.php");
     }
 
 }

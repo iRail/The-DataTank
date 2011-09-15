@@ -41,6 +41,14 @@ class ResourcesModel extends AResourceFactory{
         $this->updateActions = array();
         $this->updateActions["foreign_relation"] = "addForeignRelation";
     }
+
+    public function getResourceType($package,$resource){
+        foreach($this->factories as $factorytype => $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factorytype;
+            }
+        }   
+    }
     
     public static function getInstance(){
         if(!isset(self::$uniqueinstance)){

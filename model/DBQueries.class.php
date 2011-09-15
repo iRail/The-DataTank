@@ -164,10 +164,11 @@ class DBQueries {
     /**
      * Store a remote resource
      */
-    static function storeRemoteResource($resource_id, $package_name, $base_url) {
+    static function storeRemoteResource($resource_id, $resource_name, $package_name, $base_url) {
         $remres = R::dispense("remote_resource");
         $remres->resource_id = $resource_id;
         $remres->package_name = $package_name;
+        $remres->resource_name = $resource_name;
         $remres->base_url = $base_url;
         return R::store($remres);
     }
@@ -194,7 +195,7 @@ class DBQueries {
     static function deleteRemoteResource($package, $resource) {
         return R::exec(
             "DELETE FROM remote_resource
-                    WHERE package_id IN (SELECT package.id 
+                    WHERE resource_id IN (SELECT resource.id 
                                    FROM package,resource 
                                    WHERE package.package_name=:package and package_id = package.id
                                    and resource_id = resource.id and resource.resource_name =:resource
