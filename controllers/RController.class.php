@@ -142,6 +142,9 @@ class RController extends AController{
 	
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
+        if($model->getResourceType($package,$name) != "remote"){
+            RequestLogger::logRequest($package,$resourcename, $requiredparams, $subresources);            
+        }
     }
 
     /**
