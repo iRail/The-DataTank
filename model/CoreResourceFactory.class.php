@@ -96,14 +96,12 @@ class CoreResourceFactory extends AResourceFactory{
      * Overrides getCreationTime() from AResourceFactory
      */
     public function getCreationTime($package,$resource){
-        echo "EEEEEEEEEEEEEEEEEEEEEEEE";
-        
         //if the object read is a directory and the configuration methods file exists, 
         //then add it to the installed packages
-        if (is_dir("custom/packages/" . $package) 
-            && file_exists("custom/packages/" . $package ."/".$resource.".class.php")) {
-            include_once("custom/packages/" . $package ."/".$resource.".class.php");
-            return filemtime("custom/packages/" . $package ."/".$resource.".class.php");
+        if (is_dir("model/packages/" . $package) 
+            && file_exists("model/packages/" . $package ."/".$resource.".class.php")) {
+            include_once("model/packages/" . $package ."/".$resource.".class.php");
+            return filemtime("model/packages/" . $package ."/".$resource.".class.php");
         }else{
             return 0;
         }
