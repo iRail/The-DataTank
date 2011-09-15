@@ -15,8 +15,9 @@ class TestAPISuite extends TestSuite{
     function TestAPISuite() {
         $this->TestSuite('API Test Suite');
         
-        $this->addFile(dirname(__FILE__) . "/APITestPutAction.class.php");
-        $this->addFile(dirname(__FILE__) . "/APITestDeleteAction.class.php");
+        $this->addFile(dirname(__FILE__) . "/APITestCore.class.php");
+        $this->addFile(dirname(__FILE__) . "/APITestInstalled.class.php");
+        $this->addFile(dirname(__FILE__) . "/APITestGenericCSV.class.php");
     }
 
 }
