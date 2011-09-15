@@ -1,8 +1,18 @@
 <?php
+/**
+ * Base installer class that will load the correct controller
+ *
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jens Segers
+ */
 
 class Installer {
     
     public $steps = array("Welcome", "ConfigCheck", "SystemCheck", "DatabaseCheck", "DatabaseSetup", "Finish");
+    
+    // installed languages for this installer
+    private $languages = array("en");
     
     protected $session, $config;
     protected $currentStep;
@@ -10,9 +20,17 @@ class Installer {
     public function __construct() {
         session_start();
         $this->session = &$_SESSION;
+        
+        // load language
+        $language = Language::getInstance();
+        $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        if(!in_array($lang, $this->languages))
+            $lang = reset($this->languages);
+        
+        $language->load($lang);
     }
     
-    public function initialize() {
+    public function run() {
         // default step
         if(!$this->currentStep)
             $this->currentStep = reset($this->steps);
@@ -26,17 +44,17 @@ class Installer {
             $controller->index();
         }
         else {
-            header('HTTP/1.0 404 Not Found');
-            echo "<h1>404 Not Found</h1>";
-            echo "The page that you have requested could not be found.";
-            exit();
+           // load first controller if none found
+            $controllerClass = reset($this->steps);
+            $controller = new $controllerClass();
+            $controller->index();
         }
     }
     
     public function advance($next=FALSE) {
         if($next && in_array($next, $this->steps))
             $this->currentStep = $next;
-        else
+        elseif(!$next)
             $this->currentStep = $this->nextStep();
     }
     

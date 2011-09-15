@@ -1,4 +1,11 @@
 <?php
+/**
+ * Installation step: system check
+ *
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jens Segers
+ */
 
 class SystemCheck extends InstallController {
     
@@ -7,34 +14,35 @@ class SystemCheck extends InstallController {
         $extensions = get_loaded_extensions();
         
         // PHP version
-        if(version_compare(PHP_VERSION, '5.3.1') >= 0)
-            $tests["php_version"] = array("status"=>"passed", "value"=>PHP_VERSION);
-        else
-            $tests["php_version"] = array("status"=>"failed", "value"=>PHP_VERSION, "message"=>"php_version_low");   
-        
+        $tests["php_version"] = $this->checkVersion(PHP_VERSION, "5.3.1");
+            
         // MySQL version
         if(in_array("mysql", $extensions) || in_array("mysqli", $extensions)) {
-            $version = reset(explode(".", mysql_get_server_info()));
-            if($version >= 5)
-                $tests["mysql_version"] = array("status"=>"passed", "value"=>mysql_get_server_info());
-            else
-                $tests["mysql_version"] = array("status"=>"failed", "value"=>mysql_get_server_info(), "message"=>"mysql_version_low");
+            $tests["mysql_version"] = $this->checkVersion(@mysql_get_server_info(), "5");
         }
         //SQLite
         elseif(in_array("SQLite", $extensions)) {
-            $version = reset(explode(".", sqlite_libversion()));
-            if($version >= 3)
-                $tests["sqlite_version"] = array("status"=>"passed", "value"=>sqlite_libversion());
-            else
-                $tests["sqlite_version"] = array("status"=>"failed", "value"=>sqlite_libversion(), "message"=>"sqlite_version_low");
+            $tests["sqlite_version"] = $this->checkVersion(@sqlite_libversion(), "3");
         }
         //PostgreSQL
         elseif(in_array("pgsql", $extensions)) {
-            $tests["postgresql_version"] = array("status"=>"warning", "value"=>"Unable to test", "message"=>"postgresql_version_check");
+            $tests["postgresql_version"] = $this->checkVersion("", "8");
         }
             
         $data["tests"] = $tests;
         $this->view("system", $data);
+    }
+    
+    private function checkVersion($version, $required) {
+        if(!$version) {
+            return array("status"=>"warning", "value"=>"N/A", "message"=>lang("system_version_not_tested"));
+        }
+        elseif(version_compare($version, $required) >= 0) {
+            return array("status"=>"passed", "value"=>$version);
+        }
+        else {
+            return array("status"=>"failed", "value"=>$version, "message"=>lang("system_version_low")." ".$required);
+        }
     }
     
 }

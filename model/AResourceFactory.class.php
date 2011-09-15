@@ -24,10 +24,19 @@ abstract class AResourceFactory{
 		$docs->$package->$resource->requiredparameters = $this->getResourceRequiredParameters($package,$resource);
 		$docs->$package->$resource->parameters = $this->getResourceParameters($package,$resource);
 		$docs->$package->$resource->formats = $this->getAllowedPrintMethods($package,$resource);
+                $extra = $this->getExtra($package,$resource);                
+                if(!is_null($extra)){
+                    $docs->$package->$resource->extra = $extra;
+                }
 	    }
 	}
 	return $docs;
     }
+
+    public function getExtra($package,$resource){
+        return NULL;
+    }
+    
 
     /**
      * @return an object with all existing packages
@@ -36,7 +45,7 @@ abstract class AResourceFactory{
         $result = new StdClass();
         $packages = array();
         foreach($this->getAllPackages() as $package){
-            array_push($packages,$package);
+            $packages[] = $package;
         }
         $result->packages = $packages;
         return $result;

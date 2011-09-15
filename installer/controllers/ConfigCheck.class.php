@@ -1,4 +1,11 @@
 <?php
+/**
+ * Installation step: config file check
+ *
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jens Segers
+ */
 
 class ConfigCheck extends InstallController {
     
@@ -50,6 +57,10 @@ class ConfigCheck extends InstallController {
                             $status = "warning";
                             $message = "cache_not_tested";
                         }
+                        elseif(Config::$CACHE_SYSTEM == "MemCache" && !class_exists("Memcache")) {
+                            $status = "error";
+                            $message = "memcache_not_installed";
+                        }
                         elseif(Config::$CACHE_SYSTEM != "NoCache") {
                             include_once($basePath."/aspects/caching/Cache.class.php");
                             $cache = Cache::getInstance();
@@ -72,7 +83,8 @@ class ConfigCheck extends InstallController {
                         
                         $subdirs = explode("/", $path);
                         // remove empty first item and installer
-                        unset($subdirs[0]);
+                        if(empty($subdirs[0]))
+                            unset($subdirs[0]);
                         unset($subdirs[array_search("installer", $subdirs)]);
                         $subdir = implode("/", $subdirs);
                         
@@ -97,6 +109,11 @@ class ConfigCheck extends InstallController {
                         }
                         break;
                     case "API_PASSWD":
+                        $pwd = $value;
+                        $value ="";
+                        for($i=0; $i<strlen($pwd); $i++)
+                            $value .= "*";
+                        
                         if(!$value) {
                             $status = "failed";
                             $message = "api_no_pass";

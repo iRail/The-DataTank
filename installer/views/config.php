@@ -8,7 +8,7 @@
 <table id="tests">
 <?php foreach($tests as $test=>$result): ?>
 	<?php if($result["status"] != "skipped"): ?>
-	<tr class="<? echo $result["status"]; ?>">
+	<tr class="<?php echo $result["status"]; ?>">
 		<th>	
             <?php echo $test; ?>
         </th>

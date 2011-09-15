@@ -1,4 +1,11 @@
 <?php
+/**
+ * Base class for the install controllers that represent a step of the installation
+ *
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jens Segers
+ */
 
 class InstallController {
     
@@ -13,7 +20,7 @@ class InstallController {
     }
     
     public function index() {
-        // user code    
+        // extend   
     }
     
     public function view($file, $data=array()) {

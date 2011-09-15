@@ -12,6 +12,7 @@ $lang["no_config"] = "Your configuration file was not found. Please rename Confi
 $lang["hostname_no_match"] = "Your hostname does not match the current server name: ".$_SERVER["SERVER_NAME"];
 $lang["hostname_no_https"] = "We encourage the use of https";
 $lang["cache_not_supported"] = "This cache system is not supported";
+$lang["memcache_not_installed"] = "Memcache is not installed, please use NoCache";
 $lang["cache_no_memcache"] = "We encourage the use of MemCache";
 $lang["cache_wrong_credentials"] = "Please check your cache settings";
 $lang["cache_not_tested"] = "Could not test the caching system, check error message above";
@@ -24,13 +25,12 @@ $lang["api_short_pass"] = "API password should be at least 6 characters";
 $lang["system_title"] = "System requirements";
 $lang["system_message"] = "You system configuration will now be matched with our minimum requirements.";
 $lang["php_version"] = "PHP version";
-$lang["php_version_low"] = "Your PHP version should be at least 5.3.1";
 $lang["mysql_version"] = "MySQL version";
-$lang["mysql_version_low"] = "Your MySQL version should be at least 5";
 $lang["sqlite_version"] = "SQLite version";
-$lang["sqlite_version_low"] = "Your SQLite version shoud be at least 3";
 $lang["postgresql_version"] = "PostgreSQL version";
-$lang["postgresql_version_check"] = "Make sure your PostgreSQL version is at least 8";
+
+$lang["system_version_not_tested"] = "Could not test your version";
+$lang["system_version_low"] = "Your version should be at least";
 
 $lang["database_title"] = "Database check";
 $lang["database_message"] = "Your database config credentials will now be verified so that we can create the needed database.";
