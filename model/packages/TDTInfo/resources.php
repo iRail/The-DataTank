@@ -19,7 +19,8 @@ class TDTInfo{
       */
      public static $resources = array (
 	  "Resources",
-	  "Queries"
+	  "Queries",
+          "Packages"
 	  );
 }
 ?>

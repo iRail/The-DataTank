@@ -44,7 +44,7 @@ class RemoteResource extends AResource {
         foreach($this->requiredparametervalues as $param){
             $url = $url . $param."/";
         }
-        $url= rtrum($url, "/");
+        $url= rtrim($url, "/");
         //add format: php because we're going to deserialize this
         $url .= ".php";
         

@@ -6,7 +6,7 @@
 // Description               : Model package
 //
 //
-// Author: Tobias Gauß	<tobias.gauss@web.de>
+// Author: Tobias Gauï¿½	<tobias.gauss@web.de>
 //
 // ----------------------------------------------------------------------------------
 
@@ -23,5 +23,6 @@ require_once( RDFAPI_INCLUDE_DIR . 'util/StatementIterator.php' );
 require_once( RDFAPI_INCLUDE_DIR . 'model/ModelFactory.php' );
 require_once( RDFAPI_INCLUDE_DIR . 'sparql/SparqlClient.php' );
 require_once( RDFAPI_INCLUDE_DIR . 'sparql/ClientQuery.php' );
+require_once( RDFAPI_INCLUDE_DIR . 'model/RbModelFactory.php' );
 
 ?>

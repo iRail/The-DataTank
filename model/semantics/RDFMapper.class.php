@@ -93,20 +93,11 @@ class RDFMapper {
     }
 
     private function createRdfModel() {
-        //Future: dbmodel: automatic storing of rdl model in DB. Find out compatibility with required RDBMS systems first.
-
-        $db_values = explode(";", Config::$DB);
-        $db_host = explode("=", $db_values[0]);
-        $db_host = $db_host[1];
-        $db_name = explode("=", $db_values[0]);
-        $db_name = $db_name[1];
+                      
+        $modelfactory = new RbModelFactory();
         
-        $modelfactory = new ModelFactory();
-
-        //$mysql_database = $modelfactory->getDbStore('MySQL', $db_host, $db_name, Config::$DB_USER, Config::$DB_PASSWORD);
-        //$mysql_database->createTables('MySQL');
-
-        
+        $mysql_database = $modelfactory->getRbStore();
+        $mysql_database->createTables('MySQL');
 
         //Return MemModel
         //return $modelfactory->getDefaultModel();

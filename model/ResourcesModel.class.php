@@ -116,6 +116,14 @@ class ResourcesModel extends AResourceFactory{
         return $rn;
     }
 
+    public function getAllPackages(){
+        $backendpackages = DBQueries::getAllPackages();
+        $installedpackages = $this->factories["installed"]->getAllPackages();
+        $corepackages =  $this->factories["core"]->getAllPackages();
+        $merge = array_merge($installedpackages,$backendpackages,$corepackages);
+        return $merge;
+    }
+
     public function hasResource($package,$resource){
         foreach($this->factories as $factory){
             if($factory->hasResource($package,$resource)){
@@ -168,43 +176,43 @@ class ResourcesModel extends AResourceFactory{
     }
     
     public function addResource($package,$resource, $content){
-        //validation of add parameters
+        //We have to get at least a parameter resource_type
         if(!isset($content["resource_type"])){
             throw new ParameterTDTException("resource_type");
         }
-
+        //validation of add parameters: resource type
         $resource_type = $content["resource_type"];
         if(!isset($this->factories[$resource_type])){
             throw new ResourceAdditionTDTException("Resource type $resource_type does not exist");
         }
 
-        /*
-         * create fitting resource factory for a given resource type
-         */
+        //if package/resource already exists, don't add it! Throw an error instead
+        if($this->hasResource($package,$resource)){
+            throw new ResourceAdditionTDTException("$package/$resource already exists");
+        }
+
+        //create fitting resource factory for a given resource type
         $factory = $this->factories[$resource_type];
 
-        /*
-         * create/fetch package
-         */
+        //create/fetch package
         $package_id = parent::makePackageId($package);
 
-        /*
-         * create the resource entry, or throw an exception package/resource already exists
-         */
+        //create the resource entry, or throw an exception package/resource already exists
         parent::makeResourceId($resource,$package_id,$resource_type);
 
-        /*
-         * Add the rest of the specific information for that type of resource
-         */
+        //Add the rest of the specific information for that type of resource
         $factory->addResource($package,$resource,$content);
     }
 
+
+    /**
+     * Check if the given update type is a supported one
+     * if so execute the proper update method
+     * @param $package packagename
+     * @param $resource resourcename
+     * @param $content the POST parameters
+     */
     public function updateResource($package,$resource,$content){
-        /*
-         * Check if the given update type is a supported one
-         * if so execute the proper update method
-         */
-        
         if(isset($this->updateActions[$content["update_type"]])){
             $method = $this->updateActions[$content["update_type"]];
             $this->$method($package,$resource,$content);

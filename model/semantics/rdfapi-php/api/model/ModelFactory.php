@@ -95,14 +95,13 @@ class ModelFactory
 	* @return	object	DbModel
 	* @access	public
 	*/
-	function & getDbModel($dbStore, $baseURI = null)
-	{
-		if ($dbStore->modelExists($baseURI)) {
-			return $dbStore->getModel($baseURI);
+       function & getDbModel($dbStore, $baseURI = null) {
+        if ($dbStore->modelExists($baseURI)) {
+            return $dbStore->getModel($baseURI);
         }
 
-		return $dbStore->getNewModel($baseURI);
-	}
+        return $dbStore->getNewModel($baseURI);
+    }
 
 	/**
 	* Returns a database connection with the given parameters.
@@ -172,6 +171,7 @@ class ModelFactory
 	function & getResModel($modelType, $baseURI = null)
 	{
 		switch ($modelType) {
+      
 			case DBMODEL:
 				$baseModel = ModelFactory::getDefaultDbModel($baseURI);
 				break;

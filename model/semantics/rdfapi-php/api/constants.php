@@ -68,6 +68,7 @@ define('INDEX_TYPE',IND_DEF);
 
 define ('MEMMODEL','MemModel');
 define ('DBMODEL','DbModel');
+define ('RBMODEL','RbModel');
 define ('INFMODELF','InfModelF');
 define ('INFMODELB','InfModelB');
 define ('ONTMODEL','OntModel');

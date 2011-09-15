@@ -59,12 +59,12 @@ class InstalledResourceFactory extends AResourceFactory{
     }
     
     /**
-     * Scans the folder modules for other resources
+     * Scans the folder packages for other resources
      * @return an array containing all the resourcenames available
      */
     public function getAllResourceNames(){
         $packages = array();
-        //open the modules directory and loop through it
+        //open the custom directory and loop through it
         if ($handle = opendir('custom/packages')) {
             while (false !== ($pack = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed packages
@@ -78,6 +78,32 @@ class InstalledResourceFactory extends AResourceFactory{
         
         return $packages;
     }
+
+    /**
+     * Scan the custom folder for packages
+     * @return an array containing all the available packages 
+     */
+    public function getAllPackages(){
+
+        $packages = array();
+        //open the custom directory and loop through it
+        if ($handle = opendir('custom/packages')) {
+            while (false !== ($pack = readdir($handle))) {
+                if ($pack != "." && $pack != ".." && is_dir("custom/packages/" . $pack) ) {
+                    $pair = new stdClass();
+                    $pair->package_name = $pack;
+                    $pair->timestamp = filectime("custom/packages/".$pack);
+                    array_push($packages,$pair);
+                }
+               
+            }
+            closedir($handle);
+        }
+        
+        return $packages;
+
+    }
+    
     
     /**
      * @return gets an instance of a AResource class.
