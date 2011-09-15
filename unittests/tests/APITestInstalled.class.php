@@ -36,14 +36,14 @@ class APITestInstalled extends TDTUnitTest{
             $this->pass();
         }
         elseif($request->http_code == 454) {
+            $this->pass($request->result);
             if($request->result)
                 $this->debug($request->result);
-            $this->pass($request->result);
         }
         else {
+            $this->fail();
             if($request->result)
                 $this->debug($request->result);
-            $this->fail();
         }
     }
 
