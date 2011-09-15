@@ -30,7 +30,7 @@ class Installer {
         $language->load($lang);
     }
     
-    public function initialize() {
+    public function run() {
         // default step
         if(!$this->currentStep)
             $this->currentStep = reset($this->steps);

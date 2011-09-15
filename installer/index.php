@@ -29,4 +29,4 @@ if(count($_GET)) {
     $installer->advance($action);
 }
 
-$installer->initialize();
+$installer->run();
