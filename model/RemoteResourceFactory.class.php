@@ -128,6 +128,12 @@ class RemoteResourceFactory extends AResourceFactory{
         $this->currentRemoteResource->reqparams = $data["requiredparameters"];
     }
     
+
+    public function getCreationTime($package,$resource){
+        // TODO
+        return DBQueries::getCreationTime($package,$resource);    
+     }
+
     /**************************************************SETTERS*********************************/
 
     public function deletePackage($package){

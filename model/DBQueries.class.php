@@ -258,7 +258,20 @@ class DBQueries {
             array(":package_id" => $package_id, ":resource" => $resource)
         );
     }
+
+    /**
+     * Get the creation timestamp from a resource
+     */
+    static function getCreationTime($package,$resource){
+        return R::getCell(
+            "SELECT resource.creation_timestamp as timestamp
+             FROM package,resource
+             WHERE package.id = resource.package_id and package_name=:package and resource_name=:resource",
+            array(":package" => $package,":resource" => $resource)
+        );
+    }
     
+
     /**
      * Store a resource
      */

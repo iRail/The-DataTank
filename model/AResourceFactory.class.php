@@ -24,6 +24,7 @@ abstract class AResourceFactory{
 		$docs->$package->$resource->requiredparameters = $this->getResourceRequiredParameters($package,$resource);
 		$docs->$package->$resource->parameters = $this->getResourceParameters($package,$resource);
 		$docs->$package->$resource->formats = $this->getAllowedPrintMethods($package,$resource);
+                $docs->$package->$resource->timestamp = $this->getCreationTime($package,$resource);
                 $extra = $this->getExtra($package,$resource);                
                 if(!is_null($extra)){
                     $docs->$package->$resource->extra = $extra;
@@ -34,8 +35,10 @@ abstract class AResourceFactory{
     }
 
     public function getExtra($package,$resource){
-        return NULL;
+        return NULL;    
     }
+    
+    
     
 
     /**
@@ -144,6 +147,16 @@ abstract class AResourceFactory{
       * @return an associative array with all packages as keys, and arrays of resources as values 
       */
      abstract public function getAllResourceNames();
+
+     /**
+      * @return the creation timestamp of a resource
+      */
+     public function getCreationTime($package,$resource){    
+         return DBQueries::getCreationTime($package,$resource); 
+     }
+     
+     
+     
 
      /************************************************SETTERS*****************************************************************/
      

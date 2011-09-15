@@ -55,6 +55,12 @@ class GenericResourceFactory extends AResourceFactory{
         return new GenericResource($package,$resource);	
     }
 
+    public function getCreationTime($package,$resource){
+        // TODO
+        return DBQueries::getCreationTime($package,$resource);    
+     }
+    
+
     /*************************************SETTERS*****************************************************/
 
     public function deleteResource($package,$resource){
