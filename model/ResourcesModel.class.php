@@ -45,7 +45,7 @@ class ResourcesModel extends AResourceFactory{
     public function getResourceType($package,$resource){
         foreach($this->factories as $factorytype => $factory){
             if($factory->hasResource($package,$resource)){
-                return $factoryname;
+                return $factorytype;
             }
         }   
     }
