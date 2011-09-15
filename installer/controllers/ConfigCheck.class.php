@@ -57,6 +57,10 @@ class ConfigCheck extends InstallController {
                             $status = "warning";
                             $message = "cache_not_tested";
                         }
+                        elseif(Config::$CACHE_SYSTEM == "MemCache" && !class_exists("Memcache")) {
+                            $status = "error";
+                            $message = "memcache_not_installed";
+                        }
                         elseif(Config::$CACHE_SYSTEM != "NoCache") {
                             include_once($basePath."/aspects/caching/Cache.class.php");
                             $cache = Cache::getInstance();

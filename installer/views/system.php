@@ -6,7 +6,7 @@
 
 <table id="tests">
 <?php foreach($tests as $test=>$result): ?>
-	<tr class="<? echo $result["status"]; ?>">
+	<tr class="<?php echo $result["status"]; ?>">
 		<th>	
             <?php echo lang($test); ?>
         </th>
