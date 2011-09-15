@@ -127,7 +127,7 @@ class FormatNotFoundTDTException extends AbstractTDTException{
  */
 class ParameterTDTException extends AbstractTDTException{
      public static function getDoc(){
-	  return "This exception is thrown when a parameter is incorrect. The constructor needs a parameter";
+	  return "This exception is thrown when a parameter is incorrect.";
      }
 
      public static $error = 454;

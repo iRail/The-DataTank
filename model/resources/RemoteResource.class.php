@@ -51,7 +51,7 @@ class RemoteResource extends AResource {
         $url = $url . $params;
 
 	//Request the remote server and check for errors. If no error, unserialize the data
-	$options = array("cache-time" => 0, "headers" => array("User-Agent" => $_SERVER['HTTP_USER_AGENT']));
+	$options = array("cache-time" => 0, "headers" => array("User-Agent" => isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:""));
 	$request = TDT::HttpRequest($url, $options);
 	if(isset($request->error)){
 	    throw new RemoteServerTDTException($request->data);

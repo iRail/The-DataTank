@@ -217,12 +217,11 @@ class ResourcesModel extends AResourceFactory{
         $package_id = parent::makePackageId($package);
 
         //create the resource entry, or throw an exception package/resource already exists
-        parent::makeResourceId($resource,$package_id,$resource_type);
+        parent::makeResourceId($package_id,$resource,$resource_type);
 
         //Add the rest of the specific information for that type of resource
         $factory->addResource($package,$resource,$content);
     }
-
 
     /**
      * Check if the given update type is a supported one
@@ -232,7 +231,7 @@ class ResourcesModel extends AResourceFactory{
      * @param $content the POST parameters
      */
     public function updateResource($package,$resource,$content){
-        if(isset($this->updateActions[$content["update_type"]])){
+        if(isset($content["update_type"]) && isset($this->updateActions[$content["update_type"]])){
             $method = $this->updateActions[$content["update_type"]];
             $this->$method($package,$resource,$content);
         }else{

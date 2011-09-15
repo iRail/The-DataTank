@@ -99,7 +99,7 @@ class ConfigCheck extends InstallController {
                         break;
                     case "DB":
                     case "DB_USER":
-                    case "DB_PASSWD":
+                    case "DB_PASSWORD":
                         $status = "skipped";
                         break;
                     case "API_USER":
