@@ -1,4 +1,11 @@
 <?php
+/**
+ * Installation step: database check
+ *
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jens Segers
+ */
 
 class DatabaseCheck extends InstallController {
     
@@ -8,7 +15,10 @@ class DatabaseCheck extends InstallController {
         
         $data["credentials"]["DB"] = Config::$DB;
         $data["credentials"]["DB_USER"] = Config::$DB_USER;
-        $data["credentials"]["DB_PASSWORD"] = Config::$DB_PASSWORD;
+        $data["credentials"]["DB_PASSWORD"] = ""; // don't output real password
+        
+        for($i=0; $i<strlen(Config::$DB_PASSWORD); $i++)
+            $data["credentials"]["DB_PASSWORD"] .= "*";
         
         try {
             // try a simple query to test redbean's connection

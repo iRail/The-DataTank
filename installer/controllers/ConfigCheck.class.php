@@ -1,4 +1,11 @@
 <?php
+/**
+ * Installation step: config file check
+ *
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jens Segers
+ */
 
 class ConfigCheck extends InstallController {
     
@@ -97,6 +104,11 @@ class ConfigCheck extends InstallController {
                         }
                         break;
                     case "API_PASSWD":
+                        $pwd = $value;
+                        $value ="";
+                        for($i=0; $i<strlen($pwd); $i++)
+                            $value .= "*";
+                        
                         if(!$value) {
                             $status = "failed";
                             $message = "api_no_pass";

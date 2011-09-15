@@ -6,7 +6,11 @@ include_once("Language.class.php");
 
 $installer = Installer::getInstance();
 
-if(isset($_GET["action"]))
-    $installer->advance($_GET["action"]);
+// detect action from url
+if(count($_GET)) {
+    reset($_GET);
+    $action = key($_GET);
+    $installer->advance($action);
+}
 
 $installer->initialize();
