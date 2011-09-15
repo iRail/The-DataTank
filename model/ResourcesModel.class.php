@@ -175,6 +175,17 @@ class ResourcesModel extends AResourceFactory{
 
     }
     
+
+    public function getExtra($package,$resource){
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                $f = $factory;
+                break;
+            }
+        }
+        return $f->getExtra($package,$resource);
+    }
+
     public function addResource($package,$resource, $content){
         //We have to get at least a parameter resource_type
         if(!isset($content["resource_type"])){

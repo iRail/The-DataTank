@@ -61,14 +61,22 @@ class RemoteResourceFactory extends AResourceFactory{
         if( $this->currentRemoteResource->package != $package || $this->currentRemoteResource->resource != $resource){
             $this->fetchResource($package,$resource);
         }
-
         return $this->currentRemoteResource->formats;
     }
-    
 
     public function hasResource($package,$resource){
 	$rn = $this->getAllResourceNames();
         return isset($rn[$package]) && in_array($resource, $rn[$package]);
+    }
+
+    public function getExtra($package,$resource){
+        if( $this->currentRemoteResource->package != $package || $this->currentRemoteResource->resource != $resource){
+            $this->fetchResource($package,$resource);
+        }
+        $object = new StdClass();
+        $object->base_url = $this->currentRemoteResource->base_url;
+        $object->remote_package = $this->currentRemoteResource->remote_package;
+        return $object;
     }
 
     /**
@@ -98,8 +106,7 @@ class RemoteResourceFactory extends AResourceFactory{
                                   $this->currentRemoteResource->base_url);
     }
     private function fetchResource($package,$resource){
-	    $result = DBQueries::getRemoteResource($package, $resource);
-	    
+        $result = DBQueries::getRemoteResource($package, $resource);
         if(sizeof($result) == 0){
             throw new ResourceOrPackageNotFoundTDTException("Cannot find the remote resource with package and resource pair as: ".$package."/".$resource);
         }
@@ -132,21 +139,41 @@ class RemoteResourceFactory extends AResourceFactory{
     }
 
     public function addResource($package,$resource, $content){
-        //0. Do we have the resource already? If so, throw error
-        
-        //1. First check if it really exists on the remote server
-        //TODO
-
-        //2. Check if the resource on the server contains an "orginal" resource URI and take that URI instead if exist
-
-        //3. 
-        $package_id = parent::makePackageId($package);
-        $resource_id = parent::makeResourceId($resource, $package_id, "remote");
+        //0. Check if all parameters are present
+        if(!isset($content["base_url"])){
+            throw new ResourceAdditionTDTException("Base url for the remote resource has not been set. Please add this parameter in your body: base_url");
+        }
         $base_url = $content["base_url"];
         // make sure te base_url ends with a /
         if(substr(strrev($base_url),0,1) != "/"){
             $base_url .= "/";
         }
+        if(!isset($content["package_name"])){
+            throw new ResourceAdditionTDTException("Remote package name for the remote resource has not been set. Please add this parameter in your body: package_name");
+        }
+        $packagename = $content["package_name"];
+        
+        //1. First check if it really exists on the remote server
+        $url = $content["base_url"]."TDTInfo/Resources/" . $content["package_name"] . "/". $resource .".php";
+        $options = array("cache-time" => 1); //cache for 1 second
+        $request = TDT::HttpRequest($url, $options);
+        if(isset($request->error)){
+            throw new HttpOutTDTException($url . " does not exist! Please check the package name and base url");
+        }
+        $object = unserialize($request->data);
+        if(!isset($object["doc"])){
+            throw new ResourceAdditionTDTException("$resource does not exist on the remote server");
+        }
+
+        //2. Check if the resource on the server contains an "orginal" resource URI and take that URI instead if exists and reload everything
+        if(isset($object["extra"]) && isset($object["extra"]["base_url"])){
+            $base_url = $object["extra"]["base_url"];
+            $packagename = $object["extra"]["package_name"];
+        }
+
+        //3. store it
+        $package_id = parent::makePackageId($package);
+        $resource_id = parent::makeResourceId($resource, $package_id, "remote");
         return DBQueries::storeRemoteResource($resource_id, $content["package_name"], $base_url);
     }
 
