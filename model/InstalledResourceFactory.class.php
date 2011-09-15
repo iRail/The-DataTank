@@ -119,7 +119,11 @@ class InstalledResourceFactory extends AResourceFactory{
             return 0;
         }
     }
-    
+
+    public function getModificationTime($package,$resource){
+        // for an existing folder you can only get the last modific. date in php, so 
+        return $this->getCreationTime($package,$resource);
+    }
     
     /**
      * @return gets an instance of a AResource class.
