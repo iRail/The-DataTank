@@ -60,14 +60,13 @@ abstract class AResourceFactory{
      * @return the ID of the added resource to the DB.
      */
     public function makeResourceId($package_id,$resource,$resource_type){
-        echo $package_id . " ; " . $resource . "\n";
+        
         $checkExistence = R::getAll(
             "SELECT resource.id
              FROM resource, package
              WHERE :package_id = package.id and resource.resource_name =:resource and resource.package_id = package.id",
             array(":package_id" => $package_id, ":resource" => $resource)
         );
-        var_dump($checkExistence);
         
 
         if(sizeof($checkExistence) == 0){

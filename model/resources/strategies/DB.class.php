@@ -132,7 +132,20 @@ class DB extends ATabularData{
     
 
     private function evaluateDBResource($resource_id,$put_vars){
-        $default_ports = array("My_SQL"=>3306, "PostgreSQL"=>5432, "SQLite"=>"");
+
+        /*
+         * Check if all the parameters are passed along
+         */
+        $fieldsToCheck = array("dbtype","dbname","dbtable","host","port","user","password");
+        foreach($fieldsToCheck as $field){
+            if(!isset($put_vars[$field])){
+                if($field == "host"){ // host is not a required parameter
+                    $put_vars["host"] = "";
+                }else{
+                    throw new ParameterTDTException("The necessary parameter ".$field . " is not specified!");
+                }
+            }
+        }
         
         if((!isset($put_vars["port"]) || !$put_vars["port"]) && array_key_exists($put_vars["db_type"], $default_ports)) {
             $put_vars["port"] = $default_ports[$put_vars["db_type"]];
