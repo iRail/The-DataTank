@@ -19,8 +19,8 @@ class APITestCore extends TDTUnitTest{
         $request->execute();
         
         $this->assertEqual($request->http_code, 572);
-        if($this->http_code != 572 && $request->result)
-            echo $request->result;
+        if($request->http_code != 572 && $request->result)
+            $this->debug($request->result);
     }
     
     function testGetResources(){
@@ -29,8 +29,8 @@ class APITestCore extends TDTUnitTest{
         $request->execute();
         
         $this->assertEqual($request->http_code, 200);
-        if($this->http_code != 200 && $request->result)
-            echo $request->result;
+        if($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
     }
     
     function testGetPackages() {
@@ -39,8 +39,8 @@ class APITestCore extends TDTUnitTest{
         $request->execute();
         
         $this->assertEqual($request->http_code, 200);
-        if($this->http_code != 200 && $request->result)
-            echo $request->result;
+        if($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
     }
     
     function testGetQueries() {
@@ -49,8 +49,8 @@ class APITestCore extends TDTUnitTest{
         $request->execute();
         
         $this->assertEqual($request->http_code, 200);
-        if($this->http_code != 200 && $request->result)
-            echo $request->result;
+        if($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
     }
 
 }

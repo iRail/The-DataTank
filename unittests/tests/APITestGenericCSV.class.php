@@ -36,9 +36,19 @@ class APITestGenericCSV extends TDTUnitTest{
         $request->execute();
         
         if($request->result)
-            echo $request->result;
+            $this->debug($request->result);
         
         $this->assertEqual($request->http_code, 200);
+    }
+    
+    function testGetCSV() {
+        $url = Config::$HOSTNAME . $this->install_as; 
+        $request = new REST($url, array(), "GET");
+        $request->execute();
+        
+        $this->assertEqual($request->http_code, 200);
+        if($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
     }
     
     function testDeleteCSV() {
@@ -47,7 +57,7 @@ class APITestGenericCSV extends TDTUnitTest{
         $request->execute();
         
         if($request->result)
-            echo $request->result;
+            $this->debug($request->result);
         
         $this->assertEqual($request->http_code, 200);
     }
