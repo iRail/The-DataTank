@@ -141,9 +141,9 @@ class DBQueries {
     static function getRemoteResource($package, $resource) {
        return R::getRow(
             "SELECT rem_rec.base_url as url ,rem_rec.package_name as package,
-                    resource_name as resource
+                    resource.resource_name as resource
              FROM   package,remote_resource as rem_rec,resource
-             WHERE  package.package_name=:package and resource_name =:resource
+             WHERE  package.package_name=:package and resource.resource_name =:resource
                     and package.id = package_id and resource_id = resource.id",
             array(':package' => $package, ':resource' => $resource)
         );
@@ -197,7 +197,7 @@ class DBQueries {
                     WHERE package_id IN (SELECT package.id 
                                    FROM package,resource 
                                    WHERE package.package_name=:package and package_id = package.id
-                                   and resource_id = resource.id and resource_name =:resource
+                                   and resource_id = resource.id and resource.resource_name =:resource
                                    )",
             array(":package" => $package, ":resource" => $resource)
         );
@@ -369,7 +369,7 @@ class DBQueries {
         $fk_id_query = R::getAll(
              "SELECT generic_resource.id 
               FROM  package, resource,generic_resource
-              WHERE package.package_name=:package_name and package.id = package_id and resource_name = :resource_name
+              WHERE package.package_name=:package_name and package.id = package_id and resource.resource_name = :resource_name
                     and resource_id = resource.id",
               array(":package_name" => $fk_package, ":resource_name" => $fk_resource)
         );
@@ -489,8 +489,8 @@ class DBQueries {
             "DELETE FROM generic_resource_csv
                     WHERE gen_resource_id IN 
                           (SELECT generic_resource.id FROM generic_resource,package,resource 
-                           WHERE resource_name=:resource
-                                 and package_name=:package
+                           WHERE resource.resource_name=:resource
+                                 and package.package_name=:package
                                  and resource_id = resource.id
                                  and package.id=package_id)",
             array(":package" => $package, ":resource" => $resource)
