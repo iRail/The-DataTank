@@ -182,7 +182,7 @@ class RemoteResourceFactory extends AResourceFactory{
 
         //3. store it
         $package_id = parent::makePackageId($package);
-        $resource_id = parent::makeResourceId($resource, $package_id, "remote");
+        $resource_id = parent::makeResourceId($package_id, $resource, "remote");
         return DBQueries::storeRemoteResource($resource_id, $content["package_name"], $base_url);
     }
 
