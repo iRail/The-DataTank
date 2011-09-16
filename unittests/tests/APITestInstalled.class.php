@@ -18,7 +18,7 @@ class APITestInstalled extends TDTUnitTest{
     private $resource = "Events";
     
     function testGetPackage(){
-        $url = Config::$HOSTNAME . $this->package . "/"; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->package . "/"; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -28,7 +28,7 @@ class APITestInstalled extends TDTUnitTest{
     }
     
     function testGetResource(){
-        $url = Config::$HOSTNAME . $this->package . "/" . $this->resource . ".about"; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->package . "/" . $this->resource . ".about"; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         

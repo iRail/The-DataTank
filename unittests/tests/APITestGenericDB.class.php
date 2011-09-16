@@ -28,7 +28,7 @@ class APITestGenericDB extends TDTUnitTest{
     
     function testPutDB(){
         
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "generic",
                        "printmethods"  => $this->printmethods,
                        "generic_type"  => $this->generic_type,
@@ -52,7 +52,7 @@ class APITestGenericDB extends TDTUnitTest{
     }
     
     function testGetDB() {
-        $url = Config::$HOSTNAME . $this->install_as; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -62,7 +62,7 @@ class APITestGenericDB extends TDTUnitTest{
     }
     
     function testDeleteDB() {
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();
         
