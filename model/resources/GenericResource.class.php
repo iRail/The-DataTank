@@ -42,11 +42,11 @@ class GenericResource extends AResource {
         $this->strategy->$name = $val;
     }
     
-    /* TO BE REMOVED
+
     public function getAllowedPrintMethods(){
         $results = DBQueries::getGenericResourcePrintMethods($this->package, $this->resource);
         return isset($results["print_methods"])?explode(";", $results["print_methods"]):array();
-    }*/
+    }
     
 }
 
