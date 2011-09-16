@@ -125,9 +125,21 @@ class ResourcesModel extends AResourceFactory{
     }
 
     public function getCreationTime($package,$resource){
-        // TODO
-         return DBQueries::getCreationTime($package,$resource);    
-     }
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factory->getCreationTime($package,$resource);
+            }
+        }
+    }
+
+    public function getModificationTime($package,$resource){
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factory->getModificationTime($package,$resource);
+            }
+        }
+    }
+    
 
     public function getAllPackages(){
         $backendpackages = DBQueries::getAllPackages();

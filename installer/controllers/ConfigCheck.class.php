@@ -14,8 +14,10 @@ class ConfigCheck extends InstallController {
         $basePath = dirname(__FILE__)."/../../";
         
         // check config file existence
-        if(!file_exists($basePath."/Config.class.php"))
+        if(!file_exists($basePath."/Config.class.php")) {
             $data["config_exists"] = FALSE;
+            $this->installer->nextStep(FALSE);
+        }
         else {
             include_once($basePath."/Config.class.php");
             $data["config_exists"] = TRUE;
@@ -76,17 +78,18 @@ class ConfigCheck extends InstallController {
                         }
                         break;
                     case "SUBDIR":
-                        // guess the correct subdir
-                        $uri = $_SERVER["REQUEST_URI"];
-                        $pieces = parse_url($uri);
-                        $path = $pieces["path"];
+                        // guess the subdir
+                        $dirs = explode("/",str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
                         
-                        $subdirs = explode("/", $path);
-                        // remove empty first item and installer
-                        if(empty($subdirs[0]))
-                            unset($subdirs[0]);
-                        unset($subdirs[array_search("installer", $subdirs)]);
-                        $subdir = implode("/", $subdirs);
+                        // remove empty and install dir
+                        foreach($dirs as $k=>$dir)
+                            if(!$dir || strtolower($dir) == "installer")
+                                unset($dirs[$k]);
+                        
+                        if($dirs)
+                            $subdir = implode("/", $dirs)."/";
+                        else
+                            $subdir = "";
                         
                         if(!$value && $value != $subdir) {
                             $status = "failed";
@@ -124,6 +127,10 @@ class ConfigCheck extends InstallController {
                         }
                         break;
                 }
+                
+                // don't allow next step on error
+                if($status=="failed")
+                    $this->installer->nextStep(FALSE);
                 
                 $tests[$key] = array("value"=>$value, "status"=>$status, "message"=>$message);
             }

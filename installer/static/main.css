@@ -94,6 +94,10 @@ a.delete_input:hover {
     text-align: center;
 }
 
+th, td {
+	line-height:1.5em !important;
+}
+
 #tests th {
 	border-bottom-width: 1px;
 	background-repeat:no-repeat;
@@ -113,10 +117,6 @@ a.delete_input:hover {
 
 #tests .warning th {
 	background-image:url(error.png);
-}
-
-#tests td {
-	line-height:1.5em;
 }
 
 #tests .failed div {

@@ -164,11 +164,10 @@ class DBQueries {
     /**
      * Store a remote resource
      */
-    static function storeRemoteResource($resource_id, $resource_name, $package_name, $base_url) {
+    static function storeRemoteResource($resource_id, $package_name, $base_url) {
         $remres = R::dispense("remote_resource");
         $remres->resource_id = $resource_id;
         $remres->package_name = $package_name;
-        $remres->resource_name = $resource_name;
         $remres->base_url = $base_url;
         return R::store($remres);
     }
@@ -267,6 +266,23 @@ class DBQueries {
 
         $timestamp = R::getCell(
             "SELECT resource.creation_timestamp as timestamp
+             FROM package,resource
+             WHERE package.id = resource.package_id and package_name=:package and resource_name=:resource",
+            array(":package" => $package,":resource" => $resource)
+        );
+        if(!$timestamp){
+            return 0;
+        }
+        return (int)$timestamp;
+    }
+
+    /**
+     * Get the modification timestamp from a resource
+     */
+    static function getModificationTime($package,$resource){
+
+        $timestamp = R::getCell(
+            "SELECT resource.last_update_timestamp as timestamp
              FROM package,resource
              WHERE package.id = resource.package_id and package_name=:package and resource_name=:resource",
             array(":package" => $package,":resource" => $resource)

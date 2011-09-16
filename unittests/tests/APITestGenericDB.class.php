@@ -26,7 +26,7 @@ class APITestGenericDB extends TDTUnitTest{
     private $db_user = "root";
     private $db_password = "root";
     
-    function testPutCSV(){
+    function testPutDB(){
         
         $url = Config::$HOSTNAME . $this->install_as;
         $data = array( "resource_type" => "generic",
