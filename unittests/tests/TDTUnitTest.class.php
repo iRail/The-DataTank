@@ -23,10 +23,6 @@ class TDTUnitTest extends UnitTestCase{
         $this->user = Config::$API_USER;
         $this->pwd  = Config::$API_PASSWD;
     }
-
-    protected function checkHttpResponseCode($result,$expected_http_response){
-        return $result >= $expected_http_response && $result < $expected_http_response+100;
-    }
     
     protected function debug($message) {
         $trace=debug_backtrace();
@@ -40,6 +36,7 @@ class TDTUnitTest extends UnitTestCase{
         else {
             echo $message;
         }
+        
         echo "<br /><hr />";
     }
 

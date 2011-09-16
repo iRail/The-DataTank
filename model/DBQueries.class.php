@@ -164,11 +164,10 @@ class DBQueries {
     /**
      * Store a remote resource
      */
-    static function storeRemoteResource($resource_id, $resource_name, $package_name, $base_url) {
+    static function storeRemoteResource($resource_id, $package_name, $base_url) {
         $remres = R::dispense("remote_resource");
         $remres->resource_id = $resource_id;
         $remres->package_name = $package_name;
-        $remres->resource_name = $resource_name;
         $remres->base_url = $base_url;
         return R::store($remres);
     }
