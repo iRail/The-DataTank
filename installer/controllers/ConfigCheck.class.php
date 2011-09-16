@@ -78,17 +78,13 @@ class ConfigCheck extends InstallController {
                         }
                         break;
                     case "SUBDIR":
-                        // guess the correct subdir
-                        $uri = $_SERVER["REQUEST_URI"];
-                        $pieces = parse_url($uri);
-                        $path = $pieces["path"];
+                        // guess the subdir
+                        $dirs = explode("/",str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
+                        // remove empty pieces and installer dir
+                        unset($dirs[array_search("installer", $dirs)]);
+                        unset($dirs[array_search("", $dirs)]);
                         
-                        $subdirs = explode("/", $path);
-                        // remove empty first item and installer
-                        if(empty($subdirs[0]))
-                            unset($subdirs[0]);
-                        unset($subdirs[array_search("installer", $subdirs)]);
-                        $subdir = implode("/", $subdirs);
+                        $subdir = implode("/", $dirs);
                         
                         if(!$value && $value != $subdir) {
                             $status = "failed";
