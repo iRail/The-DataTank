@@ -10,16 +10,11 @@
  */
 class RDFMapper {
 
-    private $package;
-
-    function __construct($package) {
-        $this->package = $package;
+    private function getMappingURI($package) {
+        return $mapURI = Config::$HOSTNAME . Config::$SUBDIR . $package . '/';
     }
 
-    /**
-     * @return an string containing a possible RDF mapping in D2RQ-ML for a specific package.  
-     */
-    public function suggestMapping() {
+    private function buildNewMapping($package) {
 
         $model = ResourcesModel::getInstance();
         $mapping = "";
@@ -27,23 +22,17 @@ class RDFMapper {
         $allresources = $model->getAllResourceNames();
 
         //limit the rources to the required package
-        $allresources = $allresources[$this->package];
+        $allresources = $allresources[$package];
 
-        $rdfmodel = $this->createRdfModel();
-
-        $foafModel = new FOAF_RES();
+        $rdfmodel = $this->createRdfModel($package);
 
         $tdtmlURI = "http://thedatatank.com/tdtml/1.0#";
-        $mapURI = Config::$HOSTNAME . Config::$SUBDIR;
-
-        $rdfmodel->setBaseURI($mapURI);
-
         $rdfmodel->addNamespace("tdtml", $tdtmlURI);
-        $rdfmodel->addNamespace("foaf", FOAF_NS);
+        $rdfmodel->addNamespace("owl", OWL_NS);
 
         // Using the Resource-Centric method        
         // Create the resources
-        $package_res = $rdfmodel->createResource($this->package);
+        $package_res = $rdfmodel->createResource("");
 
         $tdtpackage_res = $rdfmodel->createResource($tdtmlURI . "TDTPackage");
         $tdtresource_res = $rdfmodel->createResource($tdtmlURI . "TDTResource");
@@ -56,7 +45,7 @@ class RDFMapper {
         $maps_prop = $rdfmodel->createProperty($tdtmlURI . "maps");
 
         //Creating literal
-        $package_name_lit = $rdfmodel->createTypedLiteral($this->package, "datatype:STRING");
+        $package_name_lit = $rdfmodel->createTypedLiteral($package, "datatype:STRING");
 
         // Add the properties
         $package_res->addProperty($is_a_prop, $tdtpackage_res);
@@ -65,11 +54,6 @@ class RDFMapper {
 
         $resources_bag = $rdfmodel->createBag();
         $package_res->addProperty($has_resources_prop, $resources_bag);
-        /* Using the Statement-Centric method -- less useful for this project
-          $packageResource = new Resource($mapURI, $this->package);
-          $rdfmodel->add(new Statement($packageResource, new Resource($tdtmlURI, "is_a"), new Resource($tdtmlURI, "Package")));
-          $rdfmodel->add(new Statement($packageResource, new Resource($tdtmlURI, "package_name"), new Literal($this->package, "en", "STRING")));
-         */
 
         foreach ($allresources as $resource) {
             $resource_res = $rdfmodel->createResource($resource);
@@ -79,30 +63,96 @@ class RDFMapper {
             $resource_res->addProperty($name_prop, $resource_name_lit);
             $resource_res->addProperty($is_a_prop, $tdtresource_res);
             $resource_res->addProperty($maps_prop, OWL_RES::OWL_CLASS());
-
-            //echo $model->
-
-            /* $resourceResource = new Resource($mapURI, $this->package . "/" . $resource);
-              $rdfmodel->add(new Statement($packageResource, new Resource($tdtmlURI, "has_resource"), $resourceResource));
-              $rdfmodel->add(new Statement($resourceResource, new Resource($tdtmlURI, "is_a"), new Resource($tdtmlURI, "Resource")));
-              $rdfmodel->add(new Statement($resourceResource, new Resource($tdtmlURI, "maps"), FOAF::PERSON()));
-             */
         }
 
         return $rdfmodel;
     }
 
-    private function createRdfModel() {
-                      
-        $modelfactory = new RbModelFactory();
+    /**
+     * Gets the ResModel object containing the mapping file for a package.
+     *
+     * @param	string $package
+     * @return	ResModel
+     * @access	public
+     */
+    public function getMapping($package) {
+        $store = RbModelFactory::getRbStore();
+
+        //check if the model alredy exists in database
+        if ($store->modelExists($this->getMappingURI($package))) {
+            return RbModelFactory::getResModel(RBMODEL, $this->getMappingURI($package));
+        } else {
+            //if not make a new one and fill in basic structure.
+            return $this->buildNewMapping($package);
+        }
+    }
+
+    /**
+     * Adds a mapping between TDT Resource and a class.
+     * The class is known internally or described in suplied onthology namespace. 
+     *
+     * @param	string $package
+     * @param	string $tdt_resource
+     * @param	string $class
+     * @param	string $nmsp
+     * @return	bool Returns true if mapping is added correctly.
+     * @access	public
+     */
+    public function addMappingStatement($package, $resource, $class, $nmsp = null) {
+        $rdfmodel = $this->getMapping($package);
+        $rdfresource = $rdfmodel->createResource($resource);
+        $property = $rdfmodel->createProperty($tdtmlURI . "maps");
+        //adding the class to the mapping - UNDER CONSTRUCTION
+        //Implement:
+        // - namespace+classname as $class
+        // - short:classname
+        // - namespace,classname seperate
+        // - short:classname, namespace both available
+        // Add a new namespace to the model!! 
+        $object;
+        if (is_null($nmsp))
+            $object = $this->browseInternalVocabulary ($class);
+        else
+            $object = $rdfmodel->createResource($nmsp . $class);
         
-        $mysql_database = $modelfactory->getRbStore();
-        $mysql_database->createTables('MySQL');
+        $rdfresource->addProperty($property, $object);
+        
+    }
+    
+    /**
+     * Looks for an existing vocabulary under rdfapi-php/api/vocabulary
+     *
+     * @param	string $class
+     * @return	ResResource
+     * @access	public
+     */
+    private function browseInternalVocabulary($class) {
+        
+    }
 
-        //Return MemModel
-        //return $modelfactory->getDefaultModel();
+    /**
+     * Removes a mapping between TDT Resource and a class.
+     *
+     * @param	string $package
+     * @param	string $tdt_resource
+     * @return	bool Returns true if mapping is renovedcorrectly.
+     * @access	public
+     */
+    public function removeMappingStatement($package, $resource) {
+        
+    }
 
-        return $modelfactory->getResModel(MEMMODEL);
+    /**
+     * Creates a new ResModel, containing RbModel, for handling and storing the mapping in tdml.
+     *
+     * @param	string $package
+     * @return	ResModel
+     * @access	public
+     */
+    private function createRdfModel($package) {
+        $rdfmodel = RbModelFactory::getResModel(RBMODEL, $this->getMappingURI($package));
+        $rdfmodel->setBaseURI($this->getMappingURI($package));
+        return $rdfmodel;
     }
 
 }

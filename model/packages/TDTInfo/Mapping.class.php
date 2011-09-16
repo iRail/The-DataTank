@@ -48,9 +48,9 @@ class Mapping extends AResource {
     }
 
     private function getData() {
-        $rdfmapper = new RDFMapper($this->package);
+        $rdfmapper = new RDFMapper();
         //Build a mapping file for package
-        $this->mapping = $rdfmapper->suggestMapping($this->package);
+        $this->mapping = $rdfmapper->getMapping($this->package);
     }
 
     public static function getDoc() {

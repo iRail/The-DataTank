@@ -7,10 +7,14 @@
 /**
  * Useful utility methods.
  * Static class.
+ * 
+ * UPDATE: changed all methods to PHP 5.3 public static (Miel Vander Sande)
  *
- * @version  $Id: RdfUtil.php 295 2006-06-23 06:45:53Z tgauss $
+ * @version  $Id: RdfUtil.php 296 2011-09-16 10:45:53Z tgauss $
  * @author Chris Bizer <chris@bizer.de>, Daniel Westphal <dawe@gmx.de>
  * @author   Anton K�stlbacher <anton1@koestlbacher.de>
+ * @author Miel Vander Sande
+ * 
  * @package utility
  * @access	public
  * */
@@ -23,7 +27,7 @@ class RDFUtil extends Object {
      * @return	string
      * @access	public
      */
-    function guessNamespace($uri) {
+    public static function guessNamespace($uri) {
         $l = RDFUtil::getNamespaceEnd($uri);
         return $l > 1 ? substr($uri, 0, $l) : "";
     }
@@ -35,7 +39,7 @@ class RDFUtil extends Object {
      * @return	string
      * @access	public
      */
-    function guessName($uri) {
+    public static function guessName($uri) {
         return substr($uri, RDFUtil::getNamespaceEnd($uri));
     }
 
@@ -46,7 +50,7 @@ class RDFUtil extends Object {
      * @return	string
      * @access	public
      */
-    function getNamespace($resource) {
+    public static function getNamespace($resource) {
         return RDFUtil::guessNamespace($resource->getURI());
     }
 
@@ -57,7 +61,7 @@ class RDFUtil extends Object {
      * @return	string
      * @access	public
      */
-    function getLocalName($resource) {
+    public static function getLocalName($resource) {
         return RDFUtil::guessName($resource->getURI());
     }
 
@@ -67,7 +71,7 @@ class RDFUtil extends Object {
      * @param	String	$uri
      * @access	private
      */
-    function getNamespaceEnd($uri) {
+    public static function getNamespaceEnd($uri) {
         $l = strlen($uri) - 1;
         do {
             $c = substr($uri, $l, 1);
@@ -84,7 +88,7 @@ class RDFUtil extends Object {
      * @param	String	$uri
      * @access	public
      */
-    function getPrefix($uri) {
+    public static function getPrefix($uri) {
         switch (RDFUtil::guessNamespace($uri)) {
             case RDF_NAMESPACE_URI:
                 $prefix = RDF_NAMESPACE_PREFIX;
@@ -111,7 +115,7 @@ class RDFUtil extends Object {
      * @return	boolean
      * @access	public
      */
-    function isRDF($resource) {
+    public static function isRDF($resource) {
         return ($resource != NULL && RDFUtil::getNamespace($resource) == RDF_NAMESPACE_URI);
     }
 
@@ -122,7 +126,7 @@ class RDFUtil extends Object {
      * @return	String
      * @access	public
      */
-    function escapeValue($textValue) {
+    public static function escapeValue($textValue) {
 
         $textValue = str_replace('<', '&lt;', $textValue);
         $textValue = str_replace('>', '&gt;', $textValue);
@@ -139,7 +143,7 @@ class RDFUtil extends Object {
      * @return	Integer
      * @access	public
      */
-    function getOrd($resource) {
+    public static function getOrd($resource) {
         if ($resource == NULL || !is_a($resource, 'Resource') || !RDFUtil::isRDF($resource))
             return -1;
         $name = RDFUtil::getLocalName($resource);
@@ -157,7 +161,7 @@ class RDFUtil extends Object {
      * @return	object Resource
      * @access	public
      */
-    function createOrd($num) {
+    public static function createOrd($num) {
         return new Resource(RDF_NAMESPACE_URI . '_' . $num);
     }
 
@@ -168,7 +172,7 @@ class RDFUtil extends Object {
      * @param	object MemModel 	&$model
      * @access	public
      */
-    function writeHTMLTable(&$model) {
+    public static function writeHTMLTable(&$model) {
         $nms = $model->getParsedNamespaces();
         $names = '';
         $pre = '';
@@ -281,7 +285,7 @@ class RDFUtil extends Object {
      * @return	object Resource
      * @access	private
      */
-    function chooseColor($node) {
+    public static function chooseColor($node) {
         if (is_a($node, 'BlankNode'))
             return HTML_TABLE_BNODE_COLOR;
         elseif (is_a($node, 'Literal'))
@@ -304,7 +308,7 @@ class RDFUtil extends Object {
      * @return	object Resource
      * @access	private
      */
-    function getNodeTypeName($node) {
+    public static function getNodeTypeName($node) {
         if (is_a($node, "BlankNode"))
             return 'Blank Node: ';
         elseif (is_a($node, 'Literal'))
@@ -330,7 +334,7 @@ class RDFUtil extends Object {
      * @access   public
      * @throws   PhpError
      */
-    function guessPrefix($uri, &$model) {
+    public static function guessPrefix($uri, &$model) {
         global $default_prefixes;
         $namespace = RDFUtil::guessNamespace($uri);
         $par_nms = $model->getParsedNamespaces();
@@ -366,7 +370,7 @@ class RDFUtil extends Object {
      * @access   public
      * @throws   PhpError
      */
-    function visualizeGraph(&$model, $format = "input_dot", $short_prefix = TRUE) {
+    public static function visualizeGraph(&$model, $format = "input_dot", $short_prefix = TRUE) {
         global $graphviz_param;
         $i = 0;
 

@@ -28,15 +28,13 @@ include_once('model/ResourcesModel.class.php');
 include_once('model/resources/AResource.class.php');
 
 include_once('model/semantics/RDFMapper.class.php');
-//include_once('model/semantics/rbmodel/RbModel.php');
-//include_once('model/semantics/rbmodel/RbModelFactory.php');
-//include_once('model/semantics/rbmodel/RbStore.php');
 
 define("RDFAPI_INCLUDE_DIR", "model/semantics/rdfapi-php/api/"); 
 include_once(RDFAPI_INCLUDE_DIR . "RdfAPI.php");
 include_once(RDFAPI_INCLUDE_DIR . "util/RdfUtil.php");
 include_once(RDFAPI_INCLUDE_DIR . "vocabulary/VocabularyRes.php");
 include_once(RDFAPI_INCLUDE_DIR . "resModel/ResModelP.php");
+include_once(RDFAPI_INCLUDE_DIR . "model/DBase.php");
 
 
 // The code for the wrapper_handler is in aspects/logging/ErrorLogger.class.php

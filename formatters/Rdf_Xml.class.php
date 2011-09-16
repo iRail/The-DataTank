@@ -25,13 +25,18 @@ class Rdf_Xml extends AFormatter {
         $model = $this->objectToPrint;
 
         // Import Package Syntax
-	include_once(RDFAPI_INCLUDE_DIR.PACKAGE_SYNTAX_RDF);
-        
+        include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_RDF);
+
         $ser = new RDFSerializer();
+
+        //Serializer only works on MemModel class, so we need to retrieve the underlying MemModel
+        if (is_a($model, 'ResModel'))
+            $model = $model->getModel();
+        if (is_a($model, 'DbModel'))
+            $model = $model->getMemModel();
         
-        //important to use $model->getModel() since a serializer works on undelying Model class, not ResModel
-        $rdf = & $ser->serialize($model->getModel());
-        
+        $rdf = $ser->serialize($model);
+
         echo $rdf;
     }
 

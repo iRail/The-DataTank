@@ -75,9 +75,8 @@ class Resource extends Node {
     function getNamespace() {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
-        //added fix by Miel Vander Sande
-        $rdfutil = new RDFUtil();
-        return $rdfutil->guessNamespace($this->uri);
+
+        return RDFUtil::guessNamespace($this->uri);
     }
 
     /**
@@ -88,9 +87,8 @@ class Resource extends Node {
     function getLocalName() {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
-        //added fix by Miel Vander Sande
-        $rdfutil = new RDFUtil();
-        return $rdfutil->guessName($this->uri);
+
+        return RDFUtil::guessName($this->uri);
     }
 
     /**

@@ -43,7 +43,7 @@ class ResModel {
         if (!is_a($model, 'Model'))
             trigger_error(RDFAPI_ERROR . '(class: ResourceLayer; method: ResourceLayer): 
 				$model has to be object of class Model', E_USER_ERROR);
-
+        
         $this->model = & $model;
     }
 
@@ -155,10 +155,11 @@ class ResModel {
      * @access	public
      */
     function findFirstMatchingStatement($subject, $predicate, $object, $offset = 0) {
-
-        $statement = $this->model->findFirstMatchingStatement($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object), $offset
-        );
+        
+        $statement = $this->model->findFirstMatchingStatement($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object), $offset);
+        
         if ($statement !== null) {
+
             return new Statement($this->_node2ResNode($statement->getSubject()),
                             $this->_node2ResNode($statement->getPredicate(), true),
                             $this->_node2ResNode($statement->getObject())
@@ -505,7 +506,9 @@ class ResModel {
      * @access	public
      */
     function createBag($uri = null) {
+
         $resBag = new ResBag($uri);
+
         $resBag->setAssociatedModel($this);
 
         return $resBag;
@@ -678,21 +681,25 @@ class ResModel {
      * @throws phpErrpr
      */
     function _resNode2Node($resNode) {
+      
         if (is_a($resNode, 'ResResource')) {
+            
             if ($resNode->getIsAnon()) {
                 $return = new BlankNode($resNode->getURI());
             } else {
                 $return = new Resource($resNode->getURI());
             }
+            
             return $return;
         }
-
+        
         if (is_a($resNode, 'ResLiteral')) {
             $literal = new Literal($resNode->getLabel(), $resNode->getLanguage());
             if ($resNode->getDatatype() != null)
                 $literal->setDatatype($resNode->getDatatype());
             return $literal;
         }
+        
     }
 
     /**

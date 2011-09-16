@@ -59,9 +59,6 @@ class RdfSerializer extends Object {
         $this->rdf_qnames = SER_RDF_QNAMES;
         $this->use_xml_declaration = SER_XML_DECLARATION;
 
-        //Fix by Miel Vander Sande
-        $this->rdfutil = new RDFUtil();
-
 
         global $default_prefixes;
         foreach ($default_prefixes as $key => $value) {
@@ -161,7 +158,7 @@ class RdfSerializer extends Object {
      * @return    string
      * @access    public
      */
-    function & serialize(&$model, $xml_default_namespace = NULL, $encoding = DEFAULT_ENCODING) {
+    function  serialize($model, $xml_default_namespace = NULL, $encoding = DEFAULT_ENCODING) {
 
         if ($xml_default_namespace) {
 
@@ -285,7 +282,7 @@ class RdfSerializer extends Object {
      * @return    boolean
      * @access    public
      */
-    function saveAs(&$model, $filename, $encoding = DEFAULT_ENCODING) {
+    function saveAs($model, $filename, $encoding = DEFAULT_ENCODING) {
         // serialize model
         $RDF = $this->serialize($model, NULL, $encoding);
 
@@ -441,9 +438,9 @@ class RdfSerializer extends Object {
      * @access   private
      */
     function relativizeURI($uri) {
-        $uri_namespace = $this->rdfutil->guessNamespace($uri);
+        $uri_namespace = RDFUtil::guessNamespace($uri);
         if ($uri_namespace == $this->m_baseURI) {
-            return $this->rdfutil->guessName($uri);
+            return RDFUtil::guessName($uri);
         } else {
             return $uri;
         }
@@ -563,14 +560,14 @@ class RdfSerializer extends Object {
      * @access   private
      */
     function writeAbsoluteResourceReference($rebaseURI) {
-        $namespace = $this->rdfutil->guessNamespace($rebaseURI);
-        $localName = $this->rdfutil->guessName($rebaseURI);
+        $namespace = RDFUtil::guessNamespace($rebaseURI);
+        $localName = RDFUtil::guessName($rebaseURI);
         $text = $rebaseURI;
         if ($namespace != '' and $this->use_entities) {
             $prefix = array_search($namespace, $this->m_namespaces);
             $text = '&' . $prefix . ';' . $localName;
         } else
-            $text = $this->rdfutil->escapeValue($text);
+            $text = RDFUtil::escapeValue($text);
         $this->m_out .= $text;
     }
 
@@ -641,8 +638,8 @@ class RdfSerializer extends Object {
      * @access   private
      */
     function getElementText($elementName) {
-        $namespace = $this->rdfutil->guessNamespace($elementName);
-        $localName = $this->rdfutil->guessName($elementName);
+        $namespace = RDFUtil::guessNamespace($elementName);
+        $localName = RDFUtil::guessName($elementName);
         if ($namespace == "")
             return $localName;
         $prefix = array_search($namespace, $this->m_namespaces);
@@ -693,7 +690,7 @@ class RdfSerializer extends Object {
      * @access   private
      */
     function collectNamespace($resource) {
-        $namespace = $this->rdfutil->getNamespace($resource);
+        $namespace = RDFUtil::getNamespace($resource);
         if (!in_array($namespace, $this->m_namespaces) && $namespace != '') {
             $prefix = array_search($namespace, $this->m_defaultNamespaces);
             if ($prefix === FALSE)

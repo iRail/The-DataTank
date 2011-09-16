@@ -29,8 +29,13 @@ class Rdf_N3 extends AFormatter {
         
         $ser = new N3Serializer();
         
-        //important to use $model->getModel() since a serializer works on undelying Model class, not ResModel
-        $rdf = & $ser->serialize($model->getModel());
+        //Serializer only works on MemModel class, so we need to retrieve the underlying MemModel
+        if (is_a($model, 'ResModel'))
+            $model = $model->getModel();
+        if (is_a($model, 'DbModel'))
+            $model = $model->getMemModel();
+        
+        $rdf = & $ser->serialize($model);
         
         echo $rdf;
     }

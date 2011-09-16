@@ -59,9 +59,9 @@ class DbModel extends Model {
      * @param   string   $baseURI
      * @access	public
      */
-    function DbModel(&$dbConnection, $modelURI, $modelID, $baseURI=NULL) {
+    function DbModel($dbConnection, $modelURI, $modelID, $baseURI=NULL) {
 
-        $this->dbConn = & $dbConnection;
+        $this->dbConn = $dbConnection;
         $this->modelURI = $modelURI;
         $this->modelID = $modelID;
         $this->baseURI = $this->_checkBaseURI($baseURI);
@@ -231,7 +231,6 @@ class DbModel extends Model {
      * @access public
      */
     function & getMemModel() {
-
         $recordSet = $this->_getRecordSet($this);
         $m = $this->_convertRecordSetToMemModel($recordSet);
         return $m;
@@ -276,6 +275,7 @@ class DbModel extends Model {
     function writeAsHtmlTable() {
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
         $memModel = & $this->getMemModel();
+
         RDFUtil::writeHTMLTable($memModel);
     }
 
@@ -937,7 +937,6 @@ class DbModel extends Model {
      */
 
     function _getNodeFlag($object) {
-
         return is_a($object, 'BlankNode') ? 'b' : (is_a($object, 'Resource') ? 'r' : 'l');
     }
 

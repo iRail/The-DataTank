@@ -12,7 +12,7 @@ class Config {
     public static $HOSTNAME = "http://localhost/";
 
     // host for caching purposes
-    public static $CACHE_SYSTEM = "MemCache"; //other possibilities: NoCache, apc...
+    public static $CACHE_SYSTEM = "NoCache"; //other possibilities: NoCache, apc...
     public static $CACHE_HOST = "localhost";
     public static $CACHE_PORT = 11211;
 

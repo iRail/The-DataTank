@@ -26,7 +26,7 @@ class ResBag extends ResContainer
 	function ResBag($uri = null)
 	{
 		parent::ResContainer($uri);
-		$this->containerType=new ResResource(RDF_NAMESPACE_URI.RDF_BAG);
-	}
+        	$this->containerType=new ResResource(RDF_NAMESPACE_URI.RDF_BAG);
+  	}
 }
 ?>
