@@ -84,7 +84,10 @@ class ConfigCheck extends InstallController {
                         // remove installer dir
                         unset($dirs[array_search("installer", $dirs)]);
                         
-                        $subdir = implode("/", $dirs)."/";
+                        if($dirs)
+                            $subdir = implode("/", $dirs)."/";
+                        else
+                            $subdir = "";
                         
                         if(!$value && $value != $subdir) {
                             $status = "failed";
