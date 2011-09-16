@@ -32,14 +32,16 @@ class InstallController {
             include($file);
         }
         else
-            $this->showError("Unable to load view: ".$file);
+            $this->error("Unable to load view: ".$file);
     }
     
     private function error($message) {
         ob_clean();
         
+        $this->installer->nextStep(FALSE);
+        
         $this->view("header");
-        echo $message;
+        echo "<p>".$message."<p>";
         $this->view("footer");
         
         ob_end_flush();

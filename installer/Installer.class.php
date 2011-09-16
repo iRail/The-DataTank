@@ -9,9 +9,9 @@
 
 class Installer {
     
-    public $steps = array("Welcome", "ConfigCheck", "SystemCheck", "DatabaseCheck", "DatabaseSetup", "Finish");
+    public $steps = array("Welcome", "ConfigCheck", "SystemCheck", "DatabaseCheck", "DatabaseCreate", "DatabaseSetup", "Finish");
     
-    public static $version = "2.0";
+    public static $version = "1.0-alpha";
     
     // installed languages for this installer
     private $languages = array("en");

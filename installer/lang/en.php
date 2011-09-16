@@ -3,11 +3,11 @@
 $lang["next_button"] = "next";
 $lang["previous_button"] = "previous";
 
-$lang["welcome_title"] = "DataTank installer";
-$lang["welcome_message"] = "This process will take you through the needed installation steps for you DataTank setup.";
+$lang["welcome_title"] = "The DataTank ".Installer::$version." installer";
+$lang["welcome_message"] = "This process will take you through the needed installation steps for your DataTank ".Installer::$version." setup.";
 
-$lang["config_check_title"] = "DataTank configuration";
-$lang["config_check_message"] = "A configuration file has been found and it's values will be checked, please confirm these values:";
+$lang["config_check_title"] = "Config verification";
+$lang["config_check_message"] = "A configuration file has been found and its values will be checked, please confirm or adjust these values:";
 $lang["no_config"] = "Your configuration file was not found. Please rename Config.example.class.php to Config.class.php and adjust the settings to your specific environment.";
 $lang["hostname_no_match"] = "Your hostname does not match the current server name: ".$_SERVER["SERVER_NAME"];
 $lang["hostname_no_https"] = "We encourage the use of https";
@@ -36,13 +36,23 @@ $lang["database_title"] = "Database check";
 $lang["database_message"] = "Your database config credentials will now be verified so that we can create the needed database.";
 $lang["database_credentials_wrong"] = "Please verify your database settings";
 $lang["database_credentials_ok"] = "Your database settings have been verified";
+$lang["database_create_next_step"] = "The database you selected does not exist, we will create it in the next step";
+$lang["database_no_database"] = "You did not specify a database";
+
+$lang["database_create_title"] = "Database creation";
+$lang["database_create_message"] = "Your database will now be created";
+$lang["database_create_success"] = "Your database has been created";
+$lang["database_create_failed"] = "Your database could not be created, please return to the previous step and verify your credentials";
+
+$lang["database_root_title"] = "Database root credentials";
+$lang["database_root_message"] = "In order to create your database we need credentials that allow the creation of databases (the root user for example)";
 
 $lang["database_setup_title"] = "Database setup";
 $lang["database_setup_message"] = "Your database will now be prepared for your DataTank";
-$lang["database_table_created"] = "Table created";
+$lang["database_table_created"] = "Created";
 $lang["database_table_failed"] = "Could not create table";
-$lang["database_setup_success"] = "Your database has been created";
+$lang["database_setup_success"] = "Your database tables have been created";
 $lang["database_setup_failed"] = "One or more tables could not be created, please check your database settings and try again";
 
 $lang["finish_title"] = "DataTank installation completed";
-$lang["finish_message"] = "Something something something dark side...";
+$lang["finish_message"] = "Your DataTank has been installed. Read our documentation for more information about using and working with The DataTank.";
