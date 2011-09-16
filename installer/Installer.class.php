@@ -9,13 +9,15 @@
 
 class Installer {
     
-    public $steps = array("Welcome", "ConfigCheck", "SystemCheck", "DatabaseCheck", "DatabaseSetup", "Finish");
+    private $steps = array("Welcome", "ConfigCheck", "SystemCheck", "DatabaseCheck", "DatabaseCreate", "DatabaseSetup", "Finish");
     
     // installed languages for this installer
     private $languages = array("en");
     
     protected $session, $config;
     protected $currentStep;
+    protected $nextStep = null;
+    protected $previousStep = null;
     
     public function __construct() {
         session_start();
@@ -30,24 +32,43 @@ class Installer {
         $language->load($lang);
     }
     
+    public static function version() {
+        include(dirname(__FILE__)."/../version.php");
+        return $version;
+    }
+    
     public function run() {
-        // default step
-        if(!$this->currentStep)
+        if($this->installedVersion() >= $this->version()) {
+            $this->previousStep = FALSE;
+            $this->nextStep = FALSE;
+            
+            $this->currentStep = end($this->steps);
+        }
+        else if(!$this->currentStep)
             $this->currentStep = reset($this->steps);
         
-        $controllerClass = $this->currentStep;
-        $path = dirname(__FILE__)."/controllers/".$controllerClass.".class.php";
+        $this->loadController($this->currentStep);
+    }
+    
+    private function loadController($name) {
+        $loaded = false;
         
+        $path = dirname(__FILE__)."/controllers/".$name.".class.php";
         if(file_exists($path)) {
             include($path);
-            $controller = new $controllerClass();
-            $controller->index();
+            if(class_exists($name)) {
+                $controller = new $name();
+                $controller->index();
+                $loaded = true;
+            }
         }
-        else {
-           // load first controller if none found
-            $controllerClass = reset($this->steps);
-            $controller = new $controllerClass();
-            $controller->index();
+        
+        if(!$loaded) {
+            $default = reset($this->steps);
+            if($default != $name)
+                $this->loadController($default);
+            else
+                die("Could not find controller");
         }
     }
     
@@ -58,20 +79,64 @@ class Installer {
             $this->currentStep = $this->nextStep();
     }
     
-    public function nextStep() {
-        $next = array_search($this->currentStep, $this->steps)+1;
-        if(array_key_exists($next, $this->steps))
-            return $this->steps[$next];
-        else
-            return false;
+    public function nextStep($next=null) {
+        // allow override from controllers
+        if(!is_null($next))
+            $this->nextStep = $next;
+        
+        // if no next step is set, detect the next step in line
+        if(is_null($this->nextStep)) {
+            $next = array_search($this->currentStep, $this->steps)+1;
+            if(array_key_exists($next, $this->steps))
+                $this->nextStep = $this->steps[$next];
+            else
+                $this->nextStep = FALSE;
+        }
+        
+        return $this->nextStep;
     }
     
-    public function previousStep() {
-        $previous = array_search($this->currentStep, $this->steps)-1;
-        if(array_key_exists($previous, $this->steps))
-            return $this->steps[$previous];
-        else
-            return false;
+    public function previousStep($previous=null) {
+        // allow override from controllers
+        if(!is_null($previous))
+            $this->previousStep = $previous;
+            
+        // if no previous step is set, detect the previous step
+        if(is_null($this->previousStep)) {
+            $previous = array_search($this->currentStep, $this->steps)-1;
+            if(array_key_exists($previous, $this->steps))
+                $this->previousStep = $this->steps[$previous];
+            else
+                $this->previousStep = FALSE;
+        }
+        
+        return $this->previousStep;
+    }
+    
+    public static function installedVersion() {
+        $config = dirname(__FILE__)."/../Config.class.php";
+        if(file_exists($config)) {
+            if(!class_exists("Config"))
+                include_once($config);
+            
+            $db = dirname(__FILE__)."/../includes/rb.php";
+            if(!class_exists("R"))
+                include_once($db);
+                
+            try {
+                R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+                $info = R::getRow("SELECT * FROM info WHERE name = :name LIMIT 0,1", 
+                                  array(":name"=>"version"));
+                                  
+                if(isset($info["value"]))
+                    return $info["value"];
+            }
+            catch(Exception $e) {
+                return FALSE;
+            }
+        }
+        
+        return FALSE;
     }
     
     public static function getInstance() {

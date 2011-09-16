@@ -41,6 +41,14 @@ class ResourcesModel extends AResourceFactory{
         $this->updateActions = array();
         $this->updateActions["foreign_relation"] = "addForeignRelation";
     }
+
+    public function getResourceType($package,$resource){
+        foreach($this->factories as $factorytype => $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factorytype;
+            }
+        }   
+    }
     
     public static function getInstance(){
         if(!isset(self::$uniqueinstance)){
@@ -116,6 +124,23 @@ class ResourcesModel extends AResourceFactory{
         return $rn;
     }
 
+    public function getCreationTime($package,$resource){
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factory->getCreationTime($package,$resource);
+            }
+        }
+    }
+
+    public function getModificationTime($package,$resource){
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                return $factory->getModificationTime($package,$resource);
+            }
+        }
+    }
+    
+
     public function getAllPackages(){
         $backendpackages = DBQueries::getAllPackages();
         $installedpackages = $this->factories["installed"]->getAllPackages();
@@ -175,6 +200,17 @@ class ResourcesModel extends AResourceFactory{
 
     }
     
+
+    public function getExtra($package,$resource){
+        foreach($this->factories as $factory){
+            if($factory->hasResource($package,$resource)){
+                $f = $factory;
+                break;
+            }
+        }
+        return $f->getExtra($package,$resource);
+    }
+
     public function addResource($package,$resource, $content){
         //We have to get at least a parameter resource_type
         if(!isset($content["resource_type"])){
@@ -198,12 +234,11 @@ class ResourcesModel extends AResourceFactory{
         $package_id = parent::makePackageId($package);
 
         //create the resource entry, or throw an exception package/resource already exists
-        parent::makeResourceId($resource,$package_id,$resource_type);
+        parent::makeResourceId($package_id,$resource,$resource_type);
 
         //Add the rest of the specific information for that type of resource
         $factory->addResource($package,$resource,$content);
     }
-
 
     /**
      * Check if the given update type is a supported one
@@ -213,7 +248,7 @@ class ResourcesModel extends AResourceFactory{
      * @param $content the POST parameters
      */
     public function updateResource($package,$resource,$content){
-        if(isset($this->updateActions[$content["update_type"]])){
+        if(isset($content["update_type"]) && isset($this->updateActions[$content["update_type"]])){
             $method = $this->updateActions[$content["update_type"]];
             $this->$method($package,$resource,$content);
         }else{

@@ -24,10 +24,23 @@ abstract class AResourceFactory{
 		$docs->$package->$resource->requiredparameters = $this->getResourceRequiredParameters($package,$resource);
 		$docs->$package->$resource->parameters = $this->getResourceParameters($package,$resource);
 		$docs->$package->$resource->formats = $this->getAllowedPrintMethods($package,$resource);
+                $docs->$package->$resource->creation_timestamp = $this->getCreationTime($package,$resource);
+                $docs->$package->$resource->modification_timestamp = $this->getModificationTime($package,$resource);
+                $extra = $this->getExtra($package,$resource);                
+                if(!is_null($extra)){
+                    $docs->$package->$resource->extra = $extra;
+                }
 	    }
 	}
 	return $docs;
     }
+
+    public function getExtra($package,$resource){
+        return NULL;    
+    }
+    
+    
+    
 
     /**
      * @return an object with all existing packages
@@ -36,7 +49,7 @@ abstract class AResourceFactory{
         $result = new StdClass();
         $packages = array();
         foreach($this->getAllPackages() as $package){
-            array_push($packages,$package);
+            $packages[] = $package;
         }
         $result->packages = $packages;
         return $result;
@@ -50,13 +63,15 @@ abstract class AResourceFactory{
      * @param resource_type generic or remote
      * @return the ID of the added resource to the DB.
      */
-    public function makeResourceId($resource,$package_id,$resource_type){
+    public function makeResourceId($package_id,$resource,$resource_type){
+        
         $checkExistence = R::getAll(
             "SELECT resource.id
              FROM resource, package
-             WHERE :package_id = package.id and resource_name =:resource and package_id = package.id",
+             WHERE :package_id = package.id and resource.resource_name =:resource and resource.package_id = package.id",
             array(":package_id" => $package_id, ":resource" => $resource)
         );
+        
 
         if(sizeof($checkExistence) == 0){
             $newResource = R::dispense("resource");
@@ -133,6 +148,17 @@ abstract class AResourceFactory{
       * @return an associative array with all packages as keys, and arrays of resources as values 
       */
      abstract public function getAllResourceNames();
+
+     /**
+      * @return the creation timestamp of a resource
+      */
+     abstract public function getCreationTime($package,$resource);
+     
+     /**
+      * @ return the modification timestamp of a resource
+      */ 
+     abstract public function getModificationTime($package,$resource);
+     
 
      /************************************************SETTERS*****************************************************************/
      

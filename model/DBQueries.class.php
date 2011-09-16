@@ -141,9 +141,9 @@ class DBQueries {
     static function getRemoteResource($package, $resource) {
        return R::getRow(
             "SELECT rem_rec.base_url as url ,rem_rec.package_name as package,
-                    resource_name as resource
+                    resource.resource_name as resource
              FROM   package,remote_resource as rem_rec,resource
-             WHERE  package.package_name=:package and resource_name =:resource
+             WHERE  package.package_name=:package and resource.resource_name =:resource
                     and package.id = package_id and resource_id = resource.id",
             array(':package' => $package, ':resource' => $resource)
         );
@@ -194,10 +194,10 @@ class DBQueries {
     static function deleteRemoteResource($package, $resource) {
         return R::exec(
             "DELETE FROM remote_resource
-                    WHERE package_id IN (SELECT package.id 
+                    WHERE resource_id IN (SELECT resource.id 
                                    FROM package,resource 
                                    WHERE package.package_name=:package and package_id = package.id
-                                   and resource_id = resource.id and resource_name =:resource
+                                   and resource_id = resource.id and resource.resource_name =:resource
                                    )",
             array(":package" => $package, ":resource" => $resource)
         );
@@ -258,7 +258,42 @@ class DBQueries {
             array(":package_id" => $package_id, ":resource" => $resource)
         );
     }
+
+    /**
+     * Get the creation timestamp from a resource
+     */
+    static function getCreationTime($package,$resource){
+
+        $timestamp = R::getCell(
+            "SELECT resource.creation_timestamp as timestamp
+             FROM package,resource
+             WHERE package.id = resource.package_id and package_name=:package and resource_name=:resource",
+            array(":package" => $package,":resource" => $resource)
+        );
+        if(!$timestamp){
+            return 0;
+        }
+        return (int)$timestamp;
+    }
+
+    /**
+     * Get the modification timestamp from a resource
+     */
+    static function getModificationTime($package,$resource){
+
+        $timestamp = R::getCell(
+            "SELECT resource.last_update_timestamp as timestamp
+             FROM package,resource
+             WHERE package.id = resource.package_id and package_name=:package and resource_name=:resource",
+            array(":package" => $package,":resource" => $resource)
+        );
+        if(!$timestamp){
+            return 0;
+        }
+        return (int)$timestamp;
+    }
     
+
     /**
      * Store a resource
      */
@@ -369,7 +404,7 @@ class DBQueries {
         $fk_id_query = R::getAll(
              "SELECT generic_resource.id 
               FROM  package, resource,generic_resource
-              WHERE package.package_name=:package_name and package.id = package_id and resource_name = :resource_name
+              WHERE package.package_name=:package_name and package.id = package_id and resource.resource_name = :resource_name
                     and resource_id = resource.id",
               array(":package_name" => $fk_package, ":resource_name" => $fk_resource)
         );
@@ -489,11 +524,31 @@ class DBQueries {
             "DELETE FROM generic_resource_csv
                     WHERE gen_resource_id IN 
                           (SELECT generic_resource.id FROM generic_resource,package,resource 
-                           WHERE resource_name=:resource
-                                 and package_name=:package
+                           WHERE resource.resource_name=:resource
+                                 and package.package_name=:package
                                  and resource_id = resource.id
                                  and package.id=package_id)",
             array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Delete published columns for a certain generic resource
+     */
+    static function deletePublishedColumns($package,$resource){
+        return R::exec(
+            "DELETE FROM published_columns
+                    WHERE generic_resource_id IN
+                    ( 
+                      SELECT generic_resource.id 
+                      FROM   generic_resource,resource,package
+                      WHERE  package_name = :package 
+                             and package_id = package.id
+                             and resource_name = :resource 
+                             and resource_id = resource.id
+                    )",
+            array(":package" => $package, ":resource" => $resource)
+            
         );
     }
 }

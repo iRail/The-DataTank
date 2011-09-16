@@ -13,7 +13,8 @@
 include_once('includes/glue.php');
 include_once('includes/rb.php');
 include_once('aspects/caching/Cache.class.php');
-include_once('aspects/errors/Exceptions.class.php');
+include_once('aspects/errors/usage/Exceptions.php');
+include_once('aspects/errors/system/Exceptions.php');
 include_once('aspects/logging/ErrorLogger.class.php');
 include_once('controllers/AController.class.php');
 include_once('controllers/RController.class.php');

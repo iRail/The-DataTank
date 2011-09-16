@@ -104,6 +104,26 @@ class InstalledResourceFactory extends AResourceFactory{
 
     }
     
+    /**
+     * Overrides getCreationTime() from AResourceFactory
+     */
+    public function getCreationTime($package,$resource){
+            
+        //if the object read is a directory and the configuration methods file exists, 
+        //then add it to the installed packages
+        if (is_dir("custom/packages/" . $package) 
+            && file_exists("custom/packages/" . $package ."/".$resource.".class.php")) {
+            include_once("custom/packages/" . $package ."/".$resource.".class.php");
+            return filemtime("custom/packages/" . $package ."/".$resource.".class.php");
+        }else{
+            return 0;
+        }
+    }
+
+    public function getModificationTime($package,$resource){
+        // for an existing folder you can only get the last modific. date in php, so 
+        return $this->getCreationTime($package,$resource);
+    }
     
     /**
      * @return gets an instance of a AResource class.

@@ -132,9 +132,24 @@ class DB extends ATabularData{
     
 
     private function evaluateDBResource($resource_id,$put_vars){
-        DBQueries::storeDBResource($resource_id, $put_vars["dbtype"], $put_vars["dbname"], 
-                                   $put_vars["dbtable"], $put_vars["host"], $put_vars["port"],
-                                   $put_vars["user"], $put_vars["password"]);
+
+        /*
+         * Check if all the parameters are passed along
+         */
+        $fieldsToCheck = array("db_type","db_name","db_table","host","port","db_user","db_password");
+        foreach($fieldsToCheck as $field){
+            if(!isset($put_vars[$field])){
+                if($field == "port"){ // port is not a required parameter
+                    $put_vars["port"] = "";
+                } else{
+                    throw new ParameterTDTException("The necessary parameter ".$field . " is not specified!");
+                }
+            }
+        }
+        
+        DBQueries::storeDBResource($resource_id, $put_vars["db_type"], $put_vars["db_name"], 
+                                   $put_vars["db_table"], $put_vars["host"], $put_vars["port"],
+                                   $put_vars["db_user"], $put_vars["db_password"]);
     }
 
 
