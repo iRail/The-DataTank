@@ -21,7 +21,9 @@ class DatabaseCheck extends InstallController {
             $data["credentials"]["DB_PASSWORD"] .= "*";
             
         // detect database name
-        $dbname = end(explode(";", Config::$DB));
+        $db = Config::$DB;
+        $db_pieces = explode($db);
+        $dbname = end($db_pieces);
         $pieces = explode("=", $dbname);
         if(!isset($pieces) || $pieces[0] != "dbname") {
             $data["status"] = "failed";
