@@ -22,7 +22,7 @@ class APITestGenericCSV extends TDTUnitTest{
     
     function testPutCSV(){
         
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "generic",
                        "printmethods"  => $this->printmethods,
                        "generic_type"  => $this->generic_type,
@@ -41,7 +41,7 @@ class APITestGenericCSV extends TDTUnitTest{
     }
     
     function testGetCSV() {
-        $url = Config::$HOSTNAME . $this->install_as; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -51,7 +51,7 @@ class APITestGenericCSV extends TDTUnitTest{
     }
     
     function testDeleteCSV() {
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();
         

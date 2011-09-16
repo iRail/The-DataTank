@@ -20,7 +20,7 @@ class APITestRemote extends TDTUnitTest{
     
     function testPutRemote(){
         
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "remote",
                        "package_name"  => $this->package_name,
                        "base_url" 	   => $this->base_url
@@ -35,7 +35,7 @@ class APITestRemote extends TDTUnitTest{
     }
     
     function testGetRemote() {
-        $url = Config::$HOSTNAME . $this->install_as; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -45,7 +45,7 @@ class APITestRemote extends TDTUnitTest{
     }
     
     function testDeleteRemote() {
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();
         

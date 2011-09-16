@@ -77,6 +77,9 @@ class GenericResourceFactory extends AResourceFactory{
             // relates to
             DBQueries::deleteForeignRelation($package,$resource);
             
+            // delete any published columns entry
+            DBQueries::deletePublishedColumns($package,$resource);
+            
             //now the only thing left to delete is the main row
             DBQueries::deleteGenericResource($package, $resource);
         }

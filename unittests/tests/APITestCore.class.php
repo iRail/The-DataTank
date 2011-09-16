@@ -14,7 +14,7 @@ include_once(dirname(__FILE__)."/../classes/REST.class.php");
 class APITestCore extends TDTUnitTest{
 
     function testGetTDTInfo(){
-        $url = Config::$HOSTNAME . "TDTInfo/"; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/"; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -24,7 +24,7 @@ class APITestCore extends TDTUnitTest{
     }
     
     function testGetResources(){
-        $url = Config::$HOSTNAME . "TDTInfo/Resources.about"; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources.about"; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -34,7 +34,7 @@ class APITestCore extends TDTUnitTest{
     }
     
     function testGetPackages() {
-        $url = Config::$HOSTNAME . "TDTInfo/Packages.about"; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Packages.about"; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -44,7 +44,7 @@ class APITestCore extends TDTUnitTest{
     }
     
     function testGetQueries() {
-        $url = Config::$HOSTNAME . "TDTInfo/Queries/TDTInfo.about"; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Queries/TDTInfo.about"; 
         $request = new REST($url, array(), "GET", Config::$API_USER, Config::$API_PASSWD);
         $request->execute();
         

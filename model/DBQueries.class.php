@@ -531,5 +531,25 @@ class DBQueries {
             array(":package" => $package, ":resource" => $resource)
         );
     }
+
+    /**
+     * Delete published columns for a certain generic resource
+     */
+    static function deletePublishedColumns($package,$resource){
+        return R::exec(
+            "DELETE FROM published_columns
+                    WHERE generic_resource_id IN
+                    ( 
+                      SELECT generic_resource.id 
+                      FROM   generic_resource,resource,package
+                      WHERE  package_name = :package 
+                             and package_id = package.id
+                             and resource_name = :resource 
+                             and resource_id = resource.id
+                    )",
+            array(":package" => $package, ":resource" => $resource)
+            
+        );
+    }
 }
 ?>
