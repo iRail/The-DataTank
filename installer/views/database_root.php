@@ -4,6 +4,10 @@
 
 <p><?php echo lang("database_root_message"); ?></p>
 
+<?php if($message): ?>
+<p class="error"><?php echo $message; ?></p>
+<?php endif; ?>
+
 <form method="POST">
     <table>
     	<tr>
@@ -24,7 +28,8 @@
     	</tr>
     	<tr>
     		<td></td>
-    		<td><input type="submit" class="button" value="Create database" /></td>
+    		<td><input type="submit" class="button" value="Create database" />
+    		</td>
     	</tr>
     </table>
 </form>

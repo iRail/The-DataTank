@@ -45,8 +45,8 @@ $lang["database_create_message"] = "Your database will now be created";
 $lang["database_create_success"] = "Your database has been created";
 $lang["database_create_failed"] = "Your database could not be created, please return to the previous step and verify your credentials";
 
-$lang["database_root_title"] = "Database root credentials";
-$lang["database_root_message"] = "In order to create your database we need credentials that allow the creation of databases (the root user for example)";
+$lang["database_root_title"] = "Database root login";
+$lang["database_root_message"] = "We tried creating the database with the supplied credentials, but this account does not have the authorization to create databases. Please provide credentials that do allow the creation of database, this information will not be saved to your config.";
 
 $lang["database_setup_title"] = "Database setup";
 $lang["database_setup_message"] = "Your database will now be prepared for your DataTank";

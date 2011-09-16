@@ -14,15 +14,15 @@ class DatabaseCreate extends InstallController {
             $this->createDatabase($_POST["user"], $_POST["pass"]);
         }
         else {
-            $this->installer->nextStep(FALSE);
-            $this->view("database_root");
+            // try installation with config credentials
+            $this->createDatabase(Config::$DB_USER, Config::$DB_PASSWORD);
         }
     }
     
     private function createDatabase($user, $pass) {
         include_once(dirname(__FILE__)."/../../Config.class.php");
         include_once(dirname(__FILE__)."/../../includes/rb.php");
-       
+        
         try {
             $dbname = end(explode(";", Config::$DB));
             $pieces = explode("=", $dbname);
@@ -42,21 +42,24 @@ class DatabaseCreate extends InstallController {
             else {
                 $data["status"] = "failed";
                 $data["message"] = "database_no_database";
+                
+                $this->installer->nextStep(FALSE);
+                $this->installer->previousStep("DatabaseCheck");
             }
+            
+            // show database create success page
+            $this->view("database_create", $data);
             
         }
         catch(Exception $e) {
             $data["status"] = "failed";
             $data["message"] = $e->getMessage();
-        }
-        
-        if($data["status"] == "failed") {
-            // don't allow next step on error and set this step again as previous step
+            
             $this->installer->nextStep(FALSE);
-            $this->installer->previousStep("DatabaseCreate");
+            $this->installer->previousStep("DatabaseCheck");
+            
+            $this->view("database_root", $data);
         }
-        
-        $this->view("database_create", $data);
     }
     
 }
