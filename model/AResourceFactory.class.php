@@ -24,7 +24,8 @@ abstract class AResourceFactory{
 		$docs->$package->$resource->requiredparameters = $this->getResourceRequiredParameters($package,$resource);
 		$docs->$package->$resource->parameters = $this->getResourceParameters($package,$resource);
 		$docs->$package->$resource->formats = $this->getAllowedPrintMethods($package,$resource);
-                $docs->$package->$resource->timestamp = $this->getCreationTime($package,$resource);
+                $docs->$package->$resource->creation_timestamp = $this->getCreationTime($package,$resource);
+                $docs->$package->$resource->modification_timestamp = $this->getModificationTime($package,$resource);
                 $extra = $this->getExtra($package,$resource);                
                 if(!is_null($extra)){
                     $docs->$package->$resource->extra = $extra;
@@ -151,11 +152,12 @@ abstract class AResourceFactory{
      /**
       * @return the creation timestamp of a resource
       */
-     public function getCreationTime($package,$resource){    
-         return DBQueries::getCreationTime($package,$resource); 
-     }
+     abstract public function getCreationTime($package,$resource);
      
-     
+     /**
+      * @ return the modification timestamp of a resource
+      */ 
+     abstract public function getModificationTime($package,$resource);
      
 
      /************************************************SETTERS*****************************************************************/
