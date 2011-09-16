@@ -5,14 +5,14 @@
 <p><?php echo lang("database_setup_message"); ?></p>
 
 <table id="tests">
-<?php foreach($tables as $table=>$status): ?>
-	<tr class="<?php echo $status; ?>">
+<?php foreach($tables as $table=>$query_status): ?>
+	<tr class="<?php echo $query_status; ?>">
 		<th>	
             <?php echo $table ?>
         </th>
 		<td>
 		    <?php 
-		        if($status=="passed") 
+		        if($query_status=="passed") 
                     echo lang("database_table_created");
                 else
                     echo lang("database_table_failed"); 

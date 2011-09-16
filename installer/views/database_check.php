@@ -20,8 +20,10 @@
 			<div><?php
             if($status == "passed")
                 echo lang("database_credentials_ok");
-            else
-                echo lang("database_credentials_wrong").'<br />'.$message;
+            elseif($status == "failed")
+                echo lang("database_credentials_wrong").'<br />'.lang($message);
+            elseif($message)
+                echo lang($message);
             ?></div>
 		</th>
 	</tr>

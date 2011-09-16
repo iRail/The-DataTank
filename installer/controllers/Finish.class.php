@@ -10,6 +10,7 @@
 class Finish extends InstallController {
     
     public function index() {
+        $this->installer->previousStep(FALSE);
         $this->view("finish");
     }
     
