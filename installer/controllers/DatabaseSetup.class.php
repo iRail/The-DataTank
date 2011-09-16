@@ -154,12 +154,12 @@ class DatabaseSetup extends InstallController {
             if(!$this->installer->installedVersion()) {
                 $info = R::dispense("info");
                 $info->name = "version";
-                $info->value = Installer::$version;
+                $info->value = $this->installer->version();
                 R::store($info);
             }
             else {
                 $info = R::findOne('info','name=:name LIMIT 1', array(":name"=>"version"));
-                $info->value = Installer::$version;
+                $info->value = $this->installer->version();
                 R::store($info);
             }
             

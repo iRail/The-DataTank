@@ -9,9 +9,7 @@
 
 class Installer {
     
-    public $steps = array("Welcome", "ConfigCheck", "SystemCheck", "DatabaseCheck", "DatabaseCreate", "DatabaseSetup", "Finish");
-    
-    public static $version = "1.0-alpha";
+    private $steps = array("Welcome", "ConfigCheck", "SystemCheck", "DatabaseCheck", "DatabaseCreate", "DatabaseSetup", "Finish");
     
     // installed languages for this installer
     private $languages = array("en");
@@ -34,8 +32,13 @@ class Installer {
         $language->load($lang);
     }
     
+    public static function version() {
+        include(dirname(__FILE__)."/../version.php");
+        return $version;
+    }
+    
     public function run() {
-        if($this->installedVersion() >= Installer::$version) {
+        if($this->installedVersion() >= $this->version()) {
             $this->previousStep = FALSE;
             $this->nextStep = FALSE;
             

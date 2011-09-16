@@ -20,9 +20,10 @@ class DatabaseCheck extends InstallController {
         for($i=0; $i<strlen(Config::$DB_PASSWORD); $i++)
             $data["credentials"]["DB_PASSWORD"] .= "*";
             
+        error_reporting(E_ALL | E_STRICT);
+            
         // detect database name
-        $db = Config::$DB;
-        $db_pieces = explode(";", $db);
+        $db_pieces = explode(";", Config::$DB);
         $dbname = end($db_pieces);
         $pieces = explode("=", $dbname);
         if(!isset($pieces) || $pieces[0] != "dbname") {

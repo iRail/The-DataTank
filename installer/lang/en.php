@@ -3,8 +3,8 @@
 $lang["next_button"] = "next";
 $lang["previous_button"] = "previous";
 
-$lang["welcome_title"] = "The DataTank ".Installer::$version." installer";
-$lang["welcome_message"] = "This process will take you through the needed installation steps for your DataTank ".Installer::$version." setup.";
+$lang["welcome_title"] = "The DataTank ".Installer::version()." installer";
+$lang["welcome_message"] = "This process will take you through the needed installation steps for your DataTank ".Installer::version()." setup.";
 
 $lang["config_check_title"] = "Config verification";
 $lang["config_check_message"] = "A configuration file has been found and its values will be checked, please confirm or adjust these values:";
@@ -55,5 +55,5 @@ $lang["database_table_failed"] = "Could not create table";
 $lang["database_setup_success"] = "Your database tables have been created";
 $lang["database_setup_failed"] = "One or more tables could not be created, please check your database settings and try again";
 
-$lang["finish_title"] = "DataTank installation completed";
+$lang["finish_title"] = "DataTank ".Installer::version()." installation completed";
 $lang["finish_message"] = "Your DataTank has been installed. Read our documentation for more information about using and working with The DataTank.";

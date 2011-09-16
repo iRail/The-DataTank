@@ -31,10 +31,10 @@ class SystemCheck extends InstallController {
         
         // Memcache
         if(class_exists("Memcache")) {
-            $tests["memcache_version"] = array("status"=>"passed", "value"=>@memcache_get_version());
+            $tests["memcache_version"] = array("status"=>"passed", "value"=>"");
         }
         else {
-            $tests["memcache_version"] = array("status"=>"failed", "value"=>"N/A");
+            $tests["memcache_version"] = array("status"=>"failed", "value"=>"");
         }
             
         $data["tests"] = $tests;
