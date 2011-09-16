@@ -41,6 +41,8 @@ class SystemCheck extends InstallController {
             return array("status"=>"passed", "value"=>$version);
         }
         else {
+            // don't allow next step on error
+            $this->installer->nextStep(FALSE);    
             return array("status"=>"failed", "value"=>$version, "message"=>lang("system_version_low")." ".$required);
         }
     }

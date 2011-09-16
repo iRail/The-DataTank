@@ -23,14 +23,14 @@ class DatabaseSetup extends InstallController {
               `error_message` text,
               `error_code` varchar(255) DEFAULT NULL,
               PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["feedback_messages"] = "CREATE TABLE IF NOT EXISTS `feedback_messages` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `url_request` varchar(255) DEFAULT NULL,
               `msg` text NOT NULL,
               PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["foreign_relation"] = "CREATE TABLE IF NOT EXISTS `foreign_relation` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -41,7 +41,7 @@ class DatabaseSetup extends InstallController {
               PRIMARY KEY (`id`),
               KEY `main_object_id` (`main_object_id`),
               KEY `foreign_object_id` (`foreign_object_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["generic_resource"] = "CREATE TABLE IF NOT EXISTS `generic_resource` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -52,7 +52,7 @@ class DatabaseSetup extends InstallController {
               `timestamp` int(11) unsigned DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `resource_id` (`resource_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["generic_resource_csv"] = "CREATE TABLE IF NOT EXISTS `generic_resource_csv` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -61,7 +61,7 @@ class DatabaseSetup extends InstallController {
               `resource_id` set('1') DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `gen_resource_id` (`gen_resource_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["generic_resource_db"] = "CREATE TABLE IF NOT EXISTS `generic_resource_db` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -75,14 +75,14 @@ class DatabaseSetup extends InstallController {
               `db_password` varchar(50) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `gen_resource_id` (`gen_resource_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["package"] = "CREATE TABLE IF NOT EXISTS `package` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `package_name` varchar(255) NOT NULL,
               `timestamp` bigint(20) NOT NULL,
               PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["published_columns"] = "CREATE TABLE IF NOT EXISTS `published_columns` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -91,7 +91,7 @@ class DatabaseSetup extends InstallController {
               `is_primary_key` int(11) DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `generic_resource_id` (`generic_resource_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["remote_resource"] = "CREATE TABLE IF NOT EXISTS `remote_resource` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -101,7 +101,7 @@ class DatabaseSetup extends InstallController {
               `base_url` varchar(50) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `resource_id` (`resource_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["requests"] = "CREATE TABLE IF NOT EXISTS `requests` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -117,7 +117,7 @@ class DatabaseSetup extends InstallController {
               `allparameters` varchar(164) DEFAULT NULL,
               `requiredparameter` varchar(255) DEFAULT NULL,
               PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";    
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";    
         
         $queries["resource"] = "CREATE TABLE IF NOT EXISTS `resource` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -128,7 +128,15 @@ class DatabaseSetup extends InstallController {
               `type` varchar(60) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+        
+        $queries["info"] = "CREATE TABLE IF NOT EXISTS `info` (
+              `id` int(11) NOT NULL AUTO_INCREMENT,
+              `name` varchar(255) NOT NULL,
+              `value` varchar(255) NOT NULL,
+              PRIMARY KEY (`id`),
+              KEY `name` (`name`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $tables = array();
         foreach($queries as $table=>$query) {
@@ -143,6 +151,18 @@ class DatabaseSetup extends InstallController {
                 $tables[$table] = "passed";
             }
             
+            if(!$this->installer->installedVersion()) {
+                $info = R::dispense("info");
+                $info->name = "version";
+                $info->value = Installer::$version;
+                R::store($info);
+            }
+            else {
+                $info = R::findOne('info','name=:name LIMIT 1', array(":name"=>"version"));
+                $info->value = Installer::$version;
+                R::store($info);
+            }
+            
             $data["status"] = "passed";
             $data["tables"] = $tables;
         }
@@ -150,6 +170,7 @@ class DatabaseSetup extends InstallController {
             $data["status"] = "failed";
             $data["tables"] = $tables;
             $data["message"] = $e->getMessage();
+            $this->installer->nextStep(FALSE);
         }
         
         $this->view("database_setup", $data);

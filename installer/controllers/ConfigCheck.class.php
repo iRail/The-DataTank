@@ -14,8 +14,10 @@ class ConfigCheck extends InstallController {
         $basePath = dirname(__FILE__)."/../../";
         
         // check config file existence
-        if(!file_exists($basePath."/Config.class.php"))
+        if(!file_exists($basePath."/Config.class.php")) {
             $data["config_exists"] = FALSE;
+            $this->installer->nextStep(FALSE);
+        }
         else {
             include_once($basePath."/Config.class.php");
             $data["config_exists"] = TRUE;
@@ -124,6 +126,10 @@ class ConfigCheck extends InstallController {
                         }
                         break;
                 }
+                
+                // don't allow next step on error
+                if($status=="failed")
+                    $this->installer->nextStep(FALSE);
                 
                 $tests[$key] = array("value"=>$value, "status"=>$status, "message"=>$message);
             }

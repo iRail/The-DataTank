@@ -9,7 +9,7 @@
 
 class InstallController {
     
-    private $installer;
+    protected $installer;
     
     public function __construct() {
         // enable output buffering

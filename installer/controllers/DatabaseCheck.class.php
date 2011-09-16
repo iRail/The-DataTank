@@ -30,6 +30,9 @@ class DatabaseCheck extends InstallController {
         catch(Exception $e) {
             $data["status"] = "failed";
             $data["message"] = $e->getMessage();
+            
+            // don't allow next step on error
+            $this->installer->nextStep(FALSE);
         }
         
         $this->view("database_credentials", $data);
