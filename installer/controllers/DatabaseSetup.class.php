@@ -96,7 +96,6 @@ class DatabaseSetup extends InstallController {
         $queries["remote_resource"] = "CREATE TABLE IF NOT EXISTS `remote_resource` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `resource_id` bigint(20) NOT NULL,
-              `resource_name` varchar(40) NOT NULL,
               `package_name` varchar(64) NOT NULL,
               `base_url` varchar(50) NOT NULL,
               PRIMARY KEY (`id`),

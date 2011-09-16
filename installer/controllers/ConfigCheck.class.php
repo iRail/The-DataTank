@@ -80,9 +80,11 @@ class ConfigCheck extends InstallController {
                     case "SUBDIR":
                         // guess the subdir
                         $dirs = explode("/",str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
-                        $dirs = array_filter($dirs);
-                        // remove installer dir
-                        unset($dirs[array_search("installer", $dirs)]);
+                        
+                        // remove empty and install dir
+                        foreach($dirs as $k=>$dir)
+                            if(!$dir || strtolower($dir) == "installer")
+                                unset($dirs[$k]);
                         
                         if($dirs)
                             $subdir = implode("/", $dirs)."/";

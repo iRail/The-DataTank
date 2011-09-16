@@ -23,7 +23,7 @@ $lang["api_no_pass"] = "No API password given";
 $lang["api_short_pass"] = "API password should be at least 6 characters";
 
 $lang["system_title"] = "System requirements";
-$lang["system_message"] = "You system configuration will now be matched with our minimum requirements.";
+$lang["system_message"] = "Your system configuration will now be matched with our minimum requirements.";
 $lang["php_version"] = "PHP version";
 $lang["mysql_version"] = "MySQL version";
 $lang["sqlite_version"] = "SQLite version";
