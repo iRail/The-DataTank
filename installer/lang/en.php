@@ -28,6 +28,7 @@ $lang["php_version"] = "PHP version";
 $lang["mysql_version"] = "MySQL version";
 $lang["sqlite_version"] = "SQLite version";
 $lang["postgresql_version"] = "PostgreSQL version";
+$lang["memcache_version"] = "Memcache";
 
 $lang["system_version_not_tested"] = "Could not test your version";
 $lang["system_version_low"] = "Your version should be at least";

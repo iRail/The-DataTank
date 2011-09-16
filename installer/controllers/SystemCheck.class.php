@@ -20,20 +20,28 @@ class SystemCheck extends InstallController {
         if(in_array("mysql", $extensions) || in_array("mysqli", $extensions)) {
             $tests["mysql_version"] = $this->checkVersion(@mysql_get_server_info(), "5");
         }
-        //SQLite
+        // SQLite
         elseif(in_array("SQLite", $extensions)) {
             $tests["sqlite_version"] = $this->checkVersion(@sqlite_libversion(), "3");
         }
-        //PostgreSQL
+        // PostgreSQL
         elseif(in_array("pgsql", $extensions)) {
             $tests["postgresql_version"] = $this->checkVersion("", "8");
+        }
+        
+        // Memcache
+        if(class_exists("Memcache")) {
+            $tests["memcache_version"] = array("status"=>"passed", "value"=>@memcache_get_version());
+        }
+        else {
+            $tests["memcache_version"] = array("status"=>"failed", "value"=>"N/A");
         }
             
         $data["tests"] = $tests;
         $this->view("system", $data);
     }
     
-    private function checkVersion($version, $required) {
+    private function checkVersion($version=0, $required=0) {
         if(!$version) {
             return array("status"=>"warning", "value"=>"N/A", "message"=>lang("system_version_not_tested"));
         }
