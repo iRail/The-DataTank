@@ -22,7 +22,7 @@ class DatabaseCheck extends InstallController {
             
         // detect database name
         $db = Config::$DB;
-        $db_pieces = explode($db);
+        $db_pieces = explode(";", $db);
         $dbname = end($db_pieces);
         $pieces = explode("=", $dbname);
         if(!isset($pieces) || $pieces[0] != "dbname") {
