@@ -16,7 +16,7 @@ class APITestGenericHTMLTable extends TDTUnitTest{
 
     //private $location = "http://www.nieuws.be/";
     //private $xpath = "//table[@id='htmlGrid_a119d7e2-e979-436a-8cad-765d37fc0fdd']";
-    private $location = "/unittests/temp/person.html";
+    private $location = "unittests/temp/person.html";
     private $xpath = "//table";
     private $install_as = "htmltablepackage/person/";
     private $generic_type = "HTMLTable";
@@ -56,7 +56,6 @@ class APITestGenericHTMLTable extends TDTUnitTest{
         if($request->http_code != 200 && $request->result)
             $this->debug($request->result);
     }
-
     function testDeleteHTMLTable() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");

@@ -77,6 +77,10 @@ class HTMLTable extends ATabularData {
              
             $domxpath = new DOMXPath( $html ); 
             $tablerows = $domxpath->query($xpath . "/tr" ); 
+            if ($tablerows->length == 0) {
+                //table has thead and tbody
+                $tablerows = $domxpath->query($xpath . "/*/tr" );
+            }
 
             $rowIndex = 1;
             foreach ($tablerows as $tr) {
@@ -86,6 +90,10 @@ class HTMLTable extends ATabularData {
                 $domxpath = new DOMXPath( $newDom ); 
                 if ($rowIndex == 1) {
                     $tablecols = $domxpath->query("td");
+                    if ($tablecols->length == 0) {
+                        //thead row has th instead of td
+                        $tablecols = $domxpath->query("th" );
+                    }
                     $columnIndex = 1;
                     foreach($tablecols as $td) {
                         $fieldhash[ $td->nodeValue ] = $columnIndex;						
