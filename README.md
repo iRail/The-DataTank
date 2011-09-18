@@ -15,6 +15,9 @@ First of all, in order to get started with The DataTank you have to install some
 * memcached
 * mod_rewrite
 
+When you want to use generic XLS resources you need to install the PHPExcel library (tested on PHPExcel v1.7.6)  and point the $PHPEXCEL_IOFACTORY_PATH property in the Config.class.php to the IOFactory.php in Classes/PHPExcel.
+The PHPExcel library can be downloaded from http://phpexcel.codeplex.com/
+
 ## Installation ##
 
 Debian/Ubuntu: 

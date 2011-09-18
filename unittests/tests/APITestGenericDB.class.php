@@ -15,7 +15,7 @@ class APITestGenericDB extends TDTUnitTest{
     
     private $install_as = "dbpackage/person/";
     private $generic_type = "DB";
-    private $printmethods = "json;xml;jsonp";
+    private $printmethods = "html;json;xml;jsonp";
     private $columns = "name;age;city";
     private $PK = "name";
    
