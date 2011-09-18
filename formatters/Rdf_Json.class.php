@@ -23,6 +23,11 @@ class Rdf_Json extends AFormatter {
 
     public function printAll() {
         $model = $this->objectToPrint;
+        
+        //When the objectToPrint is a Model, it is the mapping file amd ready for serialisation.
+        //Else it's retrieved data of which we need to build an onthology
+        if (!is_a($model, 'Model'))
+              $model = RDFOutput::buildRdfOutput($model); 
 
         // Import Package Syntax
 	include_once(RDFAPI_INCLUDE_DIR.PACKAGE_SYNTAX_JSON);

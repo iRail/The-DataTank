@@ -29,6 +29,7 @@ include_once('model/ResourcesModel.class.php');
 include_once('model/resources/AResource.class.php');
 
 include_once('model/semantics/RDFMapper.class.php');
+include_once('model/semantics/RDFOutput.class.php');
 
 define("RDFAPI_INCLUDE_DIR", "model/semantics/rdfapi-php/api/"); 
 include_once(RDFAPI_INCLUDE_DIR . "RdfAPI.php");

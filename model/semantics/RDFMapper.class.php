@@ -10,6 +10,8 @@
  */
 class RDFMapper {
 
+    private $TDML_NS = "http://thedatatank.com/tdtml/1.0#";
+
     private function getMappingURI($package) {
         return $mapURI = Config::$HOSTNAME . Config::$SUBDIR . $package . '/';
     }
@@ -26,7 +28,7 @@ class RDFMapper {
 
         $rdfmodel = $this->createRdfModel($package);
 
-        $tdtmlURI = "http://thedatatank.com/tdtml/1.0#";
+        $tdtmlURI = $TDML_NS;
         $rdfmodel->addNamespace("tdtml", $tdtmlURI);
         $rdfmodel->addNamespace("owl", OWL_NS);
 
@@ -110,6 +112,12 @@ class RDFMapper {
         // - short:classname, namespace both available
         // Add a new namespace to the model!! 
         $object;
+        $short;
+        if (!stripos($class, ":")) {
+            $split = split(":", $class);
+            $class = $split[0];
+            $short = $split[1];
+        }
         if (is_null($nmsp))
             $object = $this->browseInternalVocabulary ($class);
         else
@@ -139,6 +147,16 @@ class RDFMapper {
      * @access	public
      */
     public function removeMappingStatement($package, $resource) {
+        $rdfmodel = $this->getMapping($package);
+        $subject = $rdfmodel->createResource($resource);
+        $statements = $rdfmodel->find($subject, $this->TDML_NS.'maps', null);
+        
+        foreach($statements as $statement){
+            if (!$rdfmodel->remove($statement)){
+                
+            }
+        }
+        
         
     }
 
