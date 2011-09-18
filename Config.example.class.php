@@ -27,8 +27,8 @@ class Config {
     public static $API_USER = "";
     public static $API_PASSWD = "";
 	
-	// path to the PHPExcel IOFactory.php, required for XLS generic resource
-	public static $PHPEXCEL_IOFACTORY_PATH = "../PHPExcel/Classes/PHPExcel/IOFactory.php";	
+    // path to the PHPExcel IOFactory.php, required for XLS generic resource
+    public static $PHPEXCEL_IOFACTORY_PATH = "../PHPExcel/Classes/PHPExcel/IOFactory.php";	
     
 }
 ?>

@@ -13,15 +13,15 @@ class XLS extends ATabularData {
 
     public function __construct() {
         if(Config::$PHPEXCEL_IOFACTORY_PATH!="") {
-			if(!file_exists(Config::$PHPEXCEL_IOFACTORY_PATH)){
-				throw new NotFoundTDTException("Could not include " . Config::$PHPEXCEL_IOFACTORY_PATH);
-			} else {
-				include_once(Config::$PHPEXCEL_IOFACTORY_PATH);
-			}
-		} else {
-				throw new NotFoundTDTException("PHPExcel path not defined in config.class");		
-		}
-	}
+            if(!file_exists(Config::$PHPEXCEL_IOFACTORY_PATH)){
+                throw new NotFoundTDTException("Could not include " . Config::$PHPEXCEL_IOFACTORY_PATH);
+            } else {
+                include_once(Config::$PHPEXCEL_IOFACTORY_PATH);
+            }
+        } else {
+            throw new NotFoundTDTException("PHPExcel path not defined in config.class");		
+        }
+    }
 
     public function onCall($package,$resource){
 
@@ -65,47 +65,47 @@ class XLS extends ATabularData {
         if(!file_exists($filename)){
             throw new CouldNotGetDataTDTException($filename);
         }
-        try{ 
-			$objReader = PHPExcel_IOFactory::createReader('Excel2007');
-			$objReader->setLoadSheetsOnly($sheet);
-			$objPHPExcel = $objReader->load($filename);
+        try { 
+            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+            $objReader->setLoadSheetsOnly($sheet);
+            $objPHPExcel = $objReader->load($filename);
 
-			$worksheet = $objPHPExcel->getSheetByName($sheet);
-			foreach ($worksheet->getRowIterator() as $row) {
-				$rowIndex = $row->getRowIndex();
-				$cellIterator = $row->getCellIterator();
-				$cellIterator->setIterateOnlyExistingCells(false);
-				if ($rowIndex == 1) {
-					foreach ($cellIterator as $cell) {
-						$columnIndex = $cell->columnIndexFromString($cell->getColumn());
-						$fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;						
-					}
-				}
-				else {
-					$rowobject = new stdClass();
-					$keys = array_keys($fieldhash);
-					foreach ($cellIterator as $cell) {
-						$columnIndex = $cell->columnIndexFromString($cell->getColumn());
-						if (!is_null($cell)) {
-							$c = $keys[$columnIndex - 1];
-							if(sizeof($columns) == 0 || in_array($c,$columns)){
-								$rowobject->$c = $cell->getCalculatedValue();
-							}
-							if($PK == "") {
-								array_push($arrayOfRowObjects,$rowobject);   
-							} else {
-								if(!isset($arrayOfRowObjects[$rowobject->$PK])){
-									$arrayOfRowObjects[$rowobject->$PK] = $rowobject;
-								}
-							}
-						}					
-					}
-				}
-			}
-        
+            $worksheet = $objPHPExcel->getSheetByName($sheet);
+            foreach ($worksheet->getRowIterator() as $row) {
+                $rowIndex = $row->getRowIndex();
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(false);
+                if ($rowIndex == 1) {
+                    foreach ($cellIterator as $cell) {
+                        $columnIndex = $cell->columnIndexFromString($cell->getColumn());
+                        $fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;						
+                    }
+                }
+                else {
+                    $rowobject = new stdClass();
+                    $keys = array_keys($fieldhash);
+                    foreach ($cellIterator as $cell) {
+                        $columnIndex = $cell->columnIndexFromString($cell->getColumn());
+                        if (!is_null($cell)) {
+                            $c = $keys[$columnIndex - 1];
+                            if(sizeof($columns) == 0 || in_array($c,$columns)){
+                                $rowobject->$c = $cell->getCalculatedValue();
+                            }
+                            if($PK == "") {
+                                array_push($arrayOfRowObjects,$rowobject);   
+                            } else {
+                                if(!isset($arrayOfRowObjects[$rowobject->$PK])){
+                                    $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
             $resultobject->object = $arrayOfRowObjects;
             return $resultobject;
-        }catch( Exception $ex) {
+        } catch( Exception $ex) {
             throw new CouldNotGetDataTDTException( $filename );
         }
     }

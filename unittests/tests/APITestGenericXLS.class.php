@@ -15,7 +15,7 @@ include_once(dirname(__FILE__)."/../classes/REST.class.php");
 class APITestGenericXLS extends TDTUnitTest{
 
     private $location = "/../temp/person.xlsx";
-	private $sheet = "person";
+    private $sheet = "person";
     private $install_as = "xlspackage/person/";
     private $generic_type = "XLS";
     private $printmethods = "html;json;xml;jsonp";
@@ -30,7 +30,7 @@ class APITestGenericXLS extends TDTUnitTest{
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
                        "uri"           => dirname(__FILE__).$this->location,
-					   "sheet"         => $this->sheet,
+                       "sheet"         => $this->sheet,
                        "columns"       => $this->columns,
                        "PK"            => $this->PK
         );
@@ -52,7 +52,7 @@ class APITestGenericXLS extends TDTUnitTest{
         if($request->http_code != 200 && $request->result)
             $this->debug($request->result);
     }
-/*    
+
     function testDeleteXLS() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
@@ -62,7 +62,6 @@ class APITestGenericXLS extends TDTUnitTest{
         if($request->result)
             $this->debug($request->result);
     }
-*/
 }
 
 ?>
