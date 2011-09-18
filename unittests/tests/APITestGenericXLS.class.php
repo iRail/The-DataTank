@@ -1,26 +1,28 @@
 <?php
 /**
- * This class tests the core resources
+ * This class tests the generic XLS resource
  *
- * Copyright (C) 2011 by iRail vzw/asbl 
- * Author: Jens Segers
- * License: AGPLv3
+ * @package The-Datatank/model/resources/strategies
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Lieven Janssen
  */
 
 include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
 include_once(dirname(__FILE__)."/../classes/REST.class.php");
 
-class APITestGenericCSV extends TDTUnitTest{
+class APITestGenericXLS extends TDTUnitTest{
 
-    private $location = "/../temp/person.csv";
-    private $install_as = "csvpackage/person/";
-    private $generic_type = "CSV";
+    private $location = "/../temp/person.xlsx";
+	private $sheet = "person";
+    private $install_as = "xlspackage/person/";
+    private $generic_type = "XLS";
     private $printmethods = "html;json;xml;jsonp";
     private $columns = "name;age;city";
     private $PK = "name";
     
-    function testPutCSV(){
+    function testPutXLS(){
         
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "generic",
@@ -28,6 +30,7 @@ class APITestGenericCSV extends TDTUnitTest{
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
                        "uri"           => dirname(__FILE__).$this->location,
+					   "sheet"         => $this->sheet,
                        "columns"       => $this->columns,
                        "PK"            => $this->PK
         );
@@ -40,7 +43,7 @@ class APITestGenericCSV extends TDTUnitTest{
             $this->debug($request->result);
     }
     
-    function testGetCSV() {
+    function testGetXLS() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
@@ -49,8 +52,8 @@ class APITestGenericCSV extends TDTUnitTest{
         if($request->http_code != 200 && $request->result)
             $this->debug($request->result);
     }
-
-    function testDeleteCSV() {
+/*    
+    function testDeleteXLS() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();
@@ -59,7 +62,7 @@ class APITestGenericCSV extends TDTUnitTest{
         if($request->result)
             $this->debug($request->result);
     }
+*/
 }
-
 
 ?>
