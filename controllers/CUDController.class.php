@@ -25,7 +25,7 @@ class CUDController extends AController{
             $allresources = $model->getAllResourceNames();
             if(isset($allresources[$package])){    
                 throw new NoResourceGivenTDTException($allresources[$package]);
-            }else{
+            } else{
                 throw new NoResourceGivenTDTException(array());
             }
         }

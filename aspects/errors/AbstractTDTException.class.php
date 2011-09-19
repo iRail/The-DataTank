@@ -18,7 +18,8 @@ abstract class AbstractTDTException extends Exception {
      * This should return an errorcode which relates to the implemented exception class.
      */
     public static function getErrorCode() {
-        return self::$error;
+        $class = get_called_class();
+        return $class::$error;
     }
     
     /**

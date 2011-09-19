@@ -29,7 +29,7 @@ class Exceptions extends AResource {
         foreach($classes as $class) {
             if(is_subclass_of($class, "AbstractTDTException")) {
                 $e = new stdClass();
-                $e->code = $class::$error;
+                $e->code = $class::getErrorCode();
                 $e->doc = $class::getDoc();
                 $o->Exceptions[$class] = $e;
             }
