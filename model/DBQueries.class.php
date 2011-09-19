@@ -572,6 +572,48 @@ class DBQueries {
                                  and package.id=package_id)",
             array(":package" => $package, ":resource" => $resource)
         );
+    }
+
+    /**
+     * Retrieve a specific HTML Table resource
+     */
+    static function getHTMLTableResource($package, $resource) {
+        return R::getRow(
+            "SELECT generic_resource.id as gen_res_id,generic_resource_htmltable.uri as uri,generic_resource_htmltable.xpath as xpath
+             FROM package,resource, generic_resource, generic_resource_htmltable
+             WHERE package.package_name=:package and resource.resource_name=:resource
+                   and package.id=resource.package_id 
+                   and resource.id = generic_resource.resource_id
+                   and generic_resource.id=generic_resource_htmltable.gen_resource_id",
+            array(':package' => $package, ':resource' => $resource)
+        );
+    }
+   
+    /**
+     * Store a HTML Table resource
+     */
+    static function storeHTMLTableResource($resource_id, $uri, $xpath) {
+        $xlsresource = R::dispense("generic_resource_htmltable");
+        $xlsresource->gen_resource_id = $resource_id;
+        $xlsresource->uri = $uri;
+		$xlsresource->xpath = $xpath;
+        return R::store($xlsresource);
+    }
+    
+    /**
+     * Delete a specific HTML Table resource
+     */
+    static function deleteHTMLTableResource($package, $resource) {
+        return R::exec(
+            "DELETE FROM generic_resource_htmltable
+                    WHERE gen_resource_id IN 
+                          (SELECT generic_resource.id FROM generic_resource,package,resource 
+                           WHERE resource.resource_name=:resource
+                                 and package.package_name=:package
+                                 and resource_id = resource.id
+                                 and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource)
+        );
     }	
 
     /**

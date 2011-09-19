@@ -9,7 +9,7 @@
  */
 include_once("model/resources/strategies/ATabularData.class.php");
 
-class XLS extends ATabularData {
+class HTMLTable extends ATabularData {
 
     public function __construct() {
         if(Config::$PHPEXCEL_IOFACTORY_PATH!="") {
@@ -26,22 +26,22 @@ class XLS extends ATabularData {
     public function onCall($package,$resource){
 
         /*
-         * First retrieve the values for the generic fields of the XLS logic
+         * First retrieve the values for the generic fields of the HTML Table logic
          */
-        $result = DBQueries::getXLSResource($package, $resource);
+        $result = DBQueries::getHTMLTableResource($package, $resource);
         
         $gen_res_id = $result["gen_res_id"];
 
         if(isset($result["uri"])){
-            $filename = $result["uri"];
+            $uri = $result["uri"];
         }else{
-            throw new ResourceTDTException("Can't find URI of the XLS");
+            throw new ResourceTDTException("Can't find URI of the HTML Table");
         }
 		
-        if(isset($result["sheet"])){
-            $sheet = $result["sheet"];
+        if(isset($result["xpath"])){
+            $xpath = $result["xpath"];
         }else{
-            throw new ResourceTDTException("Can't find sheet of the XLS");
+            throw new ResourceTDTException("Can't find xpath of the HTML Table");
         }		
 
         $columns = array();
@@ -62,37 +62,55 @@ class XLS extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
           
-        if(!file_exists($filename)){
-            throw new CouldNotGetDataTDTException($filename);
+/*
+        if(!file_exists($uri)){
+            throw new CouldNotGetDataTDTException($uri);
         }
+*/        
         try { 
-            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-            $objReader->setLoadSheetsOnly($sheet);
-            $objPHPExcel = $objReader->load($filename);
 
-            $worksheet = $objPHPExcel->getSheetByName($sheet);
-            foreach ($worksheet->getRowIterator() as $row) {
-                $rowIndex = $row->getRowIndex();
-                $cellIterator = $row->getCellIterator();
-                $cellIterator->setIterateOnlyExistingCells(false);
+            $oldSetting = libxml_use_internal_errors( true ); 
+            libxml_clear_errors(); 
+             
+            $html = new DOMDocument(); 
+            $html->loadHtmlFile($uri); 
+             
+            $domxpath = new DOMXPath( $html ); 
+            $tablerows = $domxpath->query($xpath . "/tr" ); 
+            if ($tablerows->length == 0) {
+                //table has thead and tbody
+                $tablerows = $domxpath->query($xpath . "/*/tr" );
+            }
+
+            $rowIndex = 1;
+            foreach ($tablerows as $tr) {
+                $newDom = new DOMDocument;
+                $newDom->appendChild($newDom->importNode($tr,true));
+                
+                $domxpath = new DOMXPath( $newDom ); 
                 if ($rowIndex == 1) {
-                    foreach ($cellIterator as $cell) {
-                        $columnIndex = $cell->columnIndexFromString($cell->getColumn());
-                        $fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;						
+                    $tablecols = $domxpath->query("td");
+                    if ($tablecols->length == 0) {
+                        //thead row has th instead of td
+                        $tablecols = $domxpath->query("th" );
                     }
-                }
-                else {
+                    $columnIndex = 1;
+                    foreach($tablecols as $td) {
+                        $fieldhash[ $td->nodeValue ] = $columnIndex;						
+                        $columnIndex++;
+                    }
+                } else {
+                    $tablecols = $domxpath->query("td");
+                    $columnIndex = 1;
                     $rowobject = new stdClass();
                     $keys = array_keys($fieldhash);
-                    foreach ($cellIterator as $cell) {
-                        $columnIndex = $cell->columnIndexFromString($cell->getColumn());
-                        if (!is_null($cell)) {
-                            $c = $keys[$columnIndex - 1];
-                            if(sizeof($columns) == 0 || in_array($c,$columns)){
-                                $rowobject->$c = $cell->getCalculatedValue();
-                            }
+                    foreach($tablecols as $td) {
+                        $c = $keys[$columnIndex - 1];
+                        if(sizeof($columns) == 0 || in_array($c,$columns)){
+                            $rowobject->$c = $td->nodeValue;
                         }
-                    }
+                        $columnIndex++;
+                    }    
                     if($PK == "") {
                         array_push($arrayOfRowObjects,$rowobject);   
                     } else {
@@ -101,21 +119,22 @@ class XLS extends ATabularData {
                         }
                     }
                 }
+                $rowIndex++;
             }
-            
+
             $resultobject->object = $arrayOfRowObjects;
             return $resultobject;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $filename );
+            throw new CouldNotGetDataTDTException( $uri );
         }
     }
 
     public function onDelete($package,$resource){
-        DBQueries::deleteXLSResource($package, $resource);
+        DBQueries::deleteHTMLTableResource($package, $resource);
     }
 
     public function onAdd($package_id,$resource_id,$content){
-        $this->evaluateXLSResource($resource_id,$content);
+        $this->evaluateHTMLTableResource($resource_id,$content);
         parent::evaluateColumns($content["columns"],$content["PK"],$resource_id);
     }
 
@@ -125,8 +144,8 @@ class XLS extends ATabularData {
     }
     
 
-    private function evaluateXLSResource($resource_id,$content){
-        DBQueries::storeXLSResource($resource_id, $content["uri"], $content["sheet"]);
+    private function evaluateHTMLTableResource($resource_id,$content){
+        DBQueries::storeHTMLTableResource($resource_id, $content["uri"], $content["xpath"]);
     }    
 }
 ?>
