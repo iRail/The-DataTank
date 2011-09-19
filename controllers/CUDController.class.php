@@ -100,9 +100,10 @@ class CUDController extends AController{
     }
 
     public function POST($matches){
+        
         $package = $matches["package"];
         $resource = $matches["resource"];
-
+        
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();

@@ -25,8 +25,8 @@ class Rdf_N3 extends AFormatter {
         $model = $this->objectToPrint;
         //When the objectToPrint is a Model, it is the mapping file amd ready for serialisation.
         //Else it's retrieved data of which we need to build an onthology
-        if (!is_a($model, 'Model'))
-              $model = RDFOutput::buildRdfOutput($model); 
+        if (!is_subclass_of($model, 'Model'))
+              $model = RDFOutput::getInstance ()->buildRdfOutput($model); 
 
         // Import Package Syntax
 	include_once(RDFAPI_INCLUDE_DIR.PACKAGE_SYNTAX_N3);

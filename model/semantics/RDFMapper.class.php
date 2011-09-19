@@ -8,9 +8,40 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
+include_once('RDFConstants.php');
+
 class RDFMapper {
 
-    private $TDML_NS = "http://thedatatank.com/tdtml/1.0#";
+    /**
+     * Gets the ResModel object containing the mapping file for a package.
+     *
+     * @param	string $package
+     * @return	ResModel
+     * @access	public
+     */
+    public function update($package, $resource, $content) {
+
+        if (isset($content['rdf_mapping_method'])) {
+            switch ($content['rdf_mapping_method']) {
+                case RDFConstants::$MAPPING_UPDATE :
+                    if (isset($content['rdf_mapping_nmsp']))
+                        $this->addMappingStatement($package, $resource, $content['rdf_mapping_class'], $content['rdf_mapping_nmsp']);
+                    else
+                        $this->addMappingStatement($package, $resource, $content['rdf_mapping_class']);
+                    break;
+                case RDFConstants::$MAPPING_DELETE :
+                    $this->removeMappingStatement($package, $resource);
+                    break;
+                case RDFConstants::$MAPPING_EQUALS :
+                    $this->equalMappingStatement($package, $resource, $content['rdf_mapping_class']);
+                    break;
+                default:
+                    throw new RdfTDTException('Mapping method does not exist');
+            }
+        }else {
+            throw new RdfTDTException('Mapping method not specified');
+        }
+    }
 
     private function getMappingURI($package) {
         return $mapURI = Config::$HOSTNAME . Config::$SUBDIR . $package . '/';
@@ -28,23 +59,22 @@ class RDFMapper {
 
         $rdfmodel = $this->createRdfModel($package);
 
-        $tdtmlURI = $TDML_NS;
-        $rdfmodel->addNamespace("tdtml", $tdtmlURI);
+        $rdfmodel->addNamespace("tdtml", RDFConstants::$TDML_NS);
         $rdfmodel->addNamespace("owl", OWL_NS);
 
         // Using the Resource-Centric method        
         // Create the resources
         $package_res = $rdfmodel->createResource("");
 
-        $tdtpackage_res = $rdfmodel->createResource($tdtmlURI . "TDTPackage");
-        $tdtresource_res = $rdfmodel->createResource($tdtmlURI . "TDTResource");
-        $tdtproperty_res = $rdfmodel->createResource($tdtmlURI . "TDTProperty");
+        $tdtpackage_res = $rdfmodel->createResource(RDFConstants::$TDML_NS . "TDTPackage");
+        $tdtresource_res = $rdfmodel->createResource(RDFConstants::$TDML_NS . "TDTResource");
+        $tdtproperty_res = $rdfmodel->createResource(RDFConstants::$TDML_NS . "TDTProperty");
 
         //creating TDTML property resources
-        $is_a_prop = $rdfmodel->createProperty($tdtmlURI . "is_a");
-        $name_prop = $rdfmodel->createProperty($tdtmlURI . "name");
-        $has_resources_prop = $rdfmodel->createProperty($tdtmlURI . "has_resources");
-        $maps_prop = $rdfmodel->createProperty($tdtmlURI . "maps");
+        $is_a_prop = $rdfmodel->createProperty(RDFConstants::$TDML_NS . "is_a");
+        $name_prop = $rdfmodel->createProperty(RDFConstants::$TDML_NS . "name");
+        $has_resources_prop = $rdfmodel->createProperty(RDFConstants::$TDML_NS . "has_resources");
+        $maps_prop = $rdfmodel->createProperty(RDFConstants::$TDML_NS . "maps");
 
         //Creating literal
         $package_name_lit = $rdfmodel->createTypedLiteral($package, "datatype:STRING");
@@ -90,52 +120,81 @@ class RDFMapper {
     }
 
     /**
-     * Adds a mapping between TDT Resource and a class.
+     * Adds a mapping between TDT Resource and a class. If a mapping already exists for this resource, it gets updated.
      * The class is known internally or described in suplied onthology namespace. 
      *
-     * @param	string $package
+     * @param	string $tdt_package
      * @param	string $tdt_resource
      * @param	string $class
      * @param	string $nmsp
      * @return	bool Returns true if mapping is added correctly.
      * @access	public
      */
-    public function addMappingStatement($package, $resource, $class, $nmsp = null) {
-        $rdfmodel = $this->getMapping($package);
-        $rdfresource = $rdfmodel->createResource($resource);
-        $property = $rdfmodel->createProperty($tdtmlURI . "maps");
-        //adding the class to the mapping - UNDER CONSTRUCTION
-        //Implement:
+    public function addMappingStatement($tdt_package, $tdt_resource, $class, $nmsp = null) {
+        if (!(isset($tdt_package) && isset($tdt_resource) && isset($class)))
+            throw new RdfTDTException('Package, Resource or Mapping class unknown ');
+
+        $model = $this->getMapping($tdt_package);
+        $resource = $model->createResource($tdt_resource);
+        $property = $model->createProperty(RDFConstants::$TDML_NS . "maps");
+
+        echo $tdt_resource;
+
+
+        //adding the class to the mapping
+        //Implements:
         // - namespace+classname as $class
-        // - short:classname
+        // - prefix:classname only if prefix of internally known library
         // - namespace,classname seperate
         // - short:classname, namespace both available
         // Add a new namespace to the model!! 
-        $object;
-        $short;
-        if (!stripos($class, ":")) {
-            $split = split(":", $class);
-            $class = $split[0];
-            $short = $split[1];
+        $prefix = '';
+
+        if (stripos($class, ":")) {
+            $explode = explode(":", $class);
+            $prefix = $explode[0];
+            $class = $explode[1];
         }
-        if (is_null($nmsp))
-            $object = $this->browseInternalVocabulary ($class);
-        else
-            $object = $rdfmodel->createResource($nmsp . $class);
-        
-        $rdfresource->addProperty($property, $object);
-        
+
+        //retrieve the right namespace and class
+        if (is_null($nmsp)) {
+            if (!(array_key_exists($prefix, RDFConstants::$VOCABULARIES)))
+                throw new RdfTDTException('Namespace ' . $prefix . ' is unknown. Specify namespace URI in rdf_mapping_nmsp POST variable.');
+            $nmsp = RDFConstants::$VOCABULARIES[$prefix];
+        } else {
+            if ($prefix == '')
+                $prefix = array_search($nmsp, RDFConstants::$VOCABULARIES);
+        }
+        $object = new ResResource($nmsp . $class);
+
+        //add the namespace to the model
+        $model->addNamespace($prefix, $nmsp);
+
+        //Does this resource already have a mapping?
+        if ($resource->hasProperty($property)) {
+            //remove existing mapping first
+            $resource->removeAll($property);
+        }
+        $resource->addProperty($property, $object);
     }
-    
+
     /**
-     * Looks for an existing vocabulary under rdfapi-php/api/vocabulary
+     * Maps a resource to another, but equal resource.
      *
-     * @param	string $class
-     * @return	ResResource
+     * @param	string $package
+     * @param	string $tdt_resource
+     * @return	bool Returns true if mapping is renovedcorrectly.
      * @access	public
      */
-    private function browseInternalVocabulary($class) {
-        
+    private function equalMappingStatement($tdt_package, $tdt_resource, $equal_resource) {
+        if (!(isset($tdt_package) && isset($tdt_resource) && isset($equal_resource)))
+            throw new RdfTDTException('Package, Resource or Equal resource unknown ');
+
+        $model = $this->getMapping($tdt_package);
+        $resource = $model->createResource($tdt_resource);
+        $object = $model->createResource($equal_resource);
+
+        $resource->addProperty(OWL_RES::SAME_AS(), $object);
     }
 
     /**
@@ -146,18 +205,19 @@ class RDFMapper {
      * @return	bool Returns true if mapping is renovedcorrectly.
      * @access	public
      */
-    public function removeMappingStatement($package, $resource) {
-        $rdfmodel = $this->getMapping($package);
-        $subject = $rdfmodel->createResource($resource);
-        $statements = $rdfmodel->find($subject, $this->TDML_NS.'maps', null);
-        
-        foreach($statements as $statement){
-            if (!$rdfmodel->remove($statement)){
-                
+    public function removeMappingStatement($tdt_package, $tdt_resource) {
+        if (!(isset($tdt_package) && isset($tdt_resource)))
+            throw new RdfTDTException('Package or Resource unknown ');
+
+        $model = $this->getMapping($tdt_package);
+        $subject = $model->createResource($tdt_resource);
+        $statements = $model->find($subject, RDFConstants::$TDML_NS . 'maps', null);
+
+        foreach ($statements as $statement) {
+            if (!$model->remove($statement)) {
+                throw new RdfTDTException('Mapping statement of ' . $statement->getSubject()->toString() . ' was not deleted');
             }
         }
-        
-        
     }
 
     /**
