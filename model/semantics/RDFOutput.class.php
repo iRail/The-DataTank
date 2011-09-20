@@ -11,6 +11,8 @@
 class RDFOutput {
 
     private static $uniqueinstance;
+    
+    private $rdfmodel;
 
     private function __construct() {
         
@@ -31,25 +33,50 @@ class RDFOutput {
      * @access	public
      */
     public function buildRdfOutput($object) {
+        $model = ModelFactory::getResModel(MEMMODEL);
+                
         $this->analyzeVariable($object);
         return ModelFactory::getResModel(RBMODEL);
-        ;
+        
     }
-
-    private function analyzeVariable($var) {
+    
+    /**
+     * Recursive function for analyzing an object and building its path
+     *
+     * @param	Mixed $var
+     * @param	string OPTIONAL $path
+     * @access	private
+     */
+    private function analyzeVariable($var,$path='') {
         if (is_object($var)) {
             $obj_prop = get_object_vars($var);
+            $cnt = 0;
+            $temp = $path;
             foreach ($obj_prop as $prop => $value) {
-                echo 'Prop: ' . $prop . '<br>';
-                $this->analyzeVariable($value);
+                $path = $temp;
+                $path .= $cnt.'/'.$prop . '/';
+                $this->analyzeVariable($value,$path);
             }
         } else if (is_array($var)) {
             foreach ($var as $item) {
-                $this->analyzeVariable($item);
+                $this->analyzeVariable($item,$path);
             }
         } else {
-            echo '   PVar: ' . $var . '<br>';
+            echo 'Path: ' . $path . '<br>';
+            echo 'Value: ' . $var . '<br>';
+            $this->addToModel($path,$var);
+            $path = '';
         }
+    }
+    
+    /**
+     *
+     * @param	Mixed $var
+     * @param	string OPTIONAL $path
+     * @access	private
+     */
+    private function addToModel($path,$value){
+        
     }
 
 }

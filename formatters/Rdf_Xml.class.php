@@ -23,9 +23,10 @@ class Rdf_Xml extends AFormatter {
 
     public function printAll() {
         $model = $this->objectToPrint;
+        
         //When the objectToPrint is a Model, it is the mapping file amd ready for serialisation.
         //Else it's retrieved data of which we need to build an onthology
-        if (!is_subclass_of($model, 'Model'))
+        if (!(is_subclass_of($model, 'Model')||is_a($model, 'ResModel')))
             $model = RDFOutput::getInstance()->buildRdfOutput($model);
 
         // Import Package Syntax
@@ -36,7 +37,7 @@ class Rdf_Xml extends AFormatter {
         //Serializer only works on MemModel class, so we need to retrieve the underlying MemModel
         if (is_a($model, 'ResModel'))
             $model = $model->getModel();
-        if (is_a($model, 'DbModel'))
+        if (is_subclass_of($model, 'DbModel'))
             $model = $model->getMemModel();
 
         $rdf = $ser->serialize($model);

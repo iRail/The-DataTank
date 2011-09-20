@@ -521,15 +521,15 @@ class RbModel extends DbModel {
         $param = array(':baseURI' => $this->baseURI, ':modelID' => $this->modelID);
         $rs = R::exec('UPDATE models SET baseURI=:baseURI WHERE modelID=:modelID', $param);
 
-        //if (!$rs)
         if (is_null($rs))
             throw new DatabaseTDTException('Update not performed');
     }
 
     public function size() {
+        
         $param = array(':modelID' => $this->modelID);
-        $count = R::getRow('SELECT COUNT(modelID) FROM statements WHERE modelID = :modelID', $param);
-        return $count;
+        $count = R::getRow('SELECT COUNT(modelID) cnt FROM statements WHERE modelID = :modelID', $param);
+        return $count['cnt'];
     }
 
     public function toString() {
