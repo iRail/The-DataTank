@@ -43,7 +43,7 @@ $urls = array(
     // explanation of the last part of regex:
     // continue the REST parameters as long as no . is encountered. Continue format as long as no ? or end of URI occurs
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
-    '/(?P<package>[^/]*)/(?P<resource>[^/]*)/?(?P<RESTparameters>([^.]*\.)*(?P<format>[^?/]*)).*' => 'RController',
+    '/(?P<package>[^/]*)/(?P<resource>[^/]*)/?(?P<RESTparameters>([^.]*\.?)*)\.(?P<format>[^?/]*).*' => 'RController',
     // Calling the Create, Update, Delete- controller
     // This is a request on the real-world object
     // examples of matches:
