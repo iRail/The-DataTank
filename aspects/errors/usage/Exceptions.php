@@ -185,4 +185,16 @@ class ResourceUpdateTDTException extends UsageTDTException {
     }
 }
 
+class RdfTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "This exception is thrown when an update on a RDF mapping isn't valid.";
+    }
+    
+    public static $error = 461;
+    
+    public function __construct($message) {
+        parent::__construct("An error occured while trying to update a RDF mapping: " . $message);
+    }
+}
+
 ?>
