@@ -203,9 +203,6 @@ class RDFMapper {
         $resource = $model->createResource($tdt_resource);
         $property = $model->createProperty(RDFConstants::$TDML_NS . "maps");
 
-        echo $tdt_resource;
-
-
         //adding the class to the mapping
         //Implements:
         // - namespace+classname as $class

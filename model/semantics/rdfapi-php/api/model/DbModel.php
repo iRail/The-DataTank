@@ -274,7 +274,7 @@ class DbModel extends Model {
      */
     public function writeAsHtmlTable() {
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
-        $memModel = & $this->getMemModel();
+        $memModel = $this->getMemModel();
 
         RDFUtil::writeHTMLTable($memModel);
     }
@@ -287,7 +287,7 @@ class DbModel extends Model {
      */
     public function writeRdfToString() {
 
-        $memModel = & $this->getMemModel();
+        $memModel = $this->getMemModel();
         return $memModel->writeRdfToString();
     }
 
