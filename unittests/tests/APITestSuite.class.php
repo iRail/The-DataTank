@@ -18,7 +18,11 @@ class TestAPISuite extends TestSuite{
         $this->addFile(dirname(__FILE__) . "/APITestCore.class.php");
         $this->addFile(dirname(__FILE__) . "/APITestInstalled.class.php");
         $this->addFile(dirname(__FILE__) . "/APITestGenericCSV.class.php");
+        $this->addFile(dirname(__FILE__) . "/APITestGenericRemoteCSV.class.php");
+        
+        if(isset(Config::$PHPEXCEL_IOFACTORY_PATH))
         $this->addFile(dirname(__FILE__) . "/APITestGenericXLS.class.php");
+        
         $this->addFile(dirname(__FILE__) . "/APITestGenericHTMLTable.class.php");        
         $this->addFile(dirname(__FILE__) . "/APITestGenericDB.class.php");
         $this->addFile(dirname(__FILE__) . "/APITestRemote.class.php");

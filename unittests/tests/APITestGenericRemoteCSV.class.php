@@ -11,17 +11,15 @@ include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
 include_once(dirname(__FILE__)."/../classes/REST.class.php");
 
-class APITestGenericCSV extends TDTUnitTest {
+class APITestGenericRemoteCSV extends TDTUnitTest{
 
-    private $location = "/unittests/temp/person.csv";
-    private $install_as = "csvpackage/person/";
+    private $location = "http://www.wien.gv.at/statistik/ogd/vie-district-pop-foreignborn.csv";
+    private $install_as = "vienna/population/";
     private $generic_type = "CSV";
     private $printmethods = "html;json;xml;jsonp";
-    private $columns = "name;age;city";
-    private $PK = "name";
+    private $columns = "NUTS2;DISTRICT_CODE;NAME;SEX;VIE_POP_TOTAL;VIE_POP_AUT;VIE_POP_DEU;VIE_POP_POL;VIE_POP_ROU;VIE_POP_SVK;VIE_POP_HUN;VIE_POP_BGR;VIE_POP_CZE;VIE_POP_ EU_REST;VIE_POP_SCG;VIE_POP_TUR;VIE_POP_BIH;VIE_POP_HRV;VIE_POP_MKD;VIE_POP_RUS;VIE_POP_CHN;VIE_POP_OTHER;REF_DATE";
     
-    function testPutCSV(){
-        $this->location = Config::$HOSTNAME . Config::$SUBDIR . $this->location;
+    function testPutRemoteCSV(){
         
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "generic",
@@ -29,8 +27,7 @@ class APITestGenericCSV extends TDTUnitTest {
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
                        "uri"           => $this->location,
-                       "columns"       => $this->columns,
-                       "PK"            => $this->PK
+                       "columns"       => $this->columns
         );
         
         $request = new REST($url, $data, "PUT");
@@ -41,7 +38,7 @@ class APITestGenericCSV extends TDTUnitTest {
             $this->debug($request->result);
     }
     
-    function testGetCSV() {
+    function testGetRemoteCSV() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
@@ -51,7 +48,7 @@ class APITestGenericCSV extends TDTUnitTest {
             $this->debug($request->result);
     }
 
-    function testDeleteCSV() {
+    function testDeleteRemoteCSV() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();
