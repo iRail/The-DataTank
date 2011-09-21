@@ -118,8 +118,11 @@ class RequestURI{
     }
 
     public function getURI(){
-        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource . "/";
-        $URI .= implode("/", $this->filters);
+        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;
+        if(!isset($this->filters) && !is_null($this->filters)){
+            $URI .= "/";
+            $URI .= implode("/", $this->filters);
+        }
         $URI .= "." . $this->format;
         if(sizeof($this->GETParameters) > 0){
             $URI .= "?";
