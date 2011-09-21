@@ -48,7 +48,7 @@ class RequestURI{
                 $resourceformat = explode(".",$this->resource);
                 if(sizeof($path) == 1 && sizeof($resourceformat)>1){
                     $this->format = array_pop($resourceformat);
-                    $this->resource = implode(".",$resourceformat);
+                    $this->resource = implode("/",$resourceformat);
                 }
             }elseif($i > 1){
                 //if this is the last element in the array
@@ -56,7 +56,7 @@ class RequestURI{
                 $arrayformat = explode(".",$path[0]);
                 if(sizeof($path) == 1 && sizeof($arrayformat) > 1){
                     $this->format = array_pop($resourceformat);
-                    $this->filters[] = implode(".",$resourceformat);
+                    $this->filters[] = implode("/",$resourceformat);
                 }else{
                     $this->filters[] = $path[0];
                 }
