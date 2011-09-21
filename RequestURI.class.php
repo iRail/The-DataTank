@@ -100,11 +100,17 @@ class RequestURI{
     }
 
     public function getFilters(){
-        return $this->filters;
+        if(!is_null($this->filters)){
+            return $this->filters;
+        }
+        return array();
     }
     
     public function getGET(){
-        return $this->GETParameters;
+        if(!is_null($this->GETParameters)){
+            return $this->GETParameters;
+        }
+        return array();
     }
 
     public function getGivenFormat(){

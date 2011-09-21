@@ -28,7 +28,12 @@ class RequestLogger{
         $request->resource = $URI->getResource();
         $request->format = $ff->getFormat();
         $request->requiredparameter = implode(";",$URI->getFilters());
-        $request->allparameters = implode(";",$URI->getGET());
+        if(!is_null($URI->getGET())){
+            $request->allparameters = implode(";",$URI->getGET());
+        }else{
+            $request->allparameters = "";
+        }
+        
         $result = R::store($request);
     }
 }
