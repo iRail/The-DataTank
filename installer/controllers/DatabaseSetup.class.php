@@ -137,6 +137,53 @@ class DatabaseSetup extends InstallController {
               KEY `name` (`name`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
+        $queries["datasets"] = "CREATE TABLE IF NOT EXISTS `datasets` (
+              `datasetName` varchar(255) NOT NULL DEFAULT '',
+              `defaultModelUri` varchar(255) NOT NULL DEFAULT '0',
+              PRIMARY KEY (`datasetName`),
+              KEY `datasetName` (`datasetName`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        
+        $queries["dataset_model"] = "CREATE TABLE IF NOT EXISTS `dataset_model` (
+              `datasetName` varchar(255) NOT NULL DEFAULT '0',
+              `modelId` bigint(20) NOT NULL DEFAULT '0',
+              `graphURI` varchar(255) NOT NULL DEFAULT '',
+              PRIMARY KEY (`modelId`,`datasetName`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        
+        $queries["models"] = "CREATE TABLE IF NOT EXISTS `models` (
+              `modelID` bigint(20) NOT NULL,
+              `modelURI` varchar(255) NOT NULL,
+              `baseURI` varchar(255) DEFAULT '',
+              PRIMARY KEY (`modelID`),
+              UNIQUE KEY `m_modURI_idx` (`modelURI`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        
+        $queries["namespaces"] = "CREATE TABLE IF NOT EXISTS `namespaces` (
+              `modelID` bigint(20) NOT NULL,
+              `namespace` varchar(255) NOT NULL,
+              `prefix` varchar(255) NOT NULL,
+              PRIMARY KEY (`modelID`,`namespace`),
+              KEY `n_mod_idx` (`modelID`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        
+        $queries["statements"] = "CREATE TABLE IF NOT EXISTS `statements` (
+              `modelID` bigint(20) NOT NULL,
+              `subject` varchar(255) NOT NULL,
+              `predicate` varchar(255) NOT NULL,
+              `object` text,
+              `l_language` varchar(255) DEFAULT '',
+              `l_datatype` varchar(255) DEFAULT '',
+              `subject_is` varchar(1) NOT NULL,
+              `object_is` varchar(1) NOT NULL,
+              KEY `s_mod_idx` (`modelID`),
+              KEY `s_sub_pred_idx` (`subject`(200),`predicate`(200)),
+              KEY `s_sub_idx` (`subject`(200)),
+              KEY `s_pred_idx` (`predicate`(200)),
+              KEY `s_obj_idx` (`object`(250)),
+              KEY `s_obj_ftidx` (`object`(250))
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        
         $tables = array();
         foreach($queries as $table=>$query) {
             $tables[$table] = "failed";
