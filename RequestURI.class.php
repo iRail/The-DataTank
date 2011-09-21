@@ -48,7 +48,7 @@ class RequestURI{
                 //we might get the format out of it
                 $resourceformat = explode(".",$this->resource);
                 if(sizeof($path) == 1 && sizeof($resourceformat)>1){
-                    $this->format =  $resourceformat[sizeof($resourceformat)-1];
+                    $this->format =  array_pop($resourceformat);
                     $this->resource = implode(".",$resourceformat);
                 }
             }elseif($i > 1){
@@ -56,8 +56,8 @@ class RequestURI{
                 //we might get the format out of it
                 $arrayformat = explode(".",$path[0]);
                 if(sizeof($path) == 1 && sizeof($arrayformat) > 1){
-                    $this->format =  $arrayformat[sizeof($arrayformat)-1];
-                    $this->filters[] = implode(".",$resourceformat);
+                    $this->format =  array_pop($arrayformat);
+                    $this->filters[] = implode(".",$arrayformat);
                 }else{
                     $this->filters[] = $path[0];
                 }
@@ -65,7 +65,6 @@ class RequestURI{
             array_shift($path);
             $i++;
         }
-
         //we need to sort all the GET parameters, otherwise we won't have a unique identifier for for instance caching purposes
         if (is_null($_GET)){
             $this->GETParameters = $_GET;
@@ -120,8 +119,8 @@ class RequestURI{
     }
 
     public function getURI(){
-        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;
-        if(!isset($this->filters) && !is_null($this->filters)){
+        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;        
+        if(isset($this->filters) && !is_null($this->filters)){
             $URI .= "/";
             $URI .= implode("/", $this->filters);
         }
