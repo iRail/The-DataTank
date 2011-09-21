@@ -27,7 +27,8 @@ class RequestURI{
         $requestURI = $_SERVER["REQUEST_URI"];
         //if a SUBDIR has been set in the config, remove this from here
         if(Config::$SUBDIR != ""){
-            $requestURI = preg_replace("/".Config::$SUBDIR."/si","",$requestURI,1);
+            $subdir = str_replace("/", "\/", Config::$SUBDIR);
+            $requestURI = preg_replace("/".$subdir."/si","",$requestURI,1);
         }   
 
         //Now for the hard part: parse the REQUEST_URI
@@ -52,7 +53,7 @@ class RequestURI{
             }elseif($i > 1){
                 //if this is the last element in the array
                 //we might get the format out of it
-                $arrayformat = explode(".",$path);
+                $arrayformat = explode(".",$path[0]);
                 if(sizeof($path) == 1 && sizeof($arrayformat) > 1){
                     $this->format = array_pop($resourceformat);
                     $this->filters[] = implode(".",$resourceformat);
@@ -65,8 +66,10 @@ class RequestURI{
         }
 
         //we need to sort all the GET parameters, otherwise we won't have a unique identifier for for instance caching purposes
-        $this->GETParameters = $_GET;
-        asort($GETParameters);
+        if (is_null($_GET)){
+            $this->GETParameters = $_GET;
+            asort($GETParameters);
+        }
     }
 
     public static function getInstance(){
