@@ -39,7 +39,7 @@ class Rdf_n3 extends AFormatter {
         if (is_a($model, 'DbModel'))
             $model = $model->getMemModel();
 
-        $rdf = & $ser->serialize($model);
+        $rdf = $ser->serialize($model);
 
         echo $rdf;
     }
