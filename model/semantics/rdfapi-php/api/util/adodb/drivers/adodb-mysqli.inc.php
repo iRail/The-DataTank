@@ -283,7 +283,7 @@ class ADODB_mysqli extends ADOConnection {
 		return $this->genID;
 	}
 
-  	functionMetaDatabases()
+  	function MetaDatabases()
 	{
 		$query = "SHOW DATABASES";
 		$ret =& $this->Execute($query);
@@ -300,7 +300,7 @@ class ADODB_mysqli extends ADOConnection {
 	}
 
 
-	functionMetaIndexes ($table, $primary = FALSE)
+	function MetaIndexes ($table, $primary = FALSE)
 	{
 		// save old fetch mode
 		global $ADODB_FETCH_MODE;
@@ -455,7 +455,7 @@ class ADODB_mysqli extends ADOConnection {
 //		return "from_unixtime(unix_timestamp($date)+$fraction)";
 	}
 
-	functionMetaTables($ttype=false,$showSchema=false,$mask=false)
+	function MetaTables($ttype=false,$showSchema=false,$mask=false)
 	{
 		$save = $this->metaTablesSQL;
 		if ($showSchema && is_string($showSchema)) {
@@ -514,7 +514,7 @@ class ADODB_mysqli extends ADOConnection {
 	    return  $foreign_keys;
 	}
 
- 	functionMetaColumns($table)
+ 	function MetaColumns($table)
 	{
 		$false = false;
 		if (!$this->metaColumnsSQL)
@@ -600,7 +600,7 @@ class ADODB_mysqli extends ADOConnection {
 	}
 
 	// parameters use PostgreSQL convention, not MySQL
-	functionSelectLimit($sql,
+	function SelectLimit($sql,
 			      $nrows = -1,
 			      $offset = -1,
 			      $inputarr = false,
@@ -807,7 +807,7 @@ class ADORecordSet_mysqli extends ADORecordSet{
 131072 = MYSQLI_BINCMP_FLAG
 */
 
-	functionFetchField($fieldOffset = -1)
+	function FetchField($fieldOffset = -1)
 	{
 		$fieldnr = $fieldOffset;
 		if ($fieldOffset != -1) {
@@ -825,7 +825,7 @@ class ADORecordSet_mysqli extends ADORecordSet{
 		return $o;
 	}
 
-	functionGetRowAssoc($upper = true)
+	function GetRowAssoc($upper = true)
 	{
 		if ($this->fetchMode == MYSQLI_ASSOC && !$upper)
 		  return $this->fields;

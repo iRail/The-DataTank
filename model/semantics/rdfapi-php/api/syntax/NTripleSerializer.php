@@ -46,7 +46,7 @@ class NTripleSerializer extends Object {
    * @return    string
    * @access    public
    */
-  function serialize(&$m) { 
+  function  serialize(&$m) { 
 
         if (is_a($m, 'DbModel')) $m = $m->getMemModel();
     
@@ -63,11 +63,11 @@ class NTripleSerializer extends Object {
       if (is_a($s, 'Blanknode')) {
       	$subject='_:'.$s->getURI();
       } else {
-          $subject = '<' . ereg_replace(' ', '', $s->getURI()) . '>';
+          $subject = '<' . preg_replace('/ /', '', $s->getURI()) . '>';
       }
 
 	  $p=$t->getPredicate();  
-	  $predicate='<'.ereg_replace(' ', '', $p->getURI()).'>';
+	  $predicate='<'.preg_replace('/ /', '', $p->getURI()).'>';
 
 	  $o=$t->getObject();     
       if (is_a($o, 'literal')) {
@@ -76,7 +76,7 @@ class NTripleSerializer extends Object {
 	  	if ($o->getDatatype()!='') $object.='^^<'.$o->getDatatype().">";		  	
 	  } elseif (is_a($o, 'Blanknode')) {
 	    $object='_:'.$o->getURI();
-	  } else {$object='<'.ereg_replace(' ', '', $o->getURI()).'>';};	
+	  } else {$object='<'.preg_replace('/ /', '', $o->getURI()).'>';};	
 		
       $this->res.=$subject.' '.$predicate.' '.$object.' .';
       $this->res.=LINEFEED.LINEFEED;

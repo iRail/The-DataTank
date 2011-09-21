@@ -284,7 +284,7 @@ class InfModelF extends InfModel
 	* @return object MemModel
 	* @access public
 	*/
-	function getMemModel() 
+	function  getMemModel() 
 	{
 		$return= new MemModel();
 		$return->setBaseURI($this->baseURI);

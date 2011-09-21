@@ -25,7 +25,7 @@ class ADODB_sybase_ase extends ADODB_sybase {
 	}
 	
 	// split the Views, Tables and procedures.
-	functionMetaTables($ttype=false,$showSchema=false,$mask=false)
+	function MetaTables($ttype=false,$showSchema=false,$mask=false)
 	{
 		$false = false;
 		if ($this->metaTablesSQL) {
@@ -71,7 +71,7 @@ class ADODB_sybase_ase extends ADODB_sybase {
 	}
 
 	// fix a bug which prevent the metaColumns query to be executed for Sybase ASE
-	functionMetaColumns($table,$upper=false) 
+	function MetaColumns($table,$upper=false) 
 	{
 		$false = false;
 		if (!empty($this->metaColumnsSQL)) {

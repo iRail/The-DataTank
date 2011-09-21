@@ -283,7 +283,7 @@ class InfModelB extends InfModel
 	* @access	public 
 	* @return	object	StatementIterator
 	*/  
-	function getStatementIterator() 
+	function  getStatementIterator() 
 	{
 		// Import Package Utility
 			include_once(RDFAPI_INCLUDE_DIR.PACKAGE_UTILITY);
@@ -317,7 +317,7 @@ class InfModelB extends InfModel
 	* @return object MemModel
 	* @access public
 	*/
-	function getMemModel() 
+	function  getMemModel() 
 	{
 		
 		$return=$this->find(null,null,null);
@@ -333,7 +333,7 @@ class InfModelB extends InfModel
 	* @return object MemModel
 	* @access public
 	*/
-	function getBaseMemModel() 
+	function  getBaseMemModel() 
 	{
 		$return= new MemModel();
 		$return->setBaseURI($this->baseURI);
@@ -505,7 +505,7 @@ class InfModelB extends InfModel
 	* @access	public 
 	* @return	object	FindIterator
 	*/  
-	function findAsIterator($sub=null,$pred=null,$obj=null) {
+	function  findAsIterator($sub=null,$pred=null,$obj=null) {
 		$errmsg = RDFAPI_ERROR . '(class: InfModelB; method: findAsIterator): 
 									This function is disabled in the
 									Inference Model';

@@ -78,7 +78,7 @@ class ADODB_sqlite extends ADOConnection {
 	}
 	
 	// mark newnham
-	functionMetaColumns($tab)
+	function MetaColumns($tab)
 	{
 	  global $ADODB_FETCH_MODE;
 	  $false = false;
@@ -190,7 +190,7 @@ class ADODB_sqlite extends ADOConnection {
 		return $rez;
 	}
 	
-	functionSelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs2cache=0) 
+	function SelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs2cache=0) 
 	{
 		$offsetStr = ($offset >= 0) ? " OFFSET $offset" : '';
 		$limitStr  = ($nrows >= 0)  ? " LIMIT $nrows" : ($offset >= 0 ? ' LIMIT 999999999' : '');
@@ -261,7 +261,7 @@ class ADODB_sqlite extends ADOConnection {
 		return @sqlite_close($this->_connectionID);
 	}
 
-	functionMetaIndexes($table, $primary = FALSE, $owner=false)
+	function MetaIndexes($table, $primary = FALSE, $owner=false)
 	{
 		$false = false;
 		// save old fetch mode
@@ -350,7 +350,7 @@ class ADORecordset_sqlite extends ADORecordSet {
 	}
 
 
-	functionFetchField($fieldOffset = -1)
+	function FetchField($fieldOffset = -1)
 	{
 		$fld = new ADOFieldObject;
 		$fld->name = sqlite_field_name($this->_queryID, $fieldOffset);

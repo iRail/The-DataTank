@@ -2200,7 +2200,7 @@ function add_statement_to_model(
    * @param     boolean  $rdfBaseURI
    * @return	object MemModel
    */
-function generateModel($base,$rdfBaseURI = false, $model = false) {
+function  generateModel($base,$rdfBaseURI = false, $model = false) {
 
 	// Check if $base is a URI or filename or a string containing RDF code.
 	if (substr(ltrim($base),0 ,1) != '<') {

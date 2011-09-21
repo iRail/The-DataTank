@@ -36,7 +36,7 @@ class  ADODB_odbc_oracle extends ADODB_odbc {
 		$this->ADODB_odbc();
 	}
 		
-	functionMetaTables() 
+	function MetaTables() 
 	{
 		$false = false;
 		$rs = $this->Execute($this->metaTablesSQL);
@@ -50,7 +50,7 @@ class  ADODB_odbc_oracle extends ADODB_odbc {
 		return $arr2;
 	}
 	
-	functionMetaColumns($table) 
+	function MetaColumns($table) 
 	{
 	global $ADODB_FETCH_MODE;
 	

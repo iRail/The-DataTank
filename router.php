@@ -54,7 +54,7 @@ $urls = array(
     // explanation of the last part of regex:
     // continue the REST parameters as long as no . is encountered. Continue format as long as no ? or end of URI occurs
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
-    '/(?P<package>[^/]*)/(?P<resource>[^/]*)/?(?P<RESTparameters>([^.]*\.?)*)\.(?P<format>[^?/]*).*' => 'RController',
+    '/(?P<package>[^/.]*)/(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
     // Calling the Create, Update, Delete- controller
 
     // This is a request on the real-world object
@@ -66,7 +66,7 @@ $urls = array(
     // But also:
     //  GET /package/ - should give all resources in package in an exception
     //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
-    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*).*' => 'CUDController' 
+    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
 );
 
 //This function will do the magic. See includes/glue.php

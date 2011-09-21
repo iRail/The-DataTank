@@ -254,7 +254,7 @@ class Statement extends Object {
    * @return	object	model
    */  
 
-   reify(&$model_or_bNodeID) {
+   function reify(&$model_or_bNodeID) {
 		
 		if (is_a($model_or_bNodeID, 'MemModel')) {
 			// parameter is model

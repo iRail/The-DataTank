@@ -75,7 +75,7 @@ Class RdqlParser extends Object{
  * @return  array   $this->parsedQuery
  * @access	public
  */
- function parseQuery($queryString) {
+ function  parseQuery($queryString) {
 
    $cleanQueryString = $this->removeComments($queryString);
    $this->tokenize($cleanQueryString);

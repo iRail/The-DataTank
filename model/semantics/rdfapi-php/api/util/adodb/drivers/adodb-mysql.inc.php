@@ -58,7 +58,7 @@ class ADODB_mysql extends ADOConnection {
 	}
 	
 	
-	functionMetaTables($ttype=false,$showSchema=false,$mask=false) 
+	function MetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{	
 		$save = $this->metaTablesSQL;
 		if ($showSchema && is_string($showSchema)) {
@@ -76,7 +76,7 @@ class ADODB_mysql extends ADOConnection {
 	}
 	
 	
-	functionMetaIndexes ($table, $primary = FALSE, $owner=false)
+	function MetaIndexes ($table, $primary = FALSE, $owner=false)
 	{
         // save old fetch mode
         global $ADODB_FETCH_MODE;
@@ -223,7 +223,7 @@ class ADODB_mysql extends ADOConnection {
 		return $this->genID;
 	}
 	
-  	functionMetaDatabases()
+  	function MetaDatabases()
 	{
 		$qid = mysql_list_dbs($this->_connectionID);
 		$arr = array();
@@ -388,7 +388,7 @@ class ADODB_mysql extends ADOConnection {
 		return $this->_connect($argHostname, $argUsername, $argPassword, $argDatabasename);
 	}
 	
- 	functionMetaColumns($table) 
+ 	function MetaColumns($table) 
 	{
 		$this->_findschema($table,$schema);
 		if ($schema) {
@@ -478,7 +478,7 @@ class ADODB_mysql extends ADOConnection {
 	}
 	
 	// parameters use PostgreSQL convention, not MySQL
-	functionSelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs=0)
+	function SelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs=0)
 	{
 		$offsetStr =($offset>=0) ? ((integer)$offset)."," : '';
 		// jason judge, see http://phplens.com/lens/lensforum/msgs.php?id=9220
@@ -623,7 +623,7 @@ class ADORecordSet_mysql extends ADORecordSet{
 		$this->_numOfFields = @mysql_num_fields($this->_queryID);
 	}
 	
-	functionFetchField($fieldOffset = -1) 
+	function FetchField($fieldOffset = -1) 
 	{	
 		if ($fieldOffset != -1) {
 			$o = @mysql_fetch_field($this->_queryID, $fieldOffset);
@@ -641,7 +641,7 @@ class ADORecordSet_mysql extends ADORecordSet{
 		return $o;
 	}
 
-	functionGetRowAssoc($upper=true)
+	function GetRowAssoc($upper=true)
 	{
 		if ($this->fetchMode == MYSQL_ASSOC && !$upper) $row = $this->fields;
 		else $row =& ADORecordSet::GetRowAssoc($upper);

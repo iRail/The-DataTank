@@ -77,7 +77,7 @@ Class RdqlDbEngine extends RdqlEngine {
  *      OR  array   [][?VARNAME] = string
  * @access  public
  */
- function queryModel(&$dbModel, &$parsedQuery, $returnNodes = TRUE) {
+ function  queryModel(&$dbModel, &$parsedQuery, $returnNodes = TRUE) {
 
    $this->parsedQuery = &$parsedQuery;
 

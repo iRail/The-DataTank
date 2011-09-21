@@ -229,7 +229,7 @@ class N3Parser extends Object {
  * @throws PhpError
  * @return object MemModel
  */
-  function generateModel($path,$dummy=false,$model=false) {
+  function  generateModel($path,$dummy=false,$model=false) {
 
     $handle = fopen($path,'r') or die("N3 Parser: Could not open File: '$path' - Stopped parsing.");
 	$done=false;

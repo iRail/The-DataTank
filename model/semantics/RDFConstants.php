@@ -2,7 +2,7 @@
 
 /**
  * This static class RDFContants defines important constants.
- * 
+ *
  * @package The-Datatank/model/semantics
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3

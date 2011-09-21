@@ -95,8 +95,8 @@ class ADODB_oci8 extends ADOConnection {
 		if (defined('ADODB_EXTENSION')) $this->rsPrefix .= 'ext_';
 	}
 	
-	/*  functionMetaColumns($table) added by smondino@users.sourceforge.net*/
-	functionMetaColumns($table) 
+	/*  function MetaColumns($table) added by smondino@users.sourceforge.net*/
+	function MetaColumns($table) 
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -309,7 +309,7 @@ NATSOFT.DOMAIN =
 		return $this->GetOne("select $flds from $tables where $where for update");
 	}
 	
-	functionMetaTables($ttype=false,$showSchema=false,$mask=false) 
+	function MetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{
 		if ($mask) {
 			$save = $this->metaTablesSQL;
@@ -325,7 +325,7 @@ NATSOFT.DOMAIN =
 	}
 	
 	// Mark Newnham 
-	functionMetaIndexes ($table, $primary = FALSE, $owner=false)
+	function MetaIndexes ($table, $primary = FALSE, $owner=false)
 	{
         // save old fetch mode
         global $ADODB_FETCH_MODE;
@@ -556,7 +556,7 @@ NATSOFT.DOMAIN =
 	 This implementation does not appear to work with oracle 8.0.5 or earlier. Comment
 	 out this function then, and the slower SelectLimit() in the base class will be used.
 	*/
-	functionSelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
+	function SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
 	{
 		// seems that oracle only supports 1 hint comment in 8i
 		if ($this->firstrows) {
@@ -738,7 +738,7 @@ NATSOFT.DOMAIN =
 	 * @param [inputarr]	holds the input data to bind to. Null elements will be set to null.
 	 * @return 		RecordSet or false
 	 */
-	functionExecute($sql,$inputarr=false) 
+	function Execute($sql,$inputarr=false) 
 	{
 		if ($this->fnExecute) {
 			$fn = $this->fnExecute;
@@ -817,7 +817,7 @@ NATSOFT.DOMAIN =
 				array('VAR1' => 'Mr Bean'));
 			
 	*/
-	functionExecuteCursor($sql,$cursorName='rs',$params=false)
+	function ExecuteCursor($sql,$cursorName='rs',$params=false)
 	{
 		if (is_array($sql)) $stmt = $sql;
 		else $stmt = ADODB_oci8::Prepare($sql,true); # true to allocate OCINewCursor
@@ -1289,7 +1289,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 			  fields in a certain query result. If the field offset isn't specified, the next field that wasn't yet retrieved by
 			  fetchField() is retrieved.		*/
 
-	function_FetchField($fieldOffset = -1)
+	function _FetchField($fieldOffset = -1)
 	{
 		$fld = new ADOFieldObject;
 		$fieldOffset += 1;
@@ -1306,7 +1306,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 	}
 	
 	/* For some reason, OCIcolumnname fails when called after _initrs() so we cache it */
-	functionFetchField($fieldOffset = -1)
+	function FetchField($fieldOffset = -1)
 	{
 		return $this->_fieldobjs[$fieldOffset];
 	}
@@ -1344,7 +1344,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 	
 	/*
 	# does not work as first record is retrieved in _initrs(), so is not included in GetArray()
-	functionGetArray($nRows = -1) 
+	function GetArray($nRows = -1) 
 	{
 	global $ADODB_OCI8_GETARRAY;
 	
@@ -1377,7 +1377,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 	} */
 	
 	/* Optimize SelectLimit() by using OCIFetch() instead of OCIFetchInto() */
-	functionGetArrayLimit($nrows,$offset=-1) 
+	function GetArrayLimit($nrows,$offset=-1) 
 	{
 		if ($offset <= 0) {
 			$arr =& $this->GetArray($nrows);

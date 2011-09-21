@@ -108,7 +108,7 @@ class DatasetMem extends Dataset
 	 * Returns a reference to the defaultGraph
 	 * @return Model
 	*/
-	functiongetDefaultGraph()
+	function getDefaultGraph()
 	{
 		return $this->defaultGraph;
 	}
@@ -152,7 +152,7 @@ class DatasetMem extends Dataset
 	 * @param string
 	 * @return NamedGraphMem or NULL
 	 */
-	functiongetNamedGraph($graphName)
+	function getNamedGraph($graphName)
 	{
 		if (!isset($this->graphs[$graphName])) return NULL;
 		return $this->graphs[$graphName];
@@ -176,7 +176,7 @@ class DatasetMem extends Dataset
 	 * @param  string
 	 * @return NamedGraphMem
 	 */
-	functioncreateGraph($graphName,$baseURI = null)
+	function createGraph($graphName,$baseURI = null)
 	{
 		$this->graphs[$graphName]=new NamedGraphMem($graphName,$baseURI);
 		return $this->getNamedGraph($graphName);
@@ -209,7 +209,7 @@ class DatasetMem extends Dataset
 	 * @return NamedGraphMem or null
 	 * @access	private
 	 */
-	functiongetGraphWithOffset($offset)
+	function getGraphWithOffset($offset)
 	{
 		$i=0;
 		foreach ($this->graphs as $graph)
@@ -226,7 +226,7 @@ class DatasetMem extends Dataset
 	 *
 	 * @return IteratorAllGraphsMem
 	 */
-	functionlistNamedGraphs()
+	function listNamedGraphs()
 	{
         require_once RDFAPI_INCLUDE_DIR . 'dataset/IteratorAllGraphsMem.php';
         $m = new IteratorAllGraphsMem($this);
@@ -359,7 +359,7 @@ class DatasetMem extends Dataset
 	 * @param Resource or Null
 	 * @return Iterator
 	 */
-	functionfindInNamedGraphs($graph,$subject,$predicate,$object,$returnAsTriples = false)
+	function findInNamedGraphs($graph,$subject,$predicate,$object,$returnAsTriples = false)
 	{
 
 		if ($graph!=null)
@@ -386,7 +386,7 @@ class DatasetMem extends Dataset
 	 * @param Resource or Null
 	 * @return Iterator
 	 */
-	functionfindInDefaultGraph($subject,$predicate,$object)
+	function findInDefaultGraph($subject,$predicate,$object)
 	{
 		return $this->defaultGraph->iterFind($subject,$predicate,$object);
 	}

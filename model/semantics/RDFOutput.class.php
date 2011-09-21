@@ -11,8 +11,9 @@
 class RDFOutput {
 
     private static $uniqueinstance;
-    
-    private $rdfmodel;
+    private $model;
+    private $resource;
+    private $container;
 
     private function __construct() {
         
@@ -33,13 +34,13 @@ class RDFOutput {
      * @access	public
      */
     public function buildRdfOutput($object) {
-        $model = ModelFactory::getResModel(MEMMODEL);
-                
+        $this->model = ModelFactory::getResModel(MEMMODEL);
+
         $this->analyzeVariable($object);
-        return ModelFactory::getResModel(RBMODEL);
-        
+
+        return $this->model;
     }
-    
+
     /**
      * Recursive function for analyzing an object and building its path
      *
@@ -47,36 +48,75 @@ class RDFOutput {
      * @param	string OPTIONAL $path
      * @access	private
      */
-    private function analyzeVariable($var,$path='') {
-        if (is_object($var)) {
-            $obj_prop = get_object_vars($var);
-            $cnt = 0;
+    private function analyzeVariable($var, $path='') {
+        if (is_array($var)) {
             $temp = $path;
+            for ($i = 0; $i < count($var); $i++) {
+                $path = $temp;
+                $path .= '/' . $i;
+                $this->analyzeVariable($var[$i], $path);
+            }
+        } else if (is_object($var)) {
+            $obj_prop = get_object_vars($var);
+            $temp = $path;
+            $this->addToModel($path);
             foreach ($obj_prop as $prop => $value) {
                 $path = $temp;
-                $path .= $cnt.'/'.$prop . '/';
-                $this->analyzeVariable($value,$path);
-            }
-        } else if (is_array($var)) {
-            foreach ($var as $item) {
-                $this->analyzeVariable($item,$path);
+                $path .= '/' . $prop;
+                $this->analyzeVariable($value, $path);
             }
         } else {
-            echo 'Path: ' . $path . '<br>';
-            echo 'Value: ' . $var . '<br>';
-            $this->addToModel($path,$var);
+            $this->addToModel($path, $var);
             $path = '';
         }
     }
-    
+
     /**
      *
-     * @param	Mixed $var
-     * @param	string OPTIONAL $path
+     * @param	string $path
+     * @param	string OPTIONAL $value
      * @access	private
      */
-    private function addToModel($path,$value){
-        
+    private function addToModel($path, $value=null) {
+        //Miel: need full path for adding semantics!!
+        $uri = explode('.', Config::$HOSTNAME .  substr($_SERVER["REQUEST_URI"],1));
+        $uri = $uri[0] . $path;
+
+        if (!isset($value)) {
+            $this->resource = $this->model->createResource($uri);
+
+            $rdfmapper = new RDFMapper();
+
+            $tdt_package = FormatterFactory::getInstance()->getPackage();
+            $mapping_resource = $rdfmapper->getResourceMapping($tdt_package, $uri);
+
+            $this->resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
+        } else {
+            $property = $this->model->createProperty($uri);
+            $literal = $this->model->createTypedLiteral($value, $this->mapLiteral($value));
+            $this->resource->addProperty($property, $literal);
+        }
+    }
+
+    /**
+     *  Map the datatype of a primitive type to the right indication string for RAP API
+     * 
+     * @param	string $var
+     * @return string 
+     * @access	private
+     */
+    private function mapLiteral($var) {
+        $type = '';
+        if (is_int($var))
+            $type = 'INT';
+        else if (is_bool($var))
+            $type = 'BOOLEAN';
+        else if (is_string($var))
+            $type = 'STRING';
+        else if (is_float($var))
+            $type = 'DECIMAL';
+
+        return DATATYPE_SHORTCUT_PREFIX . $type;
     }
 
 }

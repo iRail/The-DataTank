@@ -12,12 +12,9 @@ class Config {
     public static $HOSTNAME = "http://localhost/";
 
     // host for caching purposes
-    public static $CACHE_SYSTEM = "NoCache"; //other possibilities: NoCache, apc...
+    public static $CACHE_SYSTEM = "MemCache"; //other possibilities: NoCache, apc...
     public static $CACHE_HOST = "localhost";
     public static $CACHE_PORT = 11211;
-
-    //add a trailing slash!
-    public static $INSTALLDIR = "\$PWD";
 
     //the webserver subdirectory, if it's not in a subdir, fill in blank
     public static $SUBDIR = "DT/";
@@ -27,8 +24,11 @@ class Config {
     public static $DB_PASSWORD = '';
 
     // validation for API calls to remotely add resources and modules
-    public static $API_USER = "usr";
-    public static $API_PASSWD = "usr";
+    public static $API_USER = "";
+    public static $API_PASSWD = "";
+	
+    // path to the PHPExcel IOFactory.php, required for XLS generic resource
+    public static $PHPEXCEL_IOFACTORY_PATH = "../PHPExcel/Classes/PHPExcel/IOFactory.php";	
     
 }
 ?>
