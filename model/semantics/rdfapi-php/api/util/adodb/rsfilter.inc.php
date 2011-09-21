@@ -33,7 +33,7 @@
 	}
 	$rs = RSFilter($rs,'do_ucwords');
  */
-function &RSFilter($rs,$fn)
+functionRSFilter($rs,$fn)
 {
 	if ($rs->databaseType != 'array') {
 		if (!$rs->connection) return false;

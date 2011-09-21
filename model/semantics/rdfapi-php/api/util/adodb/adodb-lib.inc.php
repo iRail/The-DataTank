@@ -460,7 +460,7 @@ function _adodb_getcount(&$zthis, $sql,$inputarr=false,$secs2cache=0)
 	data will get out of synch. use CachePageExecute() only with tables that
 	rarely change.
 */
-function &_adodb_pageexecute_all_rows(&$zthis, $sql, $nrows, $page, 
+function_adodb_pageexecute_all_rows(&$zthis, $sql, $nrows, $page, 
 						$inputarr=false, $secs2cache=0) 
 {
 	$atfirstpage = false;
@@ -513,8 +513,8 @@ function &_adodb_pageexecute_all_rows(&$zthis, $sql, $nrows, $page,
 	return $rsreturn;
 }
 
-// Iván Oliva version
-function &_adodb_pageexecute_no_last_page(&$zthis, $sql, $nrows, $page, $inputarr=false, $secs2cache=0) 
+// Ivï¿½n Oliva version
+function_adodb_pageexecute_no_last_page(&$zthis, $sql, $nrows, $page, $inputarr=false, $secs2cache=0) 
 {
 
 	$atfirstpage = false;

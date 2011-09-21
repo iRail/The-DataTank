@@ -124,9 +124,9 @@ class Model extends Object
         };
 
         if (($stream && $type=='rdf')||($stream && $type=='n3')) {
-                $temp=&$parser->generateModel($filename,false,$this);
+                $temp=$parser->generateModel($filename,false,$this);
         } else{
-                $temp=&$parser->generateModel($filename);
+                $temp=$parser->generateModel($filename);
         }
         $this->addModel($temp);
         if($this->getBaseURI()== null)
@@ -256,7 +256,7 @@ class Model extends Object
     * @return	object	ResModel
     * @access	public
     */
-    function & getResModel()
+    function  getResModel()
     {
         return ModelFactory::getResModelForBaseModel($this);
     }
@@ -274,7 +274,7 @@ class Model extends Object
     * @return	object	OntModel
     * @access	public
     */
-    function & getOntModel($vocabulary)
+    function  getOntModel($vocabulary)
     {
         return ModelFactory::getOntModelForBaseModel($this, $vocabulary);
     }
@@ -359,11 +359,11 @@ class Model extends Object
     * @return   object MemModel
     *
     */
-    function & getMemModelByRDQL($queryString, $closure = FALSE)
+    function  getMemModelByRDQL($queryString, $closure = FALSE)
     {
         require_once(RDFAPI_INCLUDE_DIR.PACKAGE_RDQL);
         $parser = new RdqlParser();
-        $parsedQuery =& $parser->parseQuery($queryString);
+        $parsedQuery = $parser->parseQuery($queryString);
 
         // If there are variables used in the pattern but not
         // in the select clause, add them to the select clause

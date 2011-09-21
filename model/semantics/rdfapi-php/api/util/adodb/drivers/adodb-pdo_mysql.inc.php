@@ -44,7 +44,7 @@ class ADODB_pdo_mysql extends ADODB_pdo {
 		return $arr;
 	}
 	
-	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	functionMetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{	
 		$save = $this->metaTablesSQL;
 		if ($showSchema && is_string($showSchema)) {
@@ -72,7 +72,7 @@ class ADODB_pdo_mysql extends ADODB_pdo {
 		$this->Execute("SET SESSION TRANSACTION ".$transaction_mode);
 	}
 	
- 	function &MetaColumns($table) 
+ 	functionMetaColumns($table) 
 	{
 		$this->_findschema($table,$schema);
 		if ($schema) {
@@ -152,7 +152,7 @@ class ADODB_pdo_mysql extends ADODB_pdo {
 		
 	
 	// parameters use PostgreSQL convention, not MySQL
-	function &SelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs=0)
+	functionSelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs=0)
 	{
 		$offsetStr =($offset>=0) ? "$offset," : '';
 		// jason judge, see http://phplens.com/lens/lensforum/msgs.php?id=9220

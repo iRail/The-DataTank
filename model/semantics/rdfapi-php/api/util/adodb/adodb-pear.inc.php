@@ -109,7 +109,7 @@ class DB
 	 * error
 	 */
 
-	function &factory($type)
+	functionfactory($type)
 	{
 		include_once(ADODB_DIR."/drivers/adodb-$type.inc.php");
 		$obj = &NewADOConnection($type);
@@ -136,7 +136,7 @@ class DB
 	 * @see DB::parseDSN
 	 * @see DB::isError
 	 */
-	function &connect($dsn, $options = false)
+	functionconnect($dsn, $options = false)
 	{
 		if (is_array($dsn)) {
 			$dsninfo = $dsn;

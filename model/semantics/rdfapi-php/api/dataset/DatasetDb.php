@@ -148,7 +148,7 @@ class DatasetDb extends Dataset
 	 *
 	 * @return NamedGraphDb
 	 */
-	function & getDefaultGraph()
+	function getDefaultGraph()
 	{
 		$defaultGraphURI = $this->dbConnection->GetOne("SELECT defaultModelUri FROM datasets WHERE datasetName ='".$this->setName."'");
 		return ($this->dbStore->getNamedGraphDb($defaultGraphURI,'http://rdfapi-php/dataset_defaultGraph_'.$this->setName));
@@ -196,7 +196,7 @@ class DatasetDb extends Dataset
 	 * @param string
 	 * @return NamedGraphDb or null
 	 */
-	function &getNamedGraph($graphName)
+	functiongetNamedGraph($graphName)
 	{
 		if(!$this->containsNamedGraph($graphName))
 			return null;
@@ -234,7 +234,7 @@ class DatasetDb extends Dataset
 	 * @param  string
 	 * @return NamedGraphDb
 	 */
-	function &createGraph($graphName,$baseURI = null)
+	functioncreateGraph($graphName,$baseURI = null)
 	{
 		$graph =& $this->dbStore->getNewNamedGraphDb(uniqid('http://rdfapi-php/namedGraph_'),$graphName,$baseURI);
 		$this->addNamedGraph($graph);
@@ -265,7 +265,7 @@ class DatasetDb extends Dataset
 	 *
 	 * @return IteratorAllGraphsDb
 	 */
-	function &listNamedGraphs()
+	functionlistNamedGraphs()
 	{
 		$recordSet =& $this->dbConnection->execute("SELECT graphURI FROM dataset_model WHERE datasetName ='".$this->setName."'");
 		$it = new IteratorAllGraphsDb($recordSet, $this);
@@ -398,7 +398,7 @@ class DatasetDb extends Dataset
 	 * @param Resource or null
 	 * @return IteratorFindQuadsDb
 	 */
-	function &findInNamedGraphs($graphName,$subject,$predicate,$object,$returnAsTriples =false )
+	functionfindInNamedGraphs($graphName,$subject,$predicate,$object,$returnAsTriples =false )
 	{
 		// static part of the sql statement
 		$sql = "SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is, dataset_model.graphURI
@@ -430,7 +430,7 @@ class DatasetDb extends Dataset
 	 * @param Resource or null
 	 * @return IteratorFindQuadsDb
 	 */
-	function &findInDefaultGraph($subject,$predicate,$object)
+	functionfindInDefaultGraph($subject,$predicate,$object)
 	{
 		$defaultGraphID = (int)$this->dbConnection->GetOne("SELECT models.modelID FROM datasets, models WHERE datasets.datasetName ='".$this->setName."' AND datasets.defaultModelUri = models.modelURI");
 		// static part of the sql statement

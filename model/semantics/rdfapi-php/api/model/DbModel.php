@@ -230,7 +230,7 @@ class DbModel extends Model {
      * @return object MemModel
      * @access public
      */
-    function & getMemModel() {
+    function getMemModel() {
         $recordSet = $this->_getRecordSet($this);
         $m = $this->_convertRecordSetToMemModel($recordSet);
         return $m;
@@ -252,7 +252,7 @@ class DbModel extends Model {
      * @return ADOdb Database object
      * @access public
      */
-    function &getDbConn() {
+    function getDbConn() {
         return $this->dbConn;
     }
 
@@ -747,7 +747,7 @@ class DbModel extends Model {
      * @access	public
      *
      */
-    function & unite(&$model) {
+    function unite(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: unite): Model expected.';
@@ -774,7 +774,7 @@ class DbModel extends Model {
      * @throws PhpError
      * @access	public
      */
-    function & subtract(&$model) {
+    function subtract(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: subtract): Model expected.';
@@ -802,7 +802,7 @@ class DbModel extends Model {
      * @throws  PhpError
      * @access	public
      */
-    function & intersect(&$model) {
+    function intersect(&$model) {
 
         if (is_a($model, 'MemModel')) {
 
@@ -865,7 +865,7 @@ class DbModel extends Model {
      * @return	object	MemModel
      * @access	public
      */
-    function & reify() {
+    function reify() {
 
         $memModel = & $this->getMemModel();
         return $memModel->reify();
@@ -1177,7 +1177,7 @@ class DbModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-    function & iterFind($sub=null, $pred=null, $obj=null) {
+    function iterFind($sub=null, $pred=null, $obj=null) {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
 

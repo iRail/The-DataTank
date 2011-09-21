@@ -362,7 +362,7 @@ class dbTable extends dbObject {
 	* @param array $attributes Index attributes
 	* @return object dbIndex object
 	*/
-	function &addIndex( $attributes ) {
+	functionaddIndex( $attributes ) {
 		$name = strtoupper( $attributes['NAME'] );
 		$this->indexes[$name] =& new dbIndex( $this, $attributes );
 		return $this->indexes[$name];
@@ -374,7 +374,7 @@ class dbTable extends dbObject {
 	* @param array $attributes Data attributes
 	* @return object dbData object
 	*/
-	function &addData( $attributes ) {
+	functionaddData( $attributes ) {
 		if( !isset( $this->data ) ) {
 			$this->data =& new dbData( $this, $attributes );
 		}
@@ -1627,7 +1627,7 @@ class adoSchema {
 	*
 	* @access private
 	*/
-	function &create_parser() {
+	functioncreate_parser() {
 		// Create the parser
 		$xmlParser = xml_parser_create();
 		xml_set_object( $xmlParser, $this );

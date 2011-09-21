@@ -106,7 +106,7 @@ class IteratorAllGraphsMem
     * @return	mixed
 	* @access	public
     */
-	function &current()
+	functioncurrent()
 	{
 		return $this->current;
 	}

@@ -62,7 +62,7 @@ Class RdqlMemEngine extends RdqlEngine {
  *
  * @access  public
  */
- function & queryModel(&$memModel, &$parsedQuery, $returnNodes = TRUE) {
+ function queryModel(&$memModel, &$parsedQuery, $returnNodes = TRUE) {
 
    $this->parsedQuery = $parsedQuery;
 

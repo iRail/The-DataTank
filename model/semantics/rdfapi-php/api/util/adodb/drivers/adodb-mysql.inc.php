@@ -58,7 +58,7 @@ class ADODB_mysql extends ADOConnection {
 	}
 	
 	
-	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	functionMetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{	
 		$save = $this->metaTablesSQL;
 		if ($showSchema && is_string($showSchema)) {
@@ -76,7 +76,7 @@ class ADODB_mysql extends ADOConnection {
 	}
 	
 	
-	function &MetaIndexes ($table, $primary = FALSE, $owner=false)
+	functionMetaIndexes ($table, $primary = FALSE, $owner=false)
 	{
         // save old fetch mode
         global $ADODB_FETCH_MODE;
@@ -223,7 +223,7 @@ class ADODB_mysql extends ADOConnection {
 		return $this->genID;
 	}
 	
-  	function &MetaDatabases()
+  	functionMetaDatabases()
 	{
 		$qid = mysql_list_dbs($this->_connectionID);
 		$arr = array();
@@ -388,7 +388,7 @@ class ADODB_mysql extends ADOConnection {
 		return $this->_connect($argHostname, $argUsername, $argPassword, $argDatabasename);
 	}
 	
- 	function &MetaColumns($table) 
+ 	functionMetaColumns($table) 
 	{
 		$this->_findschema($table,$schema);
 		if ($schema) {
@@ -478,7 +478,7 @@ class ADODB_mysql extends ADOConnection {
 	}
 	
 	// parameters use PostgreSQL convention, not MySQL
-	function &SelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs=0)
+	functionSelectLimit($sql,$nrows=-1,$offset=-1,$inputarr=false,$secs=0)
 	{
 		$offsetStr =($offset>=0) ? ((integer)$offset)."," : '';
 		// jason judge, see http://phplens.com/lens/lensforum/msgs.php?id=9220
@@ -623,7 +623,7 @@ class ADORecordSet_mysql extends ADORecordSet{
 		$this->_numOfFields = @mysql_num_fields($this->_queryID);
 	}
 	
-	function &FetchField($fieldOffset = -1) 
+	functionFetchField($fieldOffset = -1) 
 	{	
 		if ($fieldOffset != -1) {
 			$o = @mysql_fetch_field($this->_queryID, $fieldOffset);
@@ -641,7 +641,7 @@ class ADORecordSet_mysql extends ADORecordSet{
 		return $o;
 	}
 
-	function &GetRowAssoc($upper=true)
+	functionGetRowAssoc($upper=true)
 	{
 		if ($this->fetchMode == MYSQL_ASSOC && !$upper) $row = $this->fields;
 		else $row =& ADORecordSet::GetRowAssoc($upper);

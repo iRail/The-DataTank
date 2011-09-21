@@ -115,7 +115,7 @@ order by constraint_name, referenced_table_name, keyno";
 		return $arr2;
 	}
 	
-	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	functionMetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{
 		if ($mask) {$this->debug=1;
 			$save = $this->metaTablesSQL;
@@ -130,14 +130,14 @@ order by constraint_name, referenced_table_name, keyno";
 		return $ret;
 	}
 	
-	function &MetaColumns($table)
+	functionMetaColumns($table)
 	{
 		$arr = ADOConnection::MetaColumns($table);
 		return $arr;
 	}
 	
 	
-	function &MetaIndexes($table,$primary=false)
+	functionMetaIndexes($table,$primary=false)
 	{
 		$table = $this->qstr($table);
 
@@ -196,7 +196,7 @@ order by constraint_name, referenced_table_name, keyno";
 	
 	// "Stein-Aksel Basma" <basma@accelero.no>
 	// tested with MSSQL 2000
-	function &MetaPrimaryKeys($table)
+	functionMetaPrimaryKeys($table)
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -220,7 +220,7 @@ order by constraint_name, referenced_table_name, keyno";
 		return $false;	  
 	}
 	
-	function &SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
+	functionSelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
 	{
 		if ($nrows > 0 && $offset <= 0) {
 			$sql = preg_replace(

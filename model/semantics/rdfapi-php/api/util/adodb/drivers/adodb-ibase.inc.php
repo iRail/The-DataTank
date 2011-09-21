@@ -159,7 +159,7 @@ class ADODB_ibase extends ADOConnection {
 	
 	// there are some compat problems with ADODB_COUNTRECS=false and $this->_logsql currently.
 	// it appears that ibase extension cannot support multiple concurrent queryid's
-	function &_Execute($sql,$inputarr=false) 
+	function_Execute($sql,$inputarr=false) 
 	{
 	global $ADODB_COUNTRECS;
 	
@@ -187,7 +187,7 @@ class ADODB_ibase extends ADOConnection {
 		return $ret;
 	}
 	
-	function &MetaIndexes ($table, $primary = FALSE, $owner=false)
+	functionMetaIndexes ($table, $primary = FALSE, $owner=false)
 	{
         // save old fetch mode
         global $ADODB_FETCH_MODE;
@@ -476,7 +476,7 @@ class ADODB_ibase extends ADOConnection {
 	}
 	//OPN STUFF end
 		// returns array of ADOFieldObjects for current table
-	function &MetaColumns($table) 
+	functionMetaColumns($table) 
 	{
 	global $ADODB_FETCH_MODE;
 		
@@ -743,7 +743,7 @@ class ADORecordset_ibase extends ADORecordSet
 			fields in a certain query result. If the field offset isn't specified, the next field that wasn't yet retrieved by
 			fetchField() is retrieved.		*/
 
-	function &FetchField($fieldOffset = -1)
+	functionFetchField($fieldOffset = -1)
 	{
 			 $fld = new ADOFieldObject;
 			 $ibf = ibase_field_info($this->_queryID,$fieldOffset);

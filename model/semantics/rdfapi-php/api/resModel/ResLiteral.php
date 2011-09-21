@@ -52,7 +52,7 @@ class ResLiteral extends Literal {
      * @return	object model	$model
      * @access public
      */
-    function & getAssociatedModel() {
+    function getAssociatedModel() {
         return $this->model;
     }
 

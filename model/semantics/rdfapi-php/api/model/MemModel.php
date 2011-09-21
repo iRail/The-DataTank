@@ -944,7 +944,7 @@ class MemModel extends Model {
      * @throws phpErrpr
      *
      */
-    function & unite(&$model) {
+     unite(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: unite): Model expected.';
@@ -976,7 +976,7 @@ class MemModel extends Model {
      * @access	public
      * @throws phpErrpr
      */
-    function & subtract(&$model) {
+     subtract(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: subtract): Model expected.';
@@ -1010,7 +1010,7 @@ class MemModel extends Model {
      * @access	public
      * @throws phpErrpr
      */
-    function & intersect(&$model) {
+     intersect(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: intersect: Model expected.';
@@ -1082,7 +1082,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	MemModel
      */
-    function & reify() {
+     reify() {
         $res = new MemModel($this->getBaseURI());
 
         $stateIt = $this->getStatementIterator();
@@ -1099,7 +1099,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	StatementIterator
      */
-    function & getStatementIterator() {
+     getStatementIterator() {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/StatementIterator.php';
 
@@ -1112,7 +1112,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-    function & findAsIterator($sub=null, $pred=null, $obj=null) {
+     findAsIterator($sub=null, $pred=null, $obj=null) {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/FindIterator.php';
 
@@ -1125,7 +1125,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-    function & iterFind($sub=null, $pred=null, $obj=null) {
+     iterFind($sub=null, $pred=null, $obj=null) {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/IterFind.php';
 

@@ -114,7 +114,7 @@ class N3Serializer extends Object
     * @return    string
     * @access    public
     */
-    function &serialize(&$m)
+    functionserialize(&$m)
     {
         if (is_a($m, 'DbModel')) {
             $m=$m->getMemModel();
@@ -229,7 +229,7 @@ class N3Serializer extends Object
     //     }
 
         return $this->res;
-    }//function &serialize(&$m)
+    }//functionserialize(&$m)
 
 
 

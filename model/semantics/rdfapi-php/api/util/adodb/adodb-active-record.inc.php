@@ -295,7 +295,7 @@ class ADODB_Active_Record {
 
 
 	// retrieve ADOConnection from _ADODB_Active_DBs
-	function &DB()
+	functionDB()
 	{
 	global $_ADODB_ACTIVE_DBS;
 	
@@ -310,7 +310,7 @@ class ADODB_Active_Record {
 	}
 	
 	// retrieve ADODB_Active_Table
-	function &TableInfo()
+	functionTableInfo()
 	{
 	global $_ADODB_ACTIVE_DBS;
 	
@@ -486,7 +486,7 @@ class ADODB_Active_Record {
 	}
 	
 	// returns an array of active record objects
-	function &Find($whereOrderBy,$bindarr=false,$pkeysArr=false)
+	functionFind($whereOrderBy,$bindarr=false,$pkeysArr=false)
 	{
 		$db =& $this->DB(); if (!$db || empty($this->_table)) return false;
 		$arr =& $db->GetActiveRecordsClass(get_class($this),$this->_table, $whereOrderBy,$bindarr,$pkeysArr);

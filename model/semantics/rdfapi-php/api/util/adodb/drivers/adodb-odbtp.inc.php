@@ -273,7 +273,7 @@ class ADODB_odbtp extends ADOConnection{
 		return true;
 	}
 	
-	function &MetaTables($ttype='',$showSchema=false,$mask=false)
+	functionMetaTables($ttype='',$showSchema=false,$mask=false)
 	{
 	global $ADODB_FETCH_MODE;
 
@@ -295,7 +295,7 @@ class ADODB_odbtp extends ADOConnection{
 		return $arr2;
 	}
 	
-	function &MetaColumns($table,$upper=true)
+	functionMetaColumns($table,$upper=true)
 	{
 	global $ADODB_FETCH_MODE;
 
@@ -341,7 +341,7 @@ class ADODB_odbtp extends ADOConnection{
 		return $retarr;
 	}
 
-	function &MetaPrimaryKeys($table, $owner='')
+	functionMetaPrimaryKeys($table, $owner='')
 	{
 	global $ADODB_FETCH_MODE;
 
@@ -358,7 +358,7 @@ class ADODB_odbtp extends ADOConnection{
 		return $arr2;
 	}
 
-	function &MetaForeignKeys($table, $owner='', $upper=false)
+	functionMetaForeignKeys($table, $owner='', $upper=false)
 	{
 	global $ADODB_FETCH_MODE;
 
@@ -424,7 +424,7 @@ class ADODB_odbtp extends ADOConnection{
 		return $ret;
 	}
 
-	function &SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
+	functionSelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
 	{
 		// TOP requires ORDER BY for Visual FoxPro
 		if( $this->odbc_driver == ODB_DRIVER_FOXPRO ) {
@@ -602,7 +602,7 @@ class ADORecordSet_odbtp extends ADORecordSet {
 		}
 	}
 
-	function &FetchField($fieldOffset = 0)
+	functionFetchField($fieldOffset = 0)
 	{
 		$off=$fieldOffset; // offsets begin at 0
 		$o= new ADOFieldObject();

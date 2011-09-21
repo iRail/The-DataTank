@@ -450,7 +450,7 @@ class ResModel {
      * @throws phpErrpr
      *
      */
-    function & unite(& $model) {
+    function unite(& $model) {
         if (is_a($model, 'ResModel'))
             return $this->model->unite($model->getModel());
         return $this->model->unite($model);
@@ -559,7 +559,7 @@ class ResModel {
      * @return	object Model 
      * @access	public
      */
-    function & getModel() {
+    function getModel() {
         return $this->model;
     }
 
@@ -635,7 +635,7 @@ class ResModel {
      * @access	public
      * @throws phpErrpr
      */
-    function & intersect(& $model) {
+    function intersect(& $model) {
         if (is_a($model, 'ResModel'))
             return $this->model->intersect($model->getModel());
         return $this->model->intersect($model);
@@ -736,7 +736,7 @@ class ResModel {
      *      OR  array   [][?VARNAME] = string
      *
      */
-    function & rdqlQuery($queryString, $returnNodes = TRUE) {
+    function rdqlQuery($queryString, $returnNodes = TRUE) {
         $ret = $this->model->rdqlQuery($queryString, $returnNodes);
         return $ret;
     }

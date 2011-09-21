@@ -154,7 +154,7 @@ class DbStore extends Object {
      * @return ADOdb Database object
      * @access public
      */
-    function &getDbConn() {
+    function getDbConn() {
         return $this->dbConn;
     }
 
@@ -673,7 +673,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-    function & getNewDatasetDb($datasetName) {
+     function getNewDatasetDb($datasetName) {
 
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DATASET);
 
@@ -725,7 +725,7 @@ class DbStore extends Object {
      * @return  object DatasetDb
      * @access	public
      */
-    function &getDatasetDb($datasetName) {
+    function getDatasetDb($datasetName) {
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DATASET);
 
         if (!$this->datasetExists($datasetName)) {

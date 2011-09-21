@@ -101,7 +101,7 @@ class IteratorFindQuadsDb
     * @return	mixed
 	* @access	public
     */
-	function &current()
+	functioncurrent()
 	{
 		if ($this->dbResultSet===false)
 			return null;

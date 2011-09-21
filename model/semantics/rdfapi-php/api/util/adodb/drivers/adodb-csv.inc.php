@@ -50,7 +50,7 @@ class ADODB_csv extends ADOConnection {
 			return $this->_affectedrows;
 	}
   
-  	function &MetaDatabases()
+  	functionMetaDatabases()
 	{
 		return false;
 	}
@@ -72,14 +72,14 @@ class ADODB_csv extends ADOConnection {
 		return true;
 	}
 	
- 	function &MetaColumns($table) 
+ 	functionMetaColumns($table) 
 	{
 		return false;
 	}
 		
 		
 	// parameters use PostgreSQL convention, not MySQL
-	function &SelectLimit($sql,$nrows=-1,$offset=-1)
+	functionSelectLimit($sql,$nrows=-1,$offset=-1)
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -114,7 +114,7 @@ class ADODB_csv extends ADOConnection {
 	}
 	
 	// returns queryID or false
-	function &_Execute($sql,$inputarr=false)
+	function_Execute($sql,$inputarr=false)
 	{
 	global $ADODB_FETCH_MODE;
 	

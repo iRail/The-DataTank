@@ -30,8 +30,8 @@ For Oracle the default is dd-mon-yy or dd-mon-yyyy, and for SQL-92 the default i
 yy-mm-dd or yyyy-mm-dd.
 
 Using 'RR' in the format forces two-digit years less than or equal to 49 to be
-interpreted as years in the 21st century (2000–2049), and years over 50 as years in
-the 20th century (1950–1999). Setting the RR format as the default for all two-digit
+interpreted as years in the 21st century (2000ï¿½2049), and years over 50 as years in
+the 20th century (1950ï¿½1999). Setting the RR format as the default for all two-digit
 year entries allows you to become year-2000 compliant. For example:
 NLS_DATE_FORMAT='RR-MM-DD'
 
@@ -95,8 +95,8 @@ class ADODB_oci8 extends ADOConnection {
 		if (defined('ADODB_EXTENSION')) $this->rsPrefix .= 'ext_';
 	}
 	
-	/*  Function &MetaColumns($table) added by smondino@users.sourceforge.net*/
-	function &MetaColumns($table) 
+	/*  functionMetaColumns($table) added by smondino@users.sourceforge.net*/
+	functionMetaColumns($table) 
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -309,7 +309,7 @@ NATSOFT.DOMAIN =
 		return $this->GetOne("select $flds from $tables where $where for update");
 	}
 	
-	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	functionMetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{
 		if ($mask) {
 			$save = $this->metaTablesSQL;
@@ -325,7 +325,7 @@ NATSOFT.DOMAIN =
 	}
 	
 	// Mark Newnham 
-	function &MetaIndexes ($table, $primary = FALSE, $owner=false)
+	functionMetaIndexes ($table, $primary = FALSE, $owner=false)
 	{
         // save old fetch mode
         global $ADODB_FETCH_MODE;
@@ -556,7 +556,7 @@ NATSOFT.DOMAIN =
 	 This implementation does not appear to work with oracle 8.0.5 or earlier. Comment
 	 out this function then, and the slower SelectLimit() in the base class will be used.
 	*/
-	function &SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
+	functionSelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
 	{
 		// seems that oracle only supports 1 hint comment in 8i
 		if ($this->firstrows) {
@@ -738,7 +738,7 @@ NATSOFT.DOMAIN =
 	 * @param [inputarr]	holds the input data to bind to. Null elements will be set to null.
 	 * @return 		RecordSet or false
 	 */
-	function &Execute($sql,$inputarr=false) 
+	functionExecute($sql,$inputarr=false) 
 	{
 		if ($this->fnExecute) {
 			$fn = $this->fnExecute;
@@ -817,7 +817,7 @@ NATSOFT.DOMAIN =
 				array('VAR1' => 'Mr Bean'));
 			
 	*/
-	function &ExecuteCursor($sql,$cursorName='rs',$params=false)
+	functionExecuteCursor($sql,$cursorName='rs',$params=false)
 	{
 		if (is_array($sql)) $stmt = $sql;
 		else $stmt = ADODB_oci8::Prepare($sql,true); # true to allocate OCINewCursor
@@ -1289,7 +1289,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 			  fields in a certain query result. If the field offset isn't specified, the next field that wasn't yet retrieved by
 			  fetchField() is retrieved.		*/
 
-	function &_FetchField($fieldOffset = -1)
+	function_FetchField($fieldOffset = -1)
 	{
 		$fld = new ADOFieldObject;
 		$fieldOffset += 1;
@@ -1306,7 +1306,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 	}
 	
 	/* For some reason, OCIcolumnname fails when called after _initrs() so we cache it */
-	function &FetchField($fieldOffset = -1)
+	functionFetchField($fieldOffset = -1)
 	{
 		return $this->_fieldobjs[$fieldOffset];
 	}
@@ -1344,7 +1344,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 	
 	/*
 	# does not work as first record is retrieved in _initrs(), so is not included in GetArray()
-	function &GetArray($nRows = -1) 
+	functionGetArray($nRows = -1) 
 	{
 	global $ADODB_OCI8_GETARRAY;
 	
@@ -1377,7 +1377,7 @@ class ADORecordset_oci8 extends ADORecordSet {
 	} */
 	
 	/* Optimize SelectLimit() by using OCIFetch() instead of OCIFetchInto() */
-	function &GetArrayLimit($nrows,$offset=-1) 
+	functionGetArrayLimit($nrows,$offset=-1) 
 	{
 		if ($offset <= 0) {
 			$arr =& $this->GetArray($nrows);

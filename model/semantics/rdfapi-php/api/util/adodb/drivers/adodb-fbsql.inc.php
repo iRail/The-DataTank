@@ -37,7 +37,7 @@ class ADODB_fbsql extends ADOConnection {
 			return fbsql_affected_rows($this->_connectionID);
 	}
   
-  	function &MetaDatabases()
+  	functionMetaDatabases()
 	{
 		$qid = fbsql_list_dbs($this->_connectionID);
 		$arr = array();
@@ -80,7 +80,7 @@ class ADODB_fbsql extends ADOConnection {
 		return true;	
 	}
 	
- 	function &MetaColumns($table) 
+ 	functionMetaColumns($table) 
 	{
 		if ($this->metaColumnsSQL) {
 			
@@ -187,7 +187,7 @@ class ADORecordSet_fbsql extends ADORecordSet{
 	
 
 
-	function &FetchField($fieldOffset = -1) {
+	functionFetchField($fieldOffset = -1) {
 		if ($fieldOffset != -1) {
 			$o =  @fbsql_fetch_field($this->_queryID, $fieldOffset);
 			//$o->max_length = -1; // fbsql returns the max length less spaces -- so it is unrealiable

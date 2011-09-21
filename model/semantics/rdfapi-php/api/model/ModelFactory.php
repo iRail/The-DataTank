@@ -30,7 +30,7 @@ class ModelFactory
 	* @return	object	MemModel
 	* @access	public
 	*/
-	public static function & getDefaultModel($baseURI = null)
+	public static  getDefaultModel($baseURI = null)
 	{
 		return ModelFactory::getMemModel($baseURI);
 	}
@@ -43,7 +43,7 @@ class ModelFactory
     * @param string $uri
 	* @access	public
     */
-	public static function & getDatasetMem($graphSetId = null)
+	public static  getDatasetMem($graphSetId = null)
 	{
         require_once RDFAPI_INCLUDE_DIR . 'dataset/DatasetMem.php';
 		$m = new DatasetMem($graphSetId);
@@ -58,7 +58,7 @@ class ModelFactory
 	* @return	object	MemModel
 	* @access	public
 	*/
-	public static function & getMemModel($baseURI = null)
+	public static  getMemModel($baseURI = null)
 	{
         require_once RDFAPI_INCLUDE_DIR . 'model/MemModel.php';
 		$m = new MemModel($baseURI);
@@ -76,7 +76,7 @@ class ModelFactory
 	* @return	object	DbModel
 	* @access	public
 	*/
-	public static function & getDefaultDbModel($baseURI = null)
+	public static  getDefaultDbModel($baseURI = null)
 	{
 		$dbStore = ModelFactory::getDbStore();
 		$m = ModelFactory::getDbModel($dbStore,$baseURI);
@@ -95,7 +95,7 @@ class ModelFactory
 	* @return	object	DbModel
 	* @access	public
 	*/
-       public static function & getDbModel($dbStore, $baseURI = null) {
+       public static  getDbModel($dbStore, $baseURI = null) {
         if ($dbStore->modelExists($baseURI)) {
             return $dbStore->getModel($baseURI);
         }
@@ -115,7 +115,7 @@ class ModelFactory
 	* @return	object	DbStore
 	* @access	public
 	*/
-	public static function & getDbStore($dbDriver=ADODB_DB_DRIVER, $host=ADODB_DB_HOST, $dbName=ADODB_DB_NAME,
+	public static  getDbStore($dbDriver=ADODB_DB_DRIVER, $host=ADODB_DB_HOST, $dbName=ADODB_DB_NAME,
                    		$user=ADODB_DB_USER, $password=ADODB_DB_PASSWORD)
 	{
 		$dbs = new DbStore($dbDriver, $host, $dbName,$user, $password);
@@ -132,7 +132,7 @@ class ModelFactory
 	* @return	object	MemModel
 	* @access	public
 	*/
-	public static function & getInfModelF($baseURI = null)
+	public static  getInfModelF($baseURI = null)
 	{
         require_once RDFAPI_INCLUDE_DIR . 'infModel/InfModelF.php';
 		$mod = new InfModelF($baseURI);
@@ -149,7 +149,7 @@ class ModelFactory
 	* @return	object	MemModel
 	* @access	public
 	*/
-	public static function & getInfModelB($baseURI = null)
+	public static  getInfModelB($baseURI = null)
 	{
         require_once RDFAPI_INCLUDE_DIR . 'infModel/InfModelB.php';
 		$mod = new InfModelB($baseURI);
@@ -168,7 +168,7 @@ class ModelFactory
 	* @return	object	ResModel
 	* @access	public
 	*/
-	public static function & getResModel($modelType, $baseURI = null)
+	public static  getResModel($modelType, $baseURI = null)
 	{
 		switch ($modelType) {
       
@@ -198,7 +198,7 @@ class ModelFactory
 	* @return	object	ResModel
 	* @access	public
 	*/
-    public static function &getResModelForBaseModel(&$baseModel) {
+    public static getResModelForBaseModel(&$baseModel) {
         require_once RDFAPI_INCLUDE_DIR . 'resModel/ResModel.php';
         $mod = new ResModel($baseModel);
         return $mod;
@@ -218,7 +218,7 @@ class ModelFactory
 	* @return	object		OntModel
 	* @access	public
 	*/
-	public static function & getOntModel($modelType,$vocabulary, $baseURI = null)
+	public static  getOntModel($modelType,$vocabulary, $baseURI = null)
 	{
 		switch ($modelType)
 		{
@@ -252,7 +252,7 @@ class ModelFactory
 	* @return	object		OntModel
 	* @access	public
 	*/
-	public static function &getOntModelForBaseModel(&$baseModel, $vocabulary)
+	public static getOntModelForBaseModel(&$baseModel, $vocabulary)
 	{
         require_once RDFAPI_INCLUDE_DIR . 'ontModel/OntModel.php';
 
@@ -280,7 +280,7 @@ class ModelFactory
 	* @return	SparqlClient the SparqlClient object.
 	* @access	public
 	*/
-	public static function & getSparqlClient($server){
+	public static  getSparqlClient($server){
 		$cl = new SparqlClient($server);
 		return $cl;
 	}

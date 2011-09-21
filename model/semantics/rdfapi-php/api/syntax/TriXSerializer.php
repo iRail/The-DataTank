@@ -42,7 +42,7 @@ class TriXSerializer
 	* @return   string
 	* @access	public
 	*/
-	function & serializeToString()
+	function serializeToString()
 	{
 		return $this->_serialize();
 	}
@@ -68,7 +68,7 @@ class TriXSerializer
 	* @return   string
 	* @access	private
 	*/
-	function & _serialize()
+	function _serialize()
 	{
 		//Trix header
 		$serializedString=

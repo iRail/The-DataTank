@@ -98,7 +98,7 @@ class ADORecordset_oci8po extends ADORecordset_oci8 {
 	}
 	
 	// lowercase field names...
-	function &_FetchField($fieldOffset = -1)
+	function_FetchField($fieldOffset = -1)
 	{
 		 $fld = new ADOFieldObject;
  		 $fieldOffset += 1;
@@ -149,7 +149,7 @@ class ADORecordset_oci8po extends ADORecordset_oci8 {
 	}	
 	
 	/* Optimize SelectLimit() by using OCIFetch() instead of OCIFetchInto() */
-	function &GetArrayLimit($nrows,$offset=-1) 
+	functionGetArrayLimit($nrows,$offset=-1) 
 	{
 		if ($offset <= 0) {
 			$arr = $this->GetArray($nrows);

@@ -107,7 +107,7 @@ class IteratorAllGraphsDb
     * @return	mixed
 	* @access	public
     */
-	function &current()
+	functioncurrent()
 	{
 		return ($this->datasetDb->getNamedGraph($this->current));
 	}

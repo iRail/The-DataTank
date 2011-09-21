@@ -270,7 +270,10 @@ $short_datatype = array(
     'BYTE'      => RDF_DATATYPE_SCHEMA_URI . '#byte',
     'LONG'      => RDF_DATATYPE_SCHEMA_URI . '#long',
     'LANGUAGE'  => RDF_DATATYPE_SCHEMA_URI . '#language',
-    'NAME'      => RDF_DATATYPE_SCHEMA_URI . '#name'
+    'NAME'      => RDF_DATATYPE_SCHEMA_URI . '#name',
+    'BOOLEAN'      => RDF_DATATYPE_SCHEMA_URI . '#boolean',
+    'TIME'      => RDF_DATATYPE_SCHEMA_URI . '#boolean',
+    'DATE'      => RDF_DATATYPE_SCHEMA_URI . '#boolean'
 );
 
 // ----------------------------------------------------------------------------------
