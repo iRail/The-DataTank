@@ -16,15 +16,7 @@ class RbStore extends DbStore {
         //parent::DbStore($dbDriver, $host, $dbName, $user, $password);
     }
 
-    public function _createTables_MSSQL() {
-        return parent::_createTables_MSSQL();
-    }
-
-    protected function _createTables_MsAccess() {
-        return parent::_createTables_MsAccess();
-    }
-
-    public function _createTables_MySQL() {
+    protected function _createTables_MySQL() {
 
         R::begin();
 
@@ -91,70 +83,16 @@ class RbStore extends DbStore {
         return $check;
     }
 
-    public function _createTables_MySQLi() {
-        return $this->_createTables_MySQL();
-    }
 
-    public function _createUniqueDatasetID() {
-        return parent::_createUniqueDatasetID();
-    }
-
-    public function _createUniqueModelID() {
+    protected function _createUniqueModelID() {
         $maxModelID = R::getRow('SELECT MAX(modelID) mx FROM models');
 
         return++$maxModelID['mx'];
     }
 
-    public function _isSetup_MSSQL() {
-        parent::_isSetup_MSSQL();
-    }
-
-    public function _isSetup_MsAccess() {
-        parent::_isSetup_MsAccess();
-    }
-
-    public function _isSetup_MySQL() {
-        parent::_isSetup_MySQL();
-    }
-
-    public function _isSetup_MySQLi() {
-        return parent::_isSetup_MySQLi();
-    }
-
-    public function _parseSparqlQuery($query) {
-        return parent::_parseSparqlQuery($query);
-    }
-
-    public function _prepareSparql($arModelIds) {
-        return parent::_prepareSparql($arModelIds);
-    }
-
-    public static function assertDriverSupported($databaseType) {
-        return parent::assertDriverSupported($databaseType);
-    }
 
     public function close() {
         unset($this);
-    }
-
-    public function createTables($databaseType = null) {
-        return $this->_createTables_MySQL();
-    }
-
-    public function datasetExists($datasetName) {
-        return parent::datasetExists($datasetName);
-    }
-
-    public function getDatasetDb($datasetName) {
-        return parent::getDatasetDb($datasetName);
-    }
-
-    public function getDbConn() {
-        return parent::getDbConn();
-    }
-
-    public function getDriver($databaseType = null) {
-        return parent::getDriver($databaseType);
     }
 
     public function getModel($modelURI) {
@@ -167,14 +105,6 @@ class RbStore extends DbStore {
             
             return new RbModel($modelVars['modelURI'], $modelVars['modelID'], $modelVars['baseURI']);
         }
-    }
-
-    public function getNamedGraphDb($modelURI, $graphName) {
-        return parent::getNamedGraphDb($modelURI, $graphName);
-    }
-
-    public function getNewDatasetDb($datasetName) {
-        return parent::getNewDatasetDb($datasetName);
     }
 
     public function getNewModel($modelURI, $baseURI = NULL) {
@@ -192,18 +122,7 @@ class RbStore extends DbStore {
         }
     }
 
-    public function getNewNamedGraphDb($modelURI, $graphName, $baseURI = NULL) {
-        return parent::getNewNamedGraphDb($modelURI, $graphName, $baseURI);
-    }
-
-    public static function isDriverSupported($databaseType) {
-        return parent::isDriverSupported($databaseType);
-    }
-
-    public function isSetup($databaseType = null) {
-        return parent::isSetup($databaseType);
-    }
-
+ 
     public function listModels() {
         $recordSet = R::getAll("SELECT modelURI, baseURI FROM models");
         if (!$recordSet)
@@ -238,17 +157,6 @@ class RbStore extends DbStore {
         }
     }
 
-    public function putModel(&$model, $modelURI = NULL) {
-        return parent::putModel($model, $modelURI);
-    }
-
-    public function removeNamedGraphDb($modelURI) {
-        return parent::removeNamedGraphDb($modelURI);
-    }
-
-    public function sparqlQuery($query, $arModelIds = null, $resultform = false) {
-        return parent::sparqlQuery($query, $arModelIds, $resultform);
-    }
 
 }
 

@@ -35,7 +35,6 @@ class RDFOutput {
      */
     public function buildRdfOutput($object) {
         $this->model = ModelFactory::getResModel(MEMMODEL);
-
         $this->analyzeVariable($object);
 
         return $this->model;
@@ -79,7 +78,8 @@ class RDFOutput {
      */
     private function addToModel($path, $value=null) {
         //Miel: need full path for adding semantics!!
-        $uri = explode('.', Config::$HOSTNAME .  substr($_SERVER["REQUEST_URI"],1));
+        $uri = RequestURI::getInstance()->getURI();
+        echo $uri;
         $uri = $uri[0] . $path;
 
         if (!isset($value)) {
@@ -87,8 +87,7 @@ class RDFOutput {
 
             $rdfmapper = new RDFMapper();
 
-            $tdt_package = FormatterFactory::getInstance()->getPackage();
-            $mapping_resource = $rdfmapper->getResourceMapping($tdt_package, $uri);
+            $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
 
             $this->resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
         } else {
@@ -106,6 +105,7 @@ class RDFOutput {
      * @access	private
      */
     private function mapLiteral($var) {
+       
         $type = '';
         if (is_int($var))
             $type = 'INT';

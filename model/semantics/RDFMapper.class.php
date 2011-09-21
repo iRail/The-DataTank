@@ -176,7 +176,6 @@ class RDFMapper {
         $store = RbModelFactory::getRbStore();
         //gets the model if it exist, else make a new one. Either way, it's the right one.
         $model = RbModelFactory::getResModel(RBMODEL, $this->getMappingURI($tdt_package));
-        $model->setBaseURI($this->getMappingURI($tdt_package));
         //If the model has no statements, give it a basic mapping structure
         if ($model->isEmpty())
             $this->buildNewMapping($model, $tdt_package);

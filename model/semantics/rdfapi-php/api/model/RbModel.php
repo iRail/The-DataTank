@@ -14,7 +14,7 @@ class RbModel extends DbModel {
         parent::DbModel(NULL, $modelURI, $modelID, $baseURI);
     }
 
-    public function _checkNamespace($nmsp) {
+    protected function _checkNamespace($nmsp) {
         $res = true;
         $param = array(':modelID' => $this->modelID, ':namespace' => $nmsp);
         $sql = "SELECT * FROM namespaces
@@ -30,7 +30,7 @@ class RbModel extends DbModel {
         return $res;
     }
 
-    public function _containsRow($row) {
+    protected function _containsRow($row) {
         $param = array(
             ':modelID' => $this->modelID,
             ':subject' => $row[0],
@@ -59,7 +59,7 @@ class RbModel extends DbModel {
         return TRUE;
     }
 
-    public function _convertRecordSetToMemModel($recordSet) {
+    protected function _convertRecordSetToMemModel(&$recordSet) {
         $res = new MemModel($this->baseURI);
         //fields: subject, predicate, object, l_language, l_datatype, subject_is, object_is
         foreach ($recordSet as $record) {
@@ -91,7 +91,7 @@ class RbModel extends DbModel {
         return $res;
     }
 
-    public function _createDynSqlPart_SPO_param($subject, $predicate, $object) {
+    protected function _createDynSqlPart_SPO_param($subject, $predicate, $object) {
         $subject_is = is_a($subject, 'BlankNode') ? 'b' : (is_a($subject, 'Resource') ? 'r' : 'l');
 
         if ($subject != NULL)
@@ -112,7 +112,7 @@ class RbModel extends DbModel {
         return $param;
     }
 
-    public function _createDynSqlPart_SPO($subject, $predicate, $object) {
+    protected function _createDynSqlPart_SPO($subject, $predicate, $object) {
         // conditions derived from the parameters passed to the function
         $sql = '';
         if ($subject != NULL)
@@ -129,7 +129,7 @@ class RbModel extends DbModel {
         return $sql;
     }
 
-    public function _getRecordSet($dbModel) {
+    protected function _getRecordSet(&$dbModel) {
         $param = array(':modelID' => $this->modelID);
         $sql = 'SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
            FROM statements
@@ -179,7 +179,7 @@ class RbModel extends DbModel {
         }
     }
 
-    public function addModel($model) {
+    public function addModel(&$model) {
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: RbModel; method: addModel): Model expected.';
             trigger_error($errmsg, E_USER_ERROR);
@@ -220,7 +220,7 @@ class RbModel extends DbModel {
         }
     }
 
-    public function contains($statement) {
+    public function contains(&$statement) {
         $param = array(':modelID' => $this->modelID);
         $sql = 'SELECT modelID FROM statements WHERE modelID =:modelID ';
 
@@ -234,7 +234,7 @@ class RbModel extends DbModel {
         return TRUE;
     }
 
-    public function containsAll($model) {
+    public function containsAll(&$model) {
         if (is_a($model, 'MemModel')) {
 
             foreach ($model->triples as $statement)
@@ -258,7 +258,7 @@ class RbModel extends DbModel {
         trigger_error($errmsg, E_USER_ERROR);
     }
 
-    public function containsAny($model) {
+    public function containsAny(&$model) {
         if (is_a($model, 'MemModel')) {
 
             foreach ($model->triples as $statement)
@@ -432,7 +432,7 @@ class RbModel extends DbModel {
         return parent::rdqlQuery($queryString, $returnNodes);
     }
 
-    public function remove($statement) {
+    public function remove(&$statement) {
         if (!is_a($statement, 'Statement')) {
             $errmsg = RDFAPI_ERROR . '(class: RbModel; method: remove): Statement expected.';
             trigger_error($errmsg, E_USER_ERROR);

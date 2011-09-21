@@ -71,7 +71,7 @@ class DbStore extends Object {
      * @param   string   $password
      * @access	public
      */
-    function DbStore($dbDriver=ADODB_DB_DRIVER, $host=ADODB_DB_HOST, $dbName=ADODB_DB_NAME, $user=ADODB_DB_USER, $password=ADODB_DB_PASSWORD) {
+    public function DbStore($dbDriver=ADODB_DB_DRIVER, $host=ADODB_DB_HOST, $dbName=ADODB_DB_NAME, $user=ADODB_DB_USER, $password=ADODB_DB_PASSWORD) {
 
         // include DBase Package
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DBASE);
@@ -102,7 +102,7 @@ class DbStore extends Object {
      * @throws	SqlError
      * @access	public
      */
-    function listModels() {
+    public function listModels() {
 
         $recordSet = & $this->dbConn->execute("SELECT modelURI, baseURI
                                          FROM models");
@@ -131,7 +131,7 @@ class DbStore extends Object {
      * @throws	SqlError
      * @access	public
      */
-    function modelExists($modelURI) {
+    public function modelExists($modelURI) {
 
         $res = & $this->dbConn->execute("SELECT COUNT(*) FROM models
                                    WHERE modelURI = '" . $modelURI . "'");
@@ -154,7 +154,7 @@ class DbStore extends Object {
      * @return ADOdb Database object
      * @access public
      */
-    function getDbConn() {
+    public function getDbConn() {
         return $this->dbConn;
     }
 
@@ -167,7 +167,7 @@ class DbStore extends Object {
      * @return  object DbModel
      * @access	public
      */
-    function getModel($modelURI) {
+    public function getModel($modelURI) {
 
         if (!$this->modelExists($modelURI))
             return FALSE;
@@ -192,7 +192,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-    function getNewModel($modelURI, $baseURI=NULL) {
+    public function getNewModel($modelURI, $baseURI=NULL) {
 
         if ($this->modelExists($modelURI))
             return FALSE;
@@ -222,7 +222,7 @@ class DbStore extends Object {
      * @return  boolean
      * @access	public
      */
-    function putModel(&$model, $modelURI=NULL) {
+    public function putModel(&$model, $modelURI=NULL) {
 
         if (!$modelURI) {
             if (is_a($model, 'MemModel'))
@@ -245,14 +245,14 @@ class DbStore extends Object {
      *
      * @access	public
      */
-    function close() {
+    public function close() {
 
         $this->dbConn->close();
         unset($this);
     }
 
 // =============================================================================
-// **************************** private methods ********************************
+// **************************** protected methods ********************************
 // =============================================================================
 
     /**
@@ -260,9 +260,9 @@ class DbStore extends Object {
      * This method was implemented because some databases do not support auto-increment.
      *
      * @return  integer
-     * @access	private
+     * @access	protected
      */
-    function _createUniqueModelID() {
+    protected function _createUniqueModelID() {
 
         $maxModelID = & $this->dbConn->GetOne('SELECT MAX(modelID) FROM models');
         return++$maxModelID;
@@ -273,9 +273,9 @@ class DbStore extends Object {
      * This method was implemented because some databases do not support auto-increment.
      *
      * @return  integer
-     * @access	private
+     * @access	protected
      */
-    function _createUniqueDatasetID() {
+    protected function _createUniqueDatasetID() {
 
         $maxDatasetID = & $this->dbConn->GetOne('SELECT MAX(datasetId) FROM datasets');
         return++$maxDatasetID;
@@ -371,7 +371,7 @@ class DbStore extends Object {
      *
      * @throws Exception
      */
-    function _createTables_MySQL() {
+    protected function _createTables_MySQL() {
 
         $this->dbConn->startTrans();
 
@@ -432,11 +432,11 @@ class DbStore extends Object {
     /**
      * Creates tables on a MySQLi database
      */
-    function _createTables_MySQLi() {
+    protected function _createTables_MySQLi() {
         return $this->_createTables_MySQL();
     }
 
-//function _createTables_MySQLi()
+//protected function _createTables_MySQLi()
 
     /**
      * Create tables and indexes for MSSQL database
@@ -445,7 +445,7 @@ class DbStore extends Object {
      *
      * @throws Exception
      */
-    function _createTables_MSSQL() {
+    protected function _createTables_MSSQL() {
         $this->dbConn->startTrans();
 
         $this->dbConn->execute("CREATE TABLE [dbo].[models] (
@@ -577,9 +577,9 @@ class DbStore extends Object {
      * Checks if tables are setup for RAP (MySql)
      *
      * @throws SqlError
-     * @access private
+     * @access protected
      * */
-    function _isSetup_MySQL() {
+    protected function _isSetup_MySQL() {
         $recordSet = & $this->dbConn->execute("SHOW TABLES");
         if (!$recordSet) {
             throw new Exception($this->dbConn->errorMsg());
@@ -600,26 +600,26 @@ class DbStore extends Object {
         return false;
     }
 
-//function _isSetup_MySQL()
+//protected function _isSetup_MySQL()
 
     /**
      * Checks if tables are setup for RAP (MySQLi)
      *
      * @see _isSetup_MySQL()
      */
-    function _isSetup_MySQLi() {
+    protected function _isSetup_MySQLi() {
         return $this->_isSetup_MySQL();
     }
 
-//function _isSetup_MySQLi()
+//public function _isSetup_MySQLi()
 
     /**
      * Checks if tables are setup for RAP (MsAccess)
      *
      * @throws SqlError
-     * @access private
+     * @access protected
      * */
-    function _isSetup_MsAccess() {
+    protected function _isSetup_MsAccess() {
         $tables = & $this->dbConn->MetaTables();
         if (!$tables) {
             throw new Exception($this->dbConn->errorMsg());
@@ -636,15 +636,15 @@ class DbStore extends Object {
         }
     }
 
-//function _isSetup_MsAccess()
+//public function _isSetup_MsAccess()
 
     /**
      * Checks if tables are setup for RAP (MSSQL)
      *
      * @throws SqlError
-     * @access private
+     * @access protected
      * */
-    function _isSetup_MSSQL() {
+    protected function _isSetup_MSSQL() {
         $tables = & $this->dbConn->MetaTables();
         if (!$tables) {
             throw new Exception($this->dbConn->errorMsg());
@@ -661,7 +661,7 @@ class DbStore extends Object {
         }
     }
 
-//function _isSetup_MSSQL()
+//public function _isSetup_MSSQL()
 
     /**
      * Create a new instance of DatasetDb with the given $datasetName
@@ -673,7 +673,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-     function getNewDatasetDb($datasetName) {
+     public function getNewDatasetDb($datasetName) {
 
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DATASET);
 
@@ -703,7 +703,7 @@ class DbStore extends Object {
      * @throws	SqlError
      * @access	public
      */
-    function datasetExists($datasetName) {
+    public function datasetExists($datasetName) {
 
         $res = & $this->dbConn->execute("SELECT COUNT(*) FROM datasets
                                    WHERE datasetName = '" . $datasetName . "'");
@@ -725,7 +725,7 @@ class DbStore extends Object {
      * @return  object DatasetDb
      * @access	public
      */
-    function getDatasetDb($datasetName) {
+    public function getDatasetDb($datasetName) {
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DATASET);
 
         if (!$this->datasetExists($datasetName)) {
@@ -746,7 +746,7 @@ class DbStore extends Object {
      * @return  object NamedGraphMem
      * @access	public
      */
-    function getNamedGraphDb($modelURI, $graphName) {
+    public function getNamedGraphDb($modelURI, $graphName) {
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DATASET);
 
         if (!$this->modelExists($modelURI))
@@ -774,7 +774,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-    function getNewNamedGraphDb($modelURI, $graphName, $baseURI=NULL) {
+    public function getNewNamedGraphDb($modelURI, $graphName, $baseURI=NULL) {
 
         if ($this->modelExists($modelURI))
             return FALSE;
@@ -803,7 +803,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-    function removeNamedGraphDb($modelURI) {
+    public function removeNamedGraphDb($modelURI) {
         if (!$this->modelExists($modelURI))
             return FALSE;
 
@@ -826,14 +826,14 @@ class DbStore extends Object {
      * @param  string $resultform  Result form ('xml' for SPARQL Query Results XML Format)
      * @return string/array
      */
-    function sparqlQuery($query, $arModelIds = null, $resultform = false) {
+    public function sparqlQuery($query, $arModelIds = null, $resultform = false) {
         $engine = $this->_prepareSparql($arModelIds);
         return $engine->queryModel(
                         null, $this->_parseSparqlQuery($query), $resultform
         );
     }
 
-//function sparqlQuery($query,$resultform = false)
+//protected function sparqlQuery($query,$resultform = false)
 
     /**
      *   Prepares everything for SparqlEngine-usage
@@ -842,12 +842,12 @@ class DbStore extends Object {
      *
      *   @return SparqlEngineDb
      */
-    function _prepareSparql($arModelIds) {
+    protected function _prepareSparql($arModelIds) {
         require_once RDFAPI_INCLUDE_DIR . 'sparql/SparqlEngineDb.php';
         return new SparqlEngineDb($this, $arModelIds);
     }
 
-//function _prepareSparql()
+//protected function _prepareSparql()
 
     /**
      *   Parses an query and returns the parsed form.
@@ -858,7 +858,7 @@ class DbStore extends Object {
      *   @return Query query object
      *   @throws Exception If $query is no string and no Query object
      */
-    function _parseSparqlQuery($query) {
+    protected function _parseSparqlQuery($query) {
         if ($this->queryParser === null) {
             require_once RDFAPI_INCLUDE_DIR . 'sparql/SparqlParser.php';
             $this->queryParser = new SparqlParser();
@@ -866,7 +866,7 @@ class DbStore extends Object {
         return $this->queryParser->parse($query);
     }
 
-//function _parseSparqlQuery($query)
+//protected function _parseSparqlQuery($query)
 }
 
 // end: Class DbStore

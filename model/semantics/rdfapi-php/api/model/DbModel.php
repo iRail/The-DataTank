@@ -59,7 +59,7 @@ class DbModel extends Model {
      * @param   string   $baseURI
      * @access	public
      */
-    function DbModel($dbConnection, $modelURI, $modelID, $baseURI=NULL) {
+    public function DbModel($dbConnection, $modelURI, $modelID, $baseURI=NULL) {
 
         $this->dbConn = $dbConnection;
         $this->modelURI = $modelURI;
@@ -75,7 +75,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function setBaseURI($uri) {
+    public function setBaseURI($uri) {
 
         $this->baseURI = $this->_checkBaseURI($uri);
 
@@ -91,7 +91,7 @@ class DbModel extends Model {
      * @return	integer
      * @access	public
      */
-    function size() {
+    public function size() {
 
         $count = & $this->dbConn->getOne('SELECT COUNT(modelID) FROM statements
                                     WHERE modelID = ' . $this->modelID);
@@ -104,7 +104,7 @@ class DbModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function isEmpty() {
+    public function isEmpty() {
 
         if ($this->size() == 0)
             return TRUE;
@@ -121,7 +121,7 @@ class DbModel extends Model {
      * @return mixed   true on success, false if the statement is already in the model,
      *                 error message (string) on failure
      */
-    function add(&$statement) {
+    public function add(&$statement) {
 
         if (!is_a($statement, 'Statement')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: add): Statement expected.';
@@ -172,7 +172,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function addWithoutDuplicates(&$statement) {
+    public function addWithoutDuplicates(&$statement) {
 
         $this->add($statement);
     }
@@ -185,7 +185,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function remove(&$statement) {
+    public function remove(&$statement) {
 
         if (!is_a($statement, 'Statement')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: remove): Statement expected.';
@@ -207,7 +207,7 @@ class DbModel extends Model {
      * @return	string
      * @access	public
      */
-    function toString() {
+    public function toString() {
 
         return 'DbModel[modelURI=' . $this->modelURI . '; baseURI=' . $this->getBaseURI() . ';  size=' . $this->size() . ']';
     }
@@ -218,7 +218,7 @@ class DbModel extends Model {
      * @return	string
      * @access	public
      */
-    function toStringIncludingTriples() {
+    public function toStringIncludingTriples() {
 
         $memModel = & $this->getMemModel();
         return $memModel->toStringIncludingTriples();
@@ -230,7 +230,7 @@ class DbModel extends Model {
      * @return object MemModel
      * @access public
      */
-    function getMemModel() {
+    public function getMemModel() {
         $recordSet = $this->_getRecordSet($this);
         $m = $this->_convertRecordSetToMemModel($recordSet);
         return $m;
@@ -242,7 +242,7 @@ class DbModel extends Model {
      * @return int Model id number
      * @access public
      */
-    function getModelID() {
+    public function getModelID() {
         return $this->modelID;
     }
 
@@ -252,7 +252,7 @@ class DbModel extends Model {
      * @return ADOdb Database object
      * @access public
      */
-    function getDbConn() {
+    public function getDbConn() {
         return $this->dbConn;
     }
 
@@ -261,7 +261,7 @@ class DbModel extends Model {
      *
      * @access	public
      */
-    function writeAsHtml() {
+    public function writeAsHtml() {
 
         $memModel = & $this->getMemModel();
         $memModel->writeAsHtml();
@@ -272,7 +272,7 @@ class DbModel extends Model {
      *
      * @access	public
      */
-    function writeAsHtmlTable() {
+    public function writeAsHtmlTable() {
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
         $memModel = & $this->getMemModel();
 
@@ -285,7 +285,7 @@ class DbModel extends Model {
      * @return	string
      * @access	public
      */
-    function writeRdfToString() {
+    public function writeRdfToString() {
 
         $memModel = & $this->getMemModel();
         return $memModel->writeRdfToString();
@@ -304,7 +304,7 @@ class DbModel extends Model {
      * @throws   PhpError
      * @return	boolean
      */
-    function saveAs($filename, $type ='rdf') {
+    public function saveAs($filename, $type ='rdf') {
 
         $memModel = $this->getMemModel();
         $memModel->saveAs($filename, $type);
@@ -317,7 +317,7 @@ class DbModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function contains(&$statement) {
+    public function contains(&$statement) {
 
         $sql = 'SELECT modelID FROM statements
            WHERE modelID = ' . $this->modelID;
@@ -337,7 +337,7 @@ class DbModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function containsAll(&$model) {
+    public function containsAll(&$model) {
 
         if (is_a($model, 'MemModel')) {
 
@@ -369,7 +369,7 @@ class DbModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function containsAny(&$model) {
+    public function containsAny(&$model) {
 
         if (is_a($model, 'MemModel')) {
 
@@ -408,7 +408,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function find($subject, $predicate, $object) {
+    public function find($subject, $predicate, $object) {
 
         if ((!is_a($subject, 'Resource') && $subject != NULL) ||
                 (!is_a($predicate, 'Resource') && $predicate != NULL) ||
@@ -457,7 +457,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function findRegex($subject_regex, $predicate_regex, $object_regex) {
+    public function findRegex($subject_regex, $predicate_regex, $object_regex) {
 
         $mm = & $this->getMemModel();
 
@@ -476,7 +476,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function findVocabulary($vocabulary) {
+    public function findVocabulary($vocabulary) {
 
         $sql = "SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
            FROM statements
@@ -508,7 +508,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
+    public function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
 
         if ((!is_a($subject, 'Resource') && $subject != NULL) ||
                 (!is_a($predicate, 'Resource') && $predicate != NULL) ||
@@ -553,7 +553,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function findCount($subject, $predicate, $object) {
+    public function findCount($subject, $predicate, $object) {
 
         if ((!is_a($subject, 'Resource') && $subject != NULL) ||
                 (!is_a($predicate, 'Resource') && $predicate != NULL) ||
@@ -593,7 +593,7 @@ class DbModel extends Model {
      *      OR  array   [][?VARNAME] = string
      *
      */
-    function rdqlQuery($queryString, $returnNodes = TRUE) {
+    public function rdqlQuery($queryString, $returnNodes = TRUE) {
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_RDQL);
         $parser = new RdqlParser();
         $parsedQuery = & $parser->parseQuery($queryString);
@@ -626,7 +626,7 @@ class DbModel extends Model {
      *      OR  object RdqlResultIterator = with values as strings if (if $returnNodes = FALSE)
      *
      */
-    function rdqlQueryAsIterator($queryString, $returnNodes = TRUE) {
+    public function rdqlQueryAsIterator($queryString, $returnNodes = TRUE) {
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_RDQL);
         return new RdqlResultIterator($this->rdqlQuery($queryString, $returnNodes));
     }
@@ -647,7 +647,7 @@ class DbModel extends Model {
      * @throws  SqlError
      * @access	public
      */
-    function replace($subject, $predicate, $object, $replacement) {
+    public function replace($subject, $predicate, $object, $replacement) {
 
         // check the correctness of the passed parameters
         if (((!is_a($subject, 'Resource') && $subject != NULL) ||
@@ -707,7 +707,7 @@ class DbModel extends Model {
      * @throws  PhpError
      * @access	public
      */
-    function equals(&$that) {
+    public function equals(&$that) {
 
         if (!is_a($that, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: equals): Model expected.';
@@ -747,7 +747,7 @@ class DbModel extends Model {
      * @access	public
      *
      */
-    function unite(&$model) {
+    public function unite(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: unite): Model expected.';
@@ -774,7 +774,7 @@ class DbModel extends Model {
      * @throws PhpError
      * @access	public
      */
-    function subtract(&$model) {
+    public function subtract(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: subtract): Model expected.';
@@ -802,7 +802,7 @@ class DbModel extends Model {
      * @throws  PhpError
      * @access	public
      */
-    function intersect(&$model) {
+    public function intersect(&$model) {
 
         if (is_a($model, 'MemModel')) {
 
@@ -821,7 +821,7 @@ class DbModel extends Model {
 
     /**
      * Add the given model to this DbModel.
-     * This function monitors for SQL errors, and will commit if no errors have occured,
+     * This public function monitors for SQL errors, and will commit if no errors have occured,
      * otherwise it will rollback.
      * If any statement of the model to be added to this model contains a blankNode
      * with an identifier already existing in this model, a new blankNode is generated.
@@ -830,7 +830,7 @@ class DbModel extends Model {
      * @throws  PhpError
      * @access	public
      */
-    function addModel(&$model) {
+    public function addModel(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: DbModel; method: addModel): Model expected.';
@@ -865,7 +865,7 @@ class DbModel extends Model {
      * @return	object	MemModel
      * @access	public
      */
-    function reify() {
+    public function reify() {
 
         $memModel = & $this->getMemModel();
         return $memModel->reify();
@@ -873,13 +873,13 @@ class DbModel extends Model {
 
     /**
      * Remove this DbModel from database and clean up.
-     * This function monitors for SQL errors, and will commit if no errors have occured,
+     * This public function monitors for SQL errors, and will commit if no errors have occured,
      * otherwise it will rollback.
      *
      * @throws  SqlError
      * @access	public
      */
-    function delete() {
+    public function delete() {
 
         $this->dbConn->startTrans();
         $this->dbConn->execute('DELETE FROM models
@@ -900,13 +900,13 @@ class DbModel extends Model {
      *
      * @access	public
      */
-    function close() {
+    public function close() {
 
         unset($this);
     }
 
     // =============================================================================
-    // **************************** private methods ********************************
+    // **************************** protected methods ********************************
     // =============================================================================
 
     /**
@@ -915,9 +915,9 @@ class DbModel extends Model {
      *
      * @param   string  $uri
      * @return  string
-     * @access	private
+     * @access	protected
      */
-    function _checkBaseURI($uri) {
+    protected function _checkBaseURI($uri) {
 
         if ($uri != NULL) {
             $c = substr($uri, strlen($uri) - 1, 1);
@@ -933,10 +933,10 @@ class DbModel extends Model {
      *
      * @param   object Node $object
      * @return  string
-     * @access	private
+     * @access	protected
      */
 
-    function _getNodeFlag($object) {
+    protected function _getNodeFlag($object) {
         return is_a($object, 'BlankNode') ? 'b' : (is_a($object, 'Resource') ? 'r' : 'l');
     }
 
@@ -955,9 +955,9 @@ class DbModel extends Model {
      *
      * @param   object  ADORecordSet
      * @return  object  MemModel
-     * @access	private
+     * @access	protected
      */
-    function _convertRecordSetToMemModel(&$recordSet) {
+    protected function _convertRecordSetToMemModel(&$recordSet) {
 
         $res = new MemModel($this->baseURI);
         while (!$recordSet->EOF) {
@@ -999,9 +999,9 @@ class DbModel extends Model {
      * @param	object Resource	$predicate
      * @param	object Node	$object
      * @return  string
-     * @access	private
+     * @access	protected
      */
-    function _createDynSqlPart_SPO($subject, $predicate, $object) {
+    protected function _createDynSqlPart_SPO($subject, $predicate, $object) {
 
         // conditions derived from the parameters passed to the function
 
@@ -1039,9 +1039,9 @@ class DbModel extends Model {
      *
      * @param	object DbModel	$DbModel
      * @return  object ADORecordSet
-     * @access	private
+     * @access	protected
      */
-    function _getRecordSet(&$dbModel) {
+    protected function _getRecordSet(&$dbModel) {
 
         $sql = 'SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
            FROM statements
@@ -1058,9 +1058,9 @@ class DbModel extends Model {
      *
      * @param   array  $row
      * @return  boolean
-     * @access	private
+     * @access	protected
      */
-    function _containsRow($row) {
+    protected function _containsRow($row) {
 
         $sql = "SELECT modelID FROM statements
            WHERE modelID = " . $this->modelID . "
@@ -1089,7 +1089,7 @@ class DbModel extends Model {
      *
      * @access   public
      */
-    function getParsedNamespaces() {
+    public function getParsedNamespaces() {
         $sql = "SELECT * FROM namespaces
            WHERE modelID = " . $this->modelID;
         $temp = false;
@@ -1113,7 +1113,7 @@ class DbModel extends Model {
      *
      * @access   public
      */
-    function addParsedNamespaces($newNs) {
+    public function addParsedNamespaces($newNs) {
         if ($newNs)
             foreach ($newNs as $namespace => $prefix) {
                 $this->addNamespace($prefix, $namespace);
@@ -1129,7 +1129,7 @@ class DbModel extends Model {
      *
      * @access   public
      */
-    function addNamespace($prefix, $nmsp) {
+    public function addNamespace($prefix, $nmsp) {
 
         if ($nmsp != '' && $prefix != '') {
             if ($this->_checkNamespace($nmsp)) {
@@ -1154,10 +1154,10 @@ class DbModel extends Model {
      * checks if a namespace is already in the model.
      *
      * @author   Tobias Gau�<tobias.gauss@web.de>
-     * @access   private
+     * @access   protected
      * @param    Array $newNs
      */
-    function _checkNamespace($nmsp) {
+    protected function _checkNamespace($nmsp) {
         $res = true;
         $sql = "SELECT * FROM namespaces
           	 WHERE modelID = " . $this->modelID . " AND
@@ -1177,7 +1177,7 @@ class DbModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-    function iterFind($sub=null, $pred=null, $obj=null) {
+    public function iterFind($sub=null, $pred=null, $obj=null) {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
 
@@ -1195,7 +1195,7 @@ class DbModel extends Model {
      *
      * @access   public
      */
-    function removeNamespace($nmsp) {
+    public function removeNamespace($nmsp) {
 
         $sql = 'DELETE FROM namespaces
            WHERE modelID=' . $this->modelID . " AND namespace=" . $this->dbConn->qstr($nmsp);
@@ -1216,9 +1216,9 @@ class DbModel extends Model {
      *
      * @param   array  $row
      * @throws  SqlError
-     * @access	private
+     * @access	protected
      *
-      function _insertRow ($row) {
+      public function _insertRow ($row) {
 
       $quotedObject = $this->dbConn->qstr($row[2]);
       $sql = "INSERT INTO statements VALUES
