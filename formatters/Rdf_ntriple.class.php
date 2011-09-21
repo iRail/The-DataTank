@@ -40,7 +40,7 @@ class Rdf_triple extends AFormatter {
         if (is_a($model, 'DbModel'))
             $model = $model->getMemModel();
 
-        $rdf = & $ser->serialize($model);
+        $rdf = $ser->serialize($model);
 
         echo $rdf;
     }

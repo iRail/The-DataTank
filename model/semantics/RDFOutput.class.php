@@ -35,6 +35,7 @@ class RDFOutput {
      */
     public function buildRdfOutput($object) {
         $this->model = ModelFactory::getResModel(MEMMODEL);
+
         $this->analyzeVariable($object);
 
         return $this->model;
@@ -50,6 +51,7 @@ class RDFOutput {
     private function analyzeVariable($var, $path='') {
         if (is_array($var)) {
             $temp = $path;
+            $this->addToModel($path, $var);
             for ($i = 0; $i < count($var); $i++) {
                 $path = $temp;
                 $path .= '/' . $i;
@@ -79,21 +81,30 @@ class RDFOutput {
     private function addToModel($path, $value=null) {
         //Miel: need full path for adding semantics!!
         $uri = RequestURI::getInstance()->getURI();
-        echo $uri.'<br>';
+        echo $uri . '<br>';
         $uri = $uri[0] . $path;
 
-        if (!isset($value)) {
+        //If no value is given, the $path 
+        if (is_null($value)) {
+            //Create a resource for this object
             $this->resource = $this->model->createResource($uri);
-
+            //Get the right mapping class
             $rdfmapper = new RDFMapper();
-
             $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
-
+            //Define the type of this resource in RDF
             $this->resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
+
+            //If a container exists, this resource is part of it, so add.
+            if (!is_null($this->container))
+                $this->container->add($this->resource);
         } else {
-            $property = $this->model->createProperty($uri);
-            $literal = $this->model->createTypedLiteral($value, $this->mapLiteral($value));
-            $this->resource->addProperty($property, $literal);
+            if (is_array($value)) {
+                $this->container = $this->model->createSeq($uri);
+            } else {
+                $property = $this->model->createProperty($uri);
+                $literal = $this->model->createTypedLiteral($value, $this->mapLiteral($value));
+                $this->resource->addProperty($property, $literal);
+            }
         }
     }
 
@@ -105,17 +116,16 @@ class RDFOutput {
      * @access	private
      */
     private function mapLiteral($var) {
-       
+
         $type = '';
         if (is_int($var))
             $type = 'INT';
         else if (is_bool($var))
             $type = 'BOOLEAN';
-        else if (is_string($var))
-            $type = 'STRING';
         else if (is_float($var))
             $type = 'DECIMAL';
-
+        else
+            $type = 'STRING';
         return DATATYPE_SHORTCUT_PREFIX . $type;
     }
 
