@@ -21,6 +21,7 @@ include_once('controllers/RController.class.php');
 include_once('controllers/CUDController.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
+include_once('RequestURI.class.php');
 include_once('model/AResourceFactory.class.php');
 include_once('model/GenericResourceFactory.class.php');
 include_once('model/InstalledResourceFactory.class.php');
