@@ -138,7 +138,7 @@ class RbModel extends DbModel {
         return $recordSet = R::getAll($sql, $param);
     }
 
-    public function add($statement) {
+    public function add(&$statement) {
         if (!is_a($statement, 'Statement')) {
             $errmsg = RDFAPI_ERROR . '(class: RbModel; method: add): Statement expected.';
             trigger_error($errmsg, E_USER_ERROR);
@@ -356,7 +356,7 @@ class RbModel extends DbModel {
             return $recordSet->fields[0];
     }
 
-    public function findFirstMatchingStatement($subject, $predicate, $object, $offset) {
+    public function findFirstMatchingStatement($subject, $predicate, $object, $offset=-1) {
         if ((!is_a($subject, 'Resource') && $subject != NULL) ||
                 (!is_a($predicate, 'Resource') && $predicate != NULL) ||
                 (!is_a($object, 'Node') && $object != NULL)) {
@@ -382,7 +382,7 @@ class RbModel extends DbModel {
             if (count($recordSet) > 0) {
                 if ($offset >= count($recordSet))
                     throw new DatabaseTDTException('Number of rows in result is not correct');
-                $recordSet = array($recordSet[($offset)]);
+                $recordSet = array($recordSet[($offset)+1]);
             }
         }
 

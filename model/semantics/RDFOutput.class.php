@@ -79,7 +79,7 @@ class RDFOutput {
     private function addToModel($path, $value=null) {
         //Miel: need full path for adding semantics!!
         $uri = RequestURI::getInstance()->getURI();
-        echo $uri;
+        echo $uri.'<br>';
         $uri = $uri[0] . $path;
 
         if (!isset($value)) {
