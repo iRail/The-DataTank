@@ -106,19 +106,5 @@ class FormatterFactory{
 	return new $format($rootname, $objectToPrint);
     }
 
-    private $package = "", $resource = "";
-    public function setPackage($package){
-        $this->package = $package;
-    }
-    public function getPackage(){
-        return $this->package;
-    }
-
-    public function setResource($resource){
-        $this->resource = $resource;
-    }
-    public function getResource(){
-        return $this->resource;
-    }
 }
 ?>
