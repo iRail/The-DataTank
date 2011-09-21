@@ -33,6 +33,7 @@ class RequestURI{
 
         //Now for the hard part: parse the REQUEST_URI
         //This can look like this: /package/resource/identi/fiers.json
+        
         $path = explode("/",$requestURI);
         array_shift($path);
 
@@ -47,7 +48,7 @@ class RequestURI{
                 //we might get the format out of it
                 $resourceformat = explode(".",$this->resource);
                 if(sizeof($path) == 1 && sizeof($resourceformat)>1){
-                    $this->format = array_pop($resourceformat);
+                    $this->format =  $resourceformat[sizeof($resourceformat)-1];
                     $this->resource = implode(".",$resourceformat);
                 }
             }elseif($i > 1){
@@ -55,8 +56,7 @@ class RequestURI{
                 //we might get the format out of it
                 $arrayformat = explode(".",$path[0]);
                 if(sizeof($path) == 1 && sizeof($arrayformat) > 1){
-                    $this->format = array_pop($resourceformat);
-                    
+                    $this->format =  $arrayformat[sizeof($arrayformat)-1];
                     $this->filters[] = implode(".",$resourceformat);
                 }else{
                     $this->filters[] = $path[0];
@@ -71,6 +71,7 @@ class RequestURI{
             $this->GETParameters = $_GET;
             asort($GETParameters);
         }
+        
     }
 
     public static function getInstance(){
