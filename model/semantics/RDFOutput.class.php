@@ -2,7 +2,7 @@
 
 /**
  * This class generates RDF output for the retrieved data using the stored mapping.
- * 
+ *
  * @package The-Datatank/model
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -12,8 +12,8 @@ class RDFOutput {
 
     private static $uniqueinstance;
     private $model;
-    private $resource;
-    private $container;
+    private $resources;
+    private $containers;
 
     private function __construct() {
         
@@ -36,87 +36,118 @@ class RDFOutput {
     public function buildRdfOutput($object) {
         $this->model = ModelFactory::getResModel(MEMMODEL);
 
-        $this->analyzeVariable($object);
+        $this->resources = array();
+        $this->containers = array();
 
-        return $this->model;
+        $this->analyzeVariable($object, RequestURI::getInstance()->getRealWorldObjectURI());
+
+        return $this->model->getModel();
     }
 
     /**
      * Recursive function for analyzing an object and building its path
      *
-     * @param	Mixed $var
-     * @param	string OPTIONAL $path
-     * @access	private
+     * @param Mixed $var The current variable that is being analyzed
+     * @param string $path The current uri of the variable
+     * @param ResResource $resource
+     * @param type $property 
      */
-    private function analyzeVariable($var, $path='') {
+    private function analyzeVariable($var, $path='', $resource = null, $property=null) {
+        //Check if the object is an array, object or primitive variable
         if (is_array($var)) {
+            //Temporarily store the uri path of this array
             $temp = $path;
-            $this->addToModel($path, $var);
-            for ($i = 0; $i < count($var); $i++) {
-                $path = $temp;
-                $path .= '/' . $i;
-                $this->analyzeVariable($var[$i], $path);
+            //Check if the array is associative. If so, treat like an object.
+            if (TDT::is_assoc($var) && count($var) > 0) {
+                //create a resource of this array using the build uri path
+                $res = $this->model->createResource($path);
+                //set the mapped class, described in the mapping file of this packagem, as rdf type
+                $this->addMappingToResource($res, $path);
+                //Add this resource to the parent resource
+                $this->addToResource($resource, $property, $res);
+                //iterate all the key/value pairs, extend the uri and create a property from the key
+                foreach ($var as $key => $value) {
+                    $path = $temp;
+                    $path .= '/' . $key;
+                    $prop = $this->model->createProperty($path);
+                    //start over for each value
+                    $this->analyzeVariable($value, $path, $res, $prop);
+                }
+            } else {
+                //An indexed array is turned into a rdf sequence
+                $res = $this->model->createSeq($path);
+                //Iterate all the values in the array, extend the uri and start over.
+                for ($i = 0; $i < count($var); $i++) {
+                    $path = $temp;
+                    $path .= '/' . $i;
+                    $this->analyzeVariable($var[$i], $path, $res);
+                }
             }
         } else if (is_object($var)) {
+            //turn the object into an associative array, then do the same as above
             $obj_prop = get_object_vars($var);
             $temp = $path;
-            $this->addToModel($path);
-            foreach ($obj_prop as $prop => $value) {
+            $res = $this->model->createResource($path);
+            $this->addMappingToResource($res, $path);
+            $this->addToResource($resource, $property, $res);
+
+            foreach ($obj_prop as $key => $value) {
                 $path = $temp;
-                $path .= '/' . $prop;
-                $this->analyzeVariable($value, $path);
+                $path .= '/' . $key;
+                $prop = $this->model->createProperty($path);
+                $this->analyzeVariable($value, $path, $res, $prop);
             }
         } else {
-            $this->addToModel($path, $var);
+            //Variable is a primitive type, so create typed literal.
+            $lit = $this->model->createTypedLiteral($var, $this->mapLiteral($var));
+            $this->addToResource($resource, $property, $lit);
             $path = '';
         }
     }
 
     /**
-     *
-     * @param	string $path
-     * @param	string OPTIONAL $value
-     * @access	private
+     * Adds a resource to another resource
+     * 
+     * @param ResResource $resource The parent resource to add property to
+     * @param ResResource $property The property to be added to the resource
+     * @param ResResource $object The object of the property
      */
-    private function addToModel($path, $value=null) {
-        //Miel: need full path for adding semantics!!
-        $uri = RequestURI::getInstance()->getURI();
-        echo $uri . '<br>';
-        $uri = $uri[0] . $path;
-
-        //If no value is given, the $path 
-        if (is_null($value)) {
-            //Create a resource for this object
-            $this->resource = $this->model->createResource($uri);
-            //Get the right mapping class
-            $rdfmapper = new RDFMapper();
-            $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
-            //Define the type of this resource in RDF
-            $this->resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
-
-            //If a container exists, this resource is part of it, so add.
-            if (!is_null($this->container))
-                $this->container->add($this->resource);
-        } else {
-            if (is_array($value)) {
-                $this->container = $this->model->createSeq($uri);
-            } else {
-                $property = $this->model->createProperty($uri);
-                $literal = $this->model->createTypedLiteral($value, $this->mapLiteral($value));
-                $this->resource->addProperty($property, $literal);
-            }
+    private function addToResource($resource, $property, $object) {
+        //Check if there is aready parent resource. If not, this resource is probably the first one.
+        if (!is_null($resource)) {
+            //If the resource is a sequence, just add the object to it, property is not important
+            if (is_a($resource, 'ResSeq'))
+                $resource->add($object);
+            else if (is_a($resource, 'ResResource'))
+                $resource->addProperty($property, $object);
         }
     }
 
     /**
-     *  Map the datatype of a primitive type to the right indication string for RAP API
      * 
+     * Gets the mapping class and adds it to the resource as type
+     *
+     * @param ResResource $resource Resource to add the mapping to
+     * @param string $uri URI of the resource to lookup the right mapping
+     */
+    private function addMappingToResource($resource, $uri) {
+        //Get the right mapping class
+        $rdfmapper = new RDFMapper();
+        $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
+        
+        //Define the type of this resource to the mapping resource in RDF
+        $resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
+    }
+
+    /**
+     *  Map the datatype of a primitive type to the right indication string for RAP API
+     *  Datatypes are found in rdfapi-php/api/constants.php
+     *
      * @param	string $var
-     * @return string 
+     * @return string
      * @access	private
      */
     private function mapLiteral($var) {
-
         $type = '';
         if (is_int($var))
             $type = 'INT';

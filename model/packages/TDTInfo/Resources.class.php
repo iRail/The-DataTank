@@ -29,7 +29,7 @@ class Resources extends AResource{
     }
      
     public static function getAllowedPrintMethods(){
-	return array("json","xml", "jsonp", "php", "html");
+	return array("json","xml", "jsonp", "php", "html", "rdf_xml", "rdf_n3");
     }
 
     public static function getDoc(){

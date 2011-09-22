@@ -126,7 +126,7 @@ class RDFMapper {
 
         // Using the Resource-Centric method
         // Create the resources
-        $package_res = $model->createResource("");
+        $package_res = $model->createResource($this->getMappingURI($tdt_package));
 
         $tdtpackage_res = $model->createResource(RDFConstants::$TDML_NS . "TDTPackage");
         $tdtresource_res = $model->createResource(RDFConstants::$TDML_NS . "TDTResource");
@@ -150,13 +150,14 @@ class RDFMapper {
         $package_res->addProperty($has_resources_prop, $resources_bag);
 
         foreach ($allresources as $resource) {
-            $resource_res = $model->createResource($resource);
+
+            $resource_res = $model->createResource($this->getMappingURI($tdt_package) . $resource);
             $resources_bag->add($resource_res);
 
             $resource_name_lit = $model->createTypedLiteral($resource, "datatype:STRING");
             $resource_res->addProperty($name_prop, $resource_name_lit);
             $resource_res->addProperty($is_a_prop, $tdtresource_res);
-            $resource_res->addProperty($maps_prop, OWL_RES::OWL_CLASS());
+            $resource_res->addProperty($maps_prop, RDF_RES::DESCRIPTION());
         }
     }
 
@@ -200,7 +201,7 @@ class RDFMapper {
             throw new RdfTDTException('Package, Resource or Mapping class unknown ');
 
         $model = $this->getMapping($tdt_package);
-        $resource = $model->createResource($tdt_resource);
+        $resource = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
         $property = $model->createProperty(RDFConstants::$TDML_NS . "maps");
 
         //adding the class to the mapping
@@ -254,8 +255,8 @@ class RDFMapper {
 
         $model = $this->getMapping($tdt_package);
 
-        $resource = $model->createResource($tdt_resource);
-        $object = $model->createResource($equal_resource);
+        $resource = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
+        $object = $model->createResource($this->getMappingURI($tdt_package) . $equal_resource);
 
         $resource->addProperty(OWL_RES::SAME_AS(), $object);
     }
@@ -274,7 +275,7 @@ class RDFMapper {
 
         $model = $this->getMapping($tdt_package);
 
-        $subject = $model->createResource($tdt_resource);
+        $subject = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
         $statements = $model->find($subject, RDFConstants::$TDML_NS . 'maps', null);
 
         foreach ($statements as $statement) {
@@ -294,30 +295,33 @@ class RDFMapper {
     public function getResourceMapping($tdt_package, $tdt_resource) {
         if (!(isset($tdt_package) && isset($tdt_resource)))
             throw new RdfTDTException('Package or Resource unknown ');
-
+        
         //Retrieve mapping model from db.
         $model = $this->getMapping($tdt_package);
         $mapping = $this->lookupMapping($model, $tdt_resource);
         
         //If no mapping is found, check if there is a generic mapping
-        if (is_null($mapping)){
+        if (is_null($mapping)) {
             //rewrite URI to generic
-            $tdt_resource = $this->stripResourcePath($tdt_resource).'*';
+            $tdt_resource = $this->stripResourcePath($tdt_resource) . '*';
             $mapping = $this->lookupMapping($model, $tdt_resource);
             //return default owl:Thing type if there is no mapping specified
             if (is_null($mapping))
                 return OWL_RES::THING();
         }
-        
+
         //Object of the triple is the needed class
         return $mapping->getObject();
     }
-    
-    private function lookupMapping($model,$tdt_resource){
+
+    private function lookupMapping($model, $tdt_resource) {
+        
         $resource_res = $model->createResource($tdt_resource);
         $maps_prop = $model->createProperty(RDFConstants::$TDML_NS . "maps");
         //Looks for the first triple statement where the resource has the TDML maps property.
         $mapping = $model->findFirstMatchingStatement($resource_res, $maps_prop, null);
+        
+        return $mapping;
     }
 
 }

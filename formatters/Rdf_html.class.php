@@ -29,14 +29,7 @@ class Rdf_xml extends AFormatter {
         if (!(is_a($model, 'MemModel')))
             $model = RDFOutput::getInstance()->buildRdfOutput($model);
 
-        // Import Package Syntax
-        include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_RDF);
-
-        $ser = new RDFSerializer();
-
-        $rdf = $ser->serialize($model);
-
-        echo $rdf;
+        echo $model->writeAsHTMLTable();
     }
 
 }

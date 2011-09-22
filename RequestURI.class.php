@@ -117,6 +117,20 @@ class RequestURI{
     public function getGivenFormat(){
         return $this->format;
     }
+    
+    public function getRealWorldObjectURI(){
+        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;        
+        if(isset($this->filters) && !is_null($this->filters)){
+            $URI .= "/";
+            $URI .= implode("/", $this->filters);
+        }
+        
+        //Remove trailing slash
+        if (strripos($URI, '/') == strlen($URI) - 1)
+            $URI = substr($URI, 0, strlen($URI) - 1);
+            
+        return $URI;
+    }
 
     public function getURI(){
         $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;        

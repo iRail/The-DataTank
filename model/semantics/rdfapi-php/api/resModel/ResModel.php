@@ -12,8 +12,8 @@
  * the model; Resources are only "in" Models if Statements about them are added
  * to the Model. Similarly the only way to "remove" a Resource from a Model is
  * to remove all the Statements that mention it.
- * 
- * When a Resource or Literal is created by a Model, the Model is free to re-use an existing 
+ *
+ * When a Resource or Literal is created by a Model, the Model is free to re-use an existing
  * Resource or Literal object with the correct values, or it may create a fresh one.
  *
  * @version  $Id: ResModel.php 562 2008-02-29 15:30:18Z cax $
@@ -36,31 +36,31 @@ class ResModel {
      * Constructor
      * You have to supply a memmodel/dbmodel/infmodel to save the statements.
      *
-     * @param object model $model 
+     * @param object model $model
      * @access	public
      */
     function ResModel(& $model) {
         if (!is_a($model, 'Model'))
-            trigger_error(RDFAPI_ERROR . '(class: ResourceLayer; method: ResourceLayer): 
+            trigger_error(RDFAPI_ERROR . '(class: ResourceLayer; method: ResourceLayer):
 				$model has to be object of class Model', E_USER_ERROR);
-        
+
         $this->model = & $model;
     }
 
     /**
-     * Create a new resource associated with this model. 
-     * If the uri string isn't set, this creates a bnode. 
-     * Otherwise it creates a URI node. 
-     * A URI resource is .equals() to any other URI Resource with the same URI 
+     * Create a new resource associated with this model.
+     * If the uri string isn't set, this creates a bnode.
+     * Otherwise it creates a URI node.
+     * A URI resource is .equals() to any other URI Resource with the same URI
      * (even in a different model - be warned).
-     * 
-     * This method may return an existing Resource with the correct URI and model, 
+     *
+     * This method may return an existing Resource with the correct URI and model,
      * or it may construct a fresh one, as it sees fit.
      *
-     * Operations on the result Resource may change this model. 
+     * Operations on the result Resource may change this model.
      *
      * @param	string	$uri
-     * @return	object ResResource 
+     * @return	object ResResource
      * @access	public
      */
     function createResource($uri = null) {
@@ -73,15 +73,15 @@ class ResModel {
     }
 
     /**
-     * Create a new Property associated with this model. 
-     * This method may return an existing property with the correct URI and model, 
+     * Create a new Property associated with this model.
+     * This method may return an existing property with the correct URI and model,
      * or it may construct a fresh one, as it sees fit.
      *
-     * Subsequent operations on the returned property may modify this model. 
-     *  
+     * Subsequent operations on the returned property may modify this model.
+     *
      *
      * @param	string	$uri
-     * @return	object ResProperty 
+     * @return	object ResProperty
      * @access	public
      */
     function createProperty($uri = null) {
@@ -96,11 +96,11 @@ class ResModel {
      *
      * If you want to type this literal, you have to set a datatype before
      * adding it to the model.
-     *  
+     *
      *
      * @param	string	$label
      * @param	string	$languageTag
-     * @return	object ResLiteral 
+     * @return	object ResLiteral
      * @access	public
      */
     function createLiteral($label, $languageTag = null) {
@@ -129,7 +129,7 @@ class ResModel {
         //convert ResResources to Resources and Blanknodes
         $resmodel = $this->model->find($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object)
         );
-        //convert Resources, Blanknodes to ResResources							 
+        //convert Resources, Blanknodes to ResResources
         foreach ($resmodel->triples as $statement) {
             $result[] = new Statement($this->_node2ResNode($statement->getSubject()),
                             $this->_node2ResNode($statement->getPredicate(), true),
@@ -151,13 +151,13 @@ class ResModel {
      * @param	object Node	$predicate
      * @param	object Node	$object
      * @param	integer $offset
-     * @return	object Statement      
+     * @return	object Statement
      * @access	public
      */
     function findFirstMatchingStatement($subject, $predicate, $object, $offset = 0) {
-        
+
         $statement = $this->model->findFirstMatchingStatement($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object), $offset);
-        
+
         if ($statement !== null) {
 
             return new Statement($this->_node2ResNode($statement->getSubject()),
@@ -176,7 +176,7 @@ class ResModel {
      *
      * @param	object Statement	$statement
      * @access	public
-     * @throws	PhpError 
+     * @throws	PhpError
      */
     function add($statement) {
         return $this->model->add(new Statement($this->_resNode2Node($statement->getSubject()),
@@ -187,7 +187,7 @@ class ResModel {
 
     /**
      * Checks if a new statement is already in the Model and adds the statement, if it is not in the Model.
-     * addWithoutDuplicates() is significantly slower then add(). 
+     * addWithoutDuplicates() is significantly slower then add().
      * Retruns TRUE if the statement is added.
      * FALSE otherwise.
      * Expects a statements with ResResources(ResLiterals)
@@ -195,7 +195,7 @@ class ResModel {
      * @param	object Statement	$statement
      * @return   boolean
      * @access	public
-     * @throws	PhpError 
+     * @throws	PhpError
      */
     function addWithoutDuplicates($statement) {
         return $this->model->addWithoutDuplicates(new Statement($this->_resNode2Node($statement->getSubject()),
@@ -268,8 +268,8 @@ class ResModel {
     }
 
     /**
-     * Create a literal from a String value with the $dtype Datatype 
-     * An existing literal of the right value may be returned, or a fresh one created. 
+     * Create a literal from a String value with the $dtype Datatype
+     * An existing literal of the right value may be returned, or a fresh one created.
      *
      * @param	string	$value
      * @param	string 	$dtype
@@ -287,14 +287,14 @@ class ResModel {
     /**
      * Checks if two models are equal.
      * Two models are equal if and only if the two RDF graphs they represent are isomorphic.
-     * 
-     * Warning: This method doesn't work correct with models where the same blank node has different 
+     *
+     * Warning: This method doesn't work correct with models where the same blank node has different
      * identifiers in the two models. We will correct this in a future version.
      *
-     * @access	public 
+     * @access	public
      * @param	object	model &$that
      * @throws    phpErrpr
-     * @return	boolean 
+     * @return	boolean
      */
     function equals(& $that) {
         if (is_a($that, 'ResModel'))
@@ -317,7 +317,7 @@ class ResModel {
     }
 
     /**
-     * Answer a statement find(s, p, null) with ResResources(ResLiterals) from this model. 
+     * Answer a statement find(s, p, null) with ResResources(ResLiterals) from this model.
      * If none exist, return null; if several exist, pick one arbitrarily.
      *
      * @param	object ResResource $subject
@@ -397,7 +397,7 @@ class ResModel {
     }
 
     /**
-     * Removes the statement of ResResources(ResTriples) from the MemModel. 
+     * Removes the statement of ResResources(ResTriples) from the MemModel.
      * TRUE if the statement is removed.
      * FALSE otherwise.
      *
@@ -427,21 +427,21 @@ class ResModel {
      * Returns a new Model that is the set-union of the model with another model.
      * Duplicate statements are removed. If you want to allow duplicates, use addModel() which is much faster.
      *
-     * The result of taking the set-union of two or more RDF graphs (i.e. sets of triples) 
-     * is another graph, which we will call the merge of the graphs. 
-     * Each of the original graphs is a subgraph of the merged graph. Notice that when forming 
-     * a merged graph, two occurrences of a given uriref or literal as nodes in two different 
-     * graphs become a single node in the union graph (since by definition they are the same 
-     * uriref or literal) but blank nodes are not 'merged' in this way; and arcs are of course 
-     * never merged. In particular, this means that every blank node in a merged graph can be 
+     * The result of taking the set-union of two or more RDF graphs (i.e. sets of triples)
+     * is another graph, which we will call the merge of the graphs.
+     * Each of the original graphs is a subgraph of the merged graph. Notice that when forming
+     * a merged graph, two occurrences of a given uriref or literal as nodes in two different
+     * graphs become a single node in the union graph (since by definition they are the same
+     * uriref or literal) but blank nodes are not 'merged' in this way; and arcs are of course
+     * never merged. In particular, this means that every blank node in a merged graph can be
      * identified as coming from one particular graph in the original set of graphs.
-     * 
-     * Notice that one does not, in general, obtain the merge of a set of graphs by concatenating 
-     * their corresponding N-triples documents and constructing the graph described by the merged 
-     * document, since if some of the documents use the same node identifiers, the merged document 
-     * will describe a graph in which some of the blank nodes have been 'accidentally' merged. 
-     * To merge Ntriples documents it is necessary to check if the same nodeID is used in two or 
-     * more documents, and to replace it with a distinct nodeID in each of them, before merging the 
+     *
+     * Notice that one does not, in general, obtain the merge of a set of graphs by concatenating
+     * their corresponding N-triples documents and constructing the graph described by the merged
+     * document, since if some of the documents use the same node identifiers, the merged document
+     * will describe a graph in which some of the blank nodes have been 'accidentally' merged.
+     * To merge Ntriples documents it is necessary to check if the same nodeID is used in two or
+     * more documents, and to replace it with a distinct nodeID in each of them, before merging the
      * documents. (Not implemented yet !!!!!!!!!!!)
      *
      * @param	object Model	$model
@@ -458,12 +458,12 @@ class ResModel {
 
     /**
      * Adds another model to this MemModel.
-     * Duplicate statements are not removed. 
+     * Duplicate statements are not removed.
      * If you don't want duplicates, use unite().
-     * If any statement of the model to be added to this model contains a blankNode 
+     * If any statement of the model to be added to this model contains a blankNode
      * with an identifier already existing in this model, a new blankNode is generated.
      *
-     * @param	object Model	$model 
+     * @param	object Model	$model
      * @access	public
      * @throws phpErrpr
      *
@@ -475,15 +475,15 @@ class ResModel {
     }
 
     /**
-     * Create a new RDF Container from type rdf:Alt 
-     * This method may return an existing container with the correct URI and model, 
+     * Create a new RDF Container from type rdf:Alt
+     * This method may return an existing container with the correct URI and model,
      * or it may construct a fresh one, as it sees fit.
      *
-     * Subsequent operations on the returned Container may modify this model. 
-     *  
+     * Subsequent operations on the returned Container may modify this model.
+     *
      *
      * @param	string	$uri
-     * @return	object ResProperty 
+     * @return	object ResProperty
      * @access	public
      */
     function createAlt($uri = null) {
@@ -494,15 +494,15 @@ class ResModel {
     }
 
     /**
-     * Create a new RDF Container from type rdf:Bag 
-     * This method may return an existing container with the correct URI and model, 
+     * Create a new RDF Container from type rdf:Bag
+     * This method may return an existing container with the correct URI and model,
      * or it may construct a fresh one, as it sees fit.
      *
-     * Subsequent operations on the returned Container may modify this model. 
-     *  
+     * Subsequent operations on the returned Container may modify this model.
+     *
      *
      * @param	string	$uri
-     * @return	object ResProperty 
+     * @return	object ResProperty
      * @access	public
      */
     function createBag($uri = null) {
@@ -515,15 +515,15 @@ class ResModel {
     }
 
     /**
-     * Create a new RDF Container from type rdf:Seq 
-     * This method may return an existing container with the correct URI and model, 
+     * Create a new RDF Container from type rdf:Seq
+     * This method may return an existing container with the correct URI and model,
      * or it may construct a fresh one, as it sees fit.
      *
-     * Subsequent operations on the returned Container may modify this model. 
-     *  
+     * Subsequent operations on the returned Container may modify this model.
+     *
      *
      * @param	string	$uri
-     * @return	object ResProperty 
+     * @return	object ResProperty
      * @access	public
      */
     function createSeq($uri = null) {
@@ -534,15 +534,15 @@ class ResModel {
     }
 
     /**
-     * Create a new RDF Collection from type rdf:List 
-     * This method may return an existing container with the correct URI and model, 
+     * Create a new RDF Collection from type rdf:List
+     * This method may return an existing container with the correct URI and model,
      * or it may construct a fresh one, as it sees fit.
      *
-     * Subsequent operations on the returned Container may modify this model. 
-     *  
+     * Subsequent operations on the returned Container may modify this model.
+     *
      *
      * @param	string	$uri
-     * @return	object ResProperty 
+     * @return	object ResProperty
      * @access	public
      */
     function createList($uri = null) {
@@ -553,10 +553,10 @@ class ResModel {
     }
 
     /**
-     * Returns a reference to the underlying model (Mem/DB/InfModel) that contains the statements 
-     *  
+     * Returns a reference to the underlying model (Mem/DB/InfModel) that contains the statements
      *
-     * @return	object Model 
+     *
+     * @return	object Model
      * @access	public
      */
     function getModel() {
@@ -608,11 +608,11 @@ class ResModel {
      * is placed this method will serialize the model to XML/RDF format.
      * Returns FALSE if the MemModel couldn't be saved to the file.
      *
-     * @access	public 
+     * @access	public
      * @param 	string 	$filename
      * @param 	string 	$type
      * @throws   PhpError
-     * @return	boolean   
+     * @return	boolean
      */
     function saveAs($filename, $type ='rdf') {
         return $this->model->saveAs($filename, $type = 'rdf');
@@ -621,7 +621,7 @@ class ResModel {
     /**
      * Writes the RDF serialization of the MemModel as HTML table.
      *
-     * @access	public 
+     * @access	public
      */
     function writeAsHTMLTable() {
         $this->model->writeAsHtmlTable();
@@ -681,31 +681,30 @@ class ResModel {
      * @throws phpErrpr
      */
     function _resNode2Node($resNode) {
-      
+
         if (is_a($resNode, 'ResResource')) {
-            
+
             if ($resNode->getIsAnon()) {
                 $return = new BlankNode($resNode->getURI());
             } else {
                 $return = new Resource($resNode->getURI());
             }
-            
+
             return $return;
         }
-        
+
         if (is_a($resNode, 'ResLiteral')) {
             $literal = new Literal($resNode->getLabel(), $resNode->getLanguage());
             if ($resNode->getDatatype() != null)
                 $literal->setDatatype($resNode->getDatatype());
             return $literal;
         }
-        
     }
 
     /**
      * Set a base URI for the MemModel.
      * Affects creating of new resources and serialization syntax.
-     * If the URI doesn't end with # : or /, then a # is added to the URI. 
+     * If the URI doesn't end with # : or /, then a # is added to the URI.
      * @param	string	$uri
      * @access	public
      */
@@ -716,8 +715,8 @@ class ResModel {
     /**
      * Writes the RDF serialization of the MemModel as HTML table.
      *
-     * @access	public 
-     * @return	string 
+     * @access	public
+     * @return	string
      */
     function writeRdfToString() {
         return $this->model->writeRdfToString();
@@ -770,7 +769,7 @@ class ResModel {
     }
 
     /**
-     * Adds the namespaces to the model. This method is called by 
+     * Adds the namespaces to the model. This method is called by
      * the parser. !!!! addParsedNamespaces() not overwrites manual
      * added namespaces in the model !!!!
      *

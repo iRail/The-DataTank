@@ -50,7 +50,7 @@ class Mapping extends AResource {
     private function getData() {
         $rdfmapper = new RDFMapper();
         //Build a mapping file for package
-        $this->mapping = $rdfmapper->getMapping($this->package);
+        $this->mapping = $rdfmapper->getMapping($this->package)->getModel()->getMemModel();
     }
 
     public static function getDoc() {
