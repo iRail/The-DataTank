@@ -344,36 +344,6 @@ class TDT{
         //}
         //return $sorted_query;
     }
-
-/**
- * This functions gets the current url.
- */
-    public static function getPageUrl() {
-        $pageURL = 'http';
-        if (!empty($_SERVER['HTTPS'])) {
-            if($_SERVER['HTTPS'] == 'on') {
-                $pageURL .= "s";
-            }
-        }
-        $pageURL .= "://" . $_SERVER['SERVER_NAME'];
-        if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= ":" . $_SERVER["SERVER_PORT"];
-        }
-        $pageURL .= $_SERVER["REQUEST_URI"];
-
-        // Sort all parameters and add tem to the pageURL
-        $pageURL .= '?';
-        $params = $_GET;
-        unset($params['format']);
-        asort($params);
-        $tmp_array = array();
-        foreach($params as $key => $value) {
-            $tmp_array[] = $key . '=' . $value;
-        }
-        $pageURL .= join('&', $tmp_array);
-
-        return $pageURL;
-    }
 }
 
 ?>

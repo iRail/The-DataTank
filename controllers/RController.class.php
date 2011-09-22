@@ -26,7 +26,7 @@ class RController extends AController{
 
 	//This will create an instance of a factory depending on which format is set
 	$this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-	
+
 	//This will create an instance of AResource
 	$model = ResourcesModel::getInstance();
 	$resource = $model->getResource($package,$resourcename);
@@ -143,7 +143,7 @@ class RController extends AController{
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
         if($model->getResourceType($package,$resourcename) != "remote"){
-            RequestLogger::logRequest($package,$resourcename, $requiredparams, $subresources);            
+            RequestLogger::logRequest();            
         }
     }
 

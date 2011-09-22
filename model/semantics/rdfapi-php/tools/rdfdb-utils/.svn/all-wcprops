@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/523/trunk/rdfapi-php/tools/rdfdb-utils
+END
+choseDB.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/choseDB.php
+END
+footer.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/footer.php
+END
+style.css
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/tools/rdfdb-utils/style.css
+END
+setup.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/setup.php
+END
+delete_icon.png
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/tools/rdfdb-utils/delete_icon.png
+END
+edit_icon.png
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/tools/rdfdb-utils/edit_icon.png
+END
+menu.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/menu.php
+END
+createTables.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/createTables.php
+END
+add.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/add.php
+END
+namespaces.ini
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/tools/rdfdb-utils/namespaces.ini
+END
+n3.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/523/trunk/rdfapi-php/tools/rdfdb-utils/n3.php
+END
+query.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/313/trunk/rdfapi-php/tools/rdfdb-utils/query.php
+END
+listModels.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/listModels.php
+END
+namesp.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/313/trunk/rdfapi-php/tools/rdfdb-utils/namesp.php
+END
+addnamesp.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/addnamesp.php
+END
+model.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/model.php
+END
+logout.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/logout.php
+END
+header.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/header.php
+END
+utils.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/utils.php
+END
+index.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/index.php
+END
+config.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/tools/rdfdb-utils/config.inc.php
+END
+rdf.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/523/trunk/rdfapi-php/tools/rdfdb-utils/rdf.php
+END

@@ -11,18 +11,6 @@ include_once("model/resources/strategies/ATabularData.class.php");
 
 class HTMLTable extends ATabularData {
 
-    public function __construct() {
-        if(Config::$PHPEXCEL_IOFACTORY_PATH!="") {
-            if(!file_exists(Config::$PHPEXCEL_IOFACTORY_PATH)){
-                throw new NotFoundTDTException("Could not include " . Config::$PHPEXCEL_IOFACTORY_PATH);
-            } else {
-                include_once(Config::$PHPEXCEL_IOFACTORY_PATH);
-            }
-        } else {
-            throw new NotFoundTDTException("PHPExcel path not defined in config.class");		
-        }
-    }
-
     public function onCall($package,$resource){
 
         /*

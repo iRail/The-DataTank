@@ -12,24 +12,29 @@ class RequestLogger{
     /**
      * This function implements the logging part of the RequestLogger functionality.
      */
-    public static function logRequest($package, $resource,$requiredparams,$subresources) {
+    public static function logRequest() {
 	//an instance of printerfactory so we can check the format
 	$ff = FormatterFactory::getInstance();
-
+        //an instance of RequestURI
+        $URI = RequestURI::getInstance();
         $request = R::dispense('requests');
         $request->time = time();
         if(isset($_SERVER['HTTP_USER_AGENT'])){    
             $request->user_agent = $_SERVER['HTTP_USER_AGENT'];
         }
         $request->ip = $_SERVER['REMOTE_ADDR'];
-        $request->url_request = TDT::getPageUrl();
-        $request->package = $package;
-        $request->resource = $resource;
+        $request->url_request = $URI->getURI();
+        $request->package = $URI->getPackage();
+        $request->resource = $URI->getResource();
         $request->format = $ff->getFormat();
-        $request->subresources = implode(";",$subresources); // DEPRECATED !!!!!!!
-        $request->requiredparameter = implode(";",$requiredparams);
-        $request->allparameters = implode(";",$subresources);
-        $result = R::store($request);        
+        $request->requiredparameter = implode(";",$URI->getFilters());
+        if(!is_null($URI->getGET())){
+            $request->allparameters = implode(";",$URI->getGET());
+        }else{
+            $request->allparameters = "";
+        }
+        
+        $result = R::store($request);
     }
 }
 ?>

@@ -105,5 +105,6 @@ class FormatterFactory{
 	include_once("formatters/". $this->format . ".class.php");
 	return new $format($rootname, $objectToPrint);
     }
+
 }
 ?>

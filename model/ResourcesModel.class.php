@@ -40,6 +40,8 @@ class ResourcesModel extends AResourceFactory{
          */
         $this->updateActions = array();
         $this->updateActions["foreign_relation"] = "addForeignRelation";
+        //Added for linking this resource to a class descibed in an onthology
+        $this->updateActions["rdf_mapping"] = "addRdfMapping";
     }
 
     public function getResourceType($package,$resource){
@@ -254,11 +256,12 @@ class ResourcesModel extends AResourceFactory{
      * @param $package packagename
      * @param $resource resourcename
      * @param $content the POST parameters
+     * @param $resURI unique resource URI for adding semantics
      */
-    public function updateResource($package,$resource,$content){
+    public function updateResource($package,$resource,$content,$resURI=null){
         if(isset($content["update_type"]) && isset($this->updateActions[$content["update_type"]])){
             $method = $this->updateActions[$content["update_type"]];
-            $this->$method($package,$resource,$content);
+            $this->$method($package,$resource,$content,$resURI);
         }else{
             throw new ResourceUpdateTDTException($content["update_type"] ." is not a supported update type.");
         }
@@ -267,6 +270,16 @@ class ResourcesModel extends AResourceFactory{
     private function addForeignRelation($package,$resource,$content){
         $foreignRelation = new ForeignRelation();
         $foreignRelation->update($package,$resource,$content);
+    }
+    
+    //Supplies RDFMapper with post variables
+    private function addRdfMapping($package,$resource,$content){
+        $rdfmapper = new RDFMapper();
+        
+        //Miel: need full path for adding semantics!!
+        $resource = substr($_SERVER["REQUEST_URI"],strlen(Config::$SUBDIR.$package."/")+1);
+        
+        $rdfmapper->update($package,$resource,$content);
     }
 }
 ?>

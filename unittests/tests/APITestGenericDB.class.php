@@ -16,13 +16,13 @@ class APITestGenericDB extends TDTUnitTest{
     private $install_as = "dbpackage/person/";
     private $generic_type = "DB";
     private $printmethods = "html;json;xml;jsonp";
-    private $columns = "name;age;city";
-    private $PK = "name";
+    private $columns = "id;name";
+    private $PK = "id";
    
     private $db_name = "test";
     private $db_table = "person";
     private $host = "localhost";
-    private $db_type = "My_SQL";
+    private $db_type = "mysql";
     private $db_user = "root";
     private $db_password = "root";
     

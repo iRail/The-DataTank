@@ -61,9 +61,11 @@ class CoreResourceFactory extends AResourceFactory {
      * Scans the folder modules for other resources
      * @return an array containing all the resourcenames available
      */
+
     public function getAllResourceNames() {
-        $packages = array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions"), "Feedback" => array("Messages"));
+        $packages = array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Mapping"), "Feedback" => array("Messages"));
         return $packages;
+
     }
     
     /**
