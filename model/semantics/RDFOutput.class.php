@@ -69,7 +69,7 @@ class RDFOutput {
                 foreach ($var as $key => $value) {
                     $path = $temp;
                     $path .= '/' . $key;
-                    $prop = $this->model->createProperty($path);
+                    $prop = $this->model->createProperty($path.'/'.strtolower($key));
                     //start over for each value
                     $this->analyzeVariable($value, $path, $res, $prop);
                 }
@@ -94,7 +94,7 @@ class RDFOutput {
             foreach ($obj_prop as $key => $value) {
                 $path = $temp;
                 $path .= '/' . $key;
-                $prop = $this->model->createProperty($path);
+                $prop = $this->model->createProperty($temp.'/'.strtolower($key));
                 $this->analyzeVariable($value, $path, $res, $prop);
             }
         } else {

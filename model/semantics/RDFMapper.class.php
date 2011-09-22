@@ -28,8 +28,8 @@ class RDFMapper {
      * @access	public
      */
     public function update($tdt_package, $tdt_resource, $content) {
-
-        if (isset($content['rdf_mapping_method'])) {
+        
+         if (isset($content['rdf_mapping_method'])) {
             //If rdf_mapping_bash is set, user wants to map multiple related resources instead of only this resource
             if (isset($content['rdf_mapping_bash'])) {
                 //Call method stripResourcePath to get the base url
@@ -57,6 +57,13 @@ class RDFMapper {
             throw new RdfTDTException('Mapping method not specified');
         }
     }
+    
+    /**
+     * Removes the last rest parameter
+     *
+     * @param string $tdt_resource URI of the resource
+     * @return string URI without trailing slash 
+     */
 
     private function stripResourcePath($tdt_resource) {
         //We need to rewrite the resource url to add the right mapping
@@ -239,6 +246,13 @@ class RDFMapper {
             $resource->removeAll($property);
         }
         $resource->addProperty($property, $object);
+        
+        $iterator = $this->lookupEquals($model, $tdt_resource);
+        while ($iterator->valid()){
+            $iterator->next();
+            $obj=$iterator->getObject();
+            $obj->addProperty($property, $object);
+        }
     }
 
     /**
@@ -256,9 +270,15 @@ class RDFMapper {
         $model = $this->getMapping($tdt_package);
 
         $resource = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
-        $object = $model->createResource($this->getMappingURI($tdt_package) . $equal_resource);
+        $object = $model->createResource($equal_resource);
+        $equals_prop = $model->createProperty(RDFConstants::$TDML_NS . "equals");
+        $maps_prop = $model->createProperty(RDFConstants::$TDML_NS . "maps");
 
-        $resource->addProperty(OWL_RES::SAME_AS(), $object);
+        $resource->addProperty($equals_prop, $object);
+        $object->addProperty($equals_prop, $resource);
+        
+        //$map = $object->getProperty($maps_prop);
+        //$resource->addProperty($maps_prop, $map);
     }
 
     /**
@@ -295,11 +315,11 @@ class RDFMapper {
     public function getResourceMapping($tdt_package, $tdt_resource) {
         if (!(isset($tdt_package) && isset($tdt_resource)))
             throw new RdfTDTException('Package or Resource unknown ');
-        
+
         //Retrieve mapping model from db.
         $model = $this->getMapping($tdt_package);
         $mapping = $this->lookupMapping($model, $tdt_resource);
-        
+
         //If no mapping is found, check if there is a generic mapping
         if (is_null($mapping)) {
             //rewrite URI to generic
@@ -315,14 +335,28 @@ class RDFMapper {
     }
 
     private function lookupMapping($model, $tdt_resource) {
-        
         $resource_res = $model->createResource($tdt_resource);
         $maps_prop = $model->createProperty(RDFConstants::$TDML_NS . "maps");
         //Looks for the first triple statement where the resource has the TDML maps property.
         $mapping = $model->findFirstMatchingStatement($resource_res, $maps_prop, null);
-        
+
         return $mapping;
     }
+    
+    /**
+     * Look up resources that are equal to this resource
+     *
+     * @param ResModel $model
+     * @param string $tdt_resource
+     * @return array Array of Statement objects containing equal resources
+     */
+    
+    private function lookupEquals($model, $tdt_resource) {
+        $resource_res = $model->createResource($tdt_resource);
+        $equals_prop = $model->createProperty(RDFConstants::$TDML_NS . "equals");
+        return $resource_res->listProperties($equals_prop);
+    }
+
 
 }
 

@@ -25,6 +25,16 @@
 #################################################################
 
 
+###  http://thedatatank.com/tdml/1.0#equals
+
+<http://thedatatank.com/tdml/1.0#equals> rdf:type owl:ObjectProperty ;
+                                         
+                                         rdfs:range :Mappable ;
+                                         
+                                         rdfs:domain :Mappable .
+
+
+
 ###  http://www.thedatatank.org/tdml/1.0#has_property
 
 :has_property rdf:type owl:ObjectProperty ;
