@@ -32,7 +32,7 @@ class Packages extends AResource{
     }
 
     public static function getDoc(){
-	return "This resource contains the most important information";
+	return "This resource contains every package installed on this DataTank instance.";
     }
 }
 

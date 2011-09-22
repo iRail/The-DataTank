@@ -11,23 +11,24 @@ include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
 include_once(dirname(__FILE__)."/../classes/REST.class.php");
 
-class APITestGenericCSV extends TDTUnitTest{
+class APITestGenericCSV extends TDTUnitTest {
 
-    private $location = "/../temp/person.csv";
+    private $location = "/unittests/temp/person.csv";
     private $install_as = "csvpackage/person/";
     private $generic_type = "CSV";
-    private $printmethods = "json;xml;jsonp";
+    private $printmethods = "html;json;xml;jsonp";
     private $columns = "name;age;city";
     private $PK = "name";
     
     function testPutCSV(){
+        $this->location = Config::$HOSTNAME . Config::$SUBDIR . $this->location;
         
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "generic",
                        "printmethods"  => $this->printmethods,
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
-                       "uri"           => dirname(__FILE__).$this->location,
+                       "uri"           => $this->location,
                        "columns"       => $this->columns,
                        "PK"            => $this->PK
         );
@@ -41,7 +42,7 @@ class APITestGenericCSV extends TDTUnitTest{
     }
     
     function testGetCSV() {
-        $url = Config::$HOSTNAME . $this->install_as; 
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
         
@@ -49,9 +50,9 @@ class APITestGenericCSV extends TDTUnitTest{
         if($request->http_code != 200 && $request->result)
             $this->debug($request->result);
     }
-    
+
     function testDeleteCSV() {
-        $url = Config::$HOSTNAME . $this->install_as;
+        $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();
         
@@ -59,7 +60,6 @@ class APITestGenericCSV extends TDTUnitTest{
         if($request->result)
             $this->debug($request->result);
     }
-    
 }
 
 

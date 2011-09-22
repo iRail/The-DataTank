@@ -48,7 +48,7 @@ class ErrorHandler{
 
     private static function WriteToDB(Exception $e) {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-        
+        $URI = RequestURI::getInstance();
 	//ask the printerfactory which format we should store in the db
 	$ff = FormatterFactory::getInstance();
 	$format = $ff->getFormat();
@@ -60,7 +60,7 @@ class ErrorHandler{
         }
         $error->format = $format;
         $error->ip = $_SERVER['REMOTE_ADDR'];
-        $error->url_request = TDT::getPageUrl();
+        $error->url_request = $URI->getURI();
         $error->error_message = $e->getMessage();
         $error->error_code = $e->getCode();
         R::store($error);

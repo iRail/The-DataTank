@@ -67,6 +67,7 @@ class RedBean_Driver_PDO implements RedBean_Driver {
 		$this->isConnected = true;
 	}
 	protected function bindParams($s,$aValues) {
+                
 		foreach($aValues as $key=>&$value) {
 			if (is_integer($key)) {
 				if (is_null($value)){
@@ -86,9 +87,10 @@ class RedBean_Driver_PDO implements RedBean_Driver {
 					$s->bindParam($key,$value,PDO::PARAM_INT);
 				}
 				else { 
-					$s->bindParam($key,$value,PDO::PARAM_STR);
+                                    $s->bindParam($key,$value,PDO::PARAM_STR);
 				}
 			}
+                        
 		}
 	}
 	public function GetAll( $sql, $aValues=array() ) {
@@ -172,6 +174,7 @@ class RedBean_Driver_PDO implements RedBean_Driver {
 		return $infos[2];
 	}
 	public function Execute( $sql, $aValues=array() ) {
+               
 		$this->connect();
 		$this->exc = 0;
 		if ($this->debug) {
@@ -184,8 +187,9 @@ class RedBean_Driver_PDO implements RedBean_Driver {
 			else {
 				$s = $this->pdo->prepare($sql);
 			}
-			$this->bindParams( $s, $aValues );
-			$s->execute();
+                        
+  			$this->bindParams( $s, $aValues );
+                        $s->execute();
 			$this->affected_rows=$s->rowCount();
 			return $this->affected_rows;
 		}
@@ -451,10 +455,11 @@ class RedBean_Adapter_DBAdapter extends RedBean_Observable implements RedBean_Ad
 		return $this->db->Escape($sqlvalue);
 	}
 	public function exec( $sql , $aValues=array(), $noevent=false) {
-		if (!$noevent) {
+                if (!$noevent) {
 			$this->sql = $sql;
 			$this->signal("sql_exec", $this);
 		}
+                
 		return $this->db->Execute( $sql, $aValues );
 	}
 	public function get( $sql, $aValues = array() ) {
@@ -2451,8 +2456,9 @@ class R {
 		return self::$redbean->batch($type, $ids);
 	}
 	public static function exec( $sql, $values=array() ) {
-		if (!self::$redbean->isFrozen()) {
-			try {
+            
+                if (!self::$redbean->isFrozen()) {
+                        try {
 				$rs = R::$adapter->exec( $sql, $values );
 			}catch(RedBean_Exception_SQL $e) {
 				if(self::$writer->sqlStateIn($e->getSQLState(),

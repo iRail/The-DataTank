@@ -26,6 +26,9 @@ class Config {
     // validation for API calls to remotely add resources and modules
     public static $API_USER = "";
     public static $API_PASSWD = "";
+	
+    // path to the PHPExcel IOFactory.php, required for XLS generic resource
+    public static $PHPEXCEL_IOFACTORY_PATH = "../PHPExcel/Classes/PHPExcel/IOFactory.php";	
     
 }
 ?>
