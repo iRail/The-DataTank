@@ -14,7 +14,7 @@ include_once("model/resources/GenericResource.class.php");
 class GenericResourceFactory extends AResourceFactory{
 
     public function createCreater($package,$resource){
-        
+
     }
     
     public function createReader($package,$resource){
@@ -30,7 +30,7 @@ class GenericResourceFactory extends AResourceFactory{
     }
     
     public function makeDoc($doc){
-        
+
     }
     
 }

@@ -126,6 +126,9 @@ class ResourcesModel extends AResourceFactory{
         return $rn;
     }
 
+    /**
+     * @return the creation time of a certain resource
+     */
     public function getCreationTime($package,$resource){
         foreach($this->factories as $factory){
             if($factory->hasResource($package,$resource)){
@@ -134,6 +137,9 @@ class ResourcesModel extends AResourceFactory{
         }
     }
 
+    /**
+     * @return the modification time of a certain resource
+     */
     public function getModificationTime($package,$resource){
         foreach($this->factories as $factory){
             if($factory->hasResource($package,$resource)){
@@ -142,7 +148,9 @@ class ResourcesModel extends AResourceFactory{
         }
     }
     
-
+    /*
+     * @ return an array with every package + the creation timestamp of the package
+     */
     public function getAllPackages(){
         $backendpackages = DBQueries::getAllPackages();
         $installedpackages = $this->factories["installed"]->getAllPackages();
