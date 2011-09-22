@@ -10,16 +10,20 @@
  */
 
 class InstalledResourceFactory extends AResourceFactory{
-    
-    public function createCreater($package,$resource){
+
+    public function __construct(){
         
     }
     
-    public function createReader($package,$resource){
+    public function createCreator($package,$resource, $parameters){
         
     }
     
-    public function createUpdater($package,$resource){
+    public function createReader($package,$resource, $parameters){
+        
+    }
+    
+    public function createUpdater($package,$resource, $parameters){
         
     }
     

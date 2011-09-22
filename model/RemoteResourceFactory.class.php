@@ -12,6 +12,29 @@ include_once("model/resources/RemoteResource.class.php");
 
 class RemoteResourceFactory extends AResourceFactory{
     
+    public function __construct(){
+        
+    }
+
+    public function createCreator($package,$resource, $parameters){
+        
+    }
+    
+    public function createReader($package,$resource, $parameters){
+        
+    }
+    
+    public function createUpdater($package,$resource, $parameters){
+        
+    }
+    
+    public function createDeleter($package,$resource){
+        
+    }
+    
+    public function makeDoc($doc){
+        
+    }
 }
 
 ?>

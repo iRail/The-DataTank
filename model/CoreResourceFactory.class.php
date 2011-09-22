@@ -10,30 +10,19 @@
 
 class CoreResourceFactory extends AResourceFactory {
 
-    private static $instance;
-    
-    private function __construct(){
-
+    public function __construct(){
+        
     }
-    
-    public static function getInstance(){
-        if(is_null(self::$instance)){
-            self::$instance = new CoreResourceFactory();
-        }
-        return self::$instance;
-    }
-    
 
-
-    public function createCreater($package,$resource){
+    public function createCreator($package,$resource, $parameters){
         
     }
     
-    public function createReader($package,$resource){
+    public function createReader($package,$resource, $parameters){
         
     }
     
-    public function createUpdater($package,$resource){
+    public function createUpdater($package,$resource, $parameters){
         
     }
     
@@ -42,6 +31,7 @@ class CoreResourceFactory extends AResourceFactory {
     }
     
     public function makeDoc($doc){
+        //ask every resource we have for documentation
         
     }
 }
