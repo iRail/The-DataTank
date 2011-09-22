@@ -6,8 +6,8 @@
 
 /**
  * An RDF Container.
- * This Class defines methods for accessing RDF container resources. 
- * These methods operate on the RDF statements contained in a model. 
+ * This Class defines methods for accessing RDF container resources.
+ * These methods operate on the RDF statements contained in a model.
  *
  * @version  $Id: ResContainer.php 320 2006-11-21 09:38:51Z tgauss $
  * @author Daniel Westphal <mail at d-westphal dot de>
@@ -28,7 +28,7 @@ class ResContainer extends ResResource {
      * Constructor
      * You can supply a URI
      *
-     * @param string $uri 
+     * @param string $uri
      * @access	public
      */
     function ResContainer($uri = null) {
@@ -43,33 +43,31 @@ class ResContainer extends ResResource {
      * @access	public
      */
     function add($object) {
-        
+
         //type this container, if it isn't already typed
         if (!$this->hasProperty(new ResResource(RDF_NAMESPACE_URI . RDF_TYPE)))
             $this->addProperty(new ResResource(RDF_NAMESPACE_URI . RDF_TYPE), $this->containerType);
-        
+
         ////get the current size
         $actualSize = $this->size();
-        
+
         //add the object to the last position
         $this->addProperty(new ResResource(RDF_NAMESPACE_URI . '_' . ($actualSize + 1)), $object);
-        
-        
     }
 
     /**
      * Determine whether the container contains a value
      *
      * @param	obejct ResResource/ResLiteral	$resResource
-     * @return	boolean 
+     * @return	boolean
      * @access	public
      */
     function contains($resResource) {
-        //get all container's properties 
+        //get all container's properties
         foreach ($this->listProperties() as $statement) {
             //if the property matches a container membership property
             if ($this->_predicateLabelMatchesMembershipProperty($statement->getLabelPredicate())) {
-                //check, if it's the value, we're looking for. 
+                //check, if it's the value, we're looking for.
                 if ($resResource->equals($statement->getObject()))
                     return true;
             }
@@ -80,7 +78,7 @@ class ResContainer extends ResResource {
     /**
      * Returns true, if this resource is a container from type rdf:Alt
      *
-     * @return	boolean 
+     * @return	boolean
      * @access	public
      */
     function isAlt() {
@@ -90,7 +88,7 @@ class ResContainer extends ResResource {
     /**
      * Returns true, if this resource is a container from type rdf:Bag
      *
-     * @return	boolean 
+     * @return	boolean
      * @access	public
      */
     function isBag() {
@@ -100,7 +98,7 @@ class ResContainer extends ResResource {
     /**
      * Returns true, if this resource is a container from type rdf:Seq
      *
-     * @return	boolean 
+     * @return	boolean
      * @access	public
      */
     function isSeq() {
@@ -110,7 +108,7 @@ class ResContainer extends ResResource {
     /**
      * Get an array of all resources that are values of this container
      *
-     * @return	array 
+     * @return	array
      * @access	public
      */
     function getMembers() {
@@ -126,8 +124,8 @@ class ResContainer extends ResResource {
 
     /**
      * Remove a value from the container.
-     * 
-     * Once removed, the values in the container with a higher ordinal value are renumbered. 
+     *
+     * Once removed, the values in the container with a higher ordinal value are renumbered.
      * The renumbering algorithm depends on the type of container.
      *
      * @param	obejct ResResource/ResLiteral	$resResource
@@ -160,7 +158,7 @@ class ResContainer extends ResResource {
     /**
      * Returns the number values in the container.
      *
-     * @return	integer 
+     * @return	integer
      * @access	public
      */
     function size() {
@@ -171,7 +169,7 @@ class ResContainer extends ResResource {
      * Checks, if a predicate label fits a container membership property rdf:_n
      *
      * @param	string	$predicateLabel
-     * @return	boolean 
+     * @return	boolean
      * @access	private
      */
     function _predicateLabelMatchesMembershipProperty($predicateLabel) {
@@ -182,7 +180,7 @@ class ResContainer extends ResResource {
      * Get the ordinal number from a membership property rdf:_n
      *
      * @param	string	$predicateLabel
-     * @return	integer 
+     * @return	integer
      * @access	private
      */
     function _getMemberIndexNrFromMembershipPropertyLabel($predicateLabel) {
@@ -190,10 +188,10 @@ class ResContainer extends ResResource {
     }
 
     /**
-     * Get a membership property rdf:_n with index $int 
+     * Get a membership property rdf:_n with index $int
      *
      * @param	intger	$int
-     * @return	string 
+     * @return	string
      * @access	private
      */
     function _getMembershipPropertyWithIndex($int) {

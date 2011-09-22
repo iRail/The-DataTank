@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
  * 
@@ -13,17 +14,19 @@
 /**
  * Helper class specifically designed for TDT. When developing modules you can use these for better performance.
  */
-class TDT{
+class TDT {
+
     private static $HTTP_REQUEST_TIMEOUT = 10; // set the standard timeout to 10
     private static $CACHE_TIME = 60; // set the default caching time to 60 seconds
-         
-/**
- * The HttpRequest stolen from Drupal 7. Drupal is licensed GPLv2 or later. This is compatible with our AGPL license.
- * Use this function to get some content
- * @param string $url The url for the request
- * @param array $options Additional arguments to pass along the httprequest.
- * @return mixed Returns errorcode or result of the httprequest.
- */
+
+    /**
+     * The HttpRequest stolen from Drupal 7. Drupal is licensed GPLv2 or later. This is compatible with our AGPL license.
+     * Use this function to get some content
+     * @param string $url The url for the request
+     * @param array $options Additional arguments to pass along the httprequest.
+     * @return mixed Returns errorcode or result of the httprequest.
+     */
+
     public static function HttpRequest($url, array $options = array()) {
         // Parse the URL and make sure we can handle the schema.
         $uri = @parse_url($url);
@@ -34,7 +37,7 @@ class TDT{
         //maybe our result is the cache. If so, return the cache value
         $cache = Cache::getInstance();
         $result = $cache->get($url);
-        if(!is_null($result)){
+        if (!is_null($result)) {
             return $result;
         }
 
@@ -42,23 +45,23 @@ class TDT{
         $result = new StdClass();
 
         if (!isset($uri['scheme'])) {
-            throw new CouldNotParseUrlTDTException("Forgot to add http(s)? " . $url);    
+            throw new CouldNotParseUrlTDTException("Forgot to add http(s)? " . $url);
         }
 
         self::timer_start(__FUNCTION__);
 
         // Merge the default options.
         $options += array(
-            'headers' => array(), 
-            'method' => 'GET', 
-            'data' => NULL, 
-            'max_redirects' => 3, 
-            'timeout' => 30.0, 
+            'headers' => array(),
+            'method' => 'GET',
+            'data' => NULL,
+            'max_redirects' => 3,
+            'timeout' => 30.0,
             'context' => NULL,
         );
         // stream_socket_client() requires timeout to be a float.
         $options['timeout'] = (float) $options['timeout'];
-          
+
         switch ($uri['scheme']) {
             case 'http':
             case 'feed':
@@ -83,8 +86,7 @@ class TDT{
 
         if (empty($options['context'])) {
             $fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout']);
-        }
-        else {
+        } else {
             // Create a stream with context. Allows verification of a SSL certificate.
             $fp = @stream_socket_client($socket, $errno, $errstr, $options['timeout'], STREAM_CLIENT_CONNECT, $options['context']);
         }
@@ -102,7 +104,7 @@ class TDT{
 
         // Merge the default headers.
         $options['headers'] += array(
-            'User-Agent' => 'The DataTank 1.0',//TODO VERSION
+            'User-Agent' => 'The DataTank 1.0', //TODO VERSION
         );
 
         // Only add Content-Length if we actually have any content or if it is a POST
@@ -191,52 +193,51 @@ class TDT{
                 // RFC 2109: the Set-Cookie response header comprises the token Set-
                 // Cookie:, followed by a comma-separated list of one or more cookies.
                 $result->headers[$name] .= ',' . trim($value);
-            }
-            else {
+            } else {
                 $result->headers[$name] = trim($value);
             }
         }
 
         $responses = array(
-            100 => 'Continue', 
-            101 => 'Switching Protocols', 
-            200 => 'OK', 
-            201 => 'Created', 
-            202 => 'Accepted', 
-            203 => 'Non-Authoritative Information', 
-            204 => 'No Content', 
-            205 => 'Reset Content', 
-            206 => 'Partial Content', 
-            300 => 'Multiple Choices', 
-            301 => 'Moved Permanently', 
-            302 => 'Found', 
-            303 => 'See Other', 
-            304 => 'Not Modified', 
-            305 => 'Use Proxy', 
-            307 => 'Temporary Redirect', 
-            400 => 'Bad Request', 
-            401 => 'Unauthorized', 
-            402 => 'Payment Required', 
-            403 => 'Forbidden', 
-            404 => 'Not Found', 
-            405 => 'Method Not Allowed', 
-            406 => 'Not Acceptable', 
-            407 => 'Proxy Authentication Required', 
-            408 => 'Request Time-out', 
-            409 => 'Conflict', 
-            410 => 'Gone', 
-            411 => 'Length Required', 
-            412 => 'Precondition Failed', 
-            413 => 'Request Entity Too Large', 
-            414 => 'Request-URI Too Large', 
-            415 => 'Unsupported Media Type', 
-            416 => 'Requested range not satisfiable', 
-            417 => 'Expectation Failed', 
-            500 => 'Internal Server Error', 
-            501 => 'Not Implemented', 
-            502 => 'Bad Gateway', 
-            503 => 'Service Unavailable', 
-            504 => 'Gateway Time-out', 
+            100 => 'Continue',
+            101 => 'Switching Protocols',
+            200 => 'OK',
+            201 => 'Created',
+            202 => 'Accepted',
+            203 => 'Non-Authoritative Information',
+            204 => 'No Content',
+            205 => 'Reset Content',
+            206 => 'Partial Content',
+            300 => 'Multiple Choices',
+            301 => 'Moved Permanently',
+            302 => 'Found',
+            303 => 'See Other',
+            304 => 'Not Modified',
+            305 => 'Use Proxy',
+            307 => 'Temporary Redirect',
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            402 => 'Payment Required',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            405 => 'Method Not Allowed',
+            406 => 'Not Acceptable',
+            407 => 'Proxy Authentication Required',
+            408 => 'Request Time-out',
+            409 => 'Conflict',
+            410 => 'Gone',
+            411 => 'Length Required',
+            412 => 'Precondition Failed',
+            413 => 'Request Entity Too Large',
+            414 => 'Request-URI Too Large',
+            415 => 'Unsupported Media Type',
+            416 => 'Requested range not satisfiable',
+            417 => 'Expectation Failed',
+            500 => 'Internal Server Error',
+            501 => 'Not Implemented',
+            502 => 'Bad Gateway',
+            503 => 'Service Unavailable',
+            504 => 'Gateway Time-out',
             505 => 'HTTP Version not supported',
         );
         // RFC 2616 states that all unknown HTTP codes must be treated the same as the
@@ -258,8 +259,7 @@ class TDT{
                 if ($options['timeout'] <= 0) {
                     $result->code = self::$HTTP_REQUEST_TIMEOUT;
                     $result->error = 'request timed out';
-                }
-                elseif ($options['max_redirects']) {
+                } elseif ($options['max_redirects']) {
                     // Redirect to the new location.
                     $options['max_redirects']--;
                     $result = self::HttpRequest($location, $options);
@@ -275,7 +275,7 @@ class TDT{
 
         //store the result in cache
         $cachingtime = self::$CACHE_TIME;
-        if(isset($options["cache-time"])){ //are we sure we're going to call the option cache-time?
+        if (isset($options["cache-time"])) { //are we sure we're going to call the option cache-time?
             $cachingtime = $options["cache-time"];
         }
         $cache->set($url, $result, $cachingtime);
@@ -283,15 +283,15 @@ class TDT{
         return $result;
     }
 
-     
     private static function timer_start($name) {
         global $timers;
         $timers[$name]['start'] = microtime(TRUE);
         $timers[$name]['count'] = isset($timers[$name]['count']) ? ++$timers[$name]['count'] : 1;
     }
-/** 
- * Function needed by drupal for http request. 
- */
+
+    /**
+     * Function needed by drupal for http request. 
+     */
     private static function timer_stop($name) {
         global $timers;
 
@@ -300,8 +300,7 @@ class TDT{
             $diff = round(($stop - $timers[$name]['start']) * 1000, 2);
             if (isset($timers[$name]['time'])) {
                 $timers[$name]['time'] += $diff;
-            }
-            else {
+            } else {
                 $timers[$name]['time'] = $diff;
             }
             unset($timers[$name]['start']);
@@ -309,10 +308,10 @@ class TDT{
 
         return $timers[$name];
     }
-     
-/** 
- * Function needed by drupal for http request ({@link HttpRequest()}).
- */
+
+    /**
+     * Function needed by drupal for http request ({@link HttpRequest()}).
+     */
     private static function timer_read($name) {
         global $timers;
 
@@ -328,9 +327,9 @@ class TDT{
         return $timers[$name]['time'];
     }
 
-/**
- * This functions sorts the parameters.
- */
+    /**
+     * This functions sorts the parameters.
+     */
     public static function sort_parameters($params) {
         asort($params);
         return $params;
@@ -344,6 +343,14 @@ class TDT{
         //}
         //return $sorted_query;
     }
+
+    /**
+     * This function checks if an array is associative
+     */
+    public static function is_assoc($arr) {
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
 }
 
 ?>

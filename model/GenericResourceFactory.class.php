@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This will get a resource description from the databank and add the right strategy to process the call to the GenericResource class
  *
@@ -8,10 +9,9 @@
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */
-
 include_once("model/resources/GenericResource.class.php");
 
-class GenericResourceFactory extends AResourceFactory{
+class GenericResourceFactory extends AResourceFactory {
 
     public function __construct(){
         
