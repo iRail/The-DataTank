@@ -13,6 +13,7 @@ class RequestLogger{
      * This function implements the logging part of the RequestLogger functionality.
      */
     public static function logRequest() {
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 	//an instance of printerfactory so we can check the format
 	$ff = FormatterFactory::getInstance();
         //an instance of RequestURI
