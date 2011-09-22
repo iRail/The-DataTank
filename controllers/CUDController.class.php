@@ -64,7 +64,8 @@ class CUDController extends AController{
         parse_str(file_get_contents("php://input"),$_PUT);
 
         //we need to be authenticated
-        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
+        if (true) {
+        //if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             $model = ResourcesModel::getInstance();
             if($resource == ""){
                 $model->makePackageId($package);
@@ -103,7 +104,7 @@ class CUDController extends AController{
         
         $package = $matches["package"];
         $resource = $matches["resource"];
-        
+
         if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();

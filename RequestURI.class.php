@@ -7,7 +7,6 @@
  * @license AGPLv3
  * @author Pieter Colpaert
  */
-// '/(?P<package>[^/.]*)/(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
 
 class RequestURI{
     private static $instance;
@@ -70,7 +69,6 @@ class RequestURI{
             $this->GETParameters = $_GET;
             asort($GETParameters);
         }
-        
     }
 
     public static function getInstance(){

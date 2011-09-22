@@ -29,7 +29,8 @@ class TDTUnitTest extends UnitTestCase{
         $caller=array_shift($trace);
         $caller=array_shift($trace);
         
-        echo "<b>".$caller['class']." - ".$caller['function']."</b><br />";
+        echo "<b>".$caller['class']." - ".$caller['function'].'</b><div style="color:grey;">';
+        
         if(is_array($message)) {
             print_r($message);
         }
@@ -37,7 +38,7 @@ class TDTUnitTest extends UnitTestCase{
             echo $message;
         }
         
-        echo "<br /><hr />";
+        echo "</div><hr />";
     }
 
 }

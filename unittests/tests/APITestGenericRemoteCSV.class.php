@@ -11,36 +11,23 @@ include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
 include_once(dirname(__FILE__)."/../classes/REST.class.php");
 
-class APITestGenericDB extends TDTUnitTest{
-    
-    private $install_as = "dbpackage/person/";
-    private $generic_type = "DB";
+class APITestGenericRemoteCSV extends TDTUnitTest{
+
+    private $location = "http://www.wien.gv.at/statistik/ogd/vie-district-pop-foreignborn.csv";
+    private $install_as = "vienna/population/";
+    private $generic_type = "CSV";
     private $printmethods = "html;json;xml;jsonp";
-    private $columns = "id;name";
-    private $PK = "id";
-   
-    private $db_name = "test";
-    private $db_table = "person";
-    private $host = "localhost";
-    private $db_type = "mysql";
-    private $db_user = "root";
-    private $db_password = "root";
+    private $columns = "NUTS2;DISTRICT_CODE;NAME;SEX;VIE_POP_TOTAL;VIE_POP_AUT;VIE_POP_DEU;VIE_POP_POL;VIE_POP_ROU;VIE_POP_SVK;VIE_POP_HUN;VIE_POP_BGR;VIE_POP_CZE;VIE_POP_ EU_REST;VIE_POP_SCG;VIE_POP_TUR;VIE_POP_BIH;VIE_POP_HRV;VIE_POP_MKD;VIE_POP_RUS;VIE_POP_CHN;VIE_POP_OTHER;REF_DATE";
     
-    function testPutDB(){
+    function testPutRemoteCSV(){
         
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "generic",
                        "printmethods"  => $this->printmethods,
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
-                       "columns"       => $this->columns,
-                       "PK"            => $this->PK,
-                       "db_name"	   => $this->db_name,
-                       "db_table"	   => $this->db_table,
-                       "host"		   => $this->host,
-                       "db_type"	   => $this->db_type,
-                       "db_user"	   => $this->db_user,
-                       "db_password"   => $this->db_password
+                       "uri"           => $this->location,
+                       "columns"       => $this->columns
         );
         
         $request = new REST($url, $data, "PUT");
@@ -51,7 +38,7 @@ class APITestGenericDB extends TDTUnitTest{
             $this->debug($request->result);
     }
     
-    function testGetDB() {
+    function testGetRemoteCSV() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
@@ -60,8 +47,8 @@ class APITestGenericDB extends TDTUnitTest{
         if($request->http_code != 200 && $request->result)
             $this->debug($request->result);
     }
-    
-    function testDeleteDB() {
+
+    function testDeleteRemoteCSV() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();
@@ -70,7 +57,6 @@ class APITestGenericDB extends TDTUnitTest{
         if($request->result)
             $this->debug($request->result);
     }
-    
 }
 
 
