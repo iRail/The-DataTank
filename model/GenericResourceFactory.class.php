@@ -137,7 +137,6 @@ class GenericResourceFactory extends AResourceFactory{
         //will return the id of the new generic resource
         $model = ResourcesModel::getInstance();
         $resource_id = parent::makeResourceId($package_id,$resource, "generic");
-        echo $resource_id;
         return DBQueries::storeGenericResource($resource_id, $content["generic_type"], $content["documentation"], $content["printmethods"]);
     }
 }

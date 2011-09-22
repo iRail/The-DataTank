@@ -12,7 +12,7 @@ Interface IReader{
     /**
      * execution method
      */
-    public function call();
+    public function read();
     
 
     /**
@@ -24,7 +24,12 @@ Interface IReader{
      * get the required parameters
      */
     public function getReadRequiredParameters();
-    
+
+    /**
+     * get the optional parameters
+     */
+    public function getOptionalParameters();
+
     /**
      * get the documentation about getting of a resource
      */
@@ -34,6 +39,15 @@ Interface IReader{
      * get the allowed formats
      */
     public function getAllowedFormatters();
+
+    /*
+     * get the creation time
+     */
+    public function getCreationTime();
     
+    /*
+     * get the modification time
+     */
+    public function getModificationTime();
 }
 ?>

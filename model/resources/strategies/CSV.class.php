@@ -9,7 +9,17 @@
  */
 include_once ("model/resources/strategies/ATabularData.class.php");
 class CSV extends ATabularData {
-    
+
+    public function __construct(){
+        $this->parameters["uri"] = "The URI to the CSV file";
+        $this->parameters["columns"] = "The columns that are to be published, if empty every column will be published.";
+        $this->parameters["PK"] = "The primary key of an entry";
+        
+        $this->requiredParameters["uri"] = "";
+        $this->requiredParameters["columns"] = "";
+        $this->optionalParameters["PK"] = "";
+    }
+
     public function onCall($package, $resource) {
         
         /*
@@ -103,7 +113,7 @@ class CSV extends ATabularData {
     }
     
     public function onAdd($package_id, $resource_id, $content) {
-        if (! isset($content["PK"]))
+        if (!isset($content["PK"]))
             $content["PK"] = "";
         
         $this->evaluateCSVResource($resource_id, $content);

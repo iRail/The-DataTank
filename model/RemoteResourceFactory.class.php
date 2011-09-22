@@ -105,6 +105,7 @@ class RemoteResourceFactory extends AResourceFactory{
                                   $this->currentRemoteResource->reqparams,
                                   $this->currentRemoteResource->base_url);
     }
+
     private function fetchResource($package,$resource){
         $result = DBQueries::getRemoteResource($package, $resource);
         if(sizeof($result) == 0){

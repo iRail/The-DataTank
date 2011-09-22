@@ -41,13 +41,6 @@ class GenericResource extends AResource {
     public function setParameter($name,$val){
         $this->strategy->$name = $val;
     }
-    
-
-    public function getAllowedPrintMethods(){
-        $results = DBQueries::getGenericResourcePrintMethods($this->package, $this->resource);
-        return isset($results["print_methods"])?explode(";", $results["print_methods"]):array();
-    }
-    
 }
 
 ?>

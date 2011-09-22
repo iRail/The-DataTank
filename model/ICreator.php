@@ -16,7 +16,7 @@ interface ICreator{
     
 
     /**
-     * get the optional parameters to create a resource
+     * get all of the parameters to create a resource
      */
     public function getCreateParameters();
     
@@ -29,6 +29,11 @@ interface ICreator{
      * get the documentation about the addition of a resource
      */
     public function getCreateDocumentation();
-   
+
+    /**
+     * get the optional parameters
+     */
+    public function getOptionalParameters();
+    
 }
 ?>

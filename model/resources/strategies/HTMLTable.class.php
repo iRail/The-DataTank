@@ -129,8 +129,7 @@ class HTMLTable extends ATabularData {
     public function onUpdate($package,$resource,$content){
         // At the moment there's no request for foreign relationships between XLS files
         // Yet this could be perfectly possible!
-    }
-    
+    }    
 
     private function evaluateHTMLTableResource($resource_id,$content){
         DBQueries::storeHTMLTableResource($resource_id, $content["uri"], $content["xpath"]);

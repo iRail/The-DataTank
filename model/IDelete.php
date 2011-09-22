@@ -1,6 +1,6 @@
 <?php
 /**
- * Interface for delete a resource
+ * Interface to delete a resource
  *
  * @package The-Datatank/model
  * @copyright (C) 2011 by iRail vzw/asbl

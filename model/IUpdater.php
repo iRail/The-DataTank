@@ -1,6 +1,6 @@
 <?php
 /**
- * Interface for update a resource
+ * Interface to update a resource
  *
  * @package The-Datatank/model
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -15,6 +15,11 @@ Interface IUpdater{
     public function update();
 
     /**
+     * process the all of the parameters
+     */
+    public function processParamaters();
+
+    /**
      * get the optional parameters to update a resource
      */
     public function getUpdateParameters();
@@ -23,7 +28,12 @@ Interface IUpdater{
      * get the required parameters
      */
     public function getUpdateRequiredParameters();
-    
+
+    /**
+     * get the optional parameters
+     */
+    public function getOptionalParameters();
+
     /**
      * get the documentation about updating a resource
      */
