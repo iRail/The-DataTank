@@ -89,7 +89,7 @@ class DB extends ATabularData{
         $results = R::getAll(
             "SELECT $columns FROM $dbtable"
         );
-
+        
         // create resulting object
         $arrayOfRowObjects = array();
 
