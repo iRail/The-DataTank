@@ -15,11 +15,18 @@ class Rdf_graph extends AFormatter {
     
     protected function printBody() {
         $model = $this->objectToPrint;
-        $model->visualize('gif');
+        
+        //When the objectToPrint is a Model, it is the mapping file amd ready for serialisation.
+        //Else it's retrieved data of which we need to build an onthology
+        if (!(is_subclass_of($model, 'Model') || is_a($model, 'ResModel')))
+            $model = RDFOutput::getInstance()->buildRdfOutput($model);
+        
+        header('Content-type: image/jpeg');
+        $model->visualize('jpeg');
     }
 
     protected function printHeader() {
-        header('Content-type: image/gif');
+        
     }
 
 }

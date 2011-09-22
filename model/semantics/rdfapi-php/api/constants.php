@@ -376,7 +376,7 @@ define('INF_RES_RULE_RDFS13',false);
 // ----------------------------------------------------------------------------------
 
 // path to the dot binary
-define('GRAPHVIZ_PATH', 'C:\/Programme\/ATT\/Graphviz\/bin\/dot.exe');
+define('GRAPHVIZ_PATH', 'C:\/Program Files\/Graphviz 2.28\/bin');
 
 // directory for temporary files
 // Attention: must be write-/readable by the webserver

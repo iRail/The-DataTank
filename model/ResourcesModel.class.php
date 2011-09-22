@@ -275,10 +275,8 @@ class ResourcesModel extends AResourceFactory{
     //Supplies RDFMapper with post variables
     private function addRdfMapping($package,$resource,$content){
         $rdfmapper = new RDFMapper();
-        
-        //Miel: need full path for adding semantics!!
-        $resource = substr($_SERVER["REQUEST_URI"],strlen(Config::$SUBDIR.$package."/")+1);
-        
+        //need full path for adding semantics!!
+        $resource = RequestURI::getInstance()->getRealWorldObjectURI();
         $rdfmapper->update($package,$resource,$content);
     }
 }
