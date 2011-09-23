@@ -10,12 +10,8 @@
 
 class CoreResourceFactory extends AResourceFactory {
 
-    public function __construct(){
-        
-    }
-
     public function createCreator($package,$resource, $parameters){
-        
+        //do nothing
     }
     
     public function createReader($package,$resource, $parameters){

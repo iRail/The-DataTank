@@ -12,6 +12,15 @@ include_once("model/DBQueries.class.php");
 class DB extends ATabularData{
 
     public function __construct(){
+        $this->parameters[] = "db_type";
+        $this->parameters[] = "db_name";
+        $this->parameters[] = "db_table";
+        $this->parameters[] = "db_port";
+        $this->parameters[] = "db_user";
+        $this->parameters[] = "db_password";
+
+        $this->requiredParameters[] = $this->parameters;
+        $this->parameters[] = "db_host";
     }
     
 
@@ -134,9 +143,11 @@ class DB extends ATabularData{
     private function evaluateDBResource($resource_id,$put_vars){
 
         /*
+         * NOTE: normally this is now done for you in the GenericResourceCreator, needs testing though
+         * therefore the comments.
          * Check if all the parameters are passed along
          */
-        $fieldsToCheck = array("db_type","db_name","db_table","host","port","db_user","db_password");
+        /*$fieldsToCheck = array("db_type","db_name","db_table","host","port","db_user","db_password");
         foreach($fieldsToCheck as $field){
             if(!isset($put_vars[$field])){
                 if($field == "port"){ // port is not a required parameter
@@ -145,7 +156,7 @@ class DB extends ATabularData{
                     throw new ParameterTDTException("The necessary parameter ".$field . " is not specified!");
                 }
             }
-        }
+            }*/
 
         DBQueries::storeDBResource($resource_id, $put_vars["db_type"], $put_vars["db_name"], 
                                    $put_vars["db_table"], $put_vars["host"], $put_vars["port"],

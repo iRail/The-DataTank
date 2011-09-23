@@ -13,22 +13,25 @@ include_once("model/resources/GenericResource.class.php");
 
 class GenericResourceFactory extends AResourceFactory {
 
-    public function __construct(){
-        
-    }
-
     public function createCreator($package,$resource, $parameters){
-
+        include_once("model/resources/create/GenericResourceCreator.class.php");
+        if(!isset($parameters["generic_type"])){
+            throw new ResourceAdditionTDTException("generic type hasn't been set");
+        }
+        $creator = new GenericResourceCreator($parameters["generic_type"]);
+        //TODO
     }
     
     public function createReader($package,$resource, $parameters){
-        
+        include_once("model/resources/create/GenericResourceReader.class.php");
+        //Todo: processParameters
+        foreach($parameters as $key => $value){
+            
+        }
+
+        return new GenericResourceReader($parameters["generic_type"]); 
     }
-    
-    public function createUpdater($package,$resource, $parameters){
         
-    }
-    
     public function createDeleter($package,$resource){
         
     }
@@ -36,7 +39,7 @@ class GenericResourceFactory extends AResourceFactory {
     public function makeDoc($doc){
 
     }
-    
+
 }
 
 ?>

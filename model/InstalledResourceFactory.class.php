@@ -10,25 +10,18 @@
  */
 
 class InstalledResourceFactory extends AResourceFactory{
-
-    public function __construct(){
-        
-    }
     
     public function createCreator($package,$resource, $parameters){
-        
+        //does nothing
     }
     
     public function createReader($package,$resource, $parameters){
-        
-    }
-    
-    public function createUpdater($package,$resource, $parameters){
-        
+        include_once("custom/packages/" . $package . "/" . $resource . ".class.php");
+        return new $resource($package,$resource);
     }
     
     public function createDeleter($package,$resource){
-        
+        //does nothing
     }
 
     public function makeDoc($doc){

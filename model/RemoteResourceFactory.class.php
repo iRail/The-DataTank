@@ -11,17 +11,16 @@
 include_once("model/resources/RemoteResource.class.php");
 
 class RemoteResourceFactory extends AResourceFactory{
-    
-    public function __construct(){
-        
-    }
 
     public function createCreator($package,$resource, $parameters){
-        
+        include_once("model/resources/create/RemoteResourceCreator.class.php");
+        //todo: give parameters to the creator through processparameters
+        return new RemoteResourceCreator();
     }
     
     public function createReader($package,$resource, $parameters){
-        
+        include_once("model/resources/read/RemoteResourceReader.class.php");
+        return new RemoteResourceReader($package, $resource);
     }
     
     public function createUpdater($package,$resource, $parameters){
@@ -33,11 +32,9 @@ class RemoteResourceFactory extends AResourceFactory{
     }
     
     public function makeDoc($doc){
-        
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             foreach($resourcenames as $resource){
-                $this->fetchResourceDocumentation($package, $resource);
-                
+                $doc->$package->$resource = $this->fetchResourceDocumentation($package, $resource);
             }
         }
     }

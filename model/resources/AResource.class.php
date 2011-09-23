@@ -12,7 +12,7 @@
  * This class is an abstract class that represent a php method that can be called. It provides certain
  * functionality, yet method specific functionality still needs to be implement by inheriting classes.
  */
-abstract class AResource{
+abstract class AResource extends AReader{
 
     public static $BASICPARAMS = array("callback", "filterBy","filterValue","filterOp");
 
