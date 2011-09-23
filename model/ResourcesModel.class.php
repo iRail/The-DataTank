@@ -15,7 +15,7 @@ include_once("model/InstalledResourceFactory.class.php");
 include_once("model/RemoteResourceFactory.class.php");
 include_once("model/CoreResourceFactory.class.php");
 
-include_once("model/resources/actions/ForeignRelation.class.php");
+include_once("model/resources/update/ForeignRelation.class.php");
 include_once("model/DBQueries.class.php");
 
 class ResourcesModel extends AResourceFactory{
