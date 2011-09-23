@@ -60,9 +60,7 @@ class RDFOutput {
             //Check if the array is associative. If so, treat like an object.
             if (TDT::is_assoc($var) && count($var) > 0) {
                 //create a resource of this array using the build uri path
-                $res = $this->model->createResource($path);
-                //set the mapped class, described in the mapping file of this packagem, as rdf type
-                $this->addMappingToResource($res, $path);
+                $res = $this->getMappedResource($path);
                 //Add this resource to the parent resource
                 $this->addToResource($resource, $property, $res);
                 //iterate all the key/value pairs, extend the uri and create a property from the key
@@ -87,8 +85,7 @@ class RDFOutput {
             //turn the object into an associative array, then do the same as above
             $obj_prop = get_object_vars($var);
             $temp = $path;
-            $res = $this->model->createResource($path);
-            $this->addMappingToResource($res, $path);
+            $res = $this->getMappedResource($path);
             $this->addToResource($resource, $property, $res);
 
             foreach ($obj_prop as $key => $value) {
@@ -129,15 +126,22 @@ class RDFOutput {
      *
      * @param ResResource $resource Resource to add the mapping to
      * @param string $uri URI of the resource to lookup the right mapping
+     * @return ResResource 
      */
-    private function addMappingToResource($resource, $uri) {
+    private function getMappedResource($uri) {
+        $this->model->createResource($uri);
+        
         //Get the right mapping class
         $rdfmapper = new RDFMapper();
         $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
         
         //Define the type of this resource to the mapping resource in RDF
         $resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
+        
+        return $resource;
     }
+    
+    
 
     /**
      *  Map the datatype of a primitive type to the right indication string for RAP API

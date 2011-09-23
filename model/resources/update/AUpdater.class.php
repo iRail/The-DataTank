@@ -52,7 +52,9 @@ abstract class AUpdater implements IUpdater{
     /**
      * execution method
      */
-    abstract public function update();
+    public function update(){
+    
+    }
 
     /**
      * get the optional parameters to update a resource
@@ -78,6 +80,8 @@ abstract class AUpdater implements IUpdater{
     /**
      * get the documentation about updating a resource
      */
-    public function getUpdateDocumentation();    
+    public function getUpdateDocumentation(){
+        
+    }   
 }
 ?>
