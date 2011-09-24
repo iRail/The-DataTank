@@ -14,7 +14,6 @@ abstract class AUpdater{
     protected $resource;
     protected $parameters = array();
     protected $requiredParameters = array();
-    protected $optionalParameters = array();
     
     public function __construct($package,$resource){
         $this->package = $package;
@@ -25,27 +24,30 @@ abstract class AUpdater{
      * process the parameters
      */
     public function processCreateParameters($parameters){
-        // process every parameters passed along with the creation requests
-        // and assign them to the correct parameter belonging to the Creator-class
-        $allowedParameters = array_keys($this->parameters);
-	foreach($allowedParameters as $key => $value){
+	foreach($parameters as $key => $value){
             //check whether this parameter is in the documented parameters
-            if(isset($this->requiredParameters[$key])){
-                $this->optionalParameters[$key] = $value;
-            }else if(isset($this->optionalParameters[$key])){
-                $this->requiredParameters[$key] = $value;
-            }else{
+            if(!isset($this->parameters[$key])){
                 throw new ParameterDoesntExistTDTException($key);
+            }else if(in_array($key,$this->requiredParameters)){
+                    $this->$key = $value;
             }
         }
-        // check if all requiredparameters have been set
-       
-        foreach($this->requiredParameters as $key => $value){
-            if($value == ""){
+        /*
+         * check if all requiredparameters have been set
+         */
+        foreach($this->requiredParameters as $key){
+            if($this->$key == ""){
                 throw new ParameterTDTException("Required parameter ".$key ." has not been passed");
             }
         }
-    }    
+
+        /*
+         * set the parameters
+         */
+        foreach($parameters as $key => $value){
+            $this->setParameter($key,$value);
+        }
+    }
 
     /**
      * execution method
@@ -55,27 +57,25 @@ abstract class AUpdater{
     /**
      * get the optional parameters to update a resource
      */
-    public function getUpdateParameters(){
+    public function getParameters(){
         return $this->parameters;
     }
     
     /**
      * get the required parameters
      */
-    public function getUpdateRequiredParameters(){
+    public function getRequiredParameters(){
         return $this->requiredParameters;
     }
     
     /**
-     * get the optional parameters
+     * set the parameter
      */
-    public function getOptionalParameters(){
-        return $this->optionalParameters;
-    }
+    abstract protected function setParameter($key,$value);
     
     /**
      * get the documentation about updating a resource
      */
-    public function getUpdateDocumentation();    
+    public function getDocumentation();    
 }
 ?>

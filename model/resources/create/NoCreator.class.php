@@ -9,31 +9,16 @@
  * @author Jan Vansteenlandt
  */
 
-include_once("model/ICreator.php");
-
 /**
  * When creating a resource, we always expect a PUT method!
  */
-abstract class NoCreator implements ICreator{
+class NoCreator extends ACreator{
 
     protected $parameters = array();
     protected $requiredParameters = array();
     
-    /**
-     * process the parameters
-     */
-    public function processCreateParameters($parameters){
-        // process every parameters passed along with the creation requests
-        // and assign them to the correct parameter belonging to the Creator-class
-        $allowedParameters = array_keys($this->parameters);
-	foreach($allowedParameters as $key => $value){
-            //check whether this parameter is in the documented parameters
-            if(isset($allowedParameters[$key])){
-                $this->setParameter($key,$value);
-            }else{
-                throw new ParameterDoesntExistTDTException($key);
-            }
-        }
+    public function setParameter($key,$value){
+        
     }
 
 

@@ -16,6 +16,11 @@ class RemoteResourceReader extends AReader{
     public function __construct($package,$resource){
         parent::__construct($package,$resource);
         $this->fetchResource();
+        /*
+         * add the necessary parameters (optional and required)
+         */
+        $this->parameters[] = $this->remoteResource->parameters;
+        $this->requiredParameters[] = $this->remoteResource->requiredParameters;
         
     }
     
@@ -23,18 +28,20 @@ class RemoteResourceReader extends AReader{
      * execution method
      */
     public function read(){
-	//extract the right parameters and concatenate them to create the right URL
+	//extract the right parameters (the non optional ones) and concatenate them to create the right URL
 	$params = "?";
-	foreach($this->optionalparams as $key => $val){
-	    $params .= $key . "=" . urlencode($val) . "&";
+	foreach(array_keys($this->parameters) as $key){
+            if(!isset($this->requiredParameters[$key]) && isset($this->$key)){   
+                $params .= $key . "=" . urlencode($this->$key) . "&";
+            }
 	}
 	$params = rtrim($params, "&");
 
 	//the url consists of the baseurl (this has a trailing slash and contains the subdir) - the resource is a specifier in the baseurl
 	//params is a url containing the possible 
 	$url = $this->base_url . $this->package . "/".$this->resource . "/";
-        foreach($this->requiredparametervalues as $param){
-            $url = $url . $param."/";
+        foreach($this->requiredParameters as $param){
+            $url = $url . $this->$param."/";
         }
         $url= rtrim($url, "/");
         //add format: php because we're going to deserialize this
@@ -77,7 +84,6 @@ class RemoteResourceReader extends AReader{
     }
     
     protected function setParameter($name,$val){
-        //add the parameters to $this
 	$this->$name = $val;
     }
 

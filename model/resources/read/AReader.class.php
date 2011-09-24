@@ -8,13 +8,12 @@
  * @author Jan Vansteenlandt
  */
 
-class AReader{
+abstract class AReader{
 
     public static $BASICPARAMS = array("callback", "filterBy","filterValue","filterOp");
     // package and resource are always the two minimum parameters
     protected $parameters = array();
     protected $requiredParameters = array();
-    protected $optionalParameters = array();
     protected $package;
     protected $resource;
 
@@ -28,21 +27,36 @@ class AReader{
      */
     abstract public function read();
 
-    public function processParameters(){
+    public function processParameters($parameters){
 	// Check all GET parameters and give them to setParameter, which needs to be handled by the extended method.
-	foreach($_GET as $key => $value){
+	foreach($parameters as $key => $value){
 	    //the method and module will already be parsed by another system
 	    //we don't need the format as well, this is used by printer
 	    if(!in_array($key,self::$BASICPARAMS)){
 		//check whether this parameter is in the documented parameters
-		$params = $this->getParameters();
-		if(isset($params[$key])){
-		    $this->setParameter($key,$value);
-		}else{
-		    throw new ParameterDoesntExistTDTException($key);
-		}
+                if(!isset($this->parameters[$key])){
+                    throw new ParameterDoesntExistTDTException($key);
+                }else if(in_array($key,$this->requiredParameters)){
+                    $this->$key = $value;
+                }
 	    }
 	}
+
+        /*
+         * check if all requiredparameters have been set
+         */
+        foreach($this->requiredParameters as $key){
+            if($this->$key == ""){
+                throw new ParameterTDTException("Required parameter ".$key ." has not been passed");
+            }
+        }
+
+        /*
+         * set the parameters
+         */
+        foreach($parameters as $key => $value){
+            $this->setParameter($key,$value);
+        }
     }
 
     abstract protected function setParameter($key, $value);
@@ -60,7 +74,7 @@ class AReader{
      * @return Array with all the optional Read parameters
      */
     public function getParameters(){
-        return $this->optionalParameters;
+        return $this->parameters;
     }
     
     /**

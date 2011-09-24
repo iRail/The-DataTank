@@ -26,8 +26,12 @@ class RemoteResourceCreator extends ACreator{
         /**
          * Add the required parameters
          */
-        $this->requiredParameters["base_url"] = "";
-        $this->requiredParameters["package_name"] = "";
+        $this->requiredParameters[] = "base_url";
+        $this->requiredParameters[] = "package_name";
+    }
+
+    protected function setParameter($key,$value){
+        $this->$key = $value;
     }
 
     /**
@@ -38,15 +42,13 @@ class RemoteResourceCreator extends ACreator{
     public function create(){
 
         // format the base url
-        $base_url = $this->requiredParameters["base_url"];
+        $base_url = $this->base_url;
         if(substr(strrev($base_url),0,1) != "/"){
             $base_url .= "/";
         }
-
-        $packagename = $this->requiredParameters["package_name"];
         
         // 1. First check if it really exists on the remote server
-        $url = $base_url."TDTInfo/Resources/" . $content["package_name"] . "/". $resource .".php";
+        $url = $base_url."TDTInfo/Resources/" . $this->package_name . "/". $this->resource .".php";
         $options = array("cache-time" => 1); //cache for 1 second
         $request = TDT::HttpRequest($url, $options);
         if(isset($request->error)){

@@ -12,15 +12,31 @@ include_once("model/DBQueries.class.php");
 class DB extends ATabularData{
 
     public function __construct(){
-        $this->parameters[] = "db_type";
-        $this->parameters[] = "db_name";
-        $this->parameters[] = "db_table";
-        $this->parameters[] = "db_port";
-        $this->parameters[] = "db_user";
-        $this->parameters[] = "db_password";
+        
+        $this->addParameters["db_type"] = "The type of the database engine, i.e. MySQL,PostgreSQL,SQLite.";
+        $this->addParameters["db_name"] = "The name of the database of which a table is to be published.";
+        $this->addParameters["db_table"] = "The name of the databas table that's supposed to be published.";
+        $this->addParameters["db_host"] = "The host to connect to in order to get access to the database.";
+        $this->addParameters["db_user"] = "The user to log into the database.";
+        $this->addParameters["db_password"] = "The password to log into the database.";
+        $this->addParameters["db_port"] = "The port to connect to on the host in order to get access to the database.";
+        $this->addParameters["columns"] = "The columns to publish.";
+        $this->addParameters["PK"] = "The primary key for each row.";
 
-        $this->requiredParameters[] = $this->parameters;
-        $this->parameters[] = "db_host";
+        $this->requiredAddParameters[] = "db_type";
+        $this->requiredAddParameters[] = "db_name";
+        $this->requiredAddParameters[] = "db_table";
+        $this->requiredAddParameters[] = "db_port";
+        $this->requiredAddParameters[] = "db_user";
+        $this->requiredAddParameters[] = "db_password";
+        $this->requiredAddParameters[] = "columns";
+
+        /**
+         * parameters for foreign key relations
+         */
+        $this->updateActions[] = "foreign_relation";
+        
+        
     }
     
 
@@ -134,44 +150,20 @@ class DB extends ATabularData{
         DBQueries::deleteDBResource($package, $resource);
     }
 
-    public function onAdd($package_id, $resource_id,$content){
-        $this->evaluateDBResource($resource_id,$content);
-        parent::evaluateColumns($content["columns"],$content["PK"],$resource_id);
+    public function onAdd($package_id, $resource_id){
+        if(!isset($this->PK)){
+            $this->PK = "";
+        }
+        $this->evaluateDBResource($resource_id);
+        parent::evaluateColumns($this->columns,$this->PK,$resource_id);
     }
     
 
-    private function evaluateDBResource($resource_id,$put_vars){
+    private function evaluateDBResource($resource_id){
 
-        /*
-         * NOTE: normally this is now done for you in the GenericResourceCreator, needs testing though
-         * therefore the comments.
-         * Check if all the parameters are passed along
-         */
-        /*$fieldsToCheck = array("db_type","db_name","db_table","host","port","db_user","db_password");
-        foreach($fieldsToCheck as $field){
-            if(!isset($put_vars[$field])){
-                if($field == "port"){ // port is not a required parameter
-                    $put_vars["port"] = "";
-                } else{
-                    throw new ParameterTDTException("The necessary parameter ".$field . " is not specified!");
-                }
-            }
-            }*/
-
-        DBQueries::storeDBResource($resource_id, $put_vars["db_type"], $put_vars["db_name"], 
-                                   $put_vars["db_table"], $put_vars["host"], $put_vars["port"],
-                                   $put_vars["db_user"], $put_vars["db_password"]);
-    }
-
-
-    public function onUpdate($package,$resource,$content){
-        if(isset($content["update_type"]) && 
-           isset($this->updateActions[$content["update_type"]])){
-                $updateAction = $this->updateActions[$content["update_type"]];
-                $updateAction->update($package,$resource,$content);
-        }else{
-            throw new ResourceUpdateTDTException ("update type hasn't been specified or isn't applicable for the given package and resource: $package/$resource");
-        }
+        DBQueries::storeDBResource($resource_id, $this->db_type, $this->db_name, 
+                                   $this->db_table, $this->host, $this->port,
+                                   $this->db_user , $this->db_password);
     }
 }
 ?>

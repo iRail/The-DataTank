@@ -11,43 +11,50 @@ abstract class ACreator{
 
     protected $parameters = array();
     protected $requiredParameters = array();
-    protected $optionalParameters = array();
 
     public function __construct(){
         $this->parameters["resource_type"] = "The type of the resource.";
         $this->parameters["package"] = "Name of the package to add the resource to.";
         $this->parameters["resource"] = "Name of the resource.";
 
-        $this->requiredParameters["resource_type"] = "";
-        $this->requiredParameters["package"] = "";
-        $this->requiredParameters["resource"] = "";
+        $this->requiredParameters[] = "resource_type";
+        $this->requiredParameters[] = "package";
+        $this->requiredParameters[] = "resource";
     }    
 
     /**
      * process the parameters
      */
     public function processCreateParameters($parameters){
-        // process every parameters passed along with the creation requests
-        // and assign them to the correct parameter belonging to the Creator-class
-        $allowedParameters = array_keys($this->parameters);
-	foreach($allowedParameters as $key => $value){
+	foreach($parameters as $key => $value){
             //check whether this parameter is in the documented parameters
-            if(isset($this->requiredParameters[$key])){
-                $this->optionalParameters[$key] = $value;
-            }else if(isset($this->optionalParameters[$key])){
-                $this->requiredParameters[$key] = $value;
-            }else{
+            if(!isset($this->parameters[$key])){
                 throw new ParameterDoesntExistTDTException($key);
+            }else if(in_array($key,$this->requiredParameters)){
+                    $this->$key = $value;
             }
         }
-        // check if all requiredparameters have been set
-       
-        foreach($this->requiredParameters as $key => $value){
-            if($value == ""){
+        /*
+         * check if all requiredparameters have been set
+         */
+        foreach($this->requiredParameters as $key){
+            if($this->$key == ""){
                 throw new ParameterTDTException("Required parameter ".$key ." has not been passed");
             }
         }
+
+        /*
+         * set the parameters
+         */
+        foreach($parameters as $key => $value){
+            $this->setParameter($key,$value);
+        }
     }
+
+    /**
+     * set parameters, we leave this to the subclass
+     */
+    abstract protected function setParameter($key,$value);
 
     /**
      * execution method
@@ -71,13 +78,6 @@ abstract class ACreator{
     }
 
     /**
-     * get the optional parameters
-     */
-    public function getOptionalParameters(){
-        return $this->optionalParameters;
-    }
-
-    /**
      * get the documentation about the addition of a resource
      * @return string containing a description about the class
      */
@@ -93,7 +93,7 @@ abstract class ACreator{
             "SELECT package.id as id 
              FROM package 
              WHERE package_name=:package_name",
-            array(":package_name"=>$this->requiredParameters["package"])
+            array(":package_name"=>$this->package)
         );
         
         if(sizeof($result) == 0){
@@ -117,16 +117,16 @@ abstract class ACreator{
             "SELECT resource.id
              FROM resource, package
              WHERE :package_id = package.id and resource.resource_name =:resource and resource.package_id = package.id",
-            array(":package_id" => $package_id, ":resource" => $this->requiredParameters["resource"])
+            array(":package_id" => $package_id, ":resource" => $this->resource)
         );
 
         if(sizeof($checkExistence) == 0){
             $newResource = R::dispense("resource");
             $newResource->package_id = $package_id;
-            $newResource->resource_name =  $this->requiredParameters["resource"];
+            $newResource->resource_name =  $this->resource;
             $newResource->creation_timestamp = time();
             $newResource->last_update_timestamp = time();
-            $newResource->type =  $this->requiredParameters["resource_type"];
+            $newResource->type =  $this->resource_type;
             return R::store($newResource);
         }
         return $checkExistence[0]["id"];

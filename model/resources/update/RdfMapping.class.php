@@ -14,14 +14,24 @@ class RdfMapping extends AUpdater{
 
     public function __construct($package,$resource){
         parent::__construct($package,$resource);
+        $this->parameters["rdf_mapping_method"] = "The method by which the rdf should be mapped.";
+        $this->parameters["rdf_mapping_bash"] = "If this is set, that indicates that there are multiple related resources to be mapped.";
+        $this->parameters["rdf_mapping_class"] = "The RDF class to map to the resource.";
+        $this->parameters["rdf_mapping_nmsp"] = "The namespace of the RDF mapping.";
         
+        $this->requiredParameters = array_keys($this->parameters);
     }
     
     public function update(){
         $rdfmapper = new RDFMapper();
         //need full path for adding semantics!!
         $resource = RequestURI::getInstance()->getRealWorldObjectURI();
-        $rdfmapper->update($this->package,$this->resource,$content);
+        $params = array();
+        foreach(array_keys($parameters) as $key){
+            $params[] = $this->$key;
+        }
+        
+        $rdfmapper->update($this->package,$this->resource,$params);
     }
 }
 ?>
