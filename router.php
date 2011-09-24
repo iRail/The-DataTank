@@ -22,12 +22,7 @@ include_once('controllers/CUDController.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
 include_once('RequestURI.class.php');
-include_once('model/AResourceFactory.class.php');
-include_once('model/GenericResourceFactory.class.php');
-include_once('model/InstalledResourceFactory.class.php');
-include_once('model/RemoteResourceFactory.class.php');
 include_once('model/ResourcesModel.class.php');
-include_once('model/resources/AResource.class.php');
 
 include_once('model/semantics/RDFMapper.class.php');
 include_once('model/semantics/RDFOutput.class.php');
@@ -76,15 +71,6 @@ try {
 } 
 catch(Exception $e){
     ErrorHandler::logException($e);
-}
-
-//TODO Werner: needs to move.
-class FeedbackHandler {    
-    function POST($matches) {
-        require_once ('PostMessage.class.php');
-        $post = new PostMessage();
-        $post->post();
-    }
 }
 
 ?>

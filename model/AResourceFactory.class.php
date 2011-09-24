@@ -9,6 +9,26 @@
  */
 
 abstract class AResourceFactory{
+
+    /**
+     * Quickly check if this factory has a specific resource
+     * @param package the name of the package the resource has
+     * @param resource the name of the resource
+     * @return boolean whether or not this factory has the package
+     */
+    public function hasResource($package,$resource){
+        foreach($this->getAllResourceNames() as $packagename => $resourcenames){
+            foreach($resourcenames as $resourcename){
+                if($resourcename == $resource && $package == $packagename){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    abstract protected function getAllResourceNames();
+
     /**
      * Creates an instance of a creator class.
      * @param $package the new package of the resource. It may exist already

@@ -1,17 +1,12 @@
 <?php
-  /**
-   * This file contains the Messages method needed for the feedback concept.
-   * @package The-DataTank/packages/Feedback/
-   * @copyright (C) 2011 by iRail vzw/asbl 
-   * @author: Werner Laurensse <el.lauwer aŧ gmail.com>
-   * @license: AGPLv3
-   */
-
-include_once("model/resources/AResource.class.php");
-
 /**
- * Class messages. Allows to push a feedback for a certain method.
+ * This file contains the Messages method needed for the feedback concept.
+ * @package The-DataTank/packages/Feedback/
+ * @copyright (C) 2011 by iRail vzw/asbl 
+ * @author: Werner Laurensse <el.lauwer aŧ gmail.com>
+ * @license: AGPLv3
  */
+
 class Messages extends AResource {
     private $lang;
     private $system;
@@ -41,7 +36,7 @@ class Messages extends AResource {
 	$this->$name = $val;
     }
 
-    public static function getAllowedPrintMethods() {
+    public static function getAllowedFormatters() {
         return array("php","xml","json","jsonp");
     }
 

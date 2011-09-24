@@ -1,6 +1,6 @@
 <?php
 /**
- * Will combine all other factories in 1 factory! This is the model for Controller.class.php.
+ * This is the model for our application. You can access everything from here
  *
  * @package The-Datatank/model
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -16,7 +16,7 @@ include_once("model/RemoteResourceFactory.class.php");
 include_once("model/CoreResourceFactory.class.php");
 include_once("model/Doc.class.php");
 
-class ResourcesModel extends AResourceFactory{
+class ResourcesModel{
 
     private static $instance;
 
@@ -50,14 +50,16 @@ class ResourcesModel extends AResourceFactory{
     }
     
     /**
-     * Checks the doc whether this exists
+     * Checks the doc whether a certain resource exists in our system.
+     * We will look for a definition in the documentation. Of course,
+     * the result of the documentation visitor class will be cached
      * @return a boolean
      */
-    private function hasResource($package,$resource){
+    public function hasResource($package,$resource){
         $doc = $this->getAllDoc();
         foreach($doc as $packagename => $resourcenames){
             if($package == $packagename){
-                foreach($resourcenames as $resourcename){
+                foreach($resourcenames as $resourcename => $var){
                     if($resourcename == $resource){
                         return true;
                     }
@@ -100,7 +102,7 @@ class ResourcesModel extends AResourceFactory{
         foreach($this->factories as $factory){
             if($factory->hasResource($package, $resource)){
                 $reader = $factory->createReader($package,$resource,$parameters);
-                $reader->read();
+                return $reader->read();
             }
         }
     }
@@ -137,8 +139,8 @@ class ResourcesModel extends AResourceFactory{
      */
     public function getAllDoc(){
         $doc = new Doc();
-        $doc->visitAll($this->factories);
-        return $doc;
+        $d = $doc->visitAll($this->factories);
+        return $d;
     }
     
 }

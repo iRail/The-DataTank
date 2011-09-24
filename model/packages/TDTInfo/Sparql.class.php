@@ -25,7 +25,7 @@ class Sparql extends AResource {
     }
 
 
-    public static function getAllowedPrintMethods() {
+    public static function getAllowedFormatters() {
         return array("html","xml");
     }
 

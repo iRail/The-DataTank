@@ -38,7 +38,7 @@ class Exceptions extends AResource {
         return $o;
     }
     
-    public static function getAllowedPrintMethods() {
+    public static function getAllowedFormatters() {
         return array("json", "xml", "jsonp", "php", "html");
     }
     

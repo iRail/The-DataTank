@@ -8,24 +8,36 @@
  * @author Jan Vansteenlandt
  * @author Pieter Colpaert
  */
-include_once("model/resources/RemoteResource.class.php");
+include_once("model/resources/AResource.class.php");
 
 class RemoteResourceFactory extends AResourceFactory{
 
+    protected function getAllResourceNames(){
+        $resultset = DBQueries::getAllRemoteResourceNames();        
+        $resources = array();
+        foreach($resultset as $result){
+            if(!isset($resources[$result["package_name"]])){
+                $resources[$result["package_name"]] = array();
+            }
+            $resources[$result["package_name"]][] = $result["res_name"];
+        }
+        return $resources;
+    }
+
     public function createCreator($package,$resource, $parameters){
         include_once("model/resources/create/RemoteResourceCreator.class.php");
-        //todo: give parameters to the creator through processparameters
-        return new RemoteResourceCreator();
+        $creator = new RemoteResourceCreator();
+        $creator->processParameters($parameters);
+        return $creator;
     }
     
     public function createReader($package,$resource, $parameters){
         include_once("model/resources/read/RemoteResourceReader.class.php");
-        return new RemoteResourceReader($package, $resource);
+        $reader = new RemoteResourceReader($package, $resource);
+        $reader->processParameters($parameters);
+        return $reader;
     }
     
-    public function createUpdater($package,$resource, $parameters){
-        
-    }
     
     public function createDeleter($package,$resource){
         
@@ -33,7 +45,11 @@ class RemoteResourceFactory extends AResourceFactory{
     
     public function makeDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
+            if(!isset($doc->$package)){
+                $doc->$package = new StdClass();
+            }
             foreach($resourcenames as $resource){
+                $doc->$resource = new StdClass();
                 $doc->$package->$resource = $this->fetchResourceDocumentation($package, $resource);
             }
         }

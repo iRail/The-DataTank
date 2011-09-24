@@ -27,14 +27,20 @@ class InstalledResourceFactory extends AResourceFactory{
     public function makeDoc($doc){
         //ask every resource we have for documentation
         foreach($this->getAllResourceNames() as $package => $resourcenames){
+            if(!isset($doc->$package)){
+                $doc->$package = new StdClass();
+            }
             foreach($resourcenames as $resourcename){
+                $doc->$package->$resourcename = new StdClass();
                 include_once("custom/packages/" . $package . "/" . $resourcename . ".class.php");
-                $docs->$package->$resourcename->doc = $resourcename::getDoc();
-                $docs->$package->$resourcename->requiredparameters = $resourcename::getRequiredParameters();
-		$docs->$package->$resourcename->parameters = $resourcename::getParameters();
-		$docs->$package->$resourcename->formats = $resourcename::getAllowedFormats();
-                $docs->$package->$resourcename->creation_timestamp = $this->getCreationTime($package,$resource);
-                $docs->$package->$resourcename->modification_timestamp = $this->getModificationTime($package,$resource);
+                $doc->$package->$resourcename->doc = $resourcename::getDoc();
+                $doc->$package->$resourcename->requiredparameters = $resourcename::getRequiredParameters();
+		$doc->$package->$resourcename->parameters = $resourcename::getParameters();
+                if(function_exists("$resourcename::getAllowedFormatters")){
+                    $doc->$package->$resourcename->formats = $resourcename::getAllowedFormatters();
+                }
+                $doc->$package->$resourcename->creation_timestamp = $this->getCreationTime($package,$resourcename);
+                $doc->$package->$resourcename->modification_timestamp = $this->getModificationTime($package,$resourcename);
             }
         }
     }
@@ -53,7 +59,7 @@ class InstalledResourceFactory extends AResourceFactory{
         return $this->getCreationTime($package, $resource);
     }
 
-    private function getAllResourceNames(){
+    protected function getAllResourceNames(){
         $packages = array();
         //open the custom directory and loop through it
         if ($handle = opendir('custom/packages')) {
@@ -66,7 +72,6 @@ class InstalledResourceFactory extends AResourceFactory{
             }
             closedir($handle);
         }
-        
         return $packages;
    }
 }

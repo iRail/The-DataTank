@@ -20,16 +20,13 @@ class Resources extends AResource{
     }
 
     public function setParameter($key,$val){
+        //we don't have any parameters
     }
 
     public function call(){
 	$resmod = ResourcesModel::getInstance();
-	$o = $resmod->getAllDocs();
+	$o = $resmod->getAllDoc();
 	return $o;
-    }
-     
-    public static function getAllowedPrintMethods(){
-	return array("json","xml", "jsonp", "php", "html", "rdf_xml", "rdf_n3");
     }
 
     public static function getDoc(){

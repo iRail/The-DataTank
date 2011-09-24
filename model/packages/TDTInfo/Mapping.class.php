@@ -39,11 +39,7 @@ class Mapping extends AResource {
         }
     }
 
-    public function processParameters() {
-        parent::processParameters();
-    }
-
-    public static function getAllowedPrintMethods() {
+    public static function getAllowedFormatters() {
         return array("html", "rdf_xml", "rdf_ntriple", "rdf_n3", "rdf_json");
     }
 

@@ -170,7 +170,7 @@ class Queries extends AResource{
         return $this->queryResults;
     }
 
-    public static function getAllowedPrintMethods(){
+    public static function getAllowedFormatters(){
         return array("json","xml", "jsonp", "php", "html");
     }
 
