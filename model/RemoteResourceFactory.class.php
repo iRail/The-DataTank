@@ -12,6 +12,11 @@ include_once("model/resources/AResource.class.php");
 
 class RemoteResourceFactory extends AResourceFactory{
 
+    public function hasResource($package,$resource){
+	$rn = $this->getAllResourceNames();
+        return isset($rn[$package]) && in_array($resource, $rn[$package]);
+    }
+
     protected function getAllResourceNames(){
         $resultset = DBQueries::getAllRemoteResourceNames();        
         $resources = array();
@@ -33,14 +38,15 @@ class RemoteResourceFactory extends AResourceFactory{
     
     public function createReader($package,$resource, $parameters){
         include_once("model/resources/read/RemoteResourceReader.class.php");
-        $reader = new RemoteResourceReader($package, $resource);
+        $reader = new RemoteResourceReader($package, $resource, $this->fetchResourceDocumentation($package,$resource));
         $reader->processParameters($parameters);
         return $reader;
     }
     
     
     public function createDeleter($package,$resource){
-        
+        include_once("model/resources/delete/RemoteResourceDeleter.class.php");
+        return new RemoteResourceDeleter();
     }
     
     public function makeDoc($doc){
@@ -62,8 +68,6 @@ class RemoteResourceFactory extends AResourceFactory{
      * every single call to this factory. If we receive a call
      * for another resource, we replace it by the newly asked factory.
      */
-    private $currentRemoteResource;
-
     private function fetchResourceDocumentation($package,$resource){
         $result = DBQueries::getRemoteResource($package, $resource);
         if(sizeof($result) == 0){
@@ -76,15 +80,15 @@ class RemoteResourceFactory extends AResourceFactory{
             throw new HttpOutTDTException($url);
         }
         $data = unserialize($request->data);
-        $this->currentRemoteResource = new stdClass();
-        $this->currentRemoteResource->package = $package;
-        $this->currentRemoteResource->remote_package = $result["package"];
-        $this->currentRemoteResource->doc = $data["doc"];
-        $this->currentRemoteResource->resource = $resource;
-        $this->currentRemoteResource->formats = $data["formats"];
-        $this->currentRemoteResource->base_url = $result["url"];
-        $this->currentRemoteResource->parameters = $data["parameters"];
-        $this->currentRemoteResource->requiredparameters = $data["requiredparameters"];
+        $remoteResource = new stdClass();
+        $remoteResource->package = $package;
+        $remoteResource->remote_package = $result["package"];
+        $remoteResource->doc = $data["doc"];
+        $remoteResource->resource = $resource;
+        $remoteResource->base_url = $result["url"];
+        $remoteResource->parameters = $data["parameters"];
+        $remoteResource->requiredparameters = $data["requiredparameters"];
+        return $remoteResource;
     }
     
 }

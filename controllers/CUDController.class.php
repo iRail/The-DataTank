@@ -21,10 +21,10 @@ class CUDController extends AController{
         $package = $matches["package"];
         $resource = trim($matches["resource"]);
         $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
         if($resource == ""){
-            $allresources = $model->getAllResourceNames();
-            if(isset($allresources[$package])){    
-                throw new NoResourceGivenTDTException($allresources[$package]);
+            if(isset($doc->$package)){    
+                throw new NoResourceGivenTDTException(get_object_vars($doc->$package));
             } else{
                 throw new NoResourceGivenTDTException(array());
             }
@@ -36,14 +36,8 @@ class CUDController extends AController{
         }
 
         //get the current URL
-        $pageURL = 'http';
-        if (isset($_SERVER["HTTPS"])) {$pageURL .= "s";}
-        $pageURL .= "://";
-        if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-        } else {
-            $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-        }
+        $ru = RequestURI::getInstance();
+        $pageURL = $ru->getURI();
         $pageURL = rtrim($pageURL, "/");
         //add .about before the ?
         if(sizeof($_GET)>0){

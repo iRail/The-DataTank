@@ -13,6 +13,11 @@ include_once("model/resources/AResource.class.php");
 
 class GenericResourceFactory extends AResourceFactory {
 
+    public function hasResource($package,$resource){
+        $resource = DBQueries::hasGenericResource($package, $resource);
+        return isset($resource["present"]) && $resource["present"] == 1;   
+    }
+
     public function createCreator($package,$resource, $parameters){
         include_once("model/resources/create/GenericResourceCreator.class.php");
         if(!isset($parameters["generic_type"])){
@@ -37,17 +42,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     public function makeDoc($doc){
-        //ask every resource we have for documentation
-        foreach($this->getAllResourceNames() as $package => $resourcenames){
-            foreach($resourcenames as $resourcename){
-                include_once("model/packages/" . $package . "/" . $resourcename . ".class.php");
-                $docs->$package->$resourcename->doc = $resourcename::getDoc();
-                $docs->$package->$resourcename->requiredparameters = $resourcename::getRequiredParameters();
-                $docs->$package->$resourcename->parameters = $resourcename::getParameters();
-                $docs->$package->$resourcename->creation_timestamp = $this->getCreationTime($package,$resource);
-                $docs->$package->$resourcename->modification_timestamp = $this->getModificationTime($package,$resource);
-            }
-        }
+        
     }
 
     protected function getAllResourceNames(){

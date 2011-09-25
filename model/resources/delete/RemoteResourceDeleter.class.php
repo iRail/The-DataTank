@@ -1,28 +1,25 @@
 <?php
 /**
- * Abstract class to delete a resource
+ * Class to delete a remote resource
  *
  * @package The-Datatank/model/resources/delete
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
+include_once("ADeleter.class.php");
 
-abstract class ADelete{
-    
-    protected $package;
-    protected $resource;
+class RemoteResourceDeleter extends ADelete{
     
     public function __construct($package,$resource){
-        $this->package = $package;
-        $this->resource = $resource;
+        parent::__construct($package,$resource);
     }
-    
 
     /**
      * execution method
      */
-    abstract public function delete();
-    
+    public function delete(){
+       DBQueries::deleteRemotePackage($package);
+    }
 }
 ?>

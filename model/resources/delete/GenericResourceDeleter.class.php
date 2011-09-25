@@ -7,9 +7,9 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once("ADelete.class.php");
+include_once("ADeleter.class.php");
 
-class GenericResourceDelete extends ADelete{
+class GenericResourceDeleter extends ADeleter{
     
     public function __construct($package,$resource){
         parent::__construct($package,$resource);
