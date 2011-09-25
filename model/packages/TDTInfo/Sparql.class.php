@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Sparql extends AResource {
+class Sparql extends AReader {
 
     private $result;
 

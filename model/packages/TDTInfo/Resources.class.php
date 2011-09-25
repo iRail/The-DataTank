@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Resources extends AResource{
+class Resources extends AReader{
 
     public static function getParameters(){
 	return array();

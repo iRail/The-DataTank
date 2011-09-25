@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Exceptions extends AResource {
+class Exceptions extends AReader {
     
     public static function getParameters() {
         return array();
