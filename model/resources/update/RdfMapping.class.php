@@ -13,17 +13,22 @@ class RdfMapping extends AUpdater {
 
     public function __construct($package, $resource) {
         parent::__construct($package, $resource);
-        $this->parameters["rdf_mapping_method"] = "The method by which the rdf should be mapped.";
-        $this->parameters["rdf_mapping_bash"] = "If this is set, that indicates that there are multiple related resources to be mapped.";
-        $this->parameters["rdf_mapping_class"] = "The RDF class to map to the resource.";
-        $this->parameters["rdf_mapping_nmsp"] = "The namespace of the RDF mapping class.";
-
-        $this->requiredParameters[] = "rdf_mapping_method";
-        //$this->parameters[] = "rdf_mapping_bash";
-        //$this->parameters[] = "rdf_mapping_class";
-        //$this->parameters[] = "rdf_mapping_nmsp";
     }
 
+    public function getParameters(){
+        return array(
+            "update_type" => "...",
+            "rdf_mapping_method" => "The method by which the rdf should be mapped.",
+            "rdf_mapping_bash" => "If this is set, that indicates that there are multiple related resources to be mapped.",
+            "rdf_mapping_class" => "The RDF class to map to the resource.",
+            "rdf_mapping_nmsp" => "The namespace of the RDF mapping class."
+        );
+    }
+    
+    public function getRequiredParameters(){
+        return array("rdf_mapping_method");
+    }
+    
     public function getDocumentation() {
         return "This class will assign a RDF mapping to an URI";
     }

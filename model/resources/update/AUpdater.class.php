@@ -18,9 +18,6 @@ abstract class AUpdater {
     public function __construct($package, $resource) {
         $this->package = $package;
         $this->resource = $resource;
-
-        //Miel: Added this for not having an ParameterDoesntExistTDTException on POST variable update_type
-        $this->parameters['update_type'] = '';
     }
 
     /**
@@ -29,11 +26,10 @@ abstract class AUpdater {
     public function processParameters($parameters) {
         foreach ($parameters as $key => $value) {
             //check whether this parameter is in the documented parameters
-            if (!isset($this->parameters[$key])) {
+            if (!in_array($key,array_keys($this->getParameters()))) {
                 throw new ParameterDoesntExistTDTException($key);
-            } else if (in_array($key, $this->requiredParameters)) {
-                $this->setParameter($key, $value);
             }
+            $this->setParameter($key, $value);
         }
         // check if all requiredparameters have been set
         foreach ($this->requiredParameters as $key) {
@@ -42,34 +38,12 @@ abstract class AUpdater {
                 throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
             }
         }
-
-
-        /*
-         * set the parameters
-         */
-        foreach ($parameters as $key => $value) {
-            $this->setParameter($key, $value);
-        }
     }
 
     /**
      * execution method
      */
     abstract public function update();
-
-    /**
-     * get the optional parameters to update a resource
-     */
-    public function getParameters() {
-        return $this->parameters;
-    }
-
-    /**
-     * get the required parameters
-     */
-    public function getRequiredParameters() {
-        return $this->requiredParameters;
-    }
 
     /**
      * set the parameter
