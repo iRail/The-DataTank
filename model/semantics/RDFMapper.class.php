@@ -28,8 +28,8 @@ class RDFMapper {
      * @access	public
      */
     public function update($tdt_package, $tdt_resource, $content) {
-        
-         if (isset($content['rdf_mapping_method'])) {
+
+        if (isset($content['rdf_mapping_method'])) {
             //If rdf_mapping_bash is set, user wants to map multiple related resources instead of only this resource
             if (isset($content['rdf_mapping_bash'])) {
                 //Call method stripResourcePath to get the base url
@@ -57,14 +57,13 @@ class RDFMapper {
             throw new RdfTDTException('Mapping method not specified');
         }
     }
-    
+
     /**
      * Removes the last rest parameter
      *
      * @param string $tdt_resource URI of the resource
-     * @return string URI without trailing slash 
+     * @return string URI without trailing slash
      */
-
     private function stripResourcePath($tdt_resource) {
         //We need to rewrite the resource url to add the right mapping
         //Find position of last slash
@@ -106,6 +105,12 @@ class RDFMapper {
         }
     }
 
+    /**
+     * Gets the current URI of the mapping model
+     *
+     * @param string $tdt_package
+     * @return string
+     */
     private function getMappingURI($tdt_package) {
         return $mapURI = Config::$HOSTNAME . Config::$SUBDIR . $tdt_package . '/';
     }
@@ -246,11 +251,11 @@ class RDFMapper {
             $resource->removeAll($property);
         }
         $resource->addProperty($property, $object);
-        
+
         $iterator = $this->lookupEquals($model, $tdt_resource);
-        while ($iterator->valid()){
+        while ($iterator->valid()) {
             $iterator->next();
-            $obj=$iterator->getObject();
+            $obj = $iterator->getObject();
             $obj->addProperty($property, $object);
         }
     }
@@ -276,7 +281,7 @@ class RDFMapper {
 
         $resource->addProperty($equals_prop, $object);
         $object->addProperty($equals_prop, $resource);
-        
+
         //$map = $object->getProperty($maps_prop);
         //$resource->addProperty($maps_prop, $map);
     }
@@ -325,9 +330,6 @@ class RDFMapper {
             //rewrite URI to generic
             $tdt_resource = $this->stripResourcePath($tdt_resource) . '*';
             $mapping = $this->lookupMapping($model, $tdt_resource);
-            //return default owl:Thing type if there is no mapping specified
-            if (is_null($mapping))
-                return OWL_RES::THING();
         }
 
         //Object of the triple is the needed class
@@ -342,7 +344,7 @@ class RDFMapper {
 
         return $mapping;
     }
-    
+
     /**
      * Look up resources that are equal to this resource
      *
@@ -350,13 +352,11 @@ class RDFMapper {
      * @param string $tdt_resource
      * @return array Array of Statement objects containing equal resources
      */
-    
     private function lookupEquals($model, $tdt_resource) {
         $resource_res = $model->createResource($tdt_resource);
         $equals_prop = $model->createProperty(RDFConstants::$TDML_NS . "equals");
         return $resource_res->listProperties($equals_prop);
     }
-
 
 }
 

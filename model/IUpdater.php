@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-Interface IUpdater {
+Interface IUpdater{
  
     /**
      * execution method
