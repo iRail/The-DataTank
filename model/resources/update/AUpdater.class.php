@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Abstract class to update a resource
  *
@@ -7,45 +8,50 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
+abstract class AUpdater {
 
-abstract class AUpdater{
- 
     protected $package;
     protected $resource;
     protected $parameters = array();
     protected $requiredParameters = array();
-    
-    public function __construct($package,$resource){
+
+    public function __construct($package, $resource) {
         $this->package = $package;
         $this->resource = $resource;
+
+        //Miel: Added this for not having an ParameterDoesntExistTDTException on POST variable update_type
+        $this->parameters['update_type'] = '';
     }
 
     /**
      * process the parameters
      */
-    public function processCreateParameters($parameters){
-	foreach($parameters as $key => $value){
+    public function processParameters($parameters) {
+        foreach ($parameters as $key => $value) {
             //check whether this parameter is in the documented parameters
-            if(!isset($this->parameters[$key])){
+            if (!isset($this->parameters[$key])) {
                 throw new ParameterDoesntExistTDTException($key);
-            }else if(in_array($key,$this->requiredParameters)){
-                    $this->$key = $value;
+            } else if (in_array($key, $this->requiredParameters)) {
+                $this->$key = $value;
             }
         }
+
         /*
          * check if all requiredparameters have been set
          */
-        foreach($this->requiredParameters as $key){
-            if($this->$key == ""){
-                throw new ParameterTDTException("Required parameter ".$key ." has not been passed");
+        foreach ($this->requiredParameters as $key) {
+            if ($this->$key == "") {
+                throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
             }
         }
 
         /*
          * set the parameters
          */
-        foreach($parameters as $key => $value){
-            $this->setParameter($key,$value);
+        foreach ($parameters as $key => $value) {
+            echo $key.'<br>';
+            echo $value.'<br>';
+            $this->setParameter($key, $value);
         }
     }
 
@@ -57,25 +63,26 @@ abstract class AUpdater{
     /**
      * get the optional parameters to update a resource
      */
-    public function getParameters(){
+    public function getParameters() {
         return $this->parameters;
     }
-    
+
     /**
      * get the required parameters
      */
-    public function getRequiredParameters(){
+    public function getRequiredParameters() {
         return $this->requiredParameters;
     }
-    
+
     /**
      * set the parameter
      */
-    abstract protected function setParameter($key,$value);
-    
+    abstract protected function setParameter($key, $value);
+
     /**
      * get the documentation about updating a resource
      */
-    public function getDocumentation();    
+    abstract public function getDocumentation();
 }
+
 ?>

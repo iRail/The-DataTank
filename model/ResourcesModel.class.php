@@ -122,7 +122,7 @@ class ResourcesModel{
             throw new ParameterTDTException("update_type");
         }
         $updater = new $this->updateActions[$parameters["update_type"]]($package,$resource);
-        $updates->processParameters($parameters);
+        $updater->processParameters($parameters);
         $updater->update();
     }
     

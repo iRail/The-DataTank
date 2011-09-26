@@ -157,14 +157,13 @@ class RDFMapper {
         //Get all resources in package
         $doc = ResourcesModel::getInstance()->getAllDoc();
         //limit the rources to the required package
-        $allresources = $doc[$tdt_package];
+        
+        $allresources = get_object_vars($doc);
 
-        var_dump($doc);
-
-        foreach ($allresources as $resource => $val) {
+        foreach ($allresources[$tdt_package] as $resource => $val) {
 
             $resource_res = $model->createResource($this->getMappingURI($tdt_package) . $resource);
-            $resources_bag->add($resource_res);
+            $resources_list->add($resource_res);
 
             $resource_name_lit = $model->createTypedLiteral($resource, "datatype:STRING");
             $resource_res->addProperty($name_prop, $resource_name_lit);
