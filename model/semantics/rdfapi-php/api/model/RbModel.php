@@ -382,7 +382,7 @@ class RbModel extends DbModel {
             if (count($recordSet) > 0) {
                 if ($offset >= count($recordSet))
                     throw new DatabaseTDTException('Number of rows in result is not correct');
-                $recordSet = array($recordSet[($offset)]);
+                $recordSet = array($recordSet[($offset+1)]);
             }
         }
 

@@ -15,6 +15,8 @@ include_once("model/InstalledResourceFactory.class.php");
 include_once("model/RemoteResourceFactory.class.php");
 include_once("model/CoreResourceFactory.class.php");
 include_once("model/Doc.class.php");
+include_once("resources/update/RdfMapping.class.php");
+include_once("resources/update/ForeignRelation.class.php");
 
 class ResourcesModel{
 
@@ -120,7 +122,7 @@ class ResourcesModel{
             throw new ParameterTDTException("update_type");
         }
         $updater = new $this->updateActions[$parameters["update_type"]]($package,$resource);
-        $updates->processParameters($parameters);
+        $updater->processParameters($parameters);
         $updater->update();
     }
     
