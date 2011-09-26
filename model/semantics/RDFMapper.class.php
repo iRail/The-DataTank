@@ -125,13 +125,6 @@ class RDFMapper {
      * @access	public
      */
     private function buildNewMapping(&$model, $tdt_package) {
-        $tdt_model = ResourcesModel::getInstance();
-        $mapping = "";
-
-        $allresources = $tdt_model->getAllResourceNames();
-
-        //limit the rources to the required package
-        $allresources = $allresources[$tdt_package];
 
         $model->addNamespace("tdtml", RDFConstants::$TDML_NS);
         $model->addNamespace("owl", OWL_NS);
@@ -158,10 +151,17 @@ class RDFMapper {
         $package_res->addProperty($name_prop, $package_name_lit);
 
 
-        $resources_bag = $model->createBag();
-        $package_res->addProperty($has_resources_prop, $resources_bag);
+        $resources_list = $model->createList();
+        $package_res->addProperty($has_resources_prop, $resources_list);
 
-        foreach ($allresources as $resource) {
+        //Get all resources in package
+        $doc = ResourcesModel::getInstance()->getAllDoc();
+        //limit the rources to the required package
+        $allresources = $doc[$tdt_package];
+
+        var_dump($doc);
+
+        foreach ($allresources as $resource => $val) {
 
             $resource_res = $model->createResource($this->getMappingURI($tdt_package) . $resource);
             $resources_bag->add($resource_res);
@@ -330,7 +330,12 @@ class RDFMapper {
             //rewrite URI to generic
             $tdt_resource = $this->stripResourcePath($tdt_resource) . '*';
             $mapping = $this->lookupMapping($model, $tdt_resource);
+
+            if (is_null($mapping))
+            //Default mapping value
+                return OWL_RES::THING();
         }
+
 
         //Object of the triple is the needed class
         return $mapping->getObject();
