@@ -32,18 +32,17 @@ abstract class AUpdater {
             if (!isset($this->parameters[$key])) {
                 throw new ParameterDoesntExistTDTException($key);
             } else if (in_array($key, $this->requiredParameters)) {
-                $this->$key = $value;
+                $this->setParameter($key, $value);
             }
         }
-
-        /*
-         * check if all requiredparameters have been set
-         */
+        // check if all requiredparameters have been set
         foreach ($this->requiredParameters as $key) {
-            if ($this->$key == "") {
+            $pars = $this->getParameters();
+            if ($pars[$key] == "") {
                 throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
             }
         }
+
 
         /*
          * set the parameters
@@ -51,7 +50,6 @@ abstract class AUpdater {
         foreach ($parameters as $key => $value) {
             $this->setParameter($key, $value);
         }
-
     }
 
     /**
