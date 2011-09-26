@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This class respresents a sparql endpoint.
  *
@@ -8,7 +7,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Sparql extends AResource {
+class Sparql extends AReader {
 
     private $result;
 
@@ -19,14 +18,9 @@ class Sparql extends AResource {
     public static function getRequiredParameters() {
     }
 
-    public function call() {
+    public function read() {
         $this->getData();
         return $this->result;
-    }
-
-
-    public static function getAllowedPrintMethods() {
-        return array("html","xml");
     }
 
     private function getData() {

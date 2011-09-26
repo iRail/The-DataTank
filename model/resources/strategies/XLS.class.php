@@ -21,6 +21,12 @@ class XLS extends ATabularData {
         } else {
             throw new NotFoundTDTException("PHPExcel path not defined in config.class");		
         }
+        $this->parameters["url"] = "The path to the excel sheet (can be a url as well).";
+        $this->parameters["sheet"] = "The sheet name of the excel";
+        $this->parameters["columns"] = "The columns that are to be published.";
+        $this->parameters["PK"] = "The primary key for each row.";
+        
+        $this->requiredParameters[] = array_keys($this->parameters);
     }
 
     public function onCall($package,$resource){
@@ -114,19 +120,13 @@ class XLS extends ATabularData {
         DBQueries::deleteXLSResource($package, $resource);
     }
 
-    public function onAdd($package_id,$resource_id,$content){
-        $this->evaluateXLSResource($resource_id,$content);
-        parent::evaluateColumns($content["columns"],$content["PK"],$resource_id);
+    public function onAdd($package_id,$resource_id){
+        $this->evaluateXLSResource($resource_id);
+        parent::evaluateColumns($this->columns,$this->PK,$resource_id);
     }
 
-    public function onUpdate($package,$resource,$content){
-        // At the moment there's no request for foreign relationships between XLS files
-        // Yet this could be perfectly possible!
-    }
-    
-
-    private function evaluateXLSResource($resource_id,$content){
-        DBQueries::storeXLSResource($resource_id, $content["uri"], $content["sheet"]);
+    private function evaluateXLSResource($resource_id){
+        DBQueries::storeXLSResource($resource_id, $this->uri, $this->sheet);
     }    
 }
 ?>

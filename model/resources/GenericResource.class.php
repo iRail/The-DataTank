@@ -11,12 +11,12 @@
 include_once("model/resources/strategies/AResourceStrategy.class.php");
 include_once("model/resources/AResource.class.php");
 
-class GenericResource extends AResource {
-    private $strategyname;
-    private $strategy; //this contains the right strategy to handle the call
+class GenericResource{
     
     private $package;
     private $resource;
+    private $strategyname;
+    private $strategy;
     
     public function __construct($package,$resource){
         $this->package = $package;
@@ -36,10 +36,6 @@ class GenericResource extends AResource {
     public function call(){
         $strat = $this->getStrategy();
         return $strat->onCall($this->package,$this->resource);
-    }
-
-    public function setParameter($name,$val){
-        $this->strategy->$name = $val;
     }
 }
 

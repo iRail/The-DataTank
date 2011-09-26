@@ -136,7 +136,9 @@ class RequestURI{
             $URI .= "/";
             $URI .= implode("/", $this->filters);
         }
-        $URI .= "." . $this->format;
+        if($this->format != ""){
+            $URI .= "." . $this->format;
+        }
         if(sizeof($this->GETParameters) > 0){
             $URI .= "?";
             foreach($this->GETParameters as $key => $value){

@@ -21,16 +21,30 @@ class ForeignRelation extends AUpdater{
         $this->parameters["foreign_resource"] = "The foreign resource name";
         $this->parameters["original_column_name"] = "The original column name of the resource that points to another resource.";
         $this->parameters["foreign_column_name"] = "The column name of the resource to which being pointed.";
-        
-        $this->requiredParameters["foreign_package"] = "";
-        $this->requiredParameters["foreign_resource"] = "";
-        $this->requiredParameters["original_column_name"] = "";
-        $this->requiredParameters["foreign_column_name"] = "";
-    }
     
+        $this->requiredParameters[] = "foreign_package";
+        $this->requiredParameters[] = "foreign_resource";
+        $this->requiredParameters[] = "original_column_name";
+        $this->requiredParameters[] = "foreign_column_name";
+    }
+
+    protected function setParameter($key,$value){
+        $this->$key = $value;
+    }
+
     public function update(){
-        $params = array_merge($this->requiredParameters,$this->optionalParameters);
+        $params = array();
+        foreach($this->parameters as $key => $val){
+            if(isset($this->$key)){
+                $params[$key] = $this->$key;
+            }
+        }
         DBQueries::storeForeignRelation($package,$resource,$params);
+    }
+
+    public function getDocumentation(){
+        return "This class will assign a relation between two resources, making it so you can link certain properties of one resource to another resource.";
+        
     }
 }
 ?>

@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Queries extends AResource{
+class Queries extends AReader{
 
     // must be set! Contains the value of the module that needs to be analysed.
     private $package; 
@@ -165,13 +165,9 @@ class Queries extends AResource{
             }); 
     }
 
-    public function call(){
+    public function read(){
         $this->getData();
         return $this->queryResults;
-    }
-
-    public static function getAllowedPrintMethods(){
-        return array("json","xml", "jsonp", "php", "html");
     }
 
     public static function getDoc(){

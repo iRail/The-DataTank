@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Exceptions extends AResource {
+class Exceptions extends AReader {
     
     public static function getParameters() {
         return array();
@@ -21,7 +21,7 @@ class Exceptions extends AResource {
     public function setParameter($key, $val) {
     }
     
-    public function call() {
+    public function read() {
         $o = new stdClass();
         $o->Exceptions = array();
         
@@ -36,10 +36,6 @@ class Exceptions extends AResource {
             }
         }
         return $o;
-    }
-    
-    public static function getAllowedPrintMethods() {
-        return array("json", "xml", "jsonp", "php", "html");
     }
     
     public static function getDoc() {

@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Packages extends AResource{
+class Packages extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -21,14 +21,10 @@ class Packages extends AResource{
     public function setParameter($key,$val){
     }
 
-    public function call(){
+    public function read(){
 	$resmod = ResourcesModel::getInstance();
 	$o = $resmod->getAllPackages();
 	return $o;
-    }
-     
-    public static function getAllowedPrintMethods(){
-	return array("json","xml", "jsonp", "php", "html");
     }
 
     public static function getDoc(){

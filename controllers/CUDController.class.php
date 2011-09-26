@@ -21,10 +21,10 @@ class CUDController extends AController{
         $package = $matches["package"];
         $resource = trim($matches["resource"]);
         $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
         if($resource == ""){
-            $allresources = $model->getAllResourceNames();
-            if(isset($allresources[$package])){    
-                throw new NoResourceGivenTDTException($allresources[$package]);
+            if(isset($doc->$package)){    
+                throw new NoResourceGivenTDTException(get_object_vars($doc->$package));
             } else{
                 throw new NoResourceGivenTDTException(array());
             }
@@ -36,14 +36,8 @@ class CUDController extends AController{
         }
 
         //get the current URL
-        $pageURL = 'http';
-        if (isset($_SERVER["HTTPS"])) {$pageURL .= "s";}
-        $pageURL .= "://";
-        if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-        } else {
-            $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-        }
+        $ru = RequestURI::getInstance();
+        $pageURL = $ru->getURI();
         $pageURL = rtrim($pageURL, "/");
         //add .about before the ?
         if(sizeof($_GET)>0){
@@ -57,9 +51,12 @@ class CUDController extends AController{
     }
 
     function PUT($matches){
+        if(!isset($matches["package"]) || !isset($matches["resource"])){
+            throw new ParameterTDTException("package/resource not set");
+        }
         $package = $matches["package"];
         $resource = $matches["resource"];
-        
+
         //fetch all the PUT variables in one array
         parse_str(file_get_contents("php://input"),$_PUT);
 
@@ -67,11 +64,7 @@ class CUDController extends AController{
         if (true) {
         //if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             $model = ResourcesModel::getInstance();
-            if($resource == ""){
-                $model->makePackageId($package);
-            }else{
-                $model->addResource($package,$resource, $_PUT);
-            }
+            $model->createResource($package,$resource, $_PUT);
             
         }else{
             throw new AuthenticationTDTException("Cannot PUT");

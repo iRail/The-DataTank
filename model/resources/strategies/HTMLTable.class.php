@@ -11,6 +11,16 @@ include_once("model/resources/strategies/ATabularData.class.php");
 
 class HTMLTable extends ATabularData {
 
+
+    public function __construct(){
+        $this->parameters["uri"] = "The uri of where the HTML table is found.";
+        $this->parameters["xpath"]  = "The XPath to the HTML table";
+        $this->parameters["columns"] = "The columns that are to be published from the HTML table";
+        $this->parameters["PK"] = "The primary key of each row.";
+
+        $this->requiredParameters[] = array_keys($this->parameters);
+    }    
+
     public function onCall($package,$resource){
 
         /*
@@ -49,12 +59,7 @@ class HTMLTable extends ATabularData {
         $resultobject = new stdClass();
         $arrayOfRowObjects = array();
         $row = 0;
-          
-/*
-        if(!file_exists($uri)){
-            throw new CouldNotGetDataTDTException($uri);
-        }
-*/        
+     
         try { 
 
             $oldSetting = libxml_use_internal_errors( true ); 
@@ -121,18 +126,16 @@ class HTMLTable extends ATabularData {
         DBQueries::deleteHTMLTableResource($package, $resource);
     }
 
-    public function onAdd($package_id,$resource_id,$content){
-        $this->evaluateHTMLTableResource($resource_id,$content);
-        parent::evaluateColumns($content["columns"],$content["PK"],$resource_id);
+    public function onAdd($package_id,$resource_id){
+        if(!isset($this->PK)){
+            $this->PK = "";
+        }
+        $this->evaluateHTMLTableResource($resource_id);
+        parent::evaluateColumns($this->columns,$this->PK,$resource_id);
     }
 
-    public function onUpdate($package,$resource,$content){
-        // At the moment there's no request for foreign relationships between XLS files
-        // Yet this could be perfectly possible!
-    }    
-
-    private function evaluateHTMLTableResource($resource_id,$content){
-        DBQueries::storeHTMLTableResource($resource_id, $content["uri"], $content["xpath"]);
+    private function evaluateHTMLTableResource($resource_id){
+        DBQueries::storeHTMLTableResource($resource_id, $this->uri, $this->xpath);
     }    
 }
 ?>

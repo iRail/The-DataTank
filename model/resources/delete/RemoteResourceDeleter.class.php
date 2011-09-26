@@ -7,9 +7,9 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once("ADelete.class.php");
+include_once("ADeleter.class.php");
 
-class RemoteResourceDelete extends ADelete{
+class RemoteResourceDeleter extends ADelete{
     
     public function __construct($package,$resource){
         parent::__construct($package,$resource);

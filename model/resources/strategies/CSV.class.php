@@ -14,10 +14,10 @@ class CSV extends ATabularData {
         $this->parameters["uri"] = "The URI to the CSV file";
         $this->parameters["columns"] = "The columns that are to be published, if empty every column will be published.";
         $this->parameters["PK"] = "The primary key of an entry";
+
+        $this->requiredParameters[] = "uri";
+        $this->requiredParameters[] = "columns";
         
-        $this->requiredParameters["uri"] = "";
-        $this->requiredParameters["columns"] = "";
-        $this->optionalParameters["PK"] = "";
     }
 
     public function onCall($package, $resource) {
@@ -39,8 +39,6 @@ class CSV extends ATabularData {
         
         // get the columns from the columns table
         $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-        
-        $columns = array();
         $PK = "";
         foreach ($allowed_columns as $result) {
             array_push($columns, $result["column_name"]);
@@ -112,21 +110,16 @@ class CSV extends ATabularData {
         DBQueries::deleteCSVResource($package, $resource);
     }
     
-    public function onAdd($package_id, $resource_id, $content) {
-        if (!isset($content["PK"]))
-            $content["PK"] = "";
+    public function onAdd($package_id, $resource_id) {
+        if (!isset($this->PK))
+            $this->PK = "";
         
-        $this->evaluateCSVResource($resource_id, $content);
-        parent::evaluateColumns($content["columns"], $content["PK"], $resource_id);
-    }
-    
-    public function onUpdate($package, $resource, $content) {
-        // At the moment there's no request for foreign relationships between CSV files
-        // Yet this could be perfectly possible!
-    }
-    
-    private function evaluateCSVResource($resource_id, $content) {
-        DBQueries::storeCSVResource($resource_id, $content["uri"]);
+        $this->evaluateCSVResource($resource_id);
+        parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+    } 
+   
+    private function evaluateCSVResource($resource_id) {
+        DBQueries::storeCSVResource($resource_id, $this->uri);
     }
 }
 ?>

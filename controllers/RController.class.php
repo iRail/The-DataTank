@@ -27,50 +27,32 @@ class RController extends AController{
 	//This will create an instance of a factory depending on which format is set
 	$this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-	//This will create an instance of AResource
+	//Get an instance of our model
 	$model = ResourcesModel::getInstance();
-	$resource = $model->getResource($package,$resourcename);
+        //ask the model for our documentation: access to all packages and resources!
+        $doc = $model->getAllDoc();
 
 	$RESTparameters = array();
 	if(isset($matches['RESTparameters']) && $matches['RESTparameters'] != ""){
 	    $RESTparameters = explode("/",rtrim($matches['RESTparameters'],"/"));
 	}
         
-        $requiredparams = array();
+        $parameters = $_GET;
 
-        foreach($model->getResourceRequiredParameters($package,$resourcename) as $parameter){
+        //check for required parameters
+        foreach($doc->$package->$resourcename->requiredparameters as $parameter){
             //set the parameter of the method
             if(!isset($RESTparameters[0])){
                 throw new ParameterTDTException($parameter);
             }
-            $resource->setParameter($parameter, $RESTparameters[0]);
-            $requiredparams[$parameter]=$RESTparameters[0];
-	    
-            //removes the first element and reindex the array
+            $parameters[$parameter]=$RESTparameters[0];
+            //removes the first element and reindex the array - this way we'll only keep the object specifiers in this array
             array_shift($RESTparameters);
         }
         //what remains in the $resources array are specification for a RESTful way of identifying objectparts
         //for instance: http://api.../TDTInfo/Modules/module/1/ would make someone only select the second module
-
-        //also give the non REST parameters to the resource class
-        $resource->processParameters();
 	
-        // check if the given format is allowed by the method
-        $printmethod = "";
-        foreach($model->getAllowedPrintMethods($package,$resourcename) as $printername){
-            if(strtolower($this->formatterfactory->getFormat()) == strtolower($printername)){
-                $printmethod = $printername;
-                break;
-            }
-        }
-
-        //if the printmethod is not allowed, just throw an exception
-        if($printmethod == "" || strtolower($this->formatterfactory->getFormat()) == "about"){
-            throw new FormatNotAllowedTDTException($this->formatterfactory->getFormat(),$resource->getAllowedPrintMethods());
-        }
-
-        //Let's do the call!
-        $result = $resource->call();
+        $result = $model->readResource($package,$resourcename, $parameters);
 
         /*
          * Add foreign the required foreign relations URL's to the resulting object
@@ -142,7 +124,9 @@ class RController extends AController{
 	
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
-        if($model->getResourceType($package,$resourcename) != "remote"){
+
+        //only log the request if this is not a remote resource
+        if(!isset($doc->$package->$resourcename->base_url)){
             RequestLogger::logRequest();            
         }
     }

@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Mapping extends AResource {
+class Mapping extends AReader{
 
     // must be set! Contains the value of the module that needs to be analysed.
     private $package;
@@ -26,7 +26,7 @@ class Mapping extends AResource {
         return array("package");
     }
 
-    public function call() {
+    public function read() {
         $this->getData();
         return $this->mapping;
     }
@@ -39,11 +39,7 @@ class Mapping extends AResource {
         }
     }
 
-    public function processParameters() {
-        parent::processParameters();
-    }
-
-    public static function getAllowedPrintMethods() {
+    public static function getAllowedFormatters() {
         return array("html", "rdf_xml", "rdf_ntriple", "rdf_n3", "rdf_json");
     }
 

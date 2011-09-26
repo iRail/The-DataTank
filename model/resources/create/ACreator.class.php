@@ -7,53 +7,50 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-
-include_once("model/ICreator.php");
-
-/**
- * When creating a resource, we always expect a PUT method!
- */
-abstract class ACreator implements ICreator{
+abstract class ACreator{
 
     protected $parameters = array();
     protected $requiredParameters = array();
-    protected $optionalParameters = array();
 
-    public function __ACreator(){
+    public function __construct($package, $resource){
+        $this->package = $package;
+        $this->resource = $resource;
+        
         $this->parameters["resource_type"] = "The type of the resource.";
         $this->parameters["package"] = "Name of the package to add the resource to.";
         $this->parameters["resource"] = "Name of the resource.";
 
-        $this->requiredParameters["resource_type"] = "";
-        $this->requiredParameters["package"] = "";
-        $this->requiredParameters["resource"] = "";
+        $this->requiredParameters[] = "resource_type";
+        $this->requiredParameters[] = "package";
+        $this->requiredParameters[] = "resource";
     }    
 
     /**
      * process the parameters
      */
-    public function processCreateParameters($parameters){
-        // process every parameters passed along with the creation requests
-        // and assign them to the correct parameter belonging to the Creator-class
-        $allowedParameters = array_keys($this->parameters);
-	foreach($allowedParameters as $key => $value){
+    public function processParameters($parameters){
+	foreach($parameters as $key => $value){
             //check whether this parameter is in the documented parameters
-            if(isset($this->requiredParameters[$key])){
-                $this->optionalParameters[$key] = $value;
-            }else if(isset($this->optionalParameters[$key])){
-                $this->requiredParameters[$key] = $value;
-            }else{
-                throw new ParameterDoesntExistTDTException($key);
-            }
+            //if(!isset($this->parameters[$key])){
+            //throw new ParameterDoesntExistTDTException($key);
+            //if(in_array($key,$this->requiredParameters)){
+            $this->setParameter($key,$value);
+                //}
         }
+        
         // check if all requiredparameters have been set
-       
-        foreach($this->requiredParameters as $key => $value){
-            if($value == ""){
-                throw new ParameterTDTException("Required parameter ".$key ." has not been passed");
+        
+        /*foreach($this->requiredParameters as $key){
+            if(!isset($parameters[$key])){
+                throw new ParameterTDTException("Required parameter ". $key ." has not been passed");
             }
-        }
+            }*/
     }
+
+    /**
+     * set parameters, we leave this to the subclass
+     */
+    abstract protected function setParameter($key,$value);
 
     /**
      * execution method
@@ -64,7 +61,7 @@ abstract class ACreator implements ICreator{
      * get all the parameters to create a resource
      * @return hash with key = parameter name and value = documentation about the parameter
      */
-    public function getCreateParameters(){
+    public function getParameters(){
         return $this->parameters;
     }
     
@@ -72,15 +69,8 @@ abstract class ACreator implements ICreator{
      * get the required parameters
      * @return array with all of the required parameters
      */
-    public function getCreateRequiredParameters(){
+    public function getRequiredParameters(){
         return $this->requiredParameters;
-    }
-
-    /**
-     * get the optional parameters
-     */
-    public function getOptionalParameters(){
-        return $this->optionalParameters;
     }
 
     /**
@@ -93,13 +83,13 @@ abstract class ACreator implements ICreator{
      * make package id
      * @return id of the package
      */
-    protected function makePackage(){
+    protected function makePackage($package){
         // TODO put this in DBQueries
         $result = R::getAll(
             "SELECT package.id as id 
              FROM package 
              WHERE package_name=:package_name",
-            array(":package_name"=>$this->requiredParameters["package"])
+            array(":package_name"=>$package)
         );
         
         if(sizeof($result) == 0){
@@ -116,28 +106,26 @@ abstract class ACreator implements ICreator{
      * make resource id
      * @return id of the resource
      */
-    protected function makeResource($package_id){
+    protected function makeResource($package_id, $resource, $resource_type){
         
         // TODO put this in DBQueries.
         $checkExistence = R::getAll(
             "SELECT resource.id
              FROM resource, package
              WHERE :package_id = package.id and resource.resource_name =:resource and resource.package_id = package.id",
-            array(":package_id" => $package_id, ":resource" => $this->requiredParameters["resource"])
+            array(":package_id" => $package_id, ":resource" => $resource)
         );
 
         if(sizeof($checkExistence) == 0){
             $newResource = R::dispense("resource");
             $newResource->package_id = $package_id;
-            $newResource->resource_name =  $this->requiredParameters["resource"];
+            $newResource->resource_name =  $resource;
             $newResource->creation_timestamp = time();
             $newResource->last_update_timestamp = time();
-            $newResource->type =  $this->requiredParameters["resource_type"];
+            $newResource->type =  $resource_type;
             return R::store($newResource);
         }
         return $checkExistence[0]["id"];
     }
-
-
 }
 ?>

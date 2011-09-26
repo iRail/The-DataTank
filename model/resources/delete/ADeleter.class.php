@@ -8,9 +8,7 @@
  * @author Jan Vansteenlandt
  */
 
-include_once("model/IDelete.php");
-
-abstract class ADelete implements IDelete{
+abstract class ADeleter{
     
     protected $package;
     protected $resource;
