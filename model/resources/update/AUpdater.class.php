@@ -49,10 +49,9 @@ abstract class AUpdater {
          * set the parameters
          */
         foreach ($parameters as $key => $value) {
-            echo $key.'<br>';
-            echo $value.'<br>';
             $this->setParameter($key, $value);
         }
+
     }
 
     /**
