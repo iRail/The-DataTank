@@ -13,11 +13,11 @@ class Semanticsitemap extends AResource {
     private $urlset;
 
     public static function getParameters() {
-        
+        return array();
     }
 
     public static function getRequiredParameters() {
-        
+        return array();
     }
 
     public function call() {
@@ -31,7 +31,7 @@ class Semanticsitemap extends AResource {
 
     private function getData() {
         $doc = ResourcesModel::getInstance()->getAllDoc();
-        
+
         $this->urlset = "";
         foreach ($doc as $package => $resources) {
             $this->urlset .= "<sc:dataset>";
@@ -39,8 +39,9 @@ class Semanticsitemap extends AResource {
             $this->urlset .="<sc:datasetURI>" . Config::$HOSTNAME . Config::$SUBDIR . $package . "</sc:datasetURI>";
             $this->urlset .="<sc:linkedDataPrefix slicing=''>" . Config::$HOSTNAME . Config::$SUBDIR . $package . "</sc:linkedDataPrefix>";
             foreach ($resources as $resource => $val) {
-                if (count(ResourcesModel::getInstance()->getResourceRequiredParameters($package, $resource)) == 0) {
-                    $$this->urlset .='<sc:dataDumpLocation>' . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . '.rdf_xml' . '</sc:dataDumpLocation>';
+                if (method_exists($val, 'requiredparameters')) {
+                    if (count($val->requiredparameters) == 0)
+                        $this->urlset .='<sc:dataDumpLocation>' . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . '.rdf_xml' . '</sc:dataDumpLocation>';
                 }
             }
             //$this->urlset .="<lastmod></lastmod>";
@@ -52,6 +53,10 @@ class Semanticsitemap extends AResource {
 
     public static function getDoc() {
         return "This is the Semantic Sitemap";
+    }
+
+    protected function setParameter($key, $value) {
+        
     }
 
 }
