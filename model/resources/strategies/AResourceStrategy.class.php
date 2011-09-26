@@ -35,19 +35,24 @@ abstract class AResourceStrategy{
      */
     abstract public function onAdd($package_id, $resource_id);
 
+    public function setParameter($key,$value){
+        $this->$key = $value;
+    }
+    
+
     /**
      * Gets all the allowed parameters to add a resource with this strategy
      * @return array with the allowed parameters with documentation about the add parameters.
      */
-    public function getAddParameters(){
-        return $this->pxarameters;
+    public function getParameters(){
+        return $this->parameters;
     }
 
     /**
      * Gets all the required parameters to add a resource with this strategy
      * @return array with the required parameters to add a resource with this strategy
      */
-    public function getRequiredAddParameters(){
+    public function getRequiredParameters(){
         return $this->requiredParameters;
     }
 

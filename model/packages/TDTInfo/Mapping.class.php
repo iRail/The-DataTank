@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Mapping extends AReader {
+class Mapping extends AReader{
 
     // must be set! Contains the value of the module that needs to be analysed.
     private $package;
@@ -26,7 +26,7 @@ class Mapping extends AReader {
         return array("package");
     }
 
-    public function call() {
+    public function read() {
         $this->getData();
         return $this->mapping;
     }

@@ -23,7 +23,7 @@ class GenericResourceFactory extends AResourceFactory {
         if(!isset($parameters["generic_type"])){
             throw new ResourceAdditionTDTException("generic type hasn't been set");
         }
-        $creator = new GenericResourceCreator($parameters["generic_type"]);
+        $creator = new GenericResourceCreator($package,$resource,$parameters["generic_type"]);
         $creator->processParameters($parameters);
         return $creator;
     }
@@ -42,7 +42,8 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     public function makeDoc($doc){
-        
+        //todo - write query to get all generic documentation
+        return $this->getAllResourceNames();
     }
 
     protected function getAllResourceNames(){

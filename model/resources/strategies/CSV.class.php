@@ -11,12 +11,12 @@ include_once ("model/resources/strategies/ATabularData.class.php");
 class CSV extends ATabularData {
 
     public function __construct(){
-        $this->addParameters["uri"] = "The URI to the CSV file";
-        $this->addParameters["columns"] = "The columns that are to be published, if empty every column will be published.";
-        $this->addParameters["PK"] = "The primary key of an entry";
+        $this->parameters["uri"] = "The URI to the CSV file";
+        $this->parameters["columns"] = "The columns that are to be published, if empty every column will be published.";
+        $this->parameters["PK"] = "The primary key of an entry";
 
-        $this->requiredAddParameters[] = "uri";
-        $this->requiredAddParameters[] = "columns";
+        $this->requiredParameters[] = "uri";
+        $this->requiredParameters[] = "columns";
         
     }
 

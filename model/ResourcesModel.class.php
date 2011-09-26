@@ -37,9 +37,9 @@ class ResourcesModel{
          * part of the resource itself. i.e. a foreign relation between two resources
          */
         $this->updateActions = array();
-        $this->updateActions["foreign_relation"] = "addForeignRelation";
+        $this->updateActions["foreign_relation"] = "ForeignRelation";
         //Added for linking this resource to a class descibed in an onthology
-        $this->updateActions["rdf_mapping"] = "addRdfMapping";
+        $this->updateActions["rdf_mapping"] = "RdfMapping";
     }
 
     public static function getInstance(){
@@ -87,7 +87,7 @@ class ResourcesModel{
             throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
         }
 
-        $creator = $factories[$restype]->createCreator($package,$resource,$parameters);
+        $creator = $this->factories[$restype]->createCreator($package,$resource,$parameters);
         $creator->create();
     }
     
@@ -110,12 +110,17 @@ class ResourcesModel{
     /**
      * Updates the resource with the given parameters - it will create an updater itself
      */
-    public function updateResource($package, $resource, $parameters){ //TOODOOODOOOOO
+    public function updateResource($package, $resource, $parameters){
         //first check if the resource exists
         if(!$this->hasResource($package,$resource)){
             throw new ResourceOrPackageNotFoundTDTException($package,$resource);
         }
-        //....
+        //check the parameters for the right updater
+        if(!isset($parameters["update_type"])){
+            throw new ParameterTDTException("update_type");
+        }
+        $updater = new $this->updateActions[$parameters["update_type"]]($package,$resource);
+        $updates->processParameters($parameters);
         $updater->update();
     }
     
@@ -132,15 +137,28 @@ class ResourcesModel{
     }
 
     /**
+     * Deletes all Resources in a package
+     */
+    public function deletePackage($package){
+        $d = $this->getAllDoc();
+        foreach(get_object_vars($d->$package) as $resource){
+            $this->deleteResource($package, $resource);
+        }
+    }
+
+    /**
      * Uses a visitor to get all docs and return them
      * To have an idea what's in here, just check yourinstallation/TDTInfo/Resources
      *
      * @return a doc object containing all the packages, resources and further documentation
      */
+    private $doc;
     public function getAllDoc(){
-        $doc = new Doc();
-        $d = $doc->visitAll($this->factories);
-        return $d;
+        if(!isset($this->doc)){
+            $doc = new Doc();
+            $this->doc = $doc->visitAll($this->factories);
+        }
+        return $this->doc;
     }
     
 }

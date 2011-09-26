@@ -31,7 +31,7 @@ class RemoteResourceFactory extends AResourceFactory{
 
     public function createCreator($package,$resource, $parameters){
         include_once("model/resources/create/RemoteResourceCreator.class.php");
-        $creator = new RemoteResourceCreator();
+        $creator = new RemoteResourceCreator($package,$resource);
         $creator->processParameters($parameters);
         return $creator;
     }
@@ -83,11 +83,17 @@ class RemoteResourceFactory extends AResourceFactory{
         $remoteResource = new stdClass();
         $remoteResource->package = $package;
         $remoteResource->remote_package = $result["package"];
-        $remoteResource->doc = $data["doc"];
+        if(isset($data["doc"])){
+            $remoteResource->doc = $data["doc"];
+        }
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
-        $remoteResource->parameters = $data["parameters"];
-        $remoteResource->requiredparameters = $data["requiredparameters"];
+        if(isset($data["parameters"])){
+            $remoteResource->parameters = $data["parameters"];
+        }
+        if(isset($data["requiredparameters"])){
+            $remoteResource->requiredparameters = $data["requiredparameters"];
+        }
         return $remoteResource;
     }
     

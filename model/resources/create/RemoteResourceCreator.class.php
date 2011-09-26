@@ -15,8 +15,8 @@ include_once("ACreator.class.php");
  */
 class RemoteResourceCreator extends ACreator{
 
-    public function __construct(){
-        parent::__construct();
+    public function __construct($package, $resource){
+        parent::__construct($package,$resource);
         /**
          * Add the parameters
          */
@@ -66,9 +66,9 @@ class RemoteResourceCreator extends ACreator{
         }
 
         // 3. store it
-        $package_id = parent::makePackageId($package);
-        $resource_id = parent::makeResourceId($package_id, $resource, "remote");
-        DBQueries::storeRemoteResource($resource_id, $packagename, $base_url);
+        $package_id = parent::makePackage($this->package);
+        $resource_id = parent::makeResource($package_id, $this->resource, "remote");
+        DBQueries::storeRemoteResource($resource_id, $this->package, $base_url);
     }
     
     /**

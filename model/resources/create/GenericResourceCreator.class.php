@@ -15,10 +15,12 @@ include_once("ACreator.class.php");
  */
 class GenericResourceCreator extends ACreator{
 
-    private $strategy;    
+    private $strategy;
 
-    public function __construct($resource_type){
-        parent::__construct();
+    public function __construct($package, $resource, $resource_type){
+        parent::__construct($package, $resource);
+        $this->package = $package;
+        $this->resource = $resource;
         /**
          * Add the parameters
          */
@@ -32,28 +34,23 @@ class GenericResourceCreator extends ACreator{
         $this->requiredParameters[]= "documentation";
         $this->requiredParameters[] = "printmethods";
         $this->requiredParameters[] = "generic_type";
-        $this->generic_type = $generic_type;
-
-        /**
-         * Add the parameters of the strategy!
-         */ 
-        if(!file_exists("model/resources/strategies/" . $generic_type . ".class.php")){
-            throw new ResourceAdditionTDTException("Generic type does not exist");
-        }
-        include_once("model/resources/strategies/" . $generic_type . ".class.php");
-        // add all the parameters to the $parameters
-        // and all of the requiredParameters to the $requiredParameters
-        $this->strategy = new $generic_type();
-        $this->parameters[] = $this->strategy->getParameters();
-        $this->requiredParameters[] = $strategy->getRequiredParameters();
     }
 
     protected function setParameter($key,$value){
-        /*
-         * set the correct parameters, to the this class or the strategy
-         * we're sure that every key,value passed is correct
-         */
-        if(isset($this->strategy->getParameters[$key])){
+        // set the correct parameters, to the this class or the strategy we're sure that every key,value passed is correct
+        if($key == "generic_type"){
+            // Add the parameters of the strategy!
+            $this->generic_type = $value;
+            if(!file_exists("model/resources/strategies/" . $this->generic_type . ".class.php")){
+                throw new ResourceAdditionTDTException("Generic type does not exist");
+            }
+            include_once("model/resources/strategies/" . $this->generic_type . ".class.php");
+            // add all the parameters to the $parameters
+            // and all of the requiredParameters to the $requiredParameters
+            $this->strategy = new $this->generic_type();
+            $this->parameters[] = $this->strategy->getParameters();
+            $this->requiredParameters[] = $this->strategy->getRequiredParameters();
+        }else if(isset($this->strategy) && array_key_exists($key,$this->strategy->getParameters()) ){
             $this->strategy->$key = $value;
         }else{
             $this->$key = $value;
@@ -70,11 +67,11 @@ class GenericResourceCreator extends ACreator{
          * Create the package and resource entities and create a generic resource entry.
          * Then pick the correct strategy, and pass along the parameters!
          */
-        $package_id  = parent::makePackage();
-        $resource_id = parent::makeResource($package_id);
+        $package_id  = parent::makePackage($this->package);
+        $resource_id = parent::makeResource($package_id, $this->package, "generic");
 
         $generic_id= DBQueries::storeGenericResource($resource_id,$this->generic_type,$this->documentation,$this->printmethods);
-        $strategy->onAdd($package_id,$generic_id);
+        $this->strategy->onAdd($package_id,$generic_id);
     }
     
     /**

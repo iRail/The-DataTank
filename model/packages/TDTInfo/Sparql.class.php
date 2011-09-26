@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This class respresents a sparql endpoint.
  *
@@ -19,14 +18,9 @@ class Sparql extends AReader {
     public static function getRequiredParameters() {
     }
 
-    public function call() {
+    public function read() {
         $this->getData();
         return $this->result;
-    }
-
-
-    public static function getAllowedFormatters() {
-        return array("html","xml");
     }
 
     private function getData() {

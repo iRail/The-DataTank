@@ -23,7 +23,7 @@ class Resources extends AReader{
         //we don't have any parameters
     }
 
-    public function call(){
+    public function read(){
 	$resmod = ResourcesModel::getInstance();
 	$o = $resmod->getAllDoc();
 	return $o;

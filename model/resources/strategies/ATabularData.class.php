@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Pieter Colpaert
  */
-
+include_once("model/resources/strategies/AResourceStrategy.class.php");
 abstract class ATabularData extends AResourceStrategy{
     
     /*

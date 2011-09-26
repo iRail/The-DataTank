@@ -21,7 +21,7 @@ class Exceptions extends AReader {
     public function setParameter($key, $val) {
     }
     
-    public function call() {
+    public function read() {
         $o = new stdClass();
         $o->Exceptions = array();
         
@@ -36,10 +36,6 @@ class Exceptions extends AReader {
             }
         }
         return $o;
-    }
-    
-    public static function getAllowedFormatters() {
-        return array("json", "xml", "jsonp", "php", "html");
     }
     
     public static function getDoc() {

@@ -51,9 +51,12 @@ class CUDController extends AController{
     }
 
     function PUT($matches){
+        if(!isset($matches["package"]) || !isset($matches["resource"])){
+            throw new ParameterTDTException("package/resource not set");
+        }
         $package = $matches["package"];
         $resource = $matches["resource"];
-        
+
         //fetch all the PUT variables in one array
         parse_str(file_get_contents("php://input"),$_PUT);
 
@@ -61,11 +64,7 @@ class CUDController extends AController{
         if (true) {
         //if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             $model = ResourcesModel::getInstance();
-            if($resource == ""){
-                $model->makePackageId($package);
-            }else{
-                $model->addResource($package,$resource, $_PUT);
-            }
+            $model->createResource($package,$resource, $_PUT);
             
         }else{
             throw new AuthenticationTDTException("Cannot PUT");

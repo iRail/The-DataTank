@@ -217,7 +217,7 @@ class NoResourceGivenTDTException extends SystemTDTException {
         $message = "";
         
         foreach ($resources as $resource => $v) {
-            $message .= $v . ",";
+            $message .= $resource . ",";
         }
         $message = rtrim($message, ",");
         parent::__construct("You didn't specify a resource. The resources in this package are: " . $message);

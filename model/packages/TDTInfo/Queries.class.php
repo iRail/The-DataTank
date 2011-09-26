@@ -165,13 +165,9 @@ class Queries extends AReader{
             }); 
     }
 
-    public function call(){
+    public function read(){
         $this->getData();
         return $this->queryResults;
-    }
-
-    public static function getAllowedFormatters(){
-        return array("json","xml", "jsonp", "php", "html");
     }
 
     public static function getDoc(){
