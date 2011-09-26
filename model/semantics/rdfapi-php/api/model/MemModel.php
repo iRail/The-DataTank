@@ -653,7 +653,7 @@ class MemModel extends Model {
      * @access	public
      */
     function findFirstMatchingStatement($subject, $predicate, $object, $offset = 0) {
-
+        $res = -1;
         $currentOffset = 0;
         for ($i = 0; $i <= $offset; $i++) {
             $res = $this->findFirstMatchOff($subject, $predicate, $object, $currentOffset);

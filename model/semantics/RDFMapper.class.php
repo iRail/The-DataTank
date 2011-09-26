@@ -212,7 +212,8 @@ class RDFMapper {
             throw new RdfTDTException('Package, Resource or Mapping class unknown ');
 
         $model = $this->getMapping($tdt_package);
-        $resource = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
+        
+        $resource = $model->createResource($tdt_resource);
         $property = $model->createProperty(RDFConstants::$TDML_NS . "maps");
 
         //adding the class to the mapping
@@ -250,13 +251,9 @@ class RDFMapper {
             $resource->removeAll($property);
         }
         $resource->addProperty($property, $object);
+        
+        
 
-        $iterator = $this->lookupEquals($model, $tdt_resource);
-        while ($iterator->valid()) {
-            $iterator->next();
-            $obj = $iterator->getObject();
-            $obj->addProperty($property, $object);
-        }
     }
 
     /**

@@ -321,8 +321,8 @@ class RbModel extends DbModel {
         // execute the query
         $recordSet = R::getAll($sql, $param);
 
-        if (!$recordSet)
-            throw new DatabaseTDTException('Select not performed');
+        if (!is_array($recordSet))
+            throw new DatabaseTDTException('Select for finding statement failed');
 
         // write the recordSet into memory Model
         else
@@ -365,7 +365,6 @@ class RbModel extends DbModel {
             trigger_error($errmsg, E_USER_ERROR);
         }
 
-
         $param = array(':modelID' => $this->modelID);
         // static part of the sql statement
         $sql = 'SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
@@ -400,6 +399,7 @@ class RbModel extends DbModel {
     }
 
     public function findVocabulary($vocabulary) {
+
         $param = array(':modelID' => $this->modelID, ':voc' => $vocabulary . '%');
 
         $sql = "SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
@@ -443,8 +443,8 @@ class RbModel extends DbModel {
         $sql .= $this->_createDynSqlPart_SPO($statement->subj, $statement->pred, $statement->obj);
 
         $rs = R::exec($sql, $param);
-        if (!$rs)
-            throw new DatabaseTDTException('Delete not performed');
+        
+        return $rs;
     }
 
     public function removeNamespace($nmsp) {

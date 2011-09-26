@@ -10,12 +10,14 @@
 include_once("AUpdater.class.php");
 
 class RdfMapping extends AUpdater {
+    
+    private $params = array();
 
     public function __construct($package, $resource) {
         parent::__construct($package, $resource);
     }
 
-    public function getParameters(){
+    public function getParameters() {
         return array(
             "update_type" => "...",
             "rdf_mapping_method" => "The method by which the rdf should be mapped.",
@@ -24,31 +26,27 @@ class RdfMapping extends AUpdater {
             "rdf_mapping_nmsp" => "The namespace of the RDF mapping class."
         );
     }
-    
-    public function getRequiredParameters(){
+
+    public function getRequiredParameters() {
         return array("rdf_mapping_method");
     }
-    
+
     public function getDocumentation() {
         return "This class will assign a RDF mapping to an URI";
     }
 
     protected function setParameter($key, $value) {
-        $this->$key = $value;
+        $this->params[$key] = $value;
     }
 
     public function update() {
+  
         $rdfmapper = new RDFMapper();
         //need full path for adding semantics!!
         $resource = RequestURI::getInstance()->getRealWorldObjectURI();
+        
+        $rdfmapper->update($this->package, $resource, $this->params);
 
-        $params = array();
-        foreach (array_keys($this->parameters) as $key) {
-            $params[] = $this->$key;
-        }
-        $rdfmapper->update($this->package, $this->resource, $params);
-
-        //$rdfmapper->update($this->package, $this->resource, $parameters);
     }
 
 }
