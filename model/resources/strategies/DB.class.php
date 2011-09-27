@@ -161,7 +161,6 @@ class DB extends ATabularData{
     
 
     private function evaluateDBResource($resource_id){
-
         DBQueries::storeDBResource($resource_id, $this->db_type, $this->db_name, 
                                    $this->db_table, $this->host, $this->port,
                                    $this->db_user , $this->db_password);
