@@ -90,7 +90,7 @@ $ADODB_INCLUDED_CSV = 1;
 *			error occurred in sql INSERT/UPDATE/DELETE, 
 *			empty recordset is returned
 */
-	function csv2rs($url,&$err,$timeout=0, $rsclass='ADORecordSet_array')
+	function &csv2rs($url,&$err,$timeout=0, $rsclass='ADORecordSet_array')
 	{
 		$false = false;
 		$err = false;

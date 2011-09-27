@@ -248,7 +248,7 @@ class ADORecordset_oracle extends ADORecordSet {
 			   fields in a certain query result. If the field offset isn't specified, the next field that wasn't yet retrieved by
 			   fetchField() is retrieved.		*/
 
-	   function FetchField($fieldOffset = -1)
+	   function &FetchField($fieldOffset = -1)
 	   {
 			$fld = new ADOFieldObject;
 			$fld->name = ora_columnname($this->_queryID, $fieldOffset);

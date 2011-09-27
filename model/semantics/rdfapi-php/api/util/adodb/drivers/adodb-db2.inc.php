@@ -390,7 +390,7 @@ class ADODB_db2 extends ADOConnection {
 	}
 	
 	
-	function MetaTables($ttype=false,$schema=false)
+	function &MetaTables($ttype=false,$schema=false)
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -495,7 +495,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/db2/htm/db2
 		}
 	}
 	
-	function MetaColumns($table)
+	function &MetaColumns($table)
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -719,7 +719,7 @@ class ADORecordSet_db2 extends ADORecordSet {
 
 
 	// returns the field object
-	function FetchField($offset = -1) 
+	function &FetchField($offset = -1) 
 	{
 		$o= new ADOFieldObject();
 		$o->name = @db2_field_name($this->_queryID,$offset);
@@ -761,7 +761,7 @@ class ADORecordSet_db2 extends ADORecordSet {
 	}
 	
 	// speed up SelectLimit() by switching to ADODB_FETCH_NUM as ADODB_FETCH_ASSOC is emulated
-	function GetArrayLimit($nrows,$offset=-1) 
+	function &GetArrayLimit($nrows,$offset=-1) 
 	{
 		if ($offset <= 0) {
 			$rs =& $this->GetArray($nrows);

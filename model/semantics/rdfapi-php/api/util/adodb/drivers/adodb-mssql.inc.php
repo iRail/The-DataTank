@@ -200,7 +200,7 @@ class ADODB_mssql extends ADOConnection {
 	}
 	
 
-	function SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
+	function &SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
 	{
 		if ($nrows > 0 && $offset <= 0) {
 			$sql = preg_replace(
@@ -328,7 +328,7 @@ class ADODB_mssql extends ADOConnection {
 	}
 	
 	
-	function MetaIndexes($table,$primary=false)
+	function &MetaIndexes($table,$primary=false)
 	{
 		$table = $this->qstr($table);
 
@@ -431,7 +431,7 @@ order by constraint_name, referenced_table_name, keyno";
 
 	// "Stein-Aksel Basma" <basma@accelero.no>
 	// tested with MSSQL 2000
-	function MetaPrimaryKeys($table)
+	function &MetaPrimaryKeys($table)
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -456,7 +456,7 @@ order by constraint_name, referenced_table_name, keyno";
 	}
 
 	
-	function MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{
 		if ($mask) {
 			$save = $this->metaTablesSQL;
@@ -799,7 +799,7 @@ class ADORecordset_mssql extends ADORecordSet {
 		fields in a certain query result. If the field offset isn't specified, the next field that wasn't yet retrieved by
 		fetchField() is retrieved.	*/
 
-	function FetchField($fieldOffset = -1) 
+	function &FetchField($fieldOffset = -1) 
 	{
 		if ($fieldOffset != -1) {
 			$f = @mssql_fetch_field($this->_queryID, $fieldOffset);

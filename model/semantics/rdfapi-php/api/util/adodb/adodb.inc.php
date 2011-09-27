@@ -638,7 +638,7 @@
 	/**
 	* PEAR DB Compat - do not use internally. 
 	*/
-	function Query($sql, $inputarr=false)
+	function &Query($sql, $inputarr=false)
 	{
 		$rs = &$this->Execute($sql, $inputarr);
 		if (!$rs && defined('ADODB_PEAR')) return ADODB_PEAR_Error();
@@ -649,7 +649,7 @@
 	/**
 	* PEAR DB Compat - do not use internally
 	*/
-	function LimitQuery($sql, $offset, $count, $params=false)
+	function &LimitQuery($sql, $offset, $count, $params=false)
 	{
 		$rs = &$this->SelectLimit($sql, $count, $offset, $params); 
 		if (!$rs && defined('ADODB_PEAR')) return ADODB_PEAR_Error();
@@ -819,7 +819,7 @@
 	 * @param [inputarr]	holds the input data to bind to. Null elements will be set to null.
 	 * @return 		RecordSet or false
 	 */
-	function Execute($sql,$inputarr=false) 
+	function &Execute($sql,$inputarr=false) 
 	{
 		if ($this->fnExecute) {
 			$fn = $this->fnExecute;
@@ -895,7 +895,7 @@
 	}
 	
 	
-	function _Execute($sql,$inputarr=false)
+	function &_Execute($sql,$inputarr=false)
 	{
 		if ($this->debug) {
 			global $ADODB_INCLUDED_LIB;
@@ -1129,7 +1129,7 @@
 	* @param [secs2cache]		is a private parameter only used by jlim
 	* @return		the recordset ($rs->databaseType == 'array')
  	*/
-	function SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
+	function &SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
 	{
 		if ($this->hasTop && $nrows > 0) {
 		// suggested by Reinhard Balling. Access requires top after distinct 
@@ -1197,7 +1197,7 @@
 	*
 	* @param rs			the recordset to serialize
 	*/
-	function SerializableRS(&$rs)
+	function &SerializableRS(&$rs)
 	{
 		$rs2 =& $this->_rs2rs($rs);
 		$ignore = false;
@@ -1216,7 +1216,7 @@
 	* @param [offset] 	offset by number of rows (optional)
 	* @return 			the new recordset
 	*/
-	function _rs2rs(&$rs,$nrows=-1,$offset=-1,$close=true)
+	function &_rs2rs(&$rs,$nrows=-1,$offset=-1,$close=true)
 	{
 		if (! $rs) {
 			$false = false;
@@ -1255,13 +1255,13 @@
 	/*
 	* Return all rows. Compat with PEAR DB
 	*/
-	function GetAll($sql, $inputarr=false)
+	function &GetAll($sql, $inputarr=false)
 	{
 		$arr =& $this->GetArray($sql,$inputarr);
 		return $arr;
 	}
 	
-	function GetAssoc($sql, $inputarr=false,$force_array = false, $first2cols = false)
+	function &GetAssoc($sql, $inputarr=false,$force_array = false, $first2cols = false)
 	{
 		$rs =& $this->Execute($sql, $inputarr);
 		if (!$rs) {
@@ -1272,7 +1272,7 @@
 		return $arr;
 	}
 	
-	function CacheGetAssoc($secs2cache, $sql=false, $inputarr=false,$force_array = false, $first2cols = false)
+	function &CacheGetAssoc($secs2cache, $sql=false, $inputarr=false,$force_array = false, $first2cols = false)
 	{
 		if (!is_numeric($secs2cache)) {
 			$first2cols = $force_array;
@@ -1365,7 +1365,7 @@
 	  	return $rv;
 	}
 	
-	function Transpose(&$rs,$addfieldnames=true)
+	function &Transpose(&$rs,$addfieldnames=true)
 	{
 		$rs2 =& $this->_rs2rs($rs);
 		$false = false;
@@ -1394,7 +1394,7 @@
 	* @param sql			SQL statement
 	* @param [inputarr]		input bind array
 	*/
-	function GetArray($sql,$inputarr=false)
+	function &GetArray($sql,$inputarr=false)
 	{
 	global $ADODB_COUNTRECS;
 		
@@ -1415,13 +1415,13 @@
 		return $arr;
 	}
 	
-	function CacheGetAll($secs2cache,$sql=false,$inputarr=false)
+	function &CacheGetAll($secs2cache,$sql=false,$inputarr=false)
 	{
 		$arr =& $this->CacheGetArray($secs2cache,$sql,$inputarr);
 		return $arr;
 	}
 	
-	function CacheGetArray($secs2cache,$sql=false,$inputarr=false)
+	function &CacheGetArray($secs2cache,$sql=false,$inputarr=false)
 	{
 	global $ADODB_COUNTRECS;
 		
@@ -1451,7 +1451,7 @@
 	* @param sql			SQL statement
 	* @param [inputarr]		input bind array
 	*/
-	function GetRow($sql,$inputarr=false)
+	function &GetRow($sql,$inputarr=false)
 	{
 	global $ADODB_COUNTRECS;
 		$crecs = $ADODB_COUNTRECS;
@@ -1471,7 +1471,7 @@
 		return $false;
 	}
 	
-	function CacheGetRow($secs2cache,$sql=false,$inputarr=false)
+	function &CacheGetRow($secs2cache,$sql=false,$inputarr=false)
 	{
 		$rs =& $this->CacheExecute($secs2cache,$sql,$inputarr);
 		if ($rs) {
@@ -1531,7 +1531,7 @@
 	* @param [inputarr]	array of bind variables
 	* @return		the recordset ($rs->databaseType == 'array')
  	*/
-	function CacheSelectLimit($secs2cache,$sql,$nrows=-1,$offset=-1,$inputarr=false)
+	function &CacheSelectLimit($secs2cache,$sql,$nrows=-1,$offset=-1,$inputarr=false)
 	{	
 		if (!is_numeric($secs2cache)) {
 			if ($sql === false) $sql = -1;
@@ -1704,7 +1704,7 @@
 	 * @param [inputarr]	holds the input data  to bind to
 	 * @return 		RecordSet or false
 	 */
-	function CacheExecute($secs2cache,$sql=false,$inputarr=false)
+	function &CacheExecute($secs2cache,$sql=false,$inputarr=false)
 	{
 
 			
@@ -2042,7 +2042,7 @@
 		}
 	}
 
-	function GetActiveRecordsClass($class, $table,$whereOrderBy=false,$bindarr=false, $primkeyArr=false)
+	function &GetActiveRecordsClass($class, $table,$whereOrderBy=false,$bindarr=false, $primkeyArr=false)
 	{
 	global $_ADODB_ACTIVE_DBS;
 	
@@ -2079,7 +2079,7 @@
 		return $arr;
 	}
 	
-	function GetActiveRecords($table,$where=false,$bindarr=false,$primkeyArr=false)
+	function &GetActiveRecords($table,$where=false,$bindarr=false,$primkeyArr=false)
 	{
 		$arr =& $this->GetActiveRecordsClass('ADODB_Active_Record', $table, $where, $bindarr, $primkeyArr);
 		return $arr;
@@ -2215,7 +2215,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return  array of tables for current database.
 	 */ 
-	function MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -2277,7 +2277,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return  array of ADOFieldObjects for current table.
 	 */
-	function MetaColumns($table,$normalize=true) 
+	function &MetaColumns($table,$normalize=true) 
 	{
 	global $ADODB_FETCH_MODE;
 		
@@ -2336,7 +2336,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	          )
 		)		
       */
-     function MetaIndexes($table, $primary = false, $owner = false)
+     function &MetaIndexes($table, $primary = false, $owner = false)
      {
 	 		$false = false;
             return $false;
@@ -2348,7 +2348,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return  array of column names for current table.
 	 */ 
-	function MetaColumnNames($table, $numIndexes=false,$useattnum=false /* only for postgres */) 
+	function &MetaColumnNames($table, $numIndexes=false,$useattnum=false /* only for postgres */) 
 	{
 		$objarr =& $this->MetaColumns($table);
 		if (!is_array($objarr)) {
@@ -2608,7 +2608,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	/**
 	* Will select the supplied $page number from a recordset, given that it is paginated in pages of 
 	* $nrows rows per page. It also saves two boolean values saying if the given page is the first 
-	* and/or last one of the recordset. Added by Ivï¿½n Oliva to provide recordset pagination.
+	* and/or last one of the recordset. Added by Iván Oliva to provide recordset pagination.
 	*
 	* See readme.htm#ex8 for an example of usage.
 	*
@@ -2622,7 +2622,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	* NOTE: phpLens uses a different algorithm and does not use PageExecute().
 	*
 	*/
-	function PageExecute($sql, $nrows, $page, $inputarr=false, $secs2cache=0) 
+	function &PageExecute($sql, $nrows, $page, $inputarr=false, $secs2cache=0) 
 	{
 		global $ADODB_INCLUDED_LIB;
 		if (empty($ADODB_INCLUDED_LIB)) include(ADODB_DIR.'/adodb-lib.inc.php');
@@ -2635,7 +2635,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	/**
 	* Will select the supplied $page number from a recordset, given that it is paginated in pages of 
 	* $nrows rows per page. It also saves two boolean values saying if the given page is the first 
-	* and/or last one of the recordset. Added by Ivï¿½n Oliva to provide recordset pagination.
+	* and/or last one of the recordset. Added by Iván Oliva to provide recordset pagination.
 	*
 	* @param secs2cache	seconds to cache data, set to 0 to force query
 	* @param sql
@@ -2644,7 +2644,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	* @param [inputarr]	array of bind variables
 	* @return		the recordset ($rs->databaseType == 'array')
 	*/
-	function CachePageExecute($secs2cache, $sql, $nrows, $page,$inputarr=false) 
+	function &CachePageExecute($secs2cache, $sql, $nrows, $page,$inputarr=false) 
 	{
 		/*switch($this->dataProvider) {
 		case 'postgres':
@@ -2743,9 +2743,9 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	var $_obj; 				/** Used by FetchObj */
 	var $_names;			/** Used by FetchObj */
 	
-	var $_currentPage = -1;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
-	var $_atFirstPage = false;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
-	var $_atLastPage = false;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
+	var $_currentPage = -1;	/** Added by Iván Oliva to implement recordset pagination */
+	var $_atFirstPage = false;	/** Added by Iván Oliva to implement recordset pagination */
+	var $_atLastPage = false;	/** Added by Iván Oliva to implement recordset pagination */
 	var $_lastPageNo = -1; 
 	var $_maxRecordCount = 0;
 	var $datetime = false;
@@ -2847,7 +2847,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return an array indexed by the rows (0-based) from the recordset
 	 */
-	function GetArray($nRows = -1) 
+	function &GetArray($nRows = -1) 
 	{
 	global $ADODB_EXTENSION; if ($ADODB_EXTENSION) {
 		$results = adodb_getall($this,$nRows);
@@ -2863,7 +2863,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 		return $results;
 	}
 	
-	function GetAll($nRows = -1)
+	function &GetAll($nRows = -1)
 	{
 		$arr =& $this->GetArray($nRows);
 		return $arr;
@@ -2887,7 +2887,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return an array indexed by the rows (0-based) from the recordset
 	 */
-	function GetArrayLimit($nrows,$offset=-1) 
+	function &GetArrayLimit($nrows,$offset=-1) 
 	{	
 		if ($offset <= 0) {
 			$arr =& $this->GetArray($nrows);
@@ -2914,7 +2914,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return an array indexed by the rows (0-based) from the recordset
 	 */
-	function GetRows($nRows = -1) 
+	function &GetRows($nRows = -1) 
 	{
 		$arr =& $this->GetArray($nRows);
 		return $arr;
@@ -2936,7 +2936,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 * @return an associative array indexed by the first column of the array, 
 	 * 	or false if the  data has less than 2 cols.
 	 */
-	function GetAssoc($force_array = false, $first2cols = false) 
+	function &GetAssoc($force_array = false, $first2cols = false) 
 	{
 	global $ADODB_EXTENSION;
 	
@@ -3122,7 +3122,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	*
 	* @return false or array containing the current record
 	*/
-	function FetchRow()
+	function &FetchRow()
 	{
 		if ($this->EOF) {
 			$false = false;
@@ -3286,7 +3286,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
    *
    * $upper  0 = lowercase, 1 = uppercase, 2 = whatever is returned by FetchField
    */
-	function GetRowAssoc($upper=1)
+	function &GetRowAssoc($upper=1)
 	{
 		$record = array();
 	 //	if (!$this->fields) return $record;
@@ -3394,7 +3394,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return the ADOFieldObject for that column, or false.
 	 */
-	function FetchField($fieldoffset = -1) 
+	function &FetchField($fieldoffset = -1) 
 	{
 		// must be defined by child class
 		
@@ -3420,7 +3420,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	*
 	* @return the object with the properties set to the fields of the current row
 	*/
-	function FetchObj()
+	function &FetchObj()
 	{
 		$o =& $this->FetchObject(false);
 		return $o;
@@ -3434,7 +3434,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	*
 	* @return the object with the properties set to the fields of the current row
 	*/
-	function FetchObject($isupper=true)
+	function &FetchObject($isupper=true)
 	{
 		if (empty($this->_obj)) {
 			$this->_obj = new ADOFetchObj();
@@ -3467,7 +3467,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	*
 	* Fixed bug reported by tim@orotech.net
 	*/
-	function FetchNextObj()
+	function &FetchNextObj()
 	{
 		$o =& $this->FetchNextObject(false);
 		return $o;
@@ -3485,7 +3485,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	*
 	* Fixed bug reported by tim@orotech.net
 	*/
-	function FetchNextObject($isupper=true)
+	function &FetchNextObject($isupper=true)
 	{
 		$o = false;
 		if ($this->_numOfRows != 0 && !$this->EOF) {
@@ -3818,7 +3818,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 			$this->Init();
 		}
 		
-		function GetArray($nRows=-1)
+		function &GetArray($nRows=-1)
 		{
 			if ($nRows == -1 && $this->_currentRow <= 0 && !$this->_skiprow1) {
 				return $this->_array;
@@ -3856,7 +3856,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 			return $this->fields[$this->bind[strtoupper($colname)]];
 		}
 		
-		function FetchField($fieldOffset = -1) 
+		function &FetchField($fieldOffset = -1) 
 		{
 			if (isset($this->_fieldobjects)) {
 				return $this->_fieldobjects[$fieldOffset];
@@ -3971,7 +3971,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	/**
 	 * synonym for ADONewConnection for people like me who cannot remember the correct name
 	 */
-	function NewADOConnection($db='')
+	function &NewADOConnection($db='')
 	{
 		$tmp =& ADONewConnection($db);
 		return $tmp;
@@ -3985,7 +3985,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	 *
 	 * @return the freshly created instance of the Connection class.
 	 */
-	function ADONewConnection($db='')
+	function &ADONewConnection($db='')
 	{
 	GLOBAL $ADODB_NEWCONNECTION, $ADODB_LASTDB;
 		
@@ -4152,7 +4152,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 		return $drivername;
 	}
 	
-	function NewPerfMonitor(&$conn)
+	function &NewPerfMonitor(&$conn)
 	{
 		$false = false;
 		$drivername = _adodb_getdriver($conn->dataProvider,$conn->databaseType,true);
@@ -4166,7 +4166,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 		return $perf;
 	}
 	
-	function NewDataDictionary(&$conn,$drivername=false)
+	function &NewDataDictionary(&$conn,$drivername=false)
 	{
 		$false = false;
 		if (!$drivername) $drivername = _adodb_getdriver($conn->dataProvider,$conn->databaseType);

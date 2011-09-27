@@ -140,7 +140,7 @@ class ADODB_ODBC_DB2 extends ADODB_odbc {
 		return $this->GetOne("select $flds from $tables where $where for update");
 	}
 	
-	function MetaTables($ttype=false,$showSchema=false, $qtable="%", $qschema="%")
+	function &MetaTables($ttype=false,$showSchema=false, $qtable="%", $qschema="%")
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -184,7 +184,7 @@ class ADODB_ODBC_DB2 extends ADODB_odbc {
 		return $arr2;
 	}
 
-	function MetaIndexes ($table, $primary = FALSE, $owner=false)
+	function &MetaIndexes ($table, $primary = FALSE, $owner=false)
 	{
         // save old fetch mode
         global $ADODB_FETCH_MODE;
@@ -278,7 +278,7 @@ class ADODB_ODBC_DB2 extends ADODB_odbc {
 	} 
  
 	
-	function SelectLimit($sql,$nrows=-1,$offset=-1,$inputArr=false)
+	function &SelectLimit($sql,$nrows=-1,$offset=-1,$inputArr=false)
 	{
 		$nrows = (integer) $nrows;
 		if ($offset <= 0) {

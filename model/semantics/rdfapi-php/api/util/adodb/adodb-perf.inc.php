@@ -570,7 +570,7 @@ Committed_AS:   348732 kB
 	/*
 		Raw function returning array of poll paramters
 	*/
-	function PollParameters()
+	function &PollParameters()
 	{
 		$arr[0] = (float)$this->DBParameter('data cache hit ratio');
 		$arr[1] = (float)$this->DBParameter('data reads');

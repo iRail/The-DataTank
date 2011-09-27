@@ -19,7 +19,7 @@
 include('../adodb.inc.php');
 include('../tohtml.inc.php');
 
- function send2server($url,$sql)
+ function &send2server($url,$sql)
  {
 	$url .= '?sql='.urlencode($sql);
 	print "<p>$url</p>";

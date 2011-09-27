@@ -264,7 +264,7 @@ class ADODB_odbc extends ADOConnection {
 	
 	
 	
-	function MetaTables($ttype=false)
+	function &MetaTables($ttype=false)
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -370,7 +370,7 @@ See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/od
 		}
 	}
 	
-	function MetaColumns($table)
+	function &MetaColumns($table)
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -614,7 +614,7 @@ class ADORecordSet_odbc extends ADORecordSet {
 
 
 	// returns the field object
-	function FetchField($fieldOffset = -1) 
+	function &FetchField($fieldOffset = -1) 
 	{
 		
 		$off=$fieldOffset+1; // offsets begin at 1
@@ -661,7 +661,7 @@ class ADORecordSet_odbc extends ADORecordSet {
 	}
 	
 	// speed up SelectLimit() by switching to ADODB_FETCH_NUM as ADODB_FETCH_ASSOC is emulated
-	function GetArrayLimit($nrows,$offset=-1) 
+	function &GetArrayLimit($nrows,$offset=-1) 
 	{
 		if ($offset <= 0) {
 			$rs =& $this->GetArray($nrows);

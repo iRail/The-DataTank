@@ -49,7 +49,7 @@ class  ADODB_access extends ADODB_odbc {
 		return " IIF(IsNull($field), $ifNull, $field) "; // if Access
 	}
 /*
-	function MetaTables()
+	function &MetaTables()
 	{
 	global $ADODB_FETCH_MODE;
 	

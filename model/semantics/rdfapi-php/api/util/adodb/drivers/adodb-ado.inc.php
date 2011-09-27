@@ -147,7 +147,7 @@ class ADODB_ado extends ADOConnection {
 
 */
 	
-	function MetaTables()
+	function &MetaTables()
 	{
 		$arr= array();
 		$dbc = $this->_connectionID;
@@ -169,7 +169,7 @@ class ADODB_ado extends ADOConnection {
 		return $arr;
 	}
 	
-	function MetaColumns($table)
+	function &MetaColumns($table)
 	{
 		$table = strtoupper($table);
 		$arr = array();
@@ -204,7 +204,7 @@ class ADODB_ado extends ADOConnection {
 
 	
 	/* returns queryID or false */
-	function _query($sql,$inputarr=false) 
+	function &_query($sql,$inputarr=false) 
 	{
 		
 		$dbc = $this->_connectionID;
@@ -337,7 +337,7 @@ class ADORecordSet_ado extends ADORecordSet {
 
 
 	// returns the field object
-	function FetchField($fieldOffset = -1) {
+	function &FetchField($fieldOffset = -1) {
 		$off=$fieldOffset+1; // offsets begin at 1
 		
 		$o= new ADOFieldObject();

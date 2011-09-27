@@ -53,7 +53,7 @@ class ADODB_netezza extends ADODB_postgres64 {
 	
 	}
 	
-	function MetaColumns($table,$upper=true) 
+	function &MetaColumns($table,$upper=true) 
 	{
 	
 	// Changed this function to support Netezza which has no concept of keys
