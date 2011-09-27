@@ -30,7 +30,7 @@ class GenericResourceFactory extends AResourceFactory {
     
     public function createReader($package,$resource, $parameters){
         include_once("model/resources/read/GenericResourceReader.class.php");
-        $reader = new GenericResourceReader($package, $resource, $parameters["generic_type"]);
+        $reader = new GenericResourceReader($package, $resource);//, $parameters["generic_type"]);
         $reader->processParameters($parameters);
         return $reader;
     }
@@ -41,9 +41,23 @@ class GenericResourceFactory extends AResourceFactory {
         return $deleter;
     }
 
-    public function makeDoc($doc){
-        //todo - write query to get all generic documentation
-        return $this->getAllResourceNames();
+    public function makeDoc($doc){        
+        foreach($this->getAllResourceNames() as $package => $resourcenames){
+            if(!isset($doc->$package)){
+                $doc->$package = new StdClass();
+            }
+            
+            foreach($resourcenames as $resourcename){
+                $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
+                $doc->$package->$resourcename = new StdClass();
+                $doc->$package->$resourcename->doc = $documentation["doc"];
+                $doc->$package->$resourcename->requiredparameters = array();
+		$doc->$package->$resourcename->parameters = array();
+                $doc->$package->$resourcename->formats = array();//if empty array: allow all
+                $doc->$package->$resourcename->creation_timestamp = $documentation["creation_timestamp"];
+                $doc->$package->$resourcename->modification_timestamp = $documentation["last_update_timestamp"];
+            }
+        }
     }
 
     protected function getAllResourceNames(){

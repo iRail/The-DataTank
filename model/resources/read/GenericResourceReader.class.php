@@ -10,6 +10,7 @@
 
 include_once("AReader.class.php");
 include_once("model/DBQueries.class.php");
+include_once("model/resources/GenericResource.class.php");
 
 class GenericResourceReader extends AReader{
 
@@ -21,7 +22,8 @@ class GenericResourceReader extends AReader{
      * execution method
      */
     public function read(){
-        return new GenericResource($this->package,$this->resource);
+        $genres = new GenericResource($this->package,$this->resource);
+        return $genres->call();
     }
 
     /**
@@ -34,11 +36,18 @@ class GenericResourceReader extends AReader{
 
     /**
      * get the allowed formats
+     * @Deprecated !!  We allow all formats now !
      */
     public function getAllowedFormatters(){
         $result = DBQueries::getGenericResourcePrintMethods($this->package, $this->resource);
         return isset($result["print_methods"])?explode(";", $result["print_methods"]):array();
     }
 
+    /**
+     * Since there are no parameters for generic resources...
+     */
+    public function setParameter($key,$value){
+        
+    }
 }
 ?>

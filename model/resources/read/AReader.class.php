@@ -14,7 +14,15 @@ abstract class AReader{
     // package and resource are always the two minimum parameters
     protected $parameters = array();
     protected $requiredParameters = array();
+    protected $package;
+    protected $resource;
     
+
+    public function __construct($package,$resource){
+        $this->package = $package;
+        $this->resource = $resource;
+    }
+
     /**
      * execution method
      */

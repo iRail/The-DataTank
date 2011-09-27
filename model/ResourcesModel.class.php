@@ -132,9 +132,25 @@ class ResourcesModel{
     public function deleteResource($package, $resource){
         //first check if the resource exists
         if(!$this->hasResource($package,$resource)){
-            throw new ResourceOrPackageNotFoundTDTException($package,$resource);
+            throw new ResourceOrPackageNotFoundTDTException("package/resource couple ".$package ."/".$resource . " not found.");
         }
-        $deleter = $factory[$restype]->createDeleter($package,$resource);
+        /**
+         * We only support the deletion of generic and remote resources and packages by 
+         * an API call.
+         */
+        $factory = "";
+        if($this->factories["generic"]->hasResource($package,$resource)){
+            $factory = $this->factories["generic"];
+        }else if($this->factories["remote"]->hasResource($package,$resource)){
+            $factory = $this->factories["remote"];
+        }else{
+            /**
+             * TODO we don't support deletion of core or installed resources via an API
+             * call so throw exception ?
+             */
+            return;
+        }
+        $deleter = $factory->createDeleter($package,$resource);
         $deleter->delete();
     }
 
@@ -143,8 +159,14 @@ class ResourcesModel{
      */
     public function deletePackage($package){
         $d = $this->getAllDoc();
-        foreach(get_object_vars($d->$package) as $resource){
-            $this->deleteResource($package, $resource);
+        if(isset($d->$package)){   
+            $resources = $d->$package;
+            foreach($d->$package as $resource => $documentation){
+                $this->deleteResource($package, $resource);
+            }
+            DBQueries::deletePackage($package);
+        }else{
+            throw new ResourceOrPackageNotFoundTDTException($package. " is not an existing package.");
         }
     }
 

@@ -11,11 +11,13 @@
 
 class Queries extends AReader{
 
-    // must be set! Contains the value of the module that needs to be analysed.
-    private $package; 
-    // if set only look at certain data from a certain method within the given module.
-    private $resource;
+    
     private $queryResults;
+
+    public function __construct($package,$resource){
+        parent::__construct($package,$resource);
+    }
+    
 
     public static function getParameters(){
 	return array("package" => "Name of a package that needs to be analysed, must be set !",

@@ -8,6 +8,7 @@
  * @author Jan Vansteenlandt
  */
 include_once("ADeleter.class.php");
+include_once("model/resources/GenericResource.class.php");
 
 class GenericResourceDeleter extends ADeleter{
     
@@ -21,16 +22,18 @@ class GenericResourceDeleter extends ADeleter{
     public function delete(){
         $resource = new GenericResource($this->package,$this->resource);
         $strategy = $resource->getStrategy();
-        $strategy->onDelete($package,$resource);
+        $strategy->onDelete($this->package,$this->resource);
 
-        DBQueries::deleteForeignRelation($package,$resource);
+        DBQueries::deleteForeignRelation($this->package,$this->resource);
             
         // delete any published columns entry
-        DBQueries::deletePublishedColumns($package,$resource);
+        DBQueries::deletePublishedColumns($this->package,$this->resource);
         
         //now the only thing left to delete is the main row
-        DBQueries::deleteGenericResource($package, $resource);
+        DBQueries::deleteGenericResource($this->package, $this->resource);
 
+        // also delete the resource entry
+        DBQueries::deleteResource($this->package,$this->resource);
     }
 }
 ?>
