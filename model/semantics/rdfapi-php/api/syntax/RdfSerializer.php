@@ -514,13 +514,9 @@ class RdfSerializer extends Object {
                             $this->m_out .= ' ' . RDF_NAMESPACE_PREFIX . ':' . RDF_PARSE_TYPE . '="' . RDF_PARSE_TYPE_LITERAL . '"';
                         } else {
                             //Miel: short datatype
-                            if ($this->use_short_datatypes) {
-                                $this->m_out .= ' ' . RDF_NAMESPACE_PREFIX . ':' . RDF_DATATYPE . '="';
-                                $this->writeAbsoluteResourceReference($statement->getObject()->getDatatype());
-                                $this->m_out .= '"';
-                            } else {
-                                $this->m_out .= ' ' . RDF_NAMESPACE_PREFIX . ':' . RDF_DATATYPE . '="' . $statement->getObject()->getDatatype() . '"';
-                            }
+                            $this->m_out .= ' ' . RDF_NAMESPACE_PREFIX . ':' . RDF_DATATYPE . '="';
+                            $this->writeAbsoluteDatatypeReference($statement->getObject()->getDatatype());
+                            $this->m_out .= '"';
                         }
                     if ($statement->getObject()->getLanguage() != NULL)
                         $this->m_out .= ' ' . XML_NAMESPACE_PREFIX . ':' . XML_LANG . '="' . $statement->getObject()->getLanguage() . '"';
@@ -572,6 +568,22 @@ class RdfSerializer extends Object {
         $localName = RDFUtil::guessName($rebaseURI);
         $text = $rebaseURI;
         if ($namespace != '' and ($this->use_entities)) {
+            $prefix = array_search($namespace, $this->m_namespaces);
+            $text = '&' . $prefix . ';' . $localName;
+        } else
+            $text = RDFUtil::escapeValue($text);
+        $this->m_out .= $text;
+    }
+
+    /**
+     * @param String $rebaseURI
+     * @access   private
+     */
+    private function writeAbsoluteDatatypeReference($rebaseURI) {
+        $namespace = RDFUtil::guessNamespace($rebaseURI);
+        $localName = RDFUtil::guessName($rebaseURI);
+        $text = $rebaseURI;
+        if ($namespace != '' and ($this->use_short_datatypes)) {
             $prefix = array_search($namespace, $this->m_namespaces);
             $text = '&' . $prefix . ';' . $localName;
         } else
