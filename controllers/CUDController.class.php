@@ -61,8 +61,7 @@ class CUDController extends AController{
         parse_str(file_get_contents("php://input"),$_PUT);
 
         //we need to be authenticated
-        if (true) {
-        //if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
+        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
             $model = ResourcesModel::getInstance();
             $model->createResource($package,$resource, $_PUT);
             
