@@ -17,7 +17,9 @@ class InstalledResourceFactory extends AResourceFactory{
     
     public function createReader($package,$resource, $parameters){
         include_once("custom/packages/" . $package . "/" . $resource . ".class.php");
-        return new $resource($package,$resource);
+        $creator = new $resource($package,$resource);
+        $creator->processParameters($parameters);
+        return $creator;
     }
     
     public function createDeleter($package,$resource){
