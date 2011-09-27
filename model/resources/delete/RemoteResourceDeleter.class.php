@@ -9,7 +9,7 @@
  */
 include_once("ADeleter.class.php");
 
-class RemoteResourceDeleter extends ADelete{
+class RemoteResourceDeleter extends ADeleter{
     
     public function __construct($package,$resource){
         parent::__construct($package,$resource);
@@ -19,7 +19,7 @@ class RemoteResourceDeleter extends ADelete{
      * execution method
      */
     public function delete(){
-       DBQueries::deleteRemotePackage($package);
+       DBQueries::deleteRemotePackage($this->package);
     }
 }
 ?>

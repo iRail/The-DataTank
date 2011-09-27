@@ -68,7 +68,7 @@ class RemoteResourceCreator extends ACreator{
         // 3. store it
         $package_id = parent::makePackage($this->package);
         $resource_id = parent::makeResource($package_id, $this->resource, "remote");
-        DBQueries::storeRemoteResource($resource_id, $this->package, $base_url);
+        DBQueries::storeRemoteResource($resource_id, $this->package_name, $base_url);
     }
     
     /**

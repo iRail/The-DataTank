@@ -46,7 +46,7 @@ class RemoteResourceFactory extends AResourceFactory{
     
     public function createDeleter($package,$resource){
         include_once("model/resources/delete/RemoteResourceDeleter.class.php");
-        return new RemoteResourceDeleter();
+        return new RemoteResourceDeleter($package,$resource);
     }
     
     public function makeDoc($doc){

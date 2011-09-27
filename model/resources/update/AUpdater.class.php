@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Abstract class to update a resource
  *
