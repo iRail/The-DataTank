@@ -33,9 +33,7 @@ class RDFOutput {
      */
     public function buildRdfOutput($object) {
         $this->model = ModelFactory::getResModel(MEMMODEL);
-
         $this->analyzeVariable($object, RequestURI::getInstance()->getRealWorldObjectURI());
-
         return $this->model->getModel();
     }
 
@@ -114,7 +112,7 @@ class RDFOutput {
                 $resource->add($object);
             else if (is_a($resource, 'ResResource'))
                 $resource->addProperty($property, $object);
-        }
+        } 
     }
 
     /**
@@ -131,18 +129,25 @@ class RDFOutput {
         //Get the right mapping class
         $rdfmapper = new RDFMapper();
         $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
-
-        //Define the type of this resource to the mapping resource in RDF
-        $resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
-
+        
+        if (!is_null($mapping_resource)){
+            //Define the type of this resource to the mapping resource in RDF
+            $resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
+        } else {
+            $resource->addProperty(RDF_RES::TYPE(), OWL_RES::THING());
+        }
+        
         return $resource;
     }
 
     private function getMappedProperty($uri) {
         //Get the right mapping class
         $rdfmapper = new RDFMapper();
-        $mapped_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
-        return $mapped_resource;
+        $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
+        if (is_null($mapping_resource)){
+            return OWL_RES::PROPERTY();
+        }
+        return $mapping_resource;
     }
 
     /**

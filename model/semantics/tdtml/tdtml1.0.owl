@@ -25,16 +25,6 @@
 #################################################################
 
 
-###  http://thedatatank.com/tdml/1.0#equals
-
-<http://thedatatank.com/tdml/1.0#equals> rdf:type owl:ObjectProperty ;
-                                         
-                                         rdfs:range :Mappable ;
-                                         
-                                         rdfs:domain :Mappable .
-
-
-
 ###  http://www.thedatatank.org/tdml/1.0#has_property
 
 :has_property rdf:type owl:ObjectProperty ;
@@ -50,20 +40,6 @@
 :has_resources rdf:type owl:ObjectProperty ;
                
                rdfs:domain :TDTPackage .
-
-
-
-###  http://www.thedatatank.org/tdml/1.0#is_a
-
-:is_a rdf:type owl:FunctionalProperty ,
-               owl:ObjectProperty ;
-      
-      rdfs:range :TDTPackage ,
-                 :TDTResource ;
-      
-      rdfs:domain owl:Thing ;
-      
-      rdfs:subPropertyOf owl:topObjectProperty .
 
 
 

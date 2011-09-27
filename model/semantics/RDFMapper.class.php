@@ -138,7 +138,6 @@ class RDFMapper {
         $tdtproperty_res = $model->createResource(RDFConstants::$TDML_NS . "TDTProperty");
 
         //creating TDTML property resources
-        $is_a_prop = $model->createProperty(RDFConstants::$TDML_NS . "is_a");
         $name_prop = $model->createProperty(RDFConstants::$TDML_NS . "name");
         $has_resources_prop = $model->createProperty(RDFConstants::$TDML_NS . "has_resources");
         $maps_prop = $model->createProperty(RDFConstants::$TDML_NS . "maps");
@@ -147,17 +146,18 @@ class RDFMapper {
         $package_name_lit = $model->createTypedLiteral($tdt_package, "datatype:STRING");
 
         // Add the properties
-        $package_res->addProperty($is_a_prop, $tdtpackage_res);
+        $package_res->addProperty(RDF_RES::TYPE(), $tdtpackage_res);
         $package_res->addProperty($name_prop, $package_name_lit);
 
 
         $resources_list = $model->createList();
         $package_res->addProperty($has_resources_prop, $resources_list);
+        $resource_res->addProperty($maps_prop, RDF_RES::DESCRIPTION());
 
         //Get all resources in package
         $doc = ResourcesModel::getInstance()->getAllDoc();
         //limit the rources to the required package
-        
+
         $allresources = get_object_vars($doc);
 
         foreach ($allresources[$tdt_package] as $resource => $val) {
@@ -167,7 +167,7 @@ class RDFMapper {
 
             $resource_name_lit = $model->createTypedLiteral($resource, "datatype:STRING");
             $resource_res->addProperty($name_prop, $resource_name_lit);
-            $resource_res->addProperty($is_a_prop, $tdtresource_res);
+            $resource_res->addProperty(RDF_RES::TYPE(), $tdtresource_res);
             $resource_res->addProperty($maps_prop, RDF_RES::DESCRIPTION());
         }
     }
@@ -198,7 +198,7 @@ class RDFMapper {
     }
 
     /**
-     * Adds a mapping between TDT Resource and a class. If a mapping already exists for this resource, it gets updated.
+     * Adds a mapping between TDT Resource and a resource. If a mapping already exists for this resource, it gets updated.
      * The class is known internally or described in suplied onthology namespace.
      *
      * @param	string $tdt_package The name of the package containing the resource
@@ -212,7 +212,7 @@ class RDFMapper {
             throw new RdfTDTException('Package, Resource or Mapping class unknown ');
 
         $model = $this->getMapping($tdt_package);
-        
+
         $resource = $model->createResource($tdt_resource);
         $property = $model->createProperty(RDFConstants::$TDML_NS . "maps");
 
@@ -251,13 +251,10 @@ class RDFMapper {
             $resource->removeAll($property);
         }
         $resource->addProperty($property, $object);
-        
-        
-
     }
 
     /**
-     * Maps a resource to another, but equal resource.
+     * Maps a TDT resource to another, but equal TDT resource.
      *
      * @param	string $tdt_package The name of the package containing the resource
      * @param	string $tdt_resource The path of the resource
@@ -272,7 +269,7 @@ class RDFMapper {
 
         $resource = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
         $object = $model->createResource($equal_resource);
-        $equals_prop = $model->createProperty(RDFConstants::$TDML_NS . "equals");
+        $equals_prop = $model->createProperty(OWL_RES::SAME_AS());
         $maps_prop = $model->createProperty(RDFConstants::$TDML_NS . "maps");
 
         $resource->addProperty($equals_prop, $object);
@@ -283,7 +280,7 @@ class RDFMapper {
     }
 
     /**
-     * Removes a mapping between TDT Resource and a class.
+     * Removes a mapping between TDT Resource and a resource.
      *
      * @param	string $tdt_package The name of the package containing the resource
      * @param	string $tdt_resource The path of the resource
@@ -306,7 +303,7 @@ class RDFMapper {
     }
 
     /**
-     * Returns a ResResource containing the mapped class of this resource.
+     * Returns a ResResource containing the mapped resource of a TDT resource.
      *
      * @param	string $tdt_package The name of the package containing the resource
      * @param	string $tdt_resource The path of the resource
@@ -326,17 +323,22 @@ class RDFMapper {
             //rewrite URI to generic
             $tdt_resource = $this->stripResourcePath($tdt_resource) . '*';
             $mapping = $this->lookupMapping($model, $tdt_resource);
-
-            if (is_null($mapping))
-            //Default mapping value
-                return OWL_RES::THING();
         }
 
-
+        if (is_null($mapping))
+            return null;
+        else
         //Object of the triple is the needed class
-        return $mapping->getObject();
+            return $mapping->getObject();
     }
 
+    /**
+     * Look up resource that is mapped to this resource
+     *
+     * @param ResModel $model
+     * @param string $tdt_resource
+     * @return array Array of Statement objects containing equal resources
+     */
     private function lookupMapping($model, $tdt_resource) {
         $resource_res = $model->createResource($tdt_resource);
         $maps_prop = $model->createProperty(RDFConstants::$TDML_NS . "maps");
