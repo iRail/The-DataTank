@@ -42,43 +42,43 @@ class RDFTestMapping extends TDTUnitTest{
             $this->debug($request->result);
     }
     
-//    function testDeleteMapping(){
-//        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Resources/doc"; 
-//        
-//        $postvar = array(
-//            'update_type' => 'rdf_mapping',
-//            'rdf_mapping_method' => 'delete',
-//        );
-//        
-//                
-//        $request = new REST($url, $postvar, "POST");
-//         
-//        $request->execute();
-//        
-//        $this->assertEqual($request->http_code, 200);
-//        if($request->http_code != 200 && $request->result)
-//            $this->debug($request->result);
-//    }
-//    
-//    function testEqualsMapping(){
-//        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Queries/doc"; 
-//        $eq_url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Resources/doc";
-//        
-//        $postvar = array(
-//            'update_type' => 'rdf_mapping',
-//            'rdf_mapping_method' => 'equals',
-//            'rdf_mapping_class' => $eq_url,
-//        );
-//        
-//                
-//        $request = new REST($url, $postvar, "POST");
-//         
-//        $request->execute();
-//        
-//        $this->assertEqual($request->http_code, 200);
-//        if($request->http_code != 200 && $request->result)
-//            $this->debug($request->result);
-//    }
+    function testDeleteMapping(){
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Resources/doc"; 
+        
+        $postvar = array(
+            'update_type' => 'rdf_mapping',
+            'rdf_mapping_method' => 'delete',
+        );
+        
+                
+        $request = new REST($url, $postvar, "POST");
+         
+        $request->execute();
+        
+        $this->assertEqual($request->http_code, 200);
+        if($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
+    }
+    
+    function testEqualsMapping(){
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Queries/doc"; 
+        $eq_url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Resources/doc";
+        
+        $postvar = array(
+            'update_type' => 'rdf_mapping',
+            'rdf_mapping_method' => 'equals',
+            'rdf_mapping_class' => $eq_url,
+        );
+        
+                
+        $request = new REST($url, $postvar, "POST");
+         
+        $request->execute();
+        
+        $this->assertEqual($request->http_code, 200);
+        if($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
+    }
 
     
 }

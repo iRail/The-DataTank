@@ -178,6 +178,22 @@ define('HTML_TABLE_NS_ROW_COLOR1', '#FFFFFF');
 define('HTML_TABLE_NS_ROW_COLOR0', '#E7E7EF');
 
 // ----------------------------------------------------------------------------------
+// XML
+// ----------------------------------------------------------------------------------
+
+define('XML_NAMESPACE_PREFIX', 'xml');
+define('XML_NAMESPACE_DECLARATION_PREFIX', 'xmlns');
+define('XML_NAMESPACE_URI','http://www.w3.org/XML/1998/namespace' );
+define('XML_LANG','lang');
+define('DATATYPE_SHORTCUT_PREFIX','datatype:');
+
+// ----------------------------------------------------------------------------------
+// XMLSchema
+// ----------------------------------------------------------------------------------
+define('XML_SCHEMA','http://www.w3.org/2001/XMLSchema#');
+define('XML_SCHEMA_PREFIX','xsd');
+
+// ----------------------------------------------------------------------------------
 // RDF
 // ----------------------------------------------------------------------------------
 
@@ -220,7 +236,7 @@ define('RDF_XMLLITERAL', 'XMLLiteral');
 // ----------------------------------------------------------------------------------
 
 define('RDF_SCHEMA_URI','http://www.w3.org/2000/01/rdf-schema#' );
-define('RDF_DATATYPE_SCHEMA_URI','http://www.w3.org/TR/xmlschema-2' );
+define('RDF_DATATYPE_SCHEMA_URI',XML_SCHEMA );
 define('RDF_SCHEMA_PREFIX', 'rdfs');
 define('RDFS_SUBCLASSOF','subClassOf');
 define('RDFS_SUBPROPERTYOF','subPropertyOf');
@@ -246,34 +262,25 @@ define('OWL_SAME_AS','sameAs');
 define('OWL_INVERSE_OF','inverseOf');
 
 
-// ----------------------------------------------------------------------------------
-// XML
-// ----------------------------------------------------------------------------------
 
-define('XML_NAMESPACE_PREFIX', 'xml');
-define('XML_NAMESPACE_DECLARATION_PREFIX', 'xmlns');
-define('XML_NAMESPACE_URI','http://www.w3.org/XML/1998/namespace' );
-define('XML_LANG','lang');
-define('DATATYPE_SHORTCUT_PREFIX','datatype:');
-define('XML_SCHEMA','http://www.w3.org/2001/XMLSchema#');
 
 // ----------------------------------------------------------------------------------
 // RDF DATATYPE SHORTCUTS (extends datatype shortcuts to the full XML datatype URIs)
 // ----------------------------------------------------------------------------------
 
 $short_datatype = array(
-    'STRING'    => RDF_DATATYPE_SCHEMA_URI . '#string',
-    'DECIMAL'   => RDF_DATATYPE_SCHEMA_URI . '#decimal',
-    'INTEGER'   => RDF_DATATYPE_SCHEMA_URI . '#integer',
-    'INT'       => RDF_DATATYPE_SCHEMA_URI . '#int',
-    'SHORT'     => RDF_DATATYPE_SCHEMA_URI . '#short',
-    'BYTE'      => RDF_DATATYPE_SCHEMA_URI . '#byte',
-    'LONG'      => RDF_DATATYPE_SCHEMA_URI . '#long',
-    'LANGUAGE'  => RDF_DATATYPE_SCHEMA_URI . '#language',
-    'NAME'      => RDF_DATATYPE_SCHEMA_URI . '#name',
-    'BOOLEAN'      => RDF_DATATYPE_SCHEMA_URI . '#boolean',
-    'TIME'      => RDF_DATATYPE_SCHEMA_URI . '#boolean',
-    'DATE'      => RDF_DATATYPE_SCHEMA_URI . '#boolean'
+    'STRING'    => RDF_DATATYPE_SCHEMA_URI . 'string',
+    'DECIMAL'   => RDF_DATATYPE_SCHEMA_URI . 'decimal',
+    'INTEGER'   => RDF_DATATYPE_SCHEMA_URI . 'integer',
+    'INT'       => RDF_DATATYPE_SCHEMA_URI . 'int',
+    'SHORT'     => RDF_DATATYPE_SCHEMA_URI . 'short',
+    'BYTE'      => RDF_DATATYPE_SCHEMA_URI . 'byte',
+    'LONG'      => RDF_DATATYPE_SCHEMA_URI . 'long',
+    'LANGUAGE'  => RDF_DATATYPE_SCHEMA_URI . 'language',
+    'NAME'      => RDF_DATATYPE_SCHEMA_URI . 'name',
+    'BOOLEAN'      => RDF_DATATYPE_SCHEMA_URI . 'boolean',
+    'TIME'      => RDF_DATATYPE_SCHEMA_URI . 'time',
+    'DATE'      => RDF_DATATYPE_SCHEMA_URI . 'date'
 );
 
 // ----------------------------------------------------------------------------------
@@ -336,7 +343,7 @@ global $default_prefixes;
 $default_prefixes = array(
    RDF_NAMESPACE_PREFIX => RDF_NAMESPACE_URI,
    RDF_SCHEMA_PREFIX => RDF_SCHEMA_URI,
-   'xsd'  => 'http://www.w3.org/2001/XMLSchema#',
+   XML_SCHEMA_PREFIX  => XML_SCHEMA,
    OWL_PREFIX => OWL_URI,
    'dc' => 'http://purl.org/dc/elements/1.1/',
    'dcterms' => 'http://purl.org/dc/terms/',
