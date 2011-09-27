@@ -38,7 +38,7 @@ class RController extends AController{
 	}
         
         $parameters = $_GET;
-
+        
         //check for required parameters
         foreach($doc->$package->$resourcename->requiredparameters as $parameter){
             //set the parameter of the method
@@ -53,7 +53,7 @@ class RController extends AController{
         //for instance: http://api.../TDTInfo/Modules/module/1/ would make someone only select the second module
 	
         $result = $model->readResource($package,$resourcename, $parameters);
-
+        
         /*
          * Add foreign the required foreign relations URL's to the resulting object
          * If you do not know what these are, check our wiki on github.

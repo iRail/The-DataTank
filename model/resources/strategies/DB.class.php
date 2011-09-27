@@ -13,23 +13,24 @@ class DB extends ATabularData{
 
     public function __construct(){
         
-        $this->addParameters["db_type"] = "The type of the database engine, i.e. MySQL,PostgreSQL,SQLite.";
-        $this->addParameters["db_name"] = "The name of the database of which a table is to be published.";
-        $this->addParameters["db_table"] = "The name of the databas table that's supposed to be published.";
-        $this->addParameters["db_host"] = "The host to connect to in order to get access to the database.";
-        $this->addParameters["db_user"] = "The user to log into the database.";
-        $this->addParameters["db_password"] = "The password to log into the database.";
-        $this->addParameters["db_port"] = "The port to connect to on the host in order to get access to the database.";
-        $this->addParameters["columns"] = "The columns to publish.";
-        $this->addParameters["PK"] = "The primary key for each row.";
+        $this->parameters["db_type"] = "The type of the database engine, i.e. MySQL,PostgreSQL,SQLite.";
+        $this->parameters["db_name"] = "The name of the database of which a table is to be published.";
+        $this->parameters["db_table"] = "The name of the databas table that's supposed to be published.";
+        $this->parameters["host"] = "The host to connect to in order to get access to the database.";
+        $this->parameters["db_user"] = "The user to log into the database.";
+        $this->parameters["db_password"] = "The password to log into the database.";
+        $this->parameters["port"] = "The port to connect to on the host in order to get access to the database.";
+        $this->parameters["columns"] = "The columns to publish.";
+        $this->parameters["PK"] = "The primary key for each row.";
 
-        $this->requiredAddParameters[] = "db_type";
-        $this->requiredAddParameters[] = "db_name";
-        $this->requiredAddParameters[] = "db_table";
-        $this->requiredAddParameters[] = "db_port";
-        $this->requiredAddParameters[] = "db_user";
-        $this->requiredAddParameters[] = "db_password";
-        $this->requiredAddParameters[] = "columns";
+        $this->requiredParameters[] = "db_type";
+        $this->requiredParameters[] = "host";
+        $this->requiredParameters[] = "db_name";
+        $this->requiredParameters[] = "db_table";
+        $this->requiredParameters[] = "port";
+        $this->requiredParameters[] = "db_user";
+        $this->requiredParameters[] = "db_password";
+        $this->requiredParameters[] = "columns";
 
         /**
          * parameters for foreign key relations

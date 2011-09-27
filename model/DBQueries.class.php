@@ -15,16 +15,18 @@ class DBQueries {
      */
     static function getGenericResourceDoc($package,$resource) {
         return R::getRow(
-	    	"SELECT generic_resource.documentation as doc 
-             FROM package,generic_resource,resource 
-             WHERE package.package_name=:package and resource.resource_name =:resource
-             and package.id=resource.package_id and resource.id = generic_resource.resource_id",
+	    	"SELECT generic_resource.documentation as doc, creation_timestamp as creation_timestamp,
+                        last_update_timestamp as last_update_timestamp 
+                 FROM package,generic_resource,resource 
+                 WHERE package.package_name=:package and resource.resource_name =:resource
+                       and package.id=resource.package_id and resource.id = generic_resource.resource_id",
 	        array(':package' => $package, ':resource' => $resource)
 	    );
     }
     
     /**
      * Retrieve a specific resource's print methods
+     * @Deprecated We no longer allow specifications of certain print methods, all formats are allowed
      */
     static function getGenericResourcePrintMethods($package,$resource) {
         return R::getRow(

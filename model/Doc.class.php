@@ -19,10 +19,10 @@ class Doc{
         $doc = $c->get("documentation");
         if(is_null($doc)){
             $doc = new stdClass();
-            foreach($factories as $factory){
+            foreach($factories as $factory){ 
                 $factory->makeDoc($doc);
             }
-            $c->set("documentation",$doc,10); // cache it for 10 seconds by default
+            $c->set("documentation",$doc,0); // cache it for 10 seconds by default
         }
         return $doc;
     }
