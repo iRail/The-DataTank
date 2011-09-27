@@ -23,7 +23,7 @@ class ResLiteral extends Literal {
      * @var		ResModel
      * @access	private
      */
-    var $model;
+    private $model;
 
     /**
      * Constructor
@@ -32,7 +32,7 @@ class ResLiteral extends Literal {
      * @param	string	$str		label of the literal
      * @param 	string $language	optional language identifier
      */
-    function ResLiteral($str, $language = null) {
+    public function ResLiteral($str, $language = null) {
         parent::Literal($str, $language);
     }
 
@@ -42,7 +42,7 @@ class ResLiteral extends Literal {
      * @param	object model	$model
      * @access public
      */
-    function setAssociatedModel(& $model) {
+    public function setAssociatedModel(& $model) {
         $this->model = & $model;
     }
 
@@ -52,7 +52,7 @@ class ResLiteral extends Literal {
      * @return	object model	$model
      * @access public
      */
-    function getAssociatedModel() {
+    public function getAssociatedModel() {
         return $this->model;
     }
 

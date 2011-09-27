@@ -32,21 +32,21 @@ class ResList extends ResResource
 	* @var		ResResource
 	* @access	private
 	*/
-	var $rdfRestResource;
+	protected $rdfRestResource;
 	
 	/**
 	* Holds a ResResource with the uri rdf:first
 	* @var		ResResource
 	* @access	private
 	*/
-	var $rdfFirstResource;
+	protected $rdfFirstResource;
 		
 	/**
 	* Holds a ResResource with the uri rdf:nil
 	* @var		ResResource
 	* @access	private
 	*/
-	var $rdfNilResource;
+	protected $rdfNilResource;
 	
 	
 	/**
@@ -56,7 +56,7 @@ class ResList extends ResResource
     * @param string $uri 
 	* @access	public
     */		
-	function ResList($uri = null)
+	public function ResList($uri = null)
 	{
 		//call the parent's constructor
 		parent::ResResource($uri);
@@ -73,7 +73,7 @@ class ResList extends ResResource
    	* @return	ResResource 
    	* @access	public
    	*/
-	function get($position)
+	public function get($position)
 	{
 		//init
 		$listElement=$this;
@@ -96,7 +96,7 @@ class ResList extends ResResource
    	* @return	boolean 
    	* @access	public
    	*/
-	function add($resource)
+	public function add($resource)
 	{
 		//return false if this list is the empty list
 		if($this->uri==RDF_NAMESPACE_URI.RDF_NIL)
@@ -135,7 +135,7 @@ class ResList extends ResResource
    	* @access	public
    	*/
 	//todo: error handling, when empty list
-	function setHead($value)
+	public function setHead($value)
 	{	
 		//save the old value	
 		$oldValue=$this->getHead();
@@ -155,7 +155,7 @@ class ResList extends ResResource
    	* @access	public
    	*/
 	//todo: error handling, falls empty list
-	function getHead()
+	public function getHead()
 	{
 		return $this->_getValue($this);
 	}
@@ -168,7 +168,7 @@ class ResList extends ResResource
    	* @return	ResList 
    	* @access	public
    	*/
-	function removeHead()
+	public function removeHead()
 	{
 		//get the second list element
 		$rest=$this->_getRestElement($this);
@@ -194,7 +194,7 @@ class ResList extends ResResource
    	* @return	integer 
    	* @access	public
    	*/
-	function indexOf($resource, $offset = 0)
+	public function indexOf($resource, $offset = 0)
 	{
 		//init
 		$element=$this;
@@ -224,7 +224,7 @@ class ResList extends ResResource
    	* @return	object ResResource 
    	* @access	public
    	*/
-	function replace($index, $resource)
+	public function replace($index, $resource)
 	{
 		//get the list element at the $index position
 		$listElement=$this->_getListElement($index);
@@ -246,7 +246,7 @@ class ResList extends ResResource
    	* @return	boolean 
    	* @access	public
    	*/
-	function contains($value)
+	public function contains($value)
 	{
 		//return true, if a position was found.
 		$result=$this->indexOf($value);
@@ -259,7 +259,7 @@ class ResList extends ResResource
    	* @return	object ResList 
    	* @access	public
    	*/
-	function getTail()
+	public function getTail()
 	{
 		//get the second list element
 		$nextListElement= $this->_getRestElement($this);
@@ -277,7 +277,7 @@ class ResList extends ResResource
    	* @return	boolean 
    	* @access	public
    	*/
-	function removeList()
+	public function removeList()
 	{
 		$element=$this;
 
@@ -306,7 +306,7 @@ class ResList extends ResResource
    	* @return	integer 
    	* @access	public
    	*/
-	function isEmpty()
+	public function isEmpty()
 	{
 		return !$this->hasProperty($this->rdfFirstResource);
 	}
@@ -317,7 +317,7 @@ class ResList extends ResResource
    	* @return	array 
    	* @access	public
    	*/
-	function getContentInArray()
+	public function getContentInArray()
 	{
 		$result=array();
 		$element=$this;
@@ -353,7 +353,7 @@ class ResList extends ResResource
    	* @param	object ResList	$ResList
    	* @access	public
    	*/
-	function concatenate($ResList)
+	public function concatenate($ResList)
 	{
 		//get the last list element
 		$lastElement=$this->_getListElement();
@@ -374,7 +374,7 @@ class ResList extends ResResource
    	* @return	object ResList 
    	* @access	public
    	*/
-	function append($resList)
+	public function append($resList)
 	{
 		//get a copy of this list
 		$newList=$this->copy();
@@ -396,7 +396,7 @@ class ResList extends ResResource
    	* @return	object ResList 
    	* @access	public
    	*/
-	function copy()
+	public function copy()
 	{
 		//create a new list in the model
 		$newList=$this->model->createList();
@@ -417,7 +417,7 @@ class ResList extends ResResource
    	* @return	object ResList 
    	* @access	public
    	*/
-	function cons($value)
+	public function cons($value)
 	{
 		//create a new list
 		$newList=$this->model->createList();
@@ -439,7 +439,7 @@ class ResList extends ResResource
    	* @return	object Reslist 
    	* @access	public
    	*/
-	function setTail($resList)
+	public function setTail($resList)
 	{
 		//save the old tail
 		$oldTail=$this->getTail();
@@ -464,7 +464,7 @@ class ResList extends ResResource
    	* @return	boolean 
    	* @access	public
    	*/
-	function sameListAs($resList)
+	public function sameListAs($resList)
 	{
 		//init
 		$indexPos=0;
@@ -499,7 +499,7 @@ class ResList extends ResResource
    	* @return	object ResList 
    	* @access	public
    	*/
-	function remove($value)
+	public function remove($value)
 	{
 		//if the value is the value of the first list element(head)
 		//call the remove head position and return the new head
@@ -538,7 +538,7 @@ class ResList extends ResResource
    	* @return	boolean 
    	* @access	public
    	*/
-	function isValid()
+	public function isValid()
 	{
 		$element=$this;	
 		if ($this->_getValue($this)=== null && $this->_getRestElement($this) === null)
@@ -565,7 +565,7 @@ class ResList extends ResResource
    	* @return	object ResList 
    	* @access	private
    	*/
-	function _getRestElement($listElement)
+	public function _getRestElement($listElement)
 	{
 		//get the rdf:rest property
 		$statement= $this->model->getProperty($listElement,$this->rdfRestResource);
@@ -586,7 +586,7 @@ class ResList extends ResResource
    	* @return	object ResResource 
    	* @access	private
    	*/
-	function _getListElement($index = null)
+	public function _getListElement($index = null)
 	{
 		$element=$this;
 		$actualIndex=0;
@@ -622,7 +622,7 @@ class ResList extends ResResource
    	* @return	object ResResource 
    	* @access	private
    	*/
-	function _getValue($listResource)
+	public function _getValue($listResource)
 	{
 		//Return the value of the rdf:first property or null, if it isn't set
 		$statement=$this->model->getProperty($listResource,$this->rdfFirstResource);

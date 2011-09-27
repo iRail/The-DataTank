@@ -26,17 +26,19 @@ class MemModel extends Model {
     /**
      * Triples of the MemModel
      * @var		array
-     * @access	private
+     * @access	protected
      */
-    var $triples = array();
+    public $triples = array();
 
     /**
+
+
      * Array containing the search indices
      * @var		array['INDEX_TYPE'][]['label'][]['PosInModel']
      *
-     * @access   private
+     * @access   protected
      */
-    var $indexArr;
+    protected $indexArr;
 
     /**
      * depending on which index is used this variable is -1,0,1,2 or 3
@@ -48,17 +50,17 @@ class MemModel extends Model {
      *  3 : index over subject+object
      *
      * @var		int
-     * @access	private
+     * @access	protected
      */
-    var $indexed;
+    protected $indexed;
 
     /**
      * Array of namespaces
      *
      * @var     array
-     * @access	private
+     * @access	protected
      */
-    var $parsedNamespaces = array();
+    protected $parsedNamespaces = array();
 
     /**
      * Constructor
@@ -67,10 +69,9 @@ class MemModel extends Model {
      * @param string $baseURI
      * @access	public
      */
-    function MemModel($baseURI = NULL) {
+    public function MemModel($baseURI = NULL) {
         $this->setBaseURI($baseURI);
         $this->indexed = INDEX_TYPE;
-
     }
 
     /**
@@ -80,7 +81,7 @@ class MemModel extends Model {
      * @param	string	$uri
      * @access	public
      */
-    function setBaseURI($uri) {
+    public function setBaseURI($uri) {
 
         if ($uri != NULL) {
             $c = substr($uri, strlen($uri) - 1, 1);
@@ -96,7 +97,7 @@ class MemModel extends Model {
      * @return	integer
      * @access	public
      */
-    function size() {
+    public function size() {
         return count($this->triples);
     }
 
@@ -106,7 +107,7 @@ class MemModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function isEmpty() {
+    public function isEmpty() {
         if (count($this->triples) == 0) {
             return TRUE;
         } else {
@@ -122,7 +123,7 @@ class MemModel extends Model {
      * @access	public
      * @throws	PhpError
      */
-    function add($statement) {
+    public function add($statement) {
         if (!is_a($statement, 'Statement')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: add): Statement expected.';
             trigger_error($errmsg, E_USER_ERROR);
@@ -158,7 +159,7 @@ class MemModel extends Model {
      * @access	public
      * @throws	PhpError
      */
-    function addWithoutDuplicates($statement) {
+    public function addWithoutDuplicates($statement) {
 
         if (!is_a($statement, 'Statement')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: addWithoutDuplicates): Statement expected.';
@@ -183,7 +184,7 @@ class MemModel extends Model {
      * @access	public
      * @throws	PhpError
      */
-    function remove($statement) {
+    public function remove($statement) {
 
         if (!is_a($statement, 'Statement')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: remove): Statement expected.';
@@ -237,7 +238,7 @@ class MemModel extends Model {
      * @access	public
      * @return	string
      */
-    function toString() {
+    public function toString() {
         return 'MemModel[baseURI=' . $this->getBaseURI() . ';  size=' . $this->size() . ']';
     }
 
@@ -247,7 +248,7 @@ class MemModel extends Model {
      * @access	public
      * @return	string
      */
-    function toStringIncludingTriples() {
+    public function toStringIncludingTriples() {
         $dump = $this->toString() . chr(13);
         foreach ($this->triples as $value) {
             $dump .= $value->toString() . chr(13);
@@ -260,7 +261,7 @@ class MemModel extends Model {
      *
      * @access	public
      */
-    function writeAsHtml() {
+    public function writeAsHtml() {
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_RDF);
         $ser = new RdfSerializer();
         $rdf = & $ser->serialize($this);
@@ -275,7 +276,7 @@ class MemModel extends Model {
      *
      * @access	public
      */
-    function writeAsHtmlTable() {
+    public function writeAsHtmlTable() {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
         RDFUtil::writeHTMLTable($this);
@@ -287,7 +288,7 @@ class MemModel extends Model {
      * @access	public
      * @return	string
      */
-    function writeRdfToString() {
+    public function writeRdfToString() {
         // Import Package Syntax
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_RDF);
         $ser = new RdfSerializer();
@@ -308,7 +309,7 @@ class MemModel extends Model {
      * @throws   PhpError
      * @return	boolean
      */
-    function saveAs($filename, $type ='rdf') {
+    public function saveAs($filename, $type ='rdf') {
 
 
         // get suffix and create a corresponding serializer
@@ -341,7 +342,7 @@ class MemModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function contains(&$statement) {
+    public function contains(&$statement) {
 
         // no index ->linear contains
         if ($this->indexed == -1) {
@@ -368,7 +369,7 @@ class MemModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function containsAll(&$model) {
+    public function containsAll(&$model) {
 
         if (is_a($model, 'MemModel')) {
 
@@ -391,7 +392,7 @@ class MemModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function containsAny(&$model) {
+    public function containsAny(&$model) {
 
         if (is_a($model, 'MemModel')) {
 
@@ -424,7 +425,7 @@ class MemModel extends Model {
      * @param     int $mode
      * @access	public
      */
-    function index($mode) {
+    public function index($mode) {
 
         unset($this->indexArr);
         $this->indexArr = array();
@@ -461,7 +462,7 @@ class MemModel extends Model {
      * @return	boolean
      * @access	public
      */
-    function isIndexed() {
+    public function isIndexed() {
         if ($this->indexed != -1) {
             return TRUE;
         } else {
@@ -479,7 +480,7 @@ class MemModel extends Model {
      * @access public
      *
      */
-    function getIndexType() {
+    public function getIndexType() {
         return $this->indexed;
     }
 
@@ -497,7 +498,7 @@ class MemModel extends Model {
      * @access	public
      * @throws	PhpError
      */
-    function find($subject, $predicate, $object) {
+    public function find($subject, $predicate, $object) {
 
         if (
                 (!is_a($subject, 'Resource') && $subject != NULL) ||
@@ -576,7 +577,7 @@ class MemModel extends Model {
      * @return	object MemModel
      * @access	public
      */
-    function findRegex($subject_regex, $predicate_regex, $object_regex) {
+    public function findRegex($subject_regex, $predicate_regex, $object_regex) {
 
         $res = new MemModel($this->getBaseURI());
 
@@ -588,9 +589,9 @@ class MemModel extends Model {
 
         foreach ($this->triples as $value) {
             if (
-                    ($subject_regex == NULL || preg_match($subject_regex, $value->subj->getLabel())) &&
-                    ($predicate_regex == NULL || preg_match($predicate_regex, $value->pred->getLabel())) &&
-                    ($object_regex == NULL || preg_match($object_regex, $value->obj->getLabel()))
+                    ($subject_regex == NULL || preg_match($subject_regex, $value->getSubject()->getLabel())) &&
+                    ($predicate_regex == NULL || preg_match($predicate_regex, $value->getPredicate()->getLabel())) &&
+                    ($object_regex == NULL || preg_match($object_regex, $value->getObject()->getLabel()))
             )
                 $res->add($value);
         }
@@ -608,7 +609,7 @@ class MemModel extends Model {
      * @return	object MemModel
      * @access	public
      */
-    function findVocabulary($vocabulary) {
+    public function findVocabulary($vocabulary) {
 
         if ($this->size() == 0)
             return new MemModel();
@@ -652,7 +653,7 @@ class MemModel extends Model {
      * @return	object Statement
      * @access	public
      */
-    function findFirstMatchingStatement($subject, $predicate, $object, $offset = 0) {
+    public function findFirstMatchingStatement($subject, $predicate, $object, $offset = 0) {
         $res = -1;
         $currentOffset = 0;
         for ($i = 0; $i <= $offset; $i++) {
@@ -681,7 +682,7 @@ class MemModel extends Model {
      * @return	int
      * @access	private
      */
-    function findFirstMatchOff($subject, $predicate, $object, $off) {
+    private function findFirstMatchOff($subject, $predicate, $object, $off) {
 
         if (
                 (!is_a($subject, 'Resource') && $subject != NULL) ||
@@ -765,7 +766,7 @@ class MemModel extends Model {
      * @return	integer
      * @access	public
      */
-    function findCount($subject, $predicate, $object) {
+    public function findCount($subject, $predicate, $object) {
 
         $res = $this->find($subject, $predicate, $object);
         return $res->size();
@@ -784,7 +785,7 @@ class MemModel extends Model {
      *      OR  array   [][?VARNAME] = string
      *
      */
-    function rdqlQuery($queryString, $returnNodes = TRUE) {
+    public function rdqlQuery($queryString, $returnNodes = TRUE) {
 
         // Import RDQL Package
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_RDQL);
@@ -819,7 +820,7 @@ class MemModel extends Model {
      *      OR  object RdqlResultIterator = with values as strings if (if $returnNodes = FALSE)
      *
      */
-    function rdqlQueryAsIterator($queryString, $returnNodes = TRUE) {
+    public function rdqlQueryAsIterator($queryString, $returnNodes = TRUE) {
         // Import RDQL Package
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_RDQL);
         return new RdqlResultIterator($this->rdqlQuery($queryString, $returnNodes));
@@ -839,7 +840,7 @@ class MemModel extends Model {
      * @access	public
      * @throws	PhpError
      */
-    function replace($subject, $predicate, $object, $replacement) {
+    public function replace($subject, $predicate, $object, $replacement) {
 
         if (
                 (!is_a($replacement, 'Node')) ||
@@ -854,13 +855,13 @@ class MemModel extends Model {
         if ($this->size() == 0)
             break;
         foreach ($this->triples as $key => $value) {
-            if ($this->triples[$key]->subj->equals($subject)) {
-                $this->triples[$key]->subj = $replacement;
+            if ($this->triples[$key]->getSubject()->equals($subject)) {
+                $this->triples[$key]->setSubject($replacement);
             }
-            if ($this->triples[$key]->pred->equals($predicate))
-                $this->triples[$key]->pred = $replacement;
-            if ($this->triples[$key]->obj->equals($object))
-                $this->triples[$key]->obj = $replacement;
+            if ($this->triples[$key]->getPredicate()->equals($predicate))
+                $this->triples[$key]->setPredicate($replacement);
+            if ($this->triples[$key]->getObject()->equals($object))
+                $this->triples[$key]->setObject($replacement);
         }
         $this->index($this->indexed);
     }
@@ -876,15 +877,15 @@ class MemModel extends Model {
      * @return	boolean
      * @access	private
      */
-    function matchStatement($statement, $subject, $predicate, $object) {
+    private function matchStatement($statement, $subject, $predicate, $object) {
 
-        if (($subject != NULL) AND !($statement->subj->equals($subject)))
+        if (($subject != NULL) AND !($statement->getSubject()->equals($subject)))
             return false;
 
-        if ($predicate != NULL && !($statement->pred->equals($predicate)))
+        if ($predicate != NULL && !($statement->getPredicate()->equals($predicate)))
             return false;
 
-        if ($object != NULL && !($statement->obj->equals($object)))
+        if ($object != NULL && !($statement->getObject()->equals($object)))
             return false;
 
         return true;
@@ -899,7 +900,7 @@ class MemModel extends Model {
      * @throws    phpErrpr
      * @return	boolean
      */
-    function equals(&$that) {
+    public function equals(&$that) {
 
         if (!is_a($that, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: equals): Model expected.';
@@ -944,7 +945,7 @@ class MemModel extends Model {
      * @throws phpErrpr
      *
      */
-     function unite(&$model) {
+    public function unite(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: unite): Model expected.';
@@ -976,7 +977,7 @@ class MemModel extends Model {
      * @access	public
      * @throws phpErrpr
      */
-     function subtract(&$model) {
+    public function subtract(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: subtract): Model expected.';
@@ -1010,7 +1011,7 @@ class MemModel extends Model {
      * @access	public
      * @throws phpErrpr
      */
-     function intersect(&$model) {
+    public function intersect(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: intersect: Model expected.';
@@ -1051,7 +1052,7 @@ class MemModel extends Model {
      * @throws phpErrpr
      *
      */
-    function addModel(&$model) {
+    public function addModel(&$model) {
 
         if (!is_a($model, 'Model')) {
             $errmsg = RDFAPI_ERROR . '(class: MemModel; method: addModel): Model expected.';
@@ -1082,7 +1083,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	MemModel
      */
-     function reify() {
+    public function reify() {
         $res = new MemModel($this->getBaseURI());
 
         $stateIt = $this->getStatementIterator();
@@ -1099,7 +1100,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	StatementIterator
      */
-     function getStatementIterator() {
+    public function getStatementIterator() {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/StatementIterator.php';
 
@@ -1112,7 +1113,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-     function findAsIterator($sub=null, $pred=null, $obj=null) {
+    public function findAsIterator($sub=null, $pred=null, $obj=null) {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/FindIterator.php';
 
@@ -1125,7 +1126,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-     function iterFind($sub=null, $pred=null, $obj=null) {
+    public function iterFind($sub=null, $pred=null, $obj=null) {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/IterFind.php';
 
@@ -1140,7 +1141,7 @@ class MemModel extends Model {
      * @access   public
      * @return   Array
      */
-    function getParsedNamespaces() {
+    public function getParsedNamespaces() {
         if (count($this->parsedNamespaces) != 0) {
             return $this->parsedNamespaces;
         } else {
@@ -1157,7 +1158,7 @@ class MemModel extends Model {
      * @access   public
      * @param    Array $newNs
      */
-    function addParsedNamespaces($newNs) {
+    public function addParsedNamespaces($newNs) {
         if ($newNs)
             $this->parsedNamespaces = $this->parsedNamespaces + $newNs;
     }
@@ -1170,7 +1171,7 @@ class MemModel extends Model {
      * @param    String
      * @param    String
      */
-    function addNamespace($prefix, $nmsp) {
+    public function addNamespace($prefix, $nmsp) {
         $this->parsedNamespaces[$nmsp] = $prefix;
     }
 
@@ -1181,7 +1182,7 @@ class MemModel extends Model {
      * @access   public
      * @param    String $nmsp
      */
-    function removeNamespace($nmsp) {
+    public function removeNamespace($nmsp) {
         if (isset($this->parsedNamespaces[$nmsp])) {
             unset($this->parsedNamespaces[$nmsp]);
             return true;
@@ -1195,7 +1196,7 @@ class MemModel extends Model {
      *
      * @access	public
      */
-    function close() {
+    public function close() {
         unset($this->baseURI);
         unset($this->triples);
     }
@@ -1211,7 +1212,7 @@ class MemModel extends Model {
      * @return boolean
      * @access private
      */
-    function _containsIndex(&$statement, $ind) {
+    private function _containsIndex(&$statement, $ind) {
         switch ($ind) {
             case 4:
                 $sub = $statement->getSubject();
@@ -1257,7 +1258,7 @@ class MemModel extends Model {
      * @return   MemModel          $res
      * @access   private
      */
-    function _findInIndex($pos, &$subject, &$predicate, &$object, $ind) {
+    private function _findInIndex($pos, &$subject, &$predicate, &$object, $ind) {
         $res = new MemModel($this->getBaseURI());
         $res->indexed = -1;
         if (!isset($this->indexArr[$ind][$pos]))
@@ -1283,7 +1284,7 @@ class MemModel extends Model {
      * @return int             $k
      * @access private
      */
-    function _indexOpr(&$statement, $k, $ind, $mode) {
+    private function _indexOpr(&$statement, $k, $ind, $mode) {
         // determine position in adequate index
         switch ($ind) {
             case 1:
@@ -1365,7 +1366,7 @@ class MemModel extends Model {
      * @return	integer
      * @access	private
      */
-    function _findMatchIndex($pos, &$s, &$p, &$o, $ind, $off) {
+    private function _findMatchIndex($pos, &$s, &$p, &$o, $ind, $off) {
         $match = -1;
         if (!isset($this->indexArr[$ind][$pos])) {
             return $match;

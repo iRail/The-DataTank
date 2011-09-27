@@ -8,7 +8,7 @@
  * See Statement Class for further information. 
  *  
  * @author Daniel Westphal <mail at d-westphal dot de>
- * @version  $Id: InfStatement.php 268 2006-05-15 05:28:09Z tgauss $
+ * @version $Id: V0.9.7 2011-09-27 Update to PHP 5.3 for use in The DataTank(iRail) $
  * @package infModel
  */
 class InfStatement extends Statement  {

@@ -308,25 +308,25 @@ Class SparqlEngine extends Object{
             return true;
             break;
             case 0:
-            if($trip->subj != $trip->pred)
+            if($trip->getSubject() != $trip->getPredicate())
             return false;
             break;
             case 1:
-            if(is_a($trip->obj,'Literal'))
+            if(is_a($trip->getObject(),'Literal'))
             return false;
-            if($trip->subj != $trip->obj)
+            if($trip->getSubject() != $trip->getObject())
             return false;
             break;
             case 2:
-            if(is_a($trip->obj,'Literal'))
+            if(is_a($trip->getObject(),'Literal'))
             return false;
-            if($trip->pred != $trip->obj)
+            if($trip->getPredicate() != $trip->getObject())
             return false;
             break;
             case 3:
-            if(is_a($trip->obj,'Literal'))
+            if(is_a($trip->getObject(),'Literal'))
             return false;
-            if($trip->pred != $trip->obj || $trip->pred != $trip->subj )
+            if($trip->getPredicate() != $trip->getObject() || $trip->getPredicate() != $trip->getSubject() )
             return false;
             break;
         }
@@ -563,7 +563,7 @@ Class SparqlEngine extends Object{
             foreach($resmodel['trip'] as $key => $triple){
                 if(isset($resmodel['graphvar'][$key]))
                 $result[$n][$resmodel['graphvar'][$key]] = $resmodel['graph'][$key];
-                $result[$n++][$pattern->getSubject()] = $triple->subj;
+                $result[$n++][$pattern->getSubject()] = $triple->getSubject();
             }
         }
         if(is_string($pattern->getPredicate())){
@@ -571,7 +571,7 @@ Class SparqlEngine extends Object{
             foreach($resmodel['trip'] as $key => $triple){
                 if(isset($resmodel['graphvar'][$key]))
                 $result[$n][$resmodel['graphvar'][$key]] = $resmodel['graph'][$key];
-                $result[$n++][$pattern->getPredicate()] = $triple->pred;
+                $result[$n++][$pattern->getPredicate()] = $triple->getPredicate();
             }
         }
         if(is_string($pattern->getObject())){
@@ -579,7 +579,7 @@ Class SparqlEngine extends Object{
             foreach($resmodel['trip'] as $key => $triple){
                 if(isset($resmodel['graphvar'][$key]))
                 $result[$n][$resmodel['graphvar'][$key]] = $resmodel['graph'][$key];
-                $result[$n++][$pattern->getObject()] = $triple->obj;
+                $result[$n++][$pattern->getObject()] = $triple->getObject();
             }
         }
         return $result;

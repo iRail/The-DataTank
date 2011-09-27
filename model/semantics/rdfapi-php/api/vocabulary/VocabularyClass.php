@@ -2,7 +2,7 @@
 /**
 *   Vocabulary
 *
-*   @version $Id: VocabularyClass.php 431 2007-05-01 15:49:19Z cweiske $
+*   @version $Id: V0.9.7 2011-09-27 Update to PHP 5.3 for use in The DataTank(iRail) $
 *   @author Tobias Gauß <tobias.gauss@web.de>
 *   @package vocabulary
 *

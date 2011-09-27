@@ -28,10 +28,6 @@ class TDML_RES {
         return new ResResource(RDFConstants::$TDML_NS . 'TDTProperty');
     }
     
-    public static function IS_A() {
-        return new ResProperty(RDFConstants::$TDML_NS . 'is_a');
-    }
-
     public static function MAPS() {
         return new ResProperty(RDFConstants::$TDML_NS . 'maps');
     }

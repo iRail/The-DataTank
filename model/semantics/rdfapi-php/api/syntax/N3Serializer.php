@@ -34,28 +34,28 @@ define('MAGIC_STRING', '~~~');
 class N3Serializer extends Object
 {
 
-    var $debug = false;
+    private $debug = false;
 
-    var $prefixes   = array();
-    var $noPrefixes = array();
+    private $prefixes   = array();
+    private $noPrefixes = array();
 
-    var $done;  // keeps track of already serialized resources
-    var $resourcetext;
-    var $resourcetext_taken;
-    var $model;
-    var $res;
-    var $anon;
+    private $done;  // keeps track of already serialized resources
+    private $resourcetext;
+    private $resourcetext_taken;
+    private $model;
+    private $res;
+    private $anon;
 
-    var $styleCompress = false;
-    var $stylePretty   = false;
-    var $styleNest     = false;
+    private $styleCompress = false;
+    private $stylePretty   = false;
+    private $styleNest     = false;
 
     /**
     * Constructor
     *
     * @access   public
     */
-    function N3Serializer()
+    public function N3Serializer()
     {
         $this->debug = false;
     }
@@ -68,7 +68,7 @@ class N3Serializer extends Object
     * @param string $s
     * @returns void
     **/
-    function addNSPrefix($ns, $prefix)
+    public function addNSPrefix($ns, $prefix)
     {
         $this->prefixes[$ns] = $prefix;
     }
@@ -78,7 +78,7 @@ class N3Serializer extends Object
     /**
     * Clears all previously set namespace prefixes
     */
-    function clearNSPrefixes()
+    public function clearNSPrefixes()
     {
         $this->prefixes = array();
     }
@@ -90,7 +90,7 @@ class N3Serializer extends Object
     *
     *   @param string $ns Namespace URI like "http://example.com/"
     */
-    function addNoNSPrefix($ns)
+    public function addNoNSPrefix($ns)
     {
         $this->noPrefixes[$ns] = true;
     }
@@ -100,7 +100,7 @@ class N3Serializer extends Object
     /**
     * Clears all previously set noNamespace prefixes
     */
-    function clearNoNSPrefixes()
+    public function clearNoNSPrefixes()
     {
         $this->noPrefixes = array();
     }
@@ -114,7 +114,7 @@ class N3Serializer extends Object
     * @return    string
     * @access    public
     */
-    function serialize(&$m)
+    public function serialize(&$m)
     {
         if (is_a($m, 'DbModel')) {
             $m=$m->getMemModel();
@@ -229,7 +229,7 @@ class N3Serializer extends Object
     //     }
 
         return $this->res;
-    }//function serialize(&$m)
+    }//public function serialize(&$m)
 
 
 
@@ -242,7 +242,7 @@ class N3Serializer extends Object
     * @return    boolean
     * @access    public
     */
-    function saveAs(&$model, $filename)
+    public function saveAs(&$model, $filename)
     {
         // serialize model
         $n3 = $this->serialize($model);
@@ -264,7 +264,7 @@ class N3Serializer extends Object
     * Set to true, if the N3 serializer should try to compress the blank node
     *  syntax using [] whereever possible.
     */
-    function setCompress($compress)
+    public function setCompress($compress)
     {
         $this->styleCompress = $compress;
     }
@@ -274,7 +274,7 @@ class N3Serializer extends Object
     /**
     * Enables pretty printing in semicolon delimited sentences.
     */
-    function setPrettyPrint($prettyPrint)
+    public function setPrettyPrint($prettyPrint)
     {
         $this->stylePretty = $prettyPrint;
     }
@@ -285,7 +285,7 @@ class N3Serializer extends Object
     * Enables nesting of blank nodes with [] if
     * compression is activated via @see setCompress
     */
-    function setNest($nest)
+    public function setNest($nest)
     {
         $this->styleNest = $nest;
     }
@@ -299,7 +299,7 @@ class N3Serializer extends Object
     * @param void
     * @returns void
     **/
-    function reset()
+    private function reset()
     {
         $this->anon               = 0;
         $this->done               = array();
@@ -318,7 +318,7 @@ class N3Serializer extends Object
     * @param array $n
     * @returns void
     **/
-    function doNamespaces(&$n)
+    private function doNamespaces(&$n)
     {
         $c = 0;
         foreach ($n as $ns => $nonsense) {
@@ -345,7 +345,7 @@ class N3Serializer extends Object
     * @returns boolean
     * @access private
     **/
-    function doResource(&$r, $bEmbedded = false, $strIndent = '    ')
+    private function doResource(&$r, $bEmbedded = false, $strIndent = '    ')
     {
         //var_dump($r->getURI());
 
@@ -394,8 +394,11 @@ class N3Serializer extends Object
                 $this->doURI($r, $out);
             }
         }
-
-        usort($ts->triples, 'statementsorter');
+        
+        //usort($ts->triples, 'statementsorter');
+        //Miel: faster solution and no error
+        ksort($ts->triples);
+        
         $lastp = '';
         $out  .= ' ';
 
@@ -481,7 +484,7 @@ class N3Serializer extends Object
         $this->resourcetext[$r->getURI()]=$out;
 
         return true;
-    }//function doResource(&$r)
+    }//public function doResource(&$r)
 
 
 
@@ -491,7 +494,7 @@ class N3Serializer extends Object
     * @return void
     * @access private
     **/
-    function doURI(&$r, &$out)
+    private function doURI(&$r, &$out)
     {
         if ($r->getURI() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') {
             $out .= 'a';
@@ -515,7 +518,7 @@ class N3Serializer extends Object
     * @access private
     * @return void
     **/
-    function fixAnon($t,$a)
+    private function fixAnon($t,$a)
     {
         $t = preg_replace("/( \] $|^\[ )/", '', $t);
         return $a . $t;

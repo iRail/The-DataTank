@@ -20,9 +20,9 @@ class ResContainer extends ResResource {
     /**
      * Holds a ResResource of this container type rdf:Seq, rdf:Alt, or rdf:Bag
      * @var		ResResource
-     * @access	private
+     * @access	protected
      */
-    var $containerType;
+    protected $containerType;
 
     /**
      * Constructor
@@ -31,7 +31,7 @@ class ResContainer extends ResResource {
      * @param string $uri
      * @access	public
      */
-    function ResContainer($uri = null) {
+    public function ResContainer($uri = null) {
         parent::ResResource($uri);
     }
 
@@ -42,7 +42,7 @@ class ResContainer extends ResResource {
      * @param	object ResResource/ResLiteral	$object
      * @access	public
      */
-    function add($object) {
+    public function add($object) {
 
         //type this container, if it isn't already typed
         if (!$this->hasProperty(new ResResource(RDF_NAMESPACE_URI . RDF_TYPE)))
@@ -62,7 +62,7 @@ class ResContainer extends ResResource {
      * @return	boolean
      * @access	public
      */
-    function contains($resResource) {
+    public function contains($resResource) {
         //get all container's properties
         foreach ($this->listProperties() as $statement) {
             //if the property matches a container membership property
@@ -81,7 +81,7 @@ class ResContainer extends ResResource {
      * @return	boolean
      * @access	public
      */
-    function isAlt() {
+    public function isAlt() {
         return ($this->containerType->getURI() == RDF_NAMESPACE_URI . RDF_ALT);
     }
 
@@ -91,7 +91,7 @@ class ResContainer extends ResResource {
      * @return	boolean
      * @access	public
      */
-    function isBag() {
+    public function isBag() {
         return ($this->containerType->getURI() == RDF_NAMESPACE_URI . RDF_BAG);
     }
 
@@ -101,7 +101,7 @@ class ResContainer extends ResResource {
      * @return	boolean
      * @access	public
      */
-    function isSeq() {
+    public function isSeq() {
         return ($this->containerType->getURI() == RDF_NAMESPACE_URI . RDF_SEQ);
     }
 
@@ -111,7 +111,7 @@ class ResContainer extends ResResource {
      * @return	array
      * @access	public
      */
-    function getMembers() {
+    public function getMembers() {
         $return = array();
         foreach ($this->listProperties() as $statement) {
             $predicateLabel = $statement->getLabelPredicate();
@@ -131,7 +131,7 @@ class ResContainer extends ResResource {
      * @param	obejct ResResource/ResLiteral	$resResource
      * @access	public
      */
-    function remove($object) {
+    public function remove($object) {
         $deleteFromIndex = array();
         //get all container members
         $memberIndex = $this->getMembers();
@@ -161,7 +161,7 @@ class ResContainer extends ResResource {
      * @return	integer
      * @access	public
      */
-    function size() {
+    public function size() {
         return count($this->getMembers());
     }
 
@@ -172,7 +172,7 @@ class ResContainer extends ResResource {
      * @return	boolean
      * @access	private
      */
-    function _predicateLabelMatchesMembershipProperty($predicateLabel) {
+    private function _predicateLabelMatchesMembershipProperty($predicateLabel) {
         return substr($predicateLabel, 0, strlen(RDF_NAMESPACE_URI . '_')) == RDF_NAMESPACE_URI . '_';
     }
 
@@ -183,7 +183,7 @@ class ResContainer extends ResResource {
      * @return	integer
      * @access	private
      */
-    function _getMemberIndexNrFromMembershipPropertyLabel($predicateLabel) {
+    private function _getMemberIndexNrFromMembershipPropertyLabel($predicateLabel) {
         return (int) substr($predicateLabel, strlen(RDF_NAMESPACE_URI . '_'));
     }
 
@@ -194,7 +194,7 @@ class ResContainer extends ResResource {
      * @return	string
      * @access	private
      */
-    function _getMembershipPropertyWithIndex($int) {
+    private function _getMembershipPropertyWithIndex($int) {
         return new ResResource(RDF_NAMESPACE_URI . '_' . $int);
     }
 

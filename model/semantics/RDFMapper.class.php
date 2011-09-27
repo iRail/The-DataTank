@@ -357,7 +357,7 @@ class RDFMapper {
      */
     private function lookupEquals($model, $tdt_resource) {
         $resource_res = $model->createResource($tdt_resource);
-        $equals_prop = $model->createProperty(RDFConstants::$TDML_NS . "equals");
+        $equals_prop = $model->createProperty(OWL_RES::SAME_AS());
         return $resource_res->listProperties($equals_prop);
     }
 

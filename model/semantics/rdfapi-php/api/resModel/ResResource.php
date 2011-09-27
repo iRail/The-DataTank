@@ -27,14 +27,14 @@ class ResResource extends Resource {
      * @var		ResModel
      * @access	private
      */
-    var $model;
+    protected $model;
 
     /**
      * Is true, if this resource is an anonymous node.
      * @var		boolean
      * @access	private
      */
-    var $isAnon;
+    protected $isAnon;
 
     /**
      * Constructor
@@ -43,7 +43,7 @@ class ResResource extends Resource {
      * @param string $uri 
      * @access	public
      */
-    function ResResource($uri) {
+    public function ResResource($uri) {
         parent::Resource($uri);
         $this->isAnon = ($uri === null);
     }
@@ -54,7 +54,7 @@ class ResResource extends Resource {
      * @param	object Model	$model
      * @access public
      */
-    function setAssociatedModel(& $model) {
+    public function setAssociatedModel(& $model) {
         $this->model = & $model;
         if ($this->isAnon)
             $this->uri = $this->model->getUniqueResourceURI(BNODE_PREFIX);
@@ -66,7 +66,7 @@ class ResResource extends Resource {
      * @return	object Model	$model
      * @access public
      */
-    function getAssociatedModel() {
+    public function getAssociatedModel() {
         return $this->model;
     }
 
@@ -76,7 +76,7 @@ class ResResource extends Resource {
      * @param	string $uri
      * @access public
      */
-    function setURI($uri) {
+    public function setURI($uri) {
         $this->uri = $uri;
     }
 
@@ -90,7 +90,7 @@ class ResResource extends Resource {
      * @return	object ResResource 
      * @access	public
      */
-    function addProperty($property, $object) {
+    public function addProperty($property, $object) {
         $this->model->add(new Statement($this, $property, $object));
 
         return $this;
@@ -103,7 +103,7 @@ class ResResource extends Resource {
      * @return	ResIterator 
      * @access	public
      */
-    function listProperties($property = null) {
+    public function listProperties($property = null) {
         return $this->model->find($this, $property, null);
     }
 
@@ -116,7 +116,7 @@ class ResResource extends Resource {
      * @return	object ResResource 
      * @access	public
      */
-    function getProperty($property) {
+    public function getProperty($property) {
         return $this->model->getProperty($this, $property);
     }
 
@@ -128,7 +128,7 @@ class ResResource extends Resource {
      * @return	object ResResource 
      * @access	public
      */
-    function hasProperty($property, $value = null) {
+    public function hasProperty($property, $value = null) {
         
         $ret = $this->model->findFirstMatchingStatement($this, $property, $value);
      
@@ -141,7 +141,7 @@ class ResResource extends Resource {
      * @return	boolean
      * @access	public
      */
-    function getIsAnon() {
+    public function getIsAnon() {
         return $this->isAnon;
     }
 
@@ -151,7 +151,7 @@ class ResResource extends Resource {
      * @param	boolean
      * @access	public
      */
-    function setIsAnon($isAnon) {
+    public function setIsAnon($isAnon) {
         $this->isAnon = $isAnon;
     }
 
@@ -163,7 +163,7 @@ class ResResource extends Resource {
      * @param	object	resource $that
      * @return	boolean 
      */
-    function equals($that) {
+    public function equals($that) {
         if (is_a($that, 'ResLiteral'))
             return $that->equals($this);
 
@@ -178,7 +178,7 @@ class ResResource extends Resource {
      * @param	object	resource $property
      * @return	object ResResource 
      */
-    function removeAll($property = null) {
+    public function removeAll($property = null) {
         foreach ($this->model->find($this, $property, null) as $statement) {
             $this->model->remove($statement);
         }
@@ -191,7 +191,7 @@ class ResResource extends Resource {
      * @access	public 
      * @return	object ResResource 
      */
-    function removeProperties() {
+    public function removeProperties() {
         $this->removeAll();
         return $this;
     }

@@ -12,7 +12,7 @@ require_once RDFAPI_INCLUDE_DIR . '/util/Object.php';
  * meaning is $obj a resource, blank node or literal.
  *
  *
- * @version $Id: Node.php 348 2007-03-12 10:04:10Z cweiske $
+ * @version $Id: V0.9.7 2011-09-27 Update to PHP 5.3 for use in The DataTank(iRail) $
  * @author Chris Bizer <chris@bizer.de>
  * @package model
  * @abstract

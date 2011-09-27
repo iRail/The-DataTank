@@ -1,21 +1,19 @@
 <?php
+
 /**
-*   Friend of a Friend (FOAF) Vocabulary (Resource)
-*
-*   @version $Id: FOAF.php 431 2007-05-01 15:49:19Z cweiske $
-*   @author Tobias Gauß (tobias.gauss@web.de)
-*   @package vocabulary
-*
-*   Wrapper, defining resources for all terms of the
-*   Friend of a Friend project (FOAF).
-*   For details about FOAF see: http://xmlns.com/foaf/0.1/.
-*   Using the wrapper allows you to define all aspects of
-*   the vocabulary in one spot, simplifing implementation and
-*   maintainence.
-*/
-
-
-
+ *   Friend of a Friend (FOAF) Vocabulary (Resource)
+ *
+ *   @version $Id: FOAF.php 431 2007-05-01 15:49:19Z cweiske $
+ *   @author Tobias Gauß (tobias.gauss@web.de)
+ *   @package vocabulary
+ *
+ *   Wrapper, defining resources for all terms of the
+ *   Friend of a Friend project (FOAF).
+ *   For details about FOAF see: http://xmlns.com/foaf/0.1/.
+ *   Using the wrapper allows you to define all aspects of
+ *   the vocabulary in one spot, simplifing implementation and
+ *   maintainence.
+ */
 // FOAF concepts
 $FOAF_Agent = new Resource(FOAF_NS . 'Agent');
 $FOAF_Document = new Resource(FOAF_NS . 'Document');
@@ -56,7 +54,7 @@ $FOAF_maker = new Resource(FOAF_NS . 'maker');
 $FOAF_mbox = new Resource(FOAF_NS . 'mbox');
 $FOAF_mbox_sha1sum = new Resource(FOAF_NS . 'mbox_sha1sum');
 $FOAF_member = new Resource(FOAF_NS . 'member');
-$FOAF_membershipClass =new Resource(FOAF_NS . 'membershipClass');
+$FOAF_membershipClass = new Resource(FOAF_NS . 'membershipClass');
 $FOAF_msnChatID = new Resource(FOAF_NS . 'msnChatID');
 $FOAF_myersBriggs = new Resource(FOAF_NS . 'myersBriggs');
 $FOAF_name = new Resource(FOAF_NS . 'name');
@@ -67,9 +65,9 @@ $FOAF_phone = new Resource(FOAF_NS . 'phone');
 $FOAF_plan = new Resource(FOAF_NS . 'plan');
 $FOAF_primaryTopic = new Resource(FOAF_NS . 'primaryTopic');
 $FOAF_publications = new Resource(FOAF_NS . 'publications');
-$FOAF_schoolHomepage = new Resource (FOAF_NS . 'schoolHomepage');
-$FOAF_sha1 = new Resource (FOAF_NS . 'sha1');
-$FOAF_surname = new Resource (FOAF_NS . 'surname');
+$FOAF_schoolHomepage = new Resource(FOAF_NS . 'schoolHomepage');
+$FOAF_sha1 = new Resource(FOAF_NS . 'sha1');
+$FOAF_surname = new Resource(FOAF_NS . 'surname');
 $FOAF_theme = new Resource(FOAF_NS . 'theme');
 $FOAF_thumbnail = new Resource(FOAF_NS . 'thumbnail');
 $FOAF_tipjar = new Resource(FOAF_NS . 'tipjar');
@@ -80,8 +78,4 @@ $FOAF_weblog = new Resource(FOAF_NS . 'weblog');
 $FOAF_workInfoHomepage = new Resource(FOAF_NS . 'workInfoHomepage');
 $FOAF_workplaceHomepage = new Resource(FOAF_NS . 'workplaceHomepage');
 $FOAF_yahooChatID = new Resource(FOAF_NS . 'yahooChatID');
-
-
-
-
 ?>

@@ -11,7 +11,7 @@
 *
 * @package sparql
 */
-Class SparqlParserException extends Exception{
+class SparqlParserException extends Exception{
  
 	private $tokenPointer;
 

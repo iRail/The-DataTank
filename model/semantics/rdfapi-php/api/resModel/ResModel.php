@@ -18,7 +18,7 @@
  *
  * @version  $Id: ResModel.php 562 2008-02-29 15:30:18Z cax $
  * @author Daniel Westphal <mail at d-westphal dot de>
- *
+ * @author Miel Vander Sande <miel.vandersande at ugent dot be>
  *
  * @package 	resModel
  * @access	public
@@ -30,7 +30,7 @@ class ResModel {
      * @var		ResResource
      * @access	private
      */
-    var $model;
+    protected $model;
 
     /**
      * Constructor
@@ -39,7 +39,7 @@ class ResModel {
      * @param object model $model
      * @access	public
      */
-    function ResModel(& $model) {
+    public function ResModel(& $model) {
         if (!is_a($model, 'Model'))
             trigger_error(RDFAPI_ERROR . '(class: ResourceLayer; method: ResourceLayer):
 				$model has to be object of class Model', E_USER_ERROR);
@@ -63,7 +63,7 @@ class ResModel {
      * @return	object ResResource
      * @access	public
      */
-    function createResource($uri = null) {
+    public function createResource($uri = null) {
         $resResource = new ResResource($uri);
         //associate the resource with this model, and get a unique identifier
         //if it is bnode.
@@ -84,7 +84,7 @@ class ResModel {
      * @return	object ResProperty
      * @access	public
      */
-    function createProperty($uri = null) {
+    public function createProperty($uri = null) {
         $resProperty = new ResProperty($uri);
         $resProperty->setAssociatedModel($this);
 
@@ -103,7 +103,7 @@ class ResModel {
      * @return	object ResLiteral
      * @access	public
      */
-    function createLiteral($label, $languageTag = null) {
+    public function createLiteral($label, $languageTag = null) {
         $resLiteral = new ResLiteral($label, $languageTag);
         $resLiteral->setAssociatedModel($this);
 
@@ -124,7 +124,7 @@ class ResModel {
      * @access	public
      * @throws	PhpError
      */
-    function find($subject, $predicate, $object) {
+    public function find($subject, $predicate, $object) {
         $result = array();
         //convert ResResources to Resources and Blanknodes
         $resmodel = $this->model->find($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object)
@@ -154,7 +154,7 @@ class ResModel {
      * @return	object Statement
      * @access	public
      */
-    function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
+    public function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
 
         $statement = $this->model->findFirstMatchingStatement($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object), $offset);
 
@@ -178,7 +178,7 @@ class ResModel {
      * @access	public
      * @throws	PhpError
      */
-    function add($statement) {
+    public function add($statement) {
         return $this->model->add(new Statement($this->_resNode2Node($statement->getSubject()),
                                 $this->_resNode2Node($statement->getPredicate()),
                                 $this->_resNode2Node($statement->getObject()))
@@ -197,7 +197,7 @@ class ResModel {
      * @access	public
      * @throws	PhpError
      */
-    function addWithoutDuplicates($statement) {
+    public function addWithoutDuplicates($statement) {
         return $this->model->addWithoutDuplicates(new Statement($this->_resNode2Node($statement->getSubject()),
                                 $this->_resNode2Node($statement->getPredicate()),
                                 $this->_resNode2Node($statement->getObject()))
@@ -214,7 +214,7 @@ class ResModel {
      * @return	boolean
      * @access	public
      */
-    function contains(& $statement) {
+    public function contains(& $statement) {
 
         return $this->model->contains(new Statement($this->_resNode2Node($statement->getSubject()),
                                 $this->_resNode2Node($statement->getPredicate()),
@@ -230,7 +230,7 @@ class ResModel {
      * @return	boolean
      * @access	public
      */
-    function containsAll(& $model) {
+    public function containsAll(& $model) {
         if (is_a($model, 'ResModel'))
             return $this->model->containsAll($model->getModel());
 
@@ -245,7 +245,7 @@ class ResModel {
      * @return	boolean
      * @access	public
      */
-    function containsAny(& $model) {
+    public function containsAny(& $model) {
         if (is_a($model, 'ResModel'))
             return $this->model->containsAny($model->getModel());
         return $this->model->containsAny($model);
@@ -258,7 +258,7 @@ class ResModel {
      * @return	boolean
      * @access	public
      */
-    function containsResource(& $node) {
+    public function containsResource(& $node) {
         if ($this->findFirstMatchingStatement($node, null, null) === null)
             if ($this->findFirstMatchingStatement(null, $node, null) === null)
                 if ($this->findFirstMatchingStatement(null, null, $node) === null)
@@ -276,7 +276,7 @@ class ResModel {
      * @return 	object ResLiteral
      * @access	public
      */
-    function createTypedLiteral($value, $dtype) {
+    public function createTypedLiteral($value, $dtype) {
         $resLiteral = new ResLiteral($value);
         $resLiteral->setDatatype($dtype);
         $resLiteral->setAssociatedModel($this);
@@ -296,7 +296,7 @@ class ResModel {
      * @throws    phpErrpr
      * @return	boolean
      */
-    function equals(& $that) {
+    public function equals(& $that) {
         if (is_a($that, 'ResModel'))
             return $this->model->equals($that->getModel());
         return $this->model->equals($that);
@@ -310,7 +310,7 @@ class ResModel {
      * @access	public
      * @throws phpErrpr
      */
-    function subtract($model) {
+    public function subtract($model) {
         if (is_a($model, 'ResModel'))
             return $this->model->subtract($model->getModel());
         return $this->model->subtract($model);
@@ -326,7 +326,7 @@ class ResModel {
      * @access	public
      * @throws phpErrpr
      */
-    function getProperty($subject, $property) {
+    public function getProperty($subject, $property) {
 
         $statement = $this->model->findFirstMatchingStatement($this->_resNode2Node($subject), $this->_resNode2Node($property), null
         );
@@ -345,7 +345,7 @@ class ResModel {
      * @return	boolean
      * @access	public
      */
-    function isEmpty() {
+    public function isEmpty() {
         return $this->model->isEmpty();
     }
 
@@ -356,7 +356,7 @@ class ResModel {
      * @access	public
      * @throws phpErrpr
      */
-    function listObjects() {
+    public function listObjects() {
         return $this->listObjectsOfProperty(null);
     }
 
@@ -368,7 +368,7 @@ class ResModel {
      * @return	object ResIterator
      * @access	public
      */
-    function listObjectsOfProperty($property, $value = null) {
+    public function listObjectsOfProperty($property, $value = null) {
         return new ResIterator(null, $property, $value, 'o', $this);
     }
 
@@ -379,7 +379,7 @@ class ResModel {
      * @access	public
      * @throws phpErrpr
      */
-    function listSubjects() {
+    public function listSubjects() {
         return $this->listSubjectsWithProperty(null);
     }
 
@@ -392,7 +392,7 @@ class ResModel {
      * @access	public
      * @throws phpErrpr
      */
-    function listSubjectsWithProperty($property, $value = null) {
+    public function listSubjectsWithProperty($property, $value = null) {
         return new ResIterator(null, $property, $value, 's', $this);
     }
 
@@ -406,7 +406,7 @@ class ResModel {
      * @access	public
      * @throws	PhpError
      */
-    function remove($statement) {
+    public function remove($statement) {
         return $this->model->remove(new Statement($this->_resNode2Node($statement->getSubject()),
                                 $this->_resNode2Node($statement->getPredicate()),
                                 $this->_resNode2Node($statement->getObject())
@@ -419,7 +419,7 @@ class ResModel {
      * @return	integer
      * @access	public
      */
-    function size() {
+    public function size() {
         return $this->model->size();
     }
 
@@ -450,7 +450,7 @@ class ResModel {
      * @throws phpErrpr
      *
      */
-    function unite(& $model) {
+    public function unite(& $model) {
         if (is_a($model, 'ResModel'))
             return $this->model->unite($model->getModel());
         return $this->model->unite($model);
@@ -468,7 +468,7 @@ class ResModel {
      * @throws phpErrpr
      *
      */
-    function addModel(&$model) {
+    public function addModel(&$model) {
         if (is_a($model, 'ResModel'))
             return $this->model->addModel($model->getModel());
         return $this->model->addModel($model);
@@ -486,7 +486,7 @@ class ResModel {
      * @return	object ResProperty
      * @access	public
      */
-    function createAlt($uri = null) {
+    public function createAlt($uri = null) {
         $resAlt = new ResAlt($uri);
         $resAlt->setAssociatedModel($this);
 
@@ -505,7 +505,7 @@ class ResModel {
      * @return	object ResProperty
      * @access	public
      */
-    function createBag($uri = null) {
+    public function createBag($uri = null) {
 
         $resBag = new ResBag($uri);
 
@@ -526,7 +526,7 @@ class ResModel {
      * @return	object ResProperty
      * @access	public
      */
-    function createSeq($uri = null) {
+    public function createSeq($uri = null) {
         $resSeq = new ResSeq($uri);
         $resSeq->setAssociatedModel($this);
 
@@ -545,7 +545,7 @@ class ResModel {
      * @return	object ResProperty
      * @access	public
      */
-    function createList($uri = null) {
+    public function createList($uri = null) {
         $resList = new ResList($uri);
         $resList->setAssociatedModel($this);
 
@@ -559,7 +559,7 @@ class ResModel {
      * @return	object Model
      * @access	public
      */
-    function getModel() {
+    public function getModel() {
         return $this->model;
     }
 
@@ -572,7 +572,7 @@ class ResModel {
      * @return	string
      * @access	private
      */
-    function getUniqueResourceURI($bnodePrefix) {
+    public function getUniqueResourceURI($bnodePrefix) {
         return $this->model->getUniqueResourceURI($bnodePrefix);
     }
 
@@ -587,7 +587,7 @@ class ResModel {
      * @param   boolean $stream
      * @access	public
      */
-    function load($filename, $type = NULL, $stream=false) {
+    public function load($filename, $type = NULL, $stream=false) {
         $this->model->load($filename, $type, $stream);
     }
 
@@ -597,7 +597,7 @@ class ResModel {
      * @return  string
      * @access	public
      */
-    function getBaseURI() {
+    public function getBaseURI() {
         return $this->model->getBaseURI();
     }
 
@@ -614,7 +614,7 @@ class ResModel {
      * @throws   PhpError
      * @return	boolean
      */
-    function saveAs($filename, $type ='rdf') {
+    public function saveAs($filename, $type ='rdf') {
         return $this->model->saveAs($filename, $type = 'rdf');
     }
 
@@ -623,7 +623,7 @@ class ResModel {
      *
      * @access	public
      */
-    function writeAsHTMLTable() {
+    public function writeAsHTMLTable() {
         $this->model->writeAsHtmlTable();
     }
 
@@ -635,7 +635,7 @@ class ResModel {
      * @access	public
      * @throws phpErrpr
      */
-    function intersect(& $model) {
+    public function intersect(& $model) {
         if (is_a($model, 'ResModel'))
             return $this->model->intersect($model->getModel());
         return $this->model->intersect($model);
@@ -650,7 +650,7 @@ class ResModel {
      * @access	private
      * @throws phpErrpr
      */
-    function _node2ResNode($node, $isProperty = false) {
+    public function _node2ResNode($node, $isProperty = false) {
         if (is_a($node, 'Literal')) {
             $return = new ResLiteral($node->getLabel(), $node->getLanguage());
             $return->setDatatype($node->getDatatype());
@@ -680,7 +680,7 @@ class ResModel {
      * @access	private
      * @throws phpErrpr
      */
-    function _resNode2Node($resNode) {
+    public function _resNode2Node($resNode) {
 
         if (is_a($resNode, 'ResResource')) {
 
@@ -708,7 +708,7 @@ class ResModel {
      * @param	string	$uri
      * @access	public
      */
-    function setBaseURI($uri) {
+    public function setBaseURI($uri) {
         $this->model->setBaseURI($uri);
     }
 
@@ -718,7 +718,7 @@ class ResModel {
      * @access	public
      * @return	string
      */
-    function writeRdfToString() {
+    public function writeRdfToString() {
         return $this->model->writeRdfToString();
     }
 
@@ -735,7 +735,7 @@ class ResModel {
      *      OR  array   [][?VARNAME] = string
      *
      */
-    function rdqlQuery($queryString, $returnNodes = TRUE) {
+    public function rdqlQuery($queryString, $returnNodes = TRUE) {
         $ret = $this->model->rdqlQuery($queryString, $returnNodes);
         return $ret;
     }
@@ -753,7 +753,7 @@ class ResModel {
      *      OR  object RdqlResultIterator = with values as strings if (if $returnNodes = FALSE)
      *
      */
-    function rdqlQueryAsIterator($queryString, $returnNodes = TRUE) {
+    public function rdqlQueryAsIterator($queryString, $returnNodes = TRUE) {
         return $this->model->rdqlQueryAsIterator($queryString, $returnNodes);
     }
 
@@ -764,7 +764,7 @@ class ResModel {
      * @access   public
      * @return   Array
      */
-    function getParsedNamespaces() {
+    public function getParsedNamespaces() {
         return $this->model->getParsedNamespaces();
     }
 
@@ -777,7 +777,7 @@ class ResModel {
      * @access   public
      * @param    Array $newNs
      */
-    function addParsedNamespaces($newNs) {
+    public function addParsedNamespaces($newNs) {
         $this->model->addParsedNamespaces($newNs);
     }
 
@@ -788,7 +788,7 @@ class ResModel {
      * @access   public
      * @param    String $prefix, String $nmsp
      */
-    function addNamespace($prefix, $namespace) {
+    public function addNamespace($prefix, $namespace) {
         $this->model->addNamespace($prefix, $namespace);
     }
 
@@ -799,7 +799,7 @@ class ResModel {
      * @access   public
      * @param    String $nmsp
      */
-    function removeNamespace($nmsp) {
+    public function removeNamespace($nmsp) {
         return $this->model->removeNamespace($nmsp);
     }
 

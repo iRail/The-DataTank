@@ -28,7 +28,7 @@ class DbModel extends Model {
      * @var     object ADOConnection
      * @access	private
      */
-    var $dbConn;
+    private $dbConn;
 
     /**
      * Unique model URI.
@@ -37,7 +37,7 @@ class DbModel extends Model {
      * @var     string
      * @access	private
      */
-    var $modelURI;
+    protected $modelURI;
 
     /**
      * Database internal modelID.
@@ -46,7 +46,7 @@ class DbModel extends Model {
      * @var     string
      * @access	private
      */
-    var $modelID;
+    protected $modelID;
 
     /**
      * Constructor
@@ -139,15 +139,15 @@ class DbModel extends Model {
                     . $this->dbConn->qstr($statement->getLabelPredicate()) . ",";
 
             if (is_a($statement->object(), 'Literal')) {
-                $quotedLiteral = $this->dbConn->qstr($statement->obj->getLabel());
+                $quotedLiteral = $this->dbConn->qstr($statement->getObject()->getLabel());
                 $sql .= $quotedLiteral . ","
-                        . "'" . $statement->obj->getLanguage() . "',"
-                        . "'" . $statement->obj->getDatatype() . "',"
+                        . "'" . $statement->getObject()->getLanguage() . "',"
+                        . "'" . $statement->getObject()->getDatatype() . "',"
                         . "'" . $subject_is . "',"
                         . "'l')";
             } else {
                 $object_is = $this->_getNodeFlag($statement->object());
-                $sql .= $this->dbConn->qstr($statement->obj->getLabel()) . ","
+                $sql .= $this->dbConn->qstr($statement->getObject()->getLabel()) . ","
                         . "'',"
                         . "'',"
                         . "'" . $subject_is . "',"
@@ -194,7 +194,7 @@ class DbModel extends Model {
 
         $sql = 'DELETE FROM statements
            WHERE modelID=' . $this->modelID;
-        $sql .= $this->_createDynSqlPart_SPO($statement->subj, $statement->pred, $statement->obj);
+        $sql .= $this->_createDynSqlPart_SPO($statement->getSubject(), $statement->getPredicate(), $statement->getObject());
 
         $rs = & $this->dbConn->execute($sql);
         if (!$rs)
@@ -321,7 +321,7 @@ class DbModel extends Model {
 
         $sql = 'SELECT modelID FROM statements
            WHERE modelID = ' . $this->modelID;
-        $sql .= $this->_createDynSqlPart_SPO($statement->subj, $statement->pred, $statement->obj);
+        $sql .= $this->_createDynSqlPart_SPO($statement->getSubject(), $statement->getPredicate(), $statement->getObject());
 
         $res = & $this->dbConn->getOne($sql);
 
@@ -536,7 +536,8 @@ class DbModel extends Model {
                 return NULL;
             else {
                 $memModel = $this->_convertRecordSetToMemModel($recordSet);
-                return $memModel->triples[0];
+                $triples = $memModel->triples;
+                return $triples[0];
             }
         }
     }

@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------------
 // RDF API for PHP 
 // ----------------------------------------------------------------------------------
-// @version                  : $Id: RdfAPI.php 268 2006-05-15 05:28:09Z tgauss $
+// @version $Id: V0.9.7 2011-09-27 Update to PHP 5.3 for use in The DataTank(iRail) $
 // Authors                   : Chris Bizer (chris@bizer.de),
 //                             Radoslaw Oldakowski (radol@gmx.de)
 // Description               : This file includes constatns and model package.

@@ -27,56 +27,56 @@ class IterFind {
      * @var		integer
      * @access	private
      */
-    var $key;
+    private $key;
 
     /**
      * boolean value, if the results should be returned as Quads
      * @var		boolean
      * @access	private
      */
-    var $returnAsQuads;
+    private $returnAsQuads;
 
     /**
      * If the current resource is valid
      * @var		boolean
      * @access	private
      */
-    var $valid;
+    private $valid;
 
     /**
      * The current NamedGraph
      * @var obejct NamedGraph
      * @access	private
      */
-    var $current;
+    private $current;
 
     /**
      * The graph to look in.
      * @var string 
      * @access	private
      */
-    var $findGraph;
+    private $findGraph;
 
     /**
      * The subject Resource to search for
      * @var string 
      * @access	private
      */
-    var $findSubject;
+    private $findSubject;
 
     /**
      * The predicate Resource to search for
      * @var string 
      * @access	private
      */
-    var $findPredicate;
+    private $findPredicate;
 
     /**
      * The object Resource to search for
      * @var string 
      * @access	private
      */
-    var $findObject;
+    private $findObject;
 
     /**
      * Constructor.
@@ -93,7 +93,7 @@ class IterFind {
      * @param $returnAsQuads boolean
      * @access	public
      */
-    function IterFind($graph, $subject, $predicate, $object, $returnAsQuads=false) {
+    public function IterFind($graph, $subject, $predicate, $object, $returnAsQuads=false) {
         if ($graph == NULL) {
             $this->valid = false;
             return;
@@ -111,7 +111,7 @@ class IterFind {
      *
      * @access	public
      */
-    function rewind() {
+    public function rewind() {
         $this->key = -1;
         $this->next();
     }
@@ -122,7 +122,7 @@ class IterFind {
      * @return	boolean
      * @access	public
      */
-    function valid() {
+    public function valid() {
         return $this->valid;
     }
 
@@ -131,7 +131,7 @@ class IterFind {
      *
      * @access	public
      */
-    function next() {
+    public function next() {
         $this->current = $this->findGraph->findFirstMatchingStatement($this->findSubject, $this->findPredicate, $this->findObject, ++$this->key);
         $this->valid = ($this->current != NULL);
     }
@@ -142,7 +142,7 @@ class IterFind {
      * @return	mixed
      * @access	public
      */
-    function current() {
+    public function current() {
         if ($this->returnAsQuads)
             return new Quad(new Resource($this->findGraph->getGraphName()), $this->current->getSubject(), $this->current->getPredicate(), $this->current->getObject());
         //else
@@ -155,7 +155,7 @@ class IterFind {
      * @return	integer
      * @access	public
      */
-    function key() {
+    public function key() {
         return $this->key;
     }
 

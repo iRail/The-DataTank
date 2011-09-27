@@ -216,12 +216,12 @@ class RDFUtil extends Object {
             echo RDFUtil::chooseColor($statement->getSubject());
             echo '">';
             echo '<p>' . RDFUtil::getNodeTypeName($statement->getSubject());
-            if (is_a($statement->subj, 'Resource')) {
-                $ns = $statement->subj->getNamespace();
+            if (is_a($statement->getSubject(), 'Resource')) {
+                $ns = $statement->getSubject()->getNamespace();
                 if (isset($nms[$ns])) {
-                    echo $nms[$ns] . ':' . RDFUtil::getLocalName($statement->subj);
+                    echo $nms[$ns] . ':' . RDFUtil::getLocalName($statement->getSubject());
                 } else {
-                    echo $statement->subj->getLabel();
+                    echo $statement->getSubject()->getLabel();
                 }
             }
             echo '</p></td>' . LINEFEED;
@@ -230,12 +230,12 @@ class RDFUtil extends Object {
             echo RDFUtil::chooseColor($statement->getPredicate());
             echo '">';
             echo '<p>' . RDFUtil::getNodeTypeName($statement->getPredicate());
-            if (is_a($statement->pred, 'Resource')) {
-                $ns = $statement->pred->getNamespace();
+            if (is_a($statement->getPredicate(), 'Resource')) {
+                $ns = $statement->getPredicate()->getNamespace();
                 if (isset($nms[$ns])) {
-                    echo $nms[$ns] . ':' . RDFUtil::getLocalName($statement->pred);
+                    echo $nms[$ns] . ':' . RDFUtil::getLocalName($statement->getPredicate());
                 } else {
-                    echo $statement->pred->getLabel();
+                    echo $statement->getPredicate()->getLabel();
                 }
             }
             echo '</p></td>' . LINEFEED;
@@ -245,25 +245,25 @@ class RDFUtil extends Object {
             echo '">';
             echo '<p>';
             if (is_a($statement->getObject(), 'Literal')) {
-                if ($statement->obj->getLanguage() != null) {
-                    $lang = ' <b>(xml:lang="' . $statement->obj->getLanguage() . '") </b> ';
+                if ($statement->getObject()->getLanguage() != null) {
+                    $lang = ' <b>(xml:lang="' . $statement->getObject()->getLanguage() . '") </b> ';
                 } ELSE
                     $lang = '';
-                if ($statement->obj->getDatatype() != null) {
-                    $dtype = ' <b>(rdf:datatype="' . $statement->obj->getDatatype() . '") </b> ';
+                if ($statement->getObject()->getDatatype() != null) {
+                    $dtype = ' <b>(rdf:datatype="' . $statement->getObject()->getDatatype() . '") </b> ';
                 } ELSE
                     $dtype = '';
             } else {
                 $lang = '';
                 $dtype = '';
             }
-            $label = $statement->obj->getLabel();
-            if (is_a($statement->obj, 'Resource')) {
-                $ns = $statement->obj->getNamespace();
+            $label = $statement->getObject()->getLabel();
+            if (is_a($statement->getObject(), 'Resource')) {
+                $ns = $statement->getObject()->getNamespace();
                 if (isset($nms[$ns])) {
-                    $label = $nms[$ns] . ':' . RDFUtil::getLocalName($statement->obj);
+                    $label = $nms[$ns] . ':' . RDFUtil::getLocalName($statement->getObject());
                 } else {
-                    $label = $statement->obj->getLabel();
+                    $label = $statement->getObject()->getLabel();
                 }
             }
 

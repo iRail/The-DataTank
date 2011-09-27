@@ -25,20 +25,20 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
 	* @var		string
 	* @access	private
 	*/
-    var $label;
+    private $label;
    /**
 	* Language of the literal
 	* @var		string
 	* @access	private
 	*/
-    var $lang;
+    private $lang;
 
    /**
 	* Datatype of the literal
 	* @var		string
 	* @access	private
 	*/
-    var $dtype;
+    private $dtype;
 
 
    /**
@@ -49,7 +49,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
     * @param string $datatype optional datatype
     *
     */
-    function Literal($str, $language = NULL, $datatype = null)
+    public function Literal($str, $language = NULL, $datatype = null)
     {
         $this->label = $str;
 
@@ -72,7 +72,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
    * @access	public
    * @return	string value of the literal
    */
-  function getLabel() {
+  public function getLabel() {
 
     return $this->label;
   }
@@ -83,7 +83,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
    * @access	public
    * @return	string language of the literal
    */
-  function getLanguage() {
+  public function getLanguage() {
 
     return $this->lang;
   }
@@ -94,7 +94,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
    * @access	public
    * @param	    string $lang
    */
-  function setLanguage($lang) {
+  public function setLanguage($lang) {
 
     $this->lang = $lang;
   }
@@ -105,7 +105,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
    * @access	public
    * @return	string datatype of the literal
    */
-  function getDatatype() {
+  public function getDatatype() {
 
     return $this->dtype;
   }
@@ -119,7 +119,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
    * @param		string URI of XML datatype or datatype shortcut
    *
    */
-  function setDatatype($datatype) {
+  public function setDatatype($datatype) {
 	GLOBAL $short_datatype;
 	if  (stristr($datatype,DATATYPE_SHORTCUT_PREFIX))  {
 		$this->dtype = $short_datatype[substr($datatype,strlen(DATATYPE_SHORTCUT_PREFIX)) ];}
@@ -136,7 +136,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
    * @param		object	literal $that
    * @return	boolean
    */
-  function equals ($that) {
+  public function equals ($that) {
 
 	if (($that == NULL) or !(is_a($that, 'Literal'))) {
 	  return false;
@@ -161,7 +161,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
    * @access	public
    * @return	string
    */
-  function toString() {
+  public function toString() {
 	$dump = 'Literal("' . $this->label .'"';
 	if ($this->lang != NULL)
 		$dump .= ', lang="' . $this->lang .'"';
@@ -177,7 +177,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
     *   Doing string magic in PHP5
     *   @return string String representation of this Literal
     */
-    function __toString()
+    public function __toString()
     {
         return $this->toString();
     }

@@ -152,12 +152,12 @@ class RbModel extends DbModel {
             $sql = 'INSERT INTO statements (modelID, subject, predicate, object, l_language, l_datatype, subject_is, object_is)
 			        VALUES (:modelID, :labelSubject, :labelPredicate,';
 
-            $param[':objLabel'] = $statement->obj->getLabel();
+            $param[':objLabel'] = $statement->getObject()->getLabel();
             $param[':subjectIs'] = $subject_is;
 
             if (is_a($statement->object(), 'Literal')) {
-                $param[':objLanguage'] = $statement->obj->getLanguage();
-                $param[':objDatatype'] = $statement->obj->getDatatype();
+                $param[':objLanguage'] = $statement->getObject()->getLanguage();
+                $param[':objDatatype'] = $statement->getObject()->getDatatype();
                 $param[':l'] = 'l';
 
                 $sql .= " :objLabel, :objLanguage, :objDatatype, :subjectIs, :l)";
@@ -224,8 +224,8 @@ class RbModel extends DbModel {
         $param = array(':modelID' => $this->modelID);
         $sql = 'SELECT modelID FROM statements WHERE modelID =:modelID ';
 
-        $param = array_merge($param, $this->_createDynSqlPart_SPO_param($statement->subj, $statement->pred, $statement->obj));
-        $sql .= $this->_createDynSqlPart_SPO($statement->subj, $statement->pred, $statement->obj);
+        $param = array_merge($param, $this->_createDynSqlPart_SPO_param($statement->getSubject(), $statement->getPredicate(), $statement->getObject()));
+        $sql .= $this->_createDynSqlPart_SPO($statement->getSubject(), $statement->getPredicate(), $statement->getObject());
 
         $res = R::getRow($sql, $param);
 
@@ -392,8 +392,8 @@ class RbModel extends DbModel {
                 return NULL;
             else {
                 $memModel = $this->_convertRecordSetToMemModel($recordSet);
-
-                return $memModel->triples[0];
+                $triples = $memModel->triples;
+                return $triples[0];
             }
         }
     }
@@ -439,8 +439,8 @@ class RbModel extends DbModel {
         }
         $param = array(':modelID' => $this->modelID);
         $sql = 'DELETE FROM statements WHERE modelID=:modelID';
-        $param = array_merge($param, $this->_createDynSqlPart_SPO_param($statement->subj, $statement->pred, $statement->obj));
-        $sql .= $this->_createDynSqlPart_SPO($statement->subj, $statement->pred, $statement->obj);
+        $param = array_merge($param, $this->_createDynSqlPart_SPO_param($statement->getSubject(), $statement->getPredicate(), $statement->getObject()));
+        $sql .= $this->_createDynSqlPart_SPO($statement->getSubject(), $statement->getPredicate(), $statement->getObject());
 
         $rs = R::exec($sql, $param);
         

@@ -28,10 +28,10 @@ class Resource extends Node {
     /**
      * URIref to the resource
      * @var		string
-     * @access	private
+     * @access	protected
      */
-    var $uri;
-    
+    protected $uri;
+
     /**
      * Constructor
      * Takes an URI or a namespace/localname combination
@@ -40,13 +40,12 @@ class Resource extends Node {
      * @param string $localName
      * @access	public
      */
-    function Resource($namespace_or_uri, $localName = NULL) {
+    public function Resource($namespace_or_uri, $localName = NULL) {
         if ($localName == NULL) {
             $this->uri = $namespace_or_uri;
         } else {
             $this->uri = $namespace_or_uri . $localName;
         }
-        
     }
 
     /**
@@ -54,7 +53,7 @@ class Resource extends Node {
      * @return string
      * @access	public
      */
-    function getURI() {
+    public function getURI() {
         return $this->uri;
     }
 
@@ -63,7 +62,7 @@ class Resource extends Node {
      * @access	public
      * @return string
      */
-    function getLabel() {
+    public function getLabel() {
         return $this->getURI();
     }
 
@@ -72,7 +71,7 @@ class Resource extends Node {
      * @access	public
      * @return string
      */
-    function getNamespace() {
+    public function getNamespace() {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
 
@@ -84,7 +83,7 @@ class Resource extends Node {
      * @access	public
      * @return string
      */
-    function getLocalName() {
+    public function getLocalName() {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
 
@@ -96,7 +95,7 @@ class Resource extends Node {
      * @access	public
      * @return string
      */
-    function toString() {
+    public function toString() {
         return 'Resource("' . $this->uri . '")';
     }
 
@@ -108,7 +107,7 @@ class Resource extends Node {
      * @param		object	resource $that
      * @return	boolean
      */
-    function equals($that) {
+    public function equals($that) {
 
         if ($this == $that) {
             return true;
@@ -129,7 +128,7 @@ class Resource extends Node {
      *   Doing string magic in PHP5
      *   @return string String representation of this Resource
      */
-    function __toString() {
+    public function __toString() {
         return $this->toString();
     }
 

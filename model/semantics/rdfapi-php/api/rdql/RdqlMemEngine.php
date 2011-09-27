@@ -172,17 +172,17 @@ Class RdqlMemEngine extends RdqlEngine {
    if ($pattern['subject']['value']{0} == '?') {
       $n = 0;
       foreach ($resModel->triples as $triple)
-        $resultSet[$n++][$pattern['subject']['value']] = $triple->subj;
+        $resultSet[$n++][$pattern['subject']['value']] = $triple->getSubject();
    }
    if ($pattern['predicate']['value']{0} == '?') {
       $n = 0;
       foreach ($resModel->triples as $triple)
-        $resultSet[$n++][$pattern['predicate']['value']] = $triple->pred;
+        $resultSet[$n++][$pattern['predicate']['value']] = $triple->getPredicate();
    }
    if ($pattern['object']['value'] && $pattern['object']['value']{0} == '?') {
       $n = 0;
       foreach ($resModel->triples as $triple)
-        $resultSet[$n++][$pattern['object']['value']] = $triple->obj;
+        $resultSet[$n++][$pattern['object']['value']] = $triple->getObject();
    }
    return $resultSet;
  }
@@ -505,20 +505,20 @@ Class RdqlMemEngine extends RdqlEngine {
 
    if (in_array('subject', $intBindings)) {
       if (in_array('predicate', $intBindings))
-         if ($triple->subj != $triple->pred)
+         if ($triple->getSubject() != $triple->getPredicate())
             return FALSE;
       if (in_array('object', $intBindings)) {
-         if (is_a($triple->obj, 'Literal'))
+         if (is_a($triple->getObject(), 'Literal'))
             return FALSE;
-         elseif ($triple->subj != $triple->obj)
+         elseif ($triple->getSubject() != $triple->getObject())
             return FALSE;
       }
       return TRUE;
    }
    if (in_array('predicate', $intBindings)) {
-      if (is_a($triple->obj, 'Literal'))
+      if (is_a($triple->getObject(), 'Literal'))
          return FALSE;
-      elseif ($triple->pred != $triple->obj)
+      elseif ($triple->getPredicate() != $triple->getObject())
              return FALSE;
       return TRUE;
    }

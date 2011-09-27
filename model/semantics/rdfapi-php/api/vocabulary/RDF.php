@@ -1,20 +1,19 @@
 <?php
+
 /**
-*   Resource Description Framework (RDF) Vocabulary
-*
-*   @version $Id: RDF.php 431 2007-05-01 15:49:19Z cweiske $
-*   @author Daniel Westphal (dawe@gmx.de)
-*   @package vocabulary
-*
-*   Wrapper, defining resources for all terms of the
-*   Resource Description Framework (RDF).
-*   For details about RDF see: http://www.w3.org/RDF/.
-*   Using the wrapper allows you to define all aspects of
-*   the vocabulary in one spot, simplifing implementation and
-*   maintainence.
-*/
-
-
+ *   Resource Description Framework (RDF) Vocabulary
+ *
+ *   @version $Id: RDF.php 431 2007-05-01 15:49:19Z cweiske $
+ *   @author Daniel Westphal (dawe@gmx.de)
+ *   @package vocabulary
+ *
+ *   Wrapper, defining resources for all terms of the
+ *   Resource Description Framework (RDF).
+ *   For details about RDF see: http://www.w3.org/RDF/.
+ *   Using the wrapper allows you to define all aspects of
+ *   the vocabulary in one spot, simplifing implementation and
+ *   maintainence.
+ */
 // RDF concepts (constants are defined in constants.php)
 $RDF_Alt = new Resource(RDF_NAMESPACE_URI . RDF_ALT);
 $RDF_Bag = new Resource(RDF_NAMESPACE_URI . RDF_BAG);
@@ -43,7 +42,4 @@ $RDF_li = new Resource(RDF_NAMESPACE_URI . RDF_LI);
 $RDF_nodeID = new Resource(RDF_NAMESPACE_URI . RDF_NODEID);
 $RDF_datatype = new Resource(RDF_NAMESPACE_URI . RDF_DATATYPE);
 $RDF_seeAlso = new Resource(RDF_NAMESPACE_URI . RDF_SEEALSO);
-
-
-
 ?>

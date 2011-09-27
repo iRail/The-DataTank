@@ -33,58 +33,58 @@ class ResIterator
 	* @var		object Model
 	* @access	private
 	*/
-	var $associatedModel;
+	protected $associatedModel;
 	
 	/**
 	* The current position
 	* @var		integer
 	* @access	private
 	*/
-	var $key;
+	protected $key;
 	
 	/**
 	* If the current resource is valid
 	* @var		boolean
 	* @access	private
 	*/
-	var $valid;
+	protected $valid;
 	
 	/**
 	* The current resource
 	* @var obejct ResResource
 	* @access	private
 	*/
-	var $currentResource;
+	protected $currentResource;
 	
 	/**
 	* The subject to search for.
 	* @var		object ResResource
 	* @access	private
 	*/
-	var $searchSubject;
+	protected $searchSubject;
 	
 	/**
 	* The predicate to search for.
-	* @var		object ResResource
+	* @protected		object ResResource
 	* @access	private
 	*/
-	var $searchPredicate;
+	protected $searchPredicate;
 	
 	/**
 	* The object to search for.
 	* @var		object ResResource
 	* @access	private
 	*/
-	var $searchObject;
+	protected $searchObject;
 	
 	/**
 	* If the resource, we're intrested in is the subject (s), predicate(p), 
 	* or object (o) of the found statements
 	* 
-	* @var		string
+	* @protected		string
 	* @access	private
 	*/
-	var $getSPO;
+	protected $getSPO;
 	
 	/**
 	* Defines the type of resource, we'd like to receive.
@@ -92,7 +92,7 @@ class ResIterator
 	* @var		string
 	* @access	private
 	*/
-	var $returnType;
+	protected $returnType;
 	
 	/**
 	* If set, each resource will first be checked, if it's
@@ -101,7 +101,7 @@ class ResIterator
 	* @var		string
 	* @access	private
 	*/
-	var $findLiteralWithLang;
+	protected $findLiteralWithLang;
 	
 	
 	/**
@@ -122,7 +122,7 @@ class ResIterator
     * @param string				 $returnType
 	* @access	public
     */
-	function ResIterator($subject,$predicate,$object,$getSPO,& $associatedModel,$returnType = false)
+	public function ResIterator($subject,$predicate,$object,$getSPO,& $associatedModel,$returnType = false)
 	{
 		$this->searchSubject =& $subject;
 		$this->searchPredicate =& $predicate;
@@ -138,7 +138,7 @@ class ResIterator
     *
 	* @access	public
     */
-	function rewind()
+	public function rewind()
 	{
 		$this->key = -1;
 		$this->next();
@@ -150,7 +150,7 @@ class ResIterator
     * @return	boolean
 	* @access	public
     */
-	function valid()
+	public function valid()
 	{
 		return $this->valid;
 	}
@@ -160,7 +160,7 @@ class ResIterator
     *
 	* @access	public
     */
-	function next()
+	public function next()
 	{
 		$this->key++;
 		$this->valid=($this->_getNextResource());
@@ -172,7 +172,7 @@ class ResIterator
     * @return	mixed
 	* @access	public
     */
-	function current()
+	public function current()
 	{
 		return $this->currentResource;
 	}
@@ -184,7 +184,7 @@ class ResIterator
     * @return	object resResource
 	* @access	private
     */
-	function _getNextResource()
+	public function _getNextResource()
 	{
 		if ($this->findLiteralWithLang)
 		{ 
@@ -235,7 +235,7 @@ class ResIterator
     * @return	integer
 	* @access	public
     */
-	function key()
+	public function key()
 	{
 		return $this->key;
 	}
@@ -247,7 +247,7 @@ class ResIterator
     * @param	string
 	* @access	public
     */
-	function setFindLiteralWithLang($language)
+	public function setFindLiteralWithLang($language)
 	{
 		$this->findLiteralWithLang = $language;
 	}
@@ -260,7 +260,7 @@ class ResIterator
     * @return	object ResResource
 	* @access	private
     */
-	function _getResourceAs($resource)
+	public function _getResourceAs($resource)
 	{
 		if ($this->findLiteralWithLang && $resource->getLanguage() != $this->findLiteralWithLang)
 			$this->_getNextResource();

@@ -15,7 +15,7 @@ require_once RDFAPI_INCLUDE_DIR . 'util/Object.php';
 *
 * @package sparql
 */
-Class Constraint extends Object{
+class Constraint extends Object{
 
     /**
     * The expression string.

@@ -11,7 +11,7 @@
  * (http://www.w3.org/TR/grddl/)
  * 
  * @version  $Id: GRDDLParser.php 320 2006-11-21 09:38:51Z tgauss $
- * @author Tobias Gauß <tobias.gauss@web.de>, 
+ * @author Tobias Gauï¿½ <tobias.gauss@web.de>, 
  *
  * @package syntax
  * @access	public
@@ -56,7 +56,7 @@ class GRDDLParser extends Object{
 	* @access public
 	* @return MemModel $model
 	*/
-	function generateModel($doc){
+	public function generateModel($doc){
 		$model = new MemModel();
 		$this->doclink=$doc;
 		$this->domdoc = new DomDocument; 
@@ -72,7 +72,7 @@ class GRDDLParser extends Object{
 	*
 	* @access private
 	*/
-	function _getStyles(){
+	public function _getStyles(){
 		$link=$this->domdoc->getElementsByTagName('link');
 		$i=0;
 		while($link->item($i)!=''){
@@ -99,7 +99,7 @@ class GRDDLParser extends Object{
 	* @access private
 	* @return MemModel $model
 	*/
-	function _generateRDF(){
+	public function _generateRDF(){
 		$model=new MemModel();
 		$model->setBaseURI($this->doclink);
 		$proc = new xsltprocessor;

@@ -1,19 +1,19 @@
 <?php
-/**
-*   OWL Vocabulary
-*
-*   @version $Id: OWL.php 431 2007-05-01 15:49:19Z cweiske $
-*   @author Daniel Westphal (dawe@gmx.de)
-*   @package vocabulary
-*
-*   Wrapper, defining resources for all terms of theWeb
-*   Ontology Language (OWL). For details about OWL see:
-*   http://www.w3.org/TR/owl-ref/
-*   Using the wrapper allows you to define all aspects of
-*   the vocabulary in one spot, simplifing implementation and
-*   maintainence.
-*/
 
+/**
+ *   OWL Vocabulary
+ *
+ *   @version $Id: OWL.php 431 2007-05-01 15:49:19Z cweiske $
+ *   @author Daniel Westphal (dawe@gmx.de)
+ *   @package vocabulary
+ *
+ *   Wrapper, defining resources for all terms of theWeb
+ *   Ontology Language (OWL). For details about OWL see:
+ *   http://www.w3.org/TR/owl-ref/
+ *   Using the wrapper allows you to define all aspects of
+ *   the vocabulary in one spot, simplifing implementation and
+ *   maintainence.
+ */
 // OWL concepts
 $OWL_AnnotationProperty = new Resource(OWL_NS . 'AnnotationProperty');
 $OWL_AllDifferent = new Resource(OWL_NS . 'AllDifferent');
@@ -62,5 +62,4 @@ $OWL_Thing = new Resource(OWL_NS . 'Thing');
 $OWL_TransitiveProperty = new Resource(OWL_NS . 'TransitiveProperty');
 $OWL_unionOf = new Resource(OWL_NS . 'unionOf');
 $OWL_versionInfo = new Resource(OWL_NS . 'versionInfo');
-
 ?>
