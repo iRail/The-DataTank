@@ -23,7 +23,8 @@ class Packages extends AReader{
 
     public function read(){
 	$resmod = ResourcesModel::getInstance();
-	$o = $resmod->getAllPackages();
+        $doc = $resmod->getAllDoc();
+	$o = array_keys(get_object_vars($doc));
 	return $o;
     }
 
