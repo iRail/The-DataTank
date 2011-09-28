@@ -16,7 +16,6 @@ class CSV extends ATabularData {
         $this->parameters["PK"] = "The primary key of an entry";
 
         $this->requiredParameters[] = "uri";
-        $this->requiredParameters[] = "columns";
         
     }
 
