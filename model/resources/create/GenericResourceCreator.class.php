@@ -19,20 +19,16 @@ class GenericResourceCreator extends ACreator{
 
     public function __construct($package, $resource, $resource_type){
         parent::__construct($package, $resource);
-        $this->package = $package;
-        $this->resource = $resource;
         /**
          * Add the parameters
          */
         $this->parameters["generic_type"]  = "The type of the generic resource.";
         $this->parameters["documentation"] = "Some descriptional documentation about the generic resource.";
-        $this->parameters["printmethods"]  = "The allowed formats in which the resulting object may be represented in.";
         
         /**
          * Add the required parameters
          */
         $this->requiredParameters[]= "documentation";
-        $this->requiredParameters[] = "printmethods";
         $this->requiredParameters[] = "generic_type";
     }
 
@@ -48,8 +44,8 @@ class GenericResourceCreator extends ACreator{
             // add all the parameters to the $parameters
             // and all of the requiredParameters to the $requiredParameters
             $this->strategy = new $this->generic_type();
-            $this->parameters[] = $this->strategy->getParameters();
-            $this->requiredParameters[] = $this->strategy->getRequiredParameters();
+            $this->parameters = array_merge($this->parameters,$this->strategy->getParameters());
+            $this->requiredParameters = array_merge($this->requiredParameters,$this->strategy->getRequiredParameters());
         }else if(isset($this->strategy) && array_key_exists($key,$this->strategy->getParameters()) ){
             $this->strategy->$key = $value;
         }else{

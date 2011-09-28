@@ -17,36 +17,25 @@ abstract class ACreator{
         $this->resource = $resource;
         
         $this->parameters["resource_type"] = "The type of the resource.";
-        $this->parameters["package"] = "Name of the package to add the resource to.";
-        $this->parameters["resource"] = "Name of the resource.";
 
         $this->requiredParameters[] = "resource_type";
-        $this->requiredParameters[] = "package";
-        $this->requiredParameters[] = "resource";
-    }    
+    }
 
     /**
      * process the parameters
      */
-    public function processParameters($parameters){
-	foreach($parameters as $key => $value){
-            //check whether this parameter is in the documented parameters
-            //if(!isset($this->parameters[$key])){
-            //throw new ParameterDoesntExistTDTException($key);
-            //if(in_array($key,$this->requiredParameters)){
-            $this->setParameter($key,$value);
-                //}
+    public function processParameters($parameters) {
+        foreach ($parameters as $key => $value) {
+            $this->setParameter($key, $value);
         }
-        
         // check if all requiredparameters have been set
-        
-        /*foreach($this->requiredParameters as $key){
-            if(!isset($parameters[$key])){
-                throw new ParameterTDTException("Required parameter ". $key ." has not been passed");
+        foreach ($this->getRequiredParameters() as $key) {
+            if (!in_array($key, array_keys($parameters))){
+                throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
             }
-            }*/
+        }
     }
-
+  
     /**
      * set parameters, we leave this to the subclass
      */

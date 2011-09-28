@@ -18,8 +18,8 @@ class HTMLTable extends ATabularData {
         $this->parameters["columns"] = "The columns that are to be published from the HTML table";
         $this->parameters["PK"] = "The primary key of each row.";
 
-        $this->requiredParameters[] = array_keys($this->parameters);
-    }    
+        $this->requiredParameters = array_merge($this->requiredParameters, array_keys($this->parameters));
+    }
 
     public function onCall($package,$resource){
 

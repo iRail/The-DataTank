@@ -61,7 +61,7 @@ class CUDController extends AController{
         parse_str(file_get_contents("php://input"),$_PUT);
 
         //we need to be authenticated
-        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){
+        if($this->isAuthenticated()){
             $model = ResourcesModel::getInstance();
             $model->createResource($package,$resource, $_PUT);
             
@@ -80,8 +80,8 @@ class CUDController extends AController{
         if(isset($matches["resource"])){    
             $resource = $matches["resource"];
         }
-        
-        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
+
+        if($this->isAuthenticated()){
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();
             if($resource == ""){
@@ -97,11 +97,16 @@ class CUDController extends AController{
         $package = $matches["package"];
         $resource = $matches["resource"];
 
-        if($_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD){        
+        if($this->isAuthenticated()){
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();
             $model->updateResource($package,$resource,$_POST);
         }
     }
+
+    private function isAuthenticated(){
+        return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
+    }
+    
 }
 ?>

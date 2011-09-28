@@ -30,10 +30,9 @@ abstract class AUpdater {
             }
             $this->setParameter($key, $value);
         }
-        // check if all requiredparameters have been set
-        foreach ($this->requiredParameters as $key) {
-            $pars = $this->getParameters();
-            if ($pars[$key] == "") {
+        //check if all required parameters are set
+        foreach ($this->getRequiredParameters() as $key) {
+            if (!in_array($key, array_keys($parameters))){
                 throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
             }
         }

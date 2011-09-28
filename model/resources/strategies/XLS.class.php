@@ -25,8 +25,7 @@ class XLS extends ATabularData {
         $this->parameters["sheet"] = "The sheet name of the excel";
         $this->parameters["columns"] = "The columns that are to be published.";
         $this->parameters["PK"] = "The primary key for each row.";
-        
-        $this->requiredParameters[] = array_keys($this->parameters);
+        $this->requiredParameters = array_merge($this->requiredParameters, array_keys($this->parameters));
     }
 
     public function onCall($package,$resource){
