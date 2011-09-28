@@ -48,7 +48,6 @@ class DatabaseSetup extends InstallController {
               `resource_id` bigint(20) NOT NULL,
               `type` varchar(40) NOT NULL,
               `documentation` varchar(512) NOT NULL,
-              `print_methods` varchar(60) NOT NULL,
               `timestamp` int(11) unsigned DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `resource_id` (`resource_id`)

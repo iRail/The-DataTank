@@ -112,12 +112,11 @@ class DBQueries {
     /**
      * Store a generic resource
      */
-    static function storeGenericResource($resource_id, $type, $documentation, $print_methods) {
+    static function storeGenericResource($resource_id, $type, $documentation) {
         $genres = R::dispense("generic_resource");
         $genres->resource_id = $resource_id;
         $genres->type = $type;
         $genres->documentation = $documentation;
-        $genres->print_methods =  $print_methods;
         $genres->timestamp = time();
         return R::store($genres);
     }
