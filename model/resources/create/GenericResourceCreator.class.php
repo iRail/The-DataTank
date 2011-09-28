@@ -66,7 +66,7 @@ class GenericResourceCreator extends ACreator{
         $package_id  = parent::makePackage($this->package);
         $resource_id = parent::makeResource($package_id, $this->resource, "generic");
 
-        $generic_id= DBQueries::storeGenericResource($resource_id,$this->generic_type,$this->documentation,$this->printmethods);
+        $generic_id= DBQueries::storeGenericResource($resource_id,$this->generic_type,$this->documentation,array());
         $this->strategy->onAdd($package_id,$generic_id);
     }
     
