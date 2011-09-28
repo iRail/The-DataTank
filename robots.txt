@@ -12,6 +12,6 @@ Disallow: /data/
 Disallow: /requests/
 Disallow: /output/
 
-Sitemap: /TDTInfo/semanticsitemap.xml
+Sitemap: semanticsitemap.php
 
 # EOF
