@@ -14,7 +14,7 @@ class CSV extends ATabularData {
         $this->parameters["uri"] = "The URI to the CSV file";
         $this->parameters["columns"] = "The columns that are to be published, if empty every column will be published.";
         $this->parameters["PK"] = "The primary key of an entry";
-
+        
         $this->requiredParameters[] = "uri";
         
     }
@@ -114,6 +114,10 @@ class CSV extends ATabularData {
             $this->PK = "";
         
         $this->evaluateCSVResource($resource_id);
+        if(!isset($this->columns)){
+            $this->columns = "";
+        }
+        
         parent::evaluateColumns($this->columns, $this->PK, $resource_id);
     } 
    
