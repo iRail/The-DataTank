@@ -130,7 +130,7 @@ class DbModel extends Model {
 
         if (!$this->contains($statement)) {
 
-            $subject_is = $this->_getNodeFlag($statement->subject());
+            $subject_is = $this->_getNodeFlag($statement->getSubject());
             $sql = "INSERT INTO statements
 			        (modelID, subject, predicate, object, l_language, l_datatype, subject_is, object_is)
 			        VALUES
@@ -138,7 +138,7 @@ class DbModel extends Model {
                     . $this->dbConn->qstr($statement->getLabelSubject()) . ","
                     . $this->dbConn->qstr($statement->getLabelPredicate()) . ",";
 
-            if (is_a($statement->object(), 'Literal')) {
+            if (is_a($statement->getObject(), 'Literal')) {
                 $quotedLiteral = $this->dbConn->qstr($statement->getObject()->getLabel());
                 $sql .= $quotedLiteral . ","
                         . "'" . $statement->getObject()->getLanguage() . "',"
@@ -146,7 +146,7 @@ class DbModel extends Model {
                         . "'" . $subject_is . "',"
                         . "'l')";
             } else {
-                $object_is = $this->_getNodeFlag($statement->object());
+                $object_is = $this->_getNodeFlag($statement->getObject());
                 $sql .= $this->dbConn->qstr($statement->getObject()->getLabel()) . ","
                         . "'',"
                         . "'',"

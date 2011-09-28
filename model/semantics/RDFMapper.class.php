@@ -12,12 +12,6 @@ include_once('RDFConstants.php');
 
 class RDFMapper {
 
-    private $models;
-
-    function __construct() {
-        $this->models = array();
-    }
-
     /**
      * Method called for updating the mapping model. This method responds to a POST request on a specific resource.
      *
@@ -179,21 +173,15 @@ class RDFMapper {
      * @return	ResModel
      * @access	public
      */
-    public function getMapping($tdt_package) {
-        //keep a model for a package in the memory
-        //Might be changed later if it is too memory consuming
-        if (array_key_exists($tdt_package, $this->models))
-            return $this->models[$tdt_package];
-
+    public function getMappingModel($tdt_package) {
         $store = RbModelFactory::getRbStore();
         //gets the model if it exist, else make a new one. Either way, it's the right one.
+        //Gets a ResModel containing an RbModel, which doesn't store statements in memory, only in db.
         $model = RbModelFactory::getResModel(RBMODEL, $this->getMappingURI($tdt_package));
         //If the model has no statements, give it a basic mapping structure
         if ($model->isEmpty())
             $this->buildNewMapping($model, $tdt_package);
-
-        $this->models[$tdt_package] = $model;
-
+        
         return $model;
     }
 
@@ -211,7 +199,7 @@ class RDFMapper {
         if (!(isset($tdt_package) && isset($tdt_resource) && isset($class)))
             throw new RdfTDTException('Package, Resource or Mapping class unknown ');
 
-        $model = $this->getMapping($tdt_package);
+        $model = $this->getMappingModel($tdt_package);
 
         $resource = $model->createResource($tdt_resource);
         $property = $model->createProperty(RDFConstants::$TDML_NS . "maps");
@@ -265,7 +253,7 @@ class RDFMapper {
         if (!(isset($tdt_package) && isset($tdt_resource) && isset($equal_resource)))
             throw new RdfTDTException('Package, Resource or Equal resource unknown ');
 
-        $model = $this->getMapping($tdt_package);
+        $model = $this->getMappingModel($tdt_package);
 
         $resource = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
         $object = $model->createResource($equal_resource);
@@ -291,7 +279,7 @@ class RDFMapper {
         if (!(isset($tdt_package) && isset($tdt_resource)))
             throw new RdfTDTException('Package or Resource unknown ');
 
-        $model = $this->getMapping($tdt_package);
+        $model = $this->getMappingModel($tdt_package);
 
         $subject = $model->createResource($this->getMappingURI($tdt_package) . $tdt_resource);
         $statements = $model->find($subject, RDFConstants::$TDML_NS . 'maps', null);
@@ -300,6 +288,13 @@ class RDFMapper {
             if (!$model->remove($statement))
                 throw new RdfTDTException('Mapping statement of ' . $statement->getSubject()->toString() . ' was not deleted');
         }
+    }
+    
+    public function getMappingNamespaces($tdt_package){
+        $model = $this->getMappingModel($tdt_package);
+        $namespaces = $model->getParsedNamespaces();
+        unset($namespaces[RDFConstants::$TDML_NS]);
+        return $namespaces;
     }
 
     /**
@@ -315,7 +310,7 @@ class RDFMapper {
             throw new RdfTDTException('Package or Resource unknown ');
 
         //Retrieve mapping model from db.
-        $model = $this->getMapping($tdt_package);
+        $model = $this->getMappingModel($tdt_package);
         $mapping = $this->lookupMapping($model, $tdt_resource);
 
         //If no mapping is found, check if there is a generic mapping
@@ -337,7 +332,7 @@ class RDFMapper {
      *
      * @param ResModel $model
      * @param string $tdt_resource
-     * @return array Array of Statement objects containing equal resources
+     * @return ResResource
      */
     private function lookupMapping($model, $tdt_resource) {
         $resource_res = $model->createResource($tdt_resource);

@@ -33,6 +33,10 @@ class RDFOutput {
      */
     public function buildRdfOutput($object) {
         $this->model = ModelFactory::getResModel(MEMMODEL);
+        
+        $rdfmapper = new RDFMapper();
+        $package = RequestURI::getInstance()->getPackage();
+        $this->model->addParsedNamespaces($rdfmapper->getMappingNamespaces($package));
         $this->analyzeVariable($object, RequestURI::getInstance()->getRealWorldObjectURI());
         return $this->model->getModel();
     }

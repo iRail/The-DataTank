@@ -219,9 +219,9 @@ class Model extends Object {
      *
      * @param	string	$prefix
      * @return	string
-     * @access	private
+     * @access	public
      */
-    private function getUniqueResourceURI($prefix = false) {
+    public function getUniqueResourceURI($prefix = false) {
         static $bNodeCount;
         if (!$bNodeCount)
             $bNodeCount = 0;

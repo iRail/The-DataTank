@@ -572,7 +572,7 @@ class ResModel {
      * @return	string
      * @access	private
      */
-    public function getUniqueResourceURI($bnodePrefix) {
+    private function getUniqueResourceURI($bnodePrefix) {
         return $this->model->getUniqueResourceURI($bnodePrefix);
     }
 

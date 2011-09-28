@@ -46,7 +46,7 @@ class Mapping extends AReader{
     private function getData() {
         $rdfmapper = new RDFMapper();
         //Build a mapping file for package
-        $this->mapping = $rdfmapper->getMapping($this->package)->getModel()->getMemModel();
+        $this->mapping = $rdfmapper->getMappingModel($this->package)->getModel()->getMemModel();
     }
 
     public static function getDoc() {

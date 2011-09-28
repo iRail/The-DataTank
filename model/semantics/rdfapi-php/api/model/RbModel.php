@@ -146,7 +146,7 @@ class RbModel extends DbModel {
 
         if (!$this->contains($statement)) {
 
-            $subject_is = $this->_getNodeFlag($statement->subject());
+            $subject_is = $this->_getNodeFlag($statement->getSubject());
 
             $param = array(':modelID' => $this->modelID, ':labelSubject' => $statement->getLabelSubject(), ':labelPredicate' => $statement->getLabelPredicate());
             $sql = 'INSERT INTO statements (modelID, subject, predicate, object, l_language, l_datatype, subject_is, object_is)
@@ -155,14 +155,14 @@ class RbModel extends DbModel {
             $param[':objLabel'] = $statement->getObject()->getLabel();
             $param[':subjectIs'] = $subject_is;
 
-            if (is_a($statement->object(), 'Literal')) {
+            if (is_a($statement->getObject(), 'Literal')) {
                 $param[':objLanguage'] = $statement->getObject()->getLanguage();
                 $param[':objDatatype'] = $statement->getObject()->getDatatype();
                 $param[':l'] = 'l';
 
                 $sql .= " :objLabel, :objLanguage, :objDatatype, :subjectIs, :l)";
             } else {
-                $param[':objectIs'] = $this->_getNodeFlag($statement->object());
+                $param[':objectIs'] = $this->_getNodeFlag($statement->getObject());
 
                 $sql .= ":objLabel,'','',:subjectIs,:objectIs)";
             }
