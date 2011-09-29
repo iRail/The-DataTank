@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Rdf_ntriple extends AFormatter {
+class Nt extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

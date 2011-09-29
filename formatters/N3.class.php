@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Rdf_n3 extends AFormatter {
+class N3 extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

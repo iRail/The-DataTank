@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Rdf_xml extends AFormatter {
+class Rdf extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
