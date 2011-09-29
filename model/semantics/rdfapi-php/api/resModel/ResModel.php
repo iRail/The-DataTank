@@ -570,9 +570,9 @@ class ResModel {
      *
      * @param	string	$prefix
      * @return	string
-     * @access	private
+     * @access	public
      */
-    private function getUniqueResourceURI($bnodePrefix) {
+    public function getUniqueResourceURI($bnodePrefix) {
         return $this->model->getUniqueResourceURI($bnodePrefix);
     }
 

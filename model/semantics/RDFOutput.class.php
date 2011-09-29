@@ -14,7 +14,7 @@ class RDFOutput {
     private $model;
 
     private function __construct() {
-
+        
     }
 
     public static function getInstance() {
@@ -33,11 +33,12 @@ class RDFOutput {
      */
     public function buildRdfOutput($object) {
         $this->model = ModelFactory::getResModel(MEMMODEL);
-        
+
         $rdfmapper = new RDFMapper();
         $package = RequestURI::getInstance()->getPackage();
         $this->model->addParsedNamespaces($rdfmapper->getMappingNamespaces($package));
         $this->analyzeVariable($object, RequestURI::getInstance()->getRealWorldObjectURI());
+
         return $this->model->getModel();
     }
 
@@ -71,7 +72,9 @@ class RDFOutput {
                 }
             } else {
                 //An indexed array is turned into a rdf sequence
+                //echo 'create new list<br>';
                 $res = $this->model->createList($uri);
+                //$this->addToResource($resource, $property, $res);
                 //Iterate all the values in the array, extend the uri and start over.
                 for ($i = 0; $i < count($var); $i++) {
                     $uri = $temp;
@@ -81,12 +84,12 @@ class RDFOutput {
             }
         } else if (is_object($var)) {
             //turn the object into an associative array, then do the same as above
-            $obj_prop = get_object_vars($var);
+            //$obj_prop = get_object_vars($var);
             $temp = $uri;
             $res = $this->getMappedResource($uri);
             $this->addToResource($resource, $property, $res);
 
-            foreach ($obj_prop as $key => $value) {
+            foreach ($var as $key => $value) {
                 $uri = $temp;
                 $uri .= '/' . $key;
                 //$prop = $this->model->createProperty($temp . '/' . strtolower($key));
@@ -109,14 +112,19 @@ class RDFOutput {
      * @param ResResource $object The object of the property
      */
     private function addToResource($resource, $property, $object) {
+        //echo is_null($resource) ? 'res is null<br>' : $resource->toString()  . '<br>';
+        //echo is_null($property) ? ' prop is null<br>' : $property->toString() . '<br>';
+        //echo is_null($object) ? 'obj is null<br>' : $object->toString() . '<br>';
+
         //Check if there is aready parent resource. If not, this resource is probably the first one.
         if (!is_null($resource)) {
             //If the resource is a sequence, just add the object to it, property is not important
-            if (is_a($resource, 'ResList'))
+            if (is_a($resource, 'ResList')){
+                //echo 'added to list<br>';
                 $resource->add($object);
-            else if (is_a($resource, 'ResResource'))
+            }else if (is_a($resource, 'ResResource'))
                 $resource->addProperty($property, $object);
-        } 
+        }
     }
 
     /**
@@ -133,14 +141,14 @@ class RDFOutput {
         //Get the right mapping class
         $rdfmapper = new RDFMapper();
         $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
-        
-        if (!is_null($mapping_resource)){
+
+        if (!is_null($mapping_resource)) {
             //Define the type of this resource to the mapping resource in RDF
             $resource->addProperty(RDF_RES::TYPE(), $mapping_resource);
         } else {
             $resource->addProperty(RDF_RES::TYPE(), OWL_RES::THING());
         }
-        
+
         return $resource;
     }
 
@@ -148,7 +156,7 @@ class RDFOutput {
         //Get the right mapping class
         $rdfmapper = new RDFMapper();
         $mapping_resource = $rdfmapper->getResourceMapping(RequestURI::getInstance()->getPackage(), $uri);
-        if (is_null($mapping_resource)){
+        if (is_null($mapping_resource)) {
             return OWL_RES::PROPERTY();
         }
         return $mapping_resource;

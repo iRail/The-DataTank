@@ -146,7 +146,7 @@ class RDFMapper {
 
         $resources_list = $model->createList();
         $package_res->addProperty($has_resources_prop, $resources_list);
-        $resource_res->addProperty($maps_prop, RDF_RES::DESCRIPTION());
+        $package_res->addProperty($maps_prop, RDF_RES::DESCRIPTION());
 
         //Get all resources in package
         $doc = ResourcesModel::getInstance()->getAllDoc();
