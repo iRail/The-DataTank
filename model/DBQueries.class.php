@@ -513,10 +513,10 @@ class DBQueries {
      * Store a CSV resource
      */
     static function storeCSVResource($resource_id, $uri) {
-        $csvresource = R::dispense("generic_resource_csv");
-        $csvresource->gen_resource_id = $resource_id;
-        $csvresource->uri = $uri;
-        return R::store($csvresource);
+        $resource = R::dispense("generic_resource_csv");
+        $resource->gen_resource_id = $resource_id;
+        $resource->uri = $uri;
+        return R::store($resource);
     }
     
     /**
@@ -540,7 +540,7 @@ class DBQueries {
      */
     static function getXLSResource($package, $resource) {
         return R::getRow(
-            "SELECT generic_resource.id as gen_res_id,generic_resource_xls.uri as uri,generic_resource_xls.sheet as sheet
+            "SELECT generic_resource.id as gen_res_id,generic_resource_xls.url as url,generic_resource_xls.sheet as sheet
              FROM package,resource, generic_resource, generic_resource_xls
              WHERE package.package_name=:package and resource.resource_name=:resource
                    and package.id=resource.package_id 
@@ -553,12 +553,12 @@ class DBQueries {
     /**
      * Store a XLS resource
      */
-    static function storeXLSResource($resource_id, $uri, $sheet) {
-        $xlsresource = R::dispense("generic_resource_xls");
-        $xlsresource->gen_resource_id = $resource_id;
-        $xlsresource->uri = $uri;
-		$xlsresource->sheet = $sheet;
-        return R::store($xlsresource);
+    static function storeXLSResource($resource_id, $url, $sheet) {
+        $resource = R::dispense("generic_resource_xls");
+        $resource->gen_resource_id = $resource_id;
+        $resource->url = $url;
+		$resource->sheet = $sheet;
+        return R::store($resource);
     }
     
     /**
@@ -582,7 +582,7 @@ class DBQueries {
      */
     static function getHTMLTableResource($package, $resource) {
         return R::getRow(
-            "SELECT generic_resource.id as gen_res_id,generic_resource_htmltable.uri as uri,generic_resource_htmltable.xpath as xpath
+            "SELECT generic_resource.id as gen_res_id,generic_resource_htmltable.url as url, generic_resource_htmltable.xpath as xpath
              FROM package,resource, generic_resource, generic_resource_htmltable
              WHERE package.package_name=:package and resource.resource_name=:resource
                    and package.id=resource.package_id 
@@ -595,12 +595,12 @@ class DBQueries {
     /**
      * Store a HTML Table resource
      */
-    static function storeHTMLTableResource($resource_id, $uri, $xpath) {
-        $xlsresource = R::dispense("generic_resource_htmltable");
-        $xlsresource->gen_resource_id = $resource_id;
-        $xlsresource->uri = $uri;
-		$xlsresource->xpath = $xpath;
-        return R::store($xlsresource);
+    static function storeHTMLTableResource($resource_id, $url, $xpath) {
+        $resource = R::dispense("generic_resource_htmltable");
+        $resource->gen_resource_id = $resource_id;
+        $resource->url = $url;
+		$resource->xpath = $xpath;
+        return R::store($resource);
     }
     
     /**
@@ -618,6 +618,47 @@ class DBQueries {
             array(":package" => $package, ":resource" => $resource)
         );
     }	
+
+    /**
+     * Retrieve a specific OGD Wien JSON resource
+     */
+    static function getOGDWienJSONResource($package, $resource) {
+        return R::getRow(
+            "SELECT generic_resource.id as gen_res_id,generic_resource_ogdwienjson.url as url
+             FROM package,resource, generic_resource, generic_resource_ogdwienjson
+             WHERE package.package_name=:package and resource.resource_name=:resource
+                   and package.id=resource.package_id 
+                   and resource.id = generic_resource.resource_id
+                   and generic_resource.id=generic_resource_ogdwienjson.gen_resource_id",
+            array(':package' => $package, ':resource' => $resource)
+        );
+    }
+   
+    /**
+     * Store a OGD Wien JSON resource
+     */
+    static function storeOGDWienJSONResource($resource_id, $url) {
+        $resource = R::dispense("generic_resource_ogdwienjson");
+        $resource->gen_resource_id = $resource_id;
+        $resource->url = $url;
+        return R::store($resource);
+    }
+    
+    /**
+     * Delete a specific OGD Wien JSON resource
+     */
+    static function deleteOGDWienJSONResource($package, $resource) {
+        return R::exec(
+            "DELETE FROM generic_resource_ogdwienjson
+                    WHERE gen_resource_id IN 
+                          (SELECT generic_resource.id FROM generic_resource,package,resource 
+                           WHERE resource.resource_name=:resource
+                                 and package.package_name=:package
+                                 and resource_id = resource.id
+                                 and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
 
     /**
      * Delete published columns for a certain generic resource

@@ -13,9 +13,9 @@ class HTMLTable extends ATabularData {
 
 
     public function __construct(){
-        $this->parameters["uri"] = "The uri of where the HTML table is found.";
+        $this->parameters["url"] = "The url of where the HTML table is found.";
         $this->parameters["xpath"]  = "The XPath to the HTML table";
-        $this->parameters["columns"] = "The columns that are to be published from the HTML table";
+        $this->parameters["columns"] = "The columns that are to be published from the HTML table.";
         $this->parameters["PK"] = "The primary key of each row.";
 
         $this->requiredParameters = array_merge($this->requiredParameters, array_keys($this->parameters));
@@ -30,10 +30,10 @@ class HTMLTable extends ATabularData {
         
         $gen_res_id = $result["gen_res_id"];
 
-        if(isset($result["uri"])){
-            $uri = $result["uri"];
+        if(isset($result["url"])){
+            $url = $result["url"];
         }else{
-            throw new ResourceTDTException("Can't find URI of the HTML Table");
+            throw new ResourceTDTException("Can't find url of the HTML Table");
         }
 		
         if(isset($result["xpath"])){
@@ -66,7 +66,7 @@ class HTMLTable extends ATabularData {
             libxml_clear_errors(); 
              
             $html = new DOMDocument(); 
-            $html->loadHtmlFile($uri); 
+            $html->loadHtmlFile($url); 
              
             $domxpath = new DOMXPath( $html ); 
             $tablerows = $domxpath->query($xpath . "/tr" ); 
@@ -118,7 +118,7 @@ class HTMLTable extends ATabularData {
             $resultobject->object = $arrayOfRowObjects;
             return $resultobject;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $uri );
+            throw new CouldNotGetDataTDTException( $url );
         }
     }
 
@@ -135,7 +135,7 @@ class HTMLTable extends ATabularData {
     }
 
     private function evaluateHTMLTableResource($resource_id){
-        DBQueries::storeHTMLTableResource($resource_id, $this->uri, $this->xpath);
+        DBQueries::storeHTMLTableResource($resource_id, $this->url, $this->xpath);
     }    
 }
 ?>
