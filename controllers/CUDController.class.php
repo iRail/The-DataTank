@@ -66,6 +66,9 @@ class CUDController extends AController{
             $model->createResource($package,$resource, $_PUT);
             //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
             R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+            //Clear the documentation in our cache for it has changed
+            $c = Cache::getInstance();
+            $c->delete("documentation");
         }else{
             throw new AuthenticationTDTException("Cannot PUT");
         }
@@ -87,11 +90,15 @@ class CUDController extends AController{
             $model = ResourcesModel::getInstance();
             if($resource == ""){
                 $model->deletePackage($package);
-                //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-                R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
             }else{
                 $model->deleteResource($package,$resource);
             }
+            //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+
+            //Clear the documentation in our cache for it has changed
+            $c = Cache::getInstance();
+            $c->delete("documentation");
         }
     }
 
@@ -106,12 +113,15 @@ class CUDController extends AController{
             $model->updateResource($package,$resource,$_POST);
             //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
             R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+            //Clear the documentation in our cache for it has changed
+            $c = Cache::getInstance();
+            $c->delete("documentation");
         }
     }
 
     private function isAuthenticated(){
         return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
-    }
+    }    
     
 }
 ?>

@@ -22,7 +22,7 @@ class Doc{
             foreach($factories as $factory){ 
                 $factory->makeDoc($doc);
             }
-            $c->set("documentation",$doc,0); // cache it for 10 seconds by default
+            $c->set("documentation",$doc,60*60*60); // cache it for 1 hour by default
         }
         return $doc;
     }

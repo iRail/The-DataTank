@@ -15,7 +15,6 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>
  * @author Pieter Colpaert   <pieter@iRail.be>
- * @author Werner Laurensse  <el.lauwer@gmail.com>
  */
 
 include_once("TDTMemCache.class.php");
@@ -37,5 +36,6 @@ abstract class Cache{
     
     abstract public function set($key, $value, $TTL = 60);
     abstract public function get($key);
+    abstract public function delete($key);
 
 }

@@ -7,7 +7,6 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>
  * @author Pieter Colpaert   <pieter@iRail.be>
- * @author Werner Laurensse  <el.lauwer@gmail.com>
  */
 
 class TDTMemCache extends Cache{
@@ -37,6 +36,10 @@ class TDTMemCache extends Cache{
             return $this->memcache->get($key);
         }
         return null;
+    }
+    
+    public function delete($key){
+        $this->memcache->delete($key);
     }
     
 }

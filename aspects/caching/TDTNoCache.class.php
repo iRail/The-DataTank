@@ -7,7 +7,6 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@thedatatank.com>
  * @author Pieter Colpaert   <pieter@thedatatank.com>
- * @author Werner Laurensse  <werner@thedatatank.com>
  */
 
 class TDTNoCache extends Cache{
@@ -22,4 +21,9 @@ class TDTNoCache extends Cache{
     public function get($key){
         return null;
     }
+
+    public function delete($key){
+        //do nothing
+    }
+    
 }
