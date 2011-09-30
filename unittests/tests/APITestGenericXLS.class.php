@@ -29,7 +29,7 @@ class APITestGenericXLS extends TDTUnitTest{
                        "printmethods"  => $this->printmethods,
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
-                       "uri"           => dirname(__FILE__).$this->location,
+                       "url"           => dirname(__FILE__).$this->location,
                        "sheet"         => $this->sheet,
                        "columns"       => $this->columns,
                        "PK"            => $this->PK

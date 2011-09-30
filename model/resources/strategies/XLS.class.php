@@ -37,10 +37,10 @@ class XLS extends ATabularData {
         
         $gen_res_id = $result["gen_res_id"];
 
-        if(isset($result["uri"])){
-            $filename = $result["uri"];
+        if(isset($result["url"])){
+            $url = $result["url"];
         }else{
-            throw new ResourceTDTException("Can't find URI of the XLS");
+            throw new ResourceTDTException("Can't find url of the XLS");
         }
 		
         if(isset($result["sheet"])){
@@ -67,13 +67,13 @@ class XLS extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
           
-        if(!file_exists($filename)){
-            throw new CouldNotGetDataTDTException($filename);
+        if(!file_exists($url)){
+            throw new CouldNotGetDataTDTException($url);
         }
         try { 
             $objReader = PHPExcel_IOFactory::createReader('Excel2007');
             $objReader->setLoadSheetsOnly($sheet);
-            $objPHPExcel = $objReader->load($filename);
+            $objPHPExcel = $objReader->load($url);
 
             $worksheet = $objPHPExcel->getSheetByName($sheet);
             foreach ($worksheet->getRowIterator() as $row) {
@@ -111,7 +111,7 @@ class XLS extends ATabularData {
             $resultobject->object = $arrayOfRowObjects;
             return $resultobject;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $filename );
+            throw new CouldNotGetDataTDTException( $url );
         }
     }
 
@@ -125,7 +125,7 @@ class XLS extends ATabularData {
     }
 
     private function evaluateXLSResource($resource_id){
-        DBQueries::storeXLSResource($resource_id, $this->uri, $this->sheet);
+        DBQueries::storeXLSResource($resource_id, $this->url, $this->sheet);
     }    
 }
 ?>
