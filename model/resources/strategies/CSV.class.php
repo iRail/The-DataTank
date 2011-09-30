@@ -46,7 +46,7 @@ class CSV extends ATabularData {
             }
         }
         
-        $resultobject = new stdClass();
+        $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
         
@@ -97,7 +97,7 @@ class CSV extends ATabularData {
                 }
             }
             
-            $resultobject->object = $arrayOfRowObjects;
+            $resultobject[] = $arrayOfRowObjects;
             return $resultobject;
         
         } catch (Exception $ex) {
