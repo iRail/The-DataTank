@@ -64,7 +64,8 @@ class CUDController extends AController{
         if($this->isAuthenticated()){
             $model = ResourcesModel::getInstance();
             $model->createResource($package,$resource, $_PUT);
-            
+            //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
         }else{
             throw new AuthenticationTDTException("Cannot PUT");
         }
@@ -86,6 +87,8 @@ class CUDController extends AController{
             $model = ResourcesModel::getInstance();
             if($resource == ""){
                 $model->deletePackage($package);
+                //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+                R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
             }else{
                 $model->deleteResource($package,$resource);
             }
@@ -101,6 +104,8 @@ class CUDController extends AController{
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();
             $model->updateResource($package,$resource,$_POST);
+            //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
         }
     }
 
