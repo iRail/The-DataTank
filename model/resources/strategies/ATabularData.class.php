@@ -14,6 +14,7 @@ abstract class ATabularData extends AResourceStrategy{
      * This functions associates column names with a certain resource
      */
     protected function evaluateColumns($columns_concat,$PK,$gen_res_id){
+        //if($columns_concat != ""
         $columns = explode(";",$columns_concat);
         foreach($columns as $column){
             DBQueries::storePublishedColumn($gen_res_id, $column, ($PK == $column?1:0));
