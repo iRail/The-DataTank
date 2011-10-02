@@ -110,15 +110,18 @@ class CSV extends ATabularData {
     }
     
     public function onAdd($package_id, $resource_id) {
+        $this->evaluateCSVResource($resource_id);
+
         if (!isset($this->PK))
             $this->PK = "";
-        
-        $this->evaluateCSVResource($resource_id);
+        }
         if(!isset($this->columns)){
             $this->columns = "";
         }
         
-        parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+        if ($this->columns != "") {
+            parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+        }
     } 
    
     private function evaluateCSVResource($resource_id) {

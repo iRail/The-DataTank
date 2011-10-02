@@ -127,11 +127,18 @@ class HTMLTable extends ATabularData {
     }
 
     public function onAdd($package_id,$resource_id){
-        if(!isset($this->PK)){
+        $this->evaluateHTMLTableResource($resource_id);
+        
+        if (!isset($this->PK))
             $this->PK = "";
         }
-        $this->evaluateHTMLTableResource($resource_id);
-        parent::evaluateColumns($this->columns,$this->PK,$resource_id);
+        if(!isset($this->columns)){
+            $this->columns = "";
+        }
+        
+        if ($this->columns != "") {
+            parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+        }
     }
 
     private function evaluateHTMLTableResource($resource_id){
