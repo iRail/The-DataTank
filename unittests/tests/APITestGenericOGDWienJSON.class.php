@@ -33,7 +33,7 @@ class APITestGenericOGDWienJSON extends TDTUnitTest{
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
                        "url"           => $this->location,
-                       "columns"       => $this->columns,
+                       "columns"       => $this->columns
         );
         
         $request = new REST($url, $data, "PUT");

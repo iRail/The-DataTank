@@ -121,7 +121,17 @@ class XLS extends ATabularData {
 
     public function onAdd($package_id,$resource_id){
         $this->evaluateXLSResource($resource_id);
-        parent::evaluateColumns($this->columns,$this->PK,$resource_id);
+
+        if (!isset($this->PK))
+            $this->PK = "";
+        }
+        if(!isset($this->columns)){
+            $this->columns = "";
+        }
+        
+        if ($this->columns != "") {
+            parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+        }
     }
 
     private function evaluateXLSResource($resource_id){
