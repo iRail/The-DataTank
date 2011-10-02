@@ -18,8 +18,7 @@ class OGDWienJSON extends ATabularData {
         //$this->parameters["PK"] = "The primary key of each row.";
 
         $this->requiredParameters = array_merge($this->requiredParameters, array_keys($this->parameters));
-
-        // doesn't seem to work
+       
         $this->parameters["long"] = "The longitude of the point where you want to search from.";
         $this->parameters["lat"] = "The latitude of the point where you want to search from.";
         $this->parameters["radius"] = "The radius in km around the point.";
@@ -39,7 +38,7 @@ class OGDWienJSON extends ATabularData {
         }else{
             throw new ResourceTDTException("Can't find url of the OGD Wien JSON.");
         }
-//echo $this->radius;
+       
         //$columns = array();
         
         // get the columns from the columns table
@@ -61,39 +60,28 @@ class OGDWienJSON extends ATabularData {
             $json = utf8_encode($json);
             $json = json_decode($json);
             
-            $radius = NULL; //radius parameter (in km), must be NULL when not provided
-            $lon = NULL; //long parameter, must be NULL when not provided
-            $lat = NULL; //lat parameter, must be NULL when not provided
-
-            // test
-            /*
-            $radius = 5;
-            $lon = 16.369698225576;
-            $lat = 48.16885513122;
-            */
-
             foreach($json->features as $feature) {
                 $distance = NULL;
-                if (isset($radius) && isset($lon) && isset($lat)) {
+                if (isset($this->radius) && isset($this->long) && isset($this->lat)) {
                     $olat = $feature->geometry->coordinates[1];
                     $olon = $feature->geometry->coordinates[0];
                     $R = 6371; // earth’s radius in km
-                    $dLat = deg2rad($lat-$olat);
-                    $dLon = deg2rad($lon-$olon);
+                    $dLat = deg2rad($this->lat-$olat);
+                    $dLon = deg2rad($this->long-$olon);
                     $rolat = deg2rad($olat);
-                    $rlat = deg2rad($lat);
+                    $rlat = deg2rad($this->lat);
 
                     $a = sin($dLat/2) * sin($dLat/2) + sin($dLon/2) * sin($dLon/2) * cos($rolat) * cos($rlat); 
                     $c = 2 * atan2(sqrt($a), sqrt(1-$a)); 
                     $distance = $R * $c;             
                 }
-                if(!isset($distance) || $distance < $radius) {
+                if(!isset($distance) || $distance < $this->radius) {
                     $rowobject = new stdClass();    
                     $rowobject->id = substr($feature->id, strpos($feature->id,".") + 1);
                     $rowobject->long = $feature->geometry->coordinates[0];
                     $rowobject->lat = $feature->geometry->coordinates[1];
                     // distance is null when no geo search is performed
-                    $rowobject->distance = $distance;
+                    $rowobject->distance = round($distance,3); // round on 1m precision
                     
                     foreach($feature->properties as $property => $value) {
                         $property = strtolower($property);
