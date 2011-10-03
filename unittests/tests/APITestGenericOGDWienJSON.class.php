@@ -12,31 +12,28 @@ include_once(dirname(__FILE__)."/simpletest/autorun.php");
 include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
 include_once(dirname(__FILE__)."/../classes/REST.class.php");
 
-class APITestGenericHTMLTable extends TDTUnitTest{
+class APITestGenericOGDWienJSON extends TDTUnitTest{
 
     //private $location = "http://www.nieuws.be/";
     //private $xpath = "//table[@id='htmlGrid_a119d7e2-e979-436a-8cad-765d37fc0fdd']";
-    private $location = "unittests/temp/person.html";
-    private $xpath = "//table";
-    private $install_as = "htmltablepackage/person/";
-    private $generic_type = "HTMLTable";
+    private $location = "http://data.wien.gv.at/daten/wfs?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BUECHEREIOGD&srsName=EPSG:4326&outputFormat=json";
+    private $install_as = "vienna/libraries/";
+    private $generic_type = "OGDWienJSON";
     private $printmethods = "html;json;xml;jsonp";
     //private $columns = "Datum;Titel;Bron";
     //private $PK = "Titel";
-    private $columns = "name;age;city";
-    private $PK = "name";
-
-    function testPutHTMLTable(){
+    private $columns = "";
+    //private $PK = "name";
+    
+    function testPutOGDWienJSON(){
         
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $data = array( "resource_type" => "generic",
                        "printmethods"  => $this->printmethods,
                        "generic_type"  => $this->generic_type,
                        "documentation" => "this is some documentation.",
-                       "url"           => Config::$HOSTNAME . Config::$SUBDIR . $this->location,
-                       "xpath"         => $this->xpath,
+                       "url"           => $this->location,
                        "columns"       => $this->columns,
-                       "PK"            => $this->PK
         );
         
         $request = new REST($url, $data, "PUT");
@@ -46,8 +43,8 @@ class APITestGenericHTMLTable extends TDTUnitTest{
         if($request->result)
             $this->debug($request->result);
     }
-    
-    function testGetHTMLTable() {
+
+    function testGetOGDWienJSON() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as; 
         $request = new REST($url, array(), "GET");
         $request->execute();
@@ -57,7 +54,7 @@ class APITestGenericHTMLTable extends TDTUnitTest{
             $this->debug($request->result);
     }
 
-    function testDeleteHTMLTable() {
+    function testDeleteOGDWienJSON() {
         $url = Config::$HOSTNAME . Config::$SUBDIR . $this->install_as;
         $request = new REST($url, array(), "DELETE");
         $request->execute();

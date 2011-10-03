@@ -30,7 +30,6 @@ class DB extends ATabularData{
         $this->requiredParameters[] = "port";
         $this->requiredParameters[] = "db_user";
         $this->requiredParameters[] = "db_password";
-        $this->requiredParameters[] = "columns";
 
         /**
          * parameters for foreign key relations
@@ -80,7 +79,7 @@ class DB extends ATabularData{
              * versions of mysql/sqlite/postgresql.
              */
         
-            $resultobject = new stdClass();
+            $resultobject = array();
             if(strtolower($dbtype) == "mysql"){
                 R::setup("mysql:host=$dbhost;dbname=$dbname",$user,$passwrd);
             }elseif(strtolower($dbtype) == "sqlite"){
@@ -143,8 +142,7 @@ class DB extends ATabularData{
             }
         }
 
-        $resultobject->$resource=$arrayOfRowObjects;
-        return $resultobject;
+        return $arrayOfRowObjects;
     }
 
     public function onDelete($package,$resource){

@@ -53,6 +53,9 @@ class RController extends AController{
         //for instance: http://api.../TDTInfo/Modules/module/1/ would make someone only select the second module
 	
         $result = $model->readResource($package,$resourcename, $parameters);
+
+        //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+        R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
         
         /*
          * Add foreign the required foreign relations URL's to the resulting object

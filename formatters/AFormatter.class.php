@@ -1,6 +1,8 @@
 <?php
-/**
- * This file contains the abstract Formatter
+/** 
+ * This class is an abstract formatter class. It will take an object and format it to a certain format.
+ * This format and the logic to format it will be implemented in a class that inherits from this class.
+ *
  * @package The-Datatank/formatters
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -9,16 +11,12 @@
  * @author Werner Laurensse
  */
 
-/**
- * This class is an abstract formatter class. It will take an object and format it to a certain format.
- * This format and the logic to format it will be implemented in a class that inherits from this class.
- */
 abstract class AFormatter {
     protected $rootname;
     protected $objectToPrint;
     protected $format;
     // version of The DataTank API
-    protected $version = "1.0";
+    protected $version;
 
     /**
      * Constructor.
@@ -26,6 +24,9 @@ abstract class AFormatter {
      * @param Mixed  $objectToPrint Object that needs printing.
      */
     public function __construct($rootname, $objectToPrint) {
+        include("version.php");
+        $this->version = $version;
+
         $this->rootname = $rootname;
         $this->objectToPrint = $objectToPrint;
     }
