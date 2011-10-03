@@ -131,7 +131,7 @@ define('HIDE_ADVERTISE',FALSE);
 define('SER_USE_ENTITIES', FALSE );
 
 // RDF Serializer: Set to TRUE, if the serializer should use xsd datatypes with prefix.
-define('SER_USE_SHORT_DATATYPES', TRUE);
+define('SER_USE_SHORT_DATATYPES', FALSE);
 
 // RDF Serializer: Set to TRUE, if the serializer should serialize triples as XML
 // attributes where possible.
@@ -139,7 +139,7 @@ define('SER_USE_ATTRIBUTES', FALSE );
 
 // RDF Serializer: Set to TRUE in order to sort the statements of a model before
 // serializing them.
-define('SER_SORT_MODEL', FALSE );
+define('SER_SORT_MODEL', TRUE );
 
 
 

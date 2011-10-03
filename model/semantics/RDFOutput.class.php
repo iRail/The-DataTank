@@ -74,6 +74,7 @@ class RDFOutput {
                 //An indexed array is turned into a rdf sequence
                 //echo 'create new list<br>';
                 $res = $this->model->createList($uri);
+                $res->addProperty(RDF_RES::TYPE(), RDF_RES::RDF_LIST());
                 //$this->addToResource($resource, $property, $res);
                 //Iterate all the values in the array, extend the uri and start over.
                 for ($i = 0; $i < count($var); $i++) {

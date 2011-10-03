@@ -17,6 +17,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Model.php';
  * @author Radoslaw Oldakowski <radol@gmx.de>
  * @author Daniel Westphal <mail@d-westphal.de>
  * @author Tobias Gauß <tobias.gauss@web.de>
+ * @author Miel Vander Sande <miel.vandersande at ugent dot be>
  *
  * @package model
  * @access	public
@@ -644,7 +645,7 @@ class MemModel extends Model {
      * Example:  $result = $m->findFirstMatchingStatement( NULL, NULL, $node );
      * Returns the first statement of the MemModel where the object equals $node.
      * Returns an NULL if nothing is found.
-     * You can define an offset to search for. Default = 0
+     * You can define an offset to search for. Default = -1
      *
      * @param	object Node	$subject
      * @param	object Node	$predicate
@@ -653,10 +654,12 @@ class MemModel extends Model {
      * @return	object Statement
      * @access	public
      */
-    public function findFirstMatchingStatement($subject, $predicate, $object, $offset = 0) {
+    public function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
         $res = -1;
         $currentOffset = 0;
-        for ($i = 0; $i <= $offset; $i++) {
+        //Miel: added fix for offset confusion between MemModel and DbModel from ResModel
+        //Now both offset variables are default -1, so we need to add +1 here to compensate
+        for ($i = 0; $i <= $offset+1; $i++) {
             $res = $this->findFirstMatchOff($subject, $predicate, $object, $currentOffset);
             $currentOffset = $res + 1;
         }
