@@ -68,11 +68,11 @@ class Xml extends AFormatter{
             if(is_object($value)){
                 $this->printObject($nametag,$value);
             }else if(is_array($value) && !$this->isHash($value)){
-                echo "<".$name. "\">";
+                echo "<".$name. ">";
                 $this->printArray($nametag,$value);
                 echo "</".$name.">";
             }else if(is_array($value) && $this->isHash($value)){
-                echo "<".$name. "\">";
+                echo "<".$name. ">";
                 $this->printArray($key,$value);
                 echo "</".$name.">";
             }else{// no array in arrays are allowed!!
@@ -81,7 +81,7 @@ class Xml extends AFormatter{
                 if($this->isHash($array)){ //if this is an associative array, don't print it by name of the parent
                     echo "<".$key . ">" . $value . "</".$key.">";
                 }else{
-                    echo "<".$name. "\">".$value."</".$name.">";
+                    echo "<".$name. ">".$value."</".$name.">";
                 }
                     
             }  
