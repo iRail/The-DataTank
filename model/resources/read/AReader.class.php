@@ -35,8 +35,9 @@ abstract class AReader{
 	    //we don't need the format as well, this is used by printer
 	    if(!in_array($key,self::$BASICPARAMS)){
 		//check whether this parameter is in the documented parameters
-
-                if(!isset($this->parameters[$key])){ 
+                $givenpars = $this->getParameters();
+                
+                if(!isset($givenpars[$key])){ 
                     throw new ParameterDoesntExistTDTException($key);
                 }else if(in_array($key,$this->requiredParameters)){
                     $this->$key = $value;
