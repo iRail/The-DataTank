@@ -49,8 +49,6 @@ class OGDWienJSON extends ATabularData {
         foreach($allowed_columns as $result){
             array_push($columns,$result["column_name"]);
         }
-        
-        $resultobject = new stdClass();
         $arrayOfRowObjects = array();
         $row = 0;
      
@@ -93,8 +91,7 @@ class OGDWienJSON extends ATabularData {
                 }
             }
 
-            $resultobject->object = $arrayOfRowObjects;
-            return $resultobject;
+            return $arrayOfRowObjects;
         } catch( Exception $ex) {
             throw new CouldNotGetDataTDTException( $url );
         }
