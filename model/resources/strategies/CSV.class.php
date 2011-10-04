@@ -112,7 +112,8 @@ class CSV extends ATabularData {
     public function onAdd($package_id, $resource_id) {
         $this->evaluateCSVResource($resource_id);
 
-        if (!isset($this->PK))
+        if (!isset($this->PK)){
+            
             $this->PK = "";
         }
         if(!isset($this->columns)){
