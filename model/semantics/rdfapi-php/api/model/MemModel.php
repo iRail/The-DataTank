@@ -76,23 +76,6 @@ class MemModel extends Model {
     }
 
     /**
-     * Set a base URI for the MemModel.
-     * Affects creating of new resources and serialization syntax.
-     * If the URI doesn't end with # : or /, then a # is added to the URI.
-     * @param	string	$uri
-     * @access	public
-     */
-    public function setBaseURI($uri) {
-
-        if ($uri != NULL) {
-            $c = substr($uri, strlen($uri) - 1, 1);
-            if (!($c == '#' || $c == ':' || $c == '/' || $c == "\\"))
-                $uri .= '#';
-        }
-        $this->baseURI = $uri;
-    }
-
-    /**
      * Number of triples in the MemModel
      *
      * @return	integer
@@ -659,7 +642,7 @@ class MemModel extends Model {
         $currentOffset = 0;
         //Miel: added fix for offset confusion between MemModel and DbModel from ResModel
         //Now both offset variables are default -1, so we need to add +1 here to compensate
-        for ($i = 0; $i <= $offset+1; $i++) {
+        for ($i = 0; $i <= $offset + 1; $i++) {
             $res = $this->findFirstMatchOff($subject, $predicate, $object, $currentOffset);
             $currentOffset = $res + 1;
         }
@@ -964,7 +947,7 @@ class MemModel extends Model {
                 $res->addWithoutDuplicates($statement);
             }
         } elseif (is_a($model, 'DbModel')) {
-            $memModel = & $model->getMemModel();
+            $memModel = $model->getMemModel();
             foreach ($memModel->triples as $value)
                 $res->addWithoutDuplicates($value);
         }

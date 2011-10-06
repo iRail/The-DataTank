@@ -28,9 +28,9 @@ class Model extends Object {
      * Affects creating of new resources and serialization syntax.
      *
      * @var     string
-     * @access	private
+     * @access	protected
      */
-    private $baseURI;
+    protected $baseURI;
 
     /**
      * Number of the last assigned bNode.
@@ -69,7 +69,24 @@ class Model extends Object {
     public function getBaseURI() {
         return $this->baseURI;
     }
+    
+    /**
+     * Set a base URI for the Model.
+     * Affects creating of new resources and serialization syntax.
+     * If the URI doesn't end with # : or /, then a # is added to the URI.
+     * @param	string	$uri
+     * @access	public
+     */
+    public function setBaseURI($uri) {
 
+        if ($uri != NULL) {
+            $c = substr($uri, strlen($uri) - 1, 1);
+            if (!($c == '#' || $c == ':' || $c == '/' || $c == "\\"))
+                $uri .= '#';
+        }
+        $this->baseURI = $uri;
+    }
+    
     /**
      * Load a model from a file containing RDF, N3, N-Triples or a xhtml document containing RDF.
      * This function recognizes the suffix of the filename (.n3 or .rdf) and
@@ -176,9 +193,9 @@ class Model extends Object {
      * already existing in this model, a new blankNode is generated.
      *
      * @param 	Object Statement   $statement
-     * @access	private
+     * @access	protected
      */
-    private function _addStatementFromAnotherModel($statement, &$blankNodes_tmp) {
+    protected function _addStatementFromAnotherModel($statement, &$blankNodes_tmp) {
         $subject = $statement->getSubject();
         $object = $statement->getObject();
 

@@ -117,7 +117,14 @@ class RequestURI{
     }
     
     public function getRealWorldObjectURI(){
-        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;        
+        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/";        
+        $URI .= $this->getResourcePath();
+            
+        return $URI;
+    }
+    
+    public function getResourcePath(){
+        $URI = $this->resource;        
         if(isset($this->filters) && !is_null($this->filters)){
             $URI .= "/";
             $URI .= implode("/", $this->filters);

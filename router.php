@@ -25,12 +25,14 @@ include_once('RequestURI.class.php');
 include_once('model/ResourcesModel.class.php');
 
 include_once('model/semantics/RDFMapper.class.php');
+include_once('model/semantics/OntologyProcessor.class.php');
 include_once('model/semantics/RDFOutput.class.php');
 
 define("RDFAPI_INCLUDE_DIR", "model/semantics/rdfapi-php/api/"); 
 include_once(RDFAPI_INCLUDE_DIR . "RdfAPI.php");
 include_once(RDFAPI_INCLUDE_DIR . "util/RdfUtil.php");
 include_once(RDFAPI_INCLUDE_DIR . "vocabulary/VocabularyRes.php");
+include_once(RDFAPI_INCLUDE_DIR . "vocabulary/VocabularyClass.php");
 include_once(RDFAPI_INCLUDE_DIR . "resModel/ResModelP.php");
 include_once(RDFAPI_INCLUDE_DIR . "model/DBase.php");
 

@@ -28,7 +28,7 @@ class Html extends AFormatter {
 
     public function printBody() {
         //If the output is an RDF model use the nice HTML output from RAP
-        if (is_a($this->objectToPrint,"MemModel")) {
+        if (is_subclass_of($this->objectToPrint,"Model")) {
             $this->objectToPrint->writeAsHTMLTable();
         } else {
             echo "<pre>";

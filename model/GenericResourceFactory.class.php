@@ -46,7 +46,7 @@ class GenericResourceFactory extends AResourceFactory {
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
             }
-            
+           
             foreach($resourcenames as $resourcename){
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $doc->$package->$resourcename = new StdClass();

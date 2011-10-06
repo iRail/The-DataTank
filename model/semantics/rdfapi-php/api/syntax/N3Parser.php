@@ -59,6 +59,7 @@ class N3Parser extends Object {
     private $debug;
     private $parseError;
     private $parsedNamespaces = array();
+    private $base;
 
     /* ==================== Public Methods ==================== */
 
@@ -110,7 +111,7 @@ class N3Parser extends Object {
             $WS, $Comment, $LangTag
         );
         $this->Tokens = "/(" . join($t, "|") . ")/m";
-
+        
         $this->bNode = 0;
         $this->debug = 0;
         $this->bNodeMap = array();
@@ -202,9 +203,10 @@ class N3Parser extends Object {
         } else {
             $m = $model;
         }
+        
         //   """Get a string, tokenize, create list, convert to Eep store."""
         $stat = $this->n3tolist($s);
-
+        
         foreach ($stat as $t) {
             $s = $this->toRDFNode($t[0], $t);
             $p = $this->toRDFNode($t[1], $t);
@@ -218,6 +220,7 @@ class N3Parser extends Object {
         //   return [[eep.Article(t[0]), eep.Article(t[1]), eep.Article(t[2])]
         //              for t in n3tolist(s)]
         $m->addParsedNamespaces($this->parsedNamespaces);
+        $m->setBaseURI($this->base);
         return $m;
     }
 
@@ -241,8 +244,9 @@ class N3Parser extends Object {
 
 
         fclose($handle);
-
+        
         $m = $this->parse2model($input, $model);
+        
         return $m;
     }
 
@@ -282,9 +286,7 @@ class N3Parser extends Object {
      * @param array $list
      * */
     private function filterWs($list) {
-        //    var_dump($list);
         //  """Filter whitespace from a list."""
-
         return array_filter($list, array($this, "isWS"));
     }
 
@@ -371,7 +373,7 @@ class N3Parser extends Object {
 
         $pre = array_slice($list, 0, $start);
         $post = array_slice($list, $end);
-
+        
         return array(array_slice($list, $start, $end - $start), $this->array_concat($pre, $post));
     }
 
@@ -422,9 +424,10 @@ class N3Parser extends Object {
             die('Document has no content!');
 
         $s = str_replace("\r\n", "\n", $s);
+        
         $s = str_replace("\r", "\n", $s);
 
-
+        
         //$lines=explode("\n",$s);
         //$reallines=array_filter($lines, array($this, "notComment"));
         //    print "LINES: ".join($reallines, " ")." :LINES\n";
@@ -483,13 +486,24 @@ class N3Parser extends Object {
             if ($l == '@prefix') {
                 //   while '@prefix' in list {
 
-                $pos = current($list);
+                //$pos = current($list); WRONG!!
+                $pos = key($list);
                 //pos = list.index('@prefix')
+
                 $r = $this->getSpan($list, $pos, ($pos + 4)); # processes the prefix tokens
                 $binding = $r[0];
                 $list = $r[1];
                 $prefixes[$binding[$ns]] = substr($binding[$name], 1, -1);
                 $this->parsedNamespaces[substr($binding[$name], 1, -1)] = substr($binding[$ns], 0, -1);
+            } else if ($l == '@base'){
+                $pos = key($list);
+                //pos = list.index('@prefix')
+
+                $r = $this->getSpan($list, $pos, ($pos + 3)); # processes the prefix tokens
+                $binding = $r[0];
+                $list = $r[1];
+                
+                $this->base = substr($binding[$ns], 1, -1);
             }
         }
 
@@ -657,7 +671,7 @@ class N3Parser extends Object {
             array_pop($statement);
             $statements[] = $statement;
         }
-
+        
         return $statements;
     }
 
@@ -742,18 +756,19 @@ class N3Parser extends Object {
      * @access private
      * */
     private function statementize($list) {
-
+        
         if (count($list) == 1 && preg_match("/_" . BNODE_PREFIX . "[0-9]+_/", $list[0])) {
             if ($this->debug)
                 print "Ignored bNode exists statement. $list\n";
             return array();
         }
-
-
+        
+        
 
         if (count($list) == 3)
             return array($list);
         if (count($list) < 3) {
+            
             throw new Exception(
                     'N3 statement too short,'
                     . ' only ' . count($list) . ' elements instead of 3:' . "\n"
@@ -766,7 +781,6 @@ class N3Parser extends Object {
         $spo = $r[0];
         $po = $r[1];
         $all = array();
-
 
 
         //      (spo, po), all = getPovs(list), []
@@ -1003,6 +1017,7 @@ class N3Parser extends Object {
         $r = $this->getPrefixes($t); # get the prefix directives, and add to a dict
         $prefixes = $r[0];
         $t = $r[1];
+        
         if ($this->debug) {
             print "Prefixes:\n";
             var_dump($prefixes);
@@ -1014,7 +1029,7 @@ class N3Parser extends Object {
             print "Stuff applied:\n";
             var_dump($t);
         }
-
+        
         $t = $this->fixAnon($t); # fix _:a anons
         if ($this->debug) {
             print "Fix anon:\n";
@@ -1031,11 +1046,11 @@ class N3Parser extends Object {
             print "Lists applied:\n";
             var_dump($t);
         }
+        
         $t = $this->getStatements($t); # get all of the "statements" from the stream
-
+        
         foreach ($t as $stat) {
             $stats = $this->statementize($stat);
-
             foreach ($stats as $y) {
                 $result[] = $y;
             }

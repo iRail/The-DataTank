@@ -8,9 +8,9 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Onthology extends AReader{
+class Ontology extends AReader{
 
-    private $mapping;
+    private $ontology;
 
     public function __construct($package,$resource){
         parent::__construct($package,$resource);
@@ -19,6 +19,7 @@ class Onthology extends AReader{
     public static function getParameters() {
         return array("package" => "Name of a package that needs to be analysed, must be set !",
             "resource" => "Name of a resource within the given package, is not required.",
+             
         );
     }
 
@@ -28,7 +29,7 @@ class Onthology extends AReader{
 
     public function read() {
         $this->getData();
-        return $this->mapping;
+        return $this->ontology;
     }
 
     public function setParameter($key, $val) {
@@ -36,19 +37,23 @@ class Onthology extends AReader{
             $this->package = $val;
         } elseif ($key == "resource") {
             $this->resource = $val;
-        }
+        } 
     }
+    
 
-    public static function getAllowedFormatters() {
+
+        public static function getAllowedFormatters() {
         return array();
     }
 
     private function getData() {
-
+        $filename = "custom/packages/" . $this->package."/".$this->package.".ttl";
+        OntologyProcessor::getInstance()->readOntologyFile($this->package, $filename);
+        $this->ontology = OntologyProcessor::getInstance()->readOntology($this->package);
     }
 
     public static function getDoc() {
-        return "Lists a package onthology";
+        return "Lists a package ontology";
     }
 
 }

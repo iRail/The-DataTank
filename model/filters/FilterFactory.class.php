@@ -7,6 +7,7 @@
    * @license AGPLv3
    * @author Jan Vansteenlandt
    */
+include_once("model/filters/AFilter.class.php");
 
 class FilterFactory{
     

@@ -183,6 +183,8 @@ class RDFOutput {
             $type = 'STRING';
         return DATATYPE_SHORTCUT_PREFIX . $type;
     }
+    
+    
 
 }
 

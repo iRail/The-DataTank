@@ -94,9 +94,10 @@ class RbModel extends DbModel {
     protected function _createDynSqlPart_SPO_param($subject, $predicate, $object) {
         $subject_is = is_a($subject, 'BlankNode') ? 'b' : (is_a($subject, 'Resource') ? 'r' : 'l');
 
-        if ($subject != NULL)
+        if ($subject != NULL) {
             $param[':subjLabel'] = $subject->getLabel();
-        $param[':subjectIs'] = $subject_is;
+            $param[':subjectIs'] = $subject_is;
+        }
         if ($predicate != NULL)
             $param[':predLabel'] = $predicate->getLabel();
         if ($object != NULL) {
@@ -104,7 +105,9 @@ class RbModel extends DbModel {
             $param[':objLabel'] = $object->getLabel();
             $param[':objectIs'] = $object_is;
             if (!is_a($object, 'Resource')) {
-                $param[':lLanguage'] = $object->getLanguage();
+                if (!is_null($object->getLanguage()))
+                    $param[':lLanguage'] = $object->getLanguage();
+
                 $param[':lDatatype'] = $object->getDataType();
             }
         }
@@ -120,11 +123,12 @@ class RbModel extends DbModel {
         if ($predicate != NULL)
             $sql .= " AND predicate=:predLabel";
         if ($object != NULL) {
-            if (is_a($object, 'Resource')) {
+            if (is_a($object, 'Resource'))
                 $sql .= " AND object=:objLabel AND object_is =:objectIs";
-            } else {
+            else if (is_null($object->getLanguage()))
+                $sql .= " AND object=:objLabel AND l_datatype=:lDatatype AND object_is =:objectIs";
+            else
                 $sql .= " AND object=:objLabel AND l_language=:lLanguage AND l_datatype=:lDatatype AND object_is =:objectIs";
-            }
         }
         return $sql;
     }
@@ -143,6 +147,7 @@ class RbModel extends DbModel {
             $errmsg = RDFAPI_ERROR . '(class: RbModel; method: add): Statement expected.';
             trigger_error($errmsg, E_USER_ERROR);
         }
+
 
         if (!$this->contains($statement)) {
 
@@ -228,9 +233,9 @@ class RbModel extends DbModel {
         $sql .= $this->_createDynSqlPart_SPO($statement->getSubject(), $statement->getPredicate(), $statement->getObject());
 
         $res = R::getRow($sql, $param);
-
-        if (!$res)
+        if (!$res) {
             return FALSE;
+        }
         return TRUE;
     }
 
@@ -376,12 +381,14 @@ class RbModel extends DbModel {
 
         // execute the query
         //$recordSet = & $this->dbConn->selectLimit($sql, 1, ($offset));
+
         $recordSet = R::getAll($sql, $param);
+
         if (is_array($recordSet)) {
             if (count($recordSet) > 0) {
                 if ($offset >= count($recordSet))
                     throw new DatabaseTDTException('Number of rows in result is not correct');
-                $recordSet = array($recordSet[($offset+1)]);
+                $recordSet = array($recordSet[($offset + 1)]);
             }
         }
 
@@ -409,6 +416,49 @@ class RbModel extends DbModel {
 
         if (is_null($recordSet))
             throw new DatabaseTDTException('Select not performed');
+
+        // write the recordSet into memory Model
+        else
+            return $this->_convertRecordSetToMemModel($recordSet);
+    }
+
+    /*
+     * New function added by Miel Vander Sande for finding wildcarded statements
+     */
+
+    public function findWildcarded($subject_wc, $predicate_wc, $object_wc) {
+        if ((!is_string($subject_wc) && $subject_wc != NULL) ||
+                (!is_string($predicate_wc) && $predicate_wc != NULL) ||
+                (!is_string($object_wc) && $object_wc != NULL)) {
+
+            $errmsg = RDFAPI_ERROR . '(class: RbModel; method: findWildcarded): Parameters must be string or NULL';
+            trigger_error($errmsg, E_USER_ERROR);
+        }
+
+        $param = array(':modelID' => $this->modelID);
+        // static part of the sql statement
+        $sql = 'SELECT subject, predicate, object, l_language, l_datatype, subject_is, object_is
+           FROM statements
+           WHERE modelID = :modelID';
+
+        if ($subject_wc != NULL) {
+            $param[':subjLabel'] = $subject_wc;
+            $sql .= " AND subject LIKE :subjLabel";
+        }
+        if ($predicate_wc != NULL) {
+            $param[':predLabel'] = $predicate_wc;
+            $sql .= " AND predicate LIKE :predLabel";
+        }
+        if ($object_wc != NULL) {
+            $param[':objLabel'] = $object_wc;
+            $sql .= " AND object LIKE :objLabel";
+        }
+
+        // execute the query
+        $recordSet = R::getAll($sql, $param);
+
+        if (!is_array($recordSet))
+            throw new DatabaseTDTException('Select for finding statement failed');
 
         // write the recordSet into memory Model
         else
@@ -443,7 +493,7 @@ class RbModel extends DbModel {
         $sql .= $this->_createDynSqlPart_SPO($statement->getSubject(), $statement->getPredicate(), $statement->getObject());
 
         $rs = R::exec($sql, $param);
-        
+
         return $rs;
     }
 
@@ -526,7 +576,7 @@ class RbModel extends DbModel {
     }
 
     public function size() {
-        
+
         $param = array(':modelID' => $this->modelID);
         $count = R::getRow('SELECT COUNT(modelID) cnt FROM statements WHERE modelID = :modelID', $param);
         return $count['cnt'];

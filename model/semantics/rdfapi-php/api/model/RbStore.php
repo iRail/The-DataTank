@@ -99,10 +99,11 @@ class RbStore extends DbStore {
         if (!$this->modelExists($modelURI))
             return FALSE;
         else {
+            
             $param = Array(':modelURI' => $modelURI);
             $modelVars = R::getRow("SELECT modelURI, modelID, baseURI
                                             FROM models WHERE modelURI=:modelURI", $param);
-            
+             
             return new RbModel($modelVars['modelURI'], $modelVars['modelID'], $modelVars['baseURI']);
         }
     }
