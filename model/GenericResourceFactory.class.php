@@ -45,6 +45,7 @@ class GenericResourceFactory extends AResourceFactory {
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
+                $doc->$package->creation_date = DBQueries::getPackageCreationTime($package);
             }
            
             foreach($resourcenames as $resourcename){
@@ -54,8 +55,8 @@ class GenericResourceFactory extends AResourceFactory {
                 $doc->$package->$resourcename->requiredparameters = array();
 		$doc->$package->$resourcename->parameters = array();
                 $doc->$package->$resourcename->formats = array();//if empty array: allow all
-                $doc->$package->$resourcename->creation_timestamp = $documentation["creation_timestamp"];
-                $doc->$package->$resourcename->modification_timestamp = $documentation["last_update_timestamp"];
+                $doc->$package->$resourcename->creation_timestamp = (int)$documentation["creation_timestamp"];
+                $doc->$package->$resourcename->modification_timestamp = (int)$documentation["last_update_timestamp"];
             }
         }
     }

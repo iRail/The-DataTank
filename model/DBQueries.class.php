@@ -278,6 +278,23 @@ class DBQueries {
     }
 
     /**
+     * Get the creation timestamp from a package
+     */
+    static function getPackageCreationTime($package){
+        $timestamp = R::getCell(
+            "SELECT timestamp
+             FROM package
+             WHERE package_name =:package",
+            array(":package" => $package)
+        );
+        if(!$timestamp){
+            return 0;
+        }
+        return (int)$timestamp;
+    }
+    
+
+    /**
      * Get the modification timestamp from a resource
      */
     static function getModificationTime($package,$resource){

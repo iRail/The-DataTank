@@ -24,8 +24,16 @@ class Packages extends AReader{
     public function read(){
 	$resmod = ResourcesModel::getInstance();
         $doc = $resmod->getAllDoc();
-	$o = array_keys(get_object_vars($doc));
-	return $o;
+        $packages = array();
+	$packagenames = array_keys(get_object_vars($doc));
+        foreach($packagenames as $packagename){
+            $package = new stdClass();
+            $package->name = $packagename;
+            $package->creation_date = $doc->$packagename->creation_date;
+            $packages[] = $package;
+        }
+        
+	return $packages;
     }
 
     public static function getDoc(){

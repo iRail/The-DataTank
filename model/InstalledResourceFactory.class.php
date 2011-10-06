@@ -31,6 +31,7 @@ class InstalledResourceFactory extends AResourceFactory{
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
+                $doc->$package->creation_date = filemtime("custom/packages/".$package);
             }
             foreach($resourcenames as $resourcename){
                 $doc->$package->$resourcename = new StdClass();

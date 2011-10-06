@@ -14,16 +14,23 @@ include_once("model/resources/GenericResource.class.php");
 
 class GenericResourceReader extends AReader{
 
+    private $genres;
+    
+
     public function __construct($package,$resource){
         parent::__construct($package,$resource);
+        $this->genres = new GenericResource($this->package,$this->resource);
+        /**
+         * TODO make a difference between read and put parameters !!
+         */
+        $this->parameters = array_merge($this->parameters,$this->genres->getStrategy()->getParameters());
     }
     
     /**
      * execution method
      */
     public function read(){
-        $genres = new GenericResource($this->package,$this->resource);
-        return $genres->call();
+        return $this->genres->call();
     }
 
     /**
@@ -42,12 +49,16 @@ class GenericResourceReader extends AReader{
         $result = DBQueries::getGenericResourcePrintMethods($this->package, $this->resource);
         return isset($result["print_methods"])?explode(";", $result["print_methods"]):array();
     }
-
+   
     /**
-     * Since there are no parameters for generic resources...
+     * A generic resource doesn't have parameters yet, strategies can however
      */
     public function setParameter($key,$value){
-        
+        /**
+         * pass along the parameters to the strategy
+         */
+        $strategy = $this->genres->getStrategy();
+        $strategy->setParameter($key,$value);
     }
 }
 ?>

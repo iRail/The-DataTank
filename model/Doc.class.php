@@ -17,7 +17,7 @@ class Doc{
     public function visitAll($factories){
         $c = Cache::getInstance();
         $doc = $c->get("documentation");
-        if(is_null($doc)){
+        if(true){//is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDoc($doc);
