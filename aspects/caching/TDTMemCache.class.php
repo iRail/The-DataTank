@@ -39,7 +39,8 @@ class TDTMemCache extends Cache{
     }
     
     public function delete($key){
-        $this->memcache->delete($key,0);
+//        $this->memcache->delete($key,0);
+        //This function is broken in memcache PHP !! How sad!
     }
     
 }
