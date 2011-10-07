@@ -39,7 +39,7 @@ class TDTMemCache extends Cache{
     }
     
     public function delete($key){
-        $this->memcache->delete($key);
+        $this->memcache->delete($key,0);
     }
     
 }
