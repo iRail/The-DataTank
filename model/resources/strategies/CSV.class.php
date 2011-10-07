@@ -97,9 +97,7 @@ class CSV extends ATabularData {
                 }
             }
             
-            $resultobject[] = $arrayOfRowObjects;
-            return $resultobject;
-        
+            return $arrayOfRowObjects;
         } catch (Exception $ex) {
             throw new CouldNotGetDataTDTException($filename);
         }
