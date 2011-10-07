@@ -1,16 +1,16 @@
 <?php
 
 /**
- * This class gives the current package to RDF mapping file. This output is for testing purposes only.
+ * This class gives access to the onthology of resources
  *
  * @package The-Datatank/packages/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Mapping extends AReader{
+class Ontology extends AReader{
 
-    private $mapping;
+    private $ontology;
 
     public function __construct($package,$resource){
         parent::__construct($package,$resource);
@@ -19,6 +19,7 @@ class Mapping extends AReader{
     public static function getParameters() {
         return array("package" => "Name of a package that needs to be analysed, must be set !",
             "resource" => "Name of a resource within the given package, is not required.",
+             
         );
     }
 
@@ -28,7 +29,7 @@ class Mapping extends AReader{
 
     public function read() {
         $this->getData();
-        return $this->mapping;
+        return $this->ontology;
     }
 
     public function setParameter($key, $val) {
@@ -36,21 +37,23 @@ class Mapping extends AReader{
             $this->package = $val;
         } elseif ($key == "resource") {
             $this->resource = $val;
-        }
+        } 
     }
+    
 
-    public static function getAllowedFormatters() {
-        return array("html", "rdf_xml", "rdf_ntriple", "rdf_n3", "rdf_json");
+
+        public static function getAllowedFormatters() {
+        return array();
     }
 
     private function getData() {
-        $rdfmapper = new RDFMapper();
-        //Build a mapping file for package
-        $this->mapping = $rdfmapper->getMappingModel($this->package)->getModel()->getMemModel();
+        $filename = "custom/packages/" . $this->package."/".$this->package.".ttl";
+        OntologyProcessor::getInstance()->readOntologyFile($this->package, $filename);
+        $this->ontology = OntologyProcessor::getInstance()->readOntology($this->package);
     }
 
     public static function getDoc() {
-        return "Lists a RDF Mapping";
+        return "Lists a package ontology";
     }
 
 }

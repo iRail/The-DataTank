@@ -157,9 +157,8 @@ class ResModel {
     public function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
 
         $statement = $this->model->findFirstMatchingStatement($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object), $offset);
-
+        
         if ($statement !== null) {
-
             return new Statement($this->_node2ResNode($statement->getSubject()),
                             $this->_node2ResNode($statement->getPredicate(), true),
                             $this->_node2ResNode($statement->getObject())

@@ -1,21 +1,5 @@
-# Packages
+# Modules
 
-Hand made user packages.
+This is the place where users can add their own modules. For instance if you want to implement a webscraper, just check out the example modules provided.
 
-## Structure
-
-### packagename/
-
-#### packagename/resources.php
-
-This file contains this:
-
-class packagename{
-	public static $resources  = array("resourcename1", "resourcename2");
-}
-
-#### packagename/resourcename1.class.php
-
-This file extends AResource.class.php. Your only task is to extend the right functions.
-
-
+TDTInfo is the main module of the datatank. It contains all information about itself: usage, modules, resources, etc...

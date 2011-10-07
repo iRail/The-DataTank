@@ -7,6 +7,7 @@
  * @license AGPLv3
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
+ * @author Jan Vansteenlandt
  */
 include_once("model/filters/AFilter.class.php");
 
@@ -17,7 +18,7 @@ class RESTFilter extends AFilter{
     }
 
     public function filter($result){
-	// we have to store the subresources for logging purposes;
+        // we have to store the subresources for logging purposes;
 	$subresources = array();
 	
 	foreach($this->params as $resource){
@@ -38,6 +39,7 @@ class RESTFilter extends AFilter{
 	$resultset = new stdClass();
 	$resultset->result = $result;
 	$resultset->subresources = $subresources;
+        
 	return $resultset;
     }
   }

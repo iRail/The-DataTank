@@ -94,15 +94,16 @@ class ResList extends ResResource {
      * @access	public
      */
     public function add($resource) {
+        
         //return false if this list is the empty list
         if ($this->uri == RDF_NAMESPACE_URI . RDF_NIL)
             return false;
-
+        
         //if this is the first value	
         if ($this->isEmpty()) {
-            //echo 'empty<br>';
-            $newLastElement = & $this;
+            $newLastElement = $this;
         } else {
+
         //if there are other values in the list 
             //get the last list element
             $lastElement = $this->_getListElement();
@@ -290,7 +291,7 @@ class ResList extends ResResource {
      * @access	public
      */
     public function isEmpty() {
-        return!$this->hasProperty($this->rdfFirstResource);
+        return !$this->hasProperty($this->rdfFirstResource);
     }
 
     /**

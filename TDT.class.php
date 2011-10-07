@@ -348,6 +348,11 @@ class TDT {
      * This function checks if an array is associative
      */
     public static function is_assoc($arr) {
+        if (!is_array($arr))
+            return false;
+        if (count($arr)==0)
+            return false;
+            
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 

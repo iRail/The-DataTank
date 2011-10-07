@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is the controller which will handle Real-World objects. This means mainly write actions. 
  *
@@ -12,7 +13,7 @@ include_once('formatters/FormatterFactory.class.php');
 include_once('aspects/logging/RequestLogger.class.php');
 include_once('model/filters/FilterFactory.class.php');
 
-class CUDController extends AController{
+class CUDController extends AController {
 
     /**
      * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
@@ -22,17 +23,17 @@ class CUDController extends AController{
         $resource = trim($matches["resource"]);
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
-        if($resource == ""){
-            if(isset($doc->$package)){    
+        if ($resource == "") {
+            if (isset($doc->$package)) {
                 throw new NoResourceGivenTDTException(get_object_vars($doc->$package));
-            } else{
+            } else {
                 throw new NoResourceGivenTDTException(array());
             }
         }
 
         //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
-        if(!$model->hasResource($package,$resource)){
-            throw new ResourceOrPackageNotFoundTDTException($package,$resource);
+        if (!$model->hasResource($package, $resource)) {
+            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
         }
 
         //get the current URL
@@ -40,61 +41,61 @@ class CUDController extends AController{
         $pageURL = $ru->getURI();
         $pageURL = rtrim($pageURL, "/");
         //add .about before the ?
-        if(sizeof($_GET)>0){
+        if (sizeof($_GET) > 0) {
             $pageURL = str_replace("?", ".about?", $pageURL);
-            $pageURL = str_replace("/.about",".about",$pageURL);
-        }else{
+            $pageURL = str_replace("/.about", ".about", $pageURL);
+        } else {
             $pageURL .= ".about";
         }
         header("HTTP/1.1 303 See Other");
         header("Location:" . $pageURL);
     }
 
-    function PUT($matches){
-        if(!isset($matches["package"]) || !isset($matches["resource"])){
+    function PUT($matches) {
+        if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
         }
         $package = $matches["package"];
         $resource = $matches["resource"];
 
         //fetch all the PUT variables in one array
-        parse_str(file_get_contents("php://input"),$_PUT);
-
+        parse_str(file_get_contents("php://input"), $_PUT);
+        
         //we need to be authenticated
-        if($this->isAuthenticated()){
+        if ($this->isAuthenticated()) {
             $model = ResourcesModel::getInstance();
-            $model->createResource($package,$resource, $_PUT);
+            $model->createResource($package, $resource, $_PUT);
             //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
             //Clear the documentation in our cache for it has changed
             $c = Cache::getInstance();
             $c->delete("documentation");
-        }else{
+        } else {
             throw new AuthenticationTDTException("Cannot PUT");
         }
     }
- 
+
     /**
      * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now, 
      * this'll do the trick)
      */
-    public function DELETE($matches){
+    public function DELETE($matches) {
         $package = $matches["package"];
         $resource = "";
-        if(isset($matches["resource"])){    
+        if (isset($matches["resource"])) {
             $resource = $matches["resource"];
         }
 
-        if($this->isAuthenticated()){
+        if ($this->isAuthenticated()) {
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();
-            if($resource == ""){
+            if ($resource == "") {
                 $model->deletePackage($package);
-            }else{
-                $model->deleteResource($package,$resource);
+            } else {
+                $model->deleteResource($package, $resource);
             }
             //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
             //Clear the documentation in our cache for it has changed
             $c = Cache::getInstance();
@@ -102,26 +103,41 @@ class CUDController extends AController{
         }
     }
 
-    public function POST($matches){
-        
+    public function POST($matches) {
+
         $package = $matches["package"];
         $resource = $matches["resource"];
 
-        if($this->isAuthenticated()){
+        if ($this->isAuthenticated()) {
             //delete the package and resource when authenticated and authorized in the model
             $model = ResourcesModel::getInstance();
-            $model->updateResource($package,$resource,$_POST);
+            $model->updateResource($package, $resource, $_POST);
+            
+
             //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-            R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
             //Clear the documentation in our cache for it has changed
             $c = Cache::getInstance();
             $c->delete("documentation");
         }
     }
 
-    private function isAuthenticated(){
-        return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
-    }    
+    //Miel: IMPORTANT 
+    //This is a quick addition to implement REST parameters for CUD, so no clean code
+    //A real implementation should have a difference between REST and POST,PUT variables. 
+    //The goal is to implement them the same way as in RController, maybe even as the same method in AController
     
+    private function getREST() {
+        $RESTparameters = array();
+        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
+            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
+        }
+    }
+
+    private function isAuthenticated() {
+        return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
+    }
+
 }
+
 ?>
