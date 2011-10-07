@@ -15,7 +15,6 @@ include_once("model/InstalledResourceFactory.class.php");
 include_once("model/RemoteResourceFactory.class.php");
 include_once("model/CoreResourceFactory.class.php");
 include_once("model/Doc.class.php");
-include_once("resources/update/RdfMapping.class.php");
 include_once("resources/update/OntologyUpdater.class.php");
 include_once("resources/update/ForeignRelation.class.php");
 
@@ -42,7 +41,6 @@ class ResourcesModel{
         $this->updateActions = array();
         $this->updateActions["foreign_relation"] = "ForeignRelation";
         //Added for linking this resource to a class descibed in an onthology
-        $this->updateActions["rdf_mapping"] = "RdfMapping";
         $this->updateActions["ontology"] = "OntologyUpdater";
     }
 

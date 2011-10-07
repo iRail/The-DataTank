@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This class RDFMapper maps resources from a package to RDF classes. It auto generates mapping schemes and handles modifications from the user,
+ * This class OnthologyProcessor maps resources from a package to RDF classes. It handles ontologies and modifications from the user,
  *
  * @package The-Datatank/model/semantics
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -82,7 +82,7 @@ class OntologyProcessor {
         return $store->modelExists($this->getOntologyURI($package));
     }
 
-    //CRUD METHODS
+    //CRUD METHODS for whole Ontology
 
     public function updateOntology($package) {
         
@@ -101,6 +101,8 @@ class OntologyProcessor {
         $this->getModel($package)->delete();
     }
 
+    //CRUD METHODS for paths in Ontology
+
     public function updatePathMap($package, $path, $value) {
         $resource = new Resource($path);
         $mapping = new Resource($value);
@@ -109,8 +111,8 @@ class OntologyProcessor {
         if ($this->isPathProperty($path))
             $statement = new Statement($resource, OWL::EQUIVALENT_PROPERTY(), $mapping);
         else
-            $statement = new Statement ($resource, OWL::EQUIVALENT_CLASS (), $mapping);
-        
+            $statement = new Statement($resource, OWL::EQUIVALENT_CLASS(), $mapping);
+
         $this->getModel($package)->add($statement);
     }
 
@@ -142,13 +144,34 @@ class OntologyProcessor {
         }
     }
 
+    //functions for retrieving mapping
+    public function getClassMap($package, $path) {
+        $ontology = $this->getModel($package);
+        $path = $this->trimPath($path);
+        $statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_CLASS(), null);
+        if (!is_null($statement))
+            return $statement->getObject();
+
+        return false;
+    }
+
+    public function getPropertyMap($package, $path) {
+        $ontology = $this->getModel($package);
+        $path = $this->trimPath($path);
+        $statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_PROPERTY(), null);
+        if (!is_null($statement))
+            return $statement->getObject();
+
+        return false;
+    }
+
     //Private Methods
 
     /*
      * Function retrieving the unique URI for the package onthology
      */
-    private function getOntologyURI($package) {
-        return $mapURI = Config::$HOSTNAME . Config::$SUBDIR . 'Ontology/' . $package . '/';
+    public function getOntologyURI($package) {
+        return Config::$HOSTNAME . Config::$SUBDIR . 'Ontology/' . $package . '/';
     }
 
     private function getModel($package) {
@@ -159,9 +182,21 @@ class OntologyProcessor {
     }
 
     private function isPathProperty($path) {
-        $s = substr($path, strripos($path, '/')+1);
+        $s = substr($path, strripos($path, '/') + 1);
         var_dump($s);
         return lcfirst($s) === $s; //first letter is lowercase, so property
+    }
+
+    private function trimPath($path) {
+        //We need to rewrite the resource url to add the right mapping
+        //Find position of last slash
+        $pos = strripos($path, '/');
+
+        //Check if the url ends on a slash. If so, remove the slash en check position of last slash again.
+        if ($pos == strlen($path) - 1)
+            return substr($path, 0, strlen($path) - 1);
+
+        return $path;
     }
 
 }

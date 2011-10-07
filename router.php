@@ -24,7 +24,6 @@ include_once('Config.class.php'); //Configfile
 include_once('RequestURI.class.php');
 include_once('model/ResourcesModel.class.php');
 
-include_once('model/semantics/RDFMapper.class.php');
 include_once('model/semantics/OntologyProcessor.class.php');
 include_once('model/semantics/RDFOutput.class.php');
 

@@ -24,10 +24,12 @@ class Nt extends AFormatter {
     public function printAll() {
         $model = $this->objectToPrint;
         
-        //When the objectToPrint is a MemModel, it is the mapping file and ready for serialisation.
+        //When the objectToPrint is a MemModel, it is the Ontology and ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!(is_a($model, 'MemModel')))
-            $model = RDFOutput::getInstance()->buildRdfOutput($model);
+        if (!(is_a($model, 'MemModel'))){
+            $outputter = new RDFOutput();
+            $model = $outputter->buildRdfOutput($model);
+        }
 
         // Import Package Syntax
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_RDF);

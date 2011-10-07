@@ -122,7 +122,7 @@ class XLS extends ATabularData {
     public function onAdd($package_id,$resource_id){
         $this->evaluateXLSResource($resource_id);
 
-        if (!isset($this->PK))
+        if (!isset($this->PK)){
             $this->PK = "";
         }
         if(!isset($this->columns)){
