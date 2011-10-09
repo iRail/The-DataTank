@@ -52,27 +52,28 @@ class CUDController extends AController {
     }
 
     function PUT($matches) {
+        //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
+        }
+        //we need to be authenticated
+        if (!$this->isAuthenticated()) {
+            throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
         }
         $package = $matches["package"];
         $resource = $matches["resource"];
 
         //fetch all the PUT variables in one array
         parse_str(file_get_contents("php://input"), $_PUT);
-        
-        //we need to be authenticated
-        if ($this->isAuthenticated()) {
-            $model = ResourcesModel::getInstance();
-            $model->createResource($package, $resource, $_PUT);
-            //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-            //Clear the documentation in our cache for it has changed
-            $c = Cache::getInstance();
-            $c->delete("documentation");
-        } else {
-            throw new AuthenticationTDTException("Cannot PUT");
-        }
+
+        $model = ResourcesModel::getInstance();
+        $model->createResource($package, $resource, $_PUT);
+        //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+        //Clear the documentation in our cache for it has changed
+        $c = Cache::getInstance();
+        $c->delete("documentation");
+        $c->delete("admindocumentation");
     }
 
     /**
@@ -85,41 +86,47 @@ class CUDController extends AController {
         if (isset($matches["resource"])) {
             $resource = $matches["resource"];
         }
-
-        if ($this->isAuthenticated()) {
-            //delete the package and resource when authenticated and authorized in the model
-            $model = ResourcesModel::getInstance();
-            if ($resource == "") {
-                $model->deletePackage($package);
-            } else {
-                $model->deleteResource($package, $resource);
-            }
-            //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-
-            //Clear the documentation in our cache for it has changed
-            $c = Cache::getInstance();
-            $c->delete("documentation");
+        //we need to be authenticated
+        if (!$this->isAuthenticated()) {
+            throw new AuthenticationTDTException("Cannot DELETE without administration rights. Authentication failed.");
         }
+        //delete the package and resource when authenticated and authorized in the model
+        $model = ResourcesModel::getInstance();
+        if ($resource == "") {
+            $model->deletePackage($package);
+        } else {
+            $model->deleteResource($package, $resource);
+        }
+        //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+
+        //Clear the documentation in our cache for it has changed
+        $c = Cache::getInstance();
+        $c->delete("documentation");
+        $c->delete("admindocumentation");
     }
 
     public function POST($matches) {
-
+        //both package and resource set?
+        if (!isset($matches["package"]) || !isset($matches["resource"])) {
+            throw new ParameterTDTException("package/resource not set");
+        }
+        //we need to be authenticated
+        if (!$this->isAuthenticated()) {
+            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
+        }
         $package = $matches["package"];
         $resource = $matches["resource"];
+        //delete the package and resource when authenticated and authorized in the model
+        $model = ResourcesModel::getInstance();
+        $model->updateResource($package, $resource, $_POST);
 
-        if ($this->isAuthenticated()) {
-            //delete the package and resource when authenticated and authorized in the model
-            $model = ResourcesModel::getInstance();
-            $model->updateResource($package, $resource, $_POST);
-            
-
-            //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-            R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-            //Clear the documentation in our cache for it has changed
-            $c = Cache::getInstance();
-            $c->delete("documentation");
-        }
+        //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+        //Clear the documentation in our cache for it has changed
+        $c = Cache::getInstance();
+        $c->delete("documentation");
+        $c->delete("admindocumentation");
     }
 
     //Miel: IMPORTANT 

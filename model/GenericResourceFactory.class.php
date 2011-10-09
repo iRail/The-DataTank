@@ -23,8 +23,10 @@ class GenericResourceFactory extends AResourceFactory {
         if(!isset($parameters["generic_type"])){
             throw new ResourceAdditionTDTException("generic type hasn't been set");
         }
-        $creator = new GenericResourceCreator($package,$resource,$parameters["generic_type"]);
-        $creator->processParameters($parameters);
+        $creator = new GenericResourceCreator($package,$resource, $parameters["generic_type"]);
+        foreach($parameters as $key => $value){
+            $creator->setParameter($key,$value);
+        }
         return $creator;
     }
     
@@ -54,7 +56,6 @@ class GenericResourceFactory extends AResourceFactory {
                 $doc->$package->$resourcename->doc = $documentation["doc"];
                 $doc->$package->$resourcename->requiredparameters = array();
 		$doc->$package->$resourcename->parameters = array();
-                $doc->$package->$resourcename->formats = array();//if empty array: allow all
                 $doc->$package->$resourcename->creation_timestamp = (int)$documentation["creation_timestamp"];
                 $doc->$package->$resourcename->modification_timestamp = (int)$documentation["last_update_timestamp"];
             }
@@ -73,6 +74,67 @@ class GenericResourceFactory extends AResourceFactory {
         return $resources;
     }
 
+
+    public function makeDeleteDoc($doc){
+        //add stuff to the delete attribute in doc. No other parameters expected
+        $d = new stdClass();
+        foreach($this->getAllResourceNames() as $package => $v){
+            foreach($v as $resource){
+                $d->doc = "Delete this generic resource by calling the URI given in this object with a HTTP DELETE method";
+                $d->uri = Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource;
+                $doc->delete[] = $d;
+            }
+        }
+    }
+    
+    public function makeCreateDoc($doc){
+        $d = array();
+        foreach($this->getAllStrategies() as $strategy){
+            include_once("model/resources/create/GenericResourceCreator.class.php");
+            $res = new GenericResourceCreator("","", $strategy);
+            $d[$strategy] = new stdClass();
+            $d[$strategy]->doc = "When your file is structured according to $strategy, you can perform a PUT request and load this file in this DataTank";
+            $d[$strategy]->parameters = $res->documentParameters();
+            $d[$strategy]->requiredparameters = $res->documentRequiredParameters();
+        }
+        if(!isset($doc->create)){
+            $doc->create = new stdClass();
+        }
+        $doc->create->generic = new stdClass();
+        $doc->create->generic = $d;
+    }
+
+    private function getAllStrategies(){
+        $strategies = array();
+        //open the custom directory and loop through it
+        /*if ($handle = opendir('custom/genericstrategies')) {
+            while (false !== ($strat = readdir($handle))) {
+                //if the object read is a directory and the configuration methods file exists, then add it to the installed strategies
+                if ($strat != "." && $strat != ".." && file_exists("custom/genericstrategies/" . $strat)) {
+                    include_once("custom/genericstrategies/" . $strat);
+                    $fileexplode = explode(".",$strat);
+                    $strategies[] = $fileexplode[0];
+                }
+            }
+            closedir($handle);
+            }*/
+        //open the main strategies directory as well and loop through it
+        if ($handle = opendir('model/resources/strategies')) {
+            while (false !== ($strat = readdir($handle))) {
+                //if the object read is a directory and the configuration methods file exists, then add it to the installed strategies
+                if ($strat != "." && $strat != ".." && file_exists("model/resources/strategies/" . $strat)) {
+                    include_once("model/resources/strategies/" . $strat);
+                    $fileexplode = explode(".",$strat);
+                    $class = new ReflectionClass($fileexplode[0]);
+                    if(!$class->isAbstract()){
+                        $strategies[] = $fileexplode[0];
+                    }
+                }
+            }
+            closedir($handle);
+        }
+        return $strategies;
+    }
 }
 
 ?>

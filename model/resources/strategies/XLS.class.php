@@ -9,7 +9,28 @@
  */
 include_once("model/resources/strategies/ATabularData.class.php");
 
-class XLS extends ATabularData {
+//Making it abstract disables this class for now. We will enable it in a custom resource later
+abstract class XLS extends ATabularData {
+
+    public function documentCreateParameters(){
+        return array("url" => "The path to the excel sheet (can be a url as well).",
+                     "sheet" => "The sheet name of the excel",
+                     "columns" => "The columns that are to be published.",
+                     "PK" => "The primary key for each row.",
+        );
+    }
+    
+    public function documentCreateRequiredParameters(){
+        return array("url", "sheet", "columns");    
+    }
+
+    public function documentReadRequiredParameters(){
+        return array();
+    }
+    
+    public function documentReadParameters(){
+        return array();
+    }
 
     public function __construct() {
         if(Config::$PHPEXCEL_IOFACTORY_PATH!="") {
@@ -21,11 +42,6 @@ class XLS extends ATabularData {
         } else {
             throw new NotFoundTDTException("PHPExcel path not defined in config.class");		
         }
-        $this->parameters["url"] = "The path to the excel sheet (can be a url as well).";
-        $this->parameters["sheet"] = "The sheet name of the excel";
-        $this->parameters["columns"] = "The columns that are to be published.";
-        $this->parameters["PK"] = "The primary key for each row.";
-        $this->requiredParameters = array_merge($this->requiredParameters, array_keys($this->parameters));
     }
 
     public function onCall($package,$resource){

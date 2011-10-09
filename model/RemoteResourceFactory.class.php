@@ -32,7 +32,9 @@ class RemoteResourceFactory extends AResourceFactory{
     public function createCreator($package,$resource, $parameters){
         include_once("model/resources/create/RemoteResourceCreator.class.php");
         $creator = new RemoteResourceCreator($package,$resource);
-        $creator->processParameters($parameters);
+        foreach($parameters as $key => $value){
+            $creator->setParameter($key,$value);
+        }
         return $creator;
     }
     
@@ -60,6 +62,32 @@ class RemoteResourceFactory extends AResourceFactory{
                 $doc->$package->$resource = $this->fetchResourceDocumentation($package, $resource);
             }
         }
+    }
+
+    public function makeDeleteDoc($doc){
+        //add stuff to the delete attribute in doc. No other parameters expected
+        $d = new stdClass();
+        foreach($this->getAllResourceNames() as $package => $v){
+            foreach($v as $resource){
+                $d->doc = "Delete this remote resource by calling the URI given in this object with a HTTP DELETE method";
+                $d->uri = Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource;
+                $doc->delete[] = $d;
+            }
+        }
+    }
+    
+    public function makeCreateDoc($doc){
+        //add stuff to create attribute in doc. No other parameters expected
+        $d = new stdClass();
+        $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::$HOSTNAME . Config::$SUBDIR . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
+        include_once("model/resources/create/RemoteResourceCreator.class.php");
+        $resource = new RemoteResourceCreator("","");//make an empty object. In the end we only need a remote resource
+        $d->parameters = $resource->documentParameters();
+        $d->requiredparameters = $resource->documentRequiredParameters();
+        if(!isset($doc->create)){
+            $doc->create =new stdClass();
+        }
+        $doc->create->remote = $d;
     }
 
     /*

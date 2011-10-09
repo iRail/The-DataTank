@@ -11,7 +11,7 @@
 class CoreResourceFactory extends AResourceFactory {
 
     protected function getAllResourceNames(){
-        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology"));
+        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin"));
     }
 
     public function createCreator($package,$resource, $parameters){
@@ -65,5 +65,15 @@ class CoreResourceFactory extends AResourceFactory {
         // for an existing folder you can only get the last modification date in php, so 
         return $this->getCreationTime($package, $resource);
     }   
+
+    public function makeDeleteDoc($doc){
+        //We cannot delete Core Resources
+    }
+    
+    public function makeCreateDoc($doc){
+        //we cannot create Core Resources
+    }
+    
+
 }
 ?>

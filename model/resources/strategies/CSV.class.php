@@ -10,13 +10,26 @@
 include_once ("model/resources/strategies/ATabularData.class.php");
 class CSV extends ATabularData {
 
-    public function __construct(){
-        $this->parameters["uri"] = "The URI to the CSV file";
-        $this->parameters["columns"] = "The columns that are to be published, if empty every column will be published.";
-        $this->parameters["PK"] = "The primary key of an entry";
-        
-        $this->requiredParameters[] = "uri";
-        
+    public function documentCreateRequiredParameters(){
+        return array("uri");
+            
+    }
+    
+    //We could specify extra filters here for CSV resources
+    public function documentReadRequiredParameters(){
+        return array();
+    }
+    
+    public function documentCreateParameters(){
+        $parameters = array();
+        $parameters["uri"] = "The URI to the CSV file";
+        $parameters["columns"] = "The columns that are to be published, if empty every column will be published.";
+        $parameters["PK"] = "The primary key of an entry";
+        return $parameters;
+    }
+    
+    public function documentReadParameters(){
+        return array();
     }
 
     public function onCall($package, $resource) {

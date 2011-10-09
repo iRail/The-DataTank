@@ -76,7 +76,15 @@ class InstalledResourceFactory extends AResourceFactory{
             closedir($handle);
         }
         return $packages;
-   }
+    }
+
+    public function makeDeleteDoc($doc){
+        //We cannot delete an Installed Resources
+    }
+    
+    public function makeCreateDoc($doc){
+        //we cannot create an Installed Resources on the fly
+    }
 }
 
 ?>

@@ -10,9 +10,6 @@
 
 abstract class AResourceStrategy{
 
-    protected $parameters = array();
-    protected $requiredParameters = array();
-
     /**
      * There are different update actions with different necessary parameters,
      * Therefore the strategy that allows a certain update action, will hold this in updateActions
@@ -31,31 +28,23 @@ abstract class AResourceStrategy{
     abstract public function onDelete($package,$resource);
 
     /**
-     * When a strategy is added, execute this piece of code
+     * When a strategy is added, execute this piece of code.
      */
     abstract public function onAdd($package_id, $resource_id);
 
     public function setParameter($key,$value){
         $this->$key = $value;
     }
-    
-
-    /**
-     * Gets all the allowed parameters to add a resource with this strategy
-     * @return array with the allowed parameters with documentation about the add parameters.
-     */
-    public function getParameters(){
-        return $this->parameters;
-    }
 
     /**
      * Gets all the required parameters to add a resource with this strategy
      * @return array with the required parameters to add a resource with this strategy
      */
-    public function getRequiredParameters(){
-        return $this->requiredParameters;
-    }
-
+    abstract public function documentCreateRequiredParameters();
+    abstract public function documentReadRequiredParameters();
+    abstract public function documentCreateParameters();
+    abstract public function documentReadParameters();
+    
     /**
      * Get all of the supported update actions
      * @return Array with all of the supported update actions' names.

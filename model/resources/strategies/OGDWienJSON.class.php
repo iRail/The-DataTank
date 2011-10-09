@@ -11,17 +11,30 @@ include_once("model/resources/strategies/ATabularData.class.php");
 
 class OGDWienJSON extends ATabularData {
 
+    public function documentCreateParameters(){
+        return array("url" => "The url of where the OGD Wien JSON is found.",
+                     "columns" => "The columns that are to be published from the OGD Wien JSON.",
+                     "PK" => "The primary key of each row.",
+                     "long" => "The longitude of the point where you want to search from.",
+                     "lat" => "The latitude of the point where you want to search from.",
+                     "radius" => "The radius in km around the point."
+        );  
+    }
+    
+    public function documentCreateRequiredParameters(){
+        return array("url", "long", "lat", "radius", "columns", "PK");    
+    }
+
+    public function documentReadRequiredParameters(){
+        return array();
+    }
+    
+    public function documentReadParameters(){
+        return array();
+    }
+    
 
     public function __construct(){
-        $this->parameters["url"] = "The url of where the OGD Wien JSON is found.";
-        $this->parameters["columns"] = "The columns that are to be published from the OGD Wien JSON.";
-        //$this->parameters["PK"] = "The primary key of each row.";
-
-        $this->requiredParameters = array_merge($this->requiredParameters, array_keys($this->parameters));
-       
-        $this->parameters["long"] = "The longitude of the point where you want to search from.";
-        $this->parameters["lat"] = "The latitude of the point where you want to search from.";
-        $this->parameters["radius"] = "The radius in km around the point.";
     }
 
     public function onCall($package,$resource){

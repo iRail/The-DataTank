@@ -54,9 +54,22 @@ abstract class AResourceFactory{
     abstract public function createDeleter($package,$resource);
 
     /**
-     * Visitor pattern function
+     * Visitor pattern function: This is the documentation on how to call a read resource
      * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds what it wants to add.
      */
     abstract public function makeDoc($doc);
+
+    /**
+     * Visitor pattern function
+     * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds what it wants to add.
+     */
+    abstract public function makeDeleteDoc($doc);
+
+    /**
+     * Visitor pattern function
+     * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds what it wants to add.
+     */
+    abstract public function makeCreateDoc($doc);
+
 }
 ?>

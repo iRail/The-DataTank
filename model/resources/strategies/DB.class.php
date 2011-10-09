@@ -11,32 +11,37 @@ include_once("model/resources/strategies/ATabularData.class.php");
 include_once("model/DBQueries.class.php");
 class DB extends ATabularData{
 
+    public function documentCreateRequiredParameters(){
+        return array("db_type","host","db_name","db_table","port","db_user","db_password");
+    }
+    
+    //We could specify extra filters here for DB resources
+    public function documentReadRequiredParameters(){
+        return array();
+    }
+    
+    public function documentCreateParameters(){
+        return array("db_type" => "The type of the database engine, i.e. MySQL,PostgreSQL,SQLite.",
+                     "db_name" => "The name of the database of which a table is to be published.",
+                     "db_table" => "The name of the databas table that's supposed to be published.",
+                     "host" => "The host to connect to in order to get access to the database.",
+                     "db_user" => "The user to log into the database.",
+                     "db_password" => "The password to log into the database.",
+                     "port" => "The port to connect to on the host in order to get access to the database.",
+                     "columns" => "The columns to publish.",
+                     "PK" => "The primary key for each row.");
+    }
+    
+    public function documentReadParameters(){
+        return array();
+    }
+
+
     public function __construct(){
-        
-        $this->parameters["db_type"] = "The type of the database engine, i.e. MySQL,PostgreSQL,SQLite.";
-        $this->parameters["db_name"] = "The name of the database of which a table is to be published.";
-        $this->parameters["db_table"] = "The name of the databas table that's supposed to be published.";
-        $this->parameters["host"] = "The host to connect to in order to get access to the database.";
-        $this->parameters["db_user"] = "The user to log into the database.";
-        $this->parameters["db_password"] = "The password to log into the database.";
-        $this->parameters["port"] = "The port to connect to on the host in order to get access to the database.";
-        $this->parameters["columns"] = "The columns to publish.";
-        $this->parameters["PK"] = "The primary key for each row.";
-
-        $this->requiredParameters[] = "db_type";
-        $this->requiredParameters[] = "host";
-        $this->requiredParameters[] = "db_name";
-        $this->requiredParameters[] = "db_table";
-        $this->requiredParameters[] = "port";
-        $this->requiredParameters[] = "db_user";
-        $this->requiredParameters[] = "db_password";
-
         /**
-         * parameters for foreign key relations
+         * Add a foreign key relation update action
          */
         $this->updateActions[] = "foreign_relation";
-        
-        
     }
     
 

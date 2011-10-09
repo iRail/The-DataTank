@@ -11,16 +11,27 @@ include_once("model/resources/strategies/ATabularData.class.php");
 
 class HTMLTable extends ATabularData {
 
-
-    public function __construct(){
-        $this->parameters["url"] = "The url of where the HTML table is found.";
-        $this->parameters["xpath"]  = "The XPath to the HTML table";
-        $this->parameters["columns"] = "The columns that are to be published from the HTML table.";
-        $this->parameters["PK"] = "The primary key of each row.";
-
-        $this->requiredParameters = array_merge($this->requiredParameters, array_keys($this->parameters));
+    public function documentCreateParameters(){
+        return array("url" => "The url of where the HTML table is found.",
+                     "xpath"  => "The XPath to the HTML table",
+                     "columns" => "The columns that are to be published from the HTML table.",
+                     "PK" => "The primary key of each row."
+        );  
+    }
+    
+    public function documentCreateRequiredParameters(){
+        return array("url", "xpath", "columns", "PK");    
     }
 
+    public function documentReadRequiredParameters(){
+        return array();
+    }
+    
+    public function documentReadParameters(){
+        return array();
+    }
+    
+    
     public function onCall($package,$resource){
 
         /*

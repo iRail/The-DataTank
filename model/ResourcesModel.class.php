@@ -83,12 +83,28 @@ class ResourcesModel{
         if(!isset($parameters["resource_type"])){
             throw new ResourceAdditionTDTException("Parameter resource_type hasn't been set");
         }
+        if(!isset($parameters["generic_type"])){
+            throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set");
+        }
+        $generictype = $parameters["generic_type"];
         $restype = $parameters["resource_type"];
         //now check if the file exist and include it
         if(!in_array($restype, array("generic", "remote"))){
             throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
         }
-
+        //check whether all required parameters have been set
+        $doc = $this->getAllAdminDoc();
+        foreach($doc->create->generic[$generictype]->requiredparameters as $key){
+            if(!isset($parameters[$key])){
+                throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
+            }
+        }
+        //now check if there are nonexistent parameters given
+        foreach(array_keys($parameters) as $key){
+            if(!in_array($key,array_keys($doc->create->generic[$generictype]->parameters))){
+                throw new ParameterDoesntExistTDTException($key);
+            }
+        }
         $creator = $this->factories[$restype]->createCreator($package,$resource,$parameters);
         $creator->create();
     }
@@ -121,6 +137,8 @@ class ResourcesModel{
         if(!isset($parameters["update_type"])){
             throw new ParameterTDTException("update_type");
         }
+        //check whether all required parameters have been set
+        //todo
         $updater = new $this->updateActions[$parameters["update_type"]]($package,$resource);
         $updater->processParameters($parameters);
         $updater->update();
@@ -183,6 +201,14 @@ class ResourcesModel{
             $this->doc = $doc->visitAll($this->factories);
         }
         return $this->doc;
+    }
+    private $adoc;
+    public function getAllAdminDoc(){
+        if(!isset($this->adoc)){
+            $doc = new Doc();
+            $this->adoc = $doc->visitAllAdmin($this->factories);
+        }
+        return $this->adoc;
     }
     
 }

@@ -17,20 +17,34 @@ class RemoteResourceCreator extends ACreator{
 
     public function __construct($package, $resource){
         parent::__construct($package,$resource);
-        /**
-         * Add the parameters
-         */
-        $this->parameters["base_url"]  = "The base url from the remote resource.";
-        $this->parameters["package_name"] = "The remote package name of the remote resource.";        
-        
-        /**
-         * Add the required parameters
-         */
-        $this->requiredParameters[] = "base_url";
-        $this->requiredParameters[] = "package_name";
     }
 
-    protected function setParameter($key,$value){
+    /**
+     * Overrides previously defined method for getting the right parameters.
+     * It first calls upon the parent. Then it extends the parent required parameters with base_url and package_name
+     */
+    public function documentParameters(){
+        $parameters = parent::documentParameters();
+        $parameters["base_url"]  = "The base url from the remote resource.";
+        $parameters["package_name"] = "The remote package name of the remote resource.";
+        return $parameters;
+    }
+
+    /**
+     * Overrides previously defined method for getting the right parameters.
+     * It first calls upon the parent. Then it extends the parent required parameters with base_url and package_name
+     */
+    public function documentRequiredParameters(){
+        $parameters = parent::documentRequiredParameters();
+        $parameters[] = "base_url";
+        $parameters[] = "package_name";
+        return $parameters;
+    }
+    
+    /**
+     * This function quickly sets the parameters as part of the class
+     */
+    public function setParameter($key,$value){
         $this->$key = $value;
     }
 
@@ -40,7 +54,6 @@ class RemoteResourceCreator extends ACreator{
      * parameters have already been set.
      */
     public function create(){
-
         // format the base url
         $base_url = $this->base_url;
         if(substr(strrev($base_url),0,1) != "/"){
@@ -69,14 +82,6 @@ class RemoteResourceCreator extends ACreator{
         $package_id = parent::makePackage($this->package);
         $resource_id = parent::makeResource($package_id, $this->resource, "remote");
         DBQueries::storeRemoteResource($resource_id, $this->package_name, $base_url);
-    }
-    
-    /**
-     * get the documentation about the addition of a resource
-     */
-    public function getCreateDocumentation(){
-        return "This class creates a remote resource.";
-    }
-    
+    }    
 }
 ?>

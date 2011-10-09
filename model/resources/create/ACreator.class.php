@@ -9,37 +9,15 @@
  */
 abstract class ACreator{
 
-    protected $parameters = array();
-    protected $requiredParameters = array();
-
     public function __construct($package, $resource){
         $this->package = $package;
         $this->resource = $resource;
-        
-        $this->parameters["resource_type"] = "The type of the resource.";
-
-        $this->requiredParameters[] = "resource_type";
-    }
-
-    /**
-     * process the parameters
-     */
-    public function processParameters($parameters) {
-        foreach ($parameters as $key => $value) {
-            $this->setParameter($key, $value);
-        }
-        // check if all requiredparameters have been set
-        foreach ($this->getRequiredParameters() as $key) {
-            if (!in_array($key, array_keys($parameters))){
-                throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
-            }
-        }
     }
   
     /**
      * set parameters, we leave this to the subclass
      */
-    abstract protected function setParameter($key,$value);
+    abstract public function setParameter($key,$value);
 
     /**
      * execution method
@@ -50,23 +28,17 @@ abstract class ACreator{
      * get all the parameters to create a resource
      * @return hash with key = parameter name and value = documentation about the parameter
      */
-    public function getParameters(){
-        return $this->parameters;
+    public function documentParameters(){
+        return array("resource_type" => "The type of the resource.");
     }
     
     /**
      * get the required parameters
      * @return array with all of the required parameters
      */
-    public function getRequiredParameters(){
-        return $this->requiredParameters;
+    public function documentRequiredParameters(){
+        return array("resource_type");
     }
-
-    /**
-     * get the documentation about the addition of a resource
-     * @return string containing a description about the class
-     */
-    abstract public function getCreateDocumentation();
 
     /**
      * make package id
