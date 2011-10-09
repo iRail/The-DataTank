@@ -10,10 +10,6 @@
 include_once("ADeleter.class.php");
 
 class RemoteResourceDeleter extends ADeleter{
-    
-    public function __construct($package,$resource){
-        parent::__construct($package,$resource);
-    }
 
     /**
      * execution method

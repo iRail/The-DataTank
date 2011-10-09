@@ -13,9 +13,10 @@ abstract class ADeleter{
     protected $package;
     protected $resource;
     
-    public function __construct($package,$resource){
+    public function __construct($package,$resource, $RESTparameters){
         $this->package = $package;
         $this->resource = $resource;
+        $this->RESTparameters = $RESTparameters;
     }
     
 

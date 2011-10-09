@@ -62,12 +62,15 @@ class CUDController extends AController {
         }
         $package = $matches["package"];
         $resource = $matches["resource"];
-
+        $RESTparameters = array();
+        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
+            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
+        }
         //fetch all the PUT variables in one array
         parse_str(file_get_contents("php://input"), $_PUT);
 
         $model = ResourcesModel::getInstance();
-        $model->createResource($package, $resource, $_PUT);
+        $model->createResource($package, $resource, $_PUT, $RESTparameters);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         //Clear the documentation in our cache for it has changed
@@ -86,6 +89,10 @@ class CUDController extends AController {
         if (isset($matches["resource"])) {
             $resource = $matches["resource"];
         }
+        $RESTparameters = array();
+        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
+            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
+        }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
             throw new AuthenticationTDTException("Cannot DELETE without administration rights. Authentication failed.");
@@ -95,7 +102,7 @@ class CUDController extends AController {
         if ($resource == "") {
             $model->deletePackage($package);
         } else {
-            $model->deleteResource($package, $resource);
+            $model->deleteResource($package, $resource, $RESTparameters);
         }
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
@@ -115,11 +122,16 @@ class CUDController extends AController {
         if (!$this->isAuthenticated()) {
             throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
         }
-        $package = $matches["package"];
-        $resource = $matches["resource"];
+        $package = trim($matches["package"]);
+        $resource = trim($matches["resource"]);
+        $RESTparameters = array();
+        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
+            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
+        }
+
         //delete the package and resource when authenticated and authorized in the model
         $model = ResourcesModel::getInstance();
-        $model->updateResource($package, $resource, $_POST);
+        $model->updateResource($package, $resource, $_POST, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);

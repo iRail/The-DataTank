@@ -11,18 +11,18 @@
 
 class InstalledResourceFactory extends AResourceFactory{
     
-    public function createCreator($package,$resource, $parameters){
+    public function createCreator($package,$resource, $parameters, $RESTparameters){
         //does nothing
     }
     
-    public function createReader($package,$resource, $parameters){
+    public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("custom/packages/" . $package . "/" . $resource . ".class.php");
-        $creator = new $resource($package,$resource);
+        $creator = new $resource($package,$resource, $RESTparameters);
         $creator->processParameters($parameters);
         return $creator;
     }
     
-    public function createDeleter($package,$resource){
+    public function createDeleter($package,$resource, $RESTparameters){
         //does nothing
     }
 

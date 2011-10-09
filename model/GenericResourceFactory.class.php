@@ -18,28 +18,28 @@ class GenericResourceFactory extends AResourceFactory {
         return isset($resource["present"]) && $resource["present"] == 1;   
     }
 
-    public function createCreator($package,$resource, $parameters){
+    public function createCreator($package,$resource, $parameters, $RESTparameters){
         include_once("model/resources/create/GenericResourceCreator.class.php");
         if(!isset($parameters["generic_type"])){
             throw new ResourceAdditionTDTException("generic type hasn't been set");
         }
-        $creator = new GenericResourceCreator($package,$resource, $parameters["generic_type"]);
+        $creator = new GenericResourceCreator($package,$resource, $RESTparameters, $parameters["generic_type"]);
         foreach($parameters as $key => $value){
             $creator->setParameter($key,$value);
         }
         return $creator;
     }
     
-    public function createReader($package,$resource, $parameters){
+    public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("model/resources/read/GenericResourceReader.class.php");
-        $reader = new GenericResourceReader($package, $resource);//, $parameters["generic_type"]);
+        $reader = new GenericResourceReader($package, $resource, $RESTparameters);
         $reader->processParameters($parameters);
         return $reader;
     }
         
-    public function createDeleter($package,$resource){
+    public function createDeleter($package,$resource, $RESTparameters){
         include_once("model/resources/delete/GenericResourceDeleter.class.php");
-        $deleter = new GenericResourceDeleter($package,$resource);
+        $deleter = new GenericResourceDeleter($package,$resource, $RESTparameters);
         return $deleter;
     }
 
@@ -91,7 +91,7 @@ class GenericResourceFactory extends AResourceFactory {
         $d = array();
         foreach($this->getAllStrategies() as $strategy){
             include_once("model/resources/create/GenericResourceCreator.class.php");
-            $res = new GenericResourceCreator("","", $strategy);
+            $res = new GenericResourceCreator("","", array(),$strategy);
             $d[$strategy] = new stdClass();
             $d[$strategy]->doc = "When your file is structured according to $strategy, you can perform a PUT request and load this file in this DataTank";
             $d[$strategy]->parameters = $res->documentParameters();

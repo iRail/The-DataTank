@@ -14,18 +14,18 @@ class CoreResourceFactory extends AResourceFactory {
         return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin"));
     }
 
-    public function createCreator($package,$resource, $parameters){
+    public function createCreator($package,$resource, $parameters, $RESTparameters){
         //do nothing
     }
     
-    public function createReader($package,$resource, $parameters){
+    public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("model/packages/" . $package . "/" . $resource . ".class.php");
-        $creator = new $resource($package,$resource);
+        $creator = new $resource($package,$resource, $RESTparameters);
         $creator->processParameters($parameters);
         return $creator;
     }
     
-    public function createDeleter($package,$resource){
+    public function createDeleter($package,$resource, $RESTparameters){
         //do nothing
     }
 

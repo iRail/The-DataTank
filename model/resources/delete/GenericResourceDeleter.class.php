@@ -11,10 +11,6 @@ include_once("ADeleter.class.php");
 include_once("model/resources/GenericResource.class.php");
 
 class GenericResourceDeleter extends ADeleter{
-    
-    public function __construct($package,$resource){
-        parent::__construct($package,$resource);
-    }
 
     /**
      * execution method

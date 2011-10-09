@@ -16,12 +16,19 @@ abstract class AReader{
     protected $requiredParameters = array();
     protected $package;
     protected $resource;
+    protected $RESTparameters;
     
 
-    public function __construct($package,$resource){
+    public function __construct($package,$resource, $RESTparameters){
         $this->package = $package;
         $this->resource = $resource;
+        $this->RESTparameters = $RESTparameters;
     }
+
+    public function getRESTParameters(){
+        return $this->RESTparameters;
+    }
+    
 
     /**
      * execution method

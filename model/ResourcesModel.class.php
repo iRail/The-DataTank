@@ -74,7 +74,7 @@ class ResourcesModel{
     /**
      * Creates the given Resource
      */ 
-    public function createResource($package, $resource, $parameters){
+    public function createResource($package, $resource, $parameters, $RESTparameters){
         //first check if there resource exists yet
         if($this->hasResource($package,$resource)){
             throw new ResourceAdditionTDTException($package . "/" . $resource . " - It exists already");
@@ -105,30 +105,30 @@ class ResourcesModel{
                 throw new ParameterDoesntExistTDTException($key);
             }
         }
-        $creator = $this->factories[$restype]->createCreator($package,$resource,$parameters);
+        $creator = $this->factories[$restype]->createCreator($package,$resource,$parameters, $RESTparameters);
         $creator->create();
     }
     
     /**
      * Reads the resource with the given parameters
      */
-    public function readResource($package, $resource, $parameters){
+    public function readResource($package, $resource, $parameters, $RESTparameters){
         //first check if the resource exists
         if(!$this->hasResource($package,$resource)){
             throw new ResourceOrPackageNotFoundTDTException($package,$resource);
         }
         foreach($this->factories as $factory){
             if($factory->hasResource($package, $resource)){
-                $reader = $factory->createReader($package,$resource,$parameters);
+                $reader = $factory->createReader($package,$resource,$parameters, $RESTparameters);
                 return $reader->read();
-            }
+            }            
         }
     }
 
     /**
      * Updates the resource with the given parameters - it will create an updater itself
      */
-    public function updateResource($package, $resource, $parameters){
+    public function updateResource($package, $resource, $parameters, $RESTparameters){
         //first check if the resource exists
         if(!$this->hasResource($package,$resource)){
             throw new ResourceOrPackageNotFoundTDTException($package,$resource);
@@ -137,9 +137,7 @@ class ResourcesModel{
         if(!isset($parameters["update_type"])){
             throw new ParameterTDTException("update_type");
         }
-        //check whether all required parameters have been set
-        //todo
-        $updater = new $this->updateActions[$parameters["update_type"]]($package,$resource);
+        $updater = new $this->updateActions[$parameters["update_type"]]($package,$resource, $RESTparameters);
         $updater->processParameters($parameters);
         $updater->update();
     }
@@ -147,7 +145,7 @@ class ResourcesModel{
     /**
      * Deletes a Resource
      */
-    public function deleteResource($package, $resource){
+    public function deleteResource($package, $resource, $RESTparameters){
         //first check if the resource exists
         if(!$this->hasResource($package,$resource)){
             throw new ResourceOrPackageNotFoundTDTException("package/resource couple ".$package ."/".$resource . " not found.");
@@ -162,13 +160,9 @@ class ResourcesModel{
         }else if($this->factories["remote"]->hasResource($package,$resource)){
             $factory = $this->factories["remote"];
         }else{
-            /**
-             * TODO we don't support deletion of core or installed resources via an API
-             * call so throw exception ?
-             */
-            return;
+            throw new DeleterTDTException($package . "/" . $resource);
         }
-        $deleter = $factory->createDeleter($package,$resource);
+        $deleter = $factory->createDeleter($package,$resource, $RESTparameters);
         $deleter->delete();
     }
 

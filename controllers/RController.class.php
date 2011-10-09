@@ -21,9 +21,8 @@ class RController extends AController {
 
     function GET($matches) {
         //always required: a package and a resource. This will always be given since the regex should be matched.
-        $package = $matches['package'];
-        $resourcename = $matches['resource'];
-
+        $package = trim($matches['package']);
+        $resourcename = trim($matches['resource']);
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
@@ -52,7 +51,7 @@ class RController extends AController {
         //what remains in the $resources array are specification for a RESTful way of identifying objectparts
         //for instance: http://api.../TDTInfo/Modules/module/1/ would make someone only select the second module
 
-        $result = $model->readResource($package, $resourcename, $parameters);
+        $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);

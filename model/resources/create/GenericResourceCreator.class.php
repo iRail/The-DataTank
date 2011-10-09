@@ -14,8 +14,8 @@ class GenericResourceCreator extends ACreator{
 
     private $strategy;
 
-    public function __construct($package, $resource, $generic_type){
-        parent::__construct($package, $resource);
+    public function __construct($package, $resource, $RESTparameters, $generic_type){
+        parent::__construct($package, $resource, $RESTparameters);
         // Add the parameters of the strategy!
         $this->generic_type = $generic_type;
         if(!file_exists("model/resources/strategies/" . $this->generic_type . ".class.php")){

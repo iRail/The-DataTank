@@ -13,8 +13,8 @@ class OntologyUpdater extends AUpdater {
 
     private $params = array();
 
-    public function __construct($package, $resource) {
-        parent::__construct($package, $resource);
+    public function __construct($package, $resource, $RESTparameters) {
+        parent::__construct($package, $resource, $RESTparameters);
     }
 
     public function getParameters() {

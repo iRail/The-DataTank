@@ -14,9 +14,10 @@ abstract class AUpdater {
     protected $parameters = array();
     protected $requiredParameters = array();
 
-    public function __construct($package, $resource) {
+    public function __construct($package, $resource, $RESTparameters) {
         $this->package = $package;
         $this->resource = $resource;
+        $this->RESTparameters = $RESTparameters;
     }
 
     /**

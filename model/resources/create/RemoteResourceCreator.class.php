@@ -15,10 +15,6 @@ include_once("ACreator.class.php");
  */
 class RemoteResourceCreator extends ACreator{
 
-    public function __construct($package, $resource){
-        parent::__construct($package,$resource);
-    }
-
     /**
      * Overrides previously defined method for getting the right parameters.
      * It first calls upon the parent. Then it extends the parent required parameters with base_url and package_name

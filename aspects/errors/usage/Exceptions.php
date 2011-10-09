@@ -198,4 +198,15 @@ class RdfTDTException extends UsageTDTException {
 }
 
 
+class DeleterTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "Cannot delete this resource";
+    }
+    
+    public static $error = 462;
+    
+    public function __construct($message) {
+        parent::__construct("An error occured while trying to delete a resource: " . $message);
+    }
+}
 ?>

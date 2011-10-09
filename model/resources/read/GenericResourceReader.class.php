@@ -17,8 +17,8 @@ class GenericResourceReader extends AReader{
     private $genres;
     
 
-    public function __construct($package,$resource){
-        parent::__construct($package,$resource);
+    public function __construct($package,$resource, $RESTparameters){
+        parent::__construct($package,$resource, $RESTparameters);
         $this->genres = new GenericResource($this->package,$this->resource);
         /**
          * TODO make a difference between read and put parameters !!

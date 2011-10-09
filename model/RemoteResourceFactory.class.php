@@ -29,26 +29,26 @@ class RemoteResourceFactory extends AResourceFactory{
         return $resources;
     }
 
-    public function createCreator($package,$resource, $parameters){
+    public function createCreator($package,$resource, $parameters, $RESTparameters){
         include_once("model/resources/create/RemoteResourceCreator.class.php");
-        $creator = new RemoteResourceCreator($package,$resource);
+        $creator = new RemoteResourceCreator($package,$resource, $RESTparameters);
         foreach($parameters as $key => $value){
             $creator->setParameter($key,$value);
         }
         return $creator;
     }
     
-    public function createReader($package,$resource, $parameters){
+    public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("model/resources/read/RemoteResourceReader.class.php");
-        $reader = new RemoteResourceReader($package, $resource, $this->fetchResourceDocumentation($package,$resource));
+        $reader = new RemoteResourceReader($package, $resource, $RESTparameters, $this->fetchResourceDocumentation($package,$resource));
         $reader->processParameters($parameters);
         return $reader;
     }
     
     
-    public function createDeleter($package,$resource){
+    public function createDeleter($package,$resource, $RESTparameters){
         include_once("model/resources/delete/RemoteResourceDeleter.class.php");
-        return new RemoteResourceDeleter($package,$resource);
+        return new RemoteResourceDeleter($package,$resource, $RESTparameters);
     }
     
     public function makeDoc($doc){
@@ -81,7 +81,7 @@ class RemoteResourceFactory extends AResourceFactory{
         $d = new stdClass();
         $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::$HOSTNAME . Config::$SUBDIR . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
         include_once("model/resources/create/RemoteResourceCreator.class.php");
-        $resource = new RemoteResourceCreator("","");//make an empty object. In the end we only need a remote resource
+        $resource = new RemoteResourceCreator("","", array());//make an empty object. In the end we only need a remote resource
         $d->parameters = $resource->documentParameters();
         $d->requiredparameters = $resource->documentRequiredParameters();
         if(!isset($doc->create)){

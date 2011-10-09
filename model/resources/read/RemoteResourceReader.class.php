@@ -13,9 +13,8 @@ class RemoteResourceReader extends AReader{
 
     private $remoteResource;
 
-    public function __construct($package,$resource, $remoteResourceDocumentation){
-        $this->package = $package;
-        $this->resource = $resource;
+    public function __construct($package,$resource, $RESTparameters, $remoteResourceDocumentation){
+        parent::__construct($package,$resource, $RESTparameters);
         $this->remoteResource = $remoteResourceDocumentation;
     }
     
