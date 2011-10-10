@@ -12,12 +12,7 @@
 class Queries extends AReader{
 
     
-    private $queryResults;
-
-    public function __construct($package,$resource){
-        parent::__construct($package,$resource);
-    }
-    
+    private $queryResults;    
 
     public static function getParameters(){
 	return array("package" => "Name of a package that needs to be analysed, must be set !",
