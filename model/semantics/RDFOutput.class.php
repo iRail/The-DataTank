@@ -13,10 +13,16 @@ class RDFOutput {
     private $model;
     private $ontologyPath;
     private $package;
+    
+    private $properties_mapping;
+    private $classes_mapping;
 
     public function __construct() {
         $this->model = ModelFactory::getResModel(MEMMODEL);
         $this->package = RequestURI::getInstance()->getPackage();
+        
+        $this->properties_mapping = array();
+        $this->classes_mapping = array();
     }
 
     /**
@@ -119,21 +125,55 @@ class RDFOutput {
     private function getProperty($name) {
         $map = OntologyProcessor::getInstance()->getPropertyMap($this->package,$this->ontologyPath.$name);
         if ($map) {
-            return new ResProperty($map->getURI());
+            $this->model->addNamespace($map->prefix, $map->property->getNamespace());
+            
+            return new ResProperty($map->property->getURI());
         }
         return $this->model->createProperty(OntologyProcessor::getInstance()->getOntologyURI($this->package) . $name);
     }
-
+   
+   
     private function getClass($uri) {
         $resource = $this->model->createResource($uri);
         $type = null;
 
         $map = OntologyProcessor::getInstance()->getClassMap($this->package,$this->ontologyPath);
-        if ($map) 
-            $resource->addProperty(RDF_RES::TYPE(),new ResResource($map->getURI()));
-        
+        if ($map){
+            $this->model->addNamespace($map->prefix, $map->class->getNamespace());
+            $resource->addProperty(RDF_RES::TYPE(),new ResResource($map->class->getURI()));
+        }
         return $resource;
     }
+  
+//Attempt to speed things up by saving mapping, did not give a real performance enhancement   
+//    private function getProperty($name) {
+//        if (!array_key_exists($this->ontologyPath . $name, $this->properties_mapping)) {
+//            $map = OntologyProcessor::getInstance()->getPropertyMap($this->package, $this->ontologyPath . $name);
+//            if ($map) {
+//                $this->model->addNamespace($map->prefix, $map->property->getNamespace());
+//                $this->properties_mapping[$this->ontologyPath . $name] = new ResProperty($map->property->getURI());
+//            } else
+//                return $this->model->createProperty(OntologyProcessor::getInstance()->getOntologyURI($this->package) . $name);
+//        }
+//        return $this->properties_mapping[$this->ontologyPath . $name];
+//    }
+//
+//    private function getClass($uri) {
+//        $resource = $this->model->createResource($uri);
+//        $type = null;
+//
+//        if (!array_key_exists($this->ontologyPath, $this->classes_mapping)) {
+//            $map = OntologyProcessor::getInstance()->getClassMap($this->package, $this->ontologyPath);
+//            if ($map) {
+//                $this->model->addNamespace($map->prefix, $map->class->getNamespace());
+//                $this->classes_mapping[$this->ontologyPath] = new ResResource($map->class->getURI());
+//            }else {
+//                return $resource;
+//            }
+//        }
+//        $resource->addProperty(RDF_RES::TYPE(), $this->classes_mapping[$this->ontologyPath]);
+//        return $resource;
+//    }
 
     /**
      *  Map the datatype of a primitive type to the right indication string for RAP API 

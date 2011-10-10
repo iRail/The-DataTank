@@ -78,7 +78,7 @@ class FormatterFactory{
     }
 
     private function formatExists($format){
-        return file_exists("formatters/". $format . ".class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
+        return file_exists("formatters/". $format . "Formatter.class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
     }
 
     public function getFormat(){
@@ -98,11 +98,11 @@ class FormatterFactory{
 	if(($this->format == "Json" || $this->format == "Jsonp") && isset($_GET["callback"])){
 	    $callback = $_GET["callback"];
 	    $this->format = "Jsonp";
-	    include_once("formatters/".$this->format . ".class.php");
+	    include_once("formatters/".$this->format . "Formatter.class.php");
 	    return new $this->format($rootname,$objectToPrint,$callback);
 	}
-	$format=$this->format;
-	include_once("formatters/". $this->format . ".class.php");
+	$format=$this->format."Formatter";
+	include_once("formatters/". $this->format . "Formatter.class.php");
 	return new $format($rootname, $objectToPrint);
     }
 

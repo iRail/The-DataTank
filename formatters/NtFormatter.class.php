@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Nt extends AFormatter {
+class NtFormatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

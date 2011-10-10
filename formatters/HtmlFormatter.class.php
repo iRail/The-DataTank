@@ -15,7 +15,7 @@ include_once("formatters/AFormatter.class.php");
 /**
  * This class inherits from the abstract Formatter. It will generate a html-page with a print_r
  */
-class Html extends AFormatter {
+class HtmlFormatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

@@ -14,7 +14,7 @@ include_once("formatters/AFormatter.class.php");
  * This class inherits from the abstract Formatter. It will return our resultobject into a kml
  * datastructure.
  */
-class Kml extends AFormatter{
+class KmlFormatter extends AFormatter{
 
      public function __construct($rootname,$objectToPrint){
 	  parent::__construct($rootname,$objectToPrint);
