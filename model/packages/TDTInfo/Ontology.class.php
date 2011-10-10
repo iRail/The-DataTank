@@ -48,7 +48,10 @@ class Ontology extends AReader{
 
     private function getData() {
         $filename = "custom/packages/" . $this->package."/".$this->package.".ttl";
-        OntologyProcessor::getInstance()->readOntologyFile($this->package, $filename);
+        
+        if (file_exists($filename)){
+            OntologyProcessor::getInstance()->readOntologyFile($this->package, $filename);
+        }
         $this->ontology = OntologyProcessor::getInstance()->readOntology($this->package);
     }
 
