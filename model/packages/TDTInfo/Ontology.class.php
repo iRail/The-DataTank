@@ -12,10 +12,10 @@ class Ontology extends AReader{
 
     private $ontology;
 
-    public function __construct($package,$resource){
-        parent::__construct($package,$resource);
+    public function __construct($package, $resource, $RESTparameters) {
+        parent::__construct($package, $resource, $RESTparameters);
     }
-    
+
     public static function getParameters() {
         return array("package" => "Name of a package that needs to be analysed, must be set !",
             "resource" => "Name of a resource within the given package, is not required.",

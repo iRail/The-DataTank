@@ -8,13 +8,13 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-include_once("formatters/Json.class.php");
+include_once("formatters/JsonFormatter.class.php");
 
 /**
  * This class inherits from the Json printer. It just needs the json value and it will add
  * some data to make the json into a jsonp message.
  */
-class Jsonp extends Json{
+class JsonpFormatter extends JsonFormatter{
 
      private $callback;
 
@@ -22,7 +22,7 @@ class Jsonp extends Json{
 	  if($callback != ""){
 	       $this->callback = $callback;
 	  }else{
-	       throw new PrinterTDTException("With Jsonp you should add a callback: &callback=yourfunctionname");
+	       throw new ParameterTDTException("With Jsonp you should add a callback: &callback=yourfunctionname");
 	  }
 	  parent::__construct($rootname,$objectToPrint);
      }

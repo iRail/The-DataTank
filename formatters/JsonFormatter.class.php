@@ -13,7 +13,7 @@ include_once("formatters/AFormatter.class.php");
  * This class inherits from the abstract Formatter. It will return our resultobject into a
  * json datastructure.
  */
-class Json extends AFormatter{
+class JsonFormatter extends AFormatter{
      
      public function __construct($rootname,$objectToPrint){
 	  parent::__construct($rootname,$objectToPrint);

@@ -24,7 +24,7 @@ foreach ($doc as $package => $resources) {
     foreach ($resources as $resource => $val) {
         if (property_exists($val, 'requiredparameters')) {
             if (count($val->requiredparameters) == 0)
-                echo "\t\t<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . ".rdf_ntriple" . "</sc:dataDumpLocation>\n";
+                echo "\t\t<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . ".nt" . "</sc:dataDumpLocation>\n";
         }
     }
     echo "\t\t<lastmod></lastmod>\n";
