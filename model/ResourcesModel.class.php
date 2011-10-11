@@ -103,7 +103,7 @@ class ResourcesModel{
          */
         $resourceCreationDoc;
         if($restype == "generic"){
-            $resourceCreationDoc = $doc->create->generic[$parameters["resource_type"]];
+            $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
         }else{ // remote
             $resourceCreationDoc = $doc->create->remote;
         }
