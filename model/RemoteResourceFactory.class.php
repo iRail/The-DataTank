@@ -25,7 +25,7 @@ class RemoteResourceFactory extends AResourceFactory{
                 $resources[$result["package_name"]] = array();
             }
             $resources[$result["package_name"]][] = $result["res_name"];
-        }
+        }        
         return $resources;
     }
 

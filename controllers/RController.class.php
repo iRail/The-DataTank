@@ -31,12 +31,18 @@ class RController extends AController {
         //ask the model for our documentation: access to all packages and resources!
         $doc = $model->getAllDoc();
 
+        if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
+            throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");
+        }
+        
+
         $RESTparameters = array();
         if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
 
         $parameters = $_GET;
+
 
         //check for required parameters
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {

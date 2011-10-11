@@ -15,7 +15,17 @@ class RemoteResourceDeleter extends ADeleter{
      * execution method
      */
     public function delete(){
-       DBQueries::deleteRemotePackage($this->package);
+
+        /**
+         * delete bottom up
+         */
+        DBQueries::deleteRemoteResource($this->package,$this->resource);
+        DBQueries::deleteResource($this->package,$this->resource);
+        DBQueries::deletePackage($this->package);
     }
 }
 ?>
+
+
+
+

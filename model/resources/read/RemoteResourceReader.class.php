@@ -14,7 +14,7 @@ class RemoteResourceReader extends AReader{
     private $remoteResource;
 
     public function __construct($package,$resource, $RESTparameters, $remoteResourceDocumentation){
-        parent::__construct($package,$resource, $RESTparameters);
+        parent::__construct($package,$resource, $RESTparameters);  
         $this->remoteResource = $remoteResourceDocumentation;
     }
     
@@ -22,6 +22,7 @@ class RemoteResourceReader extends AReader{
      * execution method
      */
     public function read(){
+        
 	//extract the right parameters (the non optional ones) and concatenate them to create the right URL
 	$params = "?";
 	foreach(array_keys($this->remoteResource->parameters) as $key){
