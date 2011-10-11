@@ -77,9 +77,9 @@ class GenericResourceFactory extends AResourceFactory {
 
     public function makeDeleteDoc($doc){
         //add stuff to the delete attribute in doc. No other parameters expected
-        $d = new stdClass();
         foreach($this->getAllResourceNames() as $package => $v){
             foreach($v as $resource){
+                $d = new stdClass();
                 $d->doc = "Delete this generic resource by calling the URI given in this object with a HTTP DELETE method";
                 $d->uri = Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource;
                 $doc->delete[] = $d;
