@@ -209,21 +209,14 @@ class ResourcesModel{
      *
      * @return a doc object containing all the packages, resources and further documentation
      */
-    private $doc;
     public function getAllDoc(){
-        if(true){//!isset($this->doc)){
-            $doc = new Doc();
-            $this->doc = $doc->visitAll($this->factories);
-        }
-        return $this->doc;
+        $doc = new Doc();
+        return $doc->visitAll($this->factories);
     }
-    private $adoc;
+
     public function getAllAdminDoc(){
-        if(true){//!isset($this->adoc)){
-            $doc = new Doc();
-            $this->adoc = $doc->visitAllAdmin($this->factories);
-        }
-        return $this->adoc;
+        $doc = new Doc();
+        return $doc->visitAllAdmin($this->factories);
     }
     
 }
