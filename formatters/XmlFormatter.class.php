@@ -35,6 +35,10 @@ class XmlFormatter extends AFormatter{
     }
 
     private function printObject($name,$object){
+        //check on first character
+        if(preg_match("/^[0-9]+.*/", $name)){
+            $name = "i" . $name; // add an i
+        }
         echo "<".$name.">";
         //If this is not an object, it must have been an empty result
         //thus, we'll be returning an empty tag
@@ -62,6 +66,10 @@ class XmlFormatter extends AFormatter{
     }
 
     private function printArray($name,$array){
+        //check on first character
+        if(preg_match("/^[0-9]+.*/", $name)){
+            $name = "i" . $name; // add an i
+        }
         $index = 0;
         foreach($array as $key => $value){
             $nametag = $name;	       
@@ -79,7 +87,11 @@ class XmlFormatter extends AFormatter{
                 $name = htmlspecialchars(str_replace(" ","",$name));
                 $value = htmlspecialchars($value);
                 if($this->isHash($array)){ //if this is an associative array, don't print it by name of the parent
-                    echo "<".$key . ">" . $value . "</".$key.">";
+                //check on first character
+                if(preg_match("/^[0-9]+.*/", $key)){
+                    $key = "i" . $key; // add an i
+                }
+                echo "<".$key . ">" . $value . "</".$key.">";
                 }else{
                     echo "<".$name. ">".$value."</".$name.">";
                 }
