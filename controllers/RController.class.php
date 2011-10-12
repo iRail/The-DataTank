@@ -125,18 +125,16 @@ class RController extends AController {
             }
         }
 
-        if (!is_object($result)) {
-            $o = new stdClass();
-            $RESTresource = "";
-            if (sizeof($RESTparameters) > 0) {
-                $RESTresource = $RESTparameters[sizeof($RESTparameters) - 1];
-            } else {
-                $RESTresource = $resourcename;
-            }
-
-            $o->$RESTresource = $result;
-            $result = $o;
+        //pack everything in a new object
+        $o = new stdClass();
+        $RESTresource = "";
+        if (sizeof($RESTparameters) > 0) {
+            $RESTresource = $RESTparameters[sizeof($RESTparameters) - 1];
+        } else {
+            $RESTresource = $resourcename;
         }
+        $o->$RESTresource = $result;
+        $result = $o;
 
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
