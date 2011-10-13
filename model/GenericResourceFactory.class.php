@@ -33,6 +33,7 @@ class GenericResourceFactory extends AResourceFactory {
     public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("model/resources/read/GenericResourceReader.class.php");
         $reader = new GenericResourceReader($package, $resource, $RESTparameters);
+        $reader->processParameters($parameters);
         return $reader;
     }
         
