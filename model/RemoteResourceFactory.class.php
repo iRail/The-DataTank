@@ -41,7 +41,6 @@ class RemoteResourceFactory extends AResourceFactory{
     public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("model/resources/read/RemoteResourceReader.class.php");
         $reader = new RemoteResourceReader($package, $resource, $RESTparameters, $this->fetchResourceDocumentation($package,$resource));
-        $reader->processParameters($parameters);
         return $reader;
     }
     

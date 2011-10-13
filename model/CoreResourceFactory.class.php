@@ -21,7 +21,6 @@ class CoreResourceFactory extends AResourceFactory {
     public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("model/packages/" . $package . "/" . $resource . ".class.php");
         $creator = new $resource($package,$resource, $RESTparameters);
-        $creator->processParameters($parameters);
         return $creator;
     }
     
