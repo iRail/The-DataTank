@@ -58,7 +58,7 @@ class RController extends AController {
         //for instance: http://api.../TDTInfo/Modules/module/1/ would make someone only select the second module
 
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
-
+        
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
@@ -72,6 +72,7 @@ class RController extends AController {
         /*
          * If there are foreign relations between resources, then add them to the resulting object
          */
+        /*
         if (!empty($for_rel_urls)) {
             foreach ($result->$resourcename as $key => $item) {
                 $properties = get_object_vars($item);
@@ -83,11 +84,11 @@ class RController extends AController {
                          * a FK with id = 5 then my object person->address = 5 will be translated to 
                          * person->address = myhost/mypackage/addresslist/object/?filterBy=FK&filterValue=5
                          */
-                        $result->{$resourcename}[$key]->$property = $for_rel_urls[$property] . $value;
+        /*$result->{$resourcename}[$key]->$property = $for_rel_urls[$property] . $value;
                     }
                 }
             }
-        }
+            }*/
 
         // apply RESTFilter
         $subresources = array();

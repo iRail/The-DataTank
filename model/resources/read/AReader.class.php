@@ -28,7 +28,6 @@ abstract class AReader{
     public function getRESTParameters(){
         return $this->RESTparameters;
     }
-    
 
     /**
      * execution method
@@ -36,15 +35,15 @@ abstract class AReader{
     abstract public function read();
 
     public function processParameters($parameters){
+
 	// Check all GET parameters and give them to setParameter, which needs to be handled by the extended method.
 	foreach($parameters as $key => $value){
 	    //the method and module will already be parsed by another system
 	    //we don't need the format as well, this is used by printer
 	    if(!in_array($key,self::$BASICPARAMS)){
 		//check whether this parameter is in the documented parameters
-                $givenpars = $this->getParameters();
                 
-                if(!isset($givenpars[$key])){ 
+                if(!in_array($key,$this->parameters)){ 
                     throw new ParameterDoesntExistTDTException($key);
                 }else if(in_array($key,$this->requiredParameters)){
                     $this->$key = $value;
