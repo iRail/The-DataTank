@@ -19,6 +19,8 @@ class GenericResourceReader extends AReader{
     public function __construct($package,$resource, $RESTparameters){
         parent::__construct($package,$resource, $RESTparameters);
         $this->genres = new GenericResource($this->package,$this->resource);
+        $strategy = $this->genres->getStrategy();
+        $this->parameters = array_merge($this->parameters,$strategy->documentReadParameters());
     }
     
     /**

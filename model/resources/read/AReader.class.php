@@ -28,14 +28,13 @@ abstract class AReader{
     public function getRESTParameters(){
         return $this->RESTparameters;
     }
-    
 
     /**
      * execution method
      */
     abstract public function read();
 
-    public function processParameters($parameters){
+    public function processParameters($parameters){f
         /*
          * set the parameters
          */

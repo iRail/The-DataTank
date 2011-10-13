@@ -22,7 +22,7 @@ class OGDWienJSON extends ATabularData {
     }
     
     public function documentCreateRequiredParameters(){
-        return array("url", "long", "lat", "radius", "columns", "PK");    
+        return array("url",  "columns", "PK");    
     }
 
     public function documentReadRequiredParameters(){
@@ -30,7 +30,7 @@ class OGDWienJSON extends ATabularData {
     }
     
     public function documentReadParameters(){
-        return array();
+        return array("long", "lat", "radius");
     }
     
 
