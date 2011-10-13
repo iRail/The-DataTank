@@ -34,7 +34,7 @@ abstract class AReader{
      */
     abstract public function read();
 
-    public function processParameters($parameters){f
+    public function processParameters($parameters){
         /*
          * set the parameters
          */
