@@ -24,7 +24,8 @@ class DatabaseCreate extends InstallController {
         include_once(dirname(__FILE__)."/../../includes/rb.php");
         
         try {
-            $dbname = end(explode(";", Config::$DB));
+        	$db_config = explode(";", Config::$DB);
+            $dbname = end($db_config);
             $pieces = explode("=", $dbname);
             
             // get database name
