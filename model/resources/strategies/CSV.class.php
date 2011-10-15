@@ -11,8 +11,7 @@ include_once ("model/resources/strategies/ATabularData.class.php");
 class CSV extends ATabularData {
 
     public function documentCreateRequiredParameters(){
-        return array("uri");
-            
+        return array("uri");            
     }
     
     //We could specify extra filters here for CSV resources
@@ -23,8 +22,9 @@ class CSV extends ATabularData {
     public function documentCreateParameters(){
         $parameters = array();
         $parameters["uri"] = "The URI to the CSV file";
-        $parameters["columns"] = "The columns that are to be published, if empty every column will be published.";
+        $parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published.";
         $parameters["PK"] = "The primary key of an entry";
+        $parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
         return $parameters;
     }
     
@@ -36,11 +36,17 @@ class CSV extends ATabularData {
         
         /*
          * First retrieve the values for the generic fields of the CSV logic
+         * This is the uri to the file, and a parameter which states if the CSV file
+         * has a header row or not.
          */
         $result = DBQueries::getCSVResource($package, $resource);
         
+        $has_header_row = $result["has_header_row"];
         $gen_res_id = $result["gen_res_id"];
         
+        /**
+         * check if the uri is valid ( not empty )
+         */
         if (isset($result["uri"])) {
             $filename = $result["uri"];
         } else {
@@ -52,10 +58,19 @@ class CSV extends ATabularData {
         // get the columns from the columns table
         $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
         $PK = "";
+
+        /**
+         * columns can have an alias, if not their alias is their own name
+         */
         foreach ($allowed_columns as $result) {
-            array_push($columns, $result["column_name"]);
+            if($result["column_name_alias"] != ""){
+                $columns[(string)$result["column_name"]] = $result["column_name_alias"];
+            }else{
+                $columns[(string)$result["column_name"]] = $result["column_name"];
+            }
+            
             if ($result["is_primary_key"] == 1) {
-                $PK = $result["column_name"];
+                $PK = $columns[$result["column_name"]];
             }
         }
         
@@ -78,6 +93,19 @@ class CSV extends ATabularData {
             $rows = str_getcsv($csv, "\n");
             
             $fieldhash = array();
+            /**
+             * loop through each row, and fill the fieldhash with the column names
+             * if however there is no header, we fill the fieldhash beforehand
+             * note that the precondition of the beforehand filling of the fieldhash
+             * is that the column_name is an index! Otherwise there's no way of id'ing a column
+             */
+            
+            if($has_header_row == "0"){
+                foreach($columns as $index => $column_name){
+                    $fieldhash[$index] = $index;
+                }
+            }
+            
             foreach($rows as $row => $fields) {
                 $data = str_getcsv($fields, $commas>$semicolons?",":";");
                 
@@ -94,16 +122,18 @@ class CSV extends ATabularData {
                 } else {
                     $rowobject = new stdClass();
                     $keys = array_keys($fieldhash);
+                    
                     for($i = 0; $i < sizeof($keys); $i++) {
                         $c = $keys[$i];
-                        if (sizeof($columns) == 0 || in_array($c, $columns)) {
-                            $rowobject->$c = $data[$fieldhash[$c]];
+                        if (sizeof($columns) == 0 || array_key_exists($c, $columns)) {
+                            $rowobject->$columns[$c] = $data[$fieldhash[$c]];
                         }
                     }
+                    
                     if ($PK == "") {
                         array_push($arrayOfRowObjects, $rowobject);
                     } else {
-                        if (! isset($arrayOfRowObjects[$rowobject->$PK])) {
+                        if(!isset($arrayOfRowObjects[$rowobject->$PK])) {
                             $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                         }
                     }
@@ -124,9 +154,9 @@ class CSV extends ATabularData {
         $this->evaluateCSVResource($resource_id);
 
         if (!isset($this->PK)){
-            
             $this->PK = "";
         }
+
         if(!isset($this->columns)){
             $this->columns = "";
         }
@@ -137,7 +167,10 @@ class CSV extends ATabularData {
     } 
    
     private function evaluateCSVResource($resource_id) {
-        DBQueries::storeCSVResource($resource_id, $this->uri);
+        if(!isset($this->has_header_row)){
+            $this->has_header_row = 1;
+        }
+        DBQueries::storeCSVResource($resource_id, $this->uri,$this->has_header_row);
     }
 }
 ?>

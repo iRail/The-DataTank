@@ -100,6 +100,7 @@ then
   id bigint(20) NOT NULL AUTO_INCREMENT,
   gen_resource_id bigint(20) NOT NULL,
   uri varchar(128) NOT NULL,
+  has_header_row int(2),
   PRIMARY KEY (id),
   FOREIGN KEY(gen_resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
@@ -159,6 +160,7 @@ then
   generic_resource_id bigint(20) NOT NULL,
   column_name varchar(50) NOT NULL,
   is_primary_key integer,
+  column_name_alias varchar(50),
   PRIMARY KEY (id),
   FOREIGN KEY(generic_resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"

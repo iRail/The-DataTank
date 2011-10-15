@@ -343,7 +343,7 @@ class DBQueries {
      */
     static function getPublishedColumns($generic_resource_id) {
         return R::getAll(
-            "SELECT column_name, is_primary_key
+            "SELECT column_name, is_primary_key,column_name_alias
              FROM published_columns
              WHERE generic_resource_id=:id",
             array(":id" => $generic_resource_id)
@@ -353,11 +353,12 @@ class DBQueries {
     /**
      * Store a published column
      */
-    static function storePublishedColumn($generic_resource_id, $column_name, $is_primary_key) {
+    static function storePublishedColumn($generic_resource_id, $column_name,$column_alias, $is_primary_key) {
         $db_columns = R::dispense("published_columns");
         $db_columns->generic_resource_id = $generic_resource_id;
         $db_columns->column_name = $column_name;
         $db_columns->is_primary_key = $is_primary_key;
+        $db_columns->column_name_alias = $column_alias;
         return R::store($db_columns);
     }
     
@@ -516,7 +517,8 @@ class DBQueries {
      */
     static function getCSVResource($package, $resource) {
         return R::getRow(
-            "SELECT generic_resource.id as gen_res_id,generic_resource_csv.uri as uri
+            "SELECT generic_resource.id as gen_res_id,generic_resource_csv.uri as uri,
+                    generic_resource_csv.has_header_row as has_header_row
              FROM package,resource, generic_resource, generic_resource_csv
              WHERE package.package_name=:package and resource.resource_name=:resource
                    and package.id=resource.package_id 
@@ -529,10 +531,11 @@ class DBQueries {
     /**
      * Store a CSV resource
      */
-    static function storeCSVResource($resource_id, $uri) {
+    static function storeCSVResource($resource_id, $uri,$has_header_row) {
         $resource = R::dispense("generic_resource_csv");
         $resource->gen_resource_id = $resource_id;
         $resource->uri = $uri;
+        $resource->has_header_row = $has_header_row;
         return R::store($resource);
     }
     
