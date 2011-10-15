@@ -157,9 +157,24 @@ class CSV extends ATabularData {
             $this->PK = "";
         }
 
+        /**
+         * if no header row is given, then the columns that are being passed should be 
+         * int => something, int => something
+         */
         if(!isset($this->columns)){
             $this->columns = "";
         }
+        if($this->has_header_row == "0"){
+            foreach($this->columns as $index => $value){
+                if(!is_numeric($index)){
+                    $package = DBQueries::getPackageById($package_id);
+                    $resource = DBQueries::getResourceById($resource_id);
+                    ResourcesModel::getInstance()->deleteResource($package,$resource,array());
+                    throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array.");
+                }
+            }
+        }
+        
         
         if ($this->columns != "") {
             parent::evaluateColumns($this->columns, $this->PK, $resource_id);

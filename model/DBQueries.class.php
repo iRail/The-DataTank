@@ -11,6 +11,31 @@
 class DBQueries {
 
     /**
+     * Retrieve a package by its id
+     */
+    static function getPackageById($package_id){
+        return R::getCell(
+            "SELECT package_name
+             FROM package
+             WHERE id = :package_id",
+            array(":package_id" => $package_id)
+        );
+    }
+    
+     /**
+     * Retrieve a resource by its id
+     */
+    static function getResourceById($resource_id){
+        return R::getCell(
+            "SELECT resource_name
+             FROM resource
+             WHERE id = :resource_id",
+            array(":resource_id" => $resource_id)
+        );
+    }
+
+
+    /**
      * Retrieve a specific resource's documentation
      */
     static function getGenericResourceDoc($package,$resource) {

@@ -195,7 +195,10 @@ class ResourcesModel{
         if(isset($d->$package)){   
             $resources = $d->$package;
             foreach($d->$package as $resource => $documentation){
-                $this->deleteResource($package, $resource);
+                if($resource != "creation_date"){
+                    $this->deleteResource($package, $resource,array());
+                }
+                
             }
             DBQueries::deletePackage($package);
         }else{
