@@ -44,6 +44,8 @@ abstract class AReader{
 		//check whether this parameter is in the documented parameters
                 
                 if(!in_array($key,$this->parameters)){ 
+                    echo "fml";
+                    
                     throw new ParameterDoesntExistTDTException($key);
                 }else if(in_array($key,$this->requiredParameters)){
                     $this->$key = $value;

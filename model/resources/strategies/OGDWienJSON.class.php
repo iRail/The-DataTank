@@ -14,10 +14,7 @@ class OGDWienJSON extends ATabularData {
     public function documentCreateParameters(){
         return array("url" => "The url of where the OGD Wien JSON is found.",
                      "columns" => "The columns that are to be published from the OGD Wien JSON.",
-                     "PK" => "The primary key of each row.",
-                     "long" => "The longitude of the point where you want to search from.",
-                     "lat" => "The latitude of the point where you want to search from.",
-                     "radius" => "The radius in km around the point."
+                     "PK" => "The primary key of each row."
         );  
     }
     

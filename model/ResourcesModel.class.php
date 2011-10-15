@@ -118,7 +118,7 @@ class ResourcesModel{
         }
         //now check if there are nonexistent parameters given
         foreach(array_keys($parameters) as $key){
-            if(!in_array($key,array_keys($resourceCreationDoc->parameters))){
+            if(!in_array($key,array_keys($resourceCreationDoc->parameters))){ 
                 throw new ParameterDoesntExistTDTException($key);
             }
         }

@@ -47,6 +47,7 @@ class RController extends AController {
         //check for required parameters
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
+            
             if (!isset($RESTparameters[0])) {
                 throw new ParameterTDTException($parameter);
             }
