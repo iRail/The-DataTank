@@ -11,6 +11,100 @@
 class DBQueries {
 
     /**
+     * Retrieve the amount of requests done for 
+     * a certain package
+     */
+    static function getRequestsForPackage($package,$start,$end){
+        /**
+         * prepare argument array
+         */
+        $arguments = array();
+        $arguments[":package"] = $package;
+        $clause = "package=:package";
+        
+        if($start != ""){
+            $arguments[":start"] = $start;
+            $clause  =$clause. " and time >= :start";
+        }
+        
+        if($end != ""){
+            $arguments[":end"] = $end;
+            $clause = $clause . " and time <= :end";
+        }
+        
+        return R::getAll(
+            "SELECT count(1) as amount, time 
+             FROM requests 
+             WHERE $clause
+             GROUP BY from_unixtime(time,'%D %M %Y')",
+             $arguments
+        );
+    }
+
+    /**
+     * Retrieve the amount of requests done for 
+     * a certain resource
+     */
+    static function getRequestsForResource($package,$resource,$start,$end){
+        /**
+         * prepare argument array
+         */
+        $arguments = array();
+        $arguments[":package"] = $package;
+        $arguments[":resource"] = $resource;
+        $clause = "package=:package and resource =:resource";
+        
+        if($start != ""){
+            $arguments[":start"] = $start;
+            $clause = $clause." and time >= :start";
+        }
+        
+        if($end != ""){
+            $arguments[":end"] = $end;
+            $clause = $clause. " and time <= :end";
+        }
+        
+        return R::getAll(
+            "SELECT count(1) as amount, time 
+             FROM  requests 
+             WHERE $clause
+             GROUP BY from_unixtime(time,'%D %M %Y')",
+            $arguments
+        );
+    }    
+
+    /**
+     * Retrieve the amount of errors done for 
+     * a certain package
+     * NOTE: because it's an error table, we can't just store package, resource and what not
+     * because those parameters might just be the cause of the error. So in the errors case
+     * we only store the wrong url and we have to regex the url.
+     */
+    static function getErrors($url,$start,$end){
+        $arguments = array();
+        
+        $clause = "url_requests regexp :url";
+        $arguments[":url"] = $url;
+        if($start != ""){
+            $arguments[":start"] = $start;
+            $clause = $clause ." and time >= :start";
+        }
+        
+        if($end != ""){
+            $arguments[":end"] = $end;
+            $clause = $clause. " and time <= :end";
+        }
+        
+        return R::getAll(
+            "SELECT count(1) as amount,time 
+             FROM  errors
+             WHERE $clause
+             GROUP BY from_unixtime(time,'%D %M %Y')",
+             $arguments
+        );
+    }
+
+    /**
      * Retrieve a package by its id
      */
     static function getPackageById($package_id){

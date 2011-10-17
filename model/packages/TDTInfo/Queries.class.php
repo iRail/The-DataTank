@@ -15,8 +15,10 @@ class Queries extends AReader{
     private $queryResults;    
 
     public static function getParameters(){
-	return array("package" => "Name of a package that needs to be analysed, must be set !",
+	return array("package"  => "Name of a package that needs to be analysed, must be set !",
 		     "resource" => "Name of a resource within the given package, is not required.",
+                     "start"    => "The start of the time interval (in unix time) of which requests and errors are to be returned.",
+                     "end"      => "The end of the time interval (in unix time) of which requests and errors are to be returned."
 	);
     }
 
@@ -29,47 +31,61 @@ class Queries extends AReader{
             $this->package = $val;
         }elseif($key == "resource"){
             $this->resource = $val;
+        }elseif($key == "start"){
+            if(is_numeric($val)){
+                $this->start = $val;
+            }else{
+                throw new ParameterTDTException($key . " should be a unix time!.");
+            }
+        }elseif($key == "end"){
+            if(is_numeric($val)){
+                 $this->end = $val;
+            }else{
+                throw new ParameterTDTException($key . " should be a unix time!.");
+            }
         }
     }
 
     private function getData() {
-        /* Send a query to the server */
-	$requeststable = "requests";
-	$errorstable = "errors";
+        
 	
 	// to make a correct query we need to find out if the resource is set, if not
 	// we cannot use it in our query
 	$clausule;
 	$params = array();
 	
-	if(isset($this->resource)){
-	    $clausule = "package=:package and resource=:resource";
-	    $params = array(':package' => $this->package, ':resource' => $this->resource);
-	}else{
-	    $clausule = "package=:package";
-	    $params = array(':package' => $this->package);
+        /**
+         * decide which request and error query to ask
+         */
+        $requests;
+        $errors;
+
+        /**
+         * Since PHP function overloading doesn't exist, we'll prepare the 
+         * interval arguments so that we don't have too many functions just to get some
+         * statistical data back
+         */
+        if(!isset($this->start)){
+            $this->start = "";
+        }
+        if(!isset($this->end)){
+            $this->end = "";
+        }
+
+	if(isset($this->resource) && $this->resource != ""){
+            
+	    $requests = DBQueries::getRequestsForResource($this->package,$this->resource,$this->start,$this->end);
+            
+            // create url to regex in errors
+            $url = Config::$HOSTNAME. Config::$SUBDIR . $this->package."/".$this->resource;
+            $errors = DBQueries::getErrors($url,$this->start,$this->end);
+	}else{            
+	    $requests = DBQueries::getRequestsForPackage($this->package,$this->start,$this->end);
+            $url = Config::$HOSTNAME. Config::$SUBDIR . $this->package;
+            $errors = DBQueries::getErrors($url,$this->start,$this->end);
 	}
-	
-	/*
-	 * Simple count of the amount of errors and requests
-	 */
-        $requests = R::getAll(
-            "select count(1) as amount, time from $requeststable where $clausule GROUP BY from_unixtime(time,'%D %M %Y')",
-	    $params
-        );
         
-	/*
-	 * Errors are trickier to query, because we do not know even if a resource is specified along with 
-	 * the request, if that resource is to be found in a certain url_request that returned an error
-	 * because the error might just be a wrong resource call. So, where only taking the package in consideration !
-	 */
-	$regexp = Config::$HOSTNAME. Config::$SUBDIR . $this->package;
-	$errors = R::getAll(
-            "select count(1) as amount,time from $errorstable where url_request regexp :regexp GROUP BY from_unixtime(time,'%D %M %Y')"
-	    ,array(':regexp' => $regexp)
-        );
         
-	
 	/* there could be some gaps in our timeresults, which we don't want, even if there were 0 requests on a certain day,
 	 * it's a good practice to actually return a 0 for that day. So we need to fill the time gaps.
 	 */
@@ -116,7 +132,7 @@ class Queries extends AReader{
 	
 	while( $day <= $enddate){
 	    // fill in the requests gap
-	   
+            
 	    if(!array_key_exists($day,$requestsmap)){
                 $pair = new stdClass();
                 $pair->time =(int)strtotime($day);
@@ -149,7 +165,7 @@ class Queries extends AReader{
         
         $this->osort($requests,'time');
 	$this->osort($errors,'time');
-	
+        
         $this->queryResults = new stdClass();
         $this->queryResults->requests = $requests;
         $this->queryResults->errors = $errors;
