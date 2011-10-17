@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This class tests the rdf mapping methods
  *
@@ -6,14 +7,12 @@
  * Author: Miel Vander Sande
  * License: AGPLv3
  */
+include_once(dirname(__FILE__) . "/simpletest/autorun.php");
+include_once(dirname(__FILE__) . "/TDTUnitTest.class.php");
+include_once(dirname(__FILE__) . "/../classes/REST.class.php");
 
-include_once(dirname(__FILE__)."/simpletest/autorun.php");
-include_once(dirname(__FILE__)."/TDTUnitTest.class.php");
-include_once(dirname(__FILE__)."/../classes/REST.class.php");
+class OntologyTest extends TDTUnitTest {
 
-
-class OntologyTest extends TDTUnitTest{
-    
     public function __construct() {
         parent::__construct();
     }
@@ -21,47 +20,92 @@ class OntologyTest extends TDTUnitTest{
     protected function debug($message) {
         var_dump($message);
     }
-    
-    function testAddMapping(){
-        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/Item"; 
-        
+
+    function testAddMapping() {
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/category";
+
         $postvar = array(
             'update_type' => 'ontology',
             'method' => 'map',
-            'value' => 'http://linkedevents.org/ontology/Blabla',
-
+            'value' => 'http://linkedevents.org/ontology/blabla',
         );
-        
-                
+
+
         $request = new REST($url, $postvar, "POST");
-         
+
         $request->execute();
-        
+
         $this->assertEqual($request->http_code, 200);
-        if($request->http_code != 200 && $request->result)
+        if ($request->http_code != 200 && $request->result)
             $this->debug($request->result);
         else {
             echo $request->result;
         }
     }
-    
-//    function testDeleteMapping(){
-//        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Resources/doc"; 
-//        
-//        $postvar = array(
-//            'update_type' => 'rdf_mapping',
-//            'rdf_mapping_method' => 'delete',
-//        );
-//        
-//                
-//        $request = new REST($url, $postvar, "POST");
-//         
-//        $request->execute();
-//        
-//        $this->assertEqual($request->http_code, 200);
-//        if($request->http_code != 200 && $request->result)
-//            $this->debug($request->result);
-//    }
+
+    function testPreferMapping() {
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/category";
+
+        $postvar = array(
+            'update_type' => 'ontology',
+            'method' => 'prefer',
+            'value' => 'http://linkedevents.org/ontology/blabla',
+        );
+
+
+        $request = new REST($url, $postvar, "POST");
+
+        $request->execute();
+
+        $this->assertEqual($request->http_code, 200);
+        if ($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
+        else {
+            echo $request->result;
+        }
+    }
+
+    function testCreateMapping() {
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/randomprop";
+
+        $postvar = array(
+            'update_type' => 'ontology',
+            'method' => 'create'
+        );
+
+
+        $request = new REST($url, $postvar, "POST");
+
+        $request->execute();
+
+        $this->assertEqual($request->http_code, 200);
+        if ($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
+        else {
+            echo $request->result;
+        }
+    }
+
+    function testDeleteMapping() {
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/message";
+
+        $postvar = array(
+            'update_type' => 'ontology',
+            'method' => 'delete'
+        );
+
+        $request = new REST($url, $postvar, "POST");
+
+        $request->execute();
+
+        $this->assertEqual($request->http_code, 200);
+        if ($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
+        else {
+            echo $request->result;
+        }
+    }
+
 //    
 //    function testEqualsMapping(){
 //        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Queries/doc"; 
@@ -82,8 +126,6 @@ class OntologyTest extends TDTUnitTest{
 //        if($request->http_code != 200 && $request->result)
 //            $this->debug($request->result);
 //    }
-
-    
 }
 
 ?>

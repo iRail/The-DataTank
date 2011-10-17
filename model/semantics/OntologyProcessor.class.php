@@ -9,6 +9,7 @@
  * @author Miel Vander Sande
  */
 include_once('RDFConstants.php');
+include_once('tdtml/TDTML.class.php');
 
 class OntologyProcessor {
 
@@ -106,18 +107,27 @@ class OntologyProcessor {
     public function updatePathMap($package, $path, $value) {
         $resource = new Resource($path);
         $mapping = new Resource($value);
-
+        
         $statement = null;
         if ($this->isPathProperty($path))
             $statement = new Statement($resource, OWL::EQUIVALENT_PROPERTY(), $mapping);
         else
             $statement = new Statement($resource, OWL::EQUIVALENT_CLASS(), $mapping);
-
+        var_dump($package);
         $this->getModel($package)->add($statement);
     }
 
     public function updatePathPreferredMap($package, $path, $value) {
-        
+        $resource = new Resource($path);
+        $mapping = new Resource($value);
+
+        $statement = null;
+        if ($this->isPathProperty($path))
+            $statement = new Statement($resource, TDTML::PREFERRED_PROPERTY(), $mapping);
+        else
+            $statement = new Statement($resource, TDTML::PREFERRED_CLASS(), $mapping);
+
+        $this->getModel($package)->add($statement);
     }
 
     public function createPath($package, $path) {
@@ -140,7 +150,7 @@ class OntologyProcessor {
     public function deletePath($package, $path) {
         $temp = $this->readPath($package, $path);
         foreach ($temp->triples as $statement) {
-            $this->getModel($package)->remove($statement);
+           echo $this->getModel($package)->remove($statement);
         }
     }
 

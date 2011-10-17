@@ -26,12 +26,13 @@ class RhtmlFormatter extends AFormatter {
         
         //When the objectToPrint is a MemModel, it is the Ontology and ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!(is_a($model, 'MemModel'))){
-            $outputter = new RDFOutput();
-            $model = $outputter->buildRdfOutput($model);
+        foreach (get_object_vars($this->objectToPrint) as $prop => $model) {
+            if (!(is_a($model, 'MemModel'))){
+                $outputter = new RDFOutput();
+                $model = $outputter->buildRdfOutput($model);
+            }
+            echo $model->writeAsHTMLTable();
         }
-
-        echo $model->writeAsHTMLTable();
     }
 
 }

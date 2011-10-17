@@ -37,7 +37,7 @@ rdfs:comment "This ontology contains The DataTank mapping language for describin
 
 ###  http://www.thedatatank.org/tdml/1.0#preferredClass
 
-:preferredProperty a owl:FunctionalProperty , owl:ObjectProperty ;
+:preferredClass a owl:FunctionalProperty , owl:ObjectProperty ;
       rdfs:domain owl:Class ;
       rdfs:range rdfs:Resource .
 

@@ -28,13 +28,14 @@ class HtmlFormatter extends AFormatter {
 
     public function printBody() {
         //If the output is an RDF model use the nice HTML output from RAP
-        if (is_subclass_of($this->objectToPrint,"Model")) {
-            $this->objectToPrint->writeAsHTMLTable();
-        } else {
-            echo "<pre>";
-            print_r($this->objectToPrint);
-            echo "</pre>";
-                      
+        foreach (get_object_vars($this->objectToPrint) as $prop => $model) {
+            if (is_subclass_of($model, "Model")) {
+                $model->writeAsHTMLTable();
+            } else {
+                echo "<pre>";
+                print_r($this->objectToPrint);
+                echo "</pre>";
+            }
         }
     }
 
