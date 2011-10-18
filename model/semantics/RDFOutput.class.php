@@ -12,10 +12,13 @@ class RDFOutput {
 
     private $model;
     private $package;
+    private $mapping;
 
     public function __construct() {
         $this->model = ModelFactory::getResModel(MEMMODEL);
         $this->package = RequestURI::getInstance()->getPackage();
+
+        $this->mapping = OntologyProcessor::getInstance()->getMapping($this->package);
     }
 
     /**
@@ -27,9 +30,11 @@ class RDFOutput {
      */
     public function buildRdfOutput($object) {
         $arr = explode('/', RequestURI::getInstance()->getResourcePath());
+
         $beginpath = '';
         while (count($arr) > 1) {
             $item = array_shift($arr);
+
             if (!is_numeric($item))
                 $beginpath .= $item . '/';
             else
@@ -37,7 +42,10 @@ class RDFOutput {
         }
 
         foreach ($object as $property => $value) {
-            $this->analyzeVariable($value, RequestURI::getInstance()->getRealWorldObjectURI(), $beginpath);
+            if ($property == RequestURI::getInstance()->getResource())
+                $beginpath .=$property . '/';
+
+            $this->analyzeVariable($object->$property, RequestURI::getInstance()->getRealWorldObjectURI(), $beginpath);
         }
 
         return $this->model->getModel();
@@ -52,22 +60,19 @@ class RDFOutput {
      * @param type $property
      */
     private function analyzeVariable($var, $uri='', $path='', $resource = null, $property=null) {
-
         //Check if the object is an array, object or primitive variable
         if (is_array($var) && !TDT::is_assoc($var)) {
+
             //Temporarily store the uri path of this array
             $temp = $uri;
-
             //An indexed array is turned into a rdf sequence
             $res = $this->getList($uri);
 
             //Iterate all the values in the array, extend the uri and start over.
             for ($i = 0; $i < count($var); $i++) {
                 $uri = $temp;
-
-                $this->analyzeVariable($var[$i], $uri . '/' . $i, $path, $res, null);
+                $this->analyzeVariable($var[$i], $uri . '/' . $i, $path, $res);
             }
-
             //Check if the array is associative. If so, treat like an object.
         } else if (is_object($var) || TDT::is_assoc($var)) {
             $path .= get_class($var);
@@ -91,14 +96,14 @@ class RDFOutput {
             //Variable is a primitive type, so create typed literal.
             $lit = $this->getLiteral($var);
             $this->addToResource($resource, $property, $lit);
-
+            
             $path = '';
             $uri = '';
         }
     }
 
     /**
-     * Adds a resource to another resource
+     * Adds a resource to another resource with a property
      *
      * @param ResResource $resource The parent resource to add property to
      * @param ResResource $property The property to be added to the resource
@@ -114,37 +119,62 @@ class RDFOutput {
                 $resource->addProperty($property, $object);
         }
     }
-
+    
+    /*
+     * Create a rdf:List for the ResModel
+     * 
+     * @param string $uri The instance uri to create a rdf:List for
+     * @return ResList Object representing the list
+     * 
+     */
     private function getList($uri) {
         $res = $this->model->createList($uri);
         $res->addProperty(RDF_RES::TYPE(), RDF_RES::RDF_LIST());
 
         return $res;
     }
-
+    
+    /*
+     * Get a property mapped on an ontology. If no mapping is present, create non-existing property from name
+     * 
+     * @param string $name name of the property
+     * @param string $path Hierarchical path of data struture
+     * 
+     * @return ResProperty 
+     * 
+     */
     private function getProperty($name, $path) {
-        $map = OntologyProcessor::getInstance()->getPropertyMap($this->package, $path . '/' . $name );
-        if ($map) {
-            $this->model->addNamespace($map->prefix, $map->property->getNamespace());
-            return new ResProperty($map->property->getURI());
+        $path .= '/' . $name;
+        if ($this->mapping) {
+            if (array_key_exists($path, $this->mapping)) {
+                $this->model->addNamespace($this->mapping[$path]->prefix, $this->mapping[$path]->nmsp);
+                return $this->model->createProperty($this->mapping[$path]->map);
+            }
         }
         return $this->model->createProperty(OntologyProcessor::getInstance()->getOntologyURI($this->package) . $name);
     }
-
+    
+    /*
+     * Get a resource with mapped type. If no mapping is present, no type is given.
+     * 
+     * @param string $uri Instance URI of this resource
+     * @param string $path Hierarchical path of data struture
+     * 
+     * @return ResResource
+     * 
+     */
     private function getClass($uri, $path) {
         $resource = $this->model->createResource($uri);
 
-        $map = OntologyProcessor::getInstance()->getClassMap($this->package, $path);
-        if ($map) {
-            $this->model->addNamespace($map->prefix, $map->class->getNamespace());
-            $resource->addProperty(RDF_RES::TYPE(), new ResResource($map->class->getURI()));
+        if ($this->mapping) {
+            if (array_key_exists($path, $this->mapping))
+                $resource->addProperty(RDF_RES::TYPE(), new ResResource($this->mapping[$path]->map));
         }
         return $resource;
     }
 
-
     /**
-     *  Map the datatype of a primitive type to the right indication string for RAP API 
+     *  Map the datatype of a primitive type to the right indication string for RAP API
      *  and return a literal
      *  Datatypes are found in rdfapi-php/api/constants.php.
      *

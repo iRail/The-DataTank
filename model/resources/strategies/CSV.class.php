@@ -186,6 +186,6 @@ class CSV extends ATabularData {
             $this->has_header_row = 1;
         }
         DBQueries::storeCSVResource($resource_id, $this->uri,$this->has_header_row);
-    }
+    }   
 }
 ?>

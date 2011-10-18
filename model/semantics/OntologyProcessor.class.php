@@ -35,38 +35,8 @@ class OntologyProcessor {
         $this->getModel($package)->load($filename, "n3");
     }
 
-    /**
-     * This function generates an ontology for a Generic Resource
-     *
-     *
-     * @param type $genericResource 
-     */
-    public function generateOntologyFromGenericResource($genRes) {
-        if (is_a($genRes, 'GenericResource')) {
-            $result = $genRes->call();
-            //BLANK IMPLEMENTATION
-        }
-    }
-
     private function setPreferred(& $model) {
-//        //Add default equivalent property
-//        $iterator = $model->getStatementIterator();
-//
-//
-//        $lastStatement = null;
-//        while ($iterator->hasNext()) {
-//
-//           if (!is_null($lastStatement)) {
-//                if ($lastStatement->getSubject() != $iterator->current()->getSubject())
-//                    if ($lastStatement->getPredicate() == OWL::EQUIVALENT_PROPERTY() || $lastStatement->getPredicate() == RDF::TYPE())
-//                        $model->add(new Statement($iterator->current()->getSubject(), RDFConstants::$TDML_NS . "preferredProperty", $lastStatement->getObject()));
-//                    else if ($lastStatement->getPredicate() == OWL::EQUIVALENT_CLASS() || $lastStatement->getPredicate() == RDF::TYPE())
-//                        $model->add(new Statement($iterator->current()->getSubject(), RDFConstants::$TDML_NS . "preferredClass", $lastStatement->getObject()));
-//            }
-//            echo $lastStatement;
-//            $lastStatement = $iterator->current();
-//
-//        }
+        
     }
 
     public function isOntology($model) {
@@ -107,7 +77,7 @@ class OntologyProcessor {
     public function updatePathMap($package, $path, $value) {
         $resource = new Resource($path);
         $mapping = new Resource($value);
-        
+
         $statement = null;
         if ($this->isPathProperty($path))
             $statement = new Statement($resource, OWL::EQUIVALENT_PROPERTY(), $mapping);
@@ -150,7 +120,7 @@ class OntologyProcessor {
     public function deletePath($package, $path) {
         $temp = $this->readPath($package, $path);
         foreach ($temp->triples as $statement) {
-           echo $this->getModel($package)->remove($statement);
+            echo $this->getModel($package)->remove($statement);
         }
     }
 
@@ -159,13 +129,13 @@ class OntologyProcessor {
         $ontology = $this->getModel($package);
         $path = $this->trimPath($path);
 
-        $namespaces = $ontology->getParsedNamespaces();
-
-        $statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_CLASS(), null);
+        //$namespaces = $ontology->getParsedNamespaces();
+        //$statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_CLASS(), null);
+        $statement = new Statement(new Resource("http://www.something/ont#TestClass"), new Resource("http://www.something/ont#TestClass"), new Resource("http://www.something/ont#TestClass"));
         if (!is_null($statement)) {
             $result = new stdClass ();
             $result->class = $statement->getObject();
-            $result->prefix = $namespaces[$statement->getObject()->getNamespace()];
+            //$result->prefix = $namespaces[$statement->getObject()->getNamespace()];
             return $result;
         }
 
@@ -175,56 +145,64 @@ class OntologyProcessor {
     public function getPropertyMap($package, $path) {
         $ontology = $this->getModel($package);
         $path = $this->trimPath($path);
-        
-        $namespaces = $ontology->getParsedNamespaces();
-        
-        $statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_PROPERTY(), null);
+
+        //$namespaces = $ontology->getParsedNamespaces();
+        //$statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_PROPERTY(), null);
+        $statement = new Statement(new Resource("http://www.something/ont#testProperty"), new Resource("http://www.something/ont#testProperty"), new Resource("http://www.something/ont#testProperty"));
         if (!is_null($statement)) {
             $result = new stdClass ();
             $result->property = $statement->getObject();
-            $result->prefix = $namespaces[$statement->getObject()->getNamespace()];
+            //$result->prefix = $namespaces[$statement->getObject()->getNamespace()];
             return $result;
         }
 
         return false;
     }
 
-    public function getClassesMaps($package, $arr_path) {
+    /*
+     * This function retrieves all triples containing mapping.
+     * 
+     * @param string $package The package to get mappings from
+     * @return Mixed Returns array with triples or 
+     */
+
+    public function getMapping($package) {
         $ontology = $this->getModel($package);
-        $path = $this->trimPath($path);
-        $result = $ontology->find(null, OWL::EQUIVALENT_CLASS(), null);
+        $classes = $ontology->find(null, OWL::EQUIVALENT_CLASS(), null);
+        $properties = $ontology->find(null, OWL::EQUIVALENT_PROPERTY(), null);
+        
+        $result = array_merge($classes->triples,$properties->triples);
+        
+        $namespaces = $ontology->getParsedNamespaces();
+        
+        $mapping = array();
 
-        $mapped_arr = array();
-
-        foreach ($result->triples as $statement) {
-            foreach ($arr_path as $path) {
-                if ($statement->getObject()->getURI() == $path)
-                    $mapped_arr[$path] = $statement->getObject();
-            }
+        foreach ($result as $triple) {
+            $temp = new stdClass();
+            $temp->map = $triple->getObject()->getURI();
+            
+            $namespace = $triple->getObject()->getNamespace();
+            $temp->prefix = $namespaces[$namespace];
+            $temp->nmsp = $namespace;
+                        
+            $mapping[$triple->getSubject()->getURI()] = $temp;
         }
-        if (count($mapped_arr) > 0)
-            return $mapped_arr;
+
+        if (count($mapping) > 0)
+            return $mapping;
 
         return false;
     }
 
-    public function getPropertiesMaps($package, $arr_path) {
-        $ontology = $this->getModel($package);
-        $path = $this->trimPath($path);
-        $result = $ontology->find(null, OWL::EQUIVALENT_PROPERTY(), null);
 
-        $mapped_arr = array();
+    public function generateOntologyFromTabular($package, $resource, $colums) {
+        $this->getModel($package)->add(new Statement($resource, RDF::TYPE(), TDTML::TDTRESOURCE()));
 
-        foreach ($result->triples as $statement) {
-            foreach ($arr_path as $path) {
-                if ($statement->getObject()->getURI() == $path)
-                    $mapped_arr[$path] = $statement->getObject();
-            }
+        $this->getModel($package)->add(new Statement($resource . '/stdClass', RDF::TYPE(), OWL::OWL_CLASS()));
+
+        foreach ($colums as $colum) {
+            $this->getModel($package)->add(new Statement($resource . '/stdClass/' . $colum, RDF::TYPE(), RDF::PROPERTY()));
         }
-        if (count($mapped_arr) > 0)
-            return $mapped_arr;
-
-        return false;
     }
 
     //Private Methods
@@ -241,13 +219,13 @@ class OntologyProcessor {
         //gets the model if it exist, else make a new one. Either way, it's the right one.
         //Gets a ResModel containing an RbModel, which doesn't store statements in memory, only in db.
         $model = RbModelFactory::getRbModel($store, $this->getOntologyURI($package));
-        
+
         $resource = new Resource($this->getOntologyURI($package));
-        $literal = new Literal("Ontology of the ".$package." package in The DataTank","en","datatype:STRING");
-        $model->add(new Statement($resource,RDF::TYPE(),OWL::ONTOLOGY()));
-        $model->add(new Statement($resource,RDFS::COMMENT(),$literal));
+        $literal = new Literal("Ontology of the " . $package . " package in The DataTank", "en", "datatype:STRING");
+        $model->add(new Statement($resource, RDF::TYPE(), OWL::ONTOLOGY()));
+        $model->add(new Statement($resource, RDFS::COMMENT(), $literal));
         $model->setBaseUri($this->getOntologyURI($package));
-                
+
         return $model;
     }
 

@@ -52,6 +52,8 @@ abstract class AResourceStrategy{
     public function getUpdateActions(){
         return $this->updateActions;
     }
+    
+
 }
 
 ?>
