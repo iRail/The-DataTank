@@ -75,7 +75,11 @@ class RDFOutput {
             }
             //Check if the array is associative. If so, treat like an object.
         } else if (is_object($var) || TDT::is_assoc($var)) {
-            $path .= get_class($var);
+
+            if (!is_array($var))
+                $path .= get_class($var);
+            else
+                $path .= 'Array';
 
             $temp = $uri;
             $temp2 = $path;
@@ -96,7 +100,7 @@ class RDFOutput {
             //Variable is a primitive type, so create typed literal.
             $lit = $this->getLiteral($var);
             $this->addToResource($resource, $property, $lit);
-            
+
             $path = '';
             $uri = '';
         }
@@ -119,7 +123,7 @@ class RDFOutput {
                 $resource->addProperty($property, $object);
         }
     }
-    
+
     /*
      * Create a rdf:List for the ResModel
      * 
@@ -127,13 +131,14 @@ class RDFOutput {
      * @return ResList Object representing the list
      * 
      */
+
     private function getList($uri) {
         $res = $this->model->createList($uri);
         $res->addProperty(RDF_RES::TYPE(), RDF_RES::RDF_LIST());
 
         return $res;
     }
-    
+
     /*
      * Get a property mapped on an ontology. If no mapping is present, create non-existing property from name
      * 
@@ -143,6 +148,7 @@ class RDFOutput {
      * @return ResProperty 
      * 
      */
+
     private function getProperty($name, $path) {
         $path .= '/' . $name;
         if ($this->mapping) {
@@ -153,7 +159,7 @@ class RDFOutput {
         }
         return $this->model->createProperty(OntologyProcessor::getInstance()->getOntologyURI($this->package) . $name);
     }
-    
+
     /*
      * Get a resource with mapped type. If no mapping is present, no type is given.
      * 
@@ -163,6 +169,7 @@ class RDFOutput {
      * @return ResResource
      * 
      */
+
     private function getClass($uri, $path) {
         $resource = $this->model->createResource($uri);
 
