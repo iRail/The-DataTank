@@ -11,7 +11,7 @@ include_once(dirname(__FILE__) . "/simpletest/autorun.php");
 include_once(dirname(__FILE__) . "/TDTUnitTest.class.php");
 include_once(dirname(__FILE__) . "/../classes/REST.class.php");
 
-class OntologyTest extends TDTUnitTest {
+class ViennaOntologyTest extends TDTUnitTest {
 
     public function __construct() {
         parent::__construct();
@@ -21,52 +21,27 @@ class OntologyTest extends TDTUnitTest {
         var_dump($message);
     }
 
-    function testAddMapping() {
-        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/category";
-
-        $postvar = array(
-            'update_type' => 'ontology',
-            'method' => 'map',
-            'value' => 'http://linkedevents.org/ontology/blabla',
-        );
-
-
-        $request = new REST($url, $postvar, "POST");
-
-        $request->execute();
-
-        $this->assertEqual($request->http_code, 200);
-        if ($request->http_code != 200 && $request->result)
-            $this->debug($request->result);
-        else {
-            echo $request->result;
-        }
-    }
-
-    function testPreferMapping() {
-        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/category";
-
-        $postvar = array(
-            'update_type' => 'ontology',
-            'method' => 'prefer',
-            'value' => 'http://linkedevents.org/ontology/blabla',
-        );
-
-
-        $request = new REST($url, $postvar, "POST");
-
-        $request->execute();
-
-        $this->assertEqual($request->http_code, 200);
-        if ($request->http_code != 200 && $request->result)
-            $this->debug($request->result);
-        else {
-            echo $request->result;
-        }
-    }
-
     function testCreateMapping() {
-        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/randomprop";
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/Vienna/geo/Array/1615/stdClass/long";
+
+        $postvar = array(
+            'update_type' => 'ontology',
+            'method' => 'create'
+        );
+
+
+        $request = new REST($url, $postvar, "POST");
+
+        $request->execute();
+
+        $this->assertEqual($request->http_code, 200);
+        if ($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
+        else {
+            echo $request->result;
+        }
+        
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/Vienna/geo/Array/1615/stdClass/lat";
 
         $postvar = array(
             'update_type' => 'ontology',
@@ -86,13 +61,35 @@ class OntologyTest extends TDTUnitTest {
         }
     }
 
-    function testDeleteMapping() {
-        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/VerkeersCentrum/NewsFeed/stdClass/message";
+    function testAddMapping() {
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/Vienna/geo/Array/1615/stdClass/lat";
 
         $postvar = array(
             'update_type' => 'ontology',
-            'method' => 'delete'
+            'method' => 'map',
+            'value' => 'http://www.w3.org/2003/01/geo/wgs84_pos#lat'
         );
+
+
+        $request = new REST($url, $postvar, "POST");
+
+        $request->execute();
+
+        $this->assertEqual($request->http_code, 200);
+        if ($request->http_code != 200 && $request->result)
+            $this->debug($request->result);
+        else {
+            echo $request->result;
+        }
+
+        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Ontology/Vienna/geo/Array/1615/stdClass/lon";
+
+        $postvar = array(
+            'update_type' => 'ontology',
+            'method' => 'map',
+            'value' => 'http://www.w3.org/2003/01/geo/wgs84_pos#lon'
+        );
+
 
         $request = new REST($url, $postvar, "POST");
 
@@ -106,26 +103,6 @@ class OntologyTest extends TDTUnitTest {
         }
     }
 
-//    
-//    function testEqualsMapping(){
-//        $url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Queries/doc"; 
-//        $eq_url = Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo/Resources/TDTInfo/Resources/doc";
-//        
-//        $postvar = array(
-//            'update_type' => 'rdf_mapping',
-//            'rdf_mapping_method' => 'equals',
-//            'rdf_mapping_class' => $eq_url,
-//        );
-//        
-//                
-//        $request = new REST($url, $postvar, "POST");
-//         
-//        $request->execute();
-//        
-//        $this->assertEqual($request->http_code, 200);
-//        if($request->http_code != 200 && $request->result)
-//            $this->debug($request->result);
-//    }
 }
 
 ?>

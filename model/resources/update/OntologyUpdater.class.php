@@ -27,7 +27,7 @@ class OntologyUpdater extends AUpdater {
     }
 
     public function getRequiredParameters() {
-        return array("update_type","method", "value");
+        return array("update_type", "method");
     }
 
     public function getDocumentation() {
@@ -42,22 +42,39 @@ class OntologyUpdater extends AUpdater {
         if ($this->resource !== "Ontology")
             throw new ResourceUpdateTDTException("Ontology update is not allowed on this resource");
 
+        $package = array_shift($this->RESTparameters);
+        $path = implode('/', $this->RESTparameters);
+
+        if (!isset($this->params['method']))
+            throw new RdfTDTException('Method parameter is not set!');
+
+
         switch ($this->params['method']) {
-            case 'map':
-                
-                //this is all temp until the restparameters arrive
-                $path = explode('/',RequestURI::getInstance()->getResourcePath());
-                $package = array_shift($path);
-                $package = array_shift($path);
-                $path = implode('/',$path);
-                
-                OntologyProcessor::getInstance()->updatePathMap($package,$path,$this->params['value']);
-                break;
-            case 'prefer':
-                //OntologyProcessor::getInstance()->updatePathPreferredMap($package,$path);
-                break;
-            default:
-                throw new RdfTDTException('Method ' . $this->params['method'] . ' does not exist!');
+            case 'map': {
+                    if (!isset($this->params['value']))
+                        throw new RdfTDTException('Value parameter is not set!');
+                    OntologyProcessor::getInstance()->updatePathMap($package, $path, $this->params['value']);
+                    break;
+                }
+            case 'prefer': {
+                    if (!isset($this->params['value']))
+                        throw new RdfTDTException('Value parameter is not set!');
+                    OntologyProcessor::getInstance()->updatePathPreferredMap($package, $path, $this->params['value']);
+                    break;
+                }
+
+            //Temporary solution. Should ne able to PUT and DELETE to do this
+            case 'delete': {
+                    OntologyProcessor::getInstance()->deletePath($package, $path);
+                    break;
+                }
+            case 'create': {
+                    OntologyProcessor::getInstance()->createPath($package, $path);
+                    break;
+                }
+            default: {
+                    throw new RdfTDTException('Method ' . $this->params['method'] . ' does not exist!');
+                }
         }
     }
 
