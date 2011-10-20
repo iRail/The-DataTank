@@ -80,6 +80,7 @@ class CSV extends ATabularData {
         
         // only request public available files
         $request = TDT::HttpRequest($filename);
+
         if (isset($request->error)) {
             throw new CouldNotGetDataTDTException($filename);
         }
@@ -111,6 +112,7 @@ class CSV extends ATabularData {
                 
                 // keys not found yet
                 if(!count($fieldhash)) {
+                    
                     // <<fast!>> way to detect empty fields
                     // if it contains empty fields, it should not be our field hash
                     $empty_elements = array_keys($data,"");
@@ -125,7 +127,9 @@ class CSV extends ATabularData {
                     
                     for($i = 0; $i < sizeof($keys); $i++) {
                         $c = $keys[$i];
-                        if (sizeof($columns) == 0 || array_key_exists($c, $columns)) {
+                        if (sizeof($columns) == 0){
+                            $rowobject->$c = $data[$fieldhash[$c]];
+                        }else if(array_key_exists($c, $columns)) {
                             $rowobject->$columns[$c] = $data[$fieldhash[$c]];
                         }
                     }
