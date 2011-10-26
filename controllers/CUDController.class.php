@@ -25,7 +25,9 @@ class CUDController extends AController {
         $doc = $model->getAllDoc();
         if ($resource == "") {
             if (isset($doc->$package)) {
-                throw new NoResourceGivenTDTException(get_object_vars($doc->$package));
+                $resourcenames = get_object_vars($doc->$package);
+                unset($resourcenames["creation_date"];
+                throw new NoResourceGivenTDTException($resourcenames);
             } else {
                 throw new NoResourceGivenTDTException(array());
             }
