@@ -10,7 +10,7 @@
 
 abstract class AReader{
 
-    public static $BASICPARAMS = array("callback", "filterBy","filterValue","filterOp");
+    public static $BASICPARAMS = array("callback", "filterBy","filterValue","filterOp","page");
     // package and resource are always the two minimum parameters
     protected $parameters = array();
     protected $requiredParameters = array();
@@ -32,7 +32,28 @@ abstract class AReader{
     /**
      * execution method
      */
+    public function execute(){
+        if($this->isPagedResource()){
+            return $this->read();
+        }else{
+            return $this->readPaged();
+        }
+    }
+
+    /**
+     * returns boolean wheter or not the resource is a paged one
+     */
+    abstract protected function isPagedResource();
+
+    /**
+     * read method of a non-paged resource
+     */
     abstract public function read();
+
+    /**
+     * read method of a paged resource
+     */
+    abstract public function readPaged();
 
     public function processParameters($parameters){
         /*
