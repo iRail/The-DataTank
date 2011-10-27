@@ -139,7 +139,7 @@ define('SER_USE_ATTRIBUTES', FALSE );
 
 // RDF Serializer: Set to TRUE in order to sort the statements of a model before
 // serializing them.
-define('SER_SORT_MODEL', TRUE );
+define('SER_SORT_MODEL', FALSE );
 
 
 

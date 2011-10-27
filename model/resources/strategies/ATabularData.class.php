@@ -18,5 +18,7 @@ abstract class ATabularData extends AResourceStrategy{
             DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK == $column?1:0));
         }
     }
+    
+    
 }
 ?>

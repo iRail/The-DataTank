@@ -52,8 +52,11 @@ abstract class AResourceStrategy{
     public function getUpdateActions(){
         return $this->updateActions;
     }
-    
-
+    /**
+     * get the fields of this resource describing the data
+     * This function is used for auto-generating the ontology
+     */
+    abstract public function getFields($package, $resource);
 }
 
 ?>

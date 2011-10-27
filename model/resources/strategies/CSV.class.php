@@ -191,5 +191,113 @@ class CSV extends ATabularData {
         }
         DBQueries::storeCSVResource($resource_id, $this->uri,$this->has_header_row);
     }   
+    
+    /**
+     *  This function gets the fields in a resource
+     * @param type $package
+     * @param type $resource
+     * @return type 
+     */
+    
+    public function getFields($package, $resource) {
+                
+        /*
+         * First retrieve the values for the generic fields of the CSV logic
+         * This is the uri to the file, and a parameter which states if the CSV file
+         * has a header row or not.
+         */
+        $result = DBQueries::getCSVResource($package, $resource);
+        
+        $has_header_row = $result["has_header_row"];
+        $gen_res_id = $result["gen_res_id"];
+        
+        /**
+         * check if the uri is valid ( not empty )
+         */
+        if (isset($result["uri"])) {
+            $filename = $result["uri"];
+        } else {
+            throw new ResourceTDTException("Can't find URI of the CSV");
+        }
+        
+        $columns = array();
+        
+        // get the columns from the columns table
+        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
+        $PK = "";
+
+        /**
+         * columns can have an alias, if not their alias is their own name
+         */
+        foreach ($allowed_columns as $result) {
+            if($result["column_name_alias"] != ""){
+                $columns[(string)$result["column_name"]] = $result["column_name_alias"];
+            }else{
+                $columns[(string)$result["column_name"]] = $result["column_name"];
+            }
+            
+            if ($result["is_primary_key"] == 1) {
+                $PK = $columns[$result["column_name"]];
+            }
+        }
+        
+        $resultobject = array();
+        $arrayOfRowObjects = array();
+        $row = 0;
+        
+        // only request public available files
+        $request = TDT::HttpRequest($filename);
+
+        if (isset($request->error)) {
+            throw new CouldNotGetDataTDTException($filename);
+        }
+        $csv = utf8_encode($request->data);
+        
+        try {
+            // find the delimiter
+            $commas = substr_count($csv, ",", 0, strlen($csv)>127?127:strlen($csv));
+            $semicolons = substr_count($csv, ";", 0, strlen($csv)>127?127:strlen($csv));
+            
+            $rows = str_getcsv($csv, "\n");
+            
+            $fieldhash = array();
+            /**
+             * loop through each row, and fill the fieldhash with the column names
+             * if however there is no header, we fill the fieldhash beforehand
+             * note that the precondition of the beforehand filling of the fieldhash
+             * is that the column_name is an index! Otherwise there's no way of id'ing a column
+             */
+            
+            if($has_header_row == "0"){
+                foreach($columns as $index => $column_name){
+                    $fieldhash[$index] = $index;
+                }
+            }
+            
+            foreach($rows as $row => $fields) {
+                $data = str_getcsv($fields, $commas>$semicolons?",":";");
+                
+                // keys not found yet
+                if(!count($fieldhash)) {
+                    
+                    // <<fast!>> way to detect empty fields
+                    // if it contains empty fields, it should not be our field hash
+                    $empty_elements = array_keys($data,"");
+                    if(!count($empty_elements)) {
+                        // we found our key fields
+                        for($i = 0; $i < sizeof($data); $i++)
+                            $fieldhash[$data[$i]] = $i;
+                    }
+                } else
+                    break;
+            }
+        
+        } catch (Exception $ex) {
+            throw new CouldNotGetDataTDTException($filename);
+        }
+        
+        return  OntologyProcessor::getInstance()->generateOntologyFromTabular($package,$resource,$fieldhash);
+    }
+
 }
 ?>

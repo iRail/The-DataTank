@@ -14,23 +14,29 @@ R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
 $doc = ResourcesModel::getInstance()->getAllDoc();
 
-echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-echo "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:sc='http://sw.deri.org/2007/07/sitemapextension/scschema.xsd'>\n";
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
+echo "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:sc='http://sw.deri.org/2007/07/sitemapextension/scschema.xsd'>";
 foreach ($doc as $package => $resources) {
-    echo "\t<sc:dataset>\n";
-    echo "\t\t<sc:datasetLabel>" . $package . "</sc:datasetLabel>\n";
-    echo "\t\t<sc:datasetURI>" . Config::$HOSTNAME . Config::$SUBDIR . $package . "</sc:datasetURI>\n";
+    echo "<sc:dataset>";
+    echo "<sc:datasetLabel>" . $package . "</sc:datasetLabel>";
+    echo "<sc:datasetURI>" . Config::$HOSTNAME . Config::$SUBDIR . $package . "</sc:datasetURI>";
     //echo "\t\t<sc:linkedDataPrefix slicing=''>" . Config::$HOSTNAME . Config::$SUBDIR . $package . "</sc:linkedDataPrefix>\n";
     foreach ($resources as $resource => $val) {
-        if (property_exists($val, 'requiredparameters')) {
-            if (count($val->requiredparameters) == 0)
-                echo "\t\t<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . ".nt" . "</sc:dataDumpLocation>\n";
+        if ($resource != 'creation_date') {
+            if (property_exists($val, 'requiredparameters')) {
+                if (count($val->requiredparameters) == 0)
+                    echo "<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . ".nt" . "</sc:dataDumpLocation>";
+            }
+        } else {
+            $dt = new DateTime();
+            $dt->setTimestamp($val);
+            echo "<lastmod>".$dt->format('Y-m-d\TH:i:s') . "</lastmod>";
         }
     }
-    echo "\t\t<lastmod></lastmod>\n";
-    echo "\t\t<sc:sparqlEndpointLocation></sc:sparqlEndpointLocation>\n";
-    echo "\t\t<changefreq>monthly</changefreq>\n";
-    echo "\t</sc:dataset>\n";
+
+    echo "<sc:sparqlEndpointLocation></sc:sparqlEndpointLocation>";
+    echo "<changefreq>monthly</changefreq>\n";
+    echo "</sc:dataset>";
 }
 echo "</urlset>"
 ?>

@@ -79,12 +79,13 @@ class RDFOutput {
             if (!is_array($var))
                 $path .= get_class($var);
             else
-                $path .= 'Array';
+                $path = substr ($path, 0,strlen ($path)-1);
 
             $temp = $uri;
             $temp2 = $path;
             //create a resource of this array using the build uri path
             $res = $this->getClass($uri, $path);
+            
             //Add this resource to the parent resource
             $this->addToResource($resource, $property, $res);
 
@@ -93,8 +94,14 @@ class RDFOutput {
                 $path = $temp2;
                 $uri = $temp;
                 $prop = $this->getProperty($key, $path);
-                //start over for each value
-                $this->analyzeVariable($value, $uri . '/' . $key, $path . '/' . $key . '/', $res, $prop);
+
+
+                if (!is_object($value))
+                    $path .= '/' . $key;
+                //else if (is_null($res))
+                    //$res = 
+                    
+                $this->analyzeVariable($value, $uri . '/' . $key, $path.'/', $res, $prop);              //start over for each value
             }
         } else {
             //Variable is a primitive type, so create typed literal.
@@ -121,7 +128,8 @@ class RDFOutput {
                 $resource->add($object);
             } else if (is_a($resource, 'ResResource'))
                 $resource->addProperty($property, $object);
-        }
+        } 
+        
     }
 
     /*

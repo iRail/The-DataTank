@@ -186,5 +186,6 @@ class Queries extends AReader{
     public static function getDoc(){
         return "Lists the number of queries(requests/errors) to this datatank instance per day";
     }
+
 }
 ?>

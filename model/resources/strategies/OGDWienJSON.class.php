@@ -73,7 +73,7 @@ class OGDWienJSON extends ATabularData {
                 if (isset($this->radius) && isset($this->long) && isset($this->lat)) {
                     $olat = $feature->geometry->coordinates[1];
                     $olon = $feature->geometry->coordinates[0];
-                    $R = 6371; // earth’s radius in km
+                    $R = 6371; // earthï¿½s radius in km
                     $dLat = deg2rad($this->lat-$olat);
                     $dLon = deg2rad($this->long-$olon);
                     $rolat = deg2rad($olat);
@@ -126,5 +126,57 @@ class OGDWienJSON extends ATabularData {
     private function evaluateOGDWienJSONResource($resource_id){
         DBQueries::storeOGDWienJSONResource($resource_id, $this->url);
     }    
+    
+    public function getFields($package, $resource) {
+        /*
+         * First retrieve the values for the generic fields of the OGD Wien JSON logic
+         */
+        $result = DBQueries::getOGDWienJSONResource($package, $resource);
+        
+        $gen_res_id = $result["gen_res_id"];
+
+        if(isset($result["url"])){
+            $url = $result["url"];
+        }else{
+            throw new ResourceTDTException("Can't find url of the OGD Wien JSON.");
+        }
+       
+        //$columns = array();
+        
+        // get the columns from the columns table
+        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
+            
+        $columns = array();
+        $PK = "id";
+        foreach($allowed_columns as $result){
+            array_push($columns,$result["column_name"]);
+        }
+        $arrayOfRowObjects = array();
+        $row = 0;
+     
+        try { 
+
+            $json = file_get_contents($url,0,null,null);
+            $json = utf8_encode($json);
+            $json = json_decode($json);
+            
+            foreach($json->features as $feature) {
+                $arr = array();
+                foreach ($feature->properties as $key => $value)
+                    $arr[] = strtolower ($key);
+                
+                $arr = array_merge($arr,array('id', 'long','lat','distance'));
+                
+                
+                                
+                return $arr;
+                break;
+            }
+        }catch( Exception $ex) {
+            throw new CouldNotGetDataTDTException( $url );
+        }
+    
+    }
+
 }
 ?>
