@@ -10,6 +10,36 @@
 
 class DBQueries {
 
+
+    /**
+     * get paged CSV results
+     * lowerbound and upperbound are for the LIMIT clause
+     */
+    static function getPagedCSVResource($package,$resource,$lowerbound,$upperbound){
+        return getAll(
+            "SELECT value,delimiter,generic_resource.id as gen_res_id
+             FROM   package,resource,generic_resource,generic_resource_csv,l2_cache_csv
+             WHERE  package_name =:package and resource_name=:resource and package_id=package.id
+                    and resource_id = resource.id and gen_resource_id = generic_resource.id
+                    and gen_res_csv_id = generic_resource_csv.id
+             LIMIT :lowerbound, :upperbound",
+            array(":package" => $package, ":resource" =>$resource , ":lowerbound"=>$lowerbound , ":upperbound"=> $upperbound)
+        );
+    }
+
+    /**
+     * Get the is_paged value for a certain resource 
+     */
+    static function getIsPaged($package,$resource){
+        return getCell(
+            "SELECT is_paged
+             FROM  package,resource
+             WHERE package.id = resource.package_id and package_name =:package
+                   and resource_name =:resource",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
     /**
      * Retrieve the amount of requests done for 
      * a certain package

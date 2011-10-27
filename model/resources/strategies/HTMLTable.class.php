@@ -31,8 +31,11 @@ class HTMLTable extends ATabularData {
         return array();
     }
     
-    
-    public function onCall($package,$resource){
+    public function readPaged($package,$resource,$page){
+        // TODO
+    }
+
+    public function readNonPaged($package,$resource){
 
         /*
          * First retrieve the values for the generic fields of the HTML Table logic

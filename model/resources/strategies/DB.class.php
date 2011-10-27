@@ -44,8 +44,11 @@ class DB extends ATabularData{
         $this->updateActions[] = "foreign_relation";
     }
     
+    public function readPaged($package,$resource,$page){
+        //TODO paging will be just a limited query with a treshold of a certain amount of rows.
+    }
 
-    public function onCall($package,$resource){
+    public function readNonPaged($package,$resource){
         /*
          * Here we'll extract all the db-related info and return an object for the RESTful call
          * As we're not using different tables per different type of database we'll use separate logic

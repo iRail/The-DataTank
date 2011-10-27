@@ -10,6 +10,8 @@
 include_once ("model/resources/strategies/ATabularData.class.php");
 class CSV extends ATabularData {
 
+    private $NUMBER_OF_ITEMS_PER_PAGE = 50;
+
     public function documentCreateRequiredParameters(){
         return array("uri");            
     }
@@ -32,7 +34,90 @@ class CSV extends ATabularData {
         return array();
     }
 
-    public function onCall($package, $resource) {
+    public function readPaged($package,$resource,$page){
+        /**
+         * calculate which rows you must get from the paged csv resource
+         * by using the NUMBER_OF_ITEMS_PER_PAGE member
+         */
+        $upperbound = $page * $NUMBER_OF_ITEMS_PER_PAGE -1; // MySQL LIMIT starts with 0
+        $lowerbound = $upperbound - $NUMBER_OF_ITEMS_PER_PAGE;
+        
+        /**
+         * get resulting rows
+         */
+        $result = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
+        $gen_res_id = $result["gen_res_id"];
+        
+        // get the column names, note that there MUST be a published columns entry
+        // for paged csv resources, for header rows are not submitted into our level 2
+        // cache for these resources
+        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
+        $columns = array();
+        $PK ="";
+
+        /**
+         * columns can have an alias, if not their alias is their own name
+         */
+        foreach ($allowed_columns as $result) {
+            if($result["column_name_alias"] != ""){
+                $columns[(string)$result["column_name"]] = $result["column_name_alias"];
+            }else{
+                $columns[(string)$result["column_name"]] = $result["column_name"];
+            }
+            
+            if ($result["is_primary_key"] == 1) {
+                $PK = $columns[$result["column_name"]];
+            }
+        }
+
+        // fill the fieldhash (hash of index -> columnname)
+        foreach($columns as $index => $column_name){
+            $fieldhash[$index] = $index;
+        }
+
+        $resultobject = array();
+        $arrayOfRowObjects = array();
+        $row = 0;
+       
+        //$csv = utf8_encode($request->data);
+            
+        foreach($result as $paged_csv_row) {
+            $delimiter = $paged_csv_row["delimiter"];
+            $value = $paged_csv_row["value"];
+            $data = str_getcsv($value, $delimiter);
+                
+            // keys not found yet
+           
+            $rowobject = new stdClass();
+            $keys = array_keys($fieldhash);
+                    
+            for($i = 0; $i < sizeof($keys); $i++) {
+                $c = $keys[$i];
+                // TODO normally this if else should be reduced to the else part,
+                // because there will always be a published columns entry for a paged csv resource
+                if (sizeof($columns) == 0){
+                    $rowobject->$c = $data[$fieldhash[$c]];
+                }else if(array_key_exists($c, $columns)) {
+                    $rowobject->$columns[$c] = $data[$fieldhash[$c]];
+                }
+            }
+                    
+            if ($PK == "") {
+                array_push($arrayOfRowObjects, $rowobject);
+            } else {
+                if(!isset($arrayOfRowObjects[$rowobject->$PK])) {
+                    $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                }
+            }
+            
+        }   
+        return $arrayOfRowObjects;
+    }
+
+    /**
+     * Read non paged resource
+     */
+    public function readNonPaged($package, $resource) {
         
         /*
          * First retrieve the values for the generic fields of the CSV logic

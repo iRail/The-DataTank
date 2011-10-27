@@ -34,7 +34,11 @@ class OGDWienJSON extends ATabularData {
     public function __construct(){
     }
 
-    public function onCall($package,$resource){
+    public function readPaged($package,$resource,$page){
+        //TODO ( as this proxy's a json resource, this will prolly not use any paging )
+    }
+
+    public function readNonPaged($package,$resource){
 
         /*
          * First retrieve the values for the generic fields of the OGD Wien JSON logic

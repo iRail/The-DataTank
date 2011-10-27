@@ -34,7 +34,7 @@ abstract class AReader{
      */
     public function execute(){
         if($this->isPagedResource()){
-            return $this->read();
+            return $this->readNonPaged();
         }else{
             return $this->readPaged();
         }

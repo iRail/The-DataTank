@@ -23,11 +23,26 @@ class GenericResourceReader extends AReader{
         $this->parameters = array_merge($this->parameters,$strategy->documentReadParameters());
     }
     
+
+    protected function isPagedResource(){
+        $result = DBQueries::getIsPaged($this->package,$this->resource);
+        return $result["is_paged"];
+    }
+
     /**
-     * execution method
+     * read method
      */
-    public function read(){
-        return $this->genres->call();
+    public function readNonPaged(){
+        return $this->genres->readNonPaged();
+    }
+
+    /**
+     * read paged method
+     * (same as read method, disguishment between paged and non paged is only 
+     *  concrete in a strategy for generic resources.)
+     */
+    public function readPaged(){
+        return $this->genres->readPaged($this->page);
     }
 
     /**
@@ -42,11 +57,16 @@ class GenericResourceReader extends AReader{
      * A generic resource doesn't have parameters yet, strategies can however
      */
     public function setParameter($key,$value){
-        /**
-         * pass along the parameters to the strategy
-         */
-        $strategy = $this->genres->getStrategy();
-        $strategy->setParameter($key,$value);
+        if($key == "page"){
+            $this->$key = $value;
+        }else{ // it's a strategy parameter
+            /**
+             * pass along the parameters to the strategy
+             */
+            $strategy = $this->genres->getStrategy();
+            $strategy->setParameter($key,$value);
+        }
+        
     }
 }
 ?>
