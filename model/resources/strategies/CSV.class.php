@@ -39,7 +39,7 @@ class CSV extends ATabularData {
          * calculate which rows you must get from the paged csv resource
          * by using the NUMBER_OF_ITEMS_PER_PAGE member
          */
-        $upperbound = $page * $NUMBER_OF_ITEMS_PER_PAGE -1; // MySQL LIMIT starts with 0
+        $upperbound = $page * $NUMBER_OF_ITEMS_PER_PAGE -1; // SQL LIMIT starts with 0
         $lowerbound = $upperbound - $NUMBER_OF_ITEMS_PER_PAGE;
         
         /**
