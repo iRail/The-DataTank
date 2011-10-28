@@ -153,5 +153,10 @@ abstract class XLS extends ATabularData {
     private function evaluateXLSResource($resource_id){
         DBQueries::storeXLSResource($resource_id, $this->url, $this->sheet);
     }    
+    
+    public function getFields($package, $resource) {
+        
+    }
+
 }
 ?>
