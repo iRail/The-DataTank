@@ -83,7 +83,7 @@ class OntologyProcessor {
             $statement = new Statement($resource, OWL::EQUIVALENT_PROPERTY(), $mapping);
         else
             $statement = new Statement($resource, OWL::EQUIVALENT_CLASS(), $mapping);
-        var_dump($package);
+
         $this->getModel($package)->add($statement);
     }
 

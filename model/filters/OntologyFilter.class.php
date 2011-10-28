@@ -17,8 +17,7 @@ class OntologyFilter extends AFilter {
     public function filter($result) {
         if (OntologyProcessor::getInstance()->isOntology($result)) {
             $path = implode('/', $this->params);
-            //$new_result = $result->findWildcarded(str_replace('/', '\/', $path) . '%', null, null);
-            
+             
             $new_result = $result->findRegex('/'.str_replace('/', '\/', $path) . '.*/', null, null);
                         
             if (count($new_result->triples) == 0)

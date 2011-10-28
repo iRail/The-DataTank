@@ -44,7 +44,6 @@ class Ontology extends AReader {
     }
 
     private function getData() {
-        
         $this->ontology = OntologyProcessor::getInstance()->readOntology($this->package);
     }
 
