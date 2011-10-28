@@ -46,6 +46,7 @@ abstract class AReader {
     abstract protected function setParameter($key, $value);
 
     protected function getOntology() {
+        
         if (!OntologyProcessor::getInstance()->hasOntology($this->package)) {
              $filename = "custom/packages/" . $this->package . "/" . $this->package . ".ttl";
             if (file_exists($filename))

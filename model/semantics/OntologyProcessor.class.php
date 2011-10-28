@@ -214,7 +214,7 @@ class OntologyProcessor {
      * Function retrieving the unique URI for the package onthology
      */
     public function getOntologyURI($package) {
-        return Config::$HOSTNAME . Config::$SUBDIR . 'Ontology/' . $package . '/';
+        return Config::$HOSTNAME . Config::$SUBDIR . 'TDTInfo/Ontology/' . $package . '/';
     }
 
     private function getModel($package) {

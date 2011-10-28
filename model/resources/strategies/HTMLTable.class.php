@@ -224,7 +224,7 @@ class HTMLTable extends ATabularData {
                 } 
                 $rowIndex++;
             }
-            return OntologyProcessor::getInstance()->generateOntologyFromTabular($package,$resource,$fieldhash);
+            return $fieldhash;
         } catch( Exception $ex) {
             throw new CouldNotGetDataTDTException( $url );
         }

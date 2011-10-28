@@ -290,7 +290,7 @@ class CSV extends ATabularData {
                 } else
                     break;
             }
-            return OntologyProcessor::getInstance()->generateOntologyFromTabular($package, $resource, $fieldhash);
+            return array_keys($fieldhash);
         } catch (Exception $ex) {
             throw new CouldNotGetDataTDTException($filename);
         }

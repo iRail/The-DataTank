@@ -166,9 +166,7 @@ class OGDWienJSON extends ATabularData {
                     $arr[] = strtolower ($key);
                 
                 $arr = array_merge($arr,array('id', 'long','lat','distance'));
-                
-                
-                                
+
                 return $arr;
                 break;
             }

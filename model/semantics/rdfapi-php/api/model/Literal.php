@@ -60,7 +60,7 @@ require_once RDFAPI_INCLUDE_DIR . 'model/Node.php';
         }
 
         if ($datatype != null) {
-            $this->dtype = $datatype;
+            $this->setDatatype($datatype);
         } else {
             $this->dtype = NULL;
         }

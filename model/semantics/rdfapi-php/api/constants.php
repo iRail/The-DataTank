@@ -135,11 +135,11 @@ define('SER_USE_SHORT_DATATYPES', FALSE);
 
 // RDF Serializer: Set to TRUE, if the serializer should serialize triples as XML
 // attributes where possible.
-define('SER_USE_ATTRIBUTES', FALSE );
+define('SER_USE_ATTRIBUTES', TRUE );
 
 // RDF Serializer: Set to TRUE in order to sort the statements of a model before
 // serializing them.
-define('SER_SORT_MODEL', FALSE );
+define('SER_SORT_MODEL', TRUE );
 
 
 
