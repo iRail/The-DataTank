@@ -23,7 +23,8 @@ class DBQueries {
                     and resource_id = resource.id and gen_resource_id = generic_resource.id
                     and gen_res_csv_id = generic_resource_csv.id
              LIMIT :lowerbound, :upperbound",
-            array(":package" => $package, ":resource" =>$resource , ":lowerbound"=>$lowerbound , ":upperbound"=> $upperbound)
+            array(":package" => $package, ":resource" =>$resource , 
+                  ":lowerbound"=>$lowerbound , ":upperbound"=> $upperbound)
         );
     }
 
@@ -34,8 +35,8 @@ class DBQueries {
         return getCell(
             "SELECT is_paged
              FROM  package,resource
-             WHERE package.id = resource.package_id and package_name =:package
-                   and resource_name =:resource",
+             WHERE package.id = resource.package_id and package.package_name =:package
+                   and resource.resource_name =:resource",
             array(":package" => $package, ":resource" => $resource)
         );
     }

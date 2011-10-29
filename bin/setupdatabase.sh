@@ -76,6 +76,7 @@ then
         creation_timestamp bigint(20) NOT NULL,
         last_update_timestamp bigint(20) NOT NULL,
         type varchar(60) NOT NULL,
+        is_paged tinyint(2) NOT NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (package_id) references package(id)        
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"

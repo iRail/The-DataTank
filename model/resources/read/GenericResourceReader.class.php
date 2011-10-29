@@ -22,9 +22,7 @@ class GenericResourceReader extends AReader {
         $strategy = $this->genres->getStrategy();
         $this->parameters = array_merge($this->parameters, $strategy->documentReadParameters());
         $this->getOntology();
-    }
-<<<<<<< HEAD
-    
+    }   
 
     protected function isPagedResource(){
         $result = DBQueries::getIsPaged($this->package,$this->resource);
@@ -37,21 +35,14 @@ class GenericResourceReader extends AReader {
     public function readNonPaged(){
         return $this->genres->readNonPaged();
     }
-=======
->>>>>>> 5f8aa9250821278a5eadac87ddee0377f516c7e6
 
     /**
      * read paged method
      * (same as read method, disguishment between paged and non paged is only 
      *  concrete in a strategy for generic resources.)
      */
-<<<<<<< HEAD
     public function readPaged(){
         return $this->genres->readPaged($this->page);
-=======
-    public function read() {
-        return $this->genres->call();
->>>>>>> 5f8aa9250821278a5eadac87ddee0377f516c7e6
     }
 
     /**
@@ -65,7 +56,6 @@ class GenericResourceReader extends AReader {
     /**
      * A generic resource doesn't have parameters yet, strategies can however
      */
-<<<<<<< HEAD
     public function setParameter($key,$value){
         if($key == "page"){
             $this->$key = $value;
@@ -76,15 +66,6 @@ class GenericResourceReader extends AReader {
             $strategy = $this->genres->getStrategy();
             $strategy->setParameter($key,$value);
         }
-        
-=======
-    public function setParameter($key, $value) {
-        /**
-         * pass along the parameters to the strategy
-         */
-        $strategy = $this->genres->getStrategy();
-        $strategy->setParameter($key, $value);
->>>>>>> 5f8aa9250821278a5eadac87ddee0377f516c7e6
     }
 
     protected function getOntology() {

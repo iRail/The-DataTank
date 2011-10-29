@@ -81,15 +81,11 @@ class CSV extends ATabularData {
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
-       
-        //$csv = utf8_encode($request->data);
             
         foreach($result as $paged_csv_row) {
             $delimiter = $paged_csv_row["delimiter"];
             $value = $paged_csv_row["value"];
             $data = str_getcsv($value, $delimiter);
-                
-            // keys not found yet
            
             $rowobject = new stdClass();
             $keys = array_keys($fieldhash);
