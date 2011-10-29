@@ -39,6 +39,8 @@ class Packages extends AReader{
     public static function getDoc(){
 	return "This resource contains every package installed on this DataTank instance.";
     }
+    
+
 }
 
 ?>

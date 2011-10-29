@@ -27,15 +27,21 @@ class HtmlFormatter extends AFormatter {
     }
 
     public function printBody() {
-        //If the output is an RDF model use the nice HTML output from RAP
-        foreach (get_object_vars($this->objectToPrint) as $prop => $model) {
-            if (is_object($model) && is_subclass_of($model, "Model")) {
-                $model->writeAsHTMLTable();
-            } else {
-                echo "<pre>";
-                print_r($this->objectToPrint);
-                echo "</pre>";
+        //When the objectToPrint has a property Ontology, it is an RDF Model
+        //In this case, use the nice HTML formatting function
+        foreach ($this->objectToPrint as $class => $prop){
+            if (is_a($prop,"MemModel")){
+                $this->objectToPrint = $prop;
+                break;
             }
+        }
+        
+        if (is_a($this->objectToPrint,"MemModel")) {
+            echo $this->objectToPrint->writeAsHTMLTable();
+        } else {
+            echo "<pre>";
+            print_r($this->objectToPrint);
+            echo "</pre>";
         }
     }
 

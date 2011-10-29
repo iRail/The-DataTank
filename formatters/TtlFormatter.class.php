@@ -1,13 +1,13 @@
 <?php
 
 /**
- * This file contains the RDF/XML formatter.
+ * This file contains the RDF/Turtle formatter.
  * @package The-Datatank/formatters
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class RdfFormatter extends AFormatter {
+class TtlFormatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
@@ -27,11 +27,11 @@ class RdfFormatter extends AFormatter {
             $outputter = new RDFOutput();
             $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
         }
-
+        
         // Import Package Syntax
-        include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_RDF);
+        include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_N3);
 
-        $ser = new RDFSerializer();
+        $ser = new N3Serializer();
 
         $rdf = $ser->serialize($this->objectToPrint);
 
@@ -40,10 +40,8 @@ class RdfFormatter extends AFormatter {
 
     protected function printHeader() {
         header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/rdf+xml; charset=UTF-8");
- 
+        header("Content-Type: text/turtle; charset=UTF-8");
     }
-
 
 }
 

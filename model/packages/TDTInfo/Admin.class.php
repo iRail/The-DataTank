@@ -32,6 +32,8 @@ class Admin extends AReader{
     public static function getDoc(){
 	return "This resource contains the information an Admin should know. It documents all possible addition, deletion and creation methods";
     }
+    
+
 }
 
 ?>

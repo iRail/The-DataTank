@@ -32,6 +32,9 @@ class Resources extends AReader{
     public static function getDoc(){
 	return "This resource contains the most important information";
     }
+    
+    
+
 }
 
 ?>

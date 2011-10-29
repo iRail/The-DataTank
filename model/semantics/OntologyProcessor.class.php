@@ -65,7 +65,7 @@ class OntologyProcessor {
     }
 
     public function readOntology($package) {
-        return $this->getModel($package);
+        return $this->getModel($package)->getMemModel();
     }
 
     public function deleteOntology($package) {
@@ -83,7 +83,7 @@ class OntologyProcessor {
             $statement = new Statement($resource, OWL::EQUIVALENT_PROPERTY(), $mapping);
         else
             $statement = new Statement($resource, OWL::EQUIVALENT_CLASS(), $mapping);
-        var_dump($package);
+
         $this->getModel($package)->add($statement);
     }
 
@@ -195,14 +195,17 @@ class OntologyProcessor {
     }
 
 
-    public function generateOntologyFromTabular($package, $resource, $colums) {
-        $this->getModel($package)->add(new Statement($resource, RDF::TYPE(), TDTML::TDTRESOURCE()));
+    public function generateOntologyFromTabular($package, $resource, $fields) {
+        $model = $this->getModel($package);
+        
+        $model->add(new Statement(new Resource($resource), RDF::TYPE(), TDTML::TDTRESOURCE()));
 
-        $this->getModel($package)->add(new Statement($resource . '/stdClass', RDF::TYPE(), OWL::OWL_CLASS()));
+        $model->add(new Statement(new Resource($resource . '/stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
 
-        foreach ($colums as $colum) {
-            $this->getModel($package)->add(new Statement($resource . '/stdClass/' . $colum, RDF::TYPE(), RDF::PROPERTY()));
+        foreach ($fields as $field) {
+            $model->add(new Statement(new Resource($resource . '/stdClass/' . $field), RDF::TYPE(), RDF::PROPERTY()));
         }
+
     }
 
     //Private Methods
@@ -211,7 +214,7 @@ class OntologyProcessor {
      * Function retrieving the unique URI for the package onthology
      */
     public function getOntologyURI($package) {
-        return Config::$HOSTNAME . Config::$SUBDIR . 'Ontology/' . $package . '/';
+        return Config::$HOSTNAME . Config::$SUBDIR . 'TDTInfo/Ontology/' . $package . '/';
     }
 
     private function getModel($package) {

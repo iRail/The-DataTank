@@ -158,5 +158,81 @@ class HTMLTable extends ATabularData {
     private function evaluateHTMLTableResource($resource_id){
         DBQueries::storeHTMLTableResource($resource_id, $this->url, $this->xpath);
     }    
+    
+    public function getFields($package, $resource) {
+        
+        /*
+         * First retrieve the values for the generic fields of the HTML Table logic
+         */
+        $result = DBQueries::getHTMLTableResource($package, $resource);
+        
+        $gen_res_id = $result["gen_res_id"];
+
+        if(isset($result["url"])){
+            $url = $result["url"];
+        }else{
+            throw new ResourceTDTException("Can't find url of the HTML Table");
+        }
+		
+        if(isset($result["xpath"])){
+            $xpath = $result["xpath"];
+        }else{
+            throw new ResourceTDTException("Can't find xpath of the HTML Table");
+        }		
+
+        $columns = array();
+        
+        // get the columns from the columns table
+        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
+            
+        $columns = array();
+        $PK = "";
+        foreach($allowed_columns as $result){
+            array_push($columns,$result["column_name"]);
+            if($result["is_primary_key"] == 1){
+                $PK = $result["column_name"];
+            }
+        }
+        
+        try { 
+
+            $oldSetting = libxml_use_internal_errors( true ); 
+            libxml_clear_errors(); 
+             
+            $html = new DOMDocument(); 
+            $html->loadHtmlFile($url); 
+             
+            $domxpath = new DOMXPath( $html ); 
+            $tablerows = $domxpath->query($xpath . "/tr" ); 
+            if ($tablerows->length == 0) {
+                //table has thead and tbody
+                $tablerows = $domxpath->query($xpath . "/*/tr" );
+            }
+
+            $rowIndex = 1;
+            foreach ($tablerows as $tr) {
+                $newDom = new DOMDocument;
+                $newDom->appendChild($newDom->importNode($tr,true));
+                
+                $domxpath = new DOMXPath( $newDom ); 
+                if ($rowIndex == 1) {
+                    $tablecols = $domxpath->query("td");
+                    if ($tablecols->length == 0) {
+                        //thead row has th instead of td
+                        $tablecols = $domxpath->query("th" );
+                    }
+                    foreach($tablecols as $td) {
+                        $fieldhash[] = $td->nodeValue;						
+                    }
+                } 
+                $rowIndex++;
+            }
+            return $fieldhash;
+        } catch( Exception $ex) {
+            throw new CouldNotGetDataTDTException( $url );
+        }
+        
+    }
+
 }
 ?>
