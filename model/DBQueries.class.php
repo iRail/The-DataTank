@@ -12,6 +12,29 @@ class DBQueries {
 
 
     /**
+     * puts a CSV row into the level 2 cache table
+     */
+    static function insertIntoCSVCache($values,$delimiter,$gen_res_csv_id){
+        return R::exec(
+            "INSERT INTO l2_cache_csv(gen_res_csv_id,delimiter,values)
+             VALUES(:gen_res_csv_id,:delimiter,:values)"
+             array(":values" => $values, ":delimiter" => $delimiter, ":gen_res_csv_id" => $gen_res_csv_id)
+        );
+    }
+
+    /**
+     * Updates a resource's is_paged value
+     */
+    static function updateIsPagedResource($resource_id,$is_paged){
+        return R::exec(
+            "UPDATE resource
+             SET is_paged = :is_paged
+             WHERE resource.id = :resource_id",
+            array(":resource_id" => $resource_id, ":is_paged" => $is_paged)
+        );
+    }
+
+    /**
      * get paged CSV results
      * lowerbound and upperbound are for the LIMIT clause
      */

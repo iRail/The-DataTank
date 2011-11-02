@@ -36,7 +36,6 @@ class CSV extends ATabularData {
         return array();
     }
 
-
     public function readPaged($package,$resource,$page){
         /**
          * calculate which rows you must get from the paged csv resource
@@ -237,7 +236,10 @@ class CSV extends ATabularData {
     }
 
     public function onAdd($package_id, $resource_id) {
-        $this->evaluateCSVResource($resource_id);
+        /*
+         * Create CSV entry in the back-end
+         */
+        $generic_resource_id = $this->evaluateCSVResource($resource_id);
 
         if (!isset($this->PK)) {
             $this->PK = "";
@@ -246,6 +248,8 @@ class CSV extends ATabularData {
         /**
          * if no header row is given, then the columns that are being passed should be 
          * int => something, int => something
+         * if a header row is given however in the csv file, then we're going to extract those 
+         * header fields and put them in our back-end as well.
          */
         if (!isset($this->columns)) {
             $this->columns = "";
@@ -259,19 +263,106 @@ class CSV extends ATabularData {
                     throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array.");
                 }
             }
-        }
+            /**
+             * check if data should be paged
+             */
+            $request = TDT::HttpRequest($this->uri);
+            
+            if (isset($request->error)) {
+                throw new CouldNotGetDataTDTException($this->uri);
+            }
 
+            $csv = utf8_encode($request->data);
+            
+            /**
+             * find the delimiter
+             */
+            $commas = substr_count($csv, ",", 0, strlen($csv) > 127 ? 127 : strlen($csv));
+            $semicolons = substr_count($csv, ";", 0, strlen($csv) > 127 ? 127 : strlen($csv));
+            
+            $delimiter = ",";
+            if($commas <  $semicolons){
+                $delimiter = ";";
+            }
+            $rows = str_getcsv($csv,"\n");
+            /**
+             * there is no header row, so the rows can be passed as is
+             */
+            $this->checkForPaging($rows,$delimiter,$generic_resource_id,$resource_id);
+        }else{
+            // find header fields, then check for paging
+            $request = TDT::HttpRequest($this->uri);
+            
+            if (isset($request->error)) {
+                throw new CouldNotGetDataTDTException($this->uri);
+            }
 
-        if ($this->columns != "") {
-            parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+            $csv = utf8_encode($request->data);
+            
+            try {
+                $fieldhash = array();
+                // find the delimiter
+                $commas = substr_count($csv, ",", 0, strlen($csv) > 127 ? 127 : strlen($csv));
+                $semicolons = substr_count($csv, ";", 0, strlen($csv) > 127 ? 127 : strlen($csv));
+
+                $delimiter = ",";
+                if($commas <  $semicolons){
+                    $delimiter = ";";
+                }
+                /**
+                 * strip the rows that are not meaningfull (rows before the header + header itself)
+                 */
+                $rows = str_getcsv($csv, "\n");
+                $rows_backup = $rows;
+                foreach ($rows as $row => $fields) {
+                    $data = str_getcsv($fields, $commas > $semicolons ? "," : ";");
+                    // keys not found yet
+                    if (!count($fieldhash)) {
+                        array_shift($rows);
+                        // <<fast!>> way to detect empty fields
+                        // if it contains empty fields, it should not be our field hash
+                        $empty_elements = array_keys($data, "");
+                        if (!count($empty_elements)) {
+                            // we found our key fields
+                            for ($i = 0; $i < sizeof($data); $i++){
+                                $fieldhash[$data[$i]] = $i;
+                                $this->columns[$i] = $data[$i];
+                            }
+                        }
+                    } else
+                        break;
+                }
+            } catch (Exception $ex) {
+                throw new CouldNotGetDataTDTException($this->uri);
+            }
+            $this->checkForPaging($rows,$delimiter,$generic_resource_id,$resource_id);
         }
+        parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+    }
+    
+    /*
+     * This function will check if the CSV needs a level 2 cache or not
+     * if there are more lines then $NUMBER_OF_ITEMS_PER_PAGE then we need to page
+     * either way we'll update the resource entry with an is_paged value
+     * NOTE: generic_resource_id is the generic_resource_csv.id 
+     */
+    private function checkForPaging($rows,$delimiter,$generic_resource_id,$resource_id){
+        if(count($rows) > $this->NUMBER_OF_ITEMS_PER_PAGE){
+            DBQueries::updateIsPagedResource($resource_id,"1");
+            foreach($rows as $row => $fields){
+                DBQueries::insertIntoCSVCache($fields,$delimiter,$generic_resource_id);
+            }
+        }else{
+            DBQueries::updateIsPagedResource($resource_id,"0");
+        }
+        
     }
 
     private function evaluateCSVResource($resource_id) {
         if (!isset($this->has_header_row)) {
             $this->has_header_row = 1;
         }
-        DBQueries::storeCSVResource($resource_id, $this->uri, $this->has_header_row);
+        return DBQueries::storeCSVResource($resource_id, $this->uri, $this->has_header_row);
     }
 
     /**
