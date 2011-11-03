@@ -17,7 +17,8 @@ class InstalledResourceFactory extends AResourceFactory{
     
     public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("custom/packages/" . $package . "/" . $resource . ".class.php");
-        $creator = new $resource($package,$resource, $RESTparameters);
+        $classname = $package . $resource;
+        $creator = new $classname($package,$resource, $RESTparameters);
         $creator->processParameters($parameters);
         return $creator;
     }
@@ -34,14 +35,12 @@ class InstalledResourceFactory extends AResourceFactory{
                 $doc->$package->creation_date = filemtime("custom/packages/".$package);
             }
             foreach($resourcenames as $resourcename){
+                $classname = $package . $resourcename;
                 $doc->$package->$resourcename = new StdClass();
                 include_once("custom/packages/" . $package . "/" . $resourcename . ".class.php");
-                $doc->$package->$resourcename->doc = $resourcename::getDoc();
-                $doc->$package->$resourcename->requiredparameters = $resourcename::getRequiredParameters();
-		$doc->$package->$resourcename->parameters = $resourcename::getParameters();
-                if(function_exists("$resourcename::getAllowedFormatters")){
-                    $doc->$package->$resourcename->formats = $resourcename::getAllowedFormatters();
-                }
+                $doc->$package->$resourcename->doc = $classname::getDoc();
+                $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
+		$doc->$package->$resourcename->parameters = $classname::getParameters();
                 $doc->$package->$resourcename->creation_timestamp = $this->getCreationTime($package,$resourcename);
                 $doc->$package->$resourcename->modification_timestamp = $this->getModificationTime($package,$resourcename);
             }

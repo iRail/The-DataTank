@@ -30,5 +30,10 @@ class JsonFormatter extends AFormatter{
 	  }
 	  echo json_encode($hash);
      }
+
+
+     public function getDocumentation(){
+         return "A javascript object notation formatter";
+     }
 };
 ?>

@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Packages extends AReader{
+class TDTInfoPackages extends AReader{
 
     public static function getParameters(){
 	return array();

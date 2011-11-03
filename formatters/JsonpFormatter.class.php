@@ -37,5 +37,10 @@ class JsonpFormatter extends JsonFormatter{
 	  parent::printBody();
 	  echo ')';
      }
+
+
+    public function getDocumentation(){
+        return "Prints json but will wrap the output in the callback function specified";
+    }
 };
 ?>

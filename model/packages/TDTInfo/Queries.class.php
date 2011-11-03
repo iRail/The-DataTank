@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Queries extends AReader{
+class TDTInfoQueries extends AReader{
 
     
     private $queryResults;    

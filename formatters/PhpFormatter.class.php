@@ -31,5 +31,10 @@ class PhpFormatter extends AFormatter{
 	  $hash['timestamp'] = time();
 	  echo serialize($hash);
      }
+
+     public static function getDocumentation(){
+         return "Prints php object notation. This can come in handy for php serialization";
+     }
+
 };
 ?>

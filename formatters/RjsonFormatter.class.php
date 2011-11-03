@@ -46,6 +46,11 @@ class RjsonFormatter extends AFormatter {
         header("Content-Type: application/json;charset=UTF-8");
     }
 
+    public static function getDocumentation(){
+        return "Prints the json notation with semantic annotations";
+    }
+
+
 }
 
 ?>

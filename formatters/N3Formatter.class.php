@@ -44,6 +44,9 @@ class N3Formatter extends AFormatter {
     }
 
 
+    public static function getDocumentation(){
+        return "Prints the n3 notation with semantic annotations";
+    }
 }
 
 ?>

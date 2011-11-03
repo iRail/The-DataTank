@@ -44,7 +44,11 @@ class HtmlFormatter extends AFormatter {
             echo "</pre>";
         }
     }
-
+    
+    public function getDocumentation(){
+        return "The Html formatter is a formatter for developing purpose. It prints everything in the internal object.";
+    }
+    
 }
 
 ;

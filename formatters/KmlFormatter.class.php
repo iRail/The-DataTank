@@ -66,6 +66,9 @@ class KmlFormatter extends AFormatter{
 	  }
      }
      
-     
+
+    public function getDocumentation(){
+        return "Will try to find locations in the entire object and print them as KML points";
+    }     
 };
 ?>
