@@ -41,14 +41,15 @@ class CSV extends ATabularData {
          * calculate which rows you must get from the paged csv resource
          * by using the NUMBER_OF_ITEMS_PER_PAGE member
          */
-        $upperbound = $page * $NUMBER_OF_ITEMS_PER_PAGE -1; // SQL LIMIT starts with 0
-        $lowerbound = $upperbound - $NUMBER_OF_ITEMS_PER_PAGE;
+        $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE 
+; // SQL LIMIT starts with 0
+        $lowerbound = $upperbound - $this->NUMBER_OF_ITEMS_PER_PAGE + 1;
         
         /**
          * get resulting rows
          */
         $result = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
-        $gen_res_id = $result["gen_res_id"];
+        $gen_res_id = $result[0]["gen_res_id"];
         
         // get the column names, note that there MUST be a published columns entry
         // for paged csv resources, for header rows are not submitted into our level 2
@@ -60,15 +61,15 @@ class CSV extends ATabularData {
         /**
          * columns can have an alias, if not their alias is their own name
          */
-        foreach ($allowed_columns as $result) {
-            if($result["column_name_alias"] != ""){
-                $columns[(string)$result["column_name"]] = $result["column_name_alias"];
+        foreach ($allowed_columns as $col) {
+            if($col["column_name_alias"] != ""){
+                $columns[(string)$col["column_name"]] = $col["column_name_alias"];
             }else{
-                $columns[(string)$result["column_name"]] = $result["column_name"];
+                $columns[(string)$col["column_name"]] = $col["column_name"];
             }
             
-            if ($result["is_primary_key"] == 1) {
-                $PK = $columns[$result["column_name"]];
+            if ($col["is_primary_key"] == 1) {
+                $PK = $columns[$col["column_name"]];
             }
         }
 

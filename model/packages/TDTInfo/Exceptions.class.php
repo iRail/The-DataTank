@@ -21,7 +21,15 @@ class Exceptions extends AReader {
     public function setParameter($key, $val) {
     }
     
-    public function read() {
+    public function readNonPaged(){
+        return $this->readPaged();
+    }
+    
+    protected function isPagedResource(){
+        return false;
+    }
+    
+    public function readPaged() {
         $o = new stdClass();
         $o->Exceptions = array();
         

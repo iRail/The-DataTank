@@ -178,9 +178,17 @@ class Queries extends AReader{
             }); 
     }
 
-    public function read(){
+    public function readPaged(){
         $this->getData();
         return $this->queryResults;
+    }
+
+    public function readNonPaged(){
+        return $this->readPaged();
+    }
+    
+    protected function isPagedResource(){
+        return false;
     }
 
     public static function getDoc(){

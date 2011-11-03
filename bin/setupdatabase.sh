@@ -166,7 +166,20 @@ then
   FOREIGN KEY(generic_resource_id) references generic_resource(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
 
-    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}${Q10}${Q11}${Q12}"
+#################################
+#     level2 cache for csv      #
+#################################
+
+    Q12="CREATE TABLE IF NOT EXISTS l2_cache_csv (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  gen_res_csv_id bigint(20) NOT NULL,
+  delimiter varchar(3) NOT NULL,
+  csv_values varchar(4000) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY(gen_res_csv_id) references generic_resource_csv(id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+
+    SQL="${Q1}${Q2}${Q3}${Q5}${Q6}${Q7}${Q8}${Q9}${Q10}${Q11}${Q12}${Q13}"
 
     mysql -u "$1" -p -e "$SQL"
 

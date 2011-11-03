@@ -42,6 +42,9 @@ class GenericResourceReader extends AReader {
      *  concrete in a strategy for generic resources.)
      */
     public function readPaged(){
+        if(!isset($this->page)){
+            $this->page = 1;
+        }
         return $this->genres->readPaged($this->page);
     }
 
@@ -70,6 +73,9 @@ class GenericResourceReader extends AReader {
 
     protected function getOntology() {
         if (!OntologyProcessor::getInstance()->hasOntology($this->package)) {
+            if(!isset($this->genres)){
+                $this->genres = new GenericResource($this->package, $this->resource);
+            }
             $strategy = $this->genres->getStrategy();
             $fields = $strategy->getFields($this->package, $this->resource);
             OntologyProcessor::getInstance()->generateOntologyFromTabular($this->package, $this->resource, $fields);
