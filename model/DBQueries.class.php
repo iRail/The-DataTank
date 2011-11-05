@@ -10,7 +10,6 @@
 
 class DBQueries {
 
-
     /**
      * puts a CSV row into the level 2 cache table
      */

@@ -41,8 +41,8 @@ class CSV extends ATabularData {
          * calculate which rows you must get from the paged csv resource
          * by using the NUMBER_OF_ITEMS_PER_PAGE member
          */
-        $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE 
-; // SQL LIMIT starts with 0
+        $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE; 
+        // SQL LIMIT clause starts with 0
         $lowerbound = $upperbound - $this->NUMBER_OF_ITEMS_PER_PAGE + 1;
         
         /**
@@ -109,7 +109,20 @@ class CSV extends ATabularData {
                 }
             }
             
-        }   
+        }
+
+        /**
+         * If another (next) page is available pas that one as well in the LINK header of the 
+         * HTTP-message
+         * NOTE: The requested format is only known in the RController, to pass this along all the way down to 
+         * the strategy is quite absurd, so we're going to put .about, and then change it later on in the RController
+         */
+        $possible_next_page = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
+        if(isset($possible_next_page[0])){
+            $page=$page+1;
+            $link = Config::$HOSTNAME . $package ."/". $resource .".about"."?page=$page";
+            header("Link: $link");
+        }
         return $arrayOfRowObjects;
     }
 
