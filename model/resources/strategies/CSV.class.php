@@ -40,7 +40,12 @@ class CSV extends ATabularData {
         /**
          * calculate which rows you must get from the paged csv resource
          * by using the NUMBER_OF_ITEMS_PER_PAGE member
+         * NOTE: $page must be a >= 1 number
          */
+        if($page < 1){
+            throw new ParameterTDTException("The pagenumber must be equal or larger than 1");
+        }
+        
         $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE; 
         // SQL LIMIT clause starts with 0
         $lowerbound = $upperbound - $this->NUMBER_OF_ITEMS_PER_PAGE + 1;
@@ -49,6 +54,15 @@ class CSV extends ATabularData {
          * get resulting rows
          */
         $result = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
+        
+        /**
+         * if a null result is given, that means that the page being passed is invalid 
+         */
+        if(!isset($result[0])){
+            throw new ParameterTDTException("There are no results for page: $page.");
+        }
+        
+        
         $gen_res_id = $result[0]["gen_res_id"];
         
         // get the column names, note that there MUST be a published columns entry
@@ -427,59 +441,7 @@ class CSV extends ATabularData {
             }
         }
 
-        $resultobject = array();
-        $arrayOfRowObjects = array();
-        $row = 0;
-
-        // only request public available files
-        $request = TDT::HttpRequest($filename);
-
-        if (isset($request->error)) {
-            throw new CouldNotGetDataTDTException($filename);
-        }
-        $csv = utf8_encode($request->data);
-
-        try {
-            // find the delimiter
-            $commas = substr_count($csv, ",", 0, strlen($csv) > 127 ? 127 : strlen($csv));
-            $semicolons = substr_count($csv, ";", 0, strlen($csv) > 127 ? 127 : strlen($csv));
-
-            $rows = str_getcsv($csv, "\n");
-
-            $fieldhash = array();
-            /**
-             * loop through each row, and fill the fieldhash with the column names
-             * if however there is no header, we fill the fieldhash beforehand
-             * note that the precondition of the beforehand filling of the fieldhash
-             * is that the column_name is an index! Otherwise there's no way of id'ing a column
-             */
-            if ($has_header_row == "0") {
-                foreach ($columns as $index => $column_name) {
-                    $fieldhash[$index] = $index;
-                }
-            }
-
-            foreach ($rows as $row => $fields) {
-                $data = str_getcsv($fields, $commas > $semicolons ? "," : ";");
-
-                // keys not found yet
-                if (!count($fieldhash)) {
-
-                    // <<fast!>> way to detect empty fields
-                    // if it contains empty fields, it should not be our field hash
-                    $empty_elements = array_keys($data, "");
-                    if (!count($empty_elements)) {
-                        // we found our key fields
-                        for ($i = 0; $i < sizeof($data); $i++)
-                            $fieldhash[$data[$i]] = $i;
-                    }
-                } else
-                    break;
-            }
-            return array_keys($fieldhash);
-        } catch (Exception $ex) {
-            throw new CouldNotGetDataTDTException($filename);
-        }
+        return array_values($columns);
     }
 
 }
