@@ -20,7 +20,8 @@ class CoreResourceFactory extends AResourceFactory {
     
     public function createReader($package,$resource, $parameters, $RESTparameters){
         include_once("model/packages/" . $package . "/" . $resource . ".class.php");
-        $creator = new $resource($package,$resource, $RESTparameters);
+        $classname  = $package . $resource;
+        $creator = new $classname($package,$resource, $RESTparameters);
         $creator->processParameters($parameters);
         return $creator;
     }
@@ -37,15 +38,12 @@ class CoreResourceFactory extends AResourceFactory {
                 $doc->$package->creation_date = filemtime("model/packages/".$package);
             }
             foreach($resourcenames as $resourcename){
+                $classname = $package . $resourcename;
                 $doc->$package->$resourcename = new StdClass();
                 include_once("model/packages/" . $package . "/" . $resourcename . ".class.php");                
-                $doc->$package->$resourcename->doc = $resourcename::getDoc();
-                $doc->$package->$resourcename->requiredparameters = $resourcename::getRequiredParameters();
-		$doc->$package->$resourcename->parameters = $resourcename::getParameters();
-                $doc->$package->$resourcename->formats = array();//if empty array: allow all
-                if(function_exists("$resourcename::getAllowedFormatters")){
-                    $doc->$package->$resourcename->formats = $resourcename::getAllowedFormatters();
-                }
+                $doc->$package->$resourcename->doc = $classname::getDoc();
+                $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
+		$doc->$package->$resourcename->parameters = $classname::getParameters();
                 $doc->$package->$resourcename->creation_timestamp = $this->getCreationTime($package,$resourcename);
                 $doc->$package->$resourcename->modification_timestamp = $this->getModificationTime($package,$resourcename);
             }

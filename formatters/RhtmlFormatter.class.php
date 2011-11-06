@@ -35,6 +35,10 @@ class RhtmlFormatter extends AFormatter {
         echo $model->writeAsHTMLTable();
     }
 
+    public static function getDocumentation(){
+        return "Prints the HTML notation with semantic annotations";
+    }
+
 }
 
 ?>

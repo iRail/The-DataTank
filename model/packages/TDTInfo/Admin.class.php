@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Admin extends AReader{
+class TDTInfoAdmin extends AReader{
 
     public static function getParameters(){
 	return array();

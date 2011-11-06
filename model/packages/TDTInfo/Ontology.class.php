@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Ontology extends AReader {
+class TDTInfoOntology extends AReader {
 
     private $ontology;
 

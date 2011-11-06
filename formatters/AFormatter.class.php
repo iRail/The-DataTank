@@ -52,5 +52,6 @@ abstract class AFormatter {
      * This function will print the body of the responsemessage.
      */
     abstract protected function printBody();
+    
 }
 ?>

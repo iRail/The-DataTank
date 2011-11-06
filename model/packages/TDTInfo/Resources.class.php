@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Resources extends AReader{
+class TDTInfoResources extends AReader{
 
     public static function getParameters(){
 	return array();

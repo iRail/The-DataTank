@@ -44,6 +44,9 @@ class RdfFormatter extends AFormatter {
  
     }
 
+    public static function getDocumentation(){
+        return "Prints the RDF/xml notation with semantic annotations";
+    }
 
 }
 

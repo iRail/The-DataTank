@@ -43,6 +43,10 @@ class TtlFormatter extends AFormatter {
         header("Content-Type: text/turtle; charset=UTF-8");
     }
 
+    public static function getDocumentation(){
+        return "Prints the turtle notation with semantic annotations";
+    }
+
 }
 
 ?>

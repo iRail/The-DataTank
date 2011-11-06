@@ -106,5 +106,18 @@ class FormatterFactory{
 	return new $format($rootname, $objectToPrint);
     }
 
+
+    //todo
+    private function getAllFormatters(){
+        
+    }
+    
+    
+    /**
+     * This will fetch all the documentation from the formatters and put it into the documentation visitor //todo
+     */
+    public function getDocumentation($doc){
+        
+    }
 }
 ?>
