@@ -34,7 +34,14 @@ class TDT {
         }
         //maybe our result is the cache. If so, return the cache value
         $cache = Cache::getInstance();
-        $cachekey = md5(urlencode($url));
+        //Generate a cachekey for the url and the post data
+        $cachekey = "";
+        if(isset($options["data"])){
+            $cachekey = md5(urlencode($url) . md5($options["data"]));
+        }else{
+            $cachekey = md5(urlencode($url));
+        }
+        //DEBUG echo $url . " " . $cachekey . "<br/>\n";
         $result = $cache->get($cachekey);
         if (!is_null($result)) {
             return $result;
