@@ -41,6 +41,7 @@ class RdfFormatter extends AFormatter {
     protected function printHeader() {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/rdf+xml; charset=UTF-8");
+        header("Content-Type: text/xml; charset=UTF-8");
  
     }
 
