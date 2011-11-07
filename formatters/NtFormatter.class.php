@@ -43,6 +43,9 @@ class NtFormatter extends AFormatter {
         header("Content-Type: application/n-triples; charset=UTF-8");
     }
 
+    public static function getDocumentation(){
+        return "Prints the N-triples notation with semantic annotations";
+    }
 
 }
 

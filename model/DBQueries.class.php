@@ -11,6 +11,59 @@
 class DBQueries {
 
     /**
+     * puts a CSV row into the level 2 cache table
+     */
+    static function insertIntoCSVCache($values,$delimiter,$gen_res_csv_id){
+        return R::exec(
+            "INSERT INTO l2_cache_csv(gen_res_csv_id,delimiter,csv_values)
+             VALUES(:gen_res_csv_id,:delimiter,:values)",
+             array(":values" => $values, ":delimiter" => $delimiter, ":gen_res_csv_id" => $gen_res_csv_id)
+        );
+    }
+
+    /**
+     * Updates a resource's is_paged value
+     */
+    static function updateIsPagedResource($resource_id,$is_paged){
+        return R::exec(
+            "UPDATE resource
+             SET is_paged = :is_paged
+             WHERE resource.id = :resource_id",
+            array(":resource_id" => $resource_id, ":is_paged" => $is_paged)
+        );
+    }
+
+    /**
+     * get paged CSV results
+     * lowerbound and upperbound are for the LIMIT clause
+     */
+    static function getPagedCSVResource($package,$resource,$lowerbound,$upperbound){
+        return R::getAll(
+            "SELECT csv_values as value,delimiter,generic_resource.id as gen_res_id
+             FROM   package,resource,generic_resource,generic_resource_csv,l2_cache_csv
+             WHERE  package_name =:package and resource_name=:resource and package_id=package.id
+                    and generic_resource.resource_id = resource.id and gen_resource_id = generic_resource.id
+                    and gen_res_csv_id = generic_resource_csv.id
+             LIMIT :lowerbound, :upperbound",
+            array(":package" => $package, ":resource" =>$resource , 
+                  ":lowerbound"=>$lowerbound , ":upperbound"=> $upperbound)
+        );
+    }
+
+    /**
+     * Get the is_paged value for a certain resource 
+     */
+    static function getIsPaged($package,$resource){
+        return R::getCell(
+            "SELECT is_paged
+             FROM  package,resource
+             WHERE package.id = resource.package_id and package.package_name =:package
+                   and resource.resource_name =:resource",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
      * Retrieve the amount of requests done for 
      * a certain package
      */

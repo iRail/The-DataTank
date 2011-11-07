@@ -140,7 +140,7 @@ class ResourcesModel{
         foreach($this->factories as $factory){
             if($factory->hasResource($package, $resource)){
                 $reader = $factory->createReader($package,$resource,$parameters, $RESTparameters);                
-                return $reader->read();
+                return $reader->execute();
             }            
         }
     }

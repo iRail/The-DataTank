@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Resources extends AReader{
+class TDTInfoResources extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -23,14 +23,22 @@ class Resources extends AReader{
         //we don't have any parameters
     }
 
-    public function read(){
+    public function readNonPaged(){
 	$resmod = ResourcesModel::getInstance();
 	$o = $resmod->getAllDoc();
 	return $o;
     }
 
+    public function readPaged(){
+        return $this->readNonPaged();
+    }
+
     public static function getDoc(){
 	return "This resource contains the most important information";
+    }
+    
+    protected function isPagedResource(){
+        return false;
     }
     
     

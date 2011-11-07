@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Ontology extends AReader {
+class TDTInfoOntology extends AReader {
 
     private $ontology;
 
@@ -26,11 +26,19 @@ class Ontology extends AReader {
         return array("package");
     }
 
-    public function read() {
+    public function readPaged() {
         $this->getData();
         return $this->ontology;
     }
 
+    public function readNonPaged(){
+        return $this->readPaged();
+    }
+
+    protected function isPagedResource(){
+        return false;
+    }
+    
     public function setParameter($key, $val) {
         if ($key == "package") {
             $this->package = $val;

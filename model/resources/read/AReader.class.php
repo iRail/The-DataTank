@@ -8,9 +8,10 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-abstract class AReader {
+abstract class AReader{
 
-    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp");
+    public static $BASICPARAMS = array("callback", "filterBy","filterValue","filterOp","page");
+
     // package and resource are always the two minimum parameters
     protected $parameters = array();
     protected $requiredParameters = array();
@@ -32,9 +33,30 @@ abstract class AReader {
     /**
      * execution method
      */
-    abstract public function read();
+    public function execute(){
+        if($this->isPagedResource() == 0){
+            return $this->readNonPaged();
+        }else{
+            return $this->readPaged();
+        }
+    }
 
-    public function processParameters($parameters) {
+    /**
+     * returns boolean wheter or not the resource is a paged one
+     */
+    abstract protected function isPagedResource();
+
+    /**
+     * read method of a non-paged resource
+     */
+    abstract public function readNonPaged();
+
+    /**
+     * read method of a paged resource
+     */
+    abstract public function readPaged();
+
+    public function processParameters($parameters){
         /*
          * set the parameters
          */
@@ -46,15 +68,11 @@ abstract class AReader {
     abstract protected function setParameter($key, $value);
 
     protected function getOntology() {
-        
         if (!OntologyProcessor::getInstance()->hasOntology($this->package)) {
              $filename = "custom/packages/" . $this->package . "/" . $this->package . ".ttl";
             if (file_exists($filename))
                 OntologyProcessor::getInstance()->readOntologyFile($this->package, $filename);
         } 
     }
-
-
 }
-
 ?>

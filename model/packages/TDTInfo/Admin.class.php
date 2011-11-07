@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Admin extends AReader{
+class TDTInfoAdmin extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -23,10 +23,18 @@ class Admin extends AReader{
         //we don't have any parameters
     }
 
-    public function read(){
+    public function readPaged(){
 	$resmod = ResourcesModel::getInstance();
 	$o = $resmod->getAllAdminDoc();
 	return $o;
+    }
+
+    public function readNonPaged(){
+        return $this->readPaged();
+    }
+    
+    protected function isPagedResource(){
+        return false;
     }
 
     public static function getDoc(){
