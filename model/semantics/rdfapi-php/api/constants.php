@@ -20,7 +20,7 @@
 define('RDFAPI_ERROR', 'RDFAPI error ');
 define('DEFAULT_ALGORITHM', 'MD5');
 define('DEFAULT_ENCODING', 'UTF-8');
-define('INDENTATION', '   ');
+define('INDENTATION', ' ');
 define('LINEFEED', chr(10));
 
 // ----------------------------------------------------------------------------------

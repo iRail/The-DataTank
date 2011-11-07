@@ -69,7 +69,8 @@ class N3Parser extends Object {
      * */
     public function N3Parser() {
         //Regular expressions:
-        $Name = '[A-Za-z0-9_@\.]+[^\.,;\[\]\s\) ]*';
+        //Original (bugged): $Name = '[A-Za-z0-9_@\.]+[^\.,;\[\]\s\.) ]*';        
+        $Name = '[A-Za-z0-9_@]+[^\.,;\[\]\s) ]*';
         $URI = '<[^> ]*>';
         $bNode = '_:' . $Name;
         $Univar = '\?' . $Name;
@@ -111,7 +112,7 @@ class N3Parser extends Object {
             $WS, $Comment, $LangTag
         );
         $this->Tokens = "/(" . join($t, "|") . ")/m";
-        
+
         $this->bNode = 0;
         $this->debug = 0;
         $this->bNodeMap = array();
@@ -441,7 +442,11 @@ class N3Parser extends Object {
         $res = array();
         preg_match_all($this->Tokens, $s, $newres);
         $res = $this->array_concat($res, array_map('trim', $newres[0]));
-//var_dump($newres[0]);
+        
+        
+        preg_match_all("/([a-zA-Z|]*|\.)/m", $s, $test);
+        var_dump($newres);
+        
         return $res;
     }
 
