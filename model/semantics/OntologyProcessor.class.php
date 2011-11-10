@@ -56,7 +56,7 @@ class OntologyProcessor {
     //CRUD METHODS for whole Ontology
 
     public function updateOntology($package) {
-        
+        //Don't know if this will ever have an implementation
     }
 
     public function createOntology($package) {
@@ -74,12 +74,17 @@ class OntologyProcessor {
 
     //CRUD METHODS for paths in Ontology
 
-    public function updatePathMap($package, $path, $value) {
+    public function updatePathMap($package, $path, $value, $nmsp, $prefix=null) {
+        $model = $this->getModel($package);
+
         $resource = new Resource($path);
-        $mapping = new Resource($value);
+        $mapping = new Resource($nmsp . $value);
+
+        if (!is_null($prefix))
+            $model->addNamespace($prefix, $nmsp);
 
         $statement = null;
-        if ($this->isPathProperty($path))
+        if ($this->isPathProperty($package, $path))
             $statement = new Statement($resource, OWL::EQUIVALENT_PROPERTY(), $mapping);
         else
             $statement = new Statement($resource, OWL::EQUIVALENT_CLASS(), $mapping);
@@ -87,12 +92,18 @@ class OntologyProcessor {
         $this->getModel($package)->add($statement);
     }
 
-    public function updatePathPreferredMap($package, $path, $value) {
+    public function updatePathPreferredMap($package, $path, $value, $nmsp, $prefix =null) {
+        $model = $this->getModel($package);
+
         $resource = new Resource($path);
-        $mapping = new Resource($value);
+        $mapping = new Resource($nmsp . $value);
+
+        if (!is_null($prefix))
+            $model->addNamespace($prefix, $nmsp);
+
 
         $statement = null;
-        if ($this->isPathProperty($path))
+        if ($this->isPathProperty($package, $path))
             $statement = new Statement($resource, TDTML::PREFERRED_PROPERTY(), $mapping);
         else
             $statement = new Statement($resource, TDTML::PREFERRED_CLASS(), $mapping);
@@ -100,21 +111,27 @@ class OntologyProcessor {
         $this->getModel($package)->add($statement);
     }
 
-    public function createPath($package, $path) {
+    public function createPropertyPath($package, $path) {
         $resource = new Resource($path);
+        $statement = new Statement($resource, RDF::TYPE(), RDF::PROPERTY());
+        $this->getModel($package)->add($statement);
+    }
 
-        $statement = null;
-        if ($this->isPathProperty($path))
-            $statement = new Statement($resource, RDF::TYPE(), RDF::PROPERTY());
-        else
-            $statement = new Statement($resource, RDF::TYPE(), OWL::OWL_CLASS());
-
+    public function createClassPath($package, $path) {
+        $resource = new Resource($path);
+        $statement = new Statement($resource, RDF::TYPE(), OWL::OWL_CLASS());
         $this->getModel($package)->add($statement);
     }
 
     public function readPath($package, $path) {
         $param = str_replace('/', '\/', $path) . '%';
-        return $this->getModel($package)->findWildcarded($param, null, null);
+        $model = $this->getModel($package)->findWildcarded($param, null, null);
+        
+        $base_resource = new Resource($model->getBaseURI().$path);
+        $description = new Literal("Ontology of " . $package."/".$path . " in The DataTank", null, 'datatype:STRING');
+        $model->add(new Statement($base_resource, RDF::TYPE(), OWL::ONTOLOGY()));
+        $model->add(new Statement($base_resource, RDFS::COMMENT(), $description));
+        return $model;
     }
 
     public function deletePath($package, $path) {
@@ -170,21 +187,21 @@ class OntologyProcessor {
         $ontology = $this->getModel($package);
         $classes = $ontology->find(null, OWL::EQUIVALENT_CLASS(), null);
         $properties = $ontology->find(null, OWL::EQUIVALENT_PROPERTY(), null);
-        
-        $result = array_merge($classes->triples,$properties->triples);
-        
+
+        $result = array_merge($classes->triples, $properties->triples);
+
         $namespaces = $ontology->getParsedNamespaces();
-        
+
         $mapping = array();
 
         foreach ($result as $triple) {
             $temp = new stdClass();
             $temp->map = $triple->getObject()->getURI();
-            
+
             $namespace = $triple->getObject()->getNamespace();
             $temp->prefix = $namespaces[$namespace];
             $temp->nmsp = $namespace;
-                        
+
             $mapping[$triple->getSubject()->getURI()] = $temp;
         }
 
@@ -194,10 +211,9 @@ class OntologyProcessor {
         return false;
     }
 
-
-    public function generateOntologyFromTabular($package, $resource, $fields) {
+    public function generateOntologyFromFields($package, $resource, $fields) {
         $model = $this->getModel($package);
-        
+
         $model->add(new Statement(new Resource($resource), RDF::TYPE(), TDTML::TDTRESOURCE()));
 
         $model->add(new Statement(new Resource($resource . '/stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
@@ -205,7 +221,6 @@ class OntologyProcessor {
         foreach ($fields as $field) {
             $model->add(new Statement(new Resource($resource . '/stdClass/' . $field), RDF::TYPE(), RDF::PROPERTY()));
         }
-
     }
 
     //Private Methods
@@ -232,9 +247,18 @@ class OntologyProcessor {
         return $model;
     }
 
-    private function isPathProperty($path) {
-        $s = substr($path, strripos($path, '/') + 1);
-        return lcfirst($s) === $s; //first letter is lowercase, so property
+    private function isPathProperty($package, $path) {
+        //Can we find a type for this path?
+        $statement = $this->getModel($package)->findFirstMatchingStatement(new Resource($path), RDF::TYPE(), null);
+
+        if (is_null($statement)) {
+            //if not, there is no entry and no mapping can be done
+            throw new OntologyPathDoesntExistTDTException($path . " cannot be found in ontology");
+        } else if ($statement->getObject()->equals(RDF::PROPERTY())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private function trimPath($path) {
@@ -247,6 +271,10 @@ class OntologyProcessor {
             return substr($path, 0, strlen($path) - 1);
 
         return $path;
+    }
+
+    private function getAllOntologys() {
+        return RbModelFactory::getRbStore()->listModels();
     }
 
 }

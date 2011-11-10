@@ -110,6 +110,7 @@ class ParameterDoesntExistTDTException extends UsageTDTException {
     }
 }
 
+
 /**
  * This class reprents an exception which is thrown when a given resource or package is not valid.
  */
@@ -197,7 +198,6 @@ class RdfTDTException extends UsageTDTException {
     }
 }
 
-
 class DeleterTDTException extends UsageTDTException {
     public static function getDoc() {
         return "Cannot delete this resource";
@@ -207,6 +207,61 @@ class DeleterTDTException extends UsageTDTException {
     
     public function __construct($message) {
         parent::__construct("An error occured while trying to delete a resource: " . $message);
+    }
+}
+
+/**
+ * This class reprents an exception which is thrown when a given resource or package is not valid.
+ */
+class OntologyAdditionTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "This exception is thrown when an error while trying to add an ontology or ontology information.";
+    }
+    
+    public static $error = 463;
+    
+    public function __construct($message) {
+        parent::__construct("An error occured while trying to add to an ontology: " . $message);
+    }
+}
+
+
+class OntologyUpdateTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "This exception is thrown when an update on an ontology isn't valid.";
+    }
+    
+    public static $error = 464;
+    
+    public function __construct($message) {
+        parent::__construct("An error occured while trying to update an ontology: " . $message);
+    }
+}
+
+class OntologyDeleterTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "Cannot delete this ontology or ontology entry";
+    }
+    
+    public static $error = 465;
+    
+    public function __construct($message) {
+        parent::__construct("An error occured while trying to delete an ontology: " . $message);
+    }
+}
+
+/**
+ * This class reprents an exception which is thrown when a given path is not valid.
+ */
+class OntologyPathDoesntExistTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "This exception is thrown when a path in an ontology does not exist. The path needs to be created before a mapping can occur.";
+    }
+    
+    public static $error = 466;
+    
+    public function __construct($parameter) {
+        parent::__construct("Path in ontology does not exist: " . $parameter);
     }
 }
 ?>

@@ -97,12 +97,7 @@ class RController extends AController {
         if (sizeof($RESTparameters) > 0) {
             //Miel: When the result is an ontology, the REST filtering is handled different
             //It's the RAP API who will do the filtering on the database
-
-            if (is_subclass_of($result, 'Model') || is_a($result, 'Model')) {
-                // apply OntologyFilter
-                $RESTFilter = $filterfactory->getFilter("OntologyFilter", $RESTparameters);
-                $result = $RESTFilter->filter($result);
-            } else {
+            if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
                 $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
                 $resultset = $RESTFilter->filter($result);
                 $subresources = $resultset->subresources;

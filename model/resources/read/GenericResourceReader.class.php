@@ -71,14 +71,14 @@ class GenericResourceReader extends AReader {
         }
     }
 
-    protected function getOntology() {
+    public function getOntology() {
         if (!OntologyProcessor::getInstance()->hasOntology($this->package)) {
             if(!isset($this->genres)){
                 $this->genres = new GenericResource($this->package, $this->resource);
             }
             $strategy = $this->genres->getStrategy();
             $fields = $strategy->getFields($this->package, $this->resource);
-            OntologyProcessor::getInstance()->generateOntologyFromTabular($this->package, $this->resource, $fields);
+            OntologyProcessor::getInstance()->generateOntologyFromFields($this->package, $this->resource, $fields);
         }
     }
 

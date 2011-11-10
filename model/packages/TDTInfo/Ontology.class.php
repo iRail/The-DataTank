@@ -11,6 +11,7 @@
 class TDTInfoOntology extends AReader {
 
     private $ontology;
+    private $ont_package;
 
     public function __construct($package, $resource, $RESTparameters) {
         parent::__construct($package, $resource, $RESTparameters);
@@ -31,19 +32,17 @@ class TDTInfoOntology extends AReader {
         return $this->ontology;
     }
 
-    public function readNonPaged(){
+    public function readNonPaged() {
         return $this->readPaged();
     }
 
-    protected function isPagedResource(){
+    protected function isPagedResource() {
         return false;
     }
-    
+
     public function setParameter($key, $val) {
         if ($key == "package") {
-            $this->package = $val;
-        } elseif ($key == "resource") {
-            $this->resource = $val;
+            $this->ont_package = $val;
         }
     }
 
@@ -52,13 +51,19 @@ class TDTInfoOntology extends AReader {
     }
 
     private function getData() {
-        $this->ontology = OntologyProcessor::getInstance()->readOntology($this->package);
+        if (count($this->RESTparameters) == 0) {
+            //Create empty ontology for a package
+            $this->ontology = OntologyProcessor::getInstance()->readOntology($this->ont_package);
+        } else {
+            $resource = implode("/", $this->RESTparameters);
+            $this->ontology = OntologyProcessor::getInstance()->readPath($this->ont_package, $resource);
+        }
     }
 
     public static function getDoc() {
         return "Lists a package ontology";
     }
-    
-    }
+
+}
 
 ?>

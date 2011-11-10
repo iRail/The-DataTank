@@ -129,17 +129,7 @@ class RbStore extends DbStore {
         if (!$recordSet)
             throw new DatabaseTDTException("Select failed");
         else {
-            $models = array();
-            $i = 0;
-            while (!$recordSet->EOF) {
-
-                $models[$i]['modelURI'] = $recordSet->fields[0];
-                $models[$i]['baseURI'] = $recordSet->fields[1];
-
-                ++$i;
-                $recordSet->moveNext();
-            }
-            return $models;
+            return $recordSet;
         }
     }
 
