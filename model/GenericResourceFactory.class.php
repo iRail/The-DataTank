@@ -93,7 +93,7 @@ class GenericResourceFactory extends AResourceFactory {
             include_once("model/resources/create/GenericResourceCreator.class.php");
             $res = new GenericResourceCreator("","", array(),$strategy);
             $d[$strategy] = new stdClass();
-            $d[$strategy]->doc = "When your file is structured according to $strategy, you can perform a PUT request and load this file in this DataTank";
+            $d[$strategy]->doc = "When your file is structured according to $strategy, you can perform a POST request and load this file in this DataTank";
             $d[$strategy]->parameters = $res->documentParameters();
             $d[$strategy]->requiredparameters = $res->documentRequiredParameters();
         }

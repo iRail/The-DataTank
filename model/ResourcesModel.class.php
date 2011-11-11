@@ -80,10 +80,7 @@ class ResourcesModel {
      */
     public function checkOntology($package, $resource, $RESTparameters) {
         //Check if it is an ontology
-        if ($package == "TDTInfo" && $resource == "Ontology" && count($RESTparameters) > 0)
-            return true;
-        else
-            return false;
+        return $package == "TDTInfo" && $resource == "Ontology" && count($RESTparameters) > 0;
     }
 
     /**
@@ -94,9 +91,10 @@ class ResourcesModel {
         if (!$this->checkOntology($package, $resource, $RESTparameters)) {
             //first check if there resource exists yet
             if ($this->hasResource($package, $resource)) {
-                throw new ResourceAdditionTDTException($package . "/" . $resource . " - It exists already");
+                //If it exists, delete it first and continue adding it.
+                $this->deleteResource($package, $resource,$RESTparameters);
             }
-
+            
             //if it doesn't, test whether the resource_type has been set
             if (!isset($parameters["resource_type"])) {
                 throw new ResourceAdditionTDTException("Parameter resource_type hasn't been set");
