@@ -11,6 +11,49 @@
 class DBQueries {
 
     /**
+     * Delete the L2 CSV cache
+     */
+    static function deleteCachedCSV($package,$resource){
+        return R::exec(
+            "DELETE from l2_cache_csv
+             WHERE gen_res_csv_id in
+                   ( SELECT generic_resource_csv.id
+                     FROM package,resource,generic_resource,generic_resource_csv
+                     WHERE package_name =:package and resource_name=:resource and package_id = package.id
+                           and resource_id = resource.id and gen_resource_id = generic_resource.id
+                   )",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+    
+    /**
+     * Retrieve the is_paged column for a resource
+     */
+    static function getIsPaged($package,$resource){
+        return R::getCell(
+            "SELECT is_paged
+             FROM package,resource
+             where package_name =:package and resource_name=:resource and package_id = package.id",
+            array(":package" => $package ,":resource" => $resource)
+        );
+    }
+    
+
+    /**
+     * Retrieve all paged CSV resources
+     * @return package, resource, uri
+     */
+    static function getAllPagedCSVResources(){
+        return R::getAll(
+            "SELECT package_name,resource_name, uri, generic_resource.id as gen_res_id,generic_resource_csv.id as csv_id,
+                    has_header_row
+             FROM   package,resource,generic_resource,generic_resource_csv
+             WHERE  package.id = resource.package_id and resource.id = generic_resource.resource_id and 
+                    gen_resource_id = generic_resource.id"
+        );
+    }
+
+    /**
      * Retrieve the amount of requests done for 
      * a certain package
      */
