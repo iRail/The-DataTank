@@ -26,7 +26,7 @@ class CSV extends ATabularData {
     public function documentCreateParameters() {
         $parameters = array();
         $parameters["uri"] = "The URI to the CSV file";
-        $parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published.";
+        $parameters["columns"] = "A ';'-sep string that contains the name of the columns that are to be published, if empty array is passed every column will be published.";
         $parameters["PK"] = "The primary key of an entry";
         $parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
         return $parameters;
@@ -286,6 +286,7 @@ class CSV extends ATabularData {
         if (!isset($this->columns)) {
             $this->columns = array();
         }
+        
         if ($this->has_header_row == "0") {
             foreach ($this->columns as $index => $value) {
                 if (!is_numeric($index)) {
