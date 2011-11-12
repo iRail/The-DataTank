@@ -17,10 +17,16 @@ abstract class AResourceStrategy{
     protected $updateActions = array();
 
     /**
-     * This functions contains the businesslogic of the method
+     * This functions contains the businesslogic of a read method (non paged reading)
      * @return StdClass object representing the result of the businesslogic.
      */
-    abstract public function onCall($package,$resource);
+    abstract public function readNonPaged($package,$resource);
+    
+    /**
+     * This functions contains the businesslogic of a read method (paged reading)
+     * @return StdClass object representing the result of the businesslogic.
+     */
+    abstract public function readPaged($package,$resource,$page);
 
     /**
      * Delete all extra information on the server about this resource when it gets deleted
@@ -52,8 +58,11 @@ abstract class AResourceStrategy{
     public function getUpdateActions(){
         return $this->updateActions;
     }
-    
-
+    /**
+     * get the fields of this resource describing the data
+     * This function is used for auto-generating the ontology
+     */
+    abstract public function getFields($package, $resource);
 }
 
 ?>

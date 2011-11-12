@@ -44,7 +44,11 @@ abstract class XLS extends ATabularData {
         }
     }
 
-    public function onCall($package,$resource){
+    public function readPaged($package,$resource,$page){
+        //TODO
+    }
+
+    public function readNonPaged($package,$resource){
 
         /*
          * First retrieve the values for the generic fields of the XLS logic
@@ -153,5 +157,10 @@ abstract class XLS extends ATabularData {
     private function evaluateXLSResource($resource_id){
         DBQueries::storeXLSResource($resource_id, $this->url, $this->sheet);
     }    
+    
+    public function getFields($package, $resource) {
+        
+    }
+
 }
 ?>

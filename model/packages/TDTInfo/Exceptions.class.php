@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Exceptions extends AReader {
+class TDTInfoExceptions extends AReader {
     
     public static function getParameters() {
         return array();
@@ -21,7 +21,15 @@ class Exceptions extends AReader {
     public function setParameter($key, $val) {
     }
     
-    public function read() {
+    public function readNonPaged(){
+        return $this->readPaged();
+    }
+    
+    protected function isPagedResource(){
+        return false;
+    }
+    
+    public function readPaged() {
         $o = new stdClass();
         $o->Exceptions = array();
         
@@ -41,6 +49,8 @@ class Exceptions extends AReader {
     public static function getDoc() {
         return "This resource contains every exception used by this DataTank instance.";
     }
+    
+
 }
 
 ?>

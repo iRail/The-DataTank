@@ -22,12 +22,14 @@ class OntologyUpdater extends AUpdater {
             "update_type" => "...",
             "method" => "The method preferred or add",
             "value" => "Supplied value for the specified method.",
+            "namespace" => "The namespace of the value",
+            "prefix" => "Possible prefix to add to the namespace",
             "REST" => "temp rest var"
         );
     }
 
     public function getRequiredParameters() {
-        return array("update_type", "method");
+        return array("update_type", "method","value","namespace");
     }
 
     public function getDocumentation() {
@@ -40,41 +42,41 @@ class OntologyUpdater extends AUpdater {
 
     public function update() {
         if ($this->resource !== "Ontology")
-            throw new ResourceUpdateTDTException("Ontology update is not allowed on this resource");
-
+            throw new OntologyUpdateTDTException("Update only allowed on the resource TDTInfo/Ontology");
+        
+        //First RESTparameters is the package, rest is the Resource path
         $package = array_shift($this->RESTparameters);
+        //Resource path empty? 
+        if (count($this->RESTparameters) == 0)
+            throw new OntologyUpdateTDTException("Cannot update the ontology of a package, please specify a resource");
+        
+        //Assemble path
         $path = implode('/', $this->RESTparameters);
 
         if (!isset($this->params['method']))
-            throw new RdfTDTException('Method parameter is not set!');
+            throw new OntologyUpdateTDTException('Method parameter is not set!');
 
+        if (!isset($this->params['value']))
+            throw new OntologyUpdateTDTException('Value parameter is not set!');
 
+        if (!isset($this->params['namespace']))
+            throw new OntologyUpdateTDTException('Namespace parameter is not set!');
+
+        if (!isset($this->params['namespace']))
+            $this->params['prefix'] = null;
+
+        //Do we want to add a mapping, or do we want to set the mapping we prefer to the others
         switch ($this->params['method']) {
-            case 'map': {
-                    if (!isset($this->params['value']))
-                        throw new RdfTDTException('Value parameter is not set!');
-                    OntologyProcessor::getInstance()->updatePathMap($package, $path, $this->params['value']);
-                    break;
-                }
-            case 'prefer': {
-                    if (!isset($this->params['value']))
-                        throw new RdfTDTException('Value parameter is not set!');
-                    OntologyProcessor::getInstance()->updatePathPreferredMap($package, $path, $this->params['value']);
-                    break;
-                }
+            case 'map':
+                OntologyProcessor::getInstance()->updatePathMap($package, $path, $this->params['value'], $this->params['namespace'], $this->params['prefix']);
+                break;
 
-            //Temporary solution. Should ne able to PUT and DELETE to do this
-            case 'delete': {
-                    OntologyProcessor::getInstance()->deletePath($package, $path);
-                    break;
-                }
-            case 'create': {
-                    OntologyProcessor::getInstance()->createPath($package, $path);
-                    break;
-                }
-            default: {
-                    throw new RdfTDTException('Method ' . $this->params['method'] . ' does not exist!');
-                }
+            case 'prefer':
+                OntologyProcessor::getInstance()->updatePathPreferredMap($package, $path, $this->params['value'], $this->params['namespace'], $this->params['prefix']);
+                break;
+
+            default:
+                throw new OntologyUpdateTDTException('Method ' . $this->params['method'] . ' does not exist!');
         }
     }
 

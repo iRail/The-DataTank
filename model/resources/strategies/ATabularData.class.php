@@ -15,8 +15,10 @@ abstract class ATabularData extends AResourceStrategy{
      */
     protected function evaluateColumns($columns,$PK,$gen_res_id){
         foreach($columns as $column => $column_alias){
-            DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK == $column?1:0));
+            DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK != "" && $PK == $column?1:0));
         }
     }
+    
+    
 }
 ?>

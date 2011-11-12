@@ -8,9 +8,10 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-class Ontology extends AReader {
+class TDTInfoOntology extends AReader {
 
     private $ontology;
+    private $ont_package;
 
     public function __construct($package, $resource, $RESTparameters) {
         parent::__construct($package, $resource, $RESTparameters);
@@ -26,16 +27,22 @@ class Ontology extends AReader {
         return array("package");
     }
 
-    public function read() {
+    public function readPaged() {
         $this->getData();
         return $this->ontology;
     }
 
+    public function readNonPaged() {
+        return $this->readPaged();
+    }
+
+    protected function isPagedResource() {
+        return false;
+    }
+
     public function setParameter($key, $val) {
         if ($key == "package") {
-            $this->package = $val;
-        } elseif ($key == "resource") {
-            $this->resource = $val;
+            $this->ont_package = $val;
         }
     }
 
@@ -44,12 +51,13 @@ class Ontology extends AReader {
     }
 
     private function getData() {
-        $filename = "custom/packages/" . $this->package . "/" . $this->package . ".ttl";
-
-        if (file_exists($filename) && !OntologyProcessor::getInstance()->hasOntology($this->package)) {
-            OntologyProcessor::getInstance()->readOntologyFile($this->package, $filename);
+        if (count($this->RESTparameters) == 0) {
+            //Create empty ontology for a package
+            $this->ontology = OntologyProcessor::getInstance()->readOntology($this->ont_package);
+        } else {
+            $resource = implode("/", $this->RESTparameters);
+            $this->ontology = OntologyProcessor::getInstance()->readPath($this->ont_package, $resource);
         }
-        $this->ontology = OntologyProcessor::getInstance()->readOntology($this->package);
     }
 
     public static function getDoc() {

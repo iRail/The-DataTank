@@ -14,33 +14,39 @@ class N3Formatter extends AFormatter {
     }
 
     protected function printBody() {
-
-    }
-
-    protected function printHeader() {
-
-    }
-
-    public function printAll() {
-        $model = $this->objectToPrint;
-        
-        //When the objectToPrint is a MemModel, it is the Ontology and ready for serialisation.
+        //When the objectToPrint has a MemModel, it is already an RDF model and is ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!(is_a($model, 'MemModel'))){
-            $outputter = new RDFOutput();
-            $model = $outputter->buildRdfOutput($model);
+        foreach ($this->objectToPrint as $class => $prop){
+            if (is_a($prop,"MemModel")){
+                $this->objectToPrint = $prop;
+                break;
+            }
         }
-            
+       
+        if (!is_a($this->objectToPrint,"MemModel")) {
+            $outputter = new RDFOutput();
+            $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
+        }
+        
         // Import Package Syntax
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_N3);
 
         $ser = new N3Serializer();
 
-        $rdf = $ser->serialize($model);
+        $rdf = $ser->serialize($this->objectToPrint);
 
         echo $rdf;
     }
 
+    protected function printHeader() {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/rdf+n3; charset=UTF-8");
+    }
+
+
+    public static function getDocumentation(){
+        return "Prints the n3 notation with semantic annotations";
+    }
 }
 
 ?>

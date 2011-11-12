@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class Packages extends AReader{
+class TDTInfoPackages extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -21,7 +21,7 @@ class Packages extends AReader{
     public function setParameter($key,$val){
     }
 
-    public function read(){
+    public function readPaged(){
 	$resmod = ResourcesModel::getInstance();
         $doc = $resmod->getAllDoc();
         $packages = array();
@@ -35,10 +35,20 @@ class Packages extends AReader{
         
 	return $packages;
     }
+    
+    public function readNonPaged(){
+        return $this->readPaged();
+    }
 
+    protected function isPagedResource(){
+        return false;
+    }
+    
     public static function getDoc(){
 	return "This resource contains every package installed on this DataTank instance.";
     }
+    
+
 }
 
 ?>

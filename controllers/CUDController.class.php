@@ -25,7 +25,9 @@ class CUDController extends AController {
         $doc = $model->getAllDoc();
         if ($resource == "") {
             if (isset($doc->$package)) {
-                throw new NoResourceGivenTDTException(get_object_vars($doc->$package));
+                $resourcenames = get_object_vars($doc->$package);
+                unset($resourcenames["creation_date"]);
+                throw new NoResourceGivenTDTException($resourcenames);
             } else {
                 throw new NoResourceGivenTDTException(array());
             }
@@ -58,7 +60,7 @@ class CUDController extends AController {
         }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
+            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
         }
         $package = $matches["package"];
         $resource = $matches["resource"];
@@ -66,10 +68,12 @@ class CUDController extends AController {
         if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
+        
         //fetch all the PUT variables in one array
         parse_str(file_get_contents("php://input"), $_PUT);
 
         $model = ResourcesModel::getInstance();
+        
         $model->createResource($package, $resource, $_PUT, $RESTparameters);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
@@ -113,14 +117,14 @@ class CUDController extends AController {
         $c->delete("admindocumentation");
     }
 
-    public function POST($matches) {
+    public function PUT($matches) {
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
         }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
+            throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
         }
         $package = trim($matches["package"]);
         $resource = trim($matches["resource"]);
@@ -129,7 +133,9 @@ class CUDController extends AController {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
 
-        //delete the package and resource when authenticated and authorized in the model
+
+        //change the package and resource when authenticated and authorized in the model
+ 
         $model = ResourcesModel::getInstance();
         $model->updateResource($package, $resource, $_POST, $RESTparameters);
 
@@ -146,11 +152,12 @@ class CUDController extends AController {
     //A real implementation should have a difference between REST and POST,PUT variables. 
     //The goal is to implement them the same way as in RController, maybe even as the same method in AController
     
-    private function getREST() {
+    private function getREST($matches) {
         $RESTparameters = array();
         if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
+        return $RESTparameters;
     }
 
     private function isAuthenticated() {

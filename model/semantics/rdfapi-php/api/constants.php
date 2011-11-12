@@ -20,7 +20,7 @@
 define('RDFAPI_ERROR', 'RDFAPI error ');
 define('DEFAULT_ALGORITHM', 'MD5');
 define('DEFAULT_ENCODING', 'UTF-8');
-define('INDENTATION', '   ');
+define('INDENTATION', ' ');
 define('LINEFEED', chr(10));
 
 // ----------------------------------------------------------------------------------
@@ -128,14 +128,14 @@ define('RDF_OBJECT_TYPE_BNODE',3);
 define('HIDE_ADVERTISE',FALSE);
 
 // RDF Serializer: Set to TRUE, if the serializer should use entities for URIs.
-define('SER_USE_ENTITIES', FALSE );
+define('SER_USE_ENTITIES', TRUE );
 
 // RDF Serializer: Set to TRUE, if the serializer should use xsd datatypes with prefix.
 define('SER_USE_SHORT_DATATYPES', FALSE);
 
 // RDF Serializer: Set to TRUE, if the serializer should serialize triples as XML
 // attributes where possible.
-define('SER_USE_ATTRIBUTES', FALSE );
+define('SER_USE_ATTRIBUTES', TRUE );
 
 // RDF Serializer: Set to TRUE in order to sort the statements of a model before
 // serializing them.

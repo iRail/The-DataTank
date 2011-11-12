@@ -14,21 +14,18 @@ class RdfFormatter extends AFormatter {
     }
 
     protected function printBody() {
-        
-    }
-
-    protected function printHeader() {
-        
-    }
-
-    public function printAll() {
-        $model = $this->objectToPrint;
-        
-        //When the objectToPrint is a MemModel, it is the Ontology and ready for serialisation.
+        //When the objectToPrint has a MemModel, it is already an RDF model and is ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!(is_a($model, 'MemModel'))){
+        foreach ($this->objectToPrint as $class => $prop){
+            if (is_a($prop,"MemModel")){
+                $this->objectToPrint = $prop;
+                break;
+            }
+        }
+       
+        if (!is_a($this->objectToPrint,"MemModel")) {
             $outputter = new RDFOutput();
-            $model = $outputter->buildRdfOutput($model);
+            $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
         }
 
         // Import Package Syntax
@@ -36,9 +33,20 @@ class RdfFormatter extends AFormatter {
 
         $ser = new RDFSerializer();
 
-        $rdf = $ser->serialize($model);
+        $rdf = $ser->serialize($this->objectToPrint);
 
         echo $rdf;
+    }
+
+    protected function printHeader() {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/rdf+xml; charset=UTF-8");
+        header("Content-Type: text/xml; charset=UTF-8");
+ 
+    }
+
+    public static function getDocumentation(){
+        return "Prints the RDF/xml notation with semantic annotations";
     }
 
 }

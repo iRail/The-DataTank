@@ -19,7 +19,7 @@ class RemoteResourceReader extends AReader{
     }
     
     /**
-     * execution method
+     * read method
      */
     public function read(){
         
@@ -53,6 +53,10 @@ class RemoteResourceReader extends AReader{
 
 	//unserialize the data of the request and return it!
 	return unserialize($request->data);
+    }
+
+    public function readPaged(){
+        return $this->read();
     }
     
     protected function setParameter($name,$val){

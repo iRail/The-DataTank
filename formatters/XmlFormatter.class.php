@@ -106,5 +106,10 @@ class XmlFormatter extends AFormatter{
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
+    public static function getDocumentation(){
+        return "Prints plain old XML. Watch out for tags starting with an integer: an i will be added.";
+    }
+
+
 };
 ?>

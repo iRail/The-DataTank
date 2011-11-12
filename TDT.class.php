@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
  * 
@@ -8,7 +7,6 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>
  * @author Pieter Colpaert   <pieter@iRail.be>
- * @author Werner Laurensse  <el.lauwer@gmail.com>
  */
 
 /**
@@ -36,7 +34,15 @@ class TDT {
         }
         //maybe our result is the cache. If so, return the cache value
         $cache = Cache::getInstance();
-        $result = $cache->get($url);
+        //Generate a cachekey for the url and the post data
+        $cachekey = "";
+        if(isset($options["data"])){
+            $cachekey = md5(urlencode($url) . md5($options["data"]));
+        }else{
+            $cachekey = md5(urlencode($url));
+        }
+        //DEBUG echo $url . " " . $cachekey . "<br/>\n";
+        $result = $cache->get($cachekey);
         if (!is_null($result)) {
             return $result;
         }
@@ -278,7 +284,8 @@ class TDT {
         if (isset($options["cache-time"])) { //are we sure we're going to call the option cache-time?
             $cachingtime = $options["cache-time"];
         }
-        $cache->set($url, $result, $cachingtime);
+        
+        $cache->set($cachekey, $result, $cachingtime);
 
         return $result;
     }

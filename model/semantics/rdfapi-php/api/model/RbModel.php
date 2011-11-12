@@ -87,6 +87,7 @@ class RbModel extends DbModel {
             $statement = new Statement($sub, $pred, $obj);
             $res->add($statement);
         }
+        //Added by Miel Vander Sande, tranfer namespaces to result
         $res->addParsedNamespaces($this->getParsedNamespaces());
         return $res;
     }
