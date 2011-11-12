@@ -53,7 +53,7 @@ class CUDController extends AController {
         header("Location:" . $pageURL);
     }
 
-    function POST($matches) {
+    function PUT($matches) {
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
@@ -69,9 +69,12 @@ class CUDController extends AController {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
         
+        //fetch all the PUT variables in one array
+        parse_str(file_get_contents("php://input"), $_PUT);
+
         $model = ResourcesModel::getInstance();
         
-        $model->createResource($package, $resource, $_POST, $RESTparameters);
+        $model->createResource($package, $resource, $_PUT, $RESTparameters);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         //Clear the documentation in our cache for it has changed
@@ -130,13 +133,11 @@ class CUDController extends AController {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
 
-        //fetch all the PUT variables in one array
-        parse_str(file_get_contents("php://input"), $_PUT);
 
         //change the package and resource when authenticated and authorized in the model
  
         $model = ResourcesModel::getInstance();
-        $model->updateResource($package, $resource, $_PUT, $RESTparameters);
+        $model->updateResource($package, $resource, $_POST, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
