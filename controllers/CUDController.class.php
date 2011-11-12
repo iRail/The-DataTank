@@ -117,7 +117,7 @@ class CUDController extends AController {
         $c->delete("admindocumentation");
     }
 
-    public function PUT($matches) {
+    public function POST($matches) {
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
