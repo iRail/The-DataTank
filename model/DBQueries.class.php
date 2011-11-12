@@ -10,6 +10,20 @@
 
 class DBQueries {
 
+
+    /**
+     * Gets the associated Resource.id from a generic resource
+     */
+    static function getAssociatedResourceId($generic_resource_id){
+        return R::getCell(
+            "SELECT resource_id 
+             FROM generic_resource
+             WHERE id = :gen_res_id",
+            array(":gen_res_id" => $generic_resource_id)
+        );
+    }
+    
+
     /**
      * Delete the L2 CSV cache
      */
@@ -50,6 +64,9 @@ class DBQueries {
              FROM   package,resource,generic_resource,generic_resource_csv
              WHERE  package.id = resource.package_id and resource.id = generic_resource.resource_id and 
                     gen_resource_id = generic_resource.id"
+        );
+    }
+    
     /*
      * puts a CSV row into the level 2 cache table
      */

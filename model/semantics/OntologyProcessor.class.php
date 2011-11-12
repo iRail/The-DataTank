@@ -273,7 +273,7 @@ class OntologyProcessor {
         return $path;
     }
 
-    private function getAllOntologys() {
+    public function getAllOntologys() {
         return RbModelFactory::getRbStore()->listModels();
     }
 

@@ -78,6 +78,7 @@ class CUDController extends AController {
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         //Clear the documentation in our cache for it has changed
+        
         $c = Cache::getInstance();
         $c->delete("documentation");
         $c->delete("admindocumentation");
@@ -117,7 +118,7 @@ class CUDController extends AController {
         $c->delete("admindocumentation");
     }
 
-    public function PUT($matches) {
+    public function POST($matches) {
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
