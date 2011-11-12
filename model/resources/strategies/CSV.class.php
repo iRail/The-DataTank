@@ -280,8 +280,12 @@ class CSV extends ATabularData {
          * header fields and put them in our back-end as well.
          */
         if (!isset($this->columns)) {
-            $this->columns = "";
+            $this->columns = array();
+        }else{
+        
+            $this->columns = explode(";",$this->columns);    
         }
+        
         if ($this->has_header_row == "0") {
             foreach ($this->columns as $index => $value) {
                 if (!is_numeric($index)) {
@@ -365,8 +369,7 @@ class CSV extends ATabularData {
             }
             $this->checkForPaging($rows,$delimiter,$generic_resource_id,$resource_id);
         }
-        $columns = explode(";",$this->columns);
-        parent::evaluateColumns($columns, $this->PK, $resource_id);
+        parent::evaluateColumns($this->columns, $this->PK, $resource_id);
     }
     
     /*
