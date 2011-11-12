@@ -365,7 +365,8 @@ class CSV extends ATabularData {
             }
             $this->checkForPaging($rows,$delimiter,$generic_resource_id,$resource_id);
         }
-        parent::evaluateColumns($this->columns, $this->PK, $resource_id);
+        $columns = explode(";",$this->columns);
+        parent::evaluateColumns($columns, $this->PK, $resource_id);
     }
     
     /*
