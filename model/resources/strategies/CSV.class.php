@@ -310,6 +310,9 @@ class CSV extends ATabularData {
                 }
                 fclose($handle);
             }else{
+                $package = DBQueries::getPackageById($package_id);
+                $resource = DBQueries::getResourceById($resource_id);
+                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
                 throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
                 
             }
@@ -328,6 +331,9 @@ class CSV extends ATabularData {
                 ini_set('max_execution_time', 300);
                 $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
             }else{
+                $package = DBQueries::getPackageById($package_id);
+                $resource = DBQueries::getResourceById($resource_id);
+                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
                 throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
                 
             }
@@ -353,6 +359,9 @@ class CSV extends ATabularData {
                 }
                 fclose($handle);
             }else{
+                $package = DBQueries::getPackageById($package_id);
+                $resource = DBQueries::getResourceById($resource_id);
+                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
                 throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
                 
             }
@@ -386,6 +395,9 @@ class CSV extends ATabularData {
                 }
                 fclose($handle);
             }else{
+                $package = DBQueries::getPackageById($package_id);
+                $resource = DBQueries::getResourceById($resource_id);
+                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
                 throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
                 
             }
