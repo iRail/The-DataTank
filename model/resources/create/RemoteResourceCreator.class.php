@@ -6,6 +6,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
+ * @author Pieter Colpaert
  */
 
 include_once("ACreator.class.php");
@@ -64,14 +65,14 @@ class RemoteResourceCreator extends ACreator{
             throw new HttpOutTDTException($url . " does not exist! Please check the package name and base url");
         }
         $object = unserialize($request->data);
-        if(!isset($object["doc"])){
-            throw new ResourceAdditionTDTException("$resource does not exist on the remote server");
+        if(!isset($object[$this->resource])){
+            throw new ResourceAdditionTDTException("Resource does not exist on the remote server");
         }
 
         // 2. Check if the resource on the server contains an "orginal" resource URI and take that URI instead if exists and reload everything
-        if(isset($object["extra"]) && isset($object["extra"]["base_url"])){
-            $base_url = $object["extra"]["base_url"];
-            $packagename = $object["extra"]["package_name"];
+        if(isset($object["base_url"]) ){
+            $base_url = $object["base_url"];
+            $packagename = $object["remote_package"];
         }
 
         // 3. store it
