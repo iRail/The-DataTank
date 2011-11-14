@@ -16,27 +16,27 @@ class Doc{
      */
     public function visitAll($factories){
         $c = Cache::getInstance();
-        $doc = $c->get("documentation");
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         if(is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDoc($doc);
             }
-            $c->set("documentation",$doc,60*60*60); // cache it for 1 hour by default
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "documentation",$doc,60*60*60); // cache it for 1 hour by default
         }
         return $doc;
     }
 
     public function visitAllAdmin($factories){
         $c = Cache::getInstance();
-        $doc = $c->get("admindocumentation");
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
         if(is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDeleteDoc($doc);
                 $factory->makeCreateDoc($doc);
             }
-            $c->set("admindocumentation",$doc,60*60*60); // cache it for 1 hour by default
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation",$doc,60*60*60); // cache it for 1 hour by default
         }
         return $doc;
     }
