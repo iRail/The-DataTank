@@ -112,16 +112,16 @@ class RemoteResourceFactory extends AResourceFactory{
         $remoteResource = new stdClass();
         $remoteResource->package = $package;
         $remoteResource->remote_package = $result["package"];
-        if(isset($data["doc"])){
-            $remoteResource->doc = $data["doc"];
+        if(isset($data[$resource])){
+            $remoteResource->doc = $data[$resource]["doc"];
         }
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
-        if(isset($data["parameters"])){
-            $remoteResource->parameters = $data["parameters"];
+        if(isset($data[$resource]["parameters"])){
+            $remoteResource->parameters = $data[$resource]["parameters"];
         }
-        if(isset($data["requiredparameters"])){
-            $remoteResource->requiredparameters = $data["requiredparameters"];
+        if(isset($data[$resource]["requiredparameters"])){
+            $remoteResource->requiredparameters = $data[$resource]["requiredparameters"];
         }
         return $remoteResource;
     }
