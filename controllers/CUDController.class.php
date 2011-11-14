@@ -80,8 +80,8 @@ class CUDController extends AController {
         //Clear the documentation in our cache for it has changed
         
         $c = Cache::getInstance();
-        $c->delete("documentation");
-        $c->delete("admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
     /**
@@ -114,8 +114,8 @@ class CUDController extends AController {
 
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
-        $c->delete("documentation");
-        $c->delete("admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
     public function POST($matches) {
@@ -144,8 +144,8 @@ class CUDController extends AController {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
-        $c->delete("documentation");
-        $c->delete("admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
     //Miel: IMPORTANT 
