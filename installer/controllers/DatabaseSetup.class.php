@@ -190,7 +190,8 @@ class DatabaseSetup extends InstallController {
                          csv_values varchar(4000) NOT NULL,
                          PRIMARY KEY (id),
                          FOREIGN KEY(gen_res_csv_id) references generic_resource_csv(id)
-                       ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;"
+                       ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
+        
 
 
         $tables = array();
