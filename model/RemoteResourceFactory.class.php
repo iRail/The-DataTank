@@ -79,7 +79,7 @@ class RemoteResourceFactory extends AResourceFactory{
     public function makeCreateDoc($doc){
         //add stuff to create attribute in doc. No other parameters expected
         $d = new stdClass();
-        $d->doc = "Creates a new remote resource by executing a HTTP POST on an URL formatted like " . Config::$HOSTNAME . Config::$SUBDIR . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
+        $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::$HOSTNAME . Config::$SUBDIR . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
         include_once("model/resources/create/RemoteResourceCreator.class.php");
         $resource = new RemoteResourceCreator("","", array());//make an empty object. In the end we only need a remote resource
         $d->parameters = $resource->documentParameters();
