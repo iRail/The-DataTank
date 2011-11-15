@@ -48,9 +48,9 @@ class CSV extends ATabularData {
             throw new ParameterTDTException("The pagenumber must be equal or larger than 1");
         }
         
-        $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE - 1; 
+        $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE; 
         // SQL LIMIT clause starts with 0
-        $lowerbound = $upperbound - $this->NUMBER_OF_ITEMS_PER_PAGE + 1;
+        $lowerbound = $upperbound - $this->NUMBER_OF_ITEMS_PER_PAGE ;
 
         /**
          * get resulting rows
