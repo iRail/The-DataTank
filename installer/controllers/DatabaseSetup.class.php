@@ -123,6 +123,7 @@ class DatabaseSetup extends InstallController {
               `creation_timestamp` bigint(20) NOT NULL,
               `last_update_timestamp` bigint(20) NOT NULL,
               `type` varchar(60) NOT NULL,
+              `is_paged` tinyint(2) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
