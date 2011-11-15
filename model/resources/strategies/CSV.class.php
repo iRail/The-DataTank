@@ -45,7 +45,9 @@ class CSV extends ATabularData {
         $fieldhash = array();
 
         if($page < 1){
-            throw new ParameterTDTException("The pagenumber must be equal or larger than 1");
+            header("HTTP/1.1 303 See Other");
+            header("Location: ".Config::$HOSTNAME.$package."/".$resource.".about?page=1");
+            return new stdClass();
         }
         
         $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE; 
@@ -425,7 +427,7 @@ class CSV extends ATabularData {
             DBQueries::updateIsPagedResource($resource_id,"1");
             // only read lines from the stream that are valuable to us ( so no header of commentlines )
             while (($line = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
-                DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter))$delimiter,$generic_resource_csv_id);
+                DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter)),$delimiter,$generic_resource_csv_id);
             }
         }else{
             DBQueries::updateIsPagedResource($resource_id,"0");

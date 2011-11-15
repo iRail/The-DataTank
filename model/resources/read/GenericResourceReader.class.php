@@ -43,7 +43,7 @@ class GenericResourceReader extends AReader {
      */
     public function readPaged(){
         if(!isset($this->page)){
-            $this->page = 1;
+            $this->page = -1;
         }
         return $this->genres->readPaged($this->page);
     }
