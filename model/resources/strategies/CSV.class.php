@@ -288,6 +288,14 @@ class CSV extends ATabularData {
         }
         
         if ($this->has_header_row == "0") {
+            // no header row ? then columns must be passed
+            if(count($this->columns) < 1){
+                $package = DBQueries::getPackageById($package_id);
+                $resource = DBQueries::getResourceById($resource_id);
+                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
+                throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
+            }
+            
             foreach ($this->columns as $index => $value) {
                 if (!is_numeric($index)) {
                     $package = DBQueries::getPackageById($package_id);
