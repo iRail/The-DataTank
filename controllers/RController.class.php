@@ -132,16 +132,6 @@ class RController extends AController {
         $o->$RESTresource = $result;
         $result = $o;
 
-        /**
-         * look for a Link header, if there is one, replace the .about formatter with the ".requestedformat"
-         */
-        $link_header = HttpResponse::getHeader("Link");
-        if($link_header != FALSE){
-            $replacement = str_replace(".about",".".$matches["format"],$link_header);
-            header("Link: $replacement");
-        }
-        
-
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
 
