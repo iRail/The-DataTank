@@ -91,7 +91,7 @@ class ParameterTDTException extends UsageTDTException {
     public static $error = 454;
     
     public function __construct($parameter) {
-        parent::__construct("Parameter not found or incorrect: " . $parameter);
+        parent::__construct("Parameter not found or incorrect: " . $parameter . ". Try adding /". $parameter . " it in front of the format in your URL.");
     }
 }
 
