@@ -141,41 +141,6 @@ class OntologyProcessor {
         }
     }
 
-    //functions for retrieving mapping
-    public function getClassMap($package, $path) {
-        $ontology = $this->getModel($package);
-        $path = $this->trimPath($path);
-
-        //$namespaces = $ontology->getParsedNamespaces();
-        //$statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_CLASS(), null);
-        $statement = new Statement(new Resource("http://www.something/ont#TestClass"), new Resource("http://www.something/ont#TestClass"), new Resource("http://www.something/ont#TestClass"));
-        if (!is_null($statement)) {
-            $result = new stdClass ();
-            $result->class = $statement->getObject();
-            //$result->prefix = $namespaces[$statement->getObject()->getNamespace()];
-            return $result;
-        }
-
-        return false;
-    }
-
-    public function getPropertyMap($package, $path) {
-        $ontology = $this->getModel($package);
-        $path = $this->trimPath($path);
-
-        //$namespaces = $ontology->getParsedNamespaces();
-        //$statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_PROPERTY(), null);
-        $statement = new Statement(new Resource("http://www.something/ont#testProperty"), new Resource("http://www.something/ont#testProperty"), new Resource("http://www.something/ont#testProperty"));
-        if (!is_null($statement)) {
-            $result = new stdClass ();
-            $result->property = $statement->getObject();
-            //$result->prefix = $namespaces[$statement->getObject()->getNamespace()];
-            return $result;
-        }
-
-        return false;
-    }
-
     /*
      * This function retrieves all triples containing mapping.
      * 
