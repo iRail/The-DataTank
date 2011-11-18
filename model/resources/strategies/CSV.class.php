@@ -47,7 +47,7 @@ class CSV extends ATabularData {
         $format = FormatterFactory::getInstance()->getFormat();
         if($page < 1){
             header("HTTP/1.1 303 See Other");
-            header("Location: ".Config::$HOSTNAME.$package."/".$resource.".$format?page=1");
+            header("Location: ".Config::$HOSTNAME . Config::$SUBDIR . $package."/".$resource.".$format?page=1");
             return new stdClass();
         }
         
@@ -137,7 +137,7 @@ class CSV extends ATabularData {
         $possible_next_page = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
         if(isset($possible_next_page[0])){
             $page=$page+1;
-            $link = Config::$HOSTNAME . $package ."/". $resource .".$format"."?page=$page";
+            $link = Config::$HOSTNAME .Config::$SUBDIR . $package ."/". $resource .".$format"."?page=$page";
             header("Link: $link");
         }
         return $arrayOfRowObjects;
