@@ -60,7 +60,7 @@ class CUDController extends AController {
         }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
+            throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
         }
         $package = $matches["package"];
         $resource = $matches["resource"];
@@ -125,7 +125,7 @@ class CUDController extends AController {
         }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
+            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
         }
         $package = trim($matches["package"]);
         $resource = trim($matches["resource"]);
