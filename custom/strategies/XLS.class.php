@@ -2,12 +2,12 @@
 /**
  * This class handles a XLS file
  *
- * @package The-Datatank/model/resources/strategies
+ * @package The-Datatank/custom/strategies
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Lieven Janssen
  */
-include_once("model/resources/strategies/ATabularData.class.php");
+include_once("custom/strategies/ATabularData.class.php");
 
 //Making it abstract disables this class for now. We will enable it in a custom resource later
 abstract class XLS extends ATabularData {
@@ -48,7 +48,7 @@ abstract class XLS extends ATabularData {
         //TODO
     }
 
-    public function readNonPaged($package,$resource){
+    public function read($package,$resource){
 
         /*
          * First retrieve the values for the generic fields of the XLS logic

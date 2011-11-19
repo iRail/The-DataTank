@@ -32,7 +32,7 @@ class TDTInfoOntology extends AReader {
         return $this->ontology;
     }
 
-    public function readNonPaged() {
+    public function read() {
         return $this->readPaged();
     }
 

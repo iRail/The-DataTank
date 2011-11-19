@@ -3,12 +3,12 @@
 /**
  * This handles a database related resource
  *
- * @package The-Datatank/model/resources/strategies
+ * @package The-Datatank/custom/strategies
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once("model/resources/strategies/ATabularData.class.php");
+include_once("custom/strategies/ATabularData.class.php");
 include_once("model/DBQueries.class.php");
 
 class DB extends ATabularData {
@@ -109,7 +109,7 @@ class DB extends ATabularData {
         }
     }
 
-    public function readNonPaged($package,$resource){
+    public function read($package,$resource){
 
         /*
          * Here we'll extract all the db-related info and return an object for the RESTful call

@@ -3,12 +3,12 @@
 /**
  * This class handles a CSV file
  *
- * @package The-Datatank/model/resources/strategies
+ * @package The-Datatank/custom/strategies
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once ("model/resources/strategies/ATabularData.class.php");
+include_once ("custom/strategies/ATabularData.class.php");
 
 class CSV extends ATabularData {
 
@@ -47,7 +47,7 @@ class CSV extends ATabularData {
         $format = strtolower(FormatterFactory::getInstance()->getFormat());
         if($page < 1){
             header("HTTP/1.1 303 See Other");
-            header("Location: ".Config::$HOSTNAME.$package."/".$resource.".$format?page=1");
+            header("Location: ".Config::$HOSTNAME . Config::$SUBDIR . $package."/".$resource.".$format?page=1");
             return new stdClass();
         }
         
@@ -137,7 +137,7 @@ class CSV extends ATabularData {
         $possible_next_page = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
         if(isset($possible_next_page[0])){
             $page=$page+1;
-            $link = Config::$HOSTNAME . $package ."/". $resource .".$format"."?page=$page";
+            $link = Config::$HOSTNAME .Config::$SUBDIR . $package ."/". $resource .".$format"."?page=$page";
             header("Link: $link");
         }
         return $arrayOfRowObjects;
@@ -146,7 +146,7 @@ class CSV extends ATabularData {
     /**
      * Read non paged resource
      */
-    public function readNonPaged($package, $resource) {
+    public function read($package, $resource) {
         /*
          * First retrieve the values for the generic fields of the CSV logic
          * This is the uri to the file, and a parameter which states if the CSV file
@@ -396,11 +396,10 @@ class CSV extends ATabularData {
                                 $fieldhash[$line[$i]] = $i;
                                 $this->columns[$i] = $line[$i];
                             }
+                            $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
+                            break;
                         }
-                    } else{
-                        $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
-                        break;
-                    }    
+                    } 
                 }
                 fclose($handle);
             }else{

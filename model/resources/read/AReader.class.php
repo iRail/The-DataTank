@@ -35,7 +35,7 @@ abstract class AReader{
      */
     public function execute(){
         if($this->isPagedResource() == 0){
-            return $this->readNonPaged();
+            return $this->read();
         }else{
             return $this->readPaged();
         }
@@ -49,12 +49,14 @@ abstract class AReader{
     /**
      * read method of a non-paged resource
      */
-    abstract public function readNonPaged();
+    abstract public function read();
 
     /**
      * read method of a paged resource
      */
-    abstract public function readPaged();
+    public function readPaged(){
+        return "Not yet implemented.";
+    }
 
     public function processParameters($parameters){
         /*

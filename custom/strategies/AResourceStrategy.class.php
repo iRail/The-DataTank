@@ -20,7 +20,7 @@ abstract class AResourceStrategy{
      * This functions contains the businesslogic of a read method (non paged reading)
      * @return StdClass object representing the result of the businesslogic.
      */
-    abstract public function readNonPaged($package,$resource);
+    abstract public function read($package,$resource);
     
     /**
      * This functions contains the businesslogic of a read method (paged reading)
