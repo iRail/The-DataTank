@@ -107,11 +107,11 @@ class GenericResourceFactory extends AResourceFactory {
     private function getAllStrategies(){
         $strategies = array();
         //open the custom directory and loop through it
-        /*if ($handle = opendir('custom/genericstrategies')) {
+        /*if ($handle = opendir('custom/strategies')) {
             while (false !== ($strat = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed strategies
-                if ($strat != "." && $strat != ".." && file_exists("custom/genericstrategies/" . $strat)) {
-                    include_once("custom/genericstrategies/" . $strat);
+                if ($strat != "." && $strat != ".." && file_exists("custom/strategies/" . $strat)) {
+                    include_once("custom/strategies/" . $strat);
                     $fileexplode = explode(".",$strat);
                     $strategies[] = $fileexplode[0];
                 }
@@ -119,11 +119,11 @@ class GenericResourceFactory extends AResourceFactory {
             closedir($handle);
             }*/
         //open the main strategies directory as well and loop through it
-        if ($handle = opendir('model/resources/strategies')) {
+        if ($handle = opendir('custom/strategies')) {
             while (false !== ($strat = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed strategies
-                if ($strat != "." && $strat != ".." && file_exists("model/resources/strategies/" . $strat)) {
-                    include_once("model/resources/strategies/" . $strat);
+                if ($strat != "." && $strat != ".." && file_exists("custom/strategies/" . $strat)) {
+                    include_once("custom/strategies/" . $strat);
                     $fileexplode = explode(".",$strat);
                     $class = new ReflectionClass($fileexplode[0]);
                     if(!$class->isAbstract()){

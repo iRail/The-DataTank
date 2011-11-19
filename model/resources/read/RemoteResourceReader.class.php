@@ -27,7 +27,7 @@ class RemoteResourceReader extends AReader{
     /**
      * read method
      */
-    public function readNonPaged(){
+    public function read(){
         
 	//extract the right parameters (the non optional ones) and concatenate them to create the right URL
 	$params = "?";

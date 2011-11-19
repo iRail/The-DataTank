@@ -183,7 +183,7 @@ class TDTInfoQueries extends AReader{
         return $this->queryResults;
     }
 
-    public function readNonPaged(){
+    public function read(){
         return $this->readPaged();
     }
     

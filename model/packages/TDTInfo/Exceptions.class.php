@@ -21,7 +21,7 @@ class TDTInfoExceptions extends AReader {
     public function setParameter($key, $val) {
     }
     
-    public function readNonPaged(){
+    public function read(){
         return $this->readPaged();
     }
     

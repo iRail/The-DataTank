@@ -60,10 +60,11 @@ class DBQueries {
     static function getAllPagedCSVResources(){
         return R::getAll(
             "SELECT package_name,resource_name, uri, generic_resource.id as gen_res_id,generic_resource_csv.id as csv_id,
-                    has_header_row
+                    has_header_row,documentation
              FROM   package,resource,generic_resource,generic_resource_csv
              WHERE  package.id = resource.package_id and resource.id = generic_resource.resource_id and 
-                    gen_resource_id = generic_resource.id"
+                    gen_resource_id = generic_resource.id",
+            array()
         );
     }
     

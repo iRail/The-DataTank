@@ -2,7 +2,7 @@
 /**
  * This class tests the generic XLS resource
  *
- * @package The-Datatank/model/resources/strategies
+ * @package The-Datatank/unittests/tests
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Lieven Janssen

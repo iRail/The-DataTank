@@ -29,7 +29,7 @@ class TDTInfoAdmin extends AReader{
 	return $o;
     }
 
-    public function readNonPaged(){
+    public function read(){
         return $this->readPaged();
     }
     
