@@ -2,19 +2,13 @@
 /**
  * This is the abstract class for a strategy.
  *
- * @package The-Datatank/resources/AResourceStrategy
+ * @package The-Datatank/model/resources
  * @license AGPLv3
  * @author Pieter Colpaert   <pieter@iRail.be>
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
 abstract class AResourceStrategy{
-
-    /**
-     * There are different update actions with different necessary parameters,
-     * Therefore the strategy that allows a certain update action, will hold this in updateActions
-     */
-    protected $updateActions = array();
 
     /**
      * This functions contains the businesslogic of a read method (non paged reading)
@@ -26,7 +20,10 @@ abstract class AResourceStrategy{
      * This functions contains the businesslogic of a read method (paged reading)
      * @return StdClass object representing the result of the businesslogic.
      */
-    abstract public function readPaged($package,$resource,$page);
+    public function readPaged($package,$resource,$page){
+        //for if the strategy did not implement a paged function, return read
+        return $this->read($package, $resource);
+    }
 
     /**
      * Delete all extra information on the server about this resource when it gets deleted
@@ -38,6 +35,11 @@ abstract class AResourceStrategy{
      */
     abstract public function onAdd($package_id, $resource_id);
 
+    /**
+     * An Update method
+     */ 
+    abstract public function onUpdate($package, $resource);
+
     public function setParameter($key,$value){
         $this->$key = $value;
     }
@@ -48,21 +50,15 @@ abstract class AResourceStrategy{
      */
     abstract public function documentCreateRequiredParameters();
     abstract public function documentReadRequiredParameters();
+    abstract public function documentUpdateRequiredParameters();
     abstract public function documentCreateParameters();
     abstract public function documentReadParameters();
+    abstract public function documentUpdateParameters();
     
-    /**
-     * Get all of the supported update actions
-     * @return Array with all of the supported update actions' names.
-     */
-    public function getUpdateActions(){
-        return $this->updateActions;
-    }
     /**
      * get the fields of this resource describing the data
      * This function is used for auto-generating the ontology
      */
     abstract public function getFields($package, $resource);
 }
-
 ?>
