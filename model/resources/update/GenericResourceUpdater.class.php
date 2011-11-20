@@ -23,11 +23,11 @@ class GenericResourceUpdater extends AUpdater {
     }
 
     public function getParameters(){
-        return $this->strategy->getUpdateParameters();
+        return $this->strategy->documentUpdateParameters();
     }
 
     public function getRequiredParameters() {
-        return $this->strategy->getRequiredUpdateParameters();
+        return $this->strategy->documentUpdateRequiredParameters();
     }
 
     protected function setParameter($key, $value) {

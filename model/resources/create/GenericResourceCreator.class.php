@@ -25,6 +25,8 @@ class GenericResourceCreator extends ACreator{
         // add all the parameters to the $parameters
         // and all of the requiredParameters to the $requiredParameters
         $this->strategy = new $this->generic_type();
+        $this->strategy->package = $package;
+        $this->strategy->resource = $resource;
     }
 
     /**

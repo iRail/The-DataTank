@@ -18,6 +18,7 @@ include_once("model/OntologyFactory.class.php");
 include_once("model/Doc.class.php");
 include_once("resources/update/OntologyUpdater.class.php");
 include_once("resources/update/ForeignRelation.class.php");
+include_once("resources/update/GenericResourceUpdater.class.php");
 
 class ResourcesModel {
 
