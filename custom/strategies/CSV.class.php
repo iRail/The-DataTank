@@ -195,7 +195,7 @@ class CSV extends ATabularData {
                 $PK = $columns[$result["column_name"]];
             }
         }
-
+        
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
@@ -248,7 +248,8 @@ class CSV extends ATabularData {
                     
                     for ($i = 0; $i < sizeof($keys); $i++) {
                         $c = $keys[$i];
-                        if (sizeof($columns) == 0) {
+                        
+                        if (sizeof($columns) == 0 || !array_key_exists($c,$columns)) {
                             $rowobject->$c = $data[$fieldhash[$c]];
                         } else if (array_key_exists($c, $columns)) {
                             $rowobject->$columns[$c] = $data[$fieldhash[$c]];
