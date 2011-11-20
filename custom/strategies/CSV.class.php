@@ -50,7 +50,7 @@ class CSV extends ATabularData {
          */
         $fieldhash = array();
         //requested format for the (possible) next Link-header
-        $format = FormatterFactory::getInstance()->getFormat();
+        $format = strtolower(FormatterFactory::getInstance()->getFormat());
         if($page < 1){
             header("HTTP/1.1 303 See Other");
             header("Location: ".Config::$HOSTNAME . Config::$SUBDIR . $package."/".$resource.".$format?page=1");

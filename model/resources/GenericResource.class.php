@@ -8,7 +8,7 @@
  * @author Pieter Colpaert
  */
 
-include_once("custom/strategies/AResourceStrategy.class.php");
+include_once("model/resources/AResourceStrategy.class.php");
 include_once("model/resources/AResource.class.php");
 
 class GenericResource{

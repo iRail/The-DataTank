@@ -148,18 +148,6 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
-    //Miel: IMPORTANT 
-    //This is a quick addition to implement REST parameters for CUD, so no clean code
-    //A real implementation should have a difference between REST and POST,PUT variables. 
-    //The goal is to implement them the same way as in RController, maybe even as the same method in AController
-    
-    private function getREST($matches) {
-        $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
-        }
-        return $RESTparameters;
-    }
 
     private function isAuthenticated() {
         return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
