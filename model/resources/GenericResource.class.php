@@ -33,9 +33,9 @@ class GenericResource{
         return $this->strategy;
     }    
 
-    public function readNonPaged(){
+    public function read(){
         $strat = $this->getStrategy();
-        return $strat->readNonPaged($this->package,$this->resource);
+        return $strat->read($this->package,$this->resource);
     }
 
     public function readPaged($page){

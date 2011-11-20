@@ -207,7 +207,7 @@ class CSV extends ATabularData {
             throw new CouldNotGetDataTDTException($filename);
         }
         $csv = utf8_encode($request->data);
-
+        
         try {
             // find the delimiter
             $commas = substr_count($csv, ",", 0, strlen($csv) > 127 ? 127 : strlen($csv));
@@ -245,7 +245,7 @@ class CSV extends ATabularData {
                 } else {
                     $rowobject = new stdClass();
                     $keys = array_keys($fieldhash);
-
+                    
                     for ($i = 0; $i < sizeof($keys); $i++) {
                         $c = $keys[$i];
                         if (sizeof($columns) == 0) {
@@ -254,7 +254,7 @@ class CSV extends ATabularData {
                             $rowobject->$columns[$c] = $data[$fieldhash[$c]];
                         }
                     }
-
+                    
                     if ($PK == "") {
                         array_push($arrayOfRowObjects, $rowobject);
                     } else {
