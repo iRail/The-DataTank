@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Lieven Janssen
  */
-include_once("model/resources/strategies/ATabularData.class.php");
+include_once("custom/strategies/ATabularData.class.php");
 
 class HTMLTable extends ATabularData {
 
@@ -35,7 +35,7 @@ class HTMLTable extends ATabularData {
         // TODO
     }
 
-    public function readNonPaged($package,$resource){
+    public function read($package,$resource){
 
         /*
          * First retrieve the values for the generic fields of the HTML Table logic

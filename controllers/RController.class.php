@@ -131,7 +131,7 @@ class RController extends AController {
         }
         $o->$RESTresource = $result;
         $result = $o;
-
+        
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
 
@@ -139,6 +139,18 @@ class RController extends AController {
         if (!isset($doc->$package->$resourcename->base_url)) {
             RequestLogger::logRequest();
         }
+        
+        /**
+         * check for updates if necessary
+         */
+        
+        if(true || !$this->is_update_process_running()){
+            //echo "lets run an update!!\n";
+            $this->run_update_in_background();
+        }else{
+            //echo "update is already being processed.\n";
+        }
+        
     }
 
     /**
@@ -162,6 +174,13 @@ class RController extends AController {
         throw new RepresentationCUDCallTDTException();
     }
 
-}
+    private function run_update_in_background(){
+        passthru("php bin/cache\ update/update_cache.php >/dev/null 2>&1 &");
+    }
 
+    private function is_update_process_running(){
+        exec("ps -C 'php bin/cache\ update/update_cache.php >/dev/null 2>&1 &'",$response );
+        return(count($response) >= 2);
+    }
+}
 ?>

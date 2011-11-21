@@ -36,7 +36,7 @@ class TDTInfoPackages extends AReader{
 	return $packages;
     }
     
-    public function readNonPaged(){
+    public function read(){
         return $this->readPaged();
     }
 

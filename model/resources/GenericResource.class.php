@@ -8,7 +8,7 @@
  * @author Pieter Colpaert
  */
 
-include_once("model/resources/strategies/AResourceStrategy.class.php");
+include_once("model/resources/AResourceStrategy.class.php");
 include_once("model/resources/AResource.class.php");
 
 class GenericResource{
@@ -27,15 +27,15 @@ class GenericResource{
 
     public function getStrategy(){
         if(is_null($this->strategy)){
-            include_once("model/resources/strategies/" . $this->strategyname . ".class.php");
+            include_once("custom/strategies/" . $this->strategyname . ".class.php");
             $this->strategy = new $this->strategyname();
         }
         return $this->strategy;
     }    
 
-    public function readNonPaged(){
+    public function read(){
         $strat = $this->getStrategy();
-        return $strat->readNonPaged($this->package,$this->resource);
+        return $strat->read($this->package,$this->resource);
     }
 
     public function readPaged($page){

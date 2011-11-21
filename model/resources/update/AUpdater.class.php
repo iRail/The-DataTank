@@ -24,18 +24,14 @@ abstract class AUpdater {
      * process the parameters
      */
     public function processParameters($parameters) {
+        unset($parameters["update_type"]);
+        
         foreach ($parameters as $key => $value) {
             //check whether this parameter is in the documented parameters
             if (!in_array($key,array_keys($this->getParameters()))) {
                 throw new ParameterDoesntExistTDTException($key);
             }
             $this->setParameter($key, $value);
-        }
-        //check if all required parameters are set
-        foreach ($this->getRequiredParameters() as $key) {
-            if (!in_array($key, array_keys($parameters))){
-                throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
-            }
         }
     }
 

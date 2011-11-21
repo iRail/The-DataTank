@@ -3,16 +3,22 @@
 /**
  * This class handles a CSV file
  *
- * @package The-Datatank/model/resources/strategies
+ * @package The-Datatank/custom/strategies
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once ("model/resources/strategies/ATabularData.class.php");
+include_once ("custom/strategies/ATabularData.class.php");
 
 class CSV extends ATabularData {
 
     private $NUMBER_OF_ITEMS_PER_PAGE = 50;
+    //  the maximum execution time that a creation of a csv resource may take
+    //  a csv file with 1 million lines for example will take a while to add ( will be streamed from the host )
+    //  if you're experiencing timeouts, then up this variable
+    private $MAX_EXECUTION_TIME = 300;
+    
+    
 
     public function documentCreateRequiredParameters(){
         return array("uri");
@@ -44,10 +50,10 @@ class CSV extends ATabularData {
          */
         $fieldhash = array();
         //requested format for the (possible) next Link-header
-        $format = FormatterFactory::getInstance()->getFormat();
+        $format = strtolower(FormatterFactory::getInstance()->getFormat());
         if($page < 1){
             header("HTTP/1.1 303 See Other");
-            header("Location: ".Config::$HOSTNAME.$package."/".$resource.".$format?page=1");
+            header("Location: ".Config::$HOSTNAME . Config::$SUBDIR . $package."/".$resource.".$format?page=1");
             return new stdClass();
         }
         
@@ -101,6 +107,9 @@ class CSV extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
             
+        /**
+         * bouw resulting object op
+         */
         foreach($result as $paged_csv_row) {
             $delimiter = $paged_csv_row["delimiter"];
             $value = $paged_csv_row["value"];
@@ -137,7 +146,7 @@ class CSV extends ATabularData {
         $possible_next_page = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
         if(isset($possible_next_page[0])){
             $page=$page+1;
-            $link = Config::$HOSTNAME . $package ."/". $resource .".$format"."?page=$page";
+            $link = Config::$HOSTNAME .Config::$SUBDIR . $package ."/". $resource .".$format"."?page=$page";
             header("Link: $link");
         }
         return $arrayOfRowObjects;
@@ -146,7 +155,7 @@ class CSV extends ATabularData {
     /**
      * Read non paged resource
      */
-    public function readNonPaged($package, $resource) {
+    public function read($package, $resource) {
         /*
          * First retrieve the values for the generic fields of the CSV logic
          * This is the uri to the file, and a parameter which states if the CSV file
@@ -186,7 +195,7 @@ class CSV extends ATabularData {
                 $PK = $columns[$result["column_name"]];
             }
         }
-
+        
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
@@ -198,7 +207,7 @@ class CSV extends ATabularData {
             throw new CouldNotGetDataTDTException($filename);
         }
         $csv = utf8_encode($request->data);
-
+        
         try {
             // find the delimiter
             $commas = substr_count($csv, ",", 0, strlen($csv) > 127 ? 127 : strlen($csv));
@@ -236,16 +245,17 @@ class CSV extends ATabularData {
                 } else {
                     $rowobject = new stdClass();
                     $keys = array_keys($fieldhash);
-
+                    
                     for ($i = 0; $i < sizeof($keys); $i++) {
                         $c = $keys[$i];
-                        if (sizeof($columns) == 0) {
+                        
+                        if (sizeof($columns) == 0 || !array_key_exists($c,$columns)) {
                             $rowobject->$c = $data[$fieldhash[$c]];
                         } else if (array_key_exists($c, $columns)) {
                             $rowobject->$columns[$c] = $data[$fieldhash[$c]];
                         }
                     }
-
+                    
                     if ($PK == "") {
                         array_push($arrayOfRowObjects, $rowobject);
                     } else {
@@ -310,8 +320,8 @@ class CSV extends ATabularData {
             $semicolons = 0;
             if (($handle = fopen($this->uri, "r")) !== FALSE) {
                 // set timeout on 5 minutes
-                stream_set_timeout($handle, 300);
-                ini_set('max_execution_time', 300);
+                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
+                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
                 while (($line = fgets($handle, 1000)) !== FALSE) {
                     $rowcount++;
                     $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
@@ -336,8 +346,8 @@ class CSV extends ATabularData {
             $fieldhash = array();
             if (($handle = fopen($this->uri, "r")) !== FALSE) {
                 // set timeout on 5 minutes
-                stream_set_timeout($handle, 300);
-                ini_set('max_execution_time', 300);
+                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
+                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
                 $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
             }else{
                 $package = DBQueries::getPackageById($package_id);
@@ -359,8 +369,8 @@ class CSV extends ATabularData {
             $semicolons = 0;
             if (($handle = fopen($this->uri, "r")) !== FALSE) {
                 // set timeout on 5 minutes
-                stream_set_timeout($handle, 300);
-                ini_set('max_execution_time', 300);
+                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
+                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
                 while (($line = fgets($handle, 1000)) !== FALSE) {
                     $rowcount++;
                     $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
@@ -382,8 +392,8 @@ class CSV extends ATabularData {
             $fieldhash = array();
             if (($handle = fopen($this->uri, "r")) !== FALSE) {
                 // set timeout on 5 minutes
-                stream_set_timeout($handle, 300);
-                ini_set('max_execution_time', 300);
+                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
+                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
                 while (($line = fgetcsv($handle, 1000,  $commas > $semicolons ? "," : ";")) !== FALSE) {
                     // keys not found yet
                     if (!count($fieldhash)) {
@@ -396,11 +406,10 @@ class CSV extends ATabularData {
                                 $fieldhash[$line[$i]] = $i;
                                 $this->columns[$i] = $line[$i];
                             }
+                            $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
+                            break;
                         }
-                    } else{
-                        $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
-                        break;
-                    }    
+                    } 
                 }
                 fclose($handle);
             }else{

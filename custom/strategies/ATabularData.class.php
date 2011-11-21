@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Pieter Colpaert
  */
-include_once("model/resources/strategies/AResourceStrategy.class.php");
+include_once("model/resources/AResourceStrategy.class.php");
 abstract class ATabularData extends AResourceStrategy{
 
     /*
@@ -18,7 +18,18 @@ abstract class ATabularData extends AResourceStrategy{
             DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK != "" && $PK == $column?1:0));
         }
     }
-    
-    
+
+    public function onUpdate($package, $resource){
+        //do nothing by default
+    }
+
+    public function documentUpdateParameters(){
+        return array();
+    }
+
+    public function documentUpdateRequiredParameters(){
+        return array();
+    }
+
 }
 ?>

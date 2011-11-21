@@ -32,8 +32,8 @@ class GenericResourceReader extends AReader {
     /**
      * read method
      */
-    public function readNonPaged(){
-        return $this->genres->readNonPaged();
+    public function read(){
+        return $this->genres->read();
     }
 
     /**

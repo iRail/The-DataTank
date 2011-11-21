@@ -18,13 +18,15 @@ class GenericResourceCreator extends ACreator{
         parent::__construct($package, $resource, $RESTparameters);
         // Add the parameters of the strategy!
         $this->generic_type = $generic_type;
-        if(!file_exists("model/resources/strategies/" . $this->generic_type . ".class.php")){
+        if(!file_exists("custom/strategies/" . $this->generic_type . ".class.php")){
             throw new ResourceAdditionTDTException("Generic type does not exist: " . $this->generic_type);
         }
-        include_once("model/resources/strategies/" . $this->generic_type . ".class.php");
+        include_once("custom/strategies/" . $this->generic_type . ".class.php");
         // add all the parameters to the $parameters
         // and all of the requiredParameters to the $requiredParameters
         $this->strategy = new $this->generic_type();
+        $this->strategy->package = $package;
+        $this->strategy->resource = $resource;
     }
 
     /**

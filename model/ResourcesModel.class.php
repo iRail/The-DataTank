@@ -18,6 +18,7 @@ include_once("model/OntologyFactory.class.php");
 include_once("model/Doc.class.php");
 include_once("resources/update/OntologyUpdater.class.php");
 include_once("resources/update/ForeignRelation.class.php");
+include_once("resources/update/GenericResourceUpdater.class.php");
 
 class ResourcesModel {
 
@@ -43,6 +44,7 @@ class ResourcesModel {
         $this->updateActions["foreign_relation"] = "ForeignRelation";
         //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["ontology"] = "OntologyUpdater";
+        $this->updateActions["generic"] = "GenericResourceUpdater";
     }
 
     public static function getInstance() {
