@@ -159,7 +159,47 @@ abstract class XLS extends ATabularData {
     }    
     
     public function getFields($package, $resource) {
+        /*
+         * First retrieve the values for the generic fields of the XLS logic
+         */
+        $result = DBQueries::getXLSResource($package, $resource);
         
+        $gen_res_id = $result["gen_res_id"];
+
+        if(isset($result["url"])){
+            $url = $result["url"];
+        }else{
+            throw new ResourceTDTException("Can't find url of the XLS");
+        }
+		
+        if(isset($result["sheet"])){
+            $sheet = $result["sheet"];
+        }else{
+            throw new ResourceTDTException("Can't find sheet of the XLS");
+        }		
+
+        $columns = array();
+        
+        // get the columns from the columns table
+        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
+        $PK = "";
+
+        /**
+         * columns can have an alias, if not their alias is their own name
+         */
+        foreach ($allowed_columns as $result) {
+            if ($result["column_name_alias"] != "") {
+                $columns[(string) $result["column_name"]] = $result["column_name_alias"];
+            } else {
+                $columns[(string) $result["column_name"]] = $result["column_name"];
+            }
+
+            if ($result["is_primary_key"] == 1) {
+                $PK = $columns[$result["column_name"]];
+            }
+        }
+
+        return array_values($columns);
     }
 
 }

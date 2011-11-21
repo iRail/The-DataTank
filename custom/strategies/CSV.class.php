@@ -65,7 +65,7 @@ class CSV extends ATabularData {
          * get resulting rows
          */
         $result = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
-        
+
         /**
          * if a null result is given, that means that the page being passed is invalid 
          */
@@ -114,7 +114,6 @@ class CSV extends ATabularData {
             $delimiter = $paged_csv_row["delimiter"];
             $value = $paged_csv_row["value"];
             $data = str_getcsv($value, $delimiter);
-           
             $rowobject = new stdClass();
             $keys = array_keys($fieldhash);
                     

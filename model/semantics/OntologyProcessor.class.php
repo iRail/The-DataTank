@@ -59,8 +59,13 @@ class OntologyProcessor {
         //Don't know if this will ever have an implementation
     }
 
-    public function createOntology($package) {
-        $this->getModel($package);
+    public function createOntology($package, $file=null) {
+        if (!is_null($file)) {
+            if (file_exists($file))
+                $this->readOntologyFile($package, $file);
+        }else
+            $this->getModel($package);
+
         return true;
     }
 
@@ -126,9 +131,9 @@ class OntologyProcessor {
     public function readPath($package, $path) {
         $param = str_replace('/', '\/', $path) . '%';
         $model = $this->getModel($package)->findWildcarded($param, null, null);
-        
-        $base_resource = new Resource($model->getBaseURI().$path);
-        $description = new Literal("Ontology of " . $package."/".$path . " in The DataTank", null, 'datatype:STRING');
+
+        $base_resource = new Resource($model->getBaseURI() . $path);
+        $description = new Literal("Ontology of " . $package . "/" . $path . " in The DataTank", null, 'datatype:STRING');
         $model->add(new Statement($base_resource, RDF::TYPE(), OWL::ONTOLOGY()));
         $model->add(new Statement($base_resource, RDFS::COMMENT(), $description));
         return $model;
