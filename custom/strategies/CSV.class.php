@@ -17,6 +17,7 @@ class CSV extends ATabularData {
     //  a csv file with 1 million lines for example will take a while to add ( will be streamed from the host )
     //  if you're experiencing timeouts, then up this variable
     private $MAX_EXECUTION_TIME = 300;
+    private $MAX_LINE_LENGTH = 15000;
     
     
 
@@ -322,7 +323,7 @@ class CSV extends ATabularData {
                 // set timeout on 5 minutes
                 stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
                 ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
-                while (($line = fgets($handle, 1000)) !== FALSE) {
+                while (($line = fgets($handle, $this->MAX_LINE_LENGTH)) !== FALSE) {
                     $rowcount++;
                     $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
                     $semicolons = $semicolons+ substr_count($line, ";", 0, strlen($line) > 127 ? 127 : strlen($line));
@@ -369,9 +370,10 @@ class CSV extends ATabularData {
             $semicolons = 0;
             if (($handle = fopen($this->uri, "r")) !== FALSE) {
                 // set timeout on 5 minutes
+                stream_set_blocking($handle,1);
                 stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
                 ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
-                while (($line = fgets($handle, 1000)) !== FALSE) {
+                while (($line = fgets($handle, $this->MAX_LINE_LENGTH)) !== FALSE) {
                     $rowcount++;
                     $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
                     $semicolons = $semicolons+ substr_count($line, ";", 0, strlen($line) > 127 ? 127 : strlen($line));
@@ -394,7 +396,7 @@ class CSV extends ATabularData {
                 // set timeout on 5 minutes
                 stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
                 ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
-                while (($line = fgetcsv($handle, 1000,  $commas > $semicolons ? "," : ";")) !== FALSE) {
+                while (($line = fgetcsv($handle, $this->MAX_LINE_LENGTH,  $commas > $semicolons ? "," : ";")) !== FALSE) {
                     // keys not found yet
                     if (!count($fieldhash)) {
                         // <<fast!>> way to detect empty fields
@@ -434,7 +436,7 @@ class CSV extends ATabularData {
         if($rowcount > $this->NUMBER_OF_ITEMS_PER_PAGE){
             DBQueries::updateIsPagedResource($resource_id,"1");
             // only read lines from the stream that are valuable to us ( so no header of commentlines )
-            while (($line = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+            while (($line = fgetcsv($handle,$this->MAX_LINE_LENGTH, $delimiter)) !== FALSE) {
                 DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter)),$delimiter,$generic_resource_csv_id);
             }
         }else{
