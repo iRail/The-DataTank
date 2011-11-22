@@ -128,7 +128,7 @@ define('RDF_OBJECT_TYPE_BNODE',3);
 define('HIDE_ADVERTISE',FALSE);
 
 // RDF Serializer: Set to TRUE, if the serializer should use entities for URIs.
-define('SER_USE_ENTITIES', TRUE );
+define('SER_USE_ENTITIES', FALSE );
 
 // RDF Serializer: Set to TRUE, if the serializer should use xsd datatypes with prefix.
 define('SER_USE_SHORT_DATATYPES', FALSE);

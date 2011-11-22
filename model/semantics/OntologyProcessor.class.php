@@ -59,8 +59,13 @@ class OntologyProcessor {
         //Don't know if this will ever have an implementation
     }
 
-    public function createOntology($package) {
-        $this->getModel($package);
+    public function createOntology($package, $file=null) {
+        if (!is_null($file)) {
+            if (file_exists($file))
+                $this->readOntologyFile($package, $file);
+        }else
+            $this->getModel($package);
+
         return true;
     }
 
@@ -126,9 +131,9 @@ class OntologyProcessor {
     public function readPath($package, $path) {
         $param = str_replace('/', '\/', $path) . '%';
         $model = $this->getModel($package)->findWildcarded($param, null, null);
-        
-        $base_resource = new Resource($model->getBaseURI().$path);
-        $description = new Literal("Ontology of " . $package."/".$path . " in The DataTank", null, 'datatype:STRING');
+
+        $base_resource = new Resource($model->getBaseURI() . $path);
+        $description = new Literal("Ontology of " . $package . "/" . $path . " in The DataTank", null, 'datatype:STRING');
         $model->add(new Statement($base_resource, RDF::TYPE(), OWL::ONTOLOGY()));
         $model->add(new Statement($base_resource, RDFS::COMMENT(), $description));
         return $model;
@@ -139,41 +144,6 @@ class OntologyProcessor {
         foreach ($temp->triples as $statement) {
             echo $this->getModel($package)->remove($statement);
         }
-    }
-
-    //functions for retrieving mapping
-    public function getClassMap($package, $path) {
-        $ontology = $this->getModel($package);
-        $path = $this->trimPath($path);
-
-        //$namespaces = $ontology->getParsedNamespaces();
-        //$statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_CLASS(), null);
-        $statement = new Statement(new Resource("http://www.something/ont#TestClass"), new Resource("http://www.something/ont#TestClass"), new Resource("http://www.something/ont#TestClass"));
-        if (!is_null($statement)) {
-            $result = new stdClass ();
-            $result->class = $statement->getObject();
-            //$result->prefix = $namespaces[$statement->getObject()->getNamespace()];
-            return $result;
-        }
-
-        return false;
-    }
-
-    public function getPropertyMap($package, $path) {
-        $ontology = $this->getModel($package);
-        $path = $this->trimPath($path);
-
-        //$namespaces = $ontology->getParsedNamespaces();
-        //$statement = $ontology->findFirstMatchingStatement(new Resource($path), OWL::EQUIVALENT_PROPERTY(), null);
-        $statement = new Statement(new Resource("http://www.something/ont#testProperty"), new Resource("http://www.something/ont#testProperty"), new Resource("http://www.something/ont#testProperty"));
-        if (!is_null($statement)) {
-            $result = new stdClass ();
-            $result->property = $statement->getObject();
-            //$result->prefix = $namespaces[$statement->getObject()->getNamespace()];
-            return $result;
-        }
-
-        return false;
     }
 
     /*

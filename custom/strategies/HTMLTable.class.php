@@ -160,7 +160,6 @@ class HTMLTable extends ATabularData {
     }    
     
     public function getFields($package, $resource) {
-        
         /*
          * First retrieve the values for the generic fields of the HTML Table logic
          */
@@ -194,43 +193,22 @@ class HTMLTable extends ATabularData {
             }
         }
         
-        try { 
-
-            $oldSetting = libxml_use_internal_errors( true ); 
-            libxml_clear_errors(); 
-             
-            $html = new DOMDocument(); 
-            $html->loadHtmlFile($url); 
-             
-            $domxpath = new DOMXPath( $html ); 
-            $tablerows = $domxpath->query($xpath . "/tr" ); 
-            if ($tablerows->length == 0) {
-                //table has thead and tbody
-                $tablerows = $domxpath->query($xpath . "/*/tr" );
+        /**
+         * columns can have an alias, if not their alias is their own name
+         */
+        foreach ($allowed_columns as $result) {
+            if ($result["column_name_alias"] != "") {
+                $columns[(string) $result["column_name"]] = $result["column_name_alias"];
+            } else {
+                $columns[(string) $result["column_name"]] = $result["column_name"];
             }
 
-            $rowIndex = 1;
-            foreach ($tablerows as $tr) {
-                $newDom = new DOMDocument;
-                $newDom->appendChild($newDom->importNode($tr,true));
-                
-                $domxpath = new DOMXPath( $newDom ); 
-                if ($rowIndex == 1) {
-                    $tablecols = $domxpath->query("td");
-                    if ($tablecols->length == 0) {
-                        //thead row has th instead of td
-                        $tablecols = $domxpath->query("th" );
-                    }
-                    foreach($tablecols as $td) {
-                        $fieldhash[] = $td->nodeValue;						
-                    }
-                } 
-                $rowIndex++;
+            if ($result["is_primary_key"] == 1) {
+                $PK = $columns[$result["column_name"]];
             }
-            return $fieldhash;
-        } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $url );
         }
+
+        return array_values($columns);
         
     }
 

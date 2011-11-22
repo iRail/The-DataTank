@@ -27,7 +27,10 @@ class OntologyCreator extends ACreator {
 
         if (count($this->RESTparameters) == 0) {
             //Create empty ontology for a package
-            OntologyProcessor::getInstance()->createOntology($package);
+            OntologyProcessor::getInstance()->createOntology($package,$this->ontology_file);
+        }else if(count($this->RESTparameters) == 1){
+            //Add class entry for resource in empty resource
+            OntologyProcessor::getInstance()->createClassPath($package,$this->RESTparameters[0]);
         } else {
             //Create ontology for a package and describe the given path
             if (!isset($this->resource_type))

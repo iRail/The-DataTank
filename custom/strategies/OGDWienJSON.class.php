@@ -149,34 +149,26 @@ class OGDWienJSON extends ATabularData {
         
         // get the columns from the columns table
         $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-            
+
         $columns = array();
-        $PK = "id";
-        foreach($allowed_columns as $result){
-            array_push($columns,$result["column_name"]);
-        }
-        $arrayOfRowObjects = array();
-        $row = 0;
-     
-        try { 
+        $PK = "";
 
-            $json = file_get_contents($url,0,null,null);
-            $json = utf8_encode($json);
-            $json = json_decode($json);
-            
-            foreach($json->features as $feature) {
-                $arr = array();
-                foreach ($feature->properties as $key => $value)
-                    $arr[] = strtolower ($key);
-                
-                $arr = array_merge($arr,array('id', 'long','lat','distance'));
-
-                return $arr;
-                break;
+        /**
+         * columns can have an alias, if not their alias is their own name
+         */
+        foreach ($allowed_columns as $result) {
+            if ($result["column_name_alias"] != "") {
+                $columns[(string) $result["column_name"]] = $result["column_name_alias"];
+            } else {
+                $columns[(string) $result["column_name"]] = $result["column_name"];
             }
-        }catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $url );
+
+            if ($result["is_primary_key"] == 1) {
+                $PK = $columns[$result["column_name"]];
+            }
         }
+
+        return array_values($columns);
     
     }
 
