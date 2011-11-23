@@ -10,13 +10,13 @@
  */
 
 include_once("model/DBQueries.class.php");
-include_once("Config.class.php");
-include_once('includes/rb.php');
+include_once("Config.class.php"); 
+include_once('includes/rb.php'); 
 
-/**
- * retrieve all of the CSV paged resources
- */
-R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
+/* /\** */
+/*  * retrieve all of the CSV paged resources */
+/*  *\/ */
+ R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD); 
 $paged_resources = DBQueries::getAllPagedCSVResources();
 
 // for every paged_resource we're going to add them again, from top on, so we need the published columns information as well
@@ -39,7 +39,7 @@ foreach($paged_resources as $paged_resource){
     $resource = $paged_resource["resource_name"];
     // http request for the deletion of the resource
     deleteResource($package,$resource);
-    
+
     /**
      * Now create them again !
      */
@@ -52,7 +52,7 @@ foreach($paged_resources as $paged_resource){
     foreach($paged_resource["columns"] as $columnresult){
         $columns[$columnresult["column_name"]] = $columnresult["column_name_alias"];
         if($columnresult["is_primary_key"] == 1){
-            $PK = $columnresult[$columnresult["column_name"]];
+            $PK = $columns[$columnresult["column_name"]];
         }
     }
     createResource($package,$resource,$columns,$PK,$documentation,$uri,$has_header_row);
@@ -71,6 +71,7 @@ function deleteResource($package,$resource){
     $data = array();
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $result = curl_exec($ch);  
+    echo "deletion result: $result\n";
     curl_close($ch);  
 }
 
@@ -91,6 +92,7 @@ function createResource($package,$resource,$columns,$PK,$documentation,$uri,$has
     );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $result = curl_exec($ch);  
+    echo "creation result: $result\n";
     curl_close($ch);  
 }
 

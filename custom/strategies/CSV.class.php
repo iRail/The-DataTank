@@ -12,12 +12,12 @@ include_once ("custom/strategies/ATabularData.class.php");
 
 class CSV extends ATabularData {
 
-    private $NUMBER_OF_ITEMS_PER_PAGE = 50;
+    public static $NUMBER_OF_ITEMS_PER_PAGE = 50;
     //  the maximum execution time that a creation of a csv resource may take
     //  a csv file with 1 million lines for example will take a while to add ( will be streamed from the host )
     //  if you're experiencing timeouts, then up this variable
-    private $MAX_EXECUTION_TIME = 300;
-    private $MAX_LINE_LENGTH = 15000;
+    public static $MAX_EXECUTION_TIME = 3000;
+    public static $MAX_LINE_LENGTH = 15000;
     
     
 
@@ -58,9 +58,9 @@ class CSV extends ATabularData {
             return new stdClass();
         }
         
-        $upperbound = $page * $this->NUMBER_OF_ITEMS_PER_PAGE; 
+        $upperbound = $page * CSV::$NUMBER_OF_ITEMS_PER_PAGE; 
         // SQL LIMIT clause starts with 0
-        $lowerbound = $upperbound - $this->NUMBER_OF_ITEMS_PER_PAGE ;
+        $lowerbound = $upperbound - CSV::$NUMBER_OF_ITEMS_PER_PAGE ;
 
         /**
          * get resulting rows
@@ -273,155 +273,23 @@ class CSV extends ATabularData {
     }
 
     public function onDelete($package, $resource) {
+        if(DBQueries::getIsPaged($package,$resource)){
+            DBQueries::deleteCachedCSV($package,$resource);
+        }
         DBQueries::deleteCSVResource($package, $resource);
     }
 
     public function onAdd($package_id, $generic_resource_id) {
-        
-        /*
-         * Create CSV entry in the back-end
-         */
-        $generic_resource_csv_id = $this->evaluateCSVResource($generic_resource_id);
-        $resource_id = DBQueries::getAssociatedResourceId($generic_resource_id);
-        
-        if (!isset($this->PK)) {
-            $this->PK = "";
-        }
-
-        /**
-         * if no header row is given, then the columns that are being passed should be 
-         * int => something, int => something
-         * if a header row is given however in the csv file, then we're going to extract those 
-         * header fields and put them in our back-end as well.
-         */
-        if (!isset($this->columns)) {
+        if(!isset($this->columns)){
             $this->columns = array();
         }
-        
-        if ($this->has_header_row == "0") {
-            // no header row ? then columns must be passed
-            if(count($this->columns) < 1){
-                $package = DBQueries::getPackageById($package_id);
-                $resource = DBQueries::getResourceById($resource_id);
-                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-                throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
-            }
-            
-            foreach ($this->columns as $index => $value) {
-                if (!is_numeric($index)) {
-                    $package = DBQueries::getPackageById($package_id);
-                    $resource = DBQueries::getResourceById($resource_id);
-                    ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-                    throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array.");
-                }
-            }
-            $rowcount = 0;
-            $commas = 0;
-            $semicolons = 0;
-            if (($handle = fopen($this->uri, "r")) !== FALSE) {
-                // set timeout on 5 minutes
-                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
-                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
-                while (($line = fgets($handle, $this->MAX_LINE_LENGTH)) !== FALSE) {
-                    $rowcount++;
-                    $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
-                    $semicolons = $semicolons+ substr_count($line, ";", 0, strlen($line) > 127 ? 127 : strlen($line));
-                }
-                fclose($handle);
-            }else{
-                $package = DBQueries::getPackageById($package_id);
-                $resource = DBQueries::getResourceById($resource_id);
-                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-                throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
-                
-            }
 
-            /**
-             * there is no header row, so the handle can be passed as is
-             */
-            $delimiter = ",";
-            if($commas <  $semicolons){
-                $delimiter = ";";
-            }
-            $fieldhash = array();
-            if (($handle = fopen($this->uri, "r")) !== FALSE) {
-                // set timeout on 5 minutes
-                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
-                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
-                $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
-            }else{
-                $package = DBQueries::getPackageById($package_id);
-                $resource = DBQueries::getResourceById($resource_id);
-                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-                throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
-                
-            }
-        }else{
-
-            /**
-             * Since we don't harras the ppl with obliging them to pass along a delimiter
-             * we'll have to find ourselves. In the current state we only search for 2 delimiters
-             * a comma and a semicolon
-             * we'll count the amount of times they occur and then derive that the most common is the delimiter.
-             */
-            $rowcount = 0;
-            $commas = 0;
-            $semicolons = 0;
-            if (($handle = fopen($this->uri, "r")) !== FALSE) {
-                // set timeout on 5 minutes
-                stream_set_blocking($handle,1);
-                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
-                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
-                while (($line = fgets($handle, $this->MAX_LINE_LENGTH)) !== FALSE) {
-                    $rowcount++;
-                    $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
-                    $semicolons = $semicolons+ substr_count($line, ";", 0, strlen($line) > 127 ? 127 : strlen($line));
-                }
-                fclose($handle);
-            }else{
-                $package = DBQueries::getPackageById($package_id);
-                $resource = DBQueries::getResourceById($resource_id);
-                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-                throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
-                
-            }
-            
-            $delimiter = ",";
-            if($commas <  $semicolons){
-                $delimiter = ";";
-            }
-            $fieldhash = array();
-            if (($handle = fopen($this->uri, "r")) !== FALSE) {
-                // set timeout on 5 minutes
-                stream_set_timeout($handle, $this->MAX_EXECUTION_TIME);
-                ini_set('max_execution_time', $this->MAX_EXECUTION_TIME);
-                while (($line = fgetcsv($handle, $this->MAX_LINE_LENGTH,  $commas > $semicolons ? "," : ";")) !== FALSE) {
-                    // keys not found yet
-                    if (!count($fieldhash)) {
-                        // <<fast!>> way to detect empty fields
-                        // if it contains empty fields, it should not be our field hash
-                        $empty_elements = array_keys($line, "");
-                        if (!count($empty_elements)) {
-                            // we found our key fields
-                            for ($i = 0; $i < sizeof($line); $i++){
-                                $fieldhash[$line[$i]] = $i;
-                                $this->columns[$i] = $line[$i];
-                            }
-                            $this->checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
-                            break;
-                        }
-                    } 
-                }
-                fclose($handle);
-            }else{
-                $package = DBQueries::getPackageById($package_id);
-                $resource = DBQueries::getResourceById($resource_id);
-                ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-                throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
-                
-            }
+        if(!isset($this->PK)){
+            $this->PK = "";
         }
-        parent::evaluateColumns($this->columns, $this->PK, $generic_resource_id);
+        
+        $columnstring = $this->implode_columns_array($this->columns);
+        exec("php bin/support\ scripts/addCSV.php $package_id $generic_resource_id $this->uri $this->PK $this->has_header_row $columnstring >/dev/null 2>&1 &");
     }
 
     /*
@@ -432,10 +300,10 @@ class CSV extends ATabularData {
      * Precondition: Handle has alrdy been openend, the uri works.
      */
     private function checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id){
-        if($rowcount > $this->NUMBER_OF_ITEMS_PER_PAGE){
+        if($rowcount > CSV::$NUMBER_OF_ITEMS_PER_PAGE){
             DBQueries::updateIsPagedResource($resource_id,"1");
             // only read lines from the stream that are valuable to us ( so no header of commentlines )
-            while (($line = fgetcsv($handle,$this->MAX_LINE_LENGTH, $delimiter)) !== FALSE) {
+            while (($line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $delimiter)) !== FALSE) {
                 DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter)),$delimiter,$generic_resource_csv_id);
             }
         }else{
@@ -500,6 +368,15 @@ class CSV extends ATabularData {
 
         return array_values($columns);
     }
+
+    private function implode_columns_array($columns){
+        $columns_string = array();
+        foreach($columns as $key => $val){
+            array_push($columns_string,$key.";".$val);
+        }
+        return implode(",",$columns_string);
+    }
+    
 
 }
 

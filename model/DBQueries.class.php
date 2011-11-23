@@ -34,7 +34,7 @@ class DBQueries {
                    ( SELECT generic_resource_csv.id
                      FROM package,resource,generic_resource,generic_resource_csv
                      WHERE package_name =:package and resource_name=:resource and package_id = package.id
-                           and resource_id = resource.id and gen_resource_id = generic_resource.id
+                           and generic_resource.resource_id = resource.id and gen_resource_id = generic_resource.id
                    )",
             array(":package" => $package, ":resource" => $resource)
         );

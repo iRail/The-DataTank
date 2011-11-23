@@ -28,10 +28,12 @@ if ($handle = opendir('bin/cache update')) {
      * Run every update script sequentially
      */
     foreach($files as $file){
+        echo "executing $file\n";
+        
         exec("php bin/cache\ update/$file");
     }
-    // maximum update this after 5 minutes
-    sleep(300);
+    // maximum update this after 60 minutes
+    sleep(3600);
 }
 
 
