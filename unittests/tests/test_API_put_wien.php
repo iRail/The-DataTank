@@ -27,9 +27,9 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_USERPWD, "tdtusr:tdtusr");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 $data = array( "resource_type" => "generic",
-               "generic_type"  => "OGDWienJSON",
+               "generic_type"  => "CSV",
                "documentation" => "this is some documentation.",
-               "url"           => "http://www.wien.gv.at/statistik/ogd/vie-district-pop-sex.csv",
+               "uri"           => "http://www.wien.gv.at/statistik/ogd/vie-district-pop-sex.csv",
                "columns"       => "",
                "PK"             => ""
 );
@@ -46,9 +46,9 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_USERPWD, "tdtusr:tdtusr");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 $data = array( "resource_type" => "generic",
-               "generic_type"  => "OGDWienJSON",
+               "generic_type"  => "CSV",
                "documentation" => "this is some documentation.",
-               "url"           => "http://www.wien.gv.at/statistik/ogd/vie-district-pop-mig-background.csv",
+               "uri"           => "http://www.wien.gv.at/statistik/ogd/vie-district-pop-mig-background.csv",
                "columns"       => "",
                "PK"             => ""
 );
