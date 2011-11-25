@@ -6,7 +6,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
- * @authot Pieter Colpaert
+ * @author Pieter Colpaert
  */
 
 include_once("ACreator.class.php");

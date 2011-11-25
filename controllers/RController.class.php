@@ -143,12 +143,8 @@ class RController extends AController {
         /**
          * check for updates if necessary
          */
-        
-        if(true || !$this->is_update_process_running()){
-            //echo "lets run an update!!\n";
+        if( !$this->is_update_process_running()){
             $this->run_update_in_background();
-        }else{
-            //echo "update is already being processed.\n";
         }
         
     }
