@@ -282,7 +282,6 @@ class CSV extends ATabularData {
         if(!isset($this->columns)){
             $this->columns = array();
         }
-
         if(!isset($this->PK)){
             $this->PK = "";
         }

@@ -68,8 +68,7 @@ $data = array( "resource_type" => "generic",
                "generic_type"  => "CSV",
                "documentation" => "this is some documentation.",
                "uri"           => "http://www.wien.gv.at/statistik/ogd/bezirke-geschlecht-zeitreihe.csv",
-               "columns"       => "",
-               "PK"             => ""
+               "has_header_row" => 1
 );
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 $result = curl_exec($ch);  
