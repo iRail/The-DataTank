@@ -68,8 +68,8 @@ class CSV extends ATabularData {
          * get resulting rows
          */
         $csvInfo = DBQueries::getCSVInfo($package,$resource);
-        $result = DBQueries::getPagedCSVResource($csvinfo["csv_id"],$lowerbound,$upperbound);
-        $delimiter = $csvinfo["delimiter"];
+        $result = DBQueries::getPagedCSVResource($csvInfo["csv_id"],$lowerbound,$upperbound);
+        $delimiter = $csvInfo["delimiter"];
         
         /**
          * if a null result is given, that means that the page being passed is invalid 
@@ -79,7 +79,7 @@ class CSV extends ATabularData {
         }
         
         
-        $gen_res_id = $ids["gen_id"];
+        $gen_res_id = $csvInfo["gen_id"];
         
         // get the column names, note that there MUST be a published columns entry
         // for paged csv resources, for header rows are not submitted into our level 2
@@ -144,8 +144,8 @@ class CSV extends ATabularData {
          * If another (next) page is available pas that one as well in the LINK header of the 
          * HTTP-message
          */
-        $csvinfo = DBQueries::getCSVIdInfo($package,$resource);
-        $possible_next_page = DBQueries::getPagedCSVResource($csvinfo["csv_id"],$lowerbound,$upperbound);
+        $csvInfo = DBQueries::getCSVInfo($package,$resource);
+        $possible_next_page = DBQueries::getPagedCSVResource($csvInfo["csv_id"],$lowerbound,$upperbound);
         
         if(isset($possible_next_page[0])){
             $page=$page+1;
@@ -296,7 +296,6 @@ class CSV extends ATabularData {
         }
 
         $columnstring = $this->implode_columns_array($this->columns);
-        //echo "php bin/support\ scripts/addCSV.php $package_id $generic_resource_id $this->uri $this->has_header_row $this->delimiter $this->start_row $columnstring $this->PK >/dev/null 2>&1 &";
         exec("php bin/support\ scripts/addCSV.php $package_id $generic_resource_id $this->uri $this->has_header_row $this->delimiter $this->start_row $columnstring $this->PK >/dev/null 2>&1 &");
     }
     

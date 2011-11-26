@@ -193,7 +193,7 @@ function checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$r
         DBQueries::updateIsPagedResource($resource_id,"1");
         // only read lines from the stream that are valuable to us ( so no header of commentlines )
         while (($line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $delimiter)) !== FALSE) {
-            DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter)),$delimiter,$generic_resource_csv_id);
+            DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter)),$generic_resource_csv_id);
         }
     }else{
         DBQueries::updateIsPagedResource($resource_id,"0");

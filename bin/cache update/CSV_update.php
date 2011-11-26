@@ -46,6 +46,8 @@ foreach($paged_resources as $paged_resource){
     $uri = $paged_resource["uri"];
     $documentation = $paged_resource["documentation"];
     $has_header_row = $paged_resource["has_header_row"];
+    $start_row = $paged_resource["start_row"];
+    $delimiter = $paged_resource["delimiter"];
     $columns = array();
     $PK = "";
     // parse the columns database result
@@ -55,7 +57,7 @@ foreach($paged_resources as $paged_resource){
             $PK = $columns[$columnresult["column_name"]];
         }
     }
-    createResource($package,$resource,$columns,$PK,$documentation,$uri,$has_header_row);
+    createResource($package,$resource,$columns,$PK,$documentation,$uri,$has_header_row,$delimiter,$start_row);
 }
 
 // Resource in this context is a CSV resource
@@ -75,7 +77,7 @@ function deleteResource($package,$resource){
     curl_close($ch);  
 }
 
-function createResource($package,$resource,$columns,$PK,$documentation,$uri,$has_header_row){
+function createResource($package,$resource,$columns,$PK,$documentation,$uri,$has_header_row,$delimiter,$start_row){
     $url = Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource; 
     $ch = curl_init();     
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
@@ -88,7 +90,9 @@ function createResource($package,$resource,$columns,$PK,$documentation,$uri,$has
                    "uri"           => $uri,
                    "columns"       => $columns,
                    "PK"            => $PK,
-                   "has_header_row"=> $has_header_row
+                   "has_header_row"=> $has_header_row,
+                   "delimiter"     => $delimiter,
+                   "start_row"     => $start_row
     );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $result = curl_exec($ch);  

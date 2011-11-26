@@ -74,7 +74,7 @@ class DBQueries {
     static function getAllPagedCSVResources(){
         return R::getAll(
             "SELECT package_name,resource_name, uri, generic_resource.id as gen_res_id,generic_resource_csv.id as csv_id,
-                    has_header_row,documentation
+                    has_header_row,documentation, start_row,delimiter
              FROM   package,resource,generic_resource,generic_resource_csv
              WHERE  package.id = resource.package_id and resource.id = generic_resource.resource_id and 
                     gen_resource_id = generic_resource.id",
@@ -85,11 +85,11 @@ class DBQueries {
     /*
      * puts a CSV row into the level 2 cache table
      */
-    static function insertIntoCSVCache($values,$delimiter,$gen_res_csv_id){
+    static function insertIntoCSVCache($values,$gen_res_csv_id){
         return R::exec(
-            "INSERT INTO l2_cache_csv(gen_res_csv_id,delimiter,csv_values)
-             VALUES(:gen_res_csv_id,:delimiter,:values)",
-             array(":values" => $values, ":delimiter" => $delimiter, ":gen_res_csv_id" => $gen_res_csv_id)
+            "INSERT INTO l2_cache_csv(gen_res_csv_id,csv_values)
+             VALUES(:gen_res_csv_id,:values)",
+             array(":values" => $values, ":gen_res_csv_id" => $gen_res_csv_id)
         );
     }
 
