@@ -12,6 +12,20 @@ class DBQueries {
 
 
     /**
+     * Get a generic resource id and the generic resource csv id
+     * given a package and a a resource
+     */
+    static function getCSVInfo($package,$resource){
+        return R::getRow("SELECT generic_resource.id as gen_id, generic_resource_csv.id as csv_id,delimiter,start_row
+                          FROM package,resource,generic_resource,generic_resource_csv
+                          WHERE package_name=:package and resource_name=:resource and package_id = package.id
+                                and generic_resource.resource_id=resource.id and gen_resource_id = generic_resource.id",
+                         array(":package" => $package, ":resource" => $resource)
+        );
+    }
+    
+
+    /**
      * Gets the associated Resource.id from a generic resource
      */
     static function getAssociatedResourceId($generic_resource_id){
@@ -95,16 +109,14 @@ class DBQueries {
      * get paged CSV results
      * lowerbound and upperbound are for the LIMIT clause
      */
-    static function getPagedCSVResource($package,$resource,$lowerbound,$upperbound){
+    static function getPagedCSVResource($gen_res_csv_id,$lowerbound,$upperbound){
         return R::getAll(
-            "SELECT csv_values as value,delimiter,generic_resource.id as gen_res_id
-             FROM   package,resource,generic_resource,generic_resource_csv,l2_cache_csv
-             WHERE  package_name =:package and resource_name=:resource and package_id=package.id
-                    and generic_resource.resource_id = resource.id and gen_resource_id = generic_resource.id
-                    and gen_res_csv_id = generic_resource_csv.id
+            "SELECT csv_values as value
+             FROM   l2_cache_csv
+             WHERE  gen_res_csv_id =:csv_id
+             ORDER BY l2_cache_csv.id ASC
              LIMIT :lowerbound, :upperbound",
-            array(":package" => $package, ":resource" =>$resource , 
-                  ":lowerbound"=>$lowerbound , ":upperbound"=> $upperbound)
+            array(":csv_id" => $gen_res_csv_id ,":lowerbound"=>$lowerbound , ":upperbound"=> $upperbound)
         );
     }
 
@@ -239,20 +251,6 @@ class DBQueries {
                        and package.id=resource.package_id and resource.id = generic_resource.resource_id",
 	        array(':package' => $package, ':resource' => $resource)
 	    );
-    }
-    
-    /**
-     * Retrieve a specific resource's print methods
-     * @Deprecated We no longer allow specifications of certain print methods, all formats are allowed
-     */
-    static function getGenericResourcePrintMethods($package,$resource) {
-        return R::getRow(
-    	    "SELECT generic_resource.print_methods as print_methods 
-             FROM package,generic_resource,resource 
-             WHERE package.package_name=:package and resource.resource_name =:resource 
-       	     and package.id=resource.package_id and resource.id = generic_resource.resource_id",
-    	    array(':package' => $package, ':resource' => $resource)
-    	);
     }
     
     /**
@@ -735,8 +733,8 @@ class DBQueries {
     static function getCSVResource($package, $resource) {
         return R::getRow(
             "SELECT generic_resource.id as gen_res_id,generic_resource_csv.uri as uri,
-                    generic_resource_csv.has_header_row as has_header_row
-             FROM package,resource, generic_resource, generic_resource_csv
+                    generic_resource_csv.has_header_row as has_header_row, start_row,delimiter
+             FROM  package,resource, generic_resource, generic_resource_csv
              WHERE package.package_name=:package and resource.resource_name=:resource
                    and package.id=resource.package_id 
                    and resource.id = generic_resource.resource_id
@@ -748,11 +746,13 @@ class DBQueries {
     /**
      * Store a CSV resource
      */
-    static function storeCSVResource($resource_id, $uri,$has_header_row) {
+    static function storeCSVResource($resource_id, $uri,$has_header_row,$delimiter,$start_row){
         $resource = R::dispense("generic_resource_csv");
         $resource->gen_resource_id = $resource_id;
         $resource->uri = $uri;
         $resource->has_header_row = $has_header_row;
+        $resource->start_row = $start_row;
+        $resource->delimiter = $delimiter;
         return R::store($resource);
     }
     

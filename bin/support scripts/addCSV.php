@@ -24,32 +24,35 @@ R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 $package_id = $argv[1];
 $generic_resource_id = $argv[2];
 $uri = $argv[3];
-$PK = $argv[4];
-$has_header_row = $argv[5];
-$implodedcolumns = $argv[6];
+$has_header_row = $argv[4];
+$delimiter = $argv[5];
+$start_row = $argv[6];
+$implodedcolumns = $argv[7];
+$PK = "";
+
+if(isset($argv[8])){
+ $PK = $argv[8];   
+}
 
 // rebuild the columns array from the CSV class
 // it has been build by an implode of key-val pairs with ; and then again imploded with ,
 $raw_columns = array();
-$raw_columns = explode(",",$implodedcolumns);
-$columns = array();
-foreach($raw_columns as $bondedpair){
-    $keyval = explode(";",$bondedpair);
-    foreach($keyval as $key => $val){
-        $columns[$key] = $val;
-    }
+if($implodedcolumns != -1){
+    $raw_columns = explode(",",$implodedcolumns);
 }
 
+$columns = array();
+foreach($raw_columns as $bondedpair){
+    $keyval = explode("/",$bondedpair);
+    $columns[$keyval[0]] = $keyval[1];
+}
 
 /*
  * Create CSV entry in the back-end
  */
-$generic_resource_csv_id = evaluateCSVResource($generic_resource_id,$uri,$has_header_row);
-$resource_id = DBQueries::getAssociatedResourceId($generic_resource_id);
 
-if (!isset($PK)) {
-    $PK = "";
-}
+$generic_resource_csv_id = evaluateCSVResource($generic_resource_id,$uri,$has_header_row,$delimiter,$start_row);
+$resource_id = DBQueries::getAssociatedResourceId($generic_resource_id);
 
 /**
  * if no header row is given, then the columns that are being passed should be 
@@ -60,7 +63,7 @@ if (!isset($PK)) {
         
 if ($has_header_row == "0") {
     // no header row ? then columns must be passed
-    if(count($columns) < 1){
+    if(empty($columns)){
         $package = DBQueries::getPackageById($package_id);
         $resource = DBQueries::getResourceById($resource_id);
         ResourcesModel::getInstance()->deleteResource($package, $resource, array());
@@ -76,39 +79,37 @@ if ($has_header_row == "0") {
         }
     }
     $rowcount = 0;
-    $commas = 0;
-    $semicolons = 0;
     if (($handle = fopen($uri, "r")) !== FALSE) {
-        // set timeout on 5 minutes
         stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
         ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
-        while (($line = fgets($handle, CSV::$MAX_LINE_LENGTH)) !== FALSE && $rowcount < CSV::$NUMBER_OF_ITEMS_PER_PAGE) {
+        while (($line = fgets($handle, CSV::$MAX_LINE_LENGTH)) !== FALSE 
+               && $rowcount < CSV::$NUMBER_OF_ITEMS_PER_PAGE + $start_row) {
             $rowcount++;
-            $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
-            $semicolons = $semicolons+ substr_count($line, ";", 0, strlen($line) > 127 ? 127 : strlen($line));
         }
+        // adjust the rowcount to the number of rows that actually matter
+        $rowcount = $rowcount - $start_row;
         fclose($handle);
     }else{
         $package = DBQueries::getPackageById($package_id);
         $resource = DBQueries::getResourceById($resource_id);
         ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-        throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
-                
+        throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a C SV-file.");
+        
     }
 
     /**
      * there is no header row, so the handle can be passed as is
      */
-    $delimiter = ",";
-    if($commas <  $semicolons){
-        $delimiter = ";";
-    }
+   
     $fieldhash = array();
     if (($handle = fopen($uri, "r")) !== FALSE) {
-        // set timeout on 5 minutes
         stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
         ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
-        $checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
+        $commentlinecounter = 1;
+        while($commentlinecounter < $start_row && ($line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $delimiter)) !== FALSE){
+            $commentlinecounter++;
+        }
+        checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
     }else{
         $package = DBQueries::getPackageById($package_id);
         $resource = DBQueries::getResourceById($resource_id);
@@ -118,25 +119,17 @@ if ($has_header_row == "0") {
     }
 }else{
 
-    /**
-     * Since we don't harras the ppl with obliging them to pass along a delimiter
-     * we'll have to find ourselves. In the current state we only search for 2 delimiters
-     * a comma and a semicolon
-     * we'll count the amount of times they occur and then derive that the most common is the delimiter.
-     */
+   
     $rowcount = 0;
-    $commas = 0;
-    $semicolons = 0;
     if (($handle = fopen($uri, "r")) !== FALSE) {
-        // set timeout on 5 minutes
         stream_set_blocking($handle,1);
         stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
         ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
-        while (($line = fgets($handle, CSV::$MAX_LINE_LENGTH)) !== FALSE && $rowcount < CSV::$NUMBER_OF_ITEMS_PER_PAGE) {
+        while (($line = fgets($handle, CSV::$MAX_LINE_LENGTH)) !== FALSE && $rowcount < CSV::$NUMBER_OF_ITEMS_PER_PAGE + $start_row) {
             $rowcount++;
-            $commas = $commas + substr_count($line, ",", 0, strlen($line) > 127 ? 127 : strlen($line));
-            $semicolons = $semicolons+ substr_count($line, ";", 0, strlen($line) > 127 ? 127 : strlen($line));
         }
+        // adjust the number of rowcount to the number of rows that actually matter
+        $rowcount = $rowcount - $start_row;
         fclose($handle);
     }else{
         $package = DBQueries::getPackageById($package_id);
@@ -145,40 +138,42 @@ if ($has_header_row == "0") {
         throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
                 
     }
-            
-    $delimiter = ",";
-    if($commas <  $semicolons){
-        $delimiter = ";";
-    }
 
     $fieldhash = array();
     if (($handle = fopen($uri, "r")) !== FALSE) {
-        // set timeout on 5 minutes
+
         stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
         ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
-        while (($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $commas > $semicolons ? "," : ";")) !== FALSE) {
-            // keys not found yet
-            if (!count($fieldhash)) {
-                // <<fast!>> way to detect empty fields
-                // if it contains empty fields, it should not be our field hash
-                $empty_elements = array_keys($line, "");
-                if (!count($empty_elements)) {
-                    // we found our key fields
-                    for ($i = 0; $i < sizeof($line); $i++){
-                        $fieldhash[$line[$i]] = $i;
-                        $columns[$i] = $line[$i];
-                    }
-                    checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
-                    break;
-                }
-            } 
+
+        // for further processing we need to process the header row, this MUST be after the comments
+        // so we're going to throw away those lines before we're processing our header_row
+        // our first line will be processed due to lazy evaluation, if the start_row is the first one
+        // then the first argument will return false, and being an &&-statement the second validation will not be processed
+        $commentlinecounter = 1;
+        while($commentlinecounter < $start_row ){
+            $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $delimiter);
+            $commentlinecounter++;
+        }
+       
+        if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $delimiter)) !== FALSE) {
+            for ($i = 0; $i < sizeof($line); $i++){
+                $fieldhash[$line[$i]] = $i;
+                $columns[$i] = $line[$i];
+            }
+            
+            checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id); 
+        }else{
+            $package = DBQueries::getPackageById($package_id);
+            $resource = DBQueries::getResourceById($resource_id);
+            ResourcesModel::getInstance()->deleteResource($package, $resource, array());
+            throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
         }
         fclose($handle);
     }else{
         $package = DBQueries::getPackageById($package_id);
         $resource = DBQueries::getResourceById($resource_id);
         ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-        throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
+        throw new ParameterTDTException($uri . " an error occured no more rows after row $start_row have been found.");
                 
     }
 }
@@ -193,6 +188,7 @@ evaluateColumns($columns, $PK, $generic_resource_id);
  * Precondition: Handle has alrdy been openend, the uri works.
  */
 function checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id){
+
     if($rowcount >= CSV::$NUMBER_OF_ITEMS_PER_PAGE){
         DBQueries::updateIsPagedResource($resource_id,"1");
         // only read lines from the stream that are valuable to us ( so no header of commentlines )
@@ -204,15 +200,14 @@ function checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$r
     }
 }
     
-function evaluateCSVResource($gen_resource_id,$uri,$has_header_row) {
-    if (!isset($has_header_row)) {
-        $has_header_row = 1;
-    }
-    return DBQueries::storeCSVResource($gen_resource_id, $uri, $has_header_row);
+function evaluateCSVResource($gen_resource_id,$uri,$has_header_row,$delimiter,$start_row) {
+    return DBQueries::storeCSVResource($gen_resource_id, $uri, $has_header_row,$delimiter,$start_row);
 }
 
 function evaluateColumns($columns,$PK,$gen_res_id){
     foreach($columns as $column => $column_alias){
+        // replace whitespaces in columns by underscores
+        $formatted_column = preg_replace('/\s+/','_',$column_alias);
         DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK != "" && $PK == $column?1:0));
     }
 }

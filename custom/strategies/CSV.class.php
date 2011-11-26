@@ -22,7 +22,7 @@ class CSV extends ATabularData {
     
 
     public function documentCreateRequiredParameters(){
-        return array("uri");
+        return array("uri","has_header_row","delimiter");
     }
 
     //We could specify extra filters here for CSV resources
@@ -33,9 +33,11 @@ class CSV extends ATabularData {
     public function documentCreateParameters() {
         $parameters = array();
         $parameters["uri"] = "The URI to the CSV file";
-        $parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published.";
-        $parameters["PK"] = "The primary key of an entry";
+        $parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published. Note that this parameter is not required, however if you do not have a header row, we do expect the columns to be passed along, otherwise there's no telling what the names of the columns are. This array should be build as column_name => column_alias or index => column_alias.";
+        $parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
         $parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
+        $parameters["delimiter"]="The delimiter which is used to separate the fields that contain values.";
+        $parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
         return $parameters;
     }
 
@@ -65,8 +67,10 @@ class CSV extends ATabularData {
         /**
          * get resulting rows
          */
-        $result = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
-
+        $csvInfo = DBQueries::getCSVInfo($package,$resource);
+        $result = DBQueries::getPagedCSVResource($csvinfo["csv_id"],$lowerbound,$upperbound);
+        $delimiter = $csvinfo["delimiter"];
+        
         /**
          * if a null result is given, that means that the page being passed is invalid 
          */
@@ -75,7 +79,7 @@ class CSV extends ATabularData {
         }
         
         
-        $gen_res_id = $result[0]["gen_res_id"];
+        $gen_res_id = $ids["gen_id"];
         
         // get the column names, note that there MUST be a published columns entry
         // for paged csv resources, for header rows are not submitted into our level 2
@@ -109,10 +113,9 @@ class CSV extends ATabularData {
         $row = 0;
             
         /**
-         * bouw resulting object op
+         * build object
          */
         foreach($result as $paged_csv_row) {
-            $delimiter = $paged_csv_row["delimiter"];
             $value = $paged_csv_row["value"];
             $data = str_getcsv($value, $delimiter);
             $rowobject = new stdClass();
@@ -120,8 +123,6 @@ class CSV extends ATabularData {
                     
             for($i = 0; $i < sizeof($keys); $i++) {
                 $c = $keys[$i];
-                // TODO normally this if else should be reduced to the else part,
-                // because there will always be a published columns entry for a paged csv resource
                 if (sizeof($columns) == 0){
                     $rowobject->$c = $data[$fieldhash[$c]];
                 }else if(array_key_exists($c, $columns)) {
@@ -143,7 +144,9 @@ class CSV extends ATabularData {
          * If another (next) page is available pas that one as well in the LINK header of the 
          * HTTP-message
          */
-        $possible_next_page = DBQueries::getPagedCSVResource($package,$resource,$lowerbound,$upperbound);
+        $csvinfo = DBQueries::getCSVIdInfo($package,$resource);
+        $possible_next_page = DBQueries::getPagedCSVResource($csvinfo["csv_id"],$lowerbound,$upperbound);
+        
         if(isset($possible_next_page[0])){
             $page=$page+1;
             $link = Config::$HOSTNAME .Config::$SUBDIR . $package ."/". $resource .".$format"."?page=$page";
@@ -162,10 +165,10 @@ class CSV extends ATabularData {
          * has a header row or not.
          */
         $result = DBQueries::getCSVResource($package, $resource);
-
         $has_header_row = $result["has_header_row"];
         $gen_res_id = $result["gen_res_id"];
-
+        $start_row = $result["start_row"];
+        $delimiter = $result["delimiter"];
         /**
          * check if the uri is valid ( not empty )
          */
@@ -209,12 +212,12 @@ class CSV extends ATabularData {
         $csv = utf8_encode($request->data);
         
         try {
-            // find the delimiter
-            $commas = substr_count($csv, ",", 0, strlen($csv) > 127 ? 127 : strlen($csv));
-            $semicolons = substr_count($csv, ";", 0, strlen($csv) > 127 ? 127 : strlen($csv));
-
             $rows = str_getcsv($csv, "\n");
-
+            // get rid for the comment lines according to the given start_row
+            for($i = 1; $i < $start_row; $i++){
+                array_shift($rows);
+            }
+            
             $fieldhash = array();
             /**
              * loop through each row, and fill the fieldhash with the column names
@@ -229,7 +232,7 @@ class CSV extends ATabularData {
             }
 
             foreach ($rows as $row => $fields) {
-                $data = str_getcsv($fields, $commas > $semicolons ? "," : ";");
+                $data = str_getcsv($fields, $delimiter);
 
                 // keys not found yet
                 if (!count($fieldhash)) {
@@ -288,33 +291,16 @@ class CSV extends ATabularData {
             $this->PK = "";
         }
         
-        $columnstring = $this->implode_columns_array($this->columns);
-        exec("php bin/support\ scripts/addCSV.php $package_id $generic_resource_id $this->uri $this->PK $this->has_header_row $columnstring >/dev/null 2>&1 &");
-    }
-
-    /*
-     * This function will check if the CSV needs a level 2 cache or not
-     * if there are more lines then $NUMBER_OF_ITEMS_PER_PAGE then we need to page
-     * either way we'll update the resource entry with an is_paged value
-     * NOTE: generic_resource_id is the generic_resource_csv.id 
-     * Precondition: Handle has alrdy been openend, the uri works.
-     */
-    private function checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id){
-        if($rowcount > CSV::$NUMBER_OF_ITEMS_PER_PAGE){
-            DBQueries::updateIsPagedResource($resource_id,"1");
-            // only read lines from the stream that are valuable to us ( so no header of commentlines )
-            while (($line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $delimiter)) !== FALSE) {
-                DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter)),$delimiter,$generic_resource_csv_id);
-            }
-        }else{
-            DBQueries::updateIsPagedResource($resource_id,"0");
+        if(!isset($this->start_row)){
+            $this->start_row = 1;
         }
+
+        $columnstring = $this->implode_columns_array($this->columns);
+        //echo "php bin/support\ scripts/addCSV.php $package_id $generic_resource_id $this->uri $this->has_header_row $this->delimiter $this->start_row $columnstring $this->PK >/dev/null 2>&1 &";
+        exec("php bin/support\ scripts/addCSV.php $package_id $generic_resource_id $this->uri $this->has_header_row $this->delimiter $this->start_row $columnstring $this->PK >/dev/null 2>&1 &");
     }
     
     private function evaluateCSVResource($gen_resource_id) {
-        if (!isset($this->has_header_row)) {
-            $this->has_header_row = 1;
-        }
         return DBQueries::storeCSVResource($gen_resource_id, $this->uri, $this->has_header_row);
     }
 
@@ -370,14 +356,16 @@ class CSV extends ATabularData {
     }
 
     private function implode_columns_array($columns){
+        if(empty($columns)){
+            return "-1";
+        }
+        
         $columns_string = array();
         foreach($columns as $key => $val){
-            array_push($columns_string,$key.";".$val);
+            array_push($columns_string,$key."/".$val);
         }
         return implode(",",$columns_string);
     }
-    
-
 }
 
 ?>

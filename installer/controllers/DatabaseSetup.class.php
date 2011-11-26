@@ -57,6 +57,8 @@ class DatabaseSetup extends InstallController {
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `gen_resource_id` bigint(20) NOT NULL,
               `uri` varchar(128) NOT NULL,
+              `start_row` int(128) NOT NULL,
+              `delimiter` varchar(128) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `gen_resource_id` (`gen_resource_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -186,7 +188,6 @@ class DatabaseSetup extends InstallController {
         $queries["l2 csv cache"] = "CREATE TABLE IF NOT EXISTS l2_cache_csv (
                         id bigint(20) NOT NULL AUTO_INCREMENT,
                          gen_res_csv_id bigint(20) NOT NULL,
-                         delimiter varchar(3) NOT NULL,
                          csv_values varchar(15000) NOT NULL,
                          PRIMARY KEY (id),
                          FOREIGN KEY(gen_res_csv_id) references generic_resource_csv(id)
