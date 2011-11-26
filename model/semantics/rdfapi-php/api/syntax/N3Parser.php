@@ -445,7 +445,6 @@ class N3Parser extends Object {
         
         
         preg_match_all("/([a-zA-Z|]*|\.)/m", $s, $test);
-        var_dump($newres);
         
         return $res;
     }
@@ -1017,7 +1016,7 @@ class N3Parser extends Object {
 
         if ($this->debug) {
             print "Filter WS:\n";
-            var_dump($t);
+
         }
         $r = $this->getPrefixes($t); # get the prefix directives, and add to a dict
         $prefixes = $r[0];
@@ -1025,31 +1024,25 @@ class N3Parser extends Object {
         
         if ($this->debug) {
             print "Prefixes:\n";
-            var_dump($prefixes);
             print "***\n";
-            var_dump($t);
         }
         $t = $this->applyStuff($prefixes, $t); #apply prefixes, keywords, and string formatting
         if ($this->debug) {
             print "Stuff applied:\n";
-            var_dump($t);
         }
         
         $t = $this->fixAnon($t); # fix _:a anons
         if ($this->debug) {
             print "Fix anon:\n";
-            var_dump($t);
         }
 
         $t = $this->listStuff($t); # apply list stuff: todo
         if ($this->debug) {
             print "Lists done:\n";
-            var_dump($t);
         }
         $t = $this->expandLists($t);
         if ($this->debug) {
             print "Lists applied:\n";
-            var_dump($t);
         }
         
         $t = $this->getStatements($t); # get all of the "statements" from the stream

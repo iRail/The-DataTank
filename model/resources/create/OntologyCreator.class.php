@@ -27,8 +27,16 @@ class OntologyCreator extends ACreator {
 
         if (count($this->RESTparameters) == 0) {
             //Create empty ontology for a package
-            OntologyProcessor::getInstance()->createOntology($package,$this->ontology_file);
+            if (property_exists($this,"ontology_file"))
+                OntologyProcessor::getInstance()->createOntology($package,$this->ontology_file);
+            else
+                OntologyProcessor::getInstance()->createOntology($package);
         }else if(count($this->RESTparameters) == 1){
+            //Create empty ontology for a package
+            if (property_exists($this,"ontology_file"))
+                OntologyProcessor::getInstance()->createOntology($package,$this->ontology_file);
+            else
+                OntologyProcessor::getInstance()->createOntology($package);
             //Add class entry for resource in empty resource
             OntologyProcessor::getInstance()->createClassPath($package,$this->RESTparameters[0]);
         } else {
@@ -51,6 +59,8 @@ class OntologyCreator extends ACreator {
     public function setParameter($key, $value) {
         if ($key == "type")
             $this->resource_type = $value;
+        else if ($key == "ontology_file")
+            $this->ontology_file = $value;
     }
 
     public function documentParameters() {

@@ -143,7 +143,7 @@ class RController extends AController {
         /**
          * check for updates if necessary
          */
-        
+
         if( !$this->is_update_process_running()){
             $this->run_update_in_background();
         }

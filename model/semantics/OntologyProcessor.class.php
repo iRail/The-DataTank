@@ -60,9 +60,12 @@ class OntologyProcessor {
     }
 
     public function createOntology($package, $file=null) {
-        if (!is_null($file)) {
-            if (file_exists($file))
+        if (isset($file) && !is_null($file)) {
+            
+            //file_exists returns false with correct files, probably not accessible?
+            //if (file_exists($file))
                 $this->readOntologyFile($package, $file);
+              
         }else
             $this->getModel($package);
 
