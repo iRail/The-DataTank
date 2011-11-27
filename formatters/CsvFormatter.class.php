@@ -24,14 +24,18 @@ class CsvFormatter extends AFormatter{
      }
 
      public function printBody(){
+         $keys = array_keys(get_object_vars($this->objectToPrint));
+         $key = $keys[0];
+         $this->objectToPrint = $this->objectToPrint->$key;
+         
          if(!is_array($this->objectToPrint)){
-             throw new FormatNotAllowedTDTException("You can only request CSV on an array" , "CSV");
+             throw new FormatNotAllowedTDTException("You can only request CSV on an array" , array("CSV", "json", "rdf", "xml", "n3","ttl"));
          }
          if(isset($this->objectToPrint[0])){
              //print the header row
              $headerrow = array();
-             if(is_object($this->objectToPrint)){
-                 $headerrow = get_object_vars($this->objectToPrint[0]);
+             if(is_object($this->objectToPrint[0])){
+                 $headerrow = array_keys(get_object_vars($this->objectToPrint[0]));
              }else{
                  $headerrow = array_keys($this->objectToPrint[0]);
              }
@@ -40,16 +44,18 @@ class CsvFormatter extends AFormatter{
              echo "\n";
              
              foreach($this->objectToPrint as $row){
+                 if(is_object($row)){
+                     $row = get_object_vars($row);
+                 }
                  echo implode(";", $row);
                  echo "\n";
              }
-         }
-         
+         }         
      }
 
 
      public function getDocumentation(){
-         return "A javascript object notation formatter";
+         return "A CSV formatter. Works only on arrays";
      }
 };
 ?>

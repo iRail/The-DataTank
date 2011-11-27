@@ -99,7 +99,7 @@ class FormatterFactory{
      * @param Mixed  $objectToPrinter This is the object that will be printed.
      * @return Correct printer according to the $format parameter.
      */
-    public function getPrinter($rootname, $objectToPrint){
+    public function getPrinter($rootname, $objectToPrint){        
 	$callback = null;
 	//this is a fallback for jsonp - if callback is given, just return jsonp anyway
 	if(($this->format == "Json" || $this->format == "Jsonp") && isset($_GET["callback"])){
