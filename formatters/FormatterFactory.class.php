@@ -26,10 +26,8 @@ class FormatterFactory{
 	return self::$formatterfactory;
     }    
 
-    /**
-     * The constructor will get the right format and will decide which printer should be used to print the object.
-     */
-    private function __construct($urlformat = ""){
+
+    public function setFormat($urlformat){
         //We define the format like this:
         // * Check if $urlformat has been set
         //   - if not: probably something fishy happened, set format as error for logging purpose
@@ -75,6 +73,15 @@ class FormatterFactory{
         }else{
             throw new FormatNotFoundTDTException($urlformat);
         }
+        
+    }
+    
+
+    /**
+     * The constructor will get the right format and will decide which printer should be used to print the object.
+     */
+    private function __construct($urlformat = ""){
+        $this->setFormat($urlformat);
     }
 
     private function formatExists($format){
