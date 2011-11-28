@@ -264,4 +264,19 @@ class OntologyPathDoesntExistTDTException extends UsageTDTException {
         parent::__construct("Path in ontology does not exist: " . $parameter);
     }
 }
+
+/**
+ * This class reprents an exception which is thrown when a given parameter is not found or incorrect.
+ */
+class RequiredParameterTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "This exception is thrown when a required parameter is missing.";
+    }
+    
+    public static $error = 454;
+    
+    public function __construct($parameter) {
+        parent::__construct("Required parameter not found: " . $parameter . ".");
+    }
+}
 ?>

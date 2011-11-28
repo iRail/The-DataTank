@@ -129,7 +129,7 @@ class ResourcesModel {
              */
             foreach ($resourceCreationDoc->requiredparameters as $key) {
                 if (!isset($parameters[$key])) {
-                    throw new ParameterTDTException("Required parameter " . $key . " has not been passed");
+                    throw new RequiredParameterTDTException("Required parameter " . $key . " has not been passed");
                 }
             }
             //now check if there are nonexistent parameters given
