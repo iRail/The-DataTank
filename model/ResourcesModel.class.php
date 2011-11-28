@@ -45,6 +45,8 @@ class ResourcesModel {
         //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["ontology"] = "OntologyUpdater";
         $this->updateActions["generic"] = "GenericResourceUpdater";
+
+
     }
 
     public static function getInstance() {
