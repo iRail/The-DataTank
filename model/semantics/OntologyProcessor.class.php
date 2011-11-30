@@ -1,18 +1,18 @@
 <?php
-
 /**
- * This class OnthologyProcessor maps resources from a package to RDF classes. It handles ontologies and modifications from the user,
+ * This class OnthologyProcessor handles actions on an ontology of a resource.
+ * I supplies methods for mapping data members of resources to external ontology classes or properties. 
  *
+ * Includes RDF Api for PHP <http://www4.wiwiss.fu-berlin.de/bizer/rdfapi/>
+ * Licensed under LGPL <http://www.gnu.org/licenses/lgpl.html>
+ * 
  * @package The-Datatank/model/semantics
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-include_once('RDFConstants.php');
-include_once('tdtml/TDTML.class.php');
-
 class OntologyProcessor {
-
+    
     private static $uniqueinstance;
 
     private function __construct() {
@@ -28,17 +28,24 @@ class OntologyProcessor {
 
     /**
      *
-     * This function reads an ontology turtle file for the first time
+     * This function reads an ontology turtle file and loads the content in the ontology.
      *
+     *
+     * @param string $package
+     * @param string $filename 
+     * @access public
      */
     public function readOntologyFile($package, $filename) {
         $this->getModel($package)->load($filename, "n3");
     }
-
-    private function setPreferred(& $model) {
-        
-    }
-
+    
+    /**
+     * Checks if an object of type Model describes an ontology
+     * 
+     * @param Model $model Model instance containing RDF triples
+     * @return boolean Returns true if the model describes an ontology 
+     * @access public
+     */
     public function isOntology($model) {
         $result = $model->findFirstMatchingStatement(null, RDF::TYPE(), OWL::ONTOLOGY());
 
@@ -47,41 +54,69 @@ class OntologyProcessor {
         else
             return true;
     }
-
+    
+    /**
+     * Checks if a package already has an ontology
+     * 
+     * @param string $package The package that needs checking
+     * @return boolean Returns true if there an ontology of this package exists
+     * @access public
+     */
     public function hasOntology($package) {
-        $store = RbModelFactory::getRbStore();
-        return $store->modelExists($this->getOntologyURI($package));
+        return RbModelFactory::getRbStore()->modelExists($this->getOntologyURI($package));
     }
 
     //CRUD METHODS for whole Ontology
-
+    
     public function updateOntology($package) {
         //Don't know if this will ever have an implementation
     }
-
+    
+    /**
+     * Creates an ontology of a package. If a turtle file is supplied, the file is parsed into the ontology.
+     * 
+     * @param string $package The package for which we want to create an ontology
+     * @param string $file The uri to a turtle file describing the ontology
+     */
     public function createOntology($package, $file=null) {
         if (isset($file) && !is_null($file)) {
-            
             //file_exists returns false with correct files, probably not accessible?
             //if (file_exists($file))
-                $this->readOntologyFile($package, $file);
-              
+            $this->readOntologyFile($package, $file);
         }else
             $this->getModel($package);
-
-        return true;
     }
 
+    /**
+     * Reads the entire ontology of a package.
+     * 
+     * @param string $package The package of which we want to read the ontology
+     * @return MemModel The object containing the resulting RDF model 
+     */
     public function readOntology($package) {
         return $this->getModel($package)->getMemModel();
     }
-
+    
+    /**
+     * Deletes the entire ontology of a package
+     * 
+     * @param string $package The package of which we want to delete the ontology
+     */
     public function deleteOntology($package) {
         $this->getModel($package)->delete();
     }
 
     //CRUD METHODS for paths in Ontology
-
+    
+    /**
+     * 
+     * 
+     * @param type $package
+     * @param type $path
+     * @param type $value
+     * @param type $nmsp
+     * @param type $prefix 
+     */
     public function updatePathMap($package, $path, $value, $nmsp, $prefix=null) {
         $model = $this->getModel($package);
 
@@ -184,15 +219,23 @@ class OntologyProcessor {
         return false;
     }
 
-    public function generateOntologyFromFields($package, $resource, $fields) {
-        $model = $this->getModel($package);
+    public function generateOntology($package, $resource) {
+        $model = $this->getModel($package); //Create an empty model
+        //Check if resource is generic
+        //if so we can autogenerate the ontology from getFields in the strategy
+        if (DBQueries::hasGenericResource($package, $resource)) {
+            $genres = new GenericResource($this->package, $this->resource);
+            $strategy = $genres->getStrategy();
+            $fields = $strategy->getFields($this->package, $this->resource);
+            OntologyProcessor::getInstance()->generateOntologyFromFields($this->package, $this->resource, $fields);
 
-        $model->add(new Statement(new Resource($resource), RDF::TYPE(), TDTML::TDTRESOURCE()));
-
-        $model->add(new Statement(new Resource($resource . '/stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
-
-        foreach ($fields as $field) {
-            $model->add(new Statement(new Resource($resource . '/stdClass/' . $field), RDF::TYPE(), RDF::PROPERTY()));
+            $model->add(new Statement(new Resource($resource), RDF::TYPE(), TDTML::TDTRESOURCE()));
+            //Add stdClass wrapper, since this is for now always the case
+            $model->add(new Statement(new Resource($resource . '/stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
+            //iterate the fields and add them as properties
+            foreach ($fields as $field) {
+                $model->add(new Statement(new Resource($resource . '/stdClass/' . $field), RDF::TYPE(), RDF::PROPERTY()));
+            }
         }
     }
 

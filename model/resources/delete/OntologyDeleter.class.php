@@ -1,9 +1,10 @@
 <?php
 /**
- * Class to delete an ontology
+ * This class OntologyDeleter deletes ontologies.
+ * When deleting an ontology, we always expect a DELETE method!
  *
  * @package The-Datatank/model/resources/delete
- * @copyright (C) 2011 by iRail vzw/asbl
+ * @copyright (C) 2011 by iRail vzw/asbl 
  * @license AGPLv3
  * @author Miel Vander Sande
  */

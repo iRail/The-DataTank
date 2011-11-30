@@ -58,7 +58,7 @@
 //echo $result;
 
 // HTTP authentication 
-$url = "http://localhost/TDT/Vienna/bezirke-geschlecht-zeitreihe/"; 
+$url = "http://localhost/TDT/Vienna/vie-regdistrict-pop-sex/"; 
 $ch = curl_init();     
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
 curl_setopt($ch, CURLOPT_URL, $url);  
@@ -66,9 +66,10 @@ curl_setopt($ch, CURLOPT_USERPWD, "tdtusr:tdtusr");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 $data = array( "resource_type" => "generic",
                "generic_type"  => "CSV",
-               "documentation" => "this is some documentation.",
-               "uri"           => "http://www.wien.gv.at/statistik/ogd/bezirke-geschlecht-zeitreihe.csv",
-               "has_header_row" => 1
+               "documentation" => "This is the bezirke-geschlecht-zeitreihe ",
+               "uri"           => "http://localhost/vie-regdistrict-pop-sex.csv",
+               "has_header_row" => 1,
+               "delimiter" => ";"
 );
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 $result = curl_exec($ch);  

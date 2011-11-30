@@ -21,7 +21,6 @@ class GenericResourceReader extends AReader {
         $this->genres = new GenericResource($this->package, $this->resource);
         $strategy = $this->genres->getStrategy();
         $this->parameters = array_merge($this->parameters, $strategy->documentReadParameters());
-        $this->getOntology();
     }   
 
     protected function isPagedResource(){
@@ -71,16 +70,6 @@ class GenericResourceReader extends AReader {
         }
     }
 
-    public function getOntology() {
-        if (!OntologyProcessor::getInstance()->hasOntology($this->package)) {
-            if(!isset($this->genres)){
-                $this->genres = new GenericResource($this->package, $this->resource);
-            }
-            $strategy = $this->genres->getStrategy();
-            $fields = $strategy->getFields($this->package, $this->resource);
-            OntologyProcessor::getInstance()->generateOntologyFromFields($this->package, $this->resource, $fields);
-        }
-    }
 
 }
 
