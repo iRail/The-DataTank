@@ -168,22 +168,6 @@ class ResourcesModel {
         }
     }
 
-    /**
-     * Reads the fields of the resource with the given parameters
-     */
-    public function readResourceOntology($package, $resource, $RESTparameters) {
-        //first check if the resource exists
-        if (!$this->hasResource($package, $resource)) {
-            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
-        }
-
-        foreach ($this->factories as $factory) {
-            if ($factory->hasResource($package, $resource)) {
-                $reader = $factory->createReader($package, $resource, array(), $RESTparameters);
-                return $reader->getOntology();
-            }
-        }
-    }
 
     /**
      * Updates the resource with the given parameters - it will create an updater itself

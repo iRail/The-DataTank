@@ -1,10 +1,9 @@
 <?php
-
 /**
- * This class gives access to the onthology of resources
+ * This class gives access to the ontology of resources
  *
- * @package The-Datatank/packages/TDTInfo
- * @copyright (C) 2011 by iRail vzw/asbl
+ * @package The-Datatank/model/packages/TDTInfo
+ * @copyright (C) 2011 by iRail vzw/asbl 
  * @license AGPLv3
  * @author Miel Vander Sande
  */

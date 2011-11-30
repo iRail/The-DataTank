@@ -1,11 +1,12 @@
 <?php
-
 /**
- * This will add ontological information to a 
- * @package The-Datatank/model/resources/actions
+ * This class OntologyUpdater updates ontologgy's by adding mappings
+ * When updating an ontology, we always expect a POST method!
+ *
+ * @package The-Datatank/model/resources/create
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
- * @author Pieter Colpaert
+ * @author Miel Vander Sande
  */
 include_once("AUpdater.class.php");
 

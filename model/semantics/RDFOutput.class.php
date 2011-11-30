@@ -2,8 +2,11 @@
 
 /**
  * This class generates RDF output for the retrieved data using the stored mapping.
+ * 
+ * Includes RDF Api for PHP <http://www4.wiwiss.fu-berlin.de/bizer/rdfapi/>
+ * Licensed under LGPL <http://www.gnu.org/licenses/lgpl.html>
  *
- * @package The-Datatank/model
+ * @package The-Datatank/model/semantics
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande
@@ -14,7 +17,12 @@ class RDFOutput {
     private $package;
     private $mapping;
 
+    /*
+     * Constructor
+     */
+
     public function __construct() {
+        //create a memory model to serialise
         $this->model = ModelFactory::getResModel(MEMMODEL);
         $this->package = RequestURI::getInstance()->getPackage();
 
@@ -22,19 +30,22 @@ class RDFOutput {
     }
 
     /**
-     * Removes a mapping between TDT Resource and a class.
+     * Analyzes a dataobject and parses it into an RDF model.
      *
      * @param	object $object
-     * @return	Model returns an onthology of $object
+     * @return	MemModel Returns an RDF model of $object
      * @access	public
      */
     public function buildRdfOutput($object) {
+        //Get the different parts of the requested path
         $arr = explode('/', RequestURI::getInstance()->getResourcePath());
+
 
         $beginpath = '';
         while (count($arr) > 1) {
             $item = array_shift($arr);
 
+            //numeric means array of stdClass, add stdClass to the classpath, else add the item
             if (!is_numeric($item))
                 $beginpath .= $item . '/';
             else
@@ -42,9 +53,12 @@ class RDFOutput {
         }
 
         foreach ($object as $property => $value) {
+            //if the property is the same as the resource, we request the whole resource.
+            //In this case we need to add it seperatly to the classpath, else it is left out.
             if ($property == RequestURI::getInstance()->getResource())
                 $beginpath .=$property . '/';
 
+            //start analyzing the data
             $this->analyzeVariable($object->$property, RequestURI::getInstance()->getRealWorldObjectURI(), $beginpath);
         }
 
@@ -52,12 +66,15 @@ class RDFOutput {
     }
 
     /**
-     * Recursive function for analyzing an object and building its path
+     * Recursive function for analyzing an object and building its instance path and classpath.
+     * The uri is used for creating RDF instances, while the classpath is used for retrieving Ontology mapping.
      *
-     * @param Mixed $var The current variable that is being analyzed
-     * @param string $uri The current uri of the variable
-     * @param ResResource $resource
-     * @param type $property
+     * @param Mixed $var The current object that is being analyzed
+     * @param string $uri The current uri of the object
+     * @param string $path The current classpath of the object
+     * @param ResResource $resource The parent resource for the current object
+     * @param ResProperty $property The parent property for the current object
+     * @access private
      */
     private function analyzeVariable($var, $uri='', $path='', $resource = null, $property=null) {
         //Check if the object is an array, object or primitive variable
@@ -75,17 +92,19 @@ class RDFOutput {
             }
             //Check if the array is associative. If so, treat like an object.
         } else if (is_object($var) || TDT::is_assoc($var)) {
-
+            //If this is not an array, it's an object, else an associative array
             if (!is_array($var))
                 $path .= get_class($var);
             else
-                $path = substr ($path, 0,strlen ($path)-1);
+            //When it is an associative array, we need to use the property name instead of the classname
+            //this is added later in the foreach, so delete the slash
+                $path = substr($path, 0, strlen($path) - 1);
 
             $temp = $uri;
             $temp2 = $path;
             //create a resource of this array using the build uri path
             $res = $this->getClass($uri, $path);
-            
+
             //Add this resource to the parent resource
             $this->addToResource($resource, $property, $res);
 
@@ -95,13 +114,12 @@ class RDFOutput {
                 $uri = $temp;
                 $prop = $this->getProperty($key, $path);
 
-
+                //When it is an assoc array, add the property name now. 
+                //In case of an object, it is done in the next iteration
                 if (!is_object($value))
                     $path .= '/' . $key;
-                //else if (is_null($res))
-                    //$res = 
-                    
-                $this->analyzeVariable($value, $uri . '/' . $key, $path.'/', $res, $prop);              //start over for each value
+                //start over for each value
+                $this->analyzeVariable($value, $uri . '/' . $key, $path . '/', $res, $prop);
             }
         } else {
             //Variable is a primitive type, so create typed literal.
@@ -114,32 +132,31 @@ class RDFOutput {
     }
 
     /**
-     * Adds a resource to another resource with a property
+     * Adds a resource to another resource with a property, thus creating a triple.
      *
-     * @param ResResource $resource The parent resource to add property to
-     * @param ResResource $property The property to be added to the resource
-     * @param ResResource $object The object of the property
+     * @param Resource $resource The parent resource to add property to. This can be a ResResource or a ResList
+     * @param ResProperty $property The property to be added to the resource
+     * @param Resource $object The object of the property. This can be a resResource or a ResLiteral
+     * @access private
      */
     private function addToResource($resource, $property, $object) {
         //Check if there is aready parent resource. If not, this resource is probably the first one.
         if (!is_null($resource)) {
-            //If the resource is a sequence, just add the object to it, property is not important
+            //If the resource is a list, just add the object to it, property is not important
             if (is_a($resource, 'ResList')) {
                 $resource->add($object);
             } else if (is_a($resource, 'ResResource'))
                 $resource->addProperty($property, $object);
-        } 
-        
+        }
     }
 
     /*
-     * Create a rdf:List for the ResModel
+     * Creates a rdf:List for the ResModel
      * 
      * @param string $uri The instance uri to create a rdf:List for
      * @return ResList Object representing the list
-     * 
+     * @access private
      */
-
     private function getList($uri) {
         $res = $this->model->createList($uri);
         $res->addProperty(RDF_RES::TYPE(), RDF_RES::RDF_LIST());
@@ -148,15 +165,14 @@ class RDFOutput {
     }
 
     /*
-     * Get a property mapped on an ontology. If no mapping is present, create non-existing property from name
+     * Get a property mapped to an ontology. If no mapping is present, create a non-existing property from name.
      * 
      * @param string $name name of the property
      * @param string $path Hierarchical path of data struture
      * 
-     * @return ResProperty 
-     * 
+     * @return ResProperty Returns the created,mapped property
+     * @access private
      */
-
     private function getProperty($name, $path) {
         $path .= '/' . $name;
         if ($this->mapping) {
@@ -169,15 +185,14 @@ class RDFOutput {
     }
 
     /*
-     * Get a resource with mapped type. If no mapping is present, no type is given.
+     * Get a resource with mapped class as type. If no mapping is present, no type is given.
      * 
      * @param string $uri Instance URI of this resource
      * @param string $path Hierarchical path of data struture
      * 
-     * @return ResResource
-     * 
+     * @return ResResource Returns the created, mapped resource.
+     * @access private
      */
-
     private function getClass($uri, $path) {
         $resource = $this->model->createResource($uri);
 

@@ -22,7 +22,6 @@ abstract class AReader {
         $this->package = $package;
         $this->resource = $resource;
         $this->RESTparameters = $RESTparameters;
-        $this->getOntology();
     }
 
     public function getRESTParameters() {
@@ -68,13 +67,6 @@ abstract class AReader {
 
     abstract protected function setParameter($key, $value);
 
-    protected function getOntology() {
-//        if (!OntologyProcessor::getInstance()->hasOntology($this->package)) {
-//            $filename = "custom/packages/" . $this->package . "/" . $this->package . ".ttl";
-//            if (file_exists($filename))
-//                OntologyProcessor::getInstance()->readOntologyFile($this->package, $filename);
-//        }
-    }
 
 }
 
