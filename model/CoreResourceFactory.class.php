@@ -11,7 +11,7 @@
 class CoreResourceFactory extends AResourceFactory {
 
     protected function getAllResourceNames(){
-        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin"));
+        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin", "Formatters"));
     }
 
     public function createCreator($package,$resource, $parameters, $RESTparameters){

@@ -29,20 +29,9 @@ class TDTInfoResources extends AReader{
 	return $o;
     }
 
-    public function readPaged(){
-        return $this->readNonPaged();
-    }
-
     public static function getDoc(){
 	return "This resource contains the most important information";
     }
-    
-    protected function isPagedResource(){
-        return false;
-    }
-    
-    
-
 }
 
 ?>

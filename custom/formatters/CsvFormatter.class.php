@@ -6,7 +6,6 @@
  * @license AGPLv3
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
-include_once("formatters/AFormatter.class.php");
 
 /**
  * This class inherits from the abstract Formatter. It will return our resultobject into a
@@ -54,7 +53,7 @@ class CsvFormatter extends AFormatter{
      }
 
 
-     public function getDocumentation(){
+     public static function getDocumentation(){
          return "A CSV formatter. Works only on arrays";
      }
 };

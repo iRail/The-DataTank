@@ -35,6 +35,7 @@ abstract class AReader {
         return $this->read();
     }
 
+
     /**
      * read method of a non-paged resource
      */

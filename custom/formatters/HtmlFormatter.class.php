@@ -10,7 +10,6 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  * @author Miel Vander Sande 
  */
-include_once("formatters/AFormatter.class.php");
 
 /**
  * This class inherits from the abstract Formatter. It will generate a html-page with a print_r
@@ -45,7 +44,7 @@ class HtmlFormatter extends AFormatter {
         }
     }
     
-    public function getDocumentation(){
+    public static function getDocumentation(){
         return "The Html formatter is a formatter for developing purpose. It prints everything in the internal object.";
     }
     

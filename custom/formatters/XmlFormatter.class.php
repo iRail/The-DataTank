@@ -8,8 +8,6 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-include_once("formatters/AFormatter.class.php");
-
 /**
  * This class inherits from the abstract Formatter. It will our resultobject into an XML datastructure.
  */
