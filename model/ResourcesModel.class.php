@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model for our application. You can access everything from here
  *

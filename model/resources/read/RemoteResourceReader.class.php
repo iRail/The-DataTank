@@ -6,6 +6,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
+ * @author Pieter Colpaert
  */
 include_once("model/DBQueries.class.php");
 
@@ -17,12 +18,10 @@ class RemoteResourceReader extends AReader{
         parent::__construct($package,$resource, $RESTparameters);  
         $this->remoteResource = $remoteResourceDocumentation;
     }
-    
 
     public function readPaged(){
         return $this->readNonPaged();
-    }
-    
+    }    
 
     /**
      * read method

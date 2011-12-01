@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the RequestLogger.class.php
+ * This class will log a request into the database
  * @package The-Datatank/requests
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -22,8 +22,10 @@ class RequestLogger{
         $request->time = time();
         if(isset($_SERVER['HTTP_USER_AGENT'])){    
             $request->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        }else{
+            $request->user_agent = "";
         }
-        $request->ip = $_SERVER['REMOTE_ADDR'];
+        
         $request->url_request = $URI->getURI();
         $request->package = $URI->getPackage();
         $request->resource = $URI->getResource();
