@@ -110,6 +110,7 @@ class RController extends AController {
         if (!isset($doc->$package->$resourcename->base_url)) {
             RequestLogger::logRequest();
         }
+        
     }
 
     /**
