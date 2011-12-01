@@ -41,6 +41,7 @@ abstract class AFormatter {
         //}
         //a gimmick stolen from Drupal 
         header("Expires: Sun, 19 Nov 1978 04:59:59 GMT");
+
         $this->printHeader();
         $this->printBody();
     }
