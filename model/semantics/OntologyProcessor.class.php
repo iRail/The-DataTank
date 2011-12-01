@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This class OnthologyProcessor handles actions on an ontology of a resource.
  * I supplies methods for mapping data members of resources to external ontology classes or properties. 
@@ -12,7 +13,7 @@
  * @author Miel Vander Sande
  */
 class OntologyProcessor {
-    
+
     private static $uniqueinstance;
 
     private function __construct() {
@@ -38,7 +39,7 @@ class OntologyProcessor {
     public function readOntologyFile($package, $filename) {
         $this->getModel($package)->load($filename, "n3");
     }
-    
+
     /**
      * Checks if an object of type Model describes an ontology
      * 
@@ -54,7 +55,7 @@ class OntologyProcessor {
         else
             return true;
     }
-    
+
     /**
      * Checks if a package already has an ontology
      * 
@@ -67,11 +68,11 @@ class OntologyProcessor {
     }
 
     //CRUD METHODS for whole Ontology
-    
+
     public function updateOntology($package) {
         //Don't know if this will ever have an implementation
     }
-    
+
     /**
      * Creates an ontology of a package. If a turtle file is supplied, the file is parsed into the ontology.
      * 
@@ -96,7 +97,7 @@ class OntologyProcessor {
     public function readOntology($package) {
         return $this->getModel($package)->getMemModel();
     }
-    
+
     /**
      * Deletes the entire ontology of a package
      * 
@@ -107,15 +108,15 @@ class OntologyProcessor {
     }
 
     //CRUD METHODS for paths in Ontology
-    
+
     /**
+     * Adds a mapping to a specific Class or Property in the ontology
      * 
-     * 
-     * @param type $package
-     * @param type $path
-     * @param type $value
-     * @param type $nmsp
-     * @param type $prefix 
+     * @param string $package The package containing the resource
+     * @param string $path The classpath of the class or property in the resource
+     * @param string $value The name of the external class or property 
+     * @param string $nmsp The namespace URI of the external ontology
+     * @param string $prefix The prefix of the external ontology namespace
      */
     public function updatePathMap($package, $path, $value, $nmsp, $prefix=null) {
         $model = $this->getModel($package);
@@ -135,6 +136,15 @@ class OntologyProcessor {
         $this->getModel($package)->add($statement);
     }
 
+    /**
+     * Determines which mapping is preffered over the others.
+     * 
+     * @param string $package The package containing the resource
+     * @param string $path The classpath of the class or property in the resource
+     * @param string $value The name of the external class or property 
+     * @param string $nmsp The namespace URI of the external ontology
+     * @param string $prefix The prefix of the external ontology namespace
+     */
     public function updatePathPreferredMap($package, $path, $value, $nmsp, $prefix =null) {
         $model = $this->getModel($package);
 
@@ -147,25 +157,46 @@ class OntologyProcessor {
 
         $statement = null;
         if ($this->isPathProperty($package, $path))
-            $statement = new Statement($resource, TDTML::PREFERRED_PROPERTY(), $mapping);
+            $statement = new Statement($resource, new Resource("http://www.thedatatank.org/tdml/1.0#preferredProperty"), $mapping);
         else
-            $statement = new Statement($resource, TDTML::PREFERRED_CLASS(), $mapping);
+            $statement = new Statement($resource, new Resource("http://www.thedatatank.org/tdml/1.0#preferredClass"), $mapping);
 
         $this->getModel($package)->add($statement);
     }
 
+    /**
+     * Creates an ontology entry for a property.
+     * 
+     * @param string $package The package containing the resource
+     * @param string $path The classpath of the property.
+     */
     public function createPropertyPath($package, $path) {
         $resource = new Resource($path);
         $statement = new Statement($resource, RDF::TYPE(), RDF::PROPERTY());
         $this->getModel($package)->add($statement);
     }
 
+    /**
+     * Creates an ontology entry for a class.
+     * 
+     * @param string $package The package containing the resource
+     * @param string $path The classpath of the class.
+     * @access public
+     */
     public function createClassPath($package, $path) {
         $resource = new Resource($path);
         $statement = new Statement($resource, RDF::TYPE(), OWL::OWL_CLASS());
         $this->getModel($package)->add($statement);
     }
 
+    /**
+     * Reads the ontology only containing statements concerning the supplied classpath.
+     * 
+     * @param string $package The package containing the resource
+     * @param string $path The classpath of the member
+     * @return MemModel The model containing the resulting triples
+     * @access public
+     */
     public function readPath($package, $path) {
         $param = str_replace('/', '\/', $path) . '%';
         $model = $this->getModel($package)->findWildcarded($param, null, null);
@@ -177,6 +208,13 @@ class OntologyProcessor {
         return $model;
     }
 
+    /**
+     * Deletes a data member from the ontology
+     *
+     * @param type $package
+     * @param type $path 
+     * @access public
+     */
     public function deletePath($package, $path) {
         $temp = $this->readPath($package, $path);
         foreach ($temp->triples as $statement) {
@@ -188,7 +226,8 @@ class OntologyProcessor {
      * This function retrieves all triples containing mapping.
      * 
      * @param string $package The package to get mappings from
-     * @return Mixed Returns array with triples or 
+     * @return Mixed Returns array with triples or false when there are no results
+     * @access public
      */
 
     public function getMapping($package) {
@@ -219,6 +258,12 @@ class OntologyProcessor {
         return false;
     }
 
+    /**
+     * Automatically generates a data model in the ontology based on the known dataset scheme.
+     *
+     * @param string $package The packase of the resource
+     * @param string $resource The resource to create an ontology for
+     */
     public function generateOntology($package, $resource) {
         $model = $this->getModel($package); //Create an empty model
         //Check if resource is generic
@@ -229,7 +274,7 @@ class OntologyProcessor {
             $fields = $strategy->getFields($this->package, $this->resource);
             OntologyProcessor::getInstance()->generateOntologyFromFields($this->package, $this->resource, $fields);
 
-            $model->add(new Statement(new Resource($resource), RDF::TYPE(), TDTML::TDTRESOURCE()));
+            $model->add(new Statement(new Resource($resource), RDF::TYPE(), OWL::OWL_CLASS()));
             //Add stdClass wrapper, since this is for now always the case
             $model->add(new Statement(new Resource($resource . '/stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
             //iterate the fields and add them as properties
@@ -239,15 +284,29 @@ class OntologyProcessor {
         }
     }
 
-    //Private Methods
-
-    /*
-     * Function retrieving the unique URI for the package onthology
+    /**
+     * Function retrieving the unique URI for the package ontology
      */
     public function getOntologyURI($package) {
         return Config::$HOSTNAME . Config::$SUBDIR . 'TDTInfo/Ontology/' . $package . '/';
     }
+    
+    /**
+     * 
+     *
+     * @return array Returns an array listing all the available ontology models 
+     */
+    public function getAllOntologys() {
+        return RbModelFactory::getRbStore()->listModels();
+    }
 
+    //Private Methods
+    /**
+     *  Creates and returns an new RDF model and stores it in the database.
+     * 
+     * @param string $package
+     * @return RbModel Returns RedBean RDF model object that is persitent with the model in the database
+     */
     private function getModel($package) {
         $store = RbModelFactory::getRbStore();
         //gets the model if it exist, else make a new one. Either way, it's the right one.
@@ -263,6 +322,13 @@ class OntologyProcessor {
         return $model;
     }
 
+    /**
+     * Checks in the ontology if a certain classpath is a property
+     * 
+     * @param string $package The package of the resource
+     * @param string $path The classpath of the resource
+     * @return boolean  Returns true if the classpath is a property
+     */
     private function isPathProperty($package, $path) {
         //Can we find a type for this path?
         $statement = $this->getModel($package)->findFirstMatchingStatement(new Resource($path), RDF::TYPE(), null);
@@ -277,21 +343,7 @@ class OntologyProcessor {
         }
     }
 
-    private function trimPath($path) {
-        //We need to rewrite the resource url to add the right mapping
-        //Find position of last slash
-        $pos = strripos($path, '/');
-
-        //Check if the url ends on a slash. If so, remove the slash en check position of last slash again.
-        if ($pos == strlen($path) - 1)
-            return substr($path, 0, strlen($path) - 1);
-
-        return $path;
-    }
-
-    public function getAllOntologys() {
-        return RbModelFactory::getRbStore()->listModels();
-    }
+    
 
 }
 
