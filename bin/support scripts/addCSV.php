@@ -78,72 +78,11 @@ if ($has_header_row == "0") {
             throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array.");
         }
     }
-    $rowcount = 0;
-    if (($handle = fopen($uri, "r")) !== FALSE) {
-        stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
-        ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
-        while (($line = fgets($handle, CSV::$MAX_LINE_LENGTH)) !== FALSE 
-               && $rowcount < CSV::$NUMBER_OF_ITEMS_PER_PAGE + $start_row) {
-            $rowcount++;
-        }
-        // adjust the rowcount to the number of rows that actually matter
-        $rowcount = $rowcount - $start_row;
-        fclose($handle);
-    }else{
-        $package = DBQueries::getPackageById($package_id);
-        $resource = DBQueries::getResourceById($resource_id);
-        ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-        throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a C SV-file.");
-        
-    }
 
-    /**
-     * there is no header row, so the handle can be passed as is
-     */
-   
-    $fieldhash = array();
-    if (($handle = fopen($uri, "r")) !== FALSE) {
-        stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
-        ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
-        $commentlinecounter = 1;
-        while($commentlinecounter < $start_row && ($line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $delimiter)) !== FALSE){
-            $commentlinecounter++;
-        }
-        checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id);
-    }else{
-        $package = DBQueries::getPackageById($package_id);
-        $resource = DBQueries::getResourceById($resource_id);
-        ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-        throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
-                
-    }
 }else{
 
-   
-    $rowcount = 0;
-    if (($handle = fopen($uri, "r")) !== FALSE) {
-        stream_set_blocking($handle,1);
-        stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
-        ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
-        while (($line = fgets($handle, CSV::$MAX_LINE_LENGTH)) !== FALSE && $rowcount < CSV::$NUMBER_OF_ITEMS_PER_PAGE + $start_row) {
-            $rowcount++;
-        }
-        // adjust the number of rowcount to the number of rows that actually matter
-        $rowcount = $rowcount - $start_row;
-        fclose($handle);
-    }else{
-        $package = DBQueries::getPackageById($package_id);
-        $resource = DBQueries::getResourceById($resource_id);
-        ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-        throw new ParameterTDTException($uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
-                
-    }
-
     $fieldhash = array();
     if (($handle = fopen($uri, "r")) !== FALSE) {
-
-        stream_set_timeout($handle, CSV::$MAX_EXECUTION_TIME);
-        ini_set('max_execution_time', CSV::$MAX_EXECUTION_TIME);
 
         // for further processing we need to process the header row, this MUST be after the comments
         // so we're going to throw away those lines before we're processing our header_row
@@ -159,9 +98,7 @@ if ($has_header_row == "0") {
             for ($i = 0; $i < sizeof($line); $i++){
                 $fieldhash[$line[$i]] = $i;
                 $columns[$i] = $line[$i];
-            }
-            
-            checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id); 
+            }  
         }else{
             $package = DBQueries::getPackageById($package_id);
             $resource = DBQueries::getResourceById($resource_id);
@@ -178,27 +115,6 @@ if ($has_header_row == "0") {
     }
 }
 evaluateColumns($columns, $PK, $generic_resource_id);
-
-
-/*
- * This function will check if the CSV needs a level 2 cache or not
- * if there are more lines then $NUMBER_OF_ITEMS_PER_PAGE then we need to page
- * either way we'll update the resource entry with an is_paged value
- * NOTE: generic_resource_id is the generic_resource_csv.id 
- * Precondition: Handle has alrdy been openend, the uri works.
- */
-function checkForPaging($rowcount,$handle,$delimiter,$generic_resource_csv_id,$resource_id){
-
-    if($rowcount >= CSV::$NUMBER_OF_ITEMS_PER_PAGE){
-        DBQueries::updateIsPagedResource($resource_id,"1");
-        // only read lines from the stream that are valuable to us ( so no header of commentlines )
-        while (($line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $delimiter)) !== FALSE) {
-            DBQueries::insertIntoCSVCache(utf8_encode(implode($line,$delimiter)),$generic_resource_csv_id);
-        }
-    }else{
-        DBQueries::updateIsPagedResource($resource_id,"0");
-    }
-}
     
 function evaluateCSVResource($gen_resource_id,$uri,$has_header_row,$delimiter,$start_row) {
     return DBQueries::storeCSVResource($gen_resource_id, $uri, $has_header_row,$delimiter,$start_row);

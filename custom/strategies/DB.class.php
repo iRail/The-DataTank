@@ -13,8 +13,6 @@ include_once("model/DBQueries.class.php");
 
 class DB extends ATabularData {
 
-    private $NUMBER_OF_ITEMS_PER_PAGE = 50;
-
     public function documentCreateRequiredParameters(){
         return array("db_type","host","db_name","db_table","port","db_user","db_password");
     }
@@ -45,68 +43,6 @@ class DB extends ATabularData {
          * Add a foreign key relation update action
          */
         $this->updateActions[] = "foreign_relation";
-    }
-    
-    public function readPaged($package,$resource,$page){
-        /*
-         * Here we'll extract all the db-related info and return an object for the RESTful call
-         * As we're not using different tables per different type of database we'll use separate logic
-         * per separate database. Perhaps this could also be implemented in a strategypattern.....
-         */
-        try{
-            $results = DBQueries::getDBResource($package, $resource);
-
-            $dbtype = $results["db_type"];
-            $dbname = $results["db_name"];
-            $dbtable = $results["db_table"];
-            $dbport = $results["port"];
-            $dbhost = $results["host"];
-            $user = $results["db_user"];
-            $passwrd = $results["db_password"];
-            $id = $results["id"];
-            $gen_res_id = $results["gen_res_id"];
-
-            // get the columns from the columns table
-            $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-            
-            $dbcolumns = array();
-            $PK = "";
-            foreach($allowed_columns as $result){
-                array_push($dbcolumns,$result["column_name"]);
-                if($result["is_primary_key"] == 1){
-                    $PK = $result["column_name"];
-                }
-            }
-
-            /*
-             * According to the type of db we're going to connect with the database and 
-             * retrieve the correct fields. Since we're using redbean, we might as well use it
-             * to retrieve some data when the host is supported by the redbean. The only reason 
-             * why this could/should be changed is to provide functionality for older non-compatible
-             * versions of mysql/sqlite/postgresql.
-             */
-        
-            $resultobject = array();
-            if(strtolower($dbtype) == "mysql"){
-                R::setup("mysql:host=$dbhost;dbname=$dbname",$user,$passwrd);
-            }elseif(strtolower($dbtype) == "sqlite"){
-                //$dbtable is used as path to the sqlite file. 
-                R::setup("sqlite:$dbtable",$user,$passwrd); //sqlite
-            }elseif(strtolower($dbtype) == "postgresql"){
-                R::setup("pgsql:host=$dbhost;dbname=$dbname",$user,$passwrd); //postgresql
-            }else{
-                throw new DatabaseTDTException("The database you're trying to reach is not yet supported.");
-            }   
-
-             $upperbound = $page * $NUMBER_OF_ITEMS_PER_PAGE -1; // MySQL LIMIT starts with 0
-             $lowerbound = $upperbound - $NUMBER_OF_ITEMS_PER_PAGE;
-
-             $resultobject = $this->createPagedResultObjectFromRB($resultobject,$dbcolumns,$dbtable,$id,$dbhost,$PK,$resource,$lowerbound,$upperbound);
-            return $resultobject;
-        }catch(Exception $ex){
-            throw new InternalServerTDTException("Something went wrong while fetching the 
-                      requested databaseresource: ".$ex->getMessage()." .");
-        }
     }
 
     public function read($package,$resource){

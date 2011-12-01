@@ -19,15 +19,10 @@ class RemoteResourceReader extends AReader{
         $this->remoteResource = $remoteResourceDocumentation;
     }
 
-    public function readPaged(){
-        return $this->readNonPaged();
-    }    
-
     /**
      * read method
      */
     public function read(){
-        
 	//extract the right parameters (the non optional ones) and concatenate them to create the right URL
 	$params = "?";
 	foreach(array_keys($this->remoteResource->parameters) as $key){
@@ -63,7 +58,6 @@ class RemoteResourceReader extends AReader{
     }
     
     protected function setParameter($name,$val){
-        //TODO: do check on input here!
 	$this->$name = $val;
     }
 
@@ -74,10 +68,5 @@ class RemoteResourceReader extends AReader{
     public function getDocumentation(){
         return $this->remoteResource;
     }
-
-    public function isPagedResource(){
-        return false;
-    }
-    
 }
 ?>

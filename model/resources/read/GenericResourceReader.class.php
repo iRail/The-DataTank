@@ -21,11 +21,6 @@ class GenericResourceReader extends AReader {
         $this->genres = new GenericResource($this->package, $this->resource);
         $strategy = $this->genres->getStrategy();
         $this->parameters = array_merge($this->parameters, $strategy->documentReadParameters());
-    }   
-
-    protected function isPagedResource(){
-        $result = DBQueries::getIsPaged($this->package,$this->resource);
-        return $result["is_paged"];
     }
 
     /**
@@ -33,18 +28,6 @@ class GenericResourceReader extends AReader {
      */
     public function read(){
         return $this->genres->read();
-    }
-
-    /**
-     * read paged method
-     * (same as read method, disguishment between paged and non paged is only 
-     *  concrete in a strategy for generic resources.)
-     */
-    public function readPaged(){
-        if(!isset($this->page)){
-            $this->page = -1;
-        }
-        return $this->genres->readPaged($this->page);
     }
 
     /**

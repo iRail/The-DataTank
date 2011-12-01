@@ -32,29 +32,13 @@ abstract class AReader {
      * execution method
      */
     public function execute() {
-        if ($this->isPagedResource() == 0) {
-            return $this->read();
-        } else {
-            return $this->readPaged();
-        }
+        return $this->read();
     }
-
-    /**
-     * returns boolean wheter or not the resource is a paged one
-     */
-    abstract protected function isPagedResource();
 
     /**
      * read method of a non-paged resource
      */
     abstract public function read();
-
-    /**
-     * read method of a paged resource
-     */
-    public function readPaged() {
-        return "Not yet implemented.";
-    }
 
     public function processParameters($parameters) {
         /*

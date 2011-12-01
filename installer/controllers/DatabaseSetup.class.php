@@ -123,7 +123,6 @@ class DatabaseSetup extends InstallController {
               `creation_timestamp` bigint(20) NOT NULL,
               `last_update_timestamp` bigint(20) NOT NULL,
               `type` varchar(60) NOT NULL,
-              `is_paged` tinyint(2) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -182,14 +181,6 @@ class DatabaseSetup extends InstallController {
               KEY `s_obj_idx` (`object`(250)),
               KEY `s_obj_ftidx` (`object`(250))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-        
-        $queries["l2 csv cache"] = "CREATE TABLE IF NOT EXISTS l2_cache_csv (
-                        id bigint(20) NOT NULL AUTO_INCREMENT,
-                         gen_res_csv_id bigint(20) NOT NULL,
-                         csv_values varchar(15000) NOT NULL,
-                         PRIMARY KEY (id),
-                         FOREIGN KEY(gen_res_csv_id) references generic_resource_csv(id)
-                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         
 
 

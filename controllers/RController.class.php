@@ -110,14 +110,6 @@ class RController extends AController {
         if (!isset($doc->$package->$resourcename->base_url)) {
             RequestLogger::logRequest();
         }
-        
-        /**
-         * check for updates if necessary
-         */
-
-        if( !$this->is_update_process_running()){
-            $this->run_update_in_background();
-        }
     }
 
     /**
@@ -139,15 +131,6 @@ class RController extends AController {
      */
     public function POST($matches) {
         throw new RepresentationCUDCallTDTException();
-    }
-
-    private function run_update_in_background(){
-        passthru("php bin/cache\ update/update_cache.php >/dev/null 2>&1 &");
-    }
-
-    private function is_update_process_running(){
-        exec("ps -C 'php bin/cache\ update/update_cache.php >/dev/null 2>&1 &'",$response );
-        return(count($response) >= 2);
     }
 }
 ?>

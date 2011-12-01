@@ -34,10 +34,6 @@ class OGDWienJSON extends ATabularData {
     public function __construct(){
     }
 
-    public function readPaged($package,$resource,$page){
-        //TODO ( as this proxy's a json resource, this will prolly not use any paging )
-    }
-
     public function read($package,$resource){
 
         /*

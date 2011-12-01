@@ -30,10 +30,6 @@ class HTMLTable extends ATabularData {
     public function documentReadParameters(){
         return array();
     }
-    
-    public function readPaged($package,$resource,$page){
-        // TODO
-    }
 
     public function read($package,$resource){
 
