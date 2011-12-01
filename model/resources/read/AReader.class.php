@@ -42,7 +42,10 @@ abstract class AReader {
     /**
      * returns boolean wheter or not the resource is a paged one
      */
-    abstract protected function isPagedResource();
+    protected function isPagedResource(){
+        return false;
+    }
+    
 
     /**
      * read method of a non-paged resource

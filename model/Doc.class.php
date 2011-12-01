@@ -17,7 +17,7 @@ class Doc{
     public function visitAll($factories){
         $c = Cache::getInstance();
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDoc($doc);
@@ -30,7 +30,7 @@ class Doc{
     public function visitAllAdmin($factories){
         $c = Cache::getInstance();
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDeleteDoc($doc);
@@ -40,5 +40,22 @@ class Doc{
         }
         return $doc;
     }
+
+    public function visitAllFormatters(){
+        $c = Cache::getInstance();
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "formatterdocs");
+        $ff = FormatterFactory::getInstance();
+        if(is_null($doc)){
+            $doc = $ff->getDocumentation();
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "formatterdocs",$doc,60*60*60);
+        }
+        return $doc;
+    }
+    
+
+
 }
+
+
+
 ?>

@@ -8,7 +8,6 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
-include_once("formatters/AFormatter.class.php");
 
 /**
  * This class inherits from the abstract Formatter. It will return our resultobject into a kml
@@ -67,7 +66,7 @@ class KmlFormatter extends AFormatter{
      }
      
 
-    public function getDocumentation(){
+    public static function getDocumentation(){
         return "Will try to find locations in the entire object and print them as KML points";
     }     
 };
