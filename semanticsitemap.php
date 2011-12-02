@@ -25,7 +25,7 @@ foreach ($doc as $package => $resources) {
         if ($resource != 'creation_date') {
             if (property_exists($val, 'requiredparameters')) {
                 if (count($val->requiredparameters) == 0)
-                    echo "<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . ".nt" . "</sc:dataDumpLocation>";
+                    echo "<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package ."/" . $resource . ".nt" . "</sc:dataDumpLocation>";
             }
         } else {
             $dt = new DateTime();
