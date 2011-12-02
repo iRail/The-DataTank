@@ -46,6 +46,7 @@ class CSV extends ATabularData {
          * has a header row or not.
          */
         $result = DBQueries::getCSVResource($package, $resource);
+    
         $has_header_row = $result["has_header_row"];
         $gen_res_id = $result["gen_res_id"];
         $start_row = $result["start_row"];

@@ -31,17 +31,6 @@ class DatabaseSetup extends InstallController {
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
-        $queries["foreign_relation"] = "CREATE TABLE IF NOT EXISTS `foreign_relation` (
-              `id` bigint(20) NOT NULL AUTO_INCREMENT,
-              `main_object_id` bigint(20) NOT NULL,
-              `foreign_object_id` bigint(20) NOT NULL,
-              `main_object_column_name` varchar(50) NOT NULL,
-              `foreign_object_column_name` varchar(50) NOT NULL,
-              PRIMARY KEY (`id`),
-              KEY `main_object_id` (`main_object_id`),
-              KEY `foreign_object_id` (`foreign_object_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
-        
         $queries["generic_resource"] = "CREATE TABLE IF NOT EXISTS `generic_resource` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `resource_id` bigint(20) NOT NULL,
@@ -57,7 +46,7 @@ class DatabaseSetup extends InstallController {
               `gen_resource_id` bigint(20) NOT NULL,
               `uri` varchar(128) NOT NULL,
               `start_row` int(128) NOT NULL,
-              `delimiter` varchar(128) NOT NULL,
+              `delimiter` varchar(10) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `gen_resource_id` (`gen_resource_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -88,6 +77,7 @@ class DatabaseSetup extends InstallController {
               `generic_resource_id` bigint(20) NOT NULL,
               `column_name` varchar(50) NOT NULL,
               `is_primary_key` int(11) DEFAULT NULL,
+              `column_name_alias` varchar(50) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `generic_resource_id` (`generic_resource_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -95,8 +85,8 @@ class DatabaseSetup extends InstallController {
         $queries["remote_resource"] = "CREATE TABLE IF NOT EXISTS `remote_resource` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `resource_id` bigint(20) NOT NULL,
-              `package_name` varchar(64) NOT NULL,
-              `base_url` varchar(50) NOT NULL,
+              `package_name` varchar(255) NOT NULL,
+              `base_url` varchar(128) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `resource_id` (`resource_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -122,7 +112,7 @@ class DatabaseSetup extends InstallController {
               `package_id` varchar(255) NOT NULL,
               `creation_timestamp` bigint(20) NOT NULL,
               `last_update_timestamp` bigint(20) NOT NULL,
-              `type` varchar(60) NOT NULL,
+              `type` varchar(30) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
