@@ -8,7 +8,7 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-include_once("formatters/JsonFormatter.class.php");
+include_once("custom/formatters/JsonFormatter.class.php");
 
 /**
  * This class inherits from the Json printer. It just needs the json value and it will add
@@ -39,7 +39,7 @@ class JsonpFormatter extends JsonFormatter{
      }
 
 
-    public function getDocumentation(){
+    public static function getDocumentation(){
         return "Prints json but will wrap the output in the callback function specified";
     }
 };

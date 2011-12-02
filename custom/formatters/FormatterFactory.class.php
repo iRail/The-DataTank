@@ -8,7 +8,7 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-include_once("formatters/AFormatter.class.php");
+include_once("custom/formatters/AFormatter.class.php");
 
 /**
  * This class will provide the correct printers (Xml,Kml,php,...)
@@ -42,7 +42,7 @@ class FormatterFactory{
         if($urlformat == ""){
             $this->format = "error";
         }else if(strtolower($urlformat) == "about"){
-            include_once("formatters/ContentNegotiator.class.php");
+            include_once("custom/formatters/ContentNegotiator.class.php");
             $cn = ContentNegotiator::getInstance();
             $format = $cn->pop();
             while(!$this->formatExists($format) && $cn->hasNext()){
@@ -85,7 +85,7 @@ class FormatterFactory{
     }
 
     private function formatExists($format){
-        return file_exists("formatters/". $format . "Formatter.class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
+        return file_exists("custom/formatters/". $format . "Formatter.class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
     }
 
     public function getFormat(){
@@ -105,26 +105,38 @@ class FormatterFactory{
 	if(($this->format == "Json" || $this->format == "Jsonp") && isset($_GET["callback"])){
 	    $callback = $_GET["callback"];
 	    $this->format = "Jsonp";
-	    include_once("formatters/".$this->format . "Formatter.class.php");
+	    include_once("custom/formatters/".$this->format . "Formatter.class.php");
 	    return new $this->format($rootname,$objectToPrint,$callback);
 	}
 	$format=$this->format."Formatter";
-	include_once("formatters/". $this->format . "Formatter.class.php");
+	include_once("custom/formatters/". $this->format . "Formatter.class.php");
 	return new $format($rootname, $objectToPrint);
-    }
-
-
-    //todo
-    private function getAllFormatters(){
-        
     }
     
     
     /**
      * This will fetch all the documentation from the formatters and put it into the documentation visitor //todo
      */
-    public function getDocumentation($doc){
-        
+    public function getDocumentation(){
+        $doc = array();
+        //open the custom directory and loop through it
+        if ($handle = opendir('custom/formatters')) {
+            while (false !== ($formatter = readdir($handle))) {
+                //if the object read is a directory and the configuration methods file exists, then add it to the installed formatters
+                if ($formatter != "." && $formatter != ".." && file_exists("custom/formatters/" . $formatter)) {
+                    $boom = explode(".",$formatter);
+                    $formatterclass = $boom[0];
+                    if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
+                        include_once("custom/formatters/" . $formatter);
+                        if(is_subclass_of($formatterclass, "AFormatter")){
+                            $doc[$match[1]] = $formatterclass::getDocumentation();
+                        }
+                    }
+                }   
+            }
+            closedir($handle);
+        }
+        return $doc;
     }
 }
 ?>

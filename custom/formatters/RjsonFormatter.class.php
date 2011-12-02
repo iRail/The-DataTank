@@ -10,7 +10,6 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-include_once("formatters/AFormatter.class.php");
 
 class RjsonFormatter extends AFormatter {
 

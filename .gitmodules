@@ -1,0 +1,3 @@
+[submodule "The-Semantifier"]
+	path = The-Semantifier
+	url = git@github.com:iRail/The-Semantifier.git

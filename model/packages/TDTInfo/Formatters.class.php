@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a class which will return all the available resources in this DataTank
+ * Returns all formatters in TDT
  * 
  * @package The-Datatank/packages/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class TDTInfoResources extends AReader{
+class TDTInfoFormatters extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -24,14 +24,15 @@ class TDTInfoResources extends AReader{
     }
 
     public function read(){
-	$resmod = ResourcesModel::getInstance();
-	$o = $resmod->getAllDoc();
-	return $o;
+        $d = new Doc();
+        return $d->visitAllFormatters();
     }
 
     public static function getDoc(){
-	return "This resource contains the most important information";
+	return "Returns all formatters in this DataTank";
     }
+    
+
 }
 
 ?>

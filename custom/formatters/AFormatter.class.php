@@ -39,6 +39,9 @@ abstract class AFormatter {
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET");
         //}
+        //a gimmick stolen from Drupal 
+        header("Expires: Sun, 19 Nov 1978 04:59:59 GMT");
+
         $this->printHeader();
         $this->printBody();
     }

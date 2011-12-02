@@ -9,7 +9,7 @@
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */
-include_once('formatters/FormatterFactory.class.php');
+include_once('custom/formatters/FormatterFactory.class.php');
 include_once('aspects/logging/RequestLogger.class.php');
 include_once('model/filters/FilterFactory.class.php');
 include_once('model/ResourcesModel.class.php');
@@ -110,6 +110,7 @@ class RController extends AController {
         if (!isset($doc->$package->$resourcename->base_url)) {
             RequestLogger::logRequest();
         }
+        
     }
 
     /**

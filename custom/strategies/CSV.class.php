@@ -175,7 +175,7 @@ class CSV extends ATabularData {
         }
 
         $columnstring = $this->implode_columns_array($this->columns);
-        $cmd="bin/support\ scripts/addCSV.php $package_id $generic_resource_id $this->uri $this->has_header_row $this->delimiter $this->start_row $columnstring $this->PK";
+        $cmd="bin/support\ scripts/addCSV.php $package_id '$generic_resource_id' '$this->uri' $this->has_header_row $this->delimiter $this->start_row '$columnstring' '$this->PK'";
         if (substr(php_uname(), 0, 7) == "Windows") {
             //Does not work, almost there
             pclose(popen("start /B C:\wamp\bin\php\php5.3.8\php " . $cmd, "r"));

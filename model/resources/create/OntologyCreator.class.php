@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This class OntologyCreator creates ontologies.
  * When creating an ontology, we always expect a PUT method!
@@ -9,6 +10,8 @@
  * @author Miel Vander Sande
  */
 include_once("ACreator.class.php");
+include_once("model/DBQueries.class.php");
+include_once("model/resources/GenericResource.class.php");
 
 class OntologyCreator extends ACreator {
 
@@ -37,8 +40,15 @@ class OntologyCreator extends ACreator {
             //When the auto_generate parameter is supplied and set to true, 
             //try to auto-generate (only for this resource)
             else if (property_exists($this, "auto_generate")) {
-                if ($this->auto_generate)
-                    OntologyProcessor::getInstance()->generateOntology($package, $this->RESTparameters[0]);
+                if ($this->auto_generate) {
+                    $fields = null;
+                    if (DBQueries::hasGenericResource($package, $this->RESTparameters[0])) {
+                        $genres = new GenericResource($package, $this->RESTparameters[0]);
+                        $strategy = $genres->getStrategy();
+                        $fields = $strategy->getFields($package, $this->RESTparameters[0]);
+                    }
+                    OntologyProcessor::getInstance()->generateOntology($package, $this->RESTparameters[0], $fields);
+                }
             }else
                 OntologyProcessor::getInstance()->createOntology($package);
             //Add class entry for resource in empty resource
