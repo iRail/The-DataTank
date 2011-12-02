@@ -67,9 +67,10 @@ curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 $data = array( "resource_type" => "generic",
                "generic_type"  => "CSV",
                "documentation" => "This is the bezirke-geschlecht-zeitreihe ",
-               "uri"           => "http://localhost/vie-regdistrict-pop-sex.csv",
+               "uri"           => "http://www.wien.gv.at/statistik/ogd/vie-regdistrict-pop-sex.csv",
                "has_header_row" => 1,
-               "delimiter" => ";"
+               "delimiter" => ";",
+               "start_row" => 3
 );
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 $result = curl_exec($ch);  
