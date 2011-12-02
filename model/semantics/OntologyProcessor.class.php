@@ -264,16 +264,12 @@ class OntologyProcessor {
      * @param string $package The packase of the resource
      * @param string $resource The resource to create an ontology for
      */
-    public function generateOntology($package, $resource) {
+    public function generateOntology($package, $resource, $fields) {
         $model = $this->getModel($package); //Create an empty model
+       
         //Check if resource is generic
         //if so we can autogenerate the ontology from getFields in the strategy
-        if (DBQueries::hasGenericResource($package, $resource)) {
-            $genres = new GenericResource($this->package, $this->resource);
-            $strategy = $genres->getStrategy();
-            $fields = $strategy->getFields($this->package, $this->resource);
-            OntologyProcessor::getInstance()->generateOntologyFromFields($this->package, $this->resource, $fields);
-
+        if (!is_null($fields)) {
             $model->add(new Statement(new Resource($resource), RDF::TYPE(), OWL::OWL_CLASS()));
             //Add stdClass wrapper, since this is for now always the case
             $model->add(new Statement(new Resource($resource . '/stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
