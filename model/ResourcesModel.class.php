@@ -59,6 +59,7 @@ class ResourcesModel {
      * Checks the doc whether a certain resource exists in our system.
      * We will look for a definition in the documentation. Of course,
      * the result of the documentation visitor class will be cached
+     * 
      * @return a boolean
      */
     public function hasResource($package, $resource) {

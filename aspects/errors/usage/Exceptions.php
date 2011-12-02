@@ -144,7 +144,7 @@ class RESTTDTException extends UsageTDTException {
 /**
  * This class reprents an exception which is thrown when a given resource or package is not valid.
  */
-class ResourceAdditionTDTException extends UsageTDTException {
+class /* ResourceAdditionTDTException */ extends UsageTDTException {
     public static function getDoc() {
         return "This exception is thrown when an error while trying to add a resource.";
     }

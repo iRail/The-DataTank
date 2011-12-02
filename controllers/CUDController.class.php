@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the controller which will handle Real-World objects. This means mainly write actions. 
+ * This is the controller which will handle Real-World objects. So CUD actions will be handled.
  *
  * @package The-Datatank/controllers
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -58,6 +58,7 @@ class CUDController extends AController {
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new RequiredParameterTDTException("package/resource not set");
         }
+
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
             throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
@@ -77,8 +78,8 @@ class CUDController extends AController {
         $model->createResource($package, $resource, $_PUT, $RESTparameters);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
-        //Clear the documentation in our cache for it has changed
-        
+
+        //Clear the documentation in our cache for it has changed        
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
