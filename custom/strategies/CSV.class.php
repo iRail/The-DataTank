@@ -173,6 +173,11 @@ class CSV extends ATabularData {
         if (!isset($this->start_row)) {
             $this->start_row = 1;
         }
+        
+        // has_header_row should be either 1 or 0
+        if($this->has_header_row != 0 && $this->has_header_row != 1){
+            throw new ResourceAdditionTDTException("has_header_row must be either 1 or 0, not $this->has_header_row");
+        }
 
         $columnstring = $this->implode_columns_array($this->columns);
         $cmd="bin/support\ scripts/addCSV.php $package_id '$generic_resource_id' '$this->uri' $this->has_header_row $this->delimiter $this->start_row '$columnstring' '$this->PK'";

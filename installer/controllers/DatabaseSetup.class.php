@@ -24,13 +24,6 @@ class DatabaseSetup extends InstallController {
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
-        $queries["feedback_messages"] = "CREATE TABLE IF NOT EXISTS `feedback_messages` (
-              `id` bigint(20) NOT NULL AUTO_INCREMENT,
-              `url_request` varchar(255) DEFAULT NULL,
-              `msg` text NOT NULL,
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
-        
         $queries["generic_resource"] = "CREATE TABLE IF NOT EXISTS `generic_resource` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `resource_id` bigint(20) NOT NULL,
@@ -48,20 +41,6 @@ class DatabaseSetup extends InstallController {
               `has_header_row` tinyint(2) NOT NULL,
               `start_row` int(128) NOT NULL,
               `delimiter` varchar(10) NOT NULL,
-              PRIMARY KEY (`id`),
-              KEY `gen_resource_id` (`gen_resource_id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
-        
-        $queries["generic_resource_db"] = "CREATE TABLE IF NOT EXISTS `generic_resource_db` (
-              `id` bigint(20) NOT NULL AUTO_INCREMENT,
-              `gen_resource_id` bigint(20) NOT NULL,
-              `db_name` varchar(128) NOT NULL,
-              `db_table` varchar(256) NOT NULL,
-              `host` varchar(256) NOT NULL,
-              `port` int(11) DEFAULT NULL,
-              `db_type` varchar(20) NOT NULL,
-              `db_user` varchar(50) NOT NULL,
-              `db_password` varchar(50) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `gen_resource_id` (`gen_resource_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
