@@ -13,7 +13,7 @@ include_once 'includes/rb.php';
 R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
 $doc = ResourcesModel::getInstance()->getAllDoc();
-
+header("content-type: application/xml");
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
 echo "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:sc='http://sw.deri.org/2007/07/sitemapextension/scschema.xsd'>";
 foreach ($doc as $package => $resources) {
