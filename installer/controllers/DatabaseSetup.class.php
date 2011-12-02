@@ -55,7 +55,7 @@ class DatabaseSetup extends InstallController {
         $queries["generic_resource_csv"] = "CREATE TABLE IF NOT EXISTS `generic_resource_csv` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `gen_resource_id` bigint(20) NOT NULL,
-              `uri` varchar(128) NOT NULL,
+              `uri` varchar(512) NOT NULL,
               `has_header_row` tinyint(2) NOT NULL,
               `start_row` int(128) NOT NULL,
               `delimiter` varchar(128) NOT NULL,
