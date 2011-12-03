@@ -4,7 +4,7 @@ include_once ("SystemTDTException.class.php");
 
 /**
  * This file contains all the Exceptions specifically made for the DataTank.
- * @package The-Datatank/error
+ * @package The-Datatank/aspects/errors/system
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <Jan@iRail.be>

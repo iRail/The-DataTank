@@ -2,7 +2,7 @@
 /**
  * This is an errorhandler, it will do everything that is expected when an error occured.
  *
- * @package The-Datatank/error
+ * @package The-Datatank/aspects/logging
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <Jan@iRail.be>

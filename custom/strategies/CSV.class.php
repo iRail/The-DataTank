@@ -12,6 +12,9 @@ include_once ("custom/strategies/ATabularData.class.php");
 
 class CSV extends ATabularData {
 
+    // amount of chars in one row that can be read
+    public static $MAX_LINE_LENGTH = 15000;
+
     /**
      * Returns an array with params => documentation pairs who are required to create a CSV resource.
      * @return array with parameter => documentation pairs
@@ -63,7 +66,7 @@ class CSV extends ATabularData {
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
-        $result = DBQueries::getCSVResource($package, $resource);
+        $result = $this->getCSVResource($package, $resource);
     
         $has_header_row = $result["has_header_row"];
         $gen_res_id = $result["gen_res_id"];
@@ -176,7 +179,7 @@ class CSV extends ATabularData {
     }
 
     public function onDelete($package, $resource) {
-        DBQueries::deleteCSVResource($package, $resource);
+        $this->deleteCSVResource($package, $resource);
     }
 
     public function onAdd($package_id, $generic_resource_id) {
@@ -197,34 +200,94 @@ class CSV extends ATabularData {
             throw new ResourceAdditionTDTException("has_header_row must be either 1 or 0, not $this->has_header_row");
         }
 
-        $columnstring = $this->implode_columns_array($this->columns);
-        $cmd="bin/support\ scripts/addCSV.php $package_id '$generic_resource_id' '$this->uri' $this->has_header_row $this->delimiter $this->start_row '$columnstring' '$this->PK'";
-        if (substr(php_uname(), 0, 7) == "Windows") {
-            //Does not work, almost there
-            pclose(popen("start /B C:\wamp\bin\php\php5.3.8\php " . $cmd, "r"));
-        } else {
-            exec("php ".$cmd . " > /dev/null 2>&1 &");
-        } 
+        /*
+         * Create CSV entry in the back-end
+         */
+        $generic_resource_csv_id = $this->storeCSVResource($generic_resource_id,$this->uri,$this->has_header_row,$this->delimiter,$this->start_row);
+        $resource_id = DBQueries::getAssociatedResourceId($generic_resource_id);
+
+        /**
+         * if no header row is given, then the columns that are being passed should be 
+         * int => something, int => something
+         * if a header row is given however in the csv file, then we're going to extract those 
+         * header fields and put them in our back-end as well.
+         */
+        
+        if ($this->has_header_row == "0") {
+            // no header row ? then columns must be passed
+            if(empty($this->columns)){
+                $this->package = DBQueries::getPackageById($package_id);
+                $this->resource = DBQueries::getResourceById($resource_id);
+                ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
+                throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
+            }
+            
+            foreach ($this->columns as $index => $value) {
+                if (!is_numeric($index)) {
+                    $this->package = DBQueries::getPackageById($package_id);
+                    $this->resource = DBQueries::getResourceById($resource_id);
+                    ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
+                    throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array.");
+                }
+            }
+
+        }else{
+            $fieldhash = array();
+            if (($handle = fopen($this->uri, "r")) !== FALSE) {
+
+                // for further processing we need to process the header row, this MUST be after the comments
+                // so we're going to throw away those lines before we're processing our header_row
+                // our first line will be processed due to lazy evaluation, if the start_row is the first one
+                // then the first argument will return false, and being an &&-statement the second validation will not be processed
+                $commentlinecounter = 1;
+                while($commentlinecounter < $this->start_row ){
+                    $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $this->delimiter);
+                    $commentlinecounter++;
+                }
+       
+                if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter)) !== FALSE) {
+                    // if no column aliases have been passed, then fill the columns variable 
+                    if(empty($this->columns)){                        
+                        for ($i = 0; $i < sizeof($line); $i++){
+                            $fieldhash[$line[$i]] = $i;
+                            $this->columns[$i] = $line[$i];
+                        }
+                    }
+                }else{
+                    $this->package = DBQueries::getPackageById($package_id);
+                    $this->resource = DBQueries::getResourceById($resource_id);
+                    ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
+                    throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
+                }
+                fclose($handle);
+            }else{
+                $this->package = DBQueries::getPackageById($package_id);
+                $this->resource = DBQueries::getResourceById($resource_id);
+                ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
+                throw new ParameterTDTException($this->uri . " an error occured no more rows after row $start_row have been found.");
+                
+            }
+        }
+        $this->evaluateColumns($this->columns, $this->PK, $generic_resource_id);
     }
 
     private function evaluateCSVResource($gen_resource_id) {
-        return DBQueries::storeCSVResource($gen_resource_id, $this->uri, $this->has_header_row);
+        return $this->storeCSVResource($gen_resource_id, $this->uri, $this->has_header_row);
     }
 
     /**
      *  This function gets the fields in a resource
      * @param string $package
      * @param string $resource
-     * @return array with column names mapped onto their aliases
+     * @return array Array with column names mapped onto their aliases
      */
     public function getFields($package, $resource) {
-
         /*
          * First retrieve the values for the generic fields of the CSV logic
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
-        $result = DBQueries::getCSVResource($package, $resource);
+        $result = $this->getCSVResource($package, $resource);
 
         $has_header_row = $result["has_header_row"];
         $gen_res_id = $result["gen_res_id"];
@@ -258,22 +321,82 @@ class CSV extends ATabularData {
                 $PK = $columns[$result["column_name"]];
             }
         }
-
         return array_values($columns);
     }
 
-    private function implode_columns_array($columns) {
-        if (empty($columns)) {
-            return "-1";
+    /**
+     * store the columns
+     */
+    protected function evaluateColumns($columns,$PK,$gen_res_id){
+        foreach($columns as $column => $column_alias){
+            // replace whitespaces in columns by underscores
+            $formatted_column = preg_replace('/\s+/','_',$column_alias);
+            DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK != "" && $PK == $column?1:0));
         }
-
-        $columns_string = array();
-        foreach ($columns as $key => $val) {
-            array_push($columns_string, $key . "/" . $val);
-        }
-        return implode(",", $columns_string);
     }
 
-}
 
+     /*
+      ******************
+      **** QUERIES *****
+      ******************
+      /
+   /**
+    * Get a generic resource id and the generic resource csv id
+    * given a package and a a resource
+    */
+    private function getCSVInfo($package,$resource){
+        return R::getRow("SELECT generic_resource.id as gen_id, generic_resource_csv.id as csv_id,delimiter,start_row
+                          FROM package,resource,generic_resource,generic_resource_csv
+                          WHERE package_name=:package and resource_name=:resource and package_id = package.id
+                                and generic_resource.resource_id=resource.id and gen_resource_id = generic_resource.id",
+                         array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Store a CSV resource
+     */
+    private function storeCSVResource($resource_id, $uri,$has_header_row,$delimiter,$start_row){
+        $resource = R::dispense("generic_resource_csv");
+        $resource->gen_resource_id = $resource_id;
+        $resource->uri = $uri;
+        $resource->has_header_row = $has_header_row;
+        $resource->start_row = $start_row;
+        $resource->delimiter = $delimiter;
+        return R::store($resource);
+    }
+
+    /**
+     * Delete a specific CSV resource
+     */
+    private function deleteCSVResource($package, $resource) {
+        return R::exec(
+            "DELETE FROM generic_resource_csv
+                    WHERE gen_resource_id IN 
+                          (SELECT generic_resource.id FROM generic_resource,package,resource 
+                           WHERE resource.resource_name=:resource
+                                 and package.package_name=:package
+                                 and resource_id = resource.id
+                                 and package.id=package_id)",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Retrieve a specific CSV resource
+     */
+    static function getCSVResource($package, $resource) {
+        return R::getRow(
+            "SELECT generic_resource.id as gen_res_id,generic_resource_csv.uri as uri,
+                    generic_resource_csv.has_header_row as has_header_row, start_row,delimiter
+             FROM  package,resource, generic_resource, generic_resource_csv
+             WHERE package.package_name=:package and resource.resource_name=:resource
+                   and package.id=resource.package_id 
+                   and resource.id = generic_resource.resource_id
+                   and generic_resource.id=generic_resource_csv.gen_resource_id",
+            array(':package' => $package, ':resource' => $resource)
+        );
+    }
+}
 ?>

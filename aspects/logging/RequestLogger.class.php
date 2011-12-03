@@ -1,7 +1,7 @@
 <?php
 /**
  * This class will log a request into the database
- * @package The-Datatank/requests
+ * @package The-Datatank/aspects/logging
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>

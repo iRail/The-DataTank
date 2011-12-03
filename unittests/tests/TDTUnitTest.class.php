@@ -3,8 +3,9 @@
  *
  * This class is used for writing test cases
  *
- * Copyright (C) 2011 by iRail vzw/asbl 
- * Author: Jens Segers
+ * @package The-DataTank/unittests/tests
+ * @copyright (C) 2011 by iRail vzw/asbl 
+ * @author: Jens Segers
  * License: AGPLv3
  */
 

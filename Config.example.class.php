@@ -1,7 +1,7 @@
 <?php
 /**
  * Please configure this file by filling out the right elements and copy this to Config.class.php. Ofcourse renaming this file to Config.class.php is equally good.
- * @package The-Datatank
+ * @package The-DataTank
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>

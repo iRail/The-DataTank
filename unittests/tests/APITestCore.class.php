@@ -2,8 +2,9 @@
 /**
  * This class tests the core resources
  *
- * Copyright (C) 2011 by iRail vzw/asbl 
- * Author: Jens Segers
+ * @package The-DataTank/unittests/tests
+ * @copyright (C) 2011 by iRail vzw/asbl 
+ * @author: Jens Segers
  * License: AGPLv3
  */
 

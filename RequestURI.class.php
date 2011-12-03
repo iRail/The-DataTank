@@ -2,7 +2,7 @@
 /**
  * This class will provide you a tool to ask for URI parameters
  *
- * @package The-Datatank
+ * @package The-DataTank
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert

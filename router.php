@@ -2,10 +2,9 @@
 /**
  * This file is the router. It's where all calls come in. It will accept a request en refer it to the right Controller
  *
- * @package The-Datatank
+ * @package The-DataTank
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
- * @author Werner Laurensse
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */

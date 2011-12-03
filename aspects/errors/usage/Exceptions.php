@@ -4,7 +4,7 @@ include_once ("UsageTDTException.class.php");
 
 /**
  * This file contains all the Exceptions specifically made for the DataTank.
- * @package The-Datatank/error
+ * @package The-Datatank/aspects/errors/usage
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <Jan@iRail.be>
@@ -144,7 +144,7 @@ class RESTTDTException extends UsageTDTException {
 /**
  * This class reprents an exception which is thrown when a given resource or package is not valid.
  */
-class /* ResourceAdditionTDTException */ extends UsageTDTException {
+class ResourceAdditionTDTException extends UsageTDTException {
     public static function getDoc() {
         return "This exception is thrown when an error while trying to add a resource.";
     }

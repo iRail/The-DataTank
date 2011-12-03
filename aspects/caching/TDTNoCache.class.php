@@ -2,7 +2,7 @@
 /**
  * Dummy class - when no cache could be installed on the system (e.g. cheap hosts)
  * 
- * @package The-Datatank/cache
+ * @package The-Datatank/aspects/caching
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@thedatatank.com>

@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * This is the abstract class of a TDT Exception.
+ * 
+ * @package The-Datatank/aspects/errors
+ * @copyright (C) 2011 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt <jan@thedatatank.com>
+ * @author Pieter Colpaert   <pieter@thedatatank.com>
+ */
+
+/**
  * This is the abstract class of a TDT Exception
  */
 abstract class AbstractTDTException extends Exception {

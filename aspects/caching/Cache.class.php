@@ -10,7 +10,7 @@
  *      $c->set($id,$element,$timeout);
  *   }
  *
- * @package The-Datatank/Cache
+ * @package The-Datatank/aspects/caching
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>

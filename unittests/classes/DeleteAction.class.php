@@ -3,8 +3,9 @@
  *
  * This class contains testcode to test our API back-end of the DataTank (DELETE)
  *
- * Copyright (C) 2011 by iRail vzw/asbl 
- * Author: Jan Vansteenlandt <jan at iRail.be>
+ * @package The-DataTank/unittests
+ * @copyright (C) 2011 by iRail vzw/asbl 
+ * @author: Jan Vansteenlandt <jan at iRail.be>
  * License: AGPLv3
  */
 

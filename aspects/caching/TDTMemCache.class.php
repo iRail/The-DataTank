@@ -2,7 +2,7 @@
 /**
  * MemCache implementation of Cache
  * 
- * @package The-Datatank
+ * @package The-Datatank/aspects/caching
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>

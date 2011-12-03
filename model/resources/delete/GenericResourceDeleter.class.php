@@ -19,8 +19,6 @@ class GenericResourceDeleter extends ADeleter{
         $resource = new GenericResource($this->package,$this->resource);
         $strategy = $resource->getStrategy();
         $strategy->onDelete($this->package,$this->resource);
-
-        DBQueries::deleteForeignRelation($this->package,$this->resource);
             
         // delete any published columns entry
         DBQueries::deletePublishedColumns($this->package,$this->resource);
