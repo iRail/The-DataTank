@@ -24,6 +24,11 @@ class FilterFactory{
 	return self::$factory;
     }
 
+    /**
+     * Gets the filter, and passes along the necessary parameters in order to create that filter
+     * @param string $filter The filtername
+     * @param array $params The parameters necessary to instantiate the filter class
+     */
     public static function getFilter($filter,$params){
 	include_once("model/filters/$filter.class.php");
 	return new $filter($params);

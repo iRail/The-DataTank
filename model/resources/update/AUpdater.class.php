@@ -21,7 +21,7 @@ abstract class AUpdater {
     }
 
     /**
-     * process the parameters
+     * Processes the parameters from the request.
      */
     public function processParameters($parameters) {
         unset($parameters["update_type"]);
@@ -36,12 +36,12 @@ abstract class AUpdater {
     }
 
     /**
-     * execution method
+     * Updates a resource.
      */
     abstract public function update();
 
     /**
-     * set the parameter
+     * Set the parameter to the resource.
      */
     abstract protected function setParameter($key, $value);
 

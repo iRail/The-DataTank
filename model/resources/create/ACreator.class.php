@@ -20,7 +20,7 @@ abstract class ACreator{
     abstract public function setParameter($key,$value);
 
     /**
-     * execution method
+     * Creates a resource
      */
     abstract public function create();
 

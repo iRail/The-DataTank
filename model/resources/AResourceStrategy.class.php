@@ -54,10 +54,12 @@ abstract class AResourceStrategy{
     abstract public function documentCreateParameters();
     abstract public function documentReadParameters();
     abstract public function documentUpdateParameters();
-    
+
     /**
-     * get the fields of this resource describing the data
-     * This function is used for auto-generating the ontology
+     *  This function gets the fields in a resource
+     * @param string $package
+     * @param string $resource
+     * @return array with column names mapped onto their aliases
      */
     abstract public function getFields($package, $resource);
 }

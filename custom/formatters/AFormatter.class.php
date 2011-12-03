@@ -35,7 +35,7 @@ abstract class AFormatter {
      * This function prints the object. uses {@link printHeader()} and {@link printBody()}. 
      */
     public function printAll() {
-      
+
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET");
         header("Expires: Sun, 19 Nov 1978 04:59:59 GMT");
