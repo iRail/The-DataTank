@@ -27,6 +27,10 @@ class Doc{
         return $doc;
     }
 
+    /**
+     * Visits all the factories in order to get the admin documentation, which elaborates on the admin functionality
+     * @return $mixed  An object which holds the documentation on how to perform admin functions such as creation, deletion and updates.
+     */
     public function visitAllAdmin($factories){
         $c = Cache::getInstance();
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
@@ -40,7 +44,11 @@ class Doc{
         }
         return $doc;
     }
-
+    
+    /**
+     * Gets the documentation on the formatters
+     * @return $mixed An object which holds the documentation about all the formatters.
+     */
     public function visitAllFormatters(){
         $c = Cache::getInstance();
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "formatterdocs");

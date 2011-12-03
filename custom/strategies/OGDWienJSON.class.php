@@ -11,6 +11,10 @@ include_once("custom/strategies/ATabularData.class.php");
 
 class OGDWienJSON extends ATabularData {
 
+    /**
+     * Returns an array with params => documentation pairs that can be used to create this type of resource.
+     * @return array with parameter => documentation pairs
+     */
     public function documentCreateParameters(){
         return array("url" => "The url of where the OGD Wien JSON is found.",
                      "columns" => "The columns that are to be published from the OGD Wien JSON.",
@@ -18,14 +22,26 @@ class OGDWienJSON extends ATabularData {
         );  
     }
     
+    /**
+     * Returns an array with params => documentation pairs who are required to create this type of resource.
+     * @return array with parameter => documentation pairs
+     */
     public function documentCreateRequiredParameters(){
         return array("url",  "columns", "PK");    
     }
 
+    /**
+     * Document all the read required parameters for documentation purposes. 
+     * @return array with necessary parameters to read this type of resource.
+     */
     public function documentReadRequiredParameters(){
         return array();
     }
     
+    /**
+     * Returns an array with parameter => documentation pairs that can be used to read this resource.
+     * @return array with parameter => documentation pairs
+     */
     public function documentReadParameters(){
         return array("long", "lat", "radius");
     }

@@ -24,12 +24,17 @@ abstract class AReader {
         $this->RESTparameters = $RESTparameters;
     }
 
+    /**
+     * Gets the REST parameters of the request
+     * @return array with the REST parameters.
+     */
     public function getRESTParameters() {
         return $this->RESTparameters;
     }
 
     /**
-     * execution method
+     * Execution method of a reader, which reads a resource
+     * @return StdClass of a datasource
      */
     public function execute() {
         if ($this->isPagedResource() == 0) {
@@ -48,7 +53,7 @@ abstract class AReader {
     
 
     /**
-     * read method of a non-paged resource
+     * read method of a resource
      */
     abstract public function read();
 
@@ -59,6 +64,10 @@ abstract class AReader {
         return "Not yet implemented.";
     }
 
+    /**
+     * Processes the parameters necessary to read a certain resource
+     * @param array $parameters An array with the parameters passed with the GET request.
+     */
     public function processParameters($parameters) {
         /*
          * set the parameters

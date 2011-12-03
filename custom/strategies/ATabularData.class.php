@@ -22,13 +22,21 @@ abstract class ATabularData extends AResourceStrategy{
     }
 
     public function onUpdate($package, $resource){
-        //do nothing by default
+        
     }
 
+    /**
+     * Return an array with key = parameter and value = documentation about the parameter
+     * @return hash array with param = documentation pairs for update purposes
+     */
     public function documentUpdateParameters(){
         return array();
     }
 
+    /**
+     * Returns an array similar as the documentUpdateParameters, but now with the obligatory parameters
+     * @return hash array with param = documentation pairs for update purposes, of which the parameters are obligatory.
+     */
     public function documentUpdateRequiredParameters(){
         return array();
     }

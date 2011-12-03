@@ -87,6 +87,7 @@ class CUDController extends AController {
     /**
      * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now, 
      * this'll do the trick)
+     * @param string $matches The matches from the given URL, contains the package and the resource from the URL
      */
     public function DELETE($matches) {
         $package = $matches["package"];
@@ -118,6 +119,10 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
+    /**
+     * POST handling, updates a resource
+     * @param string $matches Contains the matches from the given URL, contains package,resource
+     */
     public function POST($matches) {
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {

@@ -8,7 +8,6 @@
  * @license AGPLv3
  * @author Pieter Colpaert   <pieter@iRail.be>
  * @author Jan Vansteenlandt <jan@iRail.be>
- * @author Werner Laurensse
  */
 
 abstract class AFormatter {
@@ -35,11 +34,9 @@ abstract class AFormatter {
      * This function prints the object. uses {@link printHeader()} and {@link printBody()}. 
      */
     public function printAll() {
-        //if($this->CORS){ - a hook for later
+        
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET");
-        //}
-        //gimmick stolen from drupal
         header("Expires: Sun, 19 Nov 1978 04:59:59 GMT");
 
         $this->printHeader();

@@ -26,7 +26,10 @@ class FormatterFactory{
 	return self::$formatterfactory;
     }    
 
-
+    /**
+     * sets the requested format in the factory from the request URL
+     * @param string $urlformat The format of the request i.e. json,xml,....
+     */
     public function setFormat($urlformat){
         //We define the format like this:
         // * Check if $urlformat has been set
@@ -88,6 +91,10 @@ class FormatterFactory{
         return file_exists("custom/formatters/". $format . "Formatter.class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
     }
 
+    /**
+     * Returns the format that has been set by the request
+     * @return A format object
+     */
     public function getFormat(){
 	return $this->format;
     }
@@ -115,7 +122,8 @@ class FormatterFactory{
     
     
     /**
-     * This will fetch all the documentation from the formatters and put it into the documentation visitor //todo
+     * This will fetch all the documentation from the formatters and put it into the documentation visitor
+     * @return The documentation object from the formatters
      */
     public function getDocumentation(){
         $doc = array();

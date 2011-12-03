@@ -87,7 +87,11 @@ class ResourcesModel {
     }
 
     /**
-     * Creates the given Resource
+     * Creates the given resource
+     * @param string $package The package name under which the resource will exist.
+     * @param string $resource The resource name under which the resource will be called.
+     * @param array $parameters An array with create parameters
+     * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($package, $resource, $parameters, $RESTparameters) {
         //If we want to CRUD ontology, handle differently
@@ -152,6 +156,10 @@ class ResourcesModel {
 
     /**
      * Reads the resource with the given parameters
+     * @param string $package The package name under which the resource exists.
+     * @param string $resource The resource name.
+     * @param array $parameters An array with read parameters
+     * @param array $RESTparameters An array with additional RESTparameters
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
         //first check if the resource exists
@@ -169,7 +177,11 @@ class ResourcesModel {
 
 
     /**
-     * Updates the resource with the given parameters - it will create an updater itself
+     * Updates the resource with the given parameters.
+     * @param string $package The package name
+     * @param string $resource The resource name
+     * @param array $parameters An array with update parameters
+     * @param array $RESTparameters An array with additional RESTparameters
      */
     public function updateResource($package, $resource, $parameters, $RESTparameters) {
         //first check if the resource exists
@@ -187,6 +199,10 @@ class ResourcesModel {
 
     /**
      * Deletes a Resource
+     * @param string $package The package name
+     * @param string $resource The resource name
+     * @param array $parameters An array with delete parameters
+     * @param array $RESTparameters An array with additional RESTparameters
      */
     public function deleteResource($package, $resource, $RESTparameters) {
         //If we want to DELETE ontology, handle differently
@@ -219,6 +235,7 @@ class ResourcesModel {
 
     /**
      * Deletes all Resources in a package
+     * @param string $package The packagename that needs to be deleted.
      */
     public function deletePackage($package) {
         $d = $this->getAllDoc();

@@ -22,7 +22,7 @@ abstract class ADeleter{
     
 
     /**
-     * execution method
+     * This method deletes a resource.
      */
     abstract public function delete();
     

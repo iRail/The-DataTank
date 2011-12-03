@@ -19,15 +19,26 @@ class CSV extends ATabularData {
     public static $MAX_EXECUTION_TIME = 3000;
     public static $MAX_LINE_LENGTH = 15000;
 
+    /**
+     * Returns an array with params => documentation pairs who are required to create a CSV resource.
+     * @return array with parameter => documentation pairs
+     */
     public function documentCreateRequiredParameters() {
         return array("uri", "has_header_row", "delimiter");
     }
 
-    //We could specify extra filters here for CSV resources
+    /**
+     * Document all the read required parameters for documentation purposes. 
+     * @return array with necessary parameters to read a CSV.
+     */
     public function documentReadRequiredParameters() {
         return array();
     }
 
+    /**
+     * Returns an array with params => documentation pairs that can be used to create a CSV resource.
+     * @return array with parameter => documentation pairs
+     */
     public function documentCreateParameters() {
         $parameters = array();
         $parameters["uri"] = "The URI to the CSV file";
@@ -39,6 +50,10 @@ class CSV extends ATabularData {
         return $parameters;
     }
 
+    /**
+     * Returns an array with parameter => documentation pairs that can be used to read a CSV resource.
+     * @return array with parameter => documentation pairs
+     */
     public function documentReadParameters() {
         return array();
     }
@@ -153,7 +168,10 @@ class CSV extends ATabularData {
     }
 
     /**
-     * Read non paged resource
+     * Read a resource
+     * @param $package The package name of the resource 
+     * @param $resource The resource name of the resource
+     * @return $mixed An object created with fields of a CSV file.
      */
     public function read($package, $resource) {
         /*
@@ -308,9 +326,9 @@ class CSV extends ATabularData {
 
     /**
      *  This function gets the fields in a resource
-     * @param type $package
-     * @param type $resource
-     * @return type 
+     * @param string $package
+     * @param string $resource
+     * @return array with column names mapped onto their aliases
      */
     public function getFields($package, $resource) {
 
