@@ -13,7 +13,7 @@ include_once 'includes/rb.php';
 R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
 $doc = ResourcesModel::getInstance()->getAllDoc();
-
+header("content-type: application/xml");
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
 echo "<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:sc='http://sw.deri.org/2007/07/sitemapextension/scschema.xsd'>";
 foreach ($doc as $package => $resources) {
@@ -25,7 +25,7 @@ foreach ($doc as $package => $resources) {
         if ($resource != 'creation_date') {
             if (property_exists($val, 'requiredparameters')) {
                 if (count($val->requiredparameters) == 0)
-                    echo "<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package . $resource . ".nt" . "</sc:dataDumpLocation>";
+                    echo "<sc:dataDumpLocation>" . Config::$HOSTNAME . Config::$SUBDIR . $package ."/" . $resource . ".nt" . "</sc:dataDumpLocation>";
             }
         } else {
             $dt = new DateTime();
