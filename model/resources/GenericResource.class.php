@@ -45,11 +45,6 @@ class GenericResource{
         $strat = $this->getStrategy();
         return $strat->read($this->package,$this->resource);
     }
-
-    public function readPaged($page){
-        $strat = $this->getStrategy();
-        return $strat->readPaged($this->package,$this->resource,$page);
-    }
 }
 
 ?>

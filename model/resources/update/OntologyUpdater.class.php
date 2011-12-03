@@ -3,7 +3,7 @@
  * This class OntologyUpdater updates ontologgy's by adding mappings
  * When updating an ontology, we always expect a POST method!
  *
- * @package The-Datatank/model/resources/create
+ * @package The-Datatank/model/resources/update
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande

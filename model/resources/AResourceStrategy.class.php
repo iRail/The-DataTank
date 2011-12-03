@@ -15,15 +15,6 @@ abstract class AResourceStrategy{
      * @return StdClass object representing the result of the businesslogic.
      */
     abstract public function read($package,$resource);
-    
-    /**
-     * This functions contains the businesslogic of a read method (paged reading)
-     * @return StdClass object representing the result of the businesslogic.
-     */
-    public function readPaged($package,$resource,$page){
-        //for if the strategy did not implement a paged function, return read
-        return $this->read($package, $resource);
-    }
 
     /**
      * Delete all extra information on the server about this resource when it gets deleted
