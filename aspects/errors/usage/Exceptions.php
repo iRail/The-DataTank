@@ -279,4 +279,19 @@ class RequiredParameterTDTException extends UsageTDTException {
         parent::__construct("Required parameter not found: " . $parameter . ".");
     }
 }
+
+/**
+ * This class reprents an exception which is thrown when something went wrong whilst reading a resource
+ */
+class ReadTDTException extends UsageTDTException {
+    public static function getDoc() {
+        return "This exception is thrown when something went wrong whilst reading a resource.";
+    }
+    
+    public static $error = 455;
+    
+    public function __construct($message) {
+        parent::__construct($message);
+    }
+}
 ?>

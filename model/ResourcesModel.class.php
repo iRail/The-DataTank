@@ -62,7 +62,6 @@ class ResourcesModel {
      */
     public function hasResource($package, $resource) {
         $doc = $this->getAllDoc();
-
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
                 foreach ($resourcenames as $resourcename => $var) {

@@ -113,69 +113,68 @@ class CSV extends ATabularData {
             throw new CouldNotGetDataTDTException($filename);
         }
         $csv = utf8_encode($request->data);
-
-        try {
-            $rows = str_getcsv($csv, "\n");
-            // get rid for the comment lines according to the given start_row
-            for ($i = 1; $i < $start_row; $i++) {
-                array_shift($rows);
-            }
-
-            $fieldhash = array();
-            /**
-             * loop through each row, and fill the fieldhash with the column names
-             * if however there is no header, we fill the fieldhash beforehand
-             * note that the precondition of the beforehand filling of the fieldhash
-             * is that the column_name is an index! Otherwise there's no way of id'ing a column
-             */
-            if ($has_header_row == "0") {
-                foreach ($columns as $index => $column_name) {
-                    $fieldhash[$index] = $index;
-                }
-            }
-
-            foreach ($rows as $row => $fields) {
-                $data = str_getcsv($fields, $delimiter);
-
-                // keys not found yet
-                if (!count($fieldhash)) {
-
-                    // <<fast!>> way to detect empty fields
-                    // if it contains empty fields, it should not be our field hash
-                    $empty_elements = array_keys($data, "");
-                    if (!count($empty_elements)) {
-                        // we found our key fields
-                        for ($i = 0; $i < sizeof($data); $i++)
-                            $fieldhash[$data[$i]] = $i;
-                    }
-                } else {
-                    $rowobject = new stdClass();
-                    $keys = array_keys($fieldhash);
-
-                    for ($i = 0; $i < sizeof($keys); $i++) {
-                        $c = $keys[$i];
-
-                        if (sizeof($columns) == 0 || !array_key_exists($c, $columns)) {
-                            $rowobject->$c = $data[$fieldhash[$c]];
-                        } else if (array_key_exists($c, $columns)) {
-                            $rowobject->$columns[$c] = $data[$fieldhash[$c]];
-                        }
-                    }
-
-                    if ($PK == "") {
-                        array_push($arrayOfRowObjects, $rowobject);
-                    } else {
-                        if (!isset($arrayOfRowObjects[$rowobject->$PK])) {
-                            $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
-                        }
-                    }
-                }
-            }
-
-            return $arrayOfRowObjects;
-        } catch (Exception $ex) {
-            throw new CouldNotGetDataTDTException($filename);
+        $rows = str_getcsv($csv, "\n");
+        // get rid for the comment lines according to the given start_row
+        for ($i = 1; $i < $start_row; $i++) {
+            array_shift($rows);
         }
+
+        $fieldhash = array();
+        /**
+         * loop through each row, and fill the fieldhash with the column names
+         * if however there is no header, we fill the fieldhash beforehand
+         * note that the precondition of the beforehand filling of the fieldhash
+         * is that the column_name is an index! Otherwise there's no way of id'ing a column
+         */
+        if ($has_header_row == "0") {
+            foreach ($columns as $index => $column_name) {
+                $fieldhash[$index] = $index;
+            }
+        }
+
+        foreach ($rows as $row => $fields) {
+            $data = str_getcsv($fields, $delimiter);
+                
+            if(count($data) != count($columns)){
+                throw new ReadTDTException("The amount of columns and data from the csv don't match up, this could be because an incorrect delimiter has been passed.");
+            }
+                
+            // keys not found yet
+            if (!count($fieldhash)) {
+
+                // <<fast!>> way to detect empty fields
+                // if it contains empty fields, it should not be our field hash
+                $empty_elements = array_keys($data, "");
+                if (!count($empty_elements)) {
+                    // we found our key fields
+                    for ($i = 0; $i < sizeof($data); $i++)
+                        $fieldhash[$data[$i]] = $i;
+                }
+            } else {
+                $rowobject = new stdClass();
+                $keys = array_keys($fieldhash);
+
+                for ($i = 0; $i < sizeof($keys); $i++) {
+                    $c = $keys[$i];
+
+                    if (sizeof($columns) == 0 || !array_key_exists($c, $columns)) {
+                        $rowobject->$c = $data[$fieldhash[$c]];
+                    } else if (array_key_exists($c, $columns)) {
+                        $rowobject->$columns[$c] = $data[$fieldhash[$c]];
+                    }
+                }
+
+                if ($PK == "") {
+                    array_push($arrayOfRowObjects, $rowobject);
+                } else {
+                    if (!isset($arrayOfRowObjects[$rowobject->$PK])) {
+                        $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                    }
+                }
+            }
+        }
+
+        return $arrayOfRowObjects;
     }
 
     public function onDelete($package, $resource) {
@@ -257,14 +256,14 @@ class CSV extends ATabularData {
                     $this->package = DBQueries::getPackageById($package_id);
                     $this->resource = DBQueries::getResourceById($resource_id);
                     ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
-                    throw new ParameterTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
+                    throw new ResourceAdditionTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
                 }
                 fclose($handle);
             }else{
                 $this->package = DBQueries::getPackageById($package_id);
                 $this->resource = DBQueries::getResourceById($resource_id);
                 ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
-                throw new ParameterTDTException($this->uri . " an error occured no more rows after row $start_row have been found.");
+                throw new ResourceAdditionTDTException($this->uri . " an error occured no more rows after row $start_row have been found.");
                 
             }
         }
@@ -328,6 +327,11 @@ class CSV extends ATabularData {
      * store the columns
      */
     protected function evaluateColumns($columns,$PK,$gen_res_id){
+        // check if PK is in the column keys
+        if(!array_key_exists($PK,$columns)){
+            throw new ResourceAdditionTDTException($PK ." as a primary key is not one of the column name keys. Either leave it empty or name it after a column name (not a column alias.");
+        }
+        
         foreach($columns as $column => $column_alias){
             // replace whitespaces in columns by underscores
             $formatted_column = preg_replace('/\s+/','_',$column_alias);
@@ -336,15 +340,15 @@ class CSV extends ATabularData {
     }
 
 
-     /*
-      ******************
-      **** QUERIES *****
-      ******************
-      /
-   /**
-    * Get a generic resource id and the generic resource csv id
-    * given a package and a a resource
-    */
+    /*
+******************
+**** QUERIES *****
+******************
+/
+/**
+* Get a generic resource id and the generic resource csv id
+* given a package and a a resource
+*/
     private function getCSVInfo($package,$resource){
         return R::getRow("SELECT generic_resource.id as gen_id, generic_resource_csv.id as csv_id,delimiter,start_row
                           FROM package,resource,generic_resource,generic_resource_csv
