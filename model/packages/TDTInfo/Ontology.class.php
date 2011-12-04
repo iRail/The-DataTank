@@ -26,17 +26,9 @@ class TDTInfoOntology extends AReader {
         return array("package");
     }
 
-    public function readPaged() {
+    public function read() {
         $this->getData();
         return $this->ontology;
-    }
-
-    public function read() {
-        return $this->readPaged();
-    }
-
-    protected function isPagedResource() {
-        return false;
     }
 
     public function setParameter($key, $val) {

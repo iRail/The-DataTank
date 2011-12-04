@@ -20,8 +20,8 @@ class TDTInfoPackages extends AReader{
 
     public function setParameter($key,$val){
     }
-
-    public function readPaged(){
+    
+    public function read(){
 	$resmod = ResourcesModel::getInstance();
         $doc = $resmod->getAllDoc();
         $packages = array();
@@ -34,14 +34,6 @@ class TDTInfoPackages extends AReader{
         }
         
 	return $packages;
-    }
-    
-    public function read(){
-        return $this->readPaged();
-    }
-
-    protected function isPagedResource(){
-        return false;
     }
     
     public static function getDoc(){

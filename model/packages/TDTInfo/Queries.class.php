@@ -178,17 +178,9 @@ class TDTInfoQueries extends AReader{
             }); 
     }
 
-    public function readPaged(){
-        $this->getData();
-        return $this->queryResults;
-    }
-
     public function read(){
-        return $this->readPaged();
-    }
-    
-    protected function isPagedResource(){
-        return false;
+         $this->getData();
+        return $this->queryResults;
     }
 
     public static function getDoc(){

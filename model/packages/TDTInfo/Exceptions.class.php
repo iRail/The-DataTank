@@ -22,14 +22,6 @@ class TDTInfoExceptions extends AReader {
     }
     
     public function read(){
-        return $this->readPaged();
-    }
-    
-    protected function isPagedResource(){
-        return false;
-    }
-    
-    public function readPaged() {
         $o = new stdClass();
         $o->Exceptions = array();
         

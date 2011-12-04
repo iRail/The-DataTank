@@ -23,20 +23,12 @@ class TDTInfoAdmin extends AReader{
         //we don't have any parameters
     }
 
-    public function readPaged(){
-	$resmod = ResourcesModel::getInstance();
+    public function read(){
+        $resmod = ResourcesModel::getInstance();
 	$o = $resmod->getAllAdminDoc();
 	return $o;
     }
-
-    public function read(){
-        return $this->readPaged();
-    }
-    
-    protected function isPagedResource(){
-        return false;
-    }
-
+  
     public static function getDoc(){
 	return "This resource contains the information an Admin should know. It documents all possible addition, deletion and creation methods";
     }
