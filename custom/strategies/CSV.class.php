@@ -328,7 +328,7 @@ class CSV extends ATabularData {
      */
     protected function evaluateColumns($columns,$PK,$gen_res_id){
         // check if PK is in the column keys
-        if(!array_key_exists($PK,$columns)){
+        if($PK != "" && !array_key_exists($PK,$columns)){
             throw new ResourceAdditionTDTException($PK ." as a primary key is not one of the column name keys. Either leave it empty or name it after a column name (not a column alias.");
         }
         
