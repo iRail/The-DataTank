@@ -22,5 +22,9 @@ class Config {
     // validation for API calls to remotely add resources and modules
     public static $API_USER = "";
     public static $API_PASSWD = "";
+
+    public static $DB = 'mysql:host=localhost;dbname=logging';
+    public static $DB_USER = '';
+    public static $DB_PASSWORD = '';
 }
 ?>

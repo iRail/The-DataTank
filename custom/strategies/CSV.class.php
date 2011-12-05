@@ -86,7 +86,7 @@ class CSV extends ATabularData {
         // get the columns from the columns table
         $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
         $PK = "";
-
+        
         /**
          * columns can have an alias, if not their alias is their own name
          */
