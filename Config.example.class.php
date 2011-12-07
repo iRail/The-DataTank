@@ -11,7 +11,7 @@ class Config {
     //add a trailing slash!
     public static $HOSTNAME = "http://localhost/";
 
-    //the webserver subdirectory, if it's not in a subdir, fill in blank
+    //the webserver subdirectory, if it's not in a subdir, fill in blank. Just like $HOSTNAME, you must add a trailing slash!
     public static $SUBDIR = "";
 
     // host for caching purposes

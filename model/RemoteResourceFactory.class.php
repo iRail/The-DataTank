@@ -105,6 +105,7 @@ class RemoteResourceFactory extends AResourceFactory{
         $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
         $options = array("cache-time" => 5); //cache for 5 seconds
         $request = TDT::HttpRequest($url, $options);
+
         if(isset($request->error)){
             throw new HttpOutTDTException($url);
         }
@@ -112,9 +113,12 @@ class RemoteResourceFactory extends AResourceFactory{
         $remoteResource = new stdClass();
         $remoteResource->package = $package;
         $remoteResource->remote_package = $result["package"];
-        if(isset($data[$resource])){
+        if(isset($remoteResource->doc) && isset($data[$resource])){
             $remoteResource->doc = $data[$resource]->doc;
+        }else{
+            throw new ResourceOrPackageNotFoundTDTException("The remote resource could not find the documentation of the resource it represents. Mostly, this is due to a removal of the resource it proxies.");
         }
+        
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
         if(isset($data[$resource]->parameters)){
