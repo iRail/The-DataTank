@@ -116,8 +116,9 @@ class RemoteResourceFactory extends AResourceFactory{
         if(isset($remoteResource->doc) && isset($data[$resource])){
             $remoteResource->doc = $data[$resource]->doc;
         }else{
-            throw new ResourceOrPackageNotFoundTDTException("The remote resource could not find the documentation of the resource it represents. Mostly, this is due to a removal of the resource it proxies.");
+            $remoteResource->doc = new stdClass();
         }
+        
         
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
