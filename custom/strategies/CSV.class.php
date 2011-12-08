@@ -287,24 +287,12 @@ class CSV extends ATabularData {
          * has a header row or not.
          */
         $result = $this->getCSVResource($package, $resource);
-
-        $has_header_row = $result["has_header_row"];
         $gen_res_id = $result["gen_res_id"];
-
-        /**
-         * check if the uri is valid ( not empty )
-         */
-        if (isset($result["uri"])) {
-            $filename = $result["uri"];
-        } else {
-            throw new ResourceTDTException("Can't find URI of the CSV");
-        }
 
         $columns = array();
 
         // get the columns from the columns table
         $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-        $PK = "";
 
         /**
          * columns can have an alias, if not their alias is their own name
@@ -315,11 +303,8 @@ class CSV extends ATabularData {
             } else {
                 $columns[(string) $result["column_name"]] = $result["column_name"];
             }
-
-            if ($result["is_primary_key"] == 1) {
-                $PK = $columns[$result["column_name"]];
-            }
         }
+        var_dump($columns);
         return array_values($columns);
     }
 
@@ -340,7 +325,7 @@ class CSV extends ATabularData {
     }
 
 
-    /*
+/*
 ******************
 **** QUERIES *****
 ******************
