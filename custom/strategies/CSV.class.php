@@ -304,7 +304,6 @@ class CSV extends ATabularData {
                 $columns[(string) $result["column_name"]] = $result["column_name"];
             }
         }
-        var_dump($columns);
         return array_values($columns);
     }
 
