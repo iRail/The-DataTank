@@ -10,15 +10,10 @@
 include_once("model/resources/AResourceStrategy.class.php");
 abstract class ATabularData extends AResourceStrategy{
 
-    /*
-     * This functions associates column names with a certain resource
-     */
-    protected function evaluateColumns($columns,$PK,$gen_res_id){
-        foreach($columns as $column => $column_alias){
-            /* // replace whitespaces in columns by underscores */
-            $formatted_column = preg_replace('/\s+/','_',$column_alias); 
-            DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK != "" && $PK == $column?1:0));
-        }
+    protected $parameters = array();
+    
+    function __construct(){
+        $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published. Note that this parameter is not required, however if you do not have a header row, we do expect the columns to be passed along, otherwise there's no telling what the names of the columns are. This array should be build as column_name => column_alias or index => column_alias.";
     }
 
     public function onUpdate($package, $resource){
