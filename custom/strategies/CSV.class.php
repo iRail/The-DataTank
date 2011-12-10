@@ -226,39 +226,5 @@ class CSV extends ATabularData {
         return true;
         
     }
-
-    /**
-     *  This function gets the fields in a resource
-     * @param string $package
-     * @param string $resource
-     * @return array Array with column names mapped onto their aliases
-     */
-    public function getFields($package, $resource) {
-        /*
-         * First retrieve the values for the generic fields of the CSV logic
-         * This is the uri to the file, and a parameter which states if the CSV file
-         * has a header row or not.
-         */
-        $result = $this->getCSVResource($package, $resource);
-        $gen_res_id = $result["gen_res_id"];
-
-        $columns = array();
-
-        // get the columns from the columns table
-        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-
-        /**
-         * columns can have an alias, if not their alias is their own name
-         */
-        foreach ($allowed_columns as $result) {
-            if ($result["column_name_alias"] != "") {
-                $columns[(string) $result["column_name"]] = $result["column_name_alias"];
-            } else {
-                $columns[(string) $result["column_name"]] = $result["column_name"];
-            }
-        }
-        
-        return array_values($columns);
-    }
 }
 ?>

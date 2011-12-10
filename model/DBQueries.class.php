@@ -171,18 +171,6 @@ class DBQueries {
         );
     }
     
-    static function getGenericResourceId($package, $resource) {
-        return R::getRow(
-            "SELECT gen_res_db.id
-             FROM package, generic_resource as gen_res, generic_resource_db as gen_res_db
-             WHERE package.package_name=:package_name 
-             	   and gen_res.package_id=package.id 
-             	   and gen_res.resource_name=:resource_name
-            	   and gen_res.id=gen_res_db.resource_id",
-            array(":package_name" => $package, ":resource_name" => $resource)
-        );
-    }
-    
     /**
      * Retrieve all resources names and their package name
      */
@@ -376,6 +364,18 @@ class DBQueries {
              FROM resource, package
              WHERE :package_id = package.id and resource_name =:resource and package_id = package.id",
             array(":package_id" => $package_id, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Retrieve a specific generic resource id
+     */
+    static function getGenericResourceId($package,$resource){
+        return R::getRow(
+            "SELECT generic_resource.id as gen_resource_id
+             FROM package,resource,generic_resource
+             WHERE package.id = package_id and package_name =:package and resource_name =:resource and resource.id = resource_id",
+            array(":package" => $package, ":resource" => $resource)
         );
     }
 

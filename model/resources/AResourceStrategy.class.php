@@ -132,8 +132,5 @@ abstract class AResourceStrategy{
         ResourcesModel::getInstance()->deleteResource($package, $resource, array());
         throw new ResourceAdditionTDTException("$message");
     }
-    
-
-
 }
 ?>
