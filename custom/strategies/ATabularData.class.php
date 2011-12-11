@@ -38,6 +38,72 @@ abstract class ATabularData extends AResourceStrategy{
         return array();
     }
 
+    /**
+     * Mostly generic resources contain certain headers, or columns, in this function you can add
+     * these columns to our published_columns table
+     */
+    protected function evaluateColumns($package_id,$generic_resource_id,$columns,$PK){
+        // check if PK is in the column keys
+        if($PK != "" && !array_key_exists($PK,$columns)){
+            $this->throwException($package_id,$generic_resource_id,$PK ." as a primary key is not one of the column name keys. Either leave it empty or name it after a column name (not a column alias).");
+        }
+        
+        foreach($columns as $column => $column_alias){
+            // replace whitespaces in columns by underscores
+            $formatted_column = preg_replace('/\s+/','_',$column_alias);
+            DBQueries::storePublishedColumn($generic_resource_id, $column,$column_alias,($PK != "" && $PK == $column?1:0));
+        }
+    }
+
+    public function read(&$configObject){
+         $published_columns = DBQueries::getPublishedColumns($configObject->gen_resource_id);
+         $PK ="";
+         $columns = array();
+         
+         foreach ($published_columns as $result) {
+             if ($result["column_name_alias"] != "") {
+                 $columns[(string) $result["column_name"]] = $result["column_name_alias"];
+             } else {
+                 $columns[(string) $result["column_name"]] = $result["column_name"];
+             }
+             
+             if ($result["is_primary_key"] == 1) {
+                 $PK = $columns[$result["column_name"]];
+             }
+         }
+         
+         $configObject->columns = $columns;
+         $configObject->PK = $PK;
+    }
+    
+
+    /**
+     * When a strategy is added, execute this piece of code.
+     */
+    public function onAdd($package_id, $gen_resource_id){
+        if($this->isValid($package_id,$gen_resource_id)){
+            $this->evaluateColumns($package_id,$gen_resource_id,$this->columns,$this->PK);
+            // get the name of the class ( = strategyname)
+            $strat = strtolower(get_class($this));
+            $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);
+            $resource->gen_resource_id = $gen_resource_id;
+            
+            // for every parameter that has been passed for the creation of the strategy, make a datamember
+            $createParams = array_keys($this->documentCreateParameters());
+            foreach($createParams as $createParam){
+                // dont add the columns parameter
+                if($createParam != "columns"){
+                    if(!isset($this->$createParam)){
+                        $resource->$createParam = "";
+                    }else{
+                        $resource->$createParam = $this->$createParam;
+                    }   
+                }
+            }
+            return R::store($resource);
+        }
+    }
+
    /**
      *  This function gets the fields in a resource
      * @param string $package

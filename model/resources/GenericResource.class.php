@@ -83,27 +83,6 @@ class GenericResource{
         }
 
         $configObject->gen_resource_id = $query["gen_resource_id"];
-
-        // get the published columns, it contains any ofcourse
-        $published_columns = DBQueries::getPublishedColumns($configObject->gen_resource_id);
-        $PK ="";
-        $columns = array();
-
-        foreach ($published_columns as $result) {
-            if ($result["column_name_alias"] != "") {
-                $columns[(string) $result["column_name"]] = $result["column_name_alias"];
-            } else {
-                $columns[(string) $result["column_name"]] = $result["column_name"];
-            }
-
-            if ($result["is_primary_key"] == 1) {
-                $PK = $columns[$result["column_name"]];
-            }
-        }
-
-        $configObject->columns = $columns;
-        $configObject->PK = $PK;
-        
         return $configObject;
     }
 }

@@ -58,13 +58,13 @@ class CSV extends ATabularData {
      * @param $resource The resource name of the resource
      * @return $mixed An object created with fields of a CSV file.
      */
-    public function read($configObject) {
+    public function read(&$configObject) {
         /*
          * First retrieve the values for the generic fields of the CSV logic
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
-
+        parent::read($configObject);
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;
         $delimiter = $configObject->delimiter;
@@ -222,9 +222,7 @@ class CSV extends ATabularData {
                 $this->throwException($package_id,$generic_resource_id,$this->uri . " an error occured no more rows after row $start_row have been found.");
             }
         }
-        $this->evaluateColumns($package_id,$generic_resource_id,$this->columns, $this->PK, $generic_resource_id);
         return true;
-        
     }
 }
 ?>
