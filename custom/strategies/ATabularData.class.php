@@ -105,7 +105,7 @@ abstract class ATabularData extends AResourceStrategy{
     }
 
    /**
-     *  This function gets the fields in a resource
+     * This function gets the fields in a resource
      * @param string $package
      * @param string $resource
      * @return array Array with column names mapped onto their aliases
