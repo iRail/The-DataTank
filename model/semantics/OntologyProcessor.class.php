@@ -12,6 +12,8 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
+include_once("tdtml/TDTML.class.php");
+
 class OntologyProcessor {
 
     private static $uniqueinstance;
@@ -151,18 +153,11 @@ class OntologyProcessor {
         $resource = new Resource($path);
         $mapping = new Resource($nmsp . $value);
 
-
-        $pred = null;
-        if ($this->isPathProperty($package, $path))
-            $pred = new Resource("http://www.thedatatank.org/tdml/1.0#preferredProperty");
-        else
-            $pred = new Resource("http://www.thedatatank.org/tdml/1.0#preferredClass");
-
-        $statement = $this->getModel($package)->findFirstMatchingStatement($resource, $pred, null);
+        $statement = $this->getModel($package)->findFirstMatchingStatement($resource, TDTML::PREFERREDMAP(), null);
         if (!is_null($statement))
             $this->getModel($package)->remove($statement);
 
-        $statement = new Statement($resource, $pred, $mapping);
+        $statement = new Statement($resource, TDTML::PREFERREDMAP(), $mapping);
         $this->getModel($package)->add($statement);
     }
 
@@ -187,8 +182,11 @@ class OntologyProcessor {
             $type = OWL::EQUIVALENT_CLASS();
 
         $statement = $this->getModel($package)->findFirstMatchingStatement($resource, $type, $mapping);
-
         $this->getModel($package)->remove($statement);
+
+        $statement = $this->getModel($package)->findFirstMatchingStatement($resource, TDTML::PREFERREDMAP(), $mapping);
+        if (!is_null($statement))
+            $this->getModel($package)->remove($statement);
     }
 
     /**
@@ -259,20 +257,17 @@ class OntologyProcessor {
 
     public function getMapping($package) {
         $ontology = $this->getModel($package);
+        
         $classes = $ontology->find(null, OWL::EQUIVALENT_CLASS(), null);
         $properties = $ontology->find(null, OWL::EQUIVALENT_PROPERTY(), null);
-
-        $preferred_classes = $ontology->find(null, new Resource("http://www.thedatatank.org/tdml/1.0#preferredClass"), null);
-        $preferred_properties = $ontology->find(null, new Resource("http://www.thedatatank.org/tdml/1.0#preferredProperty"), null);
-
         $result = array_merge($classes->triples, $properties->triples);
-        $preferred = array_merge($preferred_classes->triples, $preferred_properties->triples);
+        
+        $preferred = $ontology->find(null, TDTML::PREFERREDMAP(), null);
+        $preferred = $preferred->triples;
 
         $namespaces = $ontology->getParsedNamespaces();
 
         $mapping = array();
-
-
 
         foreach ($preferred as $triple) {
             $temp = new stdClass();
@@ -284,7 +279,6 @@ class OntologyProcessor {
 
             $mapping[$triple->getSubject()->getURI()] = $temp;
         }
-
 
         foreach ($result as $triple) {
             if (!array_key_exists($triple->getSubject()->getURI(), $mapping)) {
