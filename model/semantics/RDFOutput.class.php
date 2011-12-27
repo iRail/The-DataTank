@@ -118,6 +118,12 @@ class RDFOutput {
                 //In case of an object, it is done in the next iteration
                 if (!is_object($value))
                     $path .= '/' . $key;
+
+                //If the key is numeric, the output in for instance XML will be invalid
+                //because tagnames cannot start with a number. We add an underscore
+                if (is_numeric(substr($key, 0, 1)))
+                    $key = "_" . $key;
+
                 //start over for each value
                 $this->analyzeVariable($value, $uri . '/' . $key, $path . '/', $res, $prop);
             }
@@ -157,6 +163,7 @@ class RDFOutput {
      * @return ResList Object representing the list
      * @access private
      */
+
     private function getList($uri) {
         $res = $this->model->createList($uri);
         $res->addProperty(RDF_RES::TYPE(), RDF_RES::RDF_LIST());
@@ -173,6 +180,7 @@ class RDFOutput {
      * @return ResProperty Returns the created,mapped property
      * @access private
      */
+
     private function getProperty($name, $path) {
         $path .= '/' . $name;
         if ($this->mapping) {
@@ -193,12 +201,15 @@ class RDFOutput {
      * @return ResResource Returns the created, mapped resource.
      * @access private
      */
+
     private function getClass($uri, $path) {
         $resource = $this->model->createResource($uri);
 
         if ($this->mapping) {
-            if (array_key_exists($path, $this->mapping))
+            if (array_key_exists($path, $this->mapping)) {
                 $resource->addProperty(RDF_RES::TYPE(), new ResResource($this->mapping[$path]->map));
+                $this->model->addNamespace($this->mapping[$path]->prefix, $this->mapping[$path]->nmsp);
+            }
         }
         return $resource;
     }
