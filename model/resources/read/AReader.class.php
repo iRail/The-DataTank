@@ -82,6 +82,7 @@ abstract class AReader {
             $language = Config::$DEFAULT_LANGUAGE;
         }
         while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){
+            
             $language = $ln->pop();
         }
         if(sizeof($this->supportedLanguages())!=0 && !in_array($language,$this->supportedLanguages())){

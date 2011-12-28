@@ -61,6 +61,7 @@ class LanguageNegotiator{
                     $type = "en";
                 }
             }
+            $type = strtolower(substr($type,0,2));
             $stack[$type] = $q;
         }
         //all that is left for us to do is sorting the array according to their q
