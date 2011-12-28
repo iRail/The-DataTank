@@ -52,8 +52,7 @@ class LanguageNegotiator{
                 $q = (float)$qa[1];
             }
             $type = $qa[0];
-            $type = ucfirst(strtolower($type));
-            //now add the language to the array
+            //if we have a *, change it into the default language
             if($type == "*"){
                 if(isset(Config::$DEFAULT_LANGUAGE)){
                     $type = Config::$DEFAULT_LANGUAGE;
@@ -61,6 +60,7 @@ class LanguageNegotiator{
                     $type = "en";
                 }
             }
+            //now add the language to the array
             $type = strtolower(substr($type,0,2));
             $stack[$type] = $q;
         }

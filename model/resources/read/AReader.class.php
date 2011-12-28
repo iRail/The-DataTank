@@ -11,8 +11,7 @@
 include_once("model/resources/read/LanguageNegotiator.class.php");
 
 abstract class AReader {
-
-    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp", "page");
+    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp");
     // package and resource are always the two minimum parameters
     protected $parameters = array();
     protected $requiredParameters = array();
@@ -81,8 +80,7 @@ abstract class AReader {
         }else{
             $language = Config::$DEFAULT_LANGUAGE;
         }
-        while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){
-            
+        while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){   
             $language = $ln->pop();
         }
         if(sizeof($this->supportedLanguages())!=0 && !in_array($language,$this->supportedLanguages())){
