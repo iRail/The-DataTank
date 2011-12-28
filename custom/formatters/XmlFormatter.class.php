@@ -85,11 +85,11 @@ class XmlFormatter extends AFormatter{
                 $name = htmlspecialchars(str_replace(" ","",$name));
                 $value = htmlspecialchars($value);
                 if($this->isHash($array)){ //if this is an associative array, don't print it by name of the parent
-                //check on first character
-                if(preg_match("/^[0-9]+.*/", $key)){
-                    $key = "i" . $key; // add an i
-                }
-                echo "<".$key . ">" . $value . "</".$key.">";
+                    //check on first character
+                    if(preg_match("/^[0-9]+.*/", $key)){
+                        $key = "i" . $key; // add an i
+                    }
+                    echo "<".$key . ">" . $value . "</".$key.">";
                 }else{
                     echo "<".$name. ">".$value."</".$name.">";
                 }

@@ -81,10 +81,10 @@ abstract class AReader {
         }else{
             $language = Config::$DEFAULT_LANGUAGE;
         }
-        while($ln->hasNext() && (is_empty($this->supportedLanguages()) || !in_array($language,$this->supportedLanguages()))){
+        while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){
             $language = $ln->pop();
         }
-        if(!is_empty($this->supportedLanguages()) && !in_array($language,$this->supportedLanguages())){
+        if(sizeof($this->supportedLanguages())!=0 && !in_array($language,$this->supportedLanguages())){
             throw new LanguageNotSupportedTDTException($language);
         }
         return $language;
