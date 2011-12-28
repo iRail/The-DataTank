@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Abstract class for reading(fetching) a resource
  *
@@ -8,6 +7,9 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
+
+include_once("model/resources/read/LanguageNegotiator.class.php");
+
 abstract class AReader {
 
     public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp", "page");
@@ -61,7 +63,31 @@ abstract class AReader {
 
     abstract protected function setParameter($key, $value);
 
+    /**
+     * Override this function if you want to limit language support
+     */
+    public function supportedLanguages(){
+        return array();
+    }
 
+    /**
+     * Asks a content negotiator class for a language. If the supported languages array is not empty, it will go for the most qualified one in that array.
+     */
+    public function getLang(){
+        $ln = new LanguageNegotiator();
+        $language = "";
+        if($ln->hasNext()){
+            $language = $ln->pop();
+        }else{
+            $language = Config::$DEFAULT_LANGUAGE;
+        }
+        while($ln->hasNext() && (is_empty($this->supportedLanguages()) || !in_array($language,$this->supportedLanguages()))){
+            $language = $ln->pop();
+        }
+        if(!is_empty($this->supportedLanguages()) && !in_array($language,$this->supportedLanguages())){
+            throw new LanguageNotSupportedTDTException($language);
+        }
+        return $language;
+    }
 }
-
 ?>

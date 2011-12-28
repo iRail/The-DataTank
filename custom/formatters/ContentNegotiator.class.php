@@ -39,10 +39,9 @@ class ContentNegotiator{
     }
     
     public function pop(){
-        return array_pop($this->stack);
+        return array_shift($this->stack);
     }
     
-
     private function doContentNegotiation(){
         /*
          * Content negotiation means checking the Accept header of the request. The header can look like this:
@@ -71,6 +70,10 @@ class ContentNegotiator{
             }
             $type = ucfirst(strtolower($type));
             //now add the format type to the array
+            if($type == "*"){
+                //default formatter for when it just doesn't care. Probably this is when a developer is just performing tests.
+                $type = "Html";
+            }
             $stack[$type] = $q;
         }
         //all that is left for us to do is sorting the array according to their q
