@@ -1,0 +1,83 @@
+%class spectql
+%start stmt
+
+%left ':'
+%left '.'
+%left '?'
+%left LN
+%left '&' 
+%left '|'
+%left '+' '-'
+%left '*' '/'
+%left '>' EQ '<' '~'
+
+stmt = expression
+| expression ':' format
+.
+
+expression = resource/$ '?' filterlist { $3->execute($$); }
+| resource
+| calc
+.
+
+resource = resourceid '{' selector '}' { $$ = $3->execute($1); }
+| resourceid { $$ = $1->execute(); }
+.
+
+resourceid = name '/' name  { $$ = new SPECTQLResource($1,$3); }
+| resourceid '/' name { $1->addParameter($3); $$ = $1; }
+| resourceid '/' num { $1->addParameter($3); $$ = $1; }
+.
+
+filterlist = filter { $$ = new SPECTQLFilterList($1); }
+| filterlist '&' filterlist { $1->merge($3,true); $$ = $1; }
+| filterlist '|' filterlist { $1->merge($3, false); $$ = $1; }
+| '(' filterlist/$ ')'
+.
+
+filter = name '>' string { $$ = new SPECTQLFilter($1,">",$3); }
+| name EQ string { $$ = new SPECTQLFilter($1,"==",$3); }
+| name '<' string { $$ = new SPECTQLFilter($1,"<",$3); }
+| name '>' calc { $$ = new SPECTQLFilter($1,">",$3); }
+| name EQ calc { $$ = new SPECTQLFilter($1,"==",$3); }
+| name '<' calc { $$ = new SPECTQLFilter($1,"<",$3); }
+| name '~' string { $$ = new SPECTQLFilter($1,"~",$3); }
+.
+
+selector = argument { $$ = new SPECTQLSelector($1); }
+| argument order { $$ = new SPECTQLSelector($1, $2); }
+| selector ',' argument { $1->addArgument($3); $$ = $1; }
+| selector ',' argument order { $1->addArgument($3, $4); $$ = $1; }
+.
+
+function = name '(' function ')' { $ff = FunctionFactory::getInstance(); $$ = $ff->createFunction($1, $3); }
+| name '(' argument ')' { $ff = FunctionFactory::getInstance(); $$ = $ff->createFunction($1, $3); }
+.
+
+order = '+' { $$ = 1; }
+| '-' { $$ = -1; }
+.
+
+argument = name { $$ = new SPECTQLColumnName($1); }
+| link
+| '*' { $$ = new SPECTQLWildcard("all"); }
+| function
+.
+
+link = name LN resourceid '.' name { $$ = new SPECTQLLink($1, $3, $5); }
+.
+
+format = name { $ff = FormatterFactory::getInstance(); $ff->setFormat($1); }
+.
+
+calcincontext = calc { $$ = new SPECTQLCalc($1); }
+.
+
+calc = num
+| calc '+' calc { $$ = $1 + $3; }
+| calc '-' calc { $$ = $1 - $3; }
+| calc '*' calc { $$ = $1 * $3; }
+| calc '/' calc { $$ = $1 / $3; }
+| num '.' num { $$ = (double)($1 . "." . $3); }
+| '(' calc/$ ')'
+.
