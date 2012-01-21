@@ -1,7 +1,6 @@
 <?php
 $base_url = Config::$HOSTNAME . Config::$SUBDIR;
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +17,6 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
 	</div>
       </div>
     </div>
-
     <div id="main">
       <div class="container">
 	<textarea name="query" style="width: 78%; height: 100px;" id="query">/TDTInfo/Resources{*}:html</textarea>
@@ -26,12 +24,13 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
         </select>
         <br/>
 	<input type="button" id="run" value="Run the Query"/>
+        <br/>
+        <div id="uri"></div>
 	<hr/>
 	<pre id="result">
 	</pre>
       </div>
     </div>
-   
     <footer>
       <div class="footer" align="center">
 	&copy; 2011 <a href="http://npo.irail.be" target="_blank">iRail npo</a> - Powered by <a href="http://thedatatank.com" target="_blank">The DataTank</a>
@@ -63,10 +62,12 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
       });
 
     $("#resources").dblclick(function(){
-            $("#query").val($("#query").val() + $("#resources").val());
-            
+      $("#query").val($("#query").val() + $("#resources").val());
     });
 
+    $("#query").keyup(function(){
+      $("#uri").html("In programming code, use this URL to access your query:<br/><strong><?php echo $base_url; ?>spectql" + encodeURI($("#query").val())+ "</strong>" );
+    });
     </script>
   </body>
 </html>
