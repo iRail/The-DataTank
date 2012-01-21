@@ -29,3 +29,5 @@ class SPECTQLMin extends AFunction{
         }
     }
 }
+
+?>

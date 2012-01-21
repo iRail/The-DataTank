@@ -29,3 +29,4 @@ class SPECTQLMax extends AFunction{
         }
     }
 }
+?>

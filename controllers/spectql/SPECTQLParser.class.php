@@ -74,7 +74,11 @@ class SPECTQLParser{
         $this->parser = new parse_engine(new spectql());
 
         if (!strlen($querystring)){
-            throw new ParserTDTException("No parsestring given!");
+            //give an error, but in javascript, redirect to our index.html
+            header("HTTP1.1 491 No parse string");
+            echo "<script>window.location = \"index.html\";</script>";
+            exit(0);
+            
         }
         try {
             while($tokenizer->hasNext()){

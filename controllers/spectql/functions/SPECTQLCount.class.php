@@ -29,3 +29,4 @@ class SPECTQLCount extends AFunction{
         }
     }
 }
+?>

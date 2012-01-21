@@ -24,3 +24,4 @@ class SPECTQLColumnName extends AArgument{
         }
     }
 }
+?>
