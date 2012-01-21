@@ -41,8 +41,10 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
       $('#run').click(function () {
         $.ajax({
            url: "<?php echo $base_url ?>spectql" + $('#query').val(),
+           dataType: "text",
            success: function(data) {
-              $('#result').text(data);
+             $('#result').text("");
+              $('#result').text(data.toString());
            }
         });
       });
