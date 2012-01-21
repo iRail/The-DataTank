@@ -18,6 +18,7 @@ include_once('aspects/logging/ErrorLogger.class.php');
 include_once('controllers/AController.class.php');
 include_once('controllers/RController.class.php');
 include_once('controllers/SPECTQLController.class.php');
+include_once('controllers/SPECTQLIndex.class.php');
 include_once('controllers/CUDController.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
@@ -45,6 +46,7 @@ R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 
 //map urls to a classname
 $urls = array(
+    '/spectql/?' => 'SPECTQLIndex',
     //When a call is done to the TDTQL end-point, forward it to the TDTQLController
     '/spectql(?P<query>/.*)' => 'SPECTQLController',
 

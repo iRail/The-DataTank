@@ -1,3 +1,7 @@
+<?php
+$base_url = Config::$HOSTNAME . Config::$SUBDIR;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,13 +21,8 @@
 
     <div id="main">
       <div class="container">
-	<textarea name="query" style="width: 78%; height: 100px;" id="query">/TDTQL/Resources{*}:csv</textarea>
-        <select name="resources" style="width: 20%; height: 110px;" size="5">
-          <option value="TDTInfo/Resources">TDTInfo/Resources</option>
-          <option value="TDTInfo/Resources">TDTInfo/Admin</option>
-          <option value="TDTInfo/Resources">TDTInfo/Queries</option>
-          <option value="TDTInfo/Resources">TDTInfo/Packages</option>
-          <option value="TDTInfo/Resources">TDTInfo/Feedback</option>
+	<textarea name="query" style="width: 78%; height: 100px;" id="query">/TDTInfo/Resources{*}:html</textarea>
+        <select id="resources" style="width: 20%; height: 110px;" size="5">
         </select>
         <br/>
 	<input type="button" id="run" value="Run the Query"/>
@@ -42,12 +41,32 @@
     <script>
       $('#run').click(function () {
         $.ajax({
-           url: "http://localhost/spectql" + $('#query').val(),
+           url: "<?php echo $base_url ?>spectql" + $('#query').val(),
            success: function(data) {
-              $('#result').html(data);
+              $('#result').text(data);
            }
         });
       });
+      
+      //Load options
+      $.ajax({
+        url: "<?php echo $base_url; ?>TDTInfo/Resources.json",
+        success: function(data) {
+           data = data["Resources"];
+           $.each(data, function(package, resources){
+             $.each(resources, function(resourcename, resource){
+                var resourcename = package + "/" + resourcename;
+                $('#resources').append("<option value=\"" + resourcename + "\">" + resourcename +  "</option>");
+             });
+           });
+        }
+      });
+
+    $("#resources").dblclick(function(){
+            $("#query").val($("#query").val() + $("#resources").val());
+            
+    });
+
     </script>
   </body>
 </html>
