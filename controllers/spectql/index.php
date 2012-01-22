@@ -5,10 +5,11 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
 <html lang="en">
   <head>
     <title>The DataTank: SPECTQL end-point</title>
-    <base href="http://datatank.demo.ibbt.be/">
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css">  
-    <link rel="stylesheet" href="installer/static/main.css"> 
+    <link rel="stylesheet" href="http://datatank.demo.ibbt.be/installer/static/main.css"> 
     <script src="http://datatank.demo.ibbt.be/The-Semantifier/lib/jquery-1.7.1.min.js"></script>
+    <link href="/lib/gcp/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="/lib/gcp/prettify.js"></script>
   </head>
   <body>
     <div id="masterhead" class="container">
@@ -27,7 +28,7 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
         <br/>
         <div id="uri"></div>
 	<hr/>
-	<pre id="result">
+	<pre id="result" class="prettyprint">
 	</pre>
       </div>
     </div>
@@ -48,6 +49,7 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
            success: function(data) {
                  $('#result').text("");
                  $('#result').text(data.toString());
+                 prettyPrint();
            },
            error: function(jqXHR, textStatus, errorThrown){
                  $('#result').html("<font color=\"red\">" + errorThrown + "</font>");
