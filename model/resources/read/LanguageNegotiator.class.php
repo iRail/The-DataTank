@@ -14,15 +14,10 @@
  */
 
 class LanguageNegotiator{
-    private $header;
 
     private $stack;
 
     public function __construct($header = ""){
-        if($header == "" && isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
-            $header = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
-        }
-        $this->header = $header;
         $this->doLanguageNegotiation();
     }
 
