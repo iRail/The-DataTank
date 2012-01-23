@@ -19,7 +19,7 @@ class LanguageNegotiator{
     private $stack;
 
     public function __construct($header = ""){
-        if($header == ""){
+        if($header == "" && isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])){
             $header = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
         }
         $this->header = $header;
