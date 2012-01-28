@@ -1,25 +1,37 @@
 <?php 
 /**
- * This class is returns the number of queries/errors made on/in the API/methods per day.
+ * Lists all useragents for a certain package/resource in this The DataTank instance
  *
- * @package The-Datatank/packages/TDTInfo
+ * @package The-Datatank/packages/TDTStats
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert   <pieter@iRail.be>
- * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class TDTStatsUserAgents extends AReader{
+class TDTStatsUserAgents extends AReader{    
 
     public static function getParameters(){
-	return array();
+	return array(
+            "package" => "Statistics about this package (\"all\" selects all packages)",
+            "resource" => "Statistics about this resource (\"all\" selects all packages)"
+        );
     }
 
     public static function getRequiredParameters(){
-        return array();
+        return array("package", "resource");
     }
 
     public function setParameter($key,$val){
+        switch($key){
+            case "package":
+                $this->package = $val;
+                break;
+            case "resource":
+                $this->resource = $val;
+                break;
+            default:
+                throw new ParameterTDTException($key);
+        }
     }
 
     private function osort(&$array, $prop){
@@ -29,17 +41,13 @@ class TDTStatsUserAgents extends AReader{
     }
 
     public function read(){
-        //STEP1: get all supported user-agents and their info from the database
-        $useragents = array();
-        
-        //STEP2: get usage statistics of a user agents
-
-        //Return it
-        return $useragents;
+        //TODO
+        return new stdClass();
     }
 
     public static function getDoc(){
-        return "Lists all registered user-agents, their usage in a percent, who to contact and the name of the user-agent maintainer, mailinglist, website of the project, twitter-page and so on.";
+        return "Lists all useragents for a certain package/resource in this The DataTank instance";
     }
+
 }
 ?>
