@@ -21,7 +21,7 @@ class TDTStatsDay extends AReader{
     }
 
     public static function getRequiredParameters(){
-        return array("package", "resource");
+        return array("package", "resource","year","month","day");
     }
 
     public function setParameter($key,$val){
@@ -46,17 +46,15 @@ class TDTStatsDay extends AReader{
         }
     }
 
-    private function osort(&$array, $prop){
-        usort($array, function($a, $b) use ($prop) {
-                return $a->$prop > $b->$prop ? 1 : -1;
-            }); 
-    }
-
     public function read(){
         
         //prepare arguments
         $arguments[":package"] = $this->package;
         $arguments[":resource"] = $this->resource;
+        $arguments[":day"] = $this->day;
+        $arguments[":month"] = $this->month;
+        $arguments[":year"] = $this->year;
+        
         //prepare the where clause
         if($this->package == "all" && $this->resource = "all"){
             $clause = "";
@@ -68,13 +66,15 @@ class TDTStatsDay extends AReader{
             $clause = "package=:package and resource=:resource";
         }
         
+        $clause .= " and from_unixtime(time,'%d')=:day and from_unixtime(time,'%m')=:month and from_unixtime(time,'%Y')=:year";
+
         //group everything by month and count all requests during this time.
         //To be considered: should we cache this?
         $qresult = R::getAll(
             "SELECT count(1) as requests, time, from_unixtime(time, '%Y') as year, from_unixtime(time, '%m') as month
              FROM  requests 
              WHERE $clause
-             GROUP BY from_unixtime(time,'%M %Y')",
+             GROUP BY from_unixtime(time,'%H %d %M %Y')",
             $arguments
         );
         //Now let's reorder everything: by year -> month 
@@ -92,7 +92,6 @@ class TDTStatsDay extends AReader{
 //            $result[$row["year"]][$row["month"]]["toplanguages"] = "nyimplemented";
         }
         return $result;
-        return new stdClass();
     }
 
     public static function getDoc(){

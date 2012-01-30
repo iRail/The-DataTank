@@ -1,6 +1,6 @@
 <?php 
 /**
- * This class is returns the number of queries/errors made on/in the API/methods in a certain month.
+ * This class is returns the number of queries/errors made on/in the API/methods on a certain month.
  *
  * @package The-Datatank/packages/TDTStats
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -16,11 +16,12 @@ class TDTStatsMonth extends AReader{
             "resource" => "Statistics about this resource (\"all\" selects all packages)",
             "year" => "Year in XXXX format",
             "month" => "Month with trailing 0: 01 is January"
+
         );
     }
 
     public static function getRequiredParameters(){
-        return array("package", "resource");
+        return array("package", "resource","year","month");
     }
 
     public function setParameter($key,$val){
@@ -37,54 +38,55 @@ class TDTStatsMonth extends AReader{
             case "month":
                 $this->month = $val;
                 break;
+            
             default:
                 throw new ParameterTDTException($key);
         }
     }
 
-    private function osort(&$array, $prop){
-        usort($array, function($a, $b) use ($prop) {
-                return $a->$prop > $b->$prop ? 1 : -1;
-            }); 
-    }
-
     public function read(){
+        
         //prepare arguments
         $arguments[":package"] = $this->package;
         $arguments[":resource"] = $this->resource;
+        $arguments[":month"] = $this->month;
+        $arguments[":year"] = $this->year;
+
         //prepare the where clause
         if($this->package == "all" && $this->resource = "all"){
             $clause = "1";
+            unset($arguments[":package"]);
+            unset($arguments[":resource"]);
         }else if($this->package == "all"){
             $clause = "resource=:resource";
+            unset($arguments[":package"]);
         }else if($this->resource == "all"){
             $clause = "package=:package";
+            unset($arguments[":resource"]);
         }else {
             $clause = "package=:package and resource=:resource";
         }
         
+        $clause .= " and from_unixtime(time,'%m')=:month and from_unixtime(time,'%Y')=:year";
+
+        
         //group everything by month and count all requests during this time.
         //To be considered: should we cache this?
         $qresult = R::getAll(
-            "SELECT count(1) as requests, time, from_unixtime(time, '%Y') as year, from_unixtime(time, '%m') as month
+            "SELECT count(1) as requests, time, from_unixtime(time,'%d') as day
              FROM  requests 
              WHERE $clause
-             GROUP BY from_unixtime(time,'%M %Y')",
+             GROUP BY from_unixtime(time,'%d %M %Y')",
             $arguments
         );
         //Now let's reorder everything: by year -> month 
         $result = array();
         foreach($qresult as $row){
-            if(!isset($result[$row["year"]])){
-                $result[$row["year"]] = array();
-            }
-            if(!isset($result[$row["year"]][$row["month"]])){
-                $result[$row["year"]][$row["month"]] = array();
-            }
-            $result[$row["year"]][$row["month"]]["requests"] = $row["requests"];
-//            $result[$row["year"]][$row["month"]]["topuseragent"] = "nyimplemented";
-//            $result[$row["year"]][$row["month"]]["errors"] = "nyimplemented";
-//            $result[$row["year"]][$row["month"]]["toplanguages"] = "nyimplemented";
+            $result[$row["day"]] = array();
+            $result[$row["day"]]["requests"] = $row["requests"];
+//            $result[$row["day"]]["useragents"] = "nyimplemented";
+//            $result[$row["day"]]["errors"] = "nyimplemented";
+//            $result[$row["day"]]["languages"] = "nyimplemented";
         }
         return $result;
     }

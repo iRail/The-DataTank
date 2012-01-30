@@ -1,6 +1,6 @@
 <?php 
 /**
- * Lists all useragents for a certain package/resource in this The DataTank instance
+ * This class is returns the number of queries/errors made on/in the API/methods in a certain month.
  *
  * @package The-Datatank/packages/TDTStats
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -8,12 +8,13 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-class TDTStatsUserAgents extends AReader{    
+class TDTStatsYear extends AReader{
 
     public static function getParameters(){
 	return array(
             "package" => "Statistics about this package (\"all\" selects all packages)",
             "resource" => "Statistics about this resource (\"all\" selects all packages)"
+
         );
     }
 
@@ -48,32 +49,35 @@ class TDTStatsUserAgents extends AReader{
         }else {
             $clause = "package=:package and resource=:resource";
         }
-
+        
+        //group everything by month and count all requests during this time.
+        //To be considered: should we cache this?
         $qresult = R::getAll(
-            "SELECT count(1) as requests, user_agent
-             FROM  requests
+            "SELECT count(1) as requests, time, from_unixtime(time, '%Y') as year, from_unixtime(time, '%m') as month
+             FROM  requests 
              WHERE $clause
-             GROUP BY user_agent",
+             GROUP BY from_unixtime(time,'%M %Y')",
             $arguments
         );
-        $qcount = R::getAll(
-            "SELECT count(1) as rows
-             FROM  requests
-             WHERE $clause",
-            $arguments
-        );
+        //Now let's reorder everything: by year -> month 
         $result = array();
-        //now we should have a percentage of every thing.
         foreach($qresult as $row){
-            $result[$row["user_agent"]] = array();
-            $result[$row["user_agent"]]["total"] = $row["requests"];
-            $result[$row["user_agent"]]["percentage"] = round($row["requests"]/$qcount[0]["rows"] * 100, 2) ;
+            if(!isset($result[$row["year"]])){
+                $result[$row["year"]] = array();
+            }
+            if(!isset($result[$row["year"]][$row["month"]])){
+                $result[$row["year"]][$row["month"]] = array();
+            }
+            $result[$row["year"]][$row["month"]]["requests"] = $row["requests"];
+//            $result[$row["year"]][$row["month"]]["topuseragent"] = "nyimplemented";
+//            $result[$row["year"]][$row["month"]]["errors"] = "nyimplemented";
+//            $result[$row["year"]][$row["month"]]["toplanguages"] = "nyimplemented";
         }
         return $result;
     }
 
     public static function getDoc(){
-        return "Lists all user agents for a certain package/resource in this The DataTank instance";
+        return "Lists statistics about a certain month in the history of this The DataTank instance";
     }
 
 }
