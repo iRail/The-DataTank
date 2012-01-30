@@ -37,7 +37,6 @@ class CoreResourceFactory extends AResourceFactory {
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
-                $doc->$package->creation_date = filemtime("model/packages/".$package);
             }
             foreach($resourcenames as $resourcename){
                 $classname = $package . $resourcename;
@@ -46,8 +45,6 @@ class CoreResourceFactory extends AResourceFactory {
                 $doc->$package->$resourcename->doc = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
 		$doc->$package->$resourcename->parameters = $classname::getParameters();
-                $doc->$package->$resourcename->creation_timestamp = $this->getCreationTime($package,$resourcename);
-                $doc->$package->$resourcename->modification_timestamp = $this->getModificationTime($package,$resourcename);
             }
         }
     }
