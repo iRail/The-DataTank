@@ -32,8 +32,6 @@ class InstalledResourceFactory extends AResourceFactory{
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
-                //This has to move to another resource
-                //$doc->$package->creation_date = filemtime("custom/packages/".$package);
             }
             foreach($resourcenames as $resourcename){
                 $classname = $package . $resourcename;
@@ -42,9 +40,6 @@ class InstalledResourceFactory extends AResourceFactory{
                 $doc->$package->$resourcename->doc = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
 		$doc->$package->$resourcename->parameters = $classname::getParameters();
-                //Move this to another resource!
-//                $doc->$package->$resourcename->creation_timestamp = $this->getCreationTime($package,$resourcename);
-//                $doc->$package->$resourcename->modification_timestamp = $this->getModificationTime($package,$resourcename);
             }
         }
     }
