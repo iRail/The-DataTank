@@ -71,7 +71,7 @@ class TDTStatsDay extends AReader{
         //group everything by month and count all requests during this time.
         //To be considered: should we cache this?
         $qresult = R::getAll(
-            "SELECT count(1) as requests, time, from_unixtime(time, '%Y') as year, from_unixtime(time, '%m') as month
+            "SELECT count(1) as requests, time, from_unixtime(time, '%H') as hour,
              FROM  requests 
              WHERE $clause
              GROUP BY from_unixtime(time,'%H %d %M %Y')",
@@ -79,17 +79,15 @@ class TDTStatsDay extends AReader{
         );
         //Now let's reorder everything: by year -> month 
         $result = array();
+        //TODO: fill the gaps
         foreach($qresult as $row){
-            if(!isset($result[$row["year"]])){
-                $result[$row["year"]] = array();
-            }
-            if(!isset($result[$row["year"]][$row["month"]])){
-                $result[$row["year"]][$row["month"]] = array();
-            }
-            $result[$row["year"]][$row["month"]]["requests"] = $row["requests"];
-//            $result[$row["year"]][$row["month"]]["topuseragent"] = "nyimplemented";
-//            $result[$row["year"]][$row["month"]]["errors"] = "nyimplemented";
-//            $result[$row["year"]][$row["month"]]["toplanguages"] = "nyimplemented";
+            $result[] = array(
+                "hour" => $row["hour"],
+                "requests" => $row["requests"],
+                //"useragent" => "nyimplemented",
+                //"errors" => "nyimplemented",
+                //"languages" => "nyimplemented"
+            );
         }
         return $result;
     }

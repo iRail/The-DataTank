@@ -81,12 +81,15 @@ class TDTStatsMonth extends AReader{
         );
         //Now let's reorder everything: by year -> month 
         $result = array();
+        //TODO: fill the gaps
         foreach($qresult as $row){
-            $result[$row["day"]] = array();
-            $result[$row["day"]]["requests"] = $row["requests"];
-//            $result[$row["day"]]["useragents"] = "nyimplemented";
-//            $result[$row["day"]]["errors"] = "nyimplemented";
-//            $result[$row["day"]]["languages"] = "nyimplemented";
+            $result[] = array(
+                "day" => $row["day"],
+                "requests" => $row["requests"],
+                //"useragent" => "nyimplemented",
+                //"errors" => "nyimplemented",
+                //"languages" => "nyimplemented"
+            );
         }
         return $result;
     }
