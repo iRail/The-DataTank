@@ -5,7 +5,7 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
 <html lang="en">
   <head>
     <title>The DataTank: SPECTQL end-point</title>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css">  
+    <link rel="stylesheet" href="http://lib.thedatatank.com/bootstrap/css/bootstrap.min.css">  
     <link rel="stylesheet" href="http://datatank.demo.ibbt.be/installer/static/main.css"> 
     <script src="http://datatank.demo.ibbt.be/The-Semantifier/lib/jquery-1.7.1.min.js"></script>
     <link href="/lib/gcp/prettify.css" type="text/css" rel="stylesheet" />
