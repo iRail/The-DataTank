@@ -104,6 +104,10 @@ class XLS extends ATabularData {
 
 			// if no column aliases have been passed, then fill the columns variable 
 			if(empty($this->columns)){
+				if (!is_dir("tmp")) {
+					mkdir("tmp");
+				}
+			
 				$isUrl = (substr($url , 0, 4) == "http");
 				if ($isUrl) {				
 					$tmpFile = com_create_guid();
@@ -174,6 +178,10 @@ class XLS extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
           
+		if (!is_dir("tmp")) {
+			mkdir("tmp");
+		}
+
         try { 
 			$isUrl = (substr($url , 0, 4) == "http");
 			if ($isUrl) {						
