@@ -11,8 +11,12 @@
 %left '*' '/'
 %left '>' EQ '<' '~'
 
-stmt = expression
-| expression ':' format
+stmt = flow
+| flow ':' format
+.
+
+flow = expression
+| expression/e '.' name/function '(' num/n1 ')' { if($function == "limit") { $ff = FunctionFactory::getInstance(); $f = $ff->createFunction($function, $n1); $f->execute($e,$e); $$ = $e; } }
 .
 
 expression = resource/$ '?' filterlist { $3->execute($$); }

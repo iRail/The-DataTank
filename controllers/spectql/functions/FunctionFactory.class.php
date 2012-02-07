@@ -18,6 +18,7 @@ class FunctionFactory {
         "max" => "SPECTQLMax",
         "min" => "SPECTQLMin",
         "avg" => "SPECTQLAvg",
+        "limit" => "SPECTQLLimit",
     );
 
     public static function getInstance(){
