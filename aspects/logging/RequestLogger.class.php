@@ -12,7 +12,7 @@ class RequestLogger{
     /**
      * This function implements the logging part of the RequestLogger functionality.
      */
-    public static function logRequest() {
+    public static function logRequest($package="", $resource="", $parameters="",$RESTparameters = "") {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 	//an instance of printerfactory so we can check the format
 	$ff = FormatterFactory::getInstance();
@@ -27,12 +27,28 @@ class RequestLogger{
         }
         
         $request->url_request = $URI->getURI();
-        $request->package = $URI->getPackage();
-        $request->resource = $URI->getResource();
-        $request->format = $ff->getFormat();
-        $request->requiredparameter = implode(";",$URI->getFilters());
-        if(!is_null($URI->getGET())){
+        if($package == ""){
+            $request->package = $URI->getPackage();
+        }
+        else{
+            $request->package = $package;
+        }
+        if($resource = "")
+            $request->resource = $URI->getResource();
+        else
+            $request->resource = $resource;
+        $request->format = "spectql";
+        if($parameters == ""){
+            $request->requiredparameter = implode(";",$URI->getFilters());
+        }
+        else{
+            $request->requiredparameter = implode(";",$parameters);
+        }
+
+        if($RESTparameters == "" && !is_null($URI->getGET())){
             $request->allparameters = implode(";",$URI->getGET());
+        }else if($RESTparameters != ""){
+            $request->allparameters = implode(";",$RESTparameters);
         }else{
             $request->allparameters = "";
         }

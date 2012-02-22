@@ -7,6 +7,8 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
+
+include_once('aspects/logging/RequestLogger.class.php');
 class SPECTQLResource{
 
     private $packagename, $resourcename, $RESTparameters;
@@ -43,6 +45,8 @@ class SPECTQLResource{
 
         //Filter the REST parameters
         $resource = $model->readResource($packagename, $resourcename, $parameters,$this->RESTparameters);
+        //and log this request
+        RequestLogger::logRequest($packagename, $resourcename, $parameters,$this->RESTparameters);
         $lastfilter = $resourcename;
         $subresources = array();
         if (sizeof($this->RESTparameters) > 0) {
