@@ -55,8 +55,6 @@ class RemoteResourceFactory extends AResourceFactory{
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
-//move this to another resource!
-//                $doc->$package->creation_date = DBQueries::getPackageCreationTime($package);
             }
             foreach($resourcenames as $resource){
                 $doc->$package->$resource = new StdClass();

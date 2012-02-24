@@ -20,7 +20,7 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
     </div>
     <div id="main">
       <div class="container">
-	<textarea name="query" style="width: 78%; height: 100px;" id="query">/TDTInfo/Resources{*}:html</textarea>
+        <textarea name="query" style="width: 78%; height: 100px;" id="query">/TDTInfo/Resources{*}:html</textarea>
         <select id="resources" style="width: 20%; height: 110px;" size="5">
         </select>
         <br/>
