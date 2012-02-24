@@ -44,8 +44,10 @@ class TDTStatsYear extends AReader{
             $clause = "1";
         }else if($this->package == "all"){
             $clause = "resource=:resource";
+            unset($arguments[":package"]);
         }else if($this->resource == "all"){
             $clause = "package=:package";
+            unset($arguments[":resource"]);
         }else {
             $clause = "package=:package and resource=:resource";
         }
