@@ -51,27 +51,31 @@ class TDTStatsDay extends AReader{
         //prepare arguments
         $arguments[":package"] = $this->package;
         $arguments[":resource"] = $this->resource;
-        $arguments[":day"] = $this->day;
-        $arguments[":month"] = $this->month;
-        $arguments[":year"] = $this->year;
+        $arguments[":day"] = (int)$this->day;
+        $arguments[":month"] = (int)$this->month;
+        $arguments[":year"] = (int)$this->year;
         
         //prepare the where clause
         if($this->package == "all" && $this->resource = "all"){
             $clause = "";
+            unset($arguments[":package"]);
+            unset($arguments[":resource"]);
         }else if($this->package == "all"){
-            $clause = "resource=:resource";
+            $clause = "resource like :resource and";
+            unset($arguments[":package"]);
         }else if($this->resource == "all"){
-            $clause = "package=:package";
+            $clause = "package like :package and";
+            unset($arguments[":resource"]);
         }else {
-            $clause = "package=:package and resource=:resource";
+            $clause = "package like :package and resource like :resource and";
         }
         
-        $clause .= " and from_unixtime(time,'%d')=:day and from_unixtime(time,'%m')=:month and from_unixtime(time,'%Y')=:year";
+        $clause .= " from_unixtime(time,'%d')=:day and from_unixtime(time,'%m')=:month and from_unixtime(time,'%Y')=:year";
 
         //group everything by month and count all requests during this time.
         //To be considered: should we cache this?
         $qresult = R::getAll(
-            "SELECT count(1) as requests, time, from_unixtime(time, '%H') as hour,
+            "SELECT count(1) as requests, time, from_unixtime(time, '%H') as hour
              FROM  requests 
              WHERE $clause
              GROUP BY from_unixtime(time,'%H %d %M %Y')",
