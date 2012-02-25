@@ -27,6 +27,8 @@ class Config {
     public static $DB_USER = '';
     public static $DB_PASSWORD = '';
 
+    public static $DEFAULT_LANGUAGE = "en";
+
     // path to the PHPExcel IOFactory.php, required for XLS generic resource
     public static $PHPEXCEL_IOFACTORY_PATH = "";
 }

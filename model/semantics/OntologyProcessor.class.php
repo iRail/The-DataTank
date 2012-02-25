@@ -12,6 +12,8 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
+include_once("tdtml/TDTML.class.php");
+
 class OntologyProcessor {
 
     private static $uniqueinstance;
@@ -145,23 +147,46 @@ class OntologyProcessor {
      * @param string $nmsp The namespace URI of the external ontology
      * @param string $prefix The prefix of the external ontology namespace
      */
-    public function updatePathPreferredMap($package, $path, $value, $nmsp, $prefix =null) {
+    public function updatePathPreferredMap($package, $path, $value, $nmsp) {
         $model = $this->getModel($package);
 
         $resource = new Resource($path);
         $mapping = new Resource($nmsp . $value);
 
-        if (!is_null($prefix))
-            $model->addNamespace($prefix, $nmsp);
+        $statement = $this->getModel($package)->findFirstMatchingStatement($resource, TDTML::PREFERREDMAP(), null);
+        if (!is_null($statement))
+            $this->getModel($package)->remove($statement);
 
-
-        $statement = null;
-        if ($this->isPathProperty($package, $path))
-            $statement = new Statement($resource, new Resource("http://www.thedatatank.org/tdml/1.0#preferredProperty"), $mapping);
-        else
-            $statement = new Statement($resource, new Resource("http://www.thedatatank.org/tdml/1.0#preferredClass"), $mapping);
-
+        $statement = new Statement($resource, TDTML::PREFERREDMAP(), $mapping);
         $this->getModel($package)->add($statement);
+    }
+
+    /**
+     * Deletes a mapping from a specific Class or Property in the ontology
+     * 
+     * @param string $package The package containing the resource
+     * @param string $path The classpath of the class or property in the resource
+     * @param string $value The name of the external class or property 
+     * @param string $nmsp The namespace URI of the external ontology
+     */
+    public function updatePathDeleteMap($package, $path, $value, $nmsp) {
+        $model = $this->getModel($package);
+
+        $resource = new Resource($path);
+        $mapping = new Resource($nmsp . $value);
+
+        $type = null;
+        if ($this->isPathProperty($package, $path))
+            $type = OWL::EQUIVALENT_PROPERTY();
+        else
+            $type = OWL::EQUIVALENT_CLASS();
+
+        $statement = $this->getModel($package)->findFirstMatchingStatement($resource, $type, $mapping);
+        $this->getModel($package)->remove($statement);
+
+        $statement = $this->getModel($package)->findFirstMatchingStatement($resource, TDTML::PREFERREDMAP(), $mapping);
+        if (!is_null($statement))
+            $this->getModel($package)->remove($statement);
     }
 
     /**
@@ -232,16 +257,19 @@ class OntologyProcessor {
 
     public function getMapping($package) {
         $ontology = $this->getModel($package);
+        
         $classes = $ontology->find(null, OWL::EQUIVALENT_CLASS(), null);
         $properties = $ontology->find(null, OWL::EQUIVALENT_PROPERTY(), null);
-
         $result = array_merge($classes->triples, $properties->triples);
+        
+        $preferred = $ontology->find(null, TDTML::PREFERREDMAP(), null);
+        $preferred = $preferred->triples;
 
         $namespaces = $ontology->getParsedNamespaces();
 
         $mapping = array();
 
-        foreach ($result as $triple) {
+        foreach ($preferred as $triple) {
             $temp = new stdClass();
             $temp->map = $triple->getObject()->getURI();
 
@@ -252,6 +280,18 @@ class OntologyProcessor {
             $mapping[$triple->getSubject()->getURI()] = $temp;
         }
 
+        foreach ($result as $triple) {
+            if (!array_key_exists($triple->getSubject()->getURI(), $mapping)) {
+                $temp = new stdClass();
+                $temp->map = $triple->getObject()->getURI();
+
+                $namespace = $triple->getObject()->getNamespace();
+                $temp->prefix = $namespaces[$namespace];
+                $temp->nmsp = $namespace;
+
+                $mapping[$triple->getSubject()->getURI()] = $temp;
+            }
+        }
         if (count($mapping) > 0)
             return $mapping;
 
@@ -266,7 +306,6 @@ class OntologyProcessor {
      */
     public function generateOntology($package, $resource, $fields) {
         $model = $this->getModel($package); //Create an empty model
-       
         //Check if resource is generic
         //if so we can autogenerate the ontology from getFields in the strategy
         if (!is_null($fields)) {
@@ -286,7 +325,7 @@ class OntologyProcessor {
     public function getOntologyURI($package) {
         return Config::$HOSTNAME . Config::$SUBDIR . 'TDTInfo/Ontology/' . $package . '/';
     }
-    
+
     /**
      * 
      *
@@ -338,8 +377,6 @@ class OntologyProcessor {
             return false;
         }
     }
-
-    
 
 }
 

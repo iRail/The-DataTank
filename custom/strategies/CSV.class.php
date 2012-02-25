@@ -36,14 +36,12 @@ class CSV extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters() {
-        $parameters = array();
-        $parameters["uri"] = "The URI to the CSV file";
-        $parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published. Note that this parameter is not required, however if you do not have a header row, we do expect the columns to be passed along, otherwise there's no telling what the names of the columns are. This array should be build as column_name => column_alias or index => column_alias.";
-        $parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
-        $parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
-        $parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values.";
-        $parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
-        return $parameters;
+        $this->parameters["uri"] = "The URI to the CSV file";
+        $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
+        $this->parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
+        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values.";
+        $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
+        return $this->parameters;
     }
 
     /**
@@ -60,47 +58,27 @@ class CSV extends ATabularData {
      * @param $resource The resource name of the resource
      * @return $mixed An object created with fields of a CSV file.
      */
-    public function read($package, $resource) {
+    public function read(&$configObject) {
         /*
          * First retrieve the values for the generic fields of the CSV logic
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
-        $result = $this->getCSVResource($package, $resource);
-    
-        $has_header_row = $result["has_header_row"];
-        $gen_res_id = $result["gen_res_id"];
-        $start_row = $result["start_row"];
-        $delimiter = $result["delimiter"];
+        parent::read($configObject);
+        $has_header_row = $configObject->has_header_row;
+        $start_row = $configObject->start_row;
+        $delimiter = $configObject->delimiter;
         /**
          * check if the uri is valid ( not empty )
          */
-        if (isset($result["uri"])) {
-            $filename = $result["uri"];
+        if (isset($configObject->uri)) {
+            $filename = $configObject->uri;
         } else {
             throw new ResourceTDTException("Can't find URI of the CSV");
         }
-
-        $columns = array();
-
-        // get the columns from the columns table
-        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-        $PK = "";
-        
-        /**
-         * columns can have an alias, if not their alias is their own name
-         */
-        foreach ($allowed_columns as $result) {
-            if ($result["column_name_alias"] != "") {
-                $columns[(string) $result["column_name"]] = $result["column_name_alias"];
-            } else {
-                $columns[(string) $result["column_name"]] = $result["column_name"];
-            }
-
-            if ($result["is_primary_key"] == 1) {
-                $PK = $columns[$result["column_name"]];
-            }
-        }
+      
+        $columns = $configObject->columns;
+        $PK = $configObject->PK;
 
         $resultobject = array();
         $arrayOfRowObjects = array();
@@ -176,12 +154,8 @@ class CSV extends ATabularData {
 
         return $arrayOfRowObjects;
     }
-
-    public function onDelete($package, $resource) {
-        $this->deleteCSVResource($package, $resource);
-    }
-
-    public function onAdd($package_id, $generic_resource_id) {
+    
+    protected function isValid($package_id,$generic_resource_id) {
         if (!isset($this->columns)) {
             $this->columns = array();
         }
@@ -196,14 +170,8 @@ class CSV extends ATabularData {
         
         // has_header_row should be either 1 or 0
         if($this->has_header_row != 0 && $this->has_header_row != 1){
-            throw new ResourceAdditionTDTException("has_header_row must be either 1 or 0, not $this->has_header_row");
+            $this->throwException($package_id,$generic_resource_id, "Header row should be either 1 or 0.");
         }
-
-        /*
-         * Create CSV entry in the back-end
-         */
-        $generic_resource_csv_id = $this->storeCSVResource($generic_resource_id,$this->uri,$this->has_header_row,$this->delimiter,$this->start_row);
-        $resource_id = DBQueries::getAssociatedResourceId($generic_resource_id);
 
         /**
          * if no header row is given, then the columns that are being passed should be 
@@ -215,18 +183,12 @@ class CSV extends ATabularData {
         if ($this->has_header_row == "0") {
             // no header row ? then columns must be passed
             if(empty($this->columns)){
-                $this->package = DBQueries::getPackageById($package_id);
-                $this->resource = DBQueries::getResourceById($resource_id);
-                ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
-                throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
+                $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
             }
             
             foreach ($this->columns as $index => $value) {
                 if (!is_numeric($index)) {
-                    $this->package = DBQueries::getPackageById($package_id);
-                    $this->resource = DBQueries::getResourceById($resource_id);
-                    ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
-                    throw new ResourceAdditionTDTException(" Your array of columns must be an index => string hash array.");
+                    $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array.");
                 }
             }
 
@@ -253,138 +215,14 @@ class CSV extends ATabularData {
                         }
                     }
                 }else{
-                    $this->package = DBQueries::getPackageById($package_id);
-                    $this->resource = DBQueries::getResourceById($resource_id);
-                    ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
-                    throw new ResourceAdditionTDTException($this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
+                    $this->throwException($package_id,$generic_resource_id,$this->uri . " is not a valid URI to a file. Please make sure the link is a valid link to a CSV-file.");
                 }
                 fclose($handle);
             }else{
-                $this->package = DBQueries::getPackageById($package_id);
-                $this->resource = DBQueries::getResourceById($resource_id);
-                ResourcesModel::getInstance()->deleteResource($this->package, $this->resource, array());
-                throw new ResourceAdditionTDTException($this->uri . " an error occured no more rows after row $start_row have been found.");
-                
+                $this->throwException($package_id,$generic_resource_id,$this->uri . " an error occured no more rows after row $start_row have been found.");
             }
         }
-        $this->evaluateColumns($this->columns, $this->PK, $generic_resource_id);
-    }
-
-    private function evaluateCSVResource($gen_resource_id) {
-        return $this->storeCSVResource($gen_resource_id, $this->uri, $this->has_header_row);
-    }
-
-    /**
-     *  This function gets the fields in a resource
-     * @param string $package
-     * @param string $resource
-     * @return array Array with column names mapped onto their aliases
-     */
-    public function getFields($package, $resource) {
-        /*
-         * First retrieve the values for the generic fields of the CSV logic
-         * This is the uri to the file, and a parameter which states if the CSV file
-         * has a header row or not.
-         */
-        $result = $this->getCSVResource($package, $resource);
-        $gen_res_id = $result["gen_res_id"];
-
-        $columns = array();
-
-        // get the columns from the columns table
-        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-
-        /**
-         * columns can have an alias, if not their alias is their own name
-         */
-        foreach ($allowed_columns as $result) {
-            if ($result["column_name_alias"] != "") {
-                $columns[(string) $result["column_name"]] = $result["column_name_alias"];
-            } else {
-                $columns[(string) $result["column_name"]] = $result["column_name"];
-            }
-        }
-        return array_values($columns);
-    }
-
-    /**
-     * store the columns
-     */
-    protected function evaluateColumns($columns,$PK,$gen_res_id){
-        // check if PK is in the column keys
-        if($PK != "" && !array_key_exists($PK,$columns)){
-            throw new ResourceAdditionTDTException($PK ." as a primary key is not one of the column name keys. Either leave it empty or name it after a column name (not a column alias).");
-        }
-        
-        foreach($columns as $column => $column_alias){
-            // replace whitespaces in columns by underscores
-            $formatted_column = preg_replace('/\s+/','_',$column_alias);
-            DBQueries::storePublishedColumn($gen_res_id, $column,$column_alias,($PK != "" && $PK == $column?1:0));
-        }
-    }
-
-
-/*
-******************
-**** QUERIES *****
-******************
-/
-/**
-* Get a generic resource id and the generic resource csv id
-* given a package and a a resource
-*/
-    private function getCSVInfo($package,$resource){
-        return R::getRow("SELECT generic_resource.id as gen_id, generic_resource_csv.id as csv_id,delimiter,start_row
-                          FROM package,resource,generic_resource,generic_resource_csv
-                          WHERE package_name=:package and resource_name=:resource and package_id = package.id
-                                and generic_resource.resource_id=resource.id and gen_resource_id = generic_resource.id",
-                         array(":package" => $package, ":resource" => $resource)
-        );
-    }
-
-    /**
-     * Store a CSV resource
-     */
-    private function storeCSVResource($resource_id, $uri,$has_header_row,$delimiter,$start_row){
-        $resource = R::dispense("generic_resource_csv");
-        $resource->gen_resource_id = $resource_id;
-        $resource->uri = $uri;
-        $resource->has_header_row = $has_header_row;
-        $resource->start_row = $start_row;
-        $resource->delimiter = $delimiter;
-        return R::store($resource);
-    }
-
-    /**
-     * Delete a specific CSV resource
-     */
-    private function deleteCSVResource($package, $resource) {
-        return R::exec(
-            "DELETE FROM generic_resource_csv
-                    WHERE gen_resource_id IN 
-                          (SELECT generic_resource.id FROM generic_resource,package,resource 
-                           WHERE resource.resource_name=:resource
-                                 and package.package_name=:package
-                                 and resource_id = resource.id
-                                 and package.id=package_id)",
-            array(":package" => $package, ":resource" => $resource)
-        );
-    }
-
-    /**
-     * Retrieve a specific CSV resource
-     */
-    static function getCSVResource($package, $resource) {
-        return R::getRow(
-            "SELECT generic_resource.id as gen_res_id,generic_resource_csv.uri as uri,
-                    generic_resource_csv.has_header_row as has_header_row, start_row,delimiter
-             FROM  package,resource, generic_resource, generic_resource_csv
-             WHERE package.package_name=:package and resource.resource_name=:resource
-                   and package.id=resource.package_id 
-                   and resource.id = generic_resource.resource_id
-                   and generic_resource.id=generic_resource_csv.gen_resource_id",
-            array(':package' => $package, ':resource' => $resource)
-        );
+        return true;
     }
 }
 ?>

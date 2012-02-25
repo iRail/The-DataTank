@@ -10,8 +10,11 @@
 
 include_once("model/resources/AResourceStrategy.class.php");
 include_once("model/resources/AResource.class.php");
+include_once("model/DBQueries.class.php");
 
 class GenericResource{
+    
+    public static $TABLE_PREAMBLE = "generic_resource_";
     
     private $package;
     private $resource;
@@ -43,7 +46,44 @@ class GenericResource{
      */
     public function read(){
         $strat = $this->getStrategy();
-        return $strat->read($this->package,$this->resource);
+        // ask for all of the parameters of the strategy
+        $parameters = array_keys($strat->documentCreateParameters());
+
+        // pass these parameters onto the createConfig to create the config object
+        $configObject = $this->createConfigObject($parameters,$strat);
+
+        // give the config object to the read function!
+        return $strat->read($configObject);
+    }
+
+    /**
+     * Get the generic resource info of the strategy.
+     * input is an array of parameters
+     */
+    private function createConfigObject($parameters,$strat){
+        $configObject = new stdClass();
+        $columnstring = implode($parameters, ",");
+        $resource_table = GenericResource::$TABLE_PREAMBLE . strtolower(get_class($strat));
+        $columnstring = $columnstring . ",gen_resource_id";
+        $query = R::getRow(
+            "SELECT *
+             FROM  package,resource, generic_resource, $resource_table
+             WHERE package.package_name=:package and resource.resource_name=:resource
+                   and package.id=resource.package_id 
+                   and resource.id = generic_resource.resource_id
+                   and generic_resource.id= $resource_table.gen_resource_id",
+            array(':package' => $this->package, ':resource' => $this->resource)
+        );
+
+        // attach every parameter to the config object
+        foreach($parameters as $param){
+            if(isset($query[$param])){
+                $configObject->$param = $query[$param];    
+            }
+        }
+
+        $configObject->gen_resource_id = $query["gen_resource_id"];
+        return $configObject;
     }
 }
 

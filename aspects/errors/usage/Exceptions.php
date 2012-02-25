@@ -30,6 +30,20 @@ class ResourceOrPackageNotFoundTDTException extends UsageTDTException {
     public static $error = 451;
 }
 
+class LanguageNotSupportedTDTException extends UsageTDTException{
+    public static function getDoc() {
+        return "When a chosen language is not supported";
+    }
+    
+    public function __construct($m) {
+        parent::__construct("Language not supported: " . $m . ". Check your Accept-Language header in the request.");
+    }
+    
+    public static $error = 470;
+    
+}
+
+
 /**
  * This class reprents an exception which is thrown when the resource given is not a valid resource.
  */

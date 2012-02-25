@@ -29,8 +29,9 @@ class TDTInfoQueries extends AReader{
     public function setParameter($key,$val){
         if($key == "package"){
             $this->package = $val;
+            // the interface is resource, we'll handle it as resource_name, because resource is alrdy assigned as "Queries"
         }elseif($key == "resource"){
-            $this->resource = $val;
+            $this->resource_name = $val;
         }elseif($key == "start"){
             if(is_numeric($val)){
                 $this->start = $val;
@@ -72,12 +73,11 @@ class TDTInfoQueries extends AReader{
             $this->end = "";
         }
 
-	if(isset($this->resource) && $this->resource != ""){
-            
-	    $requests = DBQueries::getRequestsForResource($this->package,$this->resource,$this->start,$this->end);
+	if(isset($this->resource_name) && $this->resource_name != ""){
+	    $requests = DBQueries::getRequestsForResource($this->package,$this->resource_name,$this->start,$this->end);
             
             // create url to regex in errors
-            $url = Config::$HOSTNAME. Config::$SUBDIR . $this->package."/".$this->resource;
+            $url = Config::$HOSTNAME. Config::$SUBDIR . $this->package."/".$this->resource_name;
             $errors = DBQueries::getErrors($url,$this->start,$this->end);
 	}else{            
 	    $requests = DBQueries::getRequestsForPackage($this->package,$this->start,$this->end);

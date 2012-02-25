@@ -68,12 +68,16 @@ class OntologyUpdater extends AUpdater {
 
         //Do we want to add a mapping, or do we want to set the mapping we prefer to the others
         switch ($this->params['method']) {
-            case 'map':
+            case 'add_map':
                 OntologyProcessor::getInstance()->updatePathMap($package, $path, $this->params['value'], $this->params['namespace'], $this->params['prefix']);
                 break;
 
-            case 'prefer':
-                OntologyProcessor::getInstance()->updatePathPreferredMap($package, $path, $this->params['value'], $this->params['namespace'], $this->params['prefix']);
+            case 'prefer_map':
+                OntologyProcessor::getInstance()->updatePathPreferredMap($package, $path, $this->params['value'], $this->params['namespace']);
+                break;
+            
+            case 'delete_map':
+                OntologyProcessor::getInstance()->updatePathDeleteMap($package, $path, $this->params['value'], $this->params['namespace']);
                 break;
 
             default:

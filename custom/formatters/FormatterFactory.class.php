@@ -113,7 +113,8 @@ class FormatterFactory{
 	    $callback = $_GET["callback"];
 	    $this->format = "Jsonp";
 	    include_once("custom/formatters/".$this->format . "Formatter.class.php");
-	    return new $this->format($rootname,$objectToPrint,$callback);
+            $format=$this->format."Formatter";
+	    return new $format($rootname,$objectToPrint,$callback);
 	}
 	$format=$this->format."Formatter";
 	include_once("custom/formatters/". $this->format . "Formatter.class.php");
