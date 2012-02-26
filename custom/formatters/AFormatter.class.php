@@ -23,12 +23,12 @@ abstract class AFormatter {
      * @param string $rootname Name of the rootobject, if used in the print format (i.e. xml)
      * @param Mixed  $objectToPrint Object that needs printing.
      */
-    public function __construct($rootname, $objectToPrint) {
+    public function __construct($rootname, &$objectToPrint) {
         include("version.php");
         $this->version = $version;
 
         $this->rootname = $rootname;
-        $this->objectToPrint = $objectToPrint;
+        $this->objectToPrint = &$objectToPrint;
     }
      
     /**
