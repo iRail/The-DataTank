@@ -163,6 +163,7 @@ class XLS extends ATabularData {
     public function read(&$configObject) {
        
 		parent::read($configObject);
+		
         $url = $configObject->url;
         $sheet = $configObject->sheet;
 		$has_header_row = $configObject->has_header_row;
@@ -196,6 +197,12 @@ class XLS extends ATabularData {
             
 			$worksheet = $objPHPExcel->getSheetByName($sheet);
 			
+			if ($has_header_row == 0) {
+				foreach ($columns as $index => $column_name) {
+					$fieldhash[$index] = $index;
+				}
+			}
+
 			if (!isset($configObject->named_range) && !isset($configObject->cell_range)) {
 				foreach ($worksheet->getRowIterator() as $row) {
 					$rowIndex = $row->getRowIndex();
@@ -240,21 +247,12 @@ class XLS extends ATabularData {
 				foreach ($range as $row) {
 					if ($rowIndex >= $start_row) {			
 						if ($rowIndex == $start_row) {
-							if ($has_header_row == 0) {
-								$columnIndex = 1;
-								foreach ($row as $cell) {
-									$fieldhash[ $columnIndex - 1 ] = $columnIndex;
-									$columnIndex += 1;
-								}
-							} else {
-								$columnIndex = 1;
-								foreach ($row as $cell) {
-									$fieldhash[ $cell ] = $columnIndex;
-									$columnIndex += 1;
-								}
+							$columnIndex = 1;
+							foreach ($row as $cell) {
+								$fieldhash[ $cell ] = $columnIndex;
+								$columnIndex += 1;
 							}
-						} 
-						if ($has_header_row == 0 or ($rowIndex > $start_row and $has_header_row != 0)) {
+						} else {
 							$rowobject = new stdClass();
 							$keys = array_keys($fieldhash);
 							$columnIndex = 1;
