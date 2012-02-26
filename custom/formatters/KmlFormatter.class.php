@@ -33,7 +33,10 @@ class KmlFormatter extends AFormatter{
 	  /*
 	   * Second step is to check every locatable object and print it
 	   */
+          echo "<Document>";
+
 	  $this->printPlacemarks($this->objectToPrint);
+          echo "</Document>";
 
 	  echo "</kml>";
      }
@@ -51,17 +54,71 @@ class KmlFormatter extends AFormatter{
 	  echo "<Placemark><name>".$value->getName()."</name>";
 	  echo "<Point><coordinates>".$value->getLat().",".$value->getLong()."</coordinates></Point></Placemark>";	  
      }
+
+     private function xmlgetelement($value){
+         $result = "<![CDATA[";
+         if(is_object($value)){
+             $array = get_object_vars($value);
+             foreach($array as $key => $val){
+                 if(is_numeric($key)){
+                     $key = "int_" . $key;
+                 }
+                 $result .= "<" . $key . ">" . $val . "</" . $key . ">";
+             }
+         }else if(is_array($value)){
+             foreach($value as $key => $val){
+                 if(is_numeric($key)){
+                     $key = "int_" . $key;
+                 }
+                 $result .= "<" . $key . ">" . $val . "</" . $key . ">";
+             }
+         }else{
+             $result .= $value;
+         }
+         $result .= "]]>";
+         return $result;
+     }
      
 
-     private function printArray($val){
-	  foreach($val as $key =>$value){
-	       if($value instanceof Location){
-		    $this->printPlacemark($value);
-	       }elseif(is_object($value)){
-		    $this->printPlacemarks($value);
-	       }elseif(is_array($value)){
+     private function printArray(&$val){
+	  foreach($val as $key => &$value){
+               $lang = "";
+               $lat = "";
+               if(is_array($value) && isset($value["lat"]) && isset($value["long"])){
+                   $long = $value["long"];
+                   $lat = $value["lat"];
+                   unset($value["lat"]);
+                   unset($value["long"]);
+                   $name = $this->xmlgetelement($value); 
+               }elseif(is_array($value) && isset($value["longitude"]) && isset($value["latitude"])){
+                   
+                   $long = $value["longitude"];
+                   $lat = $value["latitude"];
+                   unset($value["latitude"]);
+                   unset($value["longitude"]);
+                   $name = $this->xmlgetelement($value); 
+               }elseif(is_object($value) && isset($value->lat) && isset($value->long)){
+                   $long = $value->long;
+                   $lat = $value->lat;
+                   unset($value->lat);
+                   unset($value->long);
+                   $name = $this->xmlgetelement($value); 
+               }elseif(is_object($value) && isset($value->longitude) && isset($value->latitude)){
+                   $long = $value->longitude;
+                   $lat = $value->latitude;
+                   unset($value->latitude);
+                   unset($value->longitude);
+                   $name = $this->xmlgetelement($value); 
+               }elseif(is_array($value)){
 		    $this->printArray($value);
+	       }elseif($value instanceof Location){
+                   $this->printPlacemark($value);
 	       }//do nothing when key value pair
+
+               if($lat != "" && $long != ""){
+                   echo "<Placemark><name>$key</name><Description>".$name."</Description>";
+                   echo "<Point><coordinates>".$long.",".$lat."</coordinates></Point></Placemark>";
+               }
 	  }
      }
      
