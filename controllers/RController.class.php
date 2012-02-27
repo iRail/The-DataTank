@@ -105,12 +105,7 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
-
-        //only log the request if this is not a remote resource
-        if (!isset($doc->$package->$resourcename->base_url)) {
-            RequestLogger::logRequest();
-        }
-        
+        RequestLogger::logRequest();
     }
 
     /**
