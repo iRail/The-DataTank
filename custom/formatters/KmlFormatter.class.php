@@ -78,7 +78,30 @@ class KmlFormatter extends AFormatter{
          $result .= "]]>";
          return $result;
      }
-     
+
+     private function getExtendedDataElement($value){
+         $result = "<ExtendedData>";
+         if(is_object($value)){
+             $array = get_object_vars($value);
+             foreach($array as $key => $val){
+                 if(is_numeric($key)){
+                     $key = "int_" . $key;
+                 }
+                 $result .= '<Data name="' . $key . '"><value>' . $val . '</value></Data>';
+             }
+         }else if(is_array($value)){
+             foreach($value as $key => $val){
+                 if(is_numeric($key)){
+                     $key = "int_" . $key;
+                 }
+                 $result .= '<Data name="' . $key . '"><value>' . $val . '</value></Data>';
+             }
+         }else{
+             $result .= $value;
+         }
+         $result .= "</ExtendedData>";
+         return $result;
+     }     
 
      private function printArray(&$val){
 	  foreach($val as $key => &$value){
@@ -89,13 +112,15 @@ class KmlFormatter extends AFormatter{
                    $lat = $value["lat"];
                    unset($value["lat"]);
                    unset($value["long"]);
-                   $name = $this->xmlgetelement($value); 
+                   $name = $this->xmlgetelement($value);
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_array($value) && isset($value["Lat"]) && isset($value["Long"])){
                    $long = $value["Long"];
                    $lat = $value["Lat"];
                    unset($value["Lat"]);
                    unset($value["Long"]);
                    $name = $this->xmlgetelement($value); 
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_array($value) && isset($value["longitude"]) && isset($value["latitude"])){
                    
                    $long = $value["longitude"];
@@ -103,6 +128,7 @@ class KmlFormatter extends AFormatter{
                    unset($value["latitude"]);
                    unset($value["longitude"]);
                    $name = $this->xmlgetelement($value); 
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_array($value) && isset($value["Longitude"]) && isset($value["Latitude"])){
                    
                    $long = $value["Longitude"];
@@ -110,30 +136,35 @@ class KmlFormatter extends AFormatter{
                    unset($value["Latitude"]);
                    unset($value["Longitude"]);
                    $name = $this->xmlgetelement($value); 
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_object($value) && isset($value->Lat) && isset($value->Long)){
                    $long = $value->Long;
                    $lat = $value->Lat;
                    unset($value->Lat);
                    unset($value->Long);
                    $name = $this->xmlgetelement($value); 
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_object($value) && isset($value->lat) && isset($value->long)){
                    $long = $value->long;
                    $lat = $value->lat;
                    unset($value->lat);
                    unset($value->long);
                    $name = $this->xmlgetelement($value); 
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_object($value) && isset($value->Longitude) && isset($value->Latitude)){
                    $long = $value->Longitude;
                    $lat = $value->Latitude;
                    unset($value->Latitude);
                    unset($value->Longitude);
                    $name = $this->xmlgetelement($value); 
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_object($value) && isset($value->longitude) && isset($value->latitude)){
                    $long = $value->longitude;
                    $lat = $value->latitude;
                    unset($value->latitude);
                    unset($value->longitude);
                    $name = $this->xmlgetelement($value); 
+                   $extendeddata = $this->getExtendedDataElement($value);				   
                }elseif(is_array($value)){
 		    $this->printArray($value);
 	       }elseif($value instanceof Location){
@@ -142,6 +173,7 @@ class KmlFormatter extends AFormatter{
 
                if($lat != "" && $long != ""){
                    echo "<Placemark><name>$key</name><Description>".$name."</Description>";
+                   echo $extendeddata;				   
                    echo "<Point><coordinates>".$long.",".$lat."</coordinates></Point></Placemark>";
                }
 	  }
