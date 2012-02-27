@@ -63,7 +63,7 @@ class KMLGhent extends ATabularData {
 		$url = $this->url;
 		$columns = $this->columns;
         
-		if(empty($this->columns)){ 
+		if(empty($this->columns)) {
 			try { 
 
 				$xml = simplexml_load_file($url);
