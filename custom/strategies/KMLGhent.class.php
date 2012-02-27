@@ -82,13 +82,13 @@ class KMLGhent extends ATabularData {
 						$this->columns[$name] = $name;
 					}
 					$coordinates = $placemark->xpath('kml:Point/kml:coordinates');
-					if(count($coordinates) == 1) {
+					if($coordinates != false) {
 						$this->columns["long"] = "long";
 						$this->columns["lat"] = "lat";
 					} else {
 						$coordinates = $placemark->xpath('kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
-						if(count($coordinates) == 1) {
-							$this->columns["coords"] = "coordinates";
+						if($coordinates != false) {
+							$this->columns["coords"] = "coords";
 						}		
 					}
 					$this->columns["id"] = "id";
@@ -144,7 +144,7 @@ class KMLGhent extends ATabularData {
 				$placemark->registerXPathNamespace('kml', $xmlns);
 
 				$coordinates = $placemark->xpath('kml:Point/kml:coordinates');
-				if(count($coordinates) == 1) {
+				if($coordinates != false) {
 					$coordarr = explode(',',$coordinates[0]);
 					$lat = $coordarr[1];
 					$long = $coordarr[0]; 
@@ -171,7 +171,7 @@ class KMLGhent extends ATabularData {
 				} else {
 					$include = true;
 					$coordinates = $placemark->xpath('kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
-					if(count($coordinates) == 1) {
+					if($coordinates != false) {
 						$rowobject->coords = (String) $coordinates[0];
 					}		
 				}
