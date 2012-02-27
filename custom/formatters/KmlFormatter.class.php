@@ -90,6 +90,12 @@ class KmlFormatter extends AFormatter{
                    unset($value["lat"]);
                    unset($value["long"]);
                    $name = $this->xmlgetelement($value); 
+               }elseif(is_array($value) && isset($value["Lat"]) && isset($value["Long"])){
+                   $long = $value["Long"];
+                   $lat = $value["Lat"];
+                   unset($value["Lat"]);
+                   unset($value["Long"]);
+                   $name = $this->xmlgetelement($value); 
                }elseif(is_array($value) && isset($value["longitude"]) && isset($value["latitude"])){
                    
                    $long = $value["longitude"];
@@ -97,11 +103,30 @@ class KmlFormatter extends AFormatter{
                    unset($value["latitude"]);
                    unset($value["longitude"]);
                    $name = $this->xmlgetelement($value); 
+               }elseif(is_array($value) && isset($value["Longitude"]) && isset($value["Latitude"])){
+                   
+                   $long = $value["Longitude"];
+                   $lat = $value["Latitude"];
+                   unset($value["Latitude"]);
+                   unset($value["Longitude"]);
+                   $name = $this->xmlgetelement($value); 
+               }elseif(is_object($value) && isset($value->Lat) && isset($value->Long)){
+                   $long = $value->Long;
+                   $lat = $value->Lat;
+                   unset($value->Lat);
+                   unset($value->Long);
+                   $name = $this->xmlgetelement($value); 
                }elseif(is_object($value) && isset($value->lat) && isset($value->long)){
                    $long = $value->long;
                    $lat = $value->lat;
                    unset($value->lat);
                    unset($value->long);
+                   $name = $this->xmlgetelement($value); 
+               }elseif(is_object($value) && isset($value->Longitude) && isset($value->Latitude)){
+                   $long = $value->Longitude;
+                   $lat = $value->Latitude;
+                   unset($value->Latitude);
+                   unset($value->Longitude);
                    $name = $this->xmlgetelement($value); 
                }elseif(is_object($value) && isset($value->longitude) && isset($value->latitude)){
                    $long = $value->longitude;
