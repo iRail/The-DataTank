@@ -119,11 +119,6 @@ class RDFOutput {
                 if (!is_object($value))
                     $path .= '/' . $key;
 
-                //If the key is numeric, the output in for instance XML will be invalid
-                //because tagnames cannot start with a number. We add an underscore
-                if (is_numeric(substr($key, 0, 1)))
-                    $key = "_" . $key;
-
                 //start over for each value
                 $this->analyzeVariable($value, $uri . '/' . $key, $path . '/', $res, $prop);
             }
