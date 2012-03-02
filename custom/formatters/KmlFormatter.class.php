@@ -108,16 +108,18 @@ class KmlFormatter extends AFormatter{
      }     
 
      private function printArray(&$val){
-	  foreach($val as $key => &$value){
-               $long = "";
-               $lat = "";
-			   $coords = "";
-			   if(is_array($value)) {
-					$array = $value;
-			   }
-			   if (is_object($value)) {
-					$array = get_object_vars($value);	   
-			   }
+//	var_dump($val);
+	foreach($val as $key => &$value) {
+		   $long = "";
+		   $lat = "";
+		   $coords = "";
+		   if(is_array($value)) {
+				$array = $value;
+		   }
+		   if (is_object($value)) {
+				$array = get_object_vars($value);	   
+		   }
+		   if(isset($array)) {   
 			   $longkey = $this->array_key_exists_nc("long",$array);
 			   if ($longkey == false) {
 				$longkey = $this->array_key_exists_nc("longitude",$array);			   
@@ -131,23 +133,22 @@ class KmlFormatter extends AFormatter{
 				$coordskey = $this->array_key_exists_nc("coordinates",$array);			   
 			   }
 			   if($longkey && $latkey) {
-                   $long = $array[$longkey];
-                   $lat = $array[$latkey];
-                   unset($array[$longkey]);
-                   unset($array[$latkey]);
-                   $name = $this->xmlgetelement($array);
-                   $extendeddata = $this->getExtendedDataElement($array);				   
+				   $long = $array[$longkey];
+				   $lat = $array[$latkey];
+				   unset($array[$longkey]);
+				   unset($array[$latkey]);
+				   $name = $this->xmlgetelement($array);
+				   $extendeddata = $this->getExtendedDataElement($array);				   
 			   } else if($coordskey) {
-                   $coords = $array[$coordskey];
-                   unset($array[$coordskey]);
-                   $name = $this->xmlgetelement($array);
-                   $extendeddata = $this->getExtendedDataElement($array);				   
+				   $coords = $array[$coordskey];
+				   unset($array[$coordskey]);
+				   $name = $this->xmlgetelement($array);
+				   $extendeddata = $this->getExtendedDataElement($array);				   
 			   }
 			   else {
 				$this->printArray($array);
 			   }
-
-               if(($lat != "" && $long != "") || $coords != ""){
+			   if(($lat != "" && $long != "") || $coords != ""){
 					echo "<Placemark><name>$key</name><Description>".$name."</Description>";
 					echo $extendeddata;
 					if($lat != "" && $long != "") {
@@ -156,8 +157,9 @@ class KmlFormatter extends AFormatter{
 					if ($coords != "") {
 						echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords."</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>";					
 					}
-               }
-	  }
+			   }
+		   }
+	    }
      }
 
 	/**
