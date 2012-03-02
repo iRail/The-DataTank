@@ -51,7 +51,7 @@ class KmlFormatter extends AFormatter{
      }
 
      private function printPlacemark($value){
-	  echo "<Placemark><name>".$value->getName()."</name>";
+	  echo "<Placemark><name>".htmlspecialchars($value->getName())."</name>";
 	  echo "<Point><coordinates>".$value->getLat().",".$value->getLong()."</coordinates></Point></Placemark>";	  
      }
 
@@ -87,6 +87,8 @@ class KmlFormatter extends AFormatter{
                  if(is_numeric($key)){
                      $key = "int_" . $key;
                  }
+				 $key = htmlspecialchars(str_replace(" ","",$key));
+				 $val = htmlspecialchars($val);
                  $result .= '<Data name="' . $key . '"><value>' . $val . '</value></Data>';
              }
          }else if(is_array($value)){
@@ -94,10 +96,12 @@ class KmlFormatter extends AFormatter{
                  if(is_numeric($key)){
                      $key = "int_" . $key;
                  }
+				 $key = htmlspecialchars(str_replace(" ","",$key));
+				 $val = htmlspecialchars($val);
                  $result .= '<Data name="' . $key . '"><value>' . $val . '</value></Data>';
              }
          }else{
-             $result .= $value;
+             $result .= htmlspecialchars($value);
          }
          $result .= "</ExtendedData>";
          return $result;
@@ -105,80 +109,80 @@ class KmlFormatter extends AFormatter{
 
      private function printArray(&$val){
 	  foreach($val as $key => &$value){
-               $lang = "";
+               $long = "";
                $lat = "";
-               if(is_array($value) && isset($value["lat"]) && isset($value["long"])){
-                   $long = $value["long"];
-                   $lat = $value["lat"];
-                   unset($value["lat"]);
-                   unset($value["long"]);
-                   $name = $this->xmlgetelement($value);
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_array($value) && isset($value["Lat"]) && isset($value["Long"])){
-                   $long = $value["Long"];
-                   $lat = $value["Lat"];
-                   unset($value["Lat"]);
-                   unset($value["Long"]);
-                   $name = $this->xmlgetelement($value); 
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_array($value) && isset($value["longitude"]) && isset($value["latitude"])){
-                   
-                   $long = $value["longitude"];
-                   $lat = $value["latitude"];
-                   unset($value["latitude"]);
-                   unset($value["longitude"]);
-                   $name = $this->xmlgetelement($value); 
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_array($value) && isset($value["Longitude"]) && isset($value["Latitude"])){
-                   
-                   $long = $value["Longitude"];
-                   $lat = $value["Latitude"];
-                   unset($value["Latitude"]);
-                   unset($value["Longitude"]);
-                   $name = $this->xmlgetelement($value); 
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_object($value) && isset($value->Lat) && isset($value->Long)){
-                   $long = $value->Long;
-                   $lat = $value->Lat;
-                   unset($value->Lat);
-                   unset($value->Long);
-                   $name = $this->xmlgetelement($value); 
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_object($value) && isset($value->lat) && isset($value->long)){
-                   $long = $value->long;
-                   $lat = $value->lat;
-                   unset($value->lat);
-                   unset($value->long);
-                   $name = $this->xmlgetelement($value); 
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_object($value) && isset($value->Longitude) && isset($value->Latitude)){
-                   $long = $value->Longitude;
-                   $lat = $value->Latitude;
-                   unset($value->Latitude);
-                   unset($value->Longitude);
-                   $name = $this->xmlgetelement($value); 
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_object($value) && isset($value->longitude) && isset($value->latitude)){
-                   $long = $value->longitude;
-                   $lat = $value->latitude;
-                   unset($value->latitude);
-                   unset($value->longitude);
-                   $name = $this->xmlgetelement($value); 
-                   $extendeddata = $this->getExtendedDataElement($value);				   
-               }elseif(is_array($value)){
-		    $this->printArray($value);
-	       }elseif($value instanceof Location){
-                   $this->printPlacemark($value);
-	       }//do nothing when key value pair
+			   $coords = "";
+			   if(is_array($value)) {
+					$array = $value;
+			   }
+			   if (is_object($value)) {
+					$array = get_object_vars($value);	   
+			   }
+			   $longkey = $this->array_key_exists_nc("long",$array);
+			   if ($longkey == false) {
+				$longkey = $this->array_key_exists_nc("longitude",$array);			   
+			   }
+			   $latkey = $this->array_key_exists_nc("lat",$array);
+			   if ($latkey == false) {
+				$latkey = $this->array_key_exists_nc("latitude",$array);			   
+			   }
+			   $coordskey = $this->array_key_exists_nc("coords",$array);
+			   if ($coordskey == false) {
+				$coordskey = $this->array_key_exists_nc("coordinates",$array);			   
+			   }
+			   if($longkey && $latkey) {
+                   $long = $array[$longkey];
+                   $lat = $array[$latkey];
+                   unset($array[$longkey]);
+                   unset($array[$latkey]);
+                   $name = $this->xmlgetelement($array);
+                   $extendeddata = $this->getExtendedDataElement($array);				   
+			   } else if($coordskey) {
+                   $coords = $array[$coordskey];
+                   unset($array[$coordskey]);
+                   $name = $this->xmlgetelement($array);
+                   $extendeddata = $this->getExtendedDataElement($array);				   
+			   }
+			   else {
+				$this->printArray($array);
+			   }
 
-               if($lat != "" && $long != ""){
-                   echo "<Placemark><name>$key</name><Description>".$name."</Description>";
-                   echo $extendeddata;				   
-                   echo "<Point><coordinates>".$long.",".$lat."</coordinates></Point></Placemark>";
+               if(($lat != "" && $long != "") || $coords != ""){
+					echo "<Placemark><name>$key</name><Description>".$name."</Description>";
+					echo $extendeddata;
+					if($lat != "" && $long != "") {
+						echo "<Point><coordinates>".$long.",".$lat."</coordinates></Point></Placemark>";
+					}
+					if ($coords != "") {
+						echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords."</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>";					
+					}
                }
 	  }
      }
-     
+
+	/**
+	* Case insensitive version of array_key_exists.
+	* Returns the matching key on success, else false.
+	*
+	* @param string $key
+	* @param array $search
+	* @return string|false
+	*/
+	private function array_key_exists_nc($key, $search) {
+		if (array_key_exists($key, $search)) {
+			return $key;
+		}
+		if (!(is_string($key) && is_array($search) && count($search))) {
+			return false;
+		}
+		$key = strtolower($key);
+		foreach ($search as $k => $v) {
+			if (strtolower($k) == $key) {
+				return $k;
+			}
+		}
+		return false;
+	}
 
     public static function getDocumentation(){
         return "Will try to find locations in the entire object and print them as KML points";

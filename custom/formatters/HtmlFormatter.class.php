@@ -16,6 +16,11 @@
  */
 class HtmlFormatter extends AFormatter {
 
+	private $thead;
+	private $tbody;
+	private $rowcontents;
+	private $headcontents;
+
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
     }
@@ -52,50 +57,17 @@ class HtmlFormatter extends AFormatter {
     <script type="text/javascript" src="transform-dom.js"></script>
 -->	
 <body>
-Show as: 
-<a href="<?php echo $this->getUrl('dhtml') ?>">dhtml</a>
-<a href="<?php echo $this->getUrl('osm') ?>">osm</a>
-<a href="<?php echo $this->getUrl('json') ?>">json</a>
-<a href="<?php echo $this->getUrl('xml') ?>">xml</a>
-<a href="<?php echo $this->getUrl('kml') ?>">kml</a>
-<br/><br/>
 <table cellspacing="0" id="the-table" width="100%">
 <?php		
-		$result = "";
+		$result = "";		
 		$array = get_object_vars($this->objectToPrint);
-		$thead = '<thead><tr style="background:#eeeeee;">';
-		$tbody = '<tbody>';
-		foreach($array as $key1 => $val1) {
-			if(is_object($val1)){
-				$array = get_object_vars($val1);
-			}
-			else if(is_array($val1)) {
-				$array = $val1;
-			}
-			$firstrow = true;
-			foreach($array as $key2 => $val2){
-				if(is_object($val2)){
-					$array = get_object_vars($val2);
-				}
-				else if(is_array($val2)) {
-					$array = $val2;
-				}
-				$tbody .= '<tr>';
-				foreach($array as $key3 => $val3){
-					if ($firstrow) {
-						$thead .= "<th>" . $key3 . "</th>";	
-					}
-					$tbody .= "<td>" . $val3 . "</td>";
-					//$result .= $key3 . " : " . $val3 . "</br>";				
-				}
-				$tbody .= '</tr>';
-				$firstrow = false;
-			}
-		}	
-		$thead .= '</tr></thead>';
-		$tbody .= '</tbody>';
-		echo $thead . $tbody;
-		//echo "hier";
+		$this->thead = '<thead><tr style="background:#eeeeee;">';
+		$this->tbody = '<tbody>';
+		$this->getPrintData($array);		
+		$this->thead .= '</tr></thead>';
+		$this->tbody .= '</tbody>';
+		echo $this->thead . $this->tbody;
+		
 ?>
 </table>
 </body>
@@ -111,6 +83,39 @@ Show as:
 		$ext = explode(".", $_SERVER['REQUEST_URI']);
 		return "http://" . $_SERVER['HTTP_HOST'] . str_replace('.' . $ext[1],'.' . $type,$_SERVER['REQUEST_URI']);	
 	}
+
+	private function getPrintData($array) {
+		$firstrow = true;
+		foreach($array as $key => $val){
+			if(is_object($val)){
+				$array = get_object_vars($val);
+				$this->getPrintData($array);
+				if ($this->rowcontents != "") {
+					if ($firstrow) {
+						$this->thead .= $this->headcontents;
+					}
+					$this->tbody .= '<tr>' . $this->rowcontents . '</tr>';
+				}
+				$this->rowcontents = "";
+				$this->headcontents = "";
+			} else if(is_array($val)) {
+				$array = $val;
+				$this->getPrintData($array);
+				if ($this->rowcontents != "") {
+					if ($firstrow) {
+						$this->thead .= $this->headcontents;
+					}
+					$this->tbody .= '<tr>' . $this->rowcontents . '</tr>';
+				}
+				$this->rowcontents = "";
+				$this->headcontents = "";
+			} else {
+				$this->headcontents .= "<th>" . $key . "</th>";	
+				$this->rowcontents .= "<td>" . $val . "</td>";
+			}
+			$firstrow = false;			
+		}
+	}	
 }
 
 ;
