@@ -16,7 +16,7 @@ include_once("custom/formatters/HtmlFormatter.class.php");
  /**
  * This class inherits from the HtmlFormatter. It will generate a extjs grid
  */
-class DhtmlFormatter extends HtmlFormatter {
+class GridFormatter extends HtmlFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

@@ -12,7 +12,7 @@
 /**
  * This class inherits from the abstract Formatter. It will generate a Map
  */
-class OsmFormatter extends AFormatter {
+class MapFormatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
