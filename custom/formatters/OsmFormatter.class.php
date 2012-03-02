@@ -47,7 +47,7 @@ class OsmFormatter extends AFormatter {
 -->
 	
 	<?php
-	$url = "http://" . $_SERVER['HTTP_HOST'] . str_replace('.osm','.kml',$_SERVER['REQUEST_URI']);
+	$url = "http://" . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, -3) . "kml";
 	?>
 	
 	<script src="http://openlayers.org/api/OpenLayers.js"></script>
