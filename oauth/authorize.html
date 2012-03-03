@@ -1,0 +1,40 @@
+<html>
+<head></head>
+<body>
+<form id='login' onsubmit='return OnSubmitForm();' method='post' accept-charset='UTF-8'>
+<fieldset >
+<legend>Login</legend>
+<input type='hidden' name='submitted' id='submitted' value='1'/>
+<label for='username' >UserName*:</label>
+<input type='text' name='username' id='username'  maxlength="50" />
+<label for='password' >Password*:</label>
+<input type='password' name='password' id='password' maxlength="50" />
+<input type='submit' name='Submit' value='Submit' />
+</fieldset>
+</form>
+
+<script type="text/javascript">
+function OnSubmitForm(){
+  var oauth_token = gup('oauth_token');
+  var callback = gup('oauth_callback');
+  document.forms["login"].action ="authorize.php?oauth_token="+oauth_token+"&oauth_callback="+callback;
+  document.login.submit();
+}
+
+// get a value from a parameter from request URL
+function gup( name ){
+
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+</script>
+
+</body>
+</html>
