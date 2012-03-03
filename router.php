@@ -2,7 +2,7 @@
 /**
  * This file is the router. It's where all calls come in. It will accept a request en refer it to the right Controller
  *
- * @package The-DataTank
+ * @package The-Datatank
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
@@ -17,6 +17,8 @@ include_once('aspects/errors/system/Exceptions.php');
 include_once('aspects/logging/ErrorLogger.class.php');
 include_once('controllers/AController.class.php');
 include_once('controllers/RController.class.php');
+include_once('controllers/SPECTQLController.class.php');
+include_once('controllers/SPECTQLIndex.class.php');
 include_once('controllers/CUDController.class.php');
 include_once('controllers/AuthController.class.php');
 include_once('TDT.class.php'); //general purpose static class
@@ -45,6 +47,10 @@ R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 
 //map urls to a classname
 $urls = array(
+    '/spectql/?' => 'SPECTQLIndex',
+    //When a call is done to the TDTQL end-point, forward it to the TDTQLController
+    '/spectql(?P<query>/.*)' => 'SPECTQLController',
+
 
     // Calling the Read- controller
     // This is a request on the representation
