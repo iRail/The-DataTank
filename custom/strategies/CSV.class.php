@@ -111,8 +111,8 @@ class CSV extends ATabularData {
         }
 
         foreach ($rows as $row => $fields) {
-            $data = str_getcsv($fields, $delimiter);
-                
+            $data = str_getcsv($fields, $delimiter);            
+
             if(count($data) != count($columns)){
                 throw new ReadTDTException("The amount of columns and data from the csv don't match up, this could be because an incorrect delimiter has been passed.");
             }

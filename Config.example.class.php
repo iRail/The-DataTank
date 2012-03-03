@@ -31,5 +31,22 @@ class Config {
 
     // path to the PHPExcel IOFactory.php, required for XLS generic resource
     public static $PHPEXCEL_IOFACTORY_PATH = "";
+
+    // authentication flag, 0 if no auth is necessary, 1 if so
+    public static $R_AUTH_NECESSARY = 0;
+    public static $CUD_AUTH_NECESSARY = 0;
+
+    // path to the oauth API-folder required for PHP OAuth, don't forget the trailing slash!
+    public static $PHP_OAUTH_LIBRARY = "";
+
+     // if you have another OAuth back-end on your server you might want to use it for the OAuth of TDT
+    // fill in these fields, or fill in the same as your TDT back-end ( which are pre-filled in as a default )
+    // TODO: maybe we should get a more granular DB back-end configuration so that fields are separately filled in, and prevent 
+    // redundant information in this configuration file.
+    public static $DB_OAUTH_SERVER = 'localhost';
+    public static $DB_OAUTH_USER = Config::$DB_USER;
+    public static $DB_OAUTH_PASSWORD = Config::$DB_PASSWORD;
+    public static $DB_OAUTH_DB_NAME = '';
+    public static $DB_TYPE = "MySQL";
 }
 ?>

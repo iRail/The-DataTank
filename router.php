@@ -18,6 +18,7 @@ include_once('aspects/logging/ErrorLogger.class.php');
 include_once('controllers/AController.class.php');
 include_once('controllers/RController.class.php');
 include_once('controllers/CUDController.class.php');
+include_once('controllers/AuthController.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
 include_once('RequestURI.class.php');

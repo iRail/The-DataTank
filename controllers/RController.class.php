@@ -14,12 +14,34 @@ include_once('aspects/logging/RequestLogger.class.php');
 include_once('model/filters/FilterFactory.class.php');
 include_once('model/ResourcesModel.class.php');
 include_once("model/DBQueries.class.php");
+include_once(Config::$PHP_OAUTH_LIBRARY . 'library/OAuthRequestVerifier.php');
 
 class RController extends AController {
 
     private $formatterfactory;
 
     function GET($matches) {
+
+        if(Config::$R_AUTH_NECESSARY == 1){
+            if (OAuthRequestVerifier::requestIsSigned()){
+                try{
+                    $req = new OAuthRequestVerifier();
+                    $user_id = $req->verify();
+
+                    // here is where we can make the user distinction and access an ACL if necessary to fetch 
+                    // whether or not a certain HTTP action is authorized for this user.
+                }
+                catch (OAuthException $e){
+                    // The request was signed, but failed verification
+                    header('HTTP/1.1 401 Unauthorized');
+                    header('WWW-Authenticate: OAuth realm=""');
+                    header('Content-Type: text/plain; charset=utf8');
+                    echo "An authentication error occured: " . $e->getMessage();
+                    exit();
+                }
+            }
+        }
+
         //always required: a package and a resource. 
         $package = trim($matches['package']);
         $resourcename = trim($matches['resource']);

@@ -12,6 +12,7 @@
 include_once('custom/formatters/FormatterFactory.class.php');
 include_once('aspects/logging/RequestLogger.class.php');
 include_once('model/filters/FilterFactory.class.php');
+include_once(Config::$PHP_OAUTH_LIBRARY . 'library/OAuthRequestVerifier.php');
 
 class CUDController extends AController {
 
@@ -54,6 +55,28 @@ class CUDController extends AController {
     }
 
     function PUT($matches) {
+
+        if(Config::$CUD_AUTH_NECESSARY == 1){
+            if (OAuthRequestVerifier::requestIsSigned()){
+                try{
+                    $req = new OAuthRequestVerifier();
+                    $user_id = $req->verify();
+
+                    // here is where we can make the user distinction and access an ACL if necessary to fetch 
+                    // whether or not a certain HTTP action is authorized for this user.
+                }
+                catch (OAuthException $e){
+                    // The request was signed, but failed verification
+                    header('HTTP/1.1 401 Unauthorized');
+                    header('WWW-Authenticate: OAuth realm=""');
+                    header('Content-Type: text/plain; charset=utf8');
+                    echo "An authentication error occured: " . $e->getMessage();
+                    exit();
+                }
+            }
+        }
+        
+        
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new RequiredParameterTDTException("package/resource not set");
@@ -91,6 +114,27 @@ class CUDController extends AController {
      * @param string $matches The matches from the given URL, contains the package and the resource from the URL
      */
     public function DELETE($matches) {
+
+        if(Config::$CUD_AUTH_NECESSARY == 1){
+            if (OAuthRequestVerifier::requestIsSigned()){
+                try{
+                    $req = new OAuthRequestVerifier();
+                    $user_id = $req->verify();
+
+                    // here is where we can make the user distinction and access an ACL if necessary to fetch 
+                    // whether or not a certain HTTP action is authorized for this user.
+                }
+                catch (OAuthException $e){
+                    // The request was signed, but failed verification
+                    header('HTTP/1.1 401 Unauthorized');
+                    header('WWW-Authenticate: OAuth realm=""');
+                    header('Content-Type: text/plain; charset=utf8');
+                    echo "An authentication error occured: " . $e->getMessage();
+                    exit();
+                }
+            }
+        }
+        
         $package = $matches["package"];
         $resource = "";
         if (isset($matches["resource"])) {
@@ -125,6 +169,27 @@ class CUDController extends AController {
      * @param string $matches Contains the matches from the given URL, contains package,resource
      */
     public function POST($matches) {
+
+        if(Config::$CUD_AUTH_NECESSARY == 1){
+            if (OAuthRequestVerifier::requestIsSigned()){
+                try{
+                    $req = new OAuthRequestVerifier();
+                    $user_id = $req->verify();
+
+                    // here is where we can make the user distinction and access an ACL if necessary to fetch 
+                    // whether or not a certain HTTP action is authorized for this user.
+                }
+                catch (OAuthException $e){
+                    // The request was signed, but failed verification
+                    header('HTTP/1.1 401 Unauthorized');
+                    header('WWW-Authenticate: OAuth realm=""');
+                    header('Content-Type: text/plain; charset=utf8');
+                    echo "An authentication error occured: " . $e->getMessage();
+                    exit();
+                }
+            }
+        }
+
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
@@ -153,7 +218,6 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
-
 
     private function isAuthenticated() {
         return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
