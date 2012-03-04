@@ -39,8 +39,9 @@ class TDTStatsMonth extends AReader{
                 $this->month = $val;
                 break;
             
-            default:
-                throw new ParameterTDTException($key);
+			// commented out because formatters can also have parameters
+            //default:
+            //    throw new ParameterTDTException($key);
         }
     }
 
