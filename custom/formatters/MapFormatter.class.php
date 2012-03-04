@@ -47,7 +47,10 @@ class MapFormatter extends AFormatter {
 -->
 	
 	<?php
-	$url = "http://" . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, -3) . "kml";
+	$url = "http://" . $_SERVER['HTTP_HOST'] . substr($_SERVER['REDIRECT_URL'], 0, -3) . "kml";
+	if(array_key_exists('REDIRECT_QUERY_STRING', $_SERVER)) {
+		$url .= "?" . $_SERVER['REDIRECT_QUERY_STRING'];
+	}
 	?>
 	
 	<script src="http://openlayers.org/api/OpenLayers.js"></script>
