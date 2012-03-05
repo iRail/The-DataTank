@@ -10,10 +10,11 @@
  */
 abstract class AArgument{
     
-    protected $name;
+    protected $name, $alias;
     
-    public function __construct($name){
+    public function __construct($name, $alias = ""){
         $this->name = $name;
+        $this->alias = $alias;
     }
     
     /**
@@ -30,6 +31,11 @@ abstract class AArgument{
     public function getName(){
         return $this->name;
     }
+
+    public function getColumnName(){
+        return $this->alias == "" ? $this->name:$this->alias;
+    }
+    
     
 }
 

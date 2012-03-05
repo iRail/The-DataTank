@@ -15,10 +15,11 @@ class SPECTQLColumnName extends AArgument{
      */
     public function execute(&$result,&$resourcearray){
         $name = $this->name;
+        $column = $this->getColumnName();
         $i = 0;
         foreach($resourcearray as $row){
             if(isset($row[$name])){
-                $result[$i][$name] = $row[$name];
+                $result[$i][$column] = $row[$name];
             }
             $i++;
         }
