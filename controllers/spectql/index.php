@@ -43,6 +43,7 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
     <script>
       $('#run').click(function () {
           $('#history').prepend("<option value=\"" + $('#query').val() + "\">" + $('#query').val() +  "</option>");
+          location.hash = "#!" + $('#query').val();
           var history_array = JSON.parse(localStorage.getItem('history'));
           if(!history_array)
               history_array = new Array();
@@ -74,6 +75,10 @@ $.each(history_array,function(key,value){
     $('#history').append("<option value=\"" + value + "\">" + value +  "</option>");
 });
 
+//load hash into query when hash is given
+if(location.hash){
+    $("#query").val(location.hash.substr(2,location.hash.length-2));
+}
 
       //Load options
       $.ajax({
@@ -96,6 +101,7 @@ $.each(history_array,function(key,value){
 
     $("#history").dblclick(function(){
       $("#query").val($("#history").val());
+        location.hash = "#!" + $("#history").val();
     });
 
     $("#query").keyup(function(){
