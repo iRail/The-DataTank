@@ -20,16 +20,18 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
     </div>
     <div id="main">
       <div class="container">
-        <textarea name="query" style="width: 78%; height: 100px;" id="query">/TDTInfo/Resources{*}:html</textarea>
+    <label>Build your query:</label>
+        <textarea name="query" style="width: 78%; height: 100px;" id="query">/TDTStats/Year/all/all/2012{month-,requests}</textarea>
         <select id="resources" style="width: 20%; height: 110px;" size="5">
         </select>
-        <br/>
-        <select id="history" style="width: 100%; height: 110px;" size="5">
+    <br/><label>History:</label>
+        <select id="history" style="width: 99.5%; height: 110px;" size="5">
         </select>
-	<input type="button" id="run" value="Run the Query"/>
+	<input type="button" id="run" value="Run the Query!"/>
         <br/>
         <div id="uri"></div>
 	<hr/>
+    <label>Response:</label>
 	<pre id="result" class="prettyprint">
 	</pre>
       </div>
@@ -51,7 +53,7 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
           localStorage.setItem('history',JSON.stringify(history_array));
         $.ajax({
            headers: { 
-               Accept : "text/html"
+               Accept : "text/csv"
            },
            url: "<?php echo $base_url ?>spectql" + $('#query').val(),
            dataType: "text",
