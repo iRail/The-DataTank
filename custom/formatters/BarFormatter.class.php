@@ -6,9 +6,7 @@
  * @package The-Datatank/formatters
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
- * @author Jan Vansteenlandt <jan@iRail.be>
- * @author Pieter Colpaert   <pieter@iRail.be>
- * @author Miel Vander Sande 
+ * @author Lieven Janssen <lieven.janssen@okfn.org>
  */
 
 /**
@@ -21,9 +19,6 @@ class BarFormatter extends AFormatter {
 	private $value = array();
 	private $refresh = 0;
 	private $sort = "";
-	private $field1 = "huisnr";
-	private $field2 = "fid";
-	
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
@@ -107,6 +102,7 @@ class BarFormatter extends AFormatter {
 					xtype: 'chart',
 					animate: true,
 					store: store,
+					theme: 'Category1',
 					legend: {
 						position: 'right'
 					},
@@ -172,7 +168,7 @@ class BarFormatter extends AFormatter {
 	}
     
     public static function getDocumentation(){
-        return "The Html formatter is a formatter for developing purpose. It prints everything in the internal object.";
+        return "This formatter generates a bar chart.";
     }
 	
 	private function getValues($array) {

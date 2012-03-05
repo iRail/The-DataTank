@@ -6,9 +6,7 @@
  * @package The-Datatank/formatters
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
- * @author Jan Vansteenlandt <jan@iRail.be>
- * @author Pieter Colpaert   <pieter@iRail.be>
- * @author Miel Vander Sande 
+ * @author Lieven Janssen <lieven.janssen@okfn.org>
  */
 
 /**
@@ -124,7 +122,7 @@ class PieFormatter extends AFormatter {
 	}
     
     public static function getDocumentation(){
-        return "The Html formatter is a formatter for developing purpose. It prints everything in the internal object.";
+        return "This formatter generates a pie chart.";
     }
 
 	private function getChartData($array) {

@@ -140,7 +140,7 @@ class KmlFormatter extends AFormatter{
 				   $name = $this->xmlgetelement($array);
 				   $extendeddata = $this->getExtendedDataElement($array);				   
 			   } else if($coordskey) {
-				   $coords = $array[$coordskey];
+				   $coords = explode("|",$array[$coordskey]);
 				   unset($array[$coordskey]);
 				   $name = $this->xmlgetelement($array);
 				   $extendeddata = $this->getExtendedDataElement($array);				   
@@ -152,11 +152,20 @@ class KmlFormatter extends AFormatter{
 					echo "<Placemark><name>$key</name><Description>".$name."</Description>";
 					echo $extendeddata;
 					if($lat != "" && $long != "") {
-						echo "<Point><coordinates>".$long.",".$lat."</coordinates></Point></Placemark>";
+						echo "<Point><coordinates>".$long.",".$lat."</coordinates></Point>";
 					}
-					if ($coords != "") {
-						echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords."</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>";					
+					if (count($coords)  > 0) {
+                        if (count($coords)  == 1) {
+                            echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";					
+                        } else {
+                            echo "<MultiGeometry>";
+                            foreach($coords as $coord) {
+                                echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coord."</coordinates></LinearRing></outerBoundaryIs></Polygon>";					                            
+                            }
+                            echo "</MultiGeometry>";
+                        }
 					}
+                    echo "</Placemark>";
 			   }
 		   }
 	    }

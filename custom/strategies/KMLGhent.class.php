@@ -89,7 +89,12 @@ class KMLGhent extends ATabularData {
 						$coordinates = $placemark->xpath('kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
 						if($coordinates != false) {
 							$this->columns["coords"] = "coords";
-						}		
+						} else {
+                            $coordinates = $placemark->xpath('kml:MultiGeometry/kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
+                            if($coordinates != false) {
+                                $this->columns["coords"] = "coords";
+                            }                        
+                        }                        
 					}
 					$this->columns["id"] = "id";
 					$this->columns["distance"] = "distance";
@@ -173,7 +178,20 @@ class KMLGhent extends ATabularData {
 					$coordinates = $placemark->xpath('kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
 					if($coordinates != false) {
 						$rowobject->coords = (String) $coordinates[0];
-					}		
+					} else {
+                        $coordinates = $placemark->xpath('kml:MultiGeometry/kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
+                        if($coordinates != false) {
+                            $firstrow = true;
+                            foreach($coordinates as $value) {
+                                if ($firstrow) {
+                                    $rowobject->coords = $value;
+                                } else {
+                                    $rowobject->coords .= "|" . $value;
+                                }
+                                $firstrow = false;
+                            }
+                        }                        
+                    }                        
 				}
 				
 				if($include) {
