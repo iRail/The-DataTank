@@ -6,7 +6,7 @@
  * @package The-Datatank/formatters
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
- * @author Lieven Janssen <lieven@iRail.be>
+ * @author Lieven Janssen <lieven.janssen@okfn.org>
  */
 
 /**
