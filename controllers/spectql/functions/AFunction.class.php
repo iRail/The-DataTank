@@ -12,8 +12,8 @@ abstract class AFunction  extends AArgument{
     
     protected $argument;
     
-    public function __construct($name, $argument){
-        parent::__construct($name);
+    public function __construct($name, $argument, $alias = ""){
+        parent::__construct($name,$alias);
         $this->argument = $argument;
     }
     

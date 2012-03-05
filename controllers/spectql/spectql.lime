@@ -42,9 +42,9 @@ filterlist = filter { $$ = new SPECTQLFilterList($1); }
 filter = name '>' string { $$ = new SPECTQLFilter($1,">",$3); }
 | name EQ string { $$ = new SPECTQLFilter($1,"==",$3); }
 | name '<' string { $$ = new SPECTQLFilter($1,"<",$3); }
-| name '>' calc { $$ = new SPECTQLFilter($1,">",$3->execute()); }
-| name EQ calc { $$ = new SPECTQLFilter($1,"==",$3); }
-| name '<' calc { $$ = new SPECTQLFilter($1,"<",$3); }
+| name '>' num { $$ = new SPECTQLFilter($1,">",$3); }
+| name EQ num { $$ = new SPECTQLFilter($1,"==",$3); }
+| name '<' num { $$ = new SPECTQLFilter($1,"<",$3); }
 | name '~' string { $$ = new SPECTQLFilter($1,"~",$3); }
 .
 
@@ -66,6 +66,7 @@ argument = name { $$ = new SPECTQLColumnName($1); }
 | link
 | '*' { $$ = new SPECTQLWildcard("all"); }
 | function
+| name ALIAS name { $$ = new SPECTQLColumnName($3,$1); }
 .
 
 link = name LN resourceid '.' name { $$ = new SPECTQLLink($1, $3, $5); }

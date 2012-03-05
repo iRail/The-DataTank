@@ -24,6 +24,8 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
         <select id="resources" style="width: 20%; height: 110px;" size="5">
         </select>
         <br/>
+        <select id="history" style="width: 100%; height: 110px;" size="5">
+        </select>
 	<input type="button" id="run" value="Run the Query"/>
         <br/>
         <div id="uri"></div>
@@ -40,6 +42,12 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
 
     <script>
       $('#run').click(function () {
+          $('#history').prepend("<option value=\"" + $('#query').val() + "\">" + $('#query').val() +  "</option>");
+          var history_array = JSON.parse(localStorage.getItem('history'));
+          if(!history_array)
+              history_array = new Array();
+          history_array[history_array.length] = $('#query').val();
+          localStorage.setItem('history',JSON.stringify(history_array));
         $.ajax({
            headers: { 
                Accept : "text/html"
@@ -56,7 +64,17 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
            }
         });
       });
-      
+
+//load history
+var history_array = JSON.parse(localStorage.getItem('history'));
+if(!history_array)
+    history_array = new Array();
+history_array.reverse();
+$.each(history_array,function(key,value){
+    $('#history').append("<option value=\"" + value + "\">" + value +  "</option>");
+});
+
+
       //Load options
       $.ajax({
         url: "<?php echo $base_url; ?>TDTInfo/Resources.json",
@@ -73,6 +91,11 @@ $base_url = Config::$HOSTNAME . Config::$SUBDIR;
 
     $("#resources").dblclick(function(){
       $("#query").val($("#query").val() + $("#resources").val());
+    });
+
+
+    $("#history").dblclick(function(){
+      $("#query").val($("#history").val());
     });
 
     $("#query").keyup(function(){
