@@ -30,8 +30,6 @@ class TDTInfoPackages extends AReader{
         foreach($packagenames as $packagename){
             $package = new stdClass();
             $package->name = $packagename;
-            //$package->creation_date = $doc->$packagename->creation_date;
-            //$package->creation_date = $doc->$packagename->package_title;
             $packages[] = $package;
         }
         
