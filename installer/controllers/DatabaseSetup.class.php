@@ -49,6 +49,7 @@ class DatabaseSetup extends InstallController {
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `package_name` varchar(255) NOT NULL,
               `timestamp` bigint(20) NOT NULL,
+              `title` varchar(80) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
@@ -93,6 +94,8 @@ class DatabaseSetup extends InstallController {
               `creation_timestamp` bigint(20) NOT NULL,
               `last_update_timestamp` bigint(20) NOT NULL,
               `type` varchar(30) NOT NULL,
+              `tags` varchar(512) DEFAULT NULL,
+              `title` varchar(80) DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";

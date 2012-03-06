@@ -39,7 +39,7 @@ class GenericResourceReader extends AReader {
     }
 
     /**
-     * A generic resource doesn't have parameters yet, strategies can however
+     * A generic resource can't have parameters (yet), strategies can however
      */
     public function setParameter($key,$value){
         if($key == "page"){

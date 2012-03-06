@@ -33,7 +33,7 @@ abstract class AResourceFactory{
      * Creates an instance of a creator class.
      * @param $package the new package of the resource. It may exist already
      * @param $resource the name of the new resource. If it exists already, an exception will be thrown
-     * @return The returned class implements ICreator and can add a resource to the system
+     * @return The returned class extends ACreator and can add a resource to the system
      */
     abstract public function createCreator($package,$resource, $parameters, $RESTparameters);
 
@@ -41,7 +41,7 @@ abstract class AResourceFactory{
      * Creates an instance of a reader. This can return the right information for a request
      * @param $package the package of the requested resource.
      * @param $resource the name of the requested resource.
-     * @return The returned class implements IReader and can read information from a Resource
+     * @return The returned class extends AReader and can read information from a Resource
      */
     abstract public function createReader($package, $resource, $parameters, $RESTparameters);
 
@@ -49,7 +49,7 @@ abstract class AResourceFactory{
      * Creates an instance of a deleter class.
      * @param $package the package of the resource. It will not get deleted
      * @param $resource the name of the new resource.
-     * @return The returned class implements IDeleter and can delete a resource from the system
+     * @return The returned class extends ADeleter and can delete a resource from the system
      */
     abstract public function createDeleter($package,$resource, $RESTparameters);
 

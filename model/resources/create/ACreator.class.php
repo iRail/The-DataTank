@@ -29,7 +29,11 @@ abstract class ACreator{
      * @return hash with key = parameter name and value = documentation about the parameter
      */
     public function documentParameters(){
-        return array("resource_type" => "The type of the resource.");
+        return array("resource_type" => "The type of the resource.", 
+                     "package_title" => "An alias for the package name.", 
+                     "resource_title" => "An alias for the resource name.",
+                     "tags" => "A serie of descriptive tags, separated with a semi-colon."
+                     );
     }
     
     /**
@@ -52,11 +56,16 @@ abstract class ACreator{
              WHERE package_name=:package_name",
             array(":package_name"=>$package)
         );
-        
+
         if(sizeof($result) == 0){
             $newpackage = R::dispense("package");
             $newpackage->package_name = $package;
             $newpackage->timestamp = time();
+            if(isset($this->package_title)){
+                $newpackage->package_title = $this->package_title;
+            }else{
+                $newpackage->package_title = $package;
+            }   
             $id = R::store($newpackage);
             return $id;
         }
@@ -84,6 +93,15 @@ abstract class ACreator{
             $newResource->creation_timestamp = time();
             $newResource->last_update_timestamp = time();
             $newResource->type =  $resource_type;
+            if(isset($this->resource_title)){
+                $newResource->resource_title = $this->resource_title;
+            }else{
+                $newResource->resource_title = $resource;
+            }
+            
+            if(isset($this->tags)){
+                $newResource->tags = $this->tags;
+            }
             return R::store($newResource);
         }
         return $checkExistence[0]["id"];
