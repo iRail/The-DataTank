@@ -44,6 +44,13 @@ date_default_timezone_set('UTC');
 // Initialize the ORM with the right credentials
 R::setup(Config::$DB,Config::$DB_USER,Config::$DB_PASSWORD);
 
+if (!isset($_SERVER['REQUEST_URI'])){
+    $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'],1 );
+    if (isset($_SERVER['QUERY_STRING'])) {
+        $_SERVER['REQUEST_URI'].='?'.$_SERVER['QUERY_STRING'];
+    }
+}
+
 //map urls to a classname
 $urls = array(
     '/spectql/?' => 'SPECTQLIndex',
