@@ -59,7 +59,7 @@ class ColumnFormatter extends AFormatter {
 
 
 		$url = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-                $url = str_replace(".column?",".columndata?", $url);		
+                $url = str_replace(".column?",".chartdata?", $url);		
 ?>
 		<script type="text/javascript">
 			Ext.require('Ext.chart.*');
