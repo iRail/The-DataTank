@@ -56,11 +56,10 @@ class ColumnFormatter extends AFormatter {
 		if(array_key_exists("sort", $_GET)) {
 			$this->sort = $_GET["sort"];
 		}
-		
-		$url = "http://" . $_SERVER['HTTP_HOST'] . substr($_SERVER['REDIRECT_URL'], 0, -6) . "chartdata";
-		if(array_key_exists('REDIRECT_QUERY_STRING', $_SERVER)) {
-			$url .= "?" . $_SERVER['REDIRECT_QUERY_STRING'];
-		}
+
+
+		$url = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+                $url = str_replace(".column?",".columndata?", $url);		
 ?>
 		<script type="text/javascript">
 			Ext.require('Ext.chart.*');
