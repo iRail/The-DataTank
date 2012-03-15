@@ -27,7 +27,12 @@ class JsonFormatter extends AFormatter{
 	  if(is_object($this->objectToPrint)){
 	       $hash = get_object_vars($this->objectToPrint);
 	  }
-	  echo json_encode($hash);
+          if(is_object($hash[$this->rootname])){
+              echo json_encode($hash[$this->rootname]);
+          }else{
+              echo json_encode($hash);
+          }
+	  
      }
 
 
