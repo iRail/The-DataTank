@@ -28,18 +28,7 @@ class JsonFormatter extends AFormatter{
 	       $hash = get_object_vars($this->objectToPrint);
 	  }
           
-          // some resources are with a capitalcharacter, yet all rootnames are put to lower, so lets check which one
-          // we can expect in the hash
-          if(!array_key_exists($this->rootname,$hash)){
-              $this->rootname = ucfirst($this->rootname);
-          }
-          
-
-          if(is_object($hash[$this->rootname])){
-              echo json_encode($hash[$this->rootname]);
-          }else{
-              echo json_encode($hash);
-          }
+          echo json_encode($hash);
 	  
      }
 
