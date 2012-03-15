@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * An abstract class for JSON data
  *
@@ -12,8 +12,7 @@ include_once("model/DBQueries.class.php");
 
 class JSON extends AResourceStrategy{
     
-    public function read(&$configObject){
-        //var_dump(file_get_contents($configObject->url));
+    public function read(&$configObject){ 
         return json_decode(file_get_contents($configObject->url));
     }
 
