@@ -9,13 +9,11 @@
  */
 include_once("custom/strategies/ATabularData.class.php");
 include_once("includes/ShapeFile.inc.php");
-include_once("includes/proj4php/proj4php.php");
 
 class SHP extends ATabularData {
 
     public function documentCreateParameters(){
         return array("url" => "The path to the shape file (can be a url).",
-                     "EPSG" => "EPSG coordinate system code.",
                      "columns" => "The columns that are to be published.",
                      "PK" => "The primary key for each row.",
         );
@@ -35,7 +33,7 @@ class SHP extends ATabularData {
 
     protected function isValid($package_id,$generic_resource_id) {
         if(!isset($this->url)){
-			$this->throwException($package_id,$generic_resource_id, "Can't find url of the Shape file");
+			$this->throwException($package_id,$generic_resource_id, "Can't find url of the XLS");
         }
 		
         if (!isset($this->columns)) {
@@ -45,18 +43,10 @@ class SHP extends ATabularData {
         if (!isset($this->PK)) {
             $this->PK = "";
         }
-		
-        if (!isset($this->EPSG)) {
-            $this->EPSG = "";
-        }		
 
 		$url = $this->url;
 		$columns = $this->columns;
-
-		if (!is_dir("tmp")) {
-			mkdir("tmp");
-		}
-
+        
 		if(empty($this->columns)){ 
 			$options = array('noparts' => false);
 			$isUrl = (substr($url , 0, 4) == "http");
@@ -72,22 +62,15 @@ class SHP extends ATabularData {
 				$shp = new ShapeFile($url, $options); // along this file the class will use file.shx and file.dbf			
 			}
 
-			$record = $shp->getNext();
-			// read meta data
-			$dbf_data = $record->getDbfData();
-			foreach ($dbf_data as $property => $value) {
-				$property = strtolower($property);
-				$this->columns[$property] = $property;
-			}
-
-			$shp_data = $record->getShpData();
-			
-			if(isset($shp_data['parts'])) {
+			while ($record = $shp->getNext()) {
+				// read meta data
+				$dbf_data = $record->getDbfData();
+				foreach ($dbf_data as $property => $value) {
+					$property = strtolower($property);
+					$this->columns[$property] = $property;
+				}
+				
 				$this->columns["coords"] = "coords";
-			}
-			if(isset($shp_data['x'])) {
-				$this->columns["lat"] = "lat";
-				$this->columns["long"] = "long";
 			}
 			
             unset($shp);
@@ -114,8 +97,6 @@ class SHP extends ATabularData {
         $columns = array();
         
         $PK = $configObject->PK;
-
-        $EPSG = $configObject->EPSG;
             
         $columns = $configObject->columns;
         
@@ -123,11 +104,7 @@ class SHP extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
           	
-		if (!is_dir("tmp")) {
-			mkdir("tmp");
-		}
-
-		try { 
+        try { 
 			$options = array('noparts' => false);
 			$isUrl = (substr($url , 0, 4) == "http");
 			if ($isUrl) {	
@@ -153,46 +130,20 @@ class SHP extends ATabularData {
 					}
 				}	
 				
-				if(array_key_exists("coords",$columns) || array_key_exists("lat",$columns)) {
+				if(array_key_exists("coords",$columns)) {
 					// read shape data
 					$shp_data = $record->getShpData();
-					if ($EPSG != "") {
-						$proj4 = new Proj4php();
-						$projSrc = new Proj4phpProj('EPSG:'.$EPSG,$proj4);
-						$projDest = new Proj4phpProj('EPSG:4326',$proj4);
-					}
-
 					if(isset($shp_data['parts'])) {
 						foreach ($shp_data['parts'] as $part) {
 							$coords = array();
 							foreach ($part['points'] as $point) {
-								$x = $point['x'];
-								$y = $point['y'];
-								if ($EPSG != "") {
-									$pointSrc = new proj4phpPoint($x,$y);
-									$pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
-									$x = $pointDest->x;
-									$y = $pointDest->y;
-								}
-								//$rowobject->long = ;	
-								$coords[] = $y.','.$x;
+								$coords[] = round($point['y'],2).','.round($point['x'],2);
 							}
 							$rowobject->coords = implode(';', $coords);
 						}
 					}
 					if(isset($shp_data['x'])) {
-						$x = $shp_data['x'];
-						$y = $shp_data['y'];
-
-						if ($EPSG != "") {
-							$pointSrc = new proj4phpPoint($x,$y);
-							$pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
-							$x = $pointDest->x;
-							$y = $pointDest->y;
-						}
-
-						$rowobject->long = $x;
-						$rowobject->lat = $y;
+						$rowobject->coords = round($shp_data['y'],2).','.round($shp_data['x'],2);					
 					}
 				}				
 				

@@ -42,7 +42,9 @@ class FormatterFactory{
         //first, let's be sure about the case of the format
         $urlformat = ucfirst(strtolower($urlformat));
         
-        if(strtolower($urlformat) == "about" || $urlformat == "" ){ //urlformat can be empty on SPECTQL query
+        if($urlformat == ""){
+            $this->format = "error";
+        }else if(strtolower($urlformat) == "about"){
             include_once("custom/formatters/ContentNegotiator.class.php");
             $cn = ContentNegotiator::getInstance();
             $format = $cn->pop();

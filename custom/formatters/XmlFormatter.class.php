@@ -24,7 +24,7 @@ class XmlFormatter extends AFormatter{
 
     public function printHeader(){
         header("Access-Control-Allow-Origin: *");
-        header("Content-Type: text/xml;charset=UTF-8");
+        header("Content-Type: text/xml; charset=UTF-8");
     }
 
     public function printBody(){

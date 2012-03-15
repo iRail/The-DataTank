@@ -19,7 +19,6 @@ class XLS extends ATabularData {
 		$this->parameters["PK"] = "The primary key for each row.";
         $this->parameters["has_header_row"] = "If the XLS file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
         $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
-        $this->parameters["columns"] = "Columns";
         return $this->parameters;	
     }
     
@@ -105,10 +104,6 @@ class XLS extends ATabularData {
 
 			// if no column aliases have been passed, then fill the columns variable 
 			if(empty($this->columns)){
-				if (!is_dir("tmp")) {
-					mkdir("tmp");
-				}
-			
 				$isUrl = (substr($url , 0, 4) == "http");
 				if ($isUrl) {				
 					$tmpFile = com_create_guid();
@@ -163,6 +158,7 @@ class XLS extends ATabularData {
     public function read(&$configObject) {
        
 		parent::read($configObject);
+		
         $url = $configObject->url;
         $sheet = $configObject->sheet;
 		$has_header_row = $configObject->has_header_row;
@@ -178,10 +174,6 @@ class XLS extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
           
-		if (!is_dir("tmp")) {
-			mkdir("tmp");
-		}
-
         try { 
 			$isUrl = (substr($url , 0, 4) == "http");
 			if ($isUrl) {						
@@ -196,7 +188,13 @@ class XLS extends ATabularData {
             
 			$worksheet = $objPHPExcel->getSheetByName($sheet);
 			
-			if (!isset($configObject->named_range) && !isset($configObject->cell_range)) {
+			if ($has_header_row == 0) {
+				foreach ($columns as $index => $column_name) {
+					$fieldhash[$index] = $index;
+				}
+			}
+
+			if (!isset($this->named_range) && !isset($this->cell_range)) {
 				foreach ($worksheet->getRowIterator() as $row) {
 					$rowIndex = $row->getRowIndex();
 					if ($rowIndex >= $start_row) {
@@ -230,40 +228,28 @@ class XLS extends ATabularData {
 					}
 				}
 			} else {
-				if($configObject->named_range != "") {
-					$range = $worksheet->namedRangeToArray($configObject->named_range);
+				if(isset($this->named_range)) {
+					$range = $worksheet->namedRangeToArray($this->named_range);
 				}
-				if($configObject->cell_range != "") {
-					$range = $worksheet->rangeToArray($configObject->cell_range);					
+				if(isset($this->cell_range)) {
+					$range = $worksheet->rangeToArray($this->cell_range);					
 				}
 				$rowIndex = 1;
 				foreach ($range as $row) {
 					if ($rowIndex >= $start_row) {			
-						if ($rowIndex == $start_row) {
-							if ($has_header_row == 0) {
-								$columnIndex = 1;
-								foreach ($row as $cell) {
-									$fieldhash[ $columnIndex - 1 ] = $columnIndex;
-									$columnIndex += 1;
-								}
-							} else {
-								$columnIndex = 1;
-								foreach ($row as $cell) {
-									$fieldhash[ $cell ] = $columnIndex;
-									$columnIndex += 1;
-								}
+						if ($rowIndex == $this->start_row) {
+							foreach ($row as $cell) {
+								$fieldhash[ $cell ] = $columnIndex;
 							}
-						} 
-						if ($has_header_row == 0 or ($rowIndex > $start_row and $has_header_row != 0)) {
+						} else {
 							$rowobject = new stdClass();
 							$keys = array_keys($fieldhash);
-							$columnIndex = 1;
 							foreach ($row as $cell) {
 								$c = $keys[$columnIndex - 1];
 								if(array_key_exists($c,$columns)){
-									$rowobject->$columns[$c] = $cell;
+									$columnName = parent::formatColumnName($columns[$c]);
+									$rowobject->$columnName = $cell;
 								}								
-								$columnIndex += 1;
 							}
 							if($PK == "") {
 								array_push($arrayOfRowObjects,$rowobject);   

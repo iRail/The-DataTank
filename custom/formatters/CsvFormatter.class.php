@@ -46,33 +46,8 @@ class CsvFormatter extends AFormatter{
                  if(is_object($row)){
                      $row = get_object_vars($row);
                  }
-                 
-                 $i = 0;
-                 foreach($row as $element){
-                     if(is_object($element)){
-                         if(isset($element->id)){
-                             echo $element->id;
-                         }else if(isset($element->name)){
-                             echo $element->name;
-                         }else{
-                             echo "OBJECT";
-                         }
-                     }
-                     elseif(is_array($element)){
-                         if(isset($element["id"])){
-                             echo $element["id"];
-                         }else if(isset($element["name"])){
-                             echo $element["name"];
-                         }else{
-                             echo "OBJECT";
-                         }
-                     }
-                     else{
-                         echo $element;
-                     }
-                     echo sizeof($row)-1 != $i ? ";" : "\n";   
-                     $i++;
-                 }
+                 echo implode(";", $row);
+                 echo "\n";
              }
          }         
      }
