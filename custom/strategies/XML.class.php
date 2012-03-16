@@ -1,6 +1,6 @@
 <?php
 /**
- * An abstract class for XML data
+ * An class for XML data
  *
  * @package The-Datatank/model/resources/strategies
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -9,36 +9,19 @@
  */
 include_once("model/resources/AResourceStrategy.class.php");
 include_once("model/DBQueries.class.php");
-include_once("includes/xmlLib.php");
 
 class XML extends AResourceStrategy{
   
     public function read(&$configObject){
-        // streams
-        $xmlReader = new XMLReader;
-        $xmlReader->open($configObject->url);
-        return $this->xml2assoc($xmlReader);
-    } 
 
-    private function xml2assoc($xml) { 
-        $tree = null; 
-        while($xml->read()) 
-            switch ($xml->nodeType) { 
-                case XMLReader::END_ELEMENT: return $tree; 
-                case XMLReader::ELEMENT: 
-                    $node = array('tag' => $xml->name, 'value' => $xml->isEmptyElement ? '' : $this->xml2assoc($xml)); 
-                    if($xml->hasAttributes) 
-                        while($xml->moveToNextAttribute()) 
-                            $node['attributes'][$xml->name] = $xml->value; 
-                    $tree[] = $node; 
-                    break; 
-                case XMLReader::TEXT: 
-                case XMLReader::CDATA: 
-                    $tree .= $xml->value; 
-            } 
-        return $tree; 
+        $xmlString = file_get_contents($configObject->url);
+
+        $xml = simplexml_load_string($xmlString);
+        $json = json_encode($xml);
+        $array = json_decode($json,TRUE);
+
+        return $array;
     }
-
 
     public function onUpdate($package, $resource){
         
