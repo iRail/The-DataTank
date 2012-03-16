@@ -29,6 +29,7 @@ class RController extends AController {
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         //ask the model for our documentation: access to all packages and resources!
+
         $doc = $model->getAllDoc();
 
         
