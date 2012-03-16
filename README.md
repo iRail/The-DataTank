@@ -1,30 +1,15 @@
-# The DataTank #
+# FlatTurtle bvba#
 
-This is The DataTank Git repo.
+FlatTurtle creates APIs for your office building. Your office needs to keep in touch with real-time data surrounding the building: menu's, opening hours, traffic information, weather forecast, car parkings, train delays, expected arrival hours of airplanes, and so on.
 
-If you want to know more about installen The DataTank and using it, please visit http://thedatatank.org
+The API containing this data is going to be the starting point of all our services.
 
-# Being a developer #
+# The DataTank & FlatData #
 
-## Branching ##
+In order to set up an API we're using the open-source platform The DataTank. The DataTank is free software (AGPL, © 2011,2012 iRail NPO, 2012 OKFN Belgium) to create an API for non-local/dynamic data in no time.
 
-We have a lot of branches. In order to understand them we suggest you read this first:
+If you want to read more about The DataTank please visit http://thedatatank.org for developer documentation, and http://thedatatank.com for introductions.
 
-### Master ###
-
-This is the "stable" branch. It only contains code that works. In the future versions will be added as tags.
-
-### hotfixes ###
-
-This branch is a branch where quick bugs in previous releases are fixed. They can be pulled into any of the next branches
-
-### feature branches ###
-
-If I'm working on a new feature, I will branch the hotfixes (=master+general bugfixes) into my feature name. This will allow everyone to work on a working hotfixes branch for his or her new feature.
+FlatTurtle has forked The DataTank to create a platform which integrates seaminglessly with our other products, like http://github.com/FlatTurtle/InfoScreen. This fork of The DataTank is called FlatData.
 
 
-When all features, most likely at the end of the month, are completed, we're in for a new release.
-
-Any questions? Add a support issue.
-
--Pieter
