@@ -44,12 +44,12 @@ class RController extends AController {
         }
 
         $parameters = $_GET;
-
-
-        //check for required parameters
+        
+        
+            
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
-            
+                
             if (!isset($RESTparameters[0])) {
                 throw new ParameterTDTException($parameter);
             }
@@ -57,7 +57,8 @@ class RController extends AController {
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
-
+       
+        
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
         
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
