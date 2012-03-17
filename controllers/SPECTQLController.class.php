@@ -28,10 +28,12 @@ class SPECTQLController extends AController {
         }
         $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
+
         $result = $parser->interpret($context);
-        
         $formatterfactory = FormatterFactory::getInstance("about");//start content negotiation if the formatter factory doesn't exist
         $rootname = "spectql";
+
+        
         $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
         $printer->printAll();
     }

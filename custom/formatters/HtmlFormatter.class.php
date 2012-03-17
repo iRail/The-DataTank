@@ -117,6 +117,4 @@ class HtmlFormatter extends AFormatter {
 		}
 	}	
 }
-
-;
 ?>
