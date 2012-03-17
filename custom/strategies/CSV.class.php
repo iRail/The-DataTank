@@ -20,7 +20,7 @@ class CSV extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateRequiredParameters() {
-        return array("uri", "has_header_row", "delimiter");
+        return array("uri");
     }
 
     /**
@@ -39,7 +39,7 @@ class CSV extends ATabularData {
         $this->parameters["uri"] = "The URI to the CSV file";
         $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
         $this->parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
-        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values.";
+        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values, default value is a semicolon.";
         $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
         return $this->parameters;
     }
@@ -151,19 +151,27 @@ class CSV extends ATabularData {
                 }
             }
         }
-
         return $arrayOfRowObjects;
     }
     
     protected function isValid($package_id,$generic_resource_id) {
+
         if (!isset($this->columns)) {
             $this->columns = array();
+        }
+
+        if(!isset($this->has_header_row)){
+            $this->has_header_row = 1;
         }
 
         if (!isset($this->PK)) {
             $this->PK = "";
         }
 
+        if(!isset($this->delimiter)){
+            $this->delimiter = ";";
+        }
+       
         if (!isset($this->start_row)) {
             $this->start_row = 1;
         }
