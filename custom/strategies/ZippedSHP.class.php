@@ -40,8 +40,7 @@ class ZippedSHP extends SHP {
         }
 		
 		$isUrl = (substr($url , 0, 4) == "http");
-		$tmpGuid = com_create_guid();
-		$tmpGuid = substr($tmpGuid, 1, strlen($tmpGuid) - 2);
+		$tmpGuid = uniqid();
 
 		if (!is_dir("tmp")) {
 			mkdir("tmp");
@@ -88,8 +87,7 @@ class ZippedSHP extends SHP {
         }
 	
 		$isUrl = (substr($url , 0, 4) == "http");
-		$tmpGuid = com_create_guid();
-		$tmpGuid = substr($tmpGuid, 1, strlen($tmpGuid) - 2);
+		$tmpGuid = uniqid();
 
 		if (!is_dir("tmp")) {
 			mkdir("tmp");
