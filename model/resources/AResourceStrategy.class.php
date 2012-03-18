@@ -69,7 +69,10 @@ abstract class AResourceStrategy{
     /**
      * An Update method
      */ 
-    abstract public function onUpdate($package, $resource);
+    public function onUpdate($package, $resource){
+        
+    }
+    
 
     public function setParameter($key,$value){
         $this->$key = $value;
@@ -79,12 +82,30 @@ abstract class AResourceStrategy{
      * Gets all the required parameters to add a resource with this strategy
      * @return array with the required parameters to add a resource with this strategy
      */
-    abstract public function documentCreateRequiredParameters();
-    abstract public function documentReadRequiredParameters();
-    abstract public function documentUpdateRequiredParameters();
-    abstract public function documentCreateParameters();
-    abstract public function documentReadParameters();
-    abstract public function documentUpdateParameters();
+    public function documentCreateRequiredParameters(){
+        return array();
+    }
+    
+    public function documentReadRequiredParameters(){
+        return array();
+    }
+    
+    public function documentUpdateRequiredParameters(){
+        return array();
+    }
+    
+    public function documentCreateParameters(){
+        return array();
+    }
+    
+    public function documentReadParameters(){
+        return array();
+    }
+    
+    public function documentUpdateParameters(){
+        return array();
+    }
+    
 
     /**
      *  This function gets the fields in a resource
@@ -92,7 +113,10 @@ abstract class AResourceStrategy{
      * @param string $resource
      * @return array with column names mapped onto their aliases
      */
-    abstract public function getFields($package, $resource);
+    public function getFields($package, $resource){
+        return array();
+    }
+    
 
     /**
      * This functions performs the validation of the addition of a strategy

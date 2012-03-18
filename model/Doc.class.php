@@ -59,11 +59,5 @@ class Doc{
         }
         return $doc;
     }
-    
-
-
 }
-
-
-
 ?>

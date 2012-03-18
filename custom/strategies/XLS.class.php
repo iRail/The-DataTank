@@ -111,8 +111,7 @@ class XLS extends ATabularData {
 			
 				$isUrl = (substr($url , 0, 4) == "http");
 				if ($isUrl) {				
-					$tmpFile = com_create_guid();
-					$tmpFile = substr($tmpFile, 1, strlen($tmpFile) - 2);
+					$tmpFile = uniqid();
 					file_put_contents("tmp/" . $tmpFile, file_get_contents($url));
 					
 					$objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($url),$sheet);
@@ -185,8 +184,7 @@ class XLS extends ATabularData {
         try { 
 			$isUrl = (substr($url , 0, 4) == "http");
 			if ($isUrl) {						
-				$tmpFile = com_create_guid();
-				$tmpFile = substr($tmpFile, 1, strlen($tmpFile) - 2);
+				$tmpFile = uniqid();
 				file_put_contents("tmp/" . $tmpFile, file_get_contents($url));
 				
 				$objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($url),$sheet);
@@ -195,8 +193,11 @@ class XLS extends ATabularData {
 			}
             
 			$worksheet = $objPHPExcel->getSheetByName($sheet);
-			
-			if (!isset($configObject->named_range) && !isset($configObject->cell_range)) {
+			echo($configObject->named_range);
+            echo($configObject->cell_range);
+            echo($configObject->named_range != "");
+            echo($configObject->cell_range != "");
+			if (($configObject->named_range == "") && ($configObject->cell_range == "")) {
 				foreach ($worksheet->getRowIterator() as $row) {
 					$rowIndex = $row->getRowIndex();
 					if ($rowIndex >= $start_row) {
@@ -292,7 +293,7 @@ class XLS extends ATabularData {
 	
 	private function getFileExtension($fileName)
 	{
-	  return substr(strrchr($fileName,'.'),1);
+	  return strtolower(substr(strrchr($fileName,'.'),1));
 	}	
 	
 	private function loadExcel($xlsFile,$type,$sheet) {

@@ -26,6 +26,7 @@ include_once('RequestURI.class.php');
 include_once('model/ResourcesModel.class.php');
 
 include_once('model/semantics/OntologyProcessor.class.php');
+
 include_once('model/semantics/RDFOutput.class.php');
 
 define("RDFAPI_INCLUDE_DIR", "model/semantics/rdfapi-php/api/"); 
@@ -77,6 +78,7 @@ $urls = array(
     //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
     '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
 );
+
 
 //This function will do the magic. See includes/glue.php
 try {

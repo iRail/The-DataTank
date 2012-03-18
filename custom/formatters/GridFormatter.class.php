@@ -73,6 +73,4 @@ class GridFormatter extends HtmlFormatter {
     }
     
 }
-
-;
 ?>
