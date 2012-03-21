@@ -44,7 +44,7 @@ abstract class ATabularData extends AResourceStrategy{
      */
     protected function evaluateColumns($package_id,$generic_resource_id,$columns,$PK){
         // check if PK is in the column keys
-        if($PK != "" && !array_key_exists($PK,$columns)){
+        if($PK != "" && !in_array($PK,$columns)){
             $this->throwException($package_id,$generic_resource_id,$PK ." as a primary key is not one of the column name keys. Either leave it empty or name it after a column name (not a column alias).");
         }
         

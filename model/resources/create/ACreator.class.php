@@ -30,8 +30,8 @@ abstract class ACreator{
      */
     public function documentParameters(){
         return array("resource_type" => "The type of the resource.", 
-                     "package_title" => "An alias for the package name.", 
-                     "resource_title" => "An alias for the resource name.",
+                     "package_title" => "An alias for the package name, used for presentation and visualization purposes.", 
+                     "resource_title" => "An alias for the resource name, used for presentation and visualization purposes.",
                      "tags" => "A serie of descriptive tags, separated with a semi-colon."
                      );
     }

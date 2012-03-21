@@ -61,8 +61,7 @@ class SHP extends ATabularData {
 			$options = array('noparts' => false);
 			$isUrl = (substr($url , 0, 4) == "http");
 			if ($isUrl) {
-				$tmpFile = com_create_guid();
-				$tmpFile = substr($tmpFile, 1, strlen($tmpFile) - 2);
+				$tmpFile = uniqid();
 				file_put_contents("tmp/" . $tmpFile . ".shp", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shp"));
 				file_put_contents("tmp/" . $tmpFile . ".dbf", file_get_contents(substr($url, 0, strlen($url) - 4) . ".dbf"));
 				file_put_contents("tmp/" . $tmpFile . ".shx", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shx"));
@@ -81,7 +80,6 @@ class SHP extends ATabularData {
 			}
 
 			$shp_data = $record->getShpData();
-			
 			if(isset($shp_data['parts'])) {
 				$this->columns["coords"] = "coords";
 			}
@@ -131,8 +129,7 @@ class SHP extends ATabularData {
 			$options = array('noparts' => false);
 			$isUrl = (substr($url , 0, 4) == "http");
 			if ($isUrl) {	
-				$tmpFile = com_create_guid();
-				$tmpFile = substr($tmpFile, 1, strlen($tmpFile) - 2);
+				$tmpFile = uniqid();
 				file_put_contents("tmp/" . $tmpFile . ".shp", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shp"));
 				file_put_contents("tmp/" . $tmpFile . ".dbf", file_get_contents(substr($url, 0, strlen($url) - 4) . ".dbf"));
 				file_put_contents("tmp/" . $tmpFile . ".shx", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shx"));
