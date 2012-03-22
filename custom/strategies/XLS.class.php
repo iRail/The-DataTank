@@ -42,12 +42,22 @@ class XLS extends ATabularData {
             } else {
                 include_once(Config::$PHPEXCEL_IOFACTORY_PATH);
             }
-        } else {
-            throw new NotFoundTDTException("PHPExcel path not defined in config.class");		
         }
     }
 
     protected function isValid($package_id,$generic_resource_id) {
+
+        if(Config::$PHPEXCEL_IOFACTORY_PATH!="") {
+            if(!file_exists(Config::$PHPEXCEL_IOFACTORY_PATH)){
+                throw new NotFoundTDTException("Could not include " . Config::$PHPEXCEL_IOFACTORY_PATH);
+            } else {
+                include_once(Config::$PHPEXCEL_IOFACTORY_PATH);
+            }
+        }else{
+            throw new NotFoundTDTException("No path to the PHPExcel library was defined in the Config file.");
+        }
+        
+
         if(!isset($this->url)){
 			$this->throwException($package_id,$generic_resource_id, "Can't find url of the XLS");
         }
