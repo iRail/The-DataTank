@@ -33,7 +33,7 @@ class RequestLogger{
         else{
             $request->package = $package;
         }
-        if($resource = "")
+        if($resource == "")
             $request->resource = $URI->getResource();
         else
             $request->resource = $resource;
