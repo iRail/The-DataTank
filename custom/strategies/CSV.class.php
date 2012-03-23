@@ -36,10 +36,10 @@ class CSV extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters() {
-        $this->parameters["uri"] = "The URI to the CSV file";
+        $this->parameters["uri"] = "The URI to the CSV file.";
         $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
         $this->parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
-        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values, default value is a semicolon.";
+        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values, default value is a comma.";
         $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
         return $this->parameters;
     }
@@ -113,8 +113,14 @@ class CSV extends ATabularData {
         foreach ($rows as $row => $fields) {
             $data = str_getcsv($fields, $delimiter);
                 
+            // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
+            if(count($data)<=1){
+                throw new ReadTDTException("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter.");
+            }
+            
+            
             if(count($data) != count($columns)){
-                throw new ReadTDTException("The amount of columns and data from the csv don't match up, this could be because an incorrect delimiter has been passed.");
+                throw new ReadTDTException("The amount of columns and data from the csv don't match up, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used.");
             }
                 
             // keys not found yet
@@ -169,7 +175,7 @@ class CSV extends ATabularData {
         }
 
         if(!isset($this->delimiter)){
-            $this->delimiter = ";";
+            $this->delimiter = ",";
         }
        
         if (!isset($this->start_row)) {

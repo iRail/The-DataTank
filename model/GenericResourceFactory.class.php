@@ -15,7 +15,7 @@ class GenericResourceFactory extends AResourceFactory {
 
     public function hasResource($package,$resource){
         $resource = DBQueries::hasGenericResource($package, $resource);
-        return isset($resource["present"]) && $resource["present"] == 1;   
+        return isset($resource["present"]) && $resource["present"] >= 1;   
     }
 
     public function createCreator($package,$resource, $parameters, $RESTparameters){

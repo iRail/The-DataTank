@@ -16,6 +16,14 @@ class JSON extends AResourceStrategy{
         return json_decode(file_get_contents($configObject->url));
     }
 
+    public function isValid($package_id,$generic_resource_id){
+        $result = json_decode(file_get_contents($this->url));
+        if($result != true){
+            throw new ResourceAdditionTDTException("Could not transfrom the json data from ". $this->url ." to a php object model, please check if the json is valid.");
+        }
+    }
+    
+
     public function onUpdate($package, $resource){
         
     }

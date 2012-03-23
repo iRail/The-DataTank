@@ -210,12 +210,13 @@ class ResourcesModel {
             if (!$this->hasResource($package, $resource)) {
                 throw new ResourceOrPackageNotFoundTDTException("package/resource couple " . $package . "/" . $resource . " not found.");
             }
-
+            
             /**
              * We only support the deletion of generic and remote resources and packages by 
              * an API call.
              */
             $factory = "";
+
             if ($this->factories["generic"]->hasResource($package, $resource)) {
                 $factory = $this->factories["generic"];
             } else if ($this->factories["remote"]->hasResource($package, $resource)) {

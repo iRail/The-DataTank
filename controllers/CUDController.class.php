@@ -55,8 +55,8 @@ class CUDController extends AController {
 
     function PUT($matches) {
         //both package and resource set?
-        if (!isset($matches["package"]) || !isset($matches["resource"])) {
-            throw new RequiredParameterTDTException("package/resource not set");
+        if (!isset($matches["package"]) || strlen($matches["resource"]) == 0) {
+            throw new RequiredParameterTDTException("package/resource couple is not passed correctly.");
         }
 
         //we need to be authenticated

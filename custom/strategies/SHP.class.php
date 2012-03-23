@@ -73,6 +73,10 @@ class SHP extends ATabularData {
 
 			$record = $shp->getNext();
 			// read meta data
+                        if($record == false){
+                            exit();
+                        }
+                        
 			$dbf_data = $record->getDbfData();
 			foreach ($dbf_data as $property => $value) {
 				$property = strtolower($property);
