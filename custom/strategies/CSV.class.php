@@ -219,9 +219,13 @@ class CSV extends ATabularData {
                     $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $this->delimiter);
                     $commentlinecounter++;
                 }
-       
+
                 if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter)) !== FALSE) {
                     // if no column aliases have been passed, then fill the columns variable 
+                    if(count($line) <= 1){
+                        throw new ResourceAdditionTDTException("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter.");
+                    }
+                    
                     if(empty($this->columns)){                        
                         for ($i = 0; $i < sizeof($line); $i++){
                             $fieldhash[$line[$i]] = $i;

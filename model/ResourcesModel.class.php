@@ -97,7 +97,19 @@ class ResourcesModel {
             //first check if there resource exists yet
             if ($this->hasResource($package, $resource)) {
                 //If it exists, delete it first and continue adding it.
-                $this->deleteResource($package, $resource,$RESTparameters);
+                //It could be that because errors occured after the addition, that
+                //the documentation reset in the CUDController isn't up to date anymore
+                //This will result in a hasResource() returning true and deleteResource returning false (error)
+                //This is our queue to reset the documentation.
+                try{
+                    $this->deleteResource($package, $resource,$RESTparameters);
+                }catch(Exception $ex){
+                     //Clear the documentation in our cache for it has changed        
+                    $c = Cache::getInstance();
+                    $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+                    $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+                    throw new InternalServerTDTException("Error: ". $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers.");
+                }
             }
             
             //if it doesn't, test whether the resource_type has been set
@@ -144,7 +156,17 @@ class ResourcesModel {
 
             // all is well, let's create that resource!
             $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
-            $creator->create();
+            try{
+                $creator->create();
+            }catch(Exception $ex){
+                //Clear the documentation in our cache for it has changed        
+                $c = Cache::getInstance();
+                $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+                $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+                $this->deleteResource($package, $resource,$RESTparameters);
+                throw new Exception($ex->getMessage());
+            }
+            
         } else {
             // all is well, let's create that ontology!
             $creator = $this->factories["ontology"]->createCreator($package, $resource, $parameters, $RESTparameters);
@@ -230,6 +252,10 @@ class ResourcesModel {
             $deleter = $this->factories["ontology"]->createDeleter($package, $resource, $RESTparameters);
             $deleter->delete();
         }
+        //Clear the documentation in our cache for it has changed        
+        $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
     /**
