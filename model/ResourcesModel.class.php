@@ -208,6 +208,7 @@ class ResourcesModel {
         if (!$this->hasResource($package, $resource)) {
             throw new ResourceOrPackageNotFoundTDTException($package, $resource);
         }
+        
         //check the parameters for the right updater
         if (!isset($parameters["update_type"])) {
             throw new ParameterTDTException("update_type");

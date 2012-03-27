@@ -156,7 +156,23 @@ class DatabaseSetup extends InstallController {
               KEY `s_obj_ftidx` (`object`(250))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
         
-
+        
+        $queries["resource_tag"] = "CREATE TABLE IF NOT EXISTS `resource_tag` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `resource_id` bigint(20) NOT NULL,
+              `tag_id` bigint(20) NOT NULL,
+              PRIMARY KEY (`id`),
+              KEY `resource_id` (`resource_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+     
+        $queries["tags"] = "CREATE TABLE IF NOT EXISTS `tags` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `tagname` varchar(50) NOT NULL,
+              PRIMARY KEY (`id`),
+              KEY `resource_id` (`resource_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+     
+        
 
         $tables = array();
         foreach($queries as $table=>$query) {

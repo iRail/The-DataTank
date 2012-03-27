@@ -500,5 +500,64 @@ class DBQueries {
             
         );
     }
+
+    /**
+     * Check if tag exists
+     */
+    static function hasTag($tagname){
+        return R::exec(
+            "SELECT id
+             FROM tags
+             WHERE tagname =:tag",
+            array(":tag" => $tagname)
+        );
+    }
+
+    /**
+     * Store a tag in the tag table
+     */
+    static function storeTag($tagname){
+        $tag = R::dispense("tags");
+        $tag->tagname = $tagname;
+        return R::store($tag);
+    }
+
+    /**
+     * Store resource tag couple in the coupling resource -> tag table
+     */
+    static function storeResourceTag($resource_id,$tag_id){
+        $resourceTag = R::dispense("resource_tag");
+        $resourceTag->resource_id = $resource_id;
+        $resourceTag->tag_id = $tag_id;
+        return R::store($resourceTag);
+    }
+
+    /**
+     * Delete resource-tag entry
+     */
+    static function deleteResourceTag($package,$resource){
+        return R::exec(
+            "DELETE FROM resource_tag
+             WHERE resource_id IN
+             (SELECT resource.id
+              FROM package,resource
+              WHERE package.package_name =:package AND resource.resource_name = :resource
+             )",
+            array(":package" => $package , ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Check if couple resource - tag exists
+     */
+    static function hasResourceTag($resource_id,$tag_id){
+        return R::getCell(
+            "SELECT count(1) as present
+             FROM resource_tag
+             WHERE resource_id =:resource_id AND tag_id=:tag_id",
+            array(":resource_id" => $resource_id, ":tag_id" =>$tag_id)
+        );
+    }
+    
 }
 ?>

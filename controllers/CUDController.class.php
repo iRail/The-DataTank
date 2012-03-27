@@ -142,7 +142,8 @@ class CUDController extends AController {
 
 
         //change the package and resource when authenticated and authorized in the model
- 
+        parse_str(file_get_contents("php://input"), $_POST);
+        
         $model = ResourcesModel::getInstance();
         $model->updateResource($package, $resource, $_POST, $RESTparameters);
 
