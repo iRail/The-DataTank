@@ -47,12 +47,12 @@ abstract class AFormatter {
     /**
      * This function will set the header type of the responsemessage towards the call of the user.
      */
-    abstract protected function printHeader();
+    abstract public function printHeader();
 
     /**
      * This function will print the body of the responsemessage.
      */
-    abstract protected function printBody();
+    abstract public function printBody();
     
 }
 ?>

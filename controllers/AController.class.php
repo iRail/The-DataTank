@@ -15,6 +15,7 @@ abstract class AController{
     abstract function POST($matches);
     abstract function PUT($matches);
     abstract function DELETE($matches);
+    abstract function HEAD($matches);
 }
 
 ?>

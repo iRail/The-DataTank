@@ -52,6 +52,41 @@ class CUDController extends AController {
         header("HTTP/1.1 303 See Other");
         header("Location:" . $pageURL);    
     }
+    
+    public function HEAD($matches){
+                $package = $matches["package"];
+        $resource = trim($matches["resource"]);
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
+        if ($resource == "") {
+            if (isset($doc->$package)) {
+                $resourcenames = get_object_vars($doc->$package);
+                unset($resourcenames["creation_date"]);
+                throw new NoResourceGivenTDTException($resourcenames);
+            } else {
+                throw new NoResourceGivenTDTException(array());
+            }
+        }
+
+        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
+        if (!$model->hasResource($package, $resource)) {
+            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
+        }
+
+        //get the current URL
+        $ru = RequestURI::getInstance();
+        $pageURL = $ru->getURI();
+        $pageURL = rtrim($pageURL, "/");
+        //add .about before the ?
+        if (sizeof($_GET) > 0) {
+            $pageURL = str_replace("?", ".about?", $pageURL);
+            $pageURL = str_replace("/.about", ".about", $pageURL);
+        } else {
+            $pageURL .= ".about";
+        }
+        header("HTTP/1.1 303 See Other");
+        header("Location:" . $pageURL);    
+    }
 
     function PUT($matches) {
         //both package and resource set?

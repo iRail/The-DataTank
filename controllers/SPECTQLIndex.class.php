@@ -20,6 +20,10 @@ class SPECTQLIndex extends AController {
         include("controllers/spectql/index.php");
     }
 
+    function HEAD($matches){
+        include("controllers/spectql/index.php");
+    }
+
     /**
      * You cannot PUT on a representation
      */
