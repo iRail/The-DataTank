@@ -27,10 +27,13 @@ class CUDController extends AController {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
                 unset($resourcenames["creation_date"]);
-                throw new NoResourceGivenTDTException($resourcenames);
+                foreach($resourcenames as $resourcename => $value){
+                    echo '<a href="'. Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename . '">'. $resourcename . "</a><br>";
+                }
             } else {
-                throw new NoResourceGivenTDTException(array());
+                echo "No resources are listed for this package <br>";
             }
+            exit();
         }
 
         //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
