@@ -1,6 +1,6 @@
 <?php
 /**
- * The controller will look for GET and POST requests on a certain module. It will ask the factories to return the right Resource instance.
+ * The controller will look for GET and POST requests on a certain resource or package. It will ask the factories to return the right Resource instance.
  * If it checked all required parameters, checked the format, it will perform the call and get a result.
  *
  * @package The-Datatank/controllers

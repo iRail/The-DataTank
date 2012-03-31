@@ -20,6 +20,7 @@ include_once('controllers/RController.class.php');
 include_once('controllers/SPECTQLController.class.php');
 include_once('controllers/SPECTQLIndex.class.php');
 include_once('controllers/CUDController.class.php');
+include_once('controllers/RedirectController.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
 include_once('RequestURI.class.php');
@@ -67,16 +68,20 @@ $urls = array(
     '/(?P<package>[^/.]*)/(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
     // Calling the Create, Update, Delete- controller
 
+    // Calling a READ but no format is passed, so we redirect the request towards content negotation
+    //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
+    // But also:
+    //  GET /package/ - should give all resources in package in an exception
+    
+    '/(?P<package>[^/.]*)/(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)' => 'RedirectController',
+    
     // This is a request on the real-world object
     // examples of matches:
     //  PUT /package/
     //  POST /package/resource/property/
     //  POST /package/resource
     //  DELETE /package/resource
-    // But also:
-    //  GET /package/ - should give all resources in package in an exception
-    //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
-    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+    '/TDTInfo/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
 );
 
 

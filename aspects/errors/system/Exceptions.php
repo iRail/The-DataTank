@@ -202,7 +202,7 @@ class RepresentationCUDCallTDTException extends SystemTDTException {
     public static $error = 571;
     
     public function __construct() {
-        parent::__construct("You cannot write to a representation. Delete the format identifier (eg. .about or .json or .xml) and try again");
+        parent::__construct("You cannot write to a representation. Use TDTInfo/Resources for CUD operations.");
     }
 }
 
