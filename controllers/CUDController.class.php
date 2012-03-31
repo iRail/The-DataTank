@@ -54,7 +54,7 @@ class CUDController extends AController {
     }
     
     public function HEAD($matches){
-                $package = $matches["package"];
+        $package = $matches["package"];
         $resource = trim($matches["resource"]);
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
