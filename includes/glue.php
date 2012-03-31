@@ -53,6 +53,11 @@ class glue {
     static function stick ($urls) {
         
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
+        $HTTPheaders = getallheaders();
+        if(isset($HTTPheaders["X-HTTP-Method-Override"])){
+            $method = strtoupper($HTTPheaders["X-HTTP-Method-Override"]);
+        }
+
         $path = $_SERVER['REQUEST_URI'];
         if(strlen(Config::$SUBDIR) > 0) {
             $path = substr($path,strlen(Config::$SUBDIR));	

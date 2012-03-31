@@ -16,10 +16,41 @@ include_once('model/filters/FilterFactory.class.php');
 class CUDController extends AController {
 
     /**
-     * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
+     * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation. 
      */
     function GET($matches) {
-        throw new RepresentationCUDCallTDTException();
+        $package = $matches["package"];
+        $resource = trim($matches["resource"]);
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
+        if ($resource == "") {
+            if (isset($doc->$package)) {
+                $resourcenames = get_object_vars($doc->$package);
+                unset($resourcenames["creation_date"]);
+                throw new NoResourceGivenTDTException($resourcenames);
+            } else {
+                throw new NoResourceGivenTDTException(array());
+            }
+        }
+
+        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
+        if (!$model->hasResource($package, $resource)) {
+            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
+        }
+
+        //get the current URL
+        $ru = RequestURI::getInstance();
+        $pageURL = $ru->getURI();
+        $pageURL = rtrim($pageURL, "/");
+        //add .about before the ?
+        if (sizeof($_GET) > 0) {
+            $pageURL = str_replace("?", ".about?", $pageURL);
+            $pageURL = str_replace("/.about", ".about", $pageURL);
+        } else {
+            $pageURL .= ".about";
+        }
+        header("HTTP/1.1 303 See Other");
+        header("Location:" . $pageURL);    
     }
 
     function PUT($matches) {
