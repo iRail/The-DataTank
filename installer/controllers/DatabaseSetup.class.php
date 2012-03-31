@@ -162,14 +162,14 @@ class DatabaseSetup extends InstallController {
               `resource_id` bigint(20) NOT NULL,
               `tag_id` bigint(20) NOT NULL,
               PRIMARY KEY (`id`),
-              KEY `resource_id` (`resource_id`)
+              KEY `resource_id` (`resource_id`),
+				  KEY `tag_id` (`tag_id`) 	
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
      
         $queries["tags"] = "CREATE TABLE IF NOT EXISTS `tags` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `tagname` varchar(50) NOT NULL,
-              PRIMARY KEY (`id`),
-              KEY `resource_id` (`resource_id`)
+              PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
      
         
