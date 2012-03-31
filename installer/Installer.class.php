@@ -38,7 +38,7 @@ class Installer {
     }
     
     public function run() {
-        if($this->installedVersion() == $this->version()) {
+        if(false){//$this->installedVersion() == $this->version()) {
             $this->previousStep = FALSE;
             $this->nextStep = FALSE;
             

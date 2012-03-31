@@ -18,7 +18,12 @@ class RequestLogger{
 	$ff = FormatterFactory::getInstance();
         //an instance of RequestURI
         $URI = RequestURI::getInstance();
+        
         $request = R::dispense('requests');
+        $format = $URI->getGivenFormat();
+
+        $ip = RequestLogger::getIpAddress();
+        $request->ip = $ip;
         $request->time = time();
         if(isset($_SERVER['HTTP_USER_AGENT'])){    
             $request->user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -37,7 +42,7 @@ class RequestLogger{
             $request->resource = $URI->getResource();
         else
             $request->resource = $resource;
-        $request->format = "spectql";
+        $request->format = $format;
         if($parameters == ""){
             $request->requiredparameter = implode(";",$URI->getFilters());
         }
@@ -54,6 +59,18 @@ class RequestLogger{
         }
         
         $result = R::store($request);
+    }
+
+    private static function getIpAddress() {
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    if (filter_var($ip, FILTER_VALIDATE_IP) !== false) {
+                        return $ip;
+                    }
+                }
+            }
+        }
     }
 }
 ?>

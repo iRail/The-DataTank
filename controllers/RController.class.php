@@ -31,7 +31,6 @@ class RController extends AController {
         //ask the model for our documentation: access to all packages and resources!
 
         $doc = $model->getAllDoc();
-
         
         if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
             throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");

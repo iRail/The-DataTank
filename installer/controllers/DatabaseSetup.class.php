@@ -85,6 +85,9 @@ class DatabaseSetup extends InstallController {
               `reqparameters` varchar(128) DEFAULT NULL,
               `allparameters` varchar(164) DEFAULT NULL,
               `requiredparameter` varchar(255) DEFAULT NULL,
+              `ip` varchar(255) DEFAULT NULL, 
+              `hash` varchar(255) DEFAULT NULL,
+              `location` varchar(255) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";    
         
