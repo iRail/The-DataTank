@@ -6,27 +6,39 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
  */
 include_once("AUpdater.class.php");
 include_once("model/DBQueries.class.php");
 
 class GenericResourceUpdater extends AUpdater {
 
-    private $delimiter = ";";
+    private $strategy;
+    private $generic_type;
 
-    public function __construct($package, $resource, $RESTparameters) {
+    public function __construct($package, $resource, $RESTparameters,$generic_type) {
         parent::__construct($package, $resource, $RESTparameters);
+        $this->generic_type = $generic_type;
+        if(!file_exists("custom/strategies/" . $this->generic_type . ".class.php")){
+            throw new ResourceAdditionTDTException("Generic type does not exist: " . $this->generic_type);
+        }
+        include_once("custom/strategies/" . $this->generic_type . ".class.php");
+        // add all the parameters to the $parameters
+        // and all of the requiredParameters to the $requiredParameters
+        $this->strategy = new $this->generic_type();
+        $this->strategy->package = $package;
+        $this->strategy->resource = $resource;
     }
 
     public function getParameters(){
+        $parameters = array("documentation");
         return array(
-            "tags" => "A list of tags, separated by a semi-colon."
+            
         );
     }
 
     public function getRequiredParameters() {
         return array(
-             "tags"
         );
     }
 
@@ -35,47 +47,11 @@ class GenericResourceUpdater extends AUpdater {
     }
 
     public function update() {
-        // get the id from the resource table
-        $resourceId;
-
-        if(DBQueries::hasGenericResource($this->package,$this->resource)){
-            $packageId = DBQueries::getPackageId($this->package);
-            $packageId = $packageId["id"];
-
-            $resourceId = DBQueries::getResourceId($packageId,$this->resource);
-            $resourceId = $resourceId["id"];
-
-        }else{
-            throw new ResourceUpdateTDTException("The specified resource isn't a generic resource.");
-        }
-
-        // store the tags in the tag table
-        // get all the id's from the tags in the tag table
-
-        $tagArray = explode($this->delimiter,$this->tags);
-        $tagIdArray = array();
-        foreach($tagArray as $tag){
-            $check = DBQueries::hasTag($tag);
-            if($check == 0){
-                $result = DBQueries::storeTag($tag);
-                array_push($tagIdArray,$result);
-            }else{
-                array_push($tagIdArray,$check);
-            }
-        }
-
-        // create entries in the coupling table resource-id -> tag-id
-        foreach($tagIdArray as $tagId){
-            // check if couple already exists, if not add it
-            $result = DBQueries::hasResourceTag($resourceId,$tagId);
-            if($result["present"] == 0){
-                DBQueries::storeResourceTag($resourceId,$tagId);   
-            }
-        }
+       
     }
 
     public function getDocumentation() {
-        return "Perform an update on a resource, currently only Tags are supported.";
+        return "Perform an update on a resource, all PUT (create) properties can be changed through this action.";
     }
 
 }

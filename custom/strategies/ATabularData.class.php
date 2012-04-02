@@ -12,8 +12,9 @@ include_once("model/DBQueries.class.php");
 
 abstract class ATabularData extends AResourceStrategy{
 
-    protected $parameters = array();
-    
+    protected $parameters = array(); // create parameters
+    protected $updateParameters = array(); // update parameters
+
     function __construct(){
         $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published. Note that this parameter is not required, however if you do not have a header row, we do expect the columns to be passed along, otherwise there's no telling what the names of the columns are. This array should be build as column_name => column_alias or index => column_alias.";
     }

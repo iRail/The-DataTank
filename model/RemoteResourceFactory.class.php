@@ -64,15 +64,13 @@ class RemoteResourceFactory extends AResourceFactory{
     }
 
     public function makeDeleteDoc($doc){
-        //add stuff to the delete attribute in doc. No other parameters expected
-        foreach($this->getAllResourceNames() as $package => $v){
-            foreach($v as $resource){
-                $d = new stdClass();
-                $d->doc = "Delete this remote resource by calling the URI given in this object with a HTTP DELETE method";
-                $d->uri = Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource;
-                $doc->delete[] = $d;
-            }
+        $d = new StdClass();
+        $d->doc = "You can delete every remote resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
+        if(!isset($doc->delete)){
+            $doc->delete = new StdClass();
         }
+        $doc->delete->remote = new StdClass();
+        $doc->delete->remote = $d;
     }
     
     public function makeCreateDoc($doc){
@@ -110,9 +108,9 @@ class RemoteResourceFactory extends AResourceFactory{
         }
         $data = unserialize($request->data);
         $remoteResource = new stdClass();
-        $remoteResource->package = $package;
+        $remoteResource->package_name = $package;
         $remoteResource->remote_package = $result["package"];
-        if(!isset($remoteResource->doc) && isset($data[$resource])){
+        if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
             $remoteResource->doc = $data[$resource]->doc;
         }else{
             $remoteResource->doc = new stdClass();
@@ -121,11 +119,17 @@ class RemoteResourceFactory extends AResourceFactory{
         
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
+        $remoteResource->resource_type = "remote";
         if(isset($data[$resource]->parameters)){
             $remoteResource->parameters = $data[$resource]->parameters;
+        }else{
+            $remoteResource->parameters = array();
         }
+        
         if(isset($data[$resource]->requiredparameters)){
             $remoteResource->requiredparameters = $data[$resource]->requiredparameters;
+        }else{
+            $remoteResource->requiredparameters = array();
         }
         return $remoteResource;
     }

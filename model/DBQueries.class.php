@@ -149,7 +149,7 @@ class DBQueries {
     static function getGenericResourceDoc($package,$resource) {
         return R::getRow(
             "SELECT generic_resource.documentation as doc, creation_timestamp as creation_timestamp,
-                        last_update_timestamp as last_update_timestamp 
+                        last_update_timestamp as last_update_timestamp, generic_resource.type as type, generic_resource.id as id 
                  FROM package,generic_resource,resource 
                  WHERE package.package_name=:package and resource.resource_name =:resource
                        and package.id=resource.package_id and resource.id = generic_resource.resource_id",
@@ -558,6 +558,29 @@ class DBQueries {
             array(":resource_id" => $resource_id, ":tag_id" =>$tag_id)
         );
     }
-    
+
+    /**
+     * Get the type of the resource
+     */
+    static function getResourceType($package,$resource){
+        return R::getCell(
+            "SELECT type
+             FROM resource,package
+             WHERE package_name =:package AND resource_name=:resource",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Get all the properties of a strategy
+     */
+    static function getStrategyProperties($generic_resource_id,$strategy_table){
+        return R::getAll(
+            "SELECT * 
+             FROM $strategy_table
+             WHERE gen_resource_id=:gen_res_id",
+            array(":gen_res_id" => $generic_resource_id)
+        );
+    }
 }
 ?>

@@ -42,9 +42,7 @@ class RController extends AController {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
 
-        $parameters = $_GET;
-        
-        
+        $parameters = $_GET;        
             
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method

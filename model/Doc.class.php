@@ -6,6 +6,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
  */
 
 class Doc{
@@ -39,6 +40,7 @@ class Doc{
             foreach($factories as $factory){ 
                 $factory->makeDeleteDoc($doc);
                 $factory->makeCreateDoc($doc);
+                $factory->makeUpdateDoc($doc);
             }
             $c->set(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation",$doc,60*60*60); // cache it for 1 hour by default
         }
@@ -59,5 +61,6 @@ class Doc{
         }
         return $doc;
     }
+
 }
 ?>

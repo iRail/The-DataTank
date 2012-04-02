@@ -24,11 +24,16 @@ class CSV extends ATabularData {
     }
 
     /**
-     * Document all the read required parameters for documentation purposes. 
-     * @return array with necessary parameters to read a CSV.
+     * Returns an array with params => documentation pairs that can be used to update a CSV resource.
+     * @return array with parameter => documentation pairs
      */
-    public function documentReadRequiredParameters() {
-        return array();
+    public function documentUpdateParameters(){
+        $this->parameters["uri"] = "The URI to the CSV file.";
+        $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
+        $this->parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
+        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values, default value is a comma.";
+        $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
+        return $this->parameters;
     }
 
     /**

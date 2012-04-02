@@ -65,10 +65,21 @@ class CoreResourceFactory extends AResourceFactory {
 
     public function makeDeleteDoc($doc){
         //We cannot delete Core Resources
+        $d = new StdClass();
+        $d->doc = "You cannot delete core resources.";
+        if(!isset($doc->delete)){
+            $doc->delete = new StdClass();
+        }
+        $doc->delete->core = new StdClass();
+        $doc->delete->core = $d;
     }
     
     public function makeCreateDoc($doc){
         //we cannot create Core Resources
+    }
+    
+    public function makeUpdateDoc($doc){
+        // we cannot update Core Resources
     }
     
 

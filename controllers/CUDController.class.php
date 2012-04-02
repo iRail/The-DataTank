@@ -160,6 +160,9 @@ class CUDController extends AController {
 
     /**
      * POST handling, updates a resource
+     * The same way a definition is PUT, a definition may be changed.
+     * This means that TDTInfo/Resources will handle all the update actions
+     * i.e. TDTInfo/Resources/mypackage/myresource?doc=some%20documentation&uri=somethingelse
      * @param string $matches Contains the matches from the given URL, contains package,resource
      */
     public function POST($matches) {
@@ -173,13 +176,11 @@ class CUDController extends AController {
         }
         $package = trim($matches["package"]);
         $resource = trim($matches["resource"]);
-        $RESTparameters = array();
+         $RESTparameters = array();
         if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
-
-
-        //change the package and resource when authenticated and authorized in the model
+        
         parse_str(file_get_contents("php://input"), $_POST);
         
         $model = ResourcesModel::getInstance();

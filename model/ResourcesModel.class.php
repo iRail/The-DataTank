@@ -209,13 +209,44 @@ class ResourcesModel {
             throw new ResourceOrPackageNotFoundTDTException($package, $resource);
         }
         
-        //check the parameters for the right updater
-        if (!isset($parameters["update_type"])) {
-            throw new ParameterTDTException("update_type");
+        /**
+         * Get the resource properties from the documentation
+         * Replace that passed properties and re-add the resource
+         */
+        $doc = $this->getAllDoc();
+        $currentParameters = $doc->$package->$resource;
+
+        /** issue with updates:
+         * not all things you see are primary put parameters, some are derived and can't be update
+         * i.e. doc property of a remote resource, that property hasn't been put but has been derived from 
+         * the other properties of a remote resource.
+         * currently hard coded because there are no extensive units of abstract descriptions (generic, remote) yet...
+         */
+
+        unset($currentParameters->parameters);
+        unset($currentParameters->requiredparameters);
+        unset($currentParameters->remote_package);
+        unset($currentParameters->doc);
+        unset($currentParameters->resource);
+        
+
+        foreach($parameters as $parameter => $value){
+            if(isset($currentParameters->$parameter)){
+                $currentParameters->$parameter = $value;
+            }else{
+                throw new ParameterDoesntExistTDTException($parameter);
+            }
         }
-        $updater = new $this->updateActions[$parameters["update_type"]]($package, $resource, $RESTparameters);
+        
+        $currentParameters = (array)$currentParameters;
+        $this->createResource($package,$resource,$currentParameters,array());
+        
+        /**
+         * DO NOT DELETE the snippet below, might be necessary for Ontology-addition, awaiting reply of Miel Van der Sande
+         */
+        /*$updater = new $this->updateActions[$parameters["update_type"]]($package, $resource, $RESTparameters);
         $updater->processParameters($parameters);
-        $updater->update();
+        $updater->update();*/
     }
 
     /**
