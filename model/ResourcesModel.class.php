@@ -116,8 +116,20 @@ class ResourcesModel {
             if (!isset($parameters["resource_type"])) {
                 throw new ResourceAdditionTDTException("Parameter resource_type hasn't been set");
             }
-            if ($parameters["resource_type"] == "generic" && !isset($parameters["generic_type"])) {
-                throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set");
+
+            /**
+             * adding some semantics to the resource_type parameter
+             * generic/generic_type should be parsed as generic being the resource_type and generic_type as the
+             * generic type, without passing that as a separate parameter
+             * NOTE that passing generic/generic_type has priority over generic_type = ...
+             */
+
+            $resourceTypeParts = explode("/",$parameters["resource_type"]);
+            if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) && isset($resourceTypeParts[1])) {
+                $parameters["generic_type"] = $resourceTypeParts[1];
+                $parameters["resource_type"] = $resourceTypeParts[0];
+            }else if(!isset($parameters["generic_type"])){
+                throw new ResourceAdditionTDTException("Parameter generic_txype hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example is: generic/CSV");
             }
 
             $restype = $parameters["resource_type"];
