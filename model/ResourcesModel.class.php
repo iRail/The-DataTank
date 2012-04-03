@@ -146,6 +146,13 @@ class ResourcesModel {
              */
             $resourceCreationDoc;
             if ($restype == "generic") {
+                /*
+                 * Issue: keys of an array cannot be gotten without an exact match, csv != CSV is an example
+                 * of a result of this matter, this however should be ==
+                 * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace 
+                 * generic_type with the "correct" one
+                 */
+                $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"],$doc->create->generic);
                 $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
             } else { // remote
                 $resourceCreationDoc = $doc->create->remote;
@@ -185,6 +192,21 @@ class ResourcesModel {
             $creator->create();
         }
     }
+
+    /**
+     * Searches for a generic entry in the generic- create part of the documentation, independent of 
+     * how it is passed (i.e. csv == CSV )
+     * @return The correct entry in the generic table ( csv would be changed with CSV )
+     */
+    private function formatGenericType($genType, $genericTable){
+        foreach($genericTable as $type => $value){
+            if(strtoupper($genType) == strtoupper($type)){
+                return $type;
+            }
+        }
+        throw new ResourceAdditionTDTException($genType . " was not found as a generic_type");
+    }
+    
 
     /**
      * Reads the resource with the given parameters
