@@ -218,5 +218,13 @@ class RController extends AController {
     public function POST($matches) {
         throw new RepresentationCUDCallTDTException();
     }
+
+
+    /**
+     * You cannot use patch a representation
+     */
+    public function PATCH($matches) {
+        throw new RepresentationCUDCallTDTException();
+    }
 }
 ?>

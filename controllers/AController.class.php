@@ -16,6 +16,7 @@ abstract class AController{
     abstract function PUT($matches);
     abstract function DELETE($matches);
     abstract function HEAD($matches);
+    abstract function PATCH($matches);
 }
 
 ?>

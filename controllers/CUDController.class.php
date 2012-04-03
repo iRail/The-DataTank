@@ -159,13 +159,9 @@ class CUDController extends AController {
     }
 
     /**
-     * POST handling, updates a resource
-     * The same way a definition is PUT, a definition may be changed.
-     * This means that TDTInfo/Resources will handle all the update actions
-     * i.e. TDTInfo/Resources/mypackage/myresource?doc=some%20documentation&uri=somethingelse
-     * @param string $matches Contains the matches from the given URL, contains package,resource
+     * You cannot use patch a representation
      */
-    public function POST($matches) {
+    public function PATCH($matches) {
         //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
@@ -192,6 +188,43 @@ class CUDController extends AController {
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+    }
+
+
+    /**
+     * POST handling, updates a resource
+     * The same way a definition is PUT, a definition may be changed.
+     * This means that TDTInfo/Resources will handle all the update actions
+     * i.e. TDTInfo/Resources/mypackage/myresource?doc=some%20documentation&uri=somethingelse
+     * @param string $matches Contains the matches from the given URL, contains package,resource
+     */
+    public function POST($matches) {
+        //both package and resource set?
+        /*if (!isset($matches["package"]) || !isset($matches["resource"])) {
+            throw new ParameterTDTException("package/resource not set");
+        }
+        //we need to be authenticated
+        if (!$this->isAuthenticated()) {
+            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
+        }
+        $package = trim($matches["package"]);
+        $resource = trim($matches["resource"]);
+         $RESTparameters = array();
+        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
+            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
+        }
+        
+        parse_str(file_get_contents("php://input"), $_POST);
+        
+        $model = ResourcesModel::getInstance();
+        $model->updateResource($package, $resource, $_POST, $RESTparameters);
+
+        //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+        R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+        //Clear the documentation in our cache for it has changed
+        $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");*/
     }
 
 
