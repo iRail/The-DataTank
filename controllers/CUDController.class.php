@@ -26,7 +26,6 @@ class CUDController extends AController {
         if ($resource == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
-                unset($resourcenames["creation_date"]);
                 foreach($resourcenames as $resourcename => $value){
                     echo '<a href="'. Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename . '">'. $resourcename . "</a><br>";
                 }

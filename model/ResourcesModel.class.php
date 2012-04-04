@@ -54,6 +54,19 @@ class ResourcesModel {
     }
 
     /**
+     * Checks if a package exists
+     */
+    public function hasPackage($package){
+        $doc = $this->getAllDoc();
+        foreach ($doc as $packagename => $resourcenames) {
+            if ($package == $packagename) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks the doc whether a certain resource exists in our system.
      * We will look for a definition in the documentation. Of course,
      * the result of the documentation visitor class will be cached

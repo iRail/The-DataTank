@@ -1,6 +1,6 @@
 <?php
 /**
- * This controller will redirect the user for content negotation
+ * This controller will redirect the user for content negotiation
  * @package The-Datatank/controllers
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -27,8 +27,10 @@ class RedirectController extends AController{
                 foreach($resourcenames as $resourcename => $value){
                     echo '<a href="'. Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename . '">'. $resourcename . "</a><br>";
                 }
-            } else {
+            }else if($model->hasPackage($package)){
                 echo "No resources are listed for this package <br>";
+            } else {
+                echo "This package name ( $package ) has not been created yet.";
             }
             exit();
         }
@@ -54,14 +56,13 @@ class RedirectController extends AController{
     }
 
     function HEAD($matches){
-                $package = $matches["package"];
+        $package = $matches["package"];
         $resource = trim($matches["resource"]);
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
         if ($resource == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
-                unset($resourcenames["creation_date"]);
                 throw new NoResourceGivenTDTException($resourcenames);
             } else {
                 throw new NoResourceGivenTDTException(array());
