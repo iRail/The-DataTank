@@ -200,8 +200,14 @@ class DatabaseSetup extends InstallController {
                 $info = R::findOne('info','name=:name LIMIT 1', array(":name"=>"version"));
                 $info->value = $this->installer->version();
                 R::store($info);
-            }
-            
+            }            
+
+            /**
+             * updates
+             */
+
+            R::exec("ALTER TABLE generic_resource_xls CHANGE url uri varchar(255)");
+
             $data["status"] = "passed";
             $data["tables"] = $tables;
         }

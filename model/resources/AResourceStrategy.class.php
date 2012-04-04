@@ -125,6 +125,7 @@ abstract class AResourceStrategy{
      * NOTE: this validation is not only meant to validate parameters, but also your dataresource.
      * For example in a CSV file, we also check for the column headers, and we store them in the published columns table
      * This table is linked to a generic resource, thus can be accessed by any strategy!
+     * IMPORTANT !!: throw an exception when you want your personal error message for the validation.
      */
     protected function isValid($package_id,$gen_resource_id){
         return true;

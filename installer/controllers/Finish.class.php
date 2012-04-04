@@ -11,6 +11,9 @@ class Finish extends InstallController {
     
     public function index() {
         $this->installer->previousStep(FALSE);
+        $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
         $this->view("finish");
     }
     

@@ -102,6 +102,12 @@ abstract class ATabularData extends AResourceStrategy{
                 }
             }
             return R::store($resource);
+        }else{
+            /**
+             * We cannot know what caused the invalidation of the resource, when a resource is invalid, the creator of
+             * the strategy is expected to throw an exception of its own.
+             */
+            throw new ResourceAdditionTDTException("Something went wrong during the validation of the generic resource.");
         }
     }
 

@@ -12,7 +12,7 @@ include_once("custom/strategies/ATabularData.class.php");
 class XLS extends ATabularData {
 
     public function documentCreateParameters(){
-        $this->parameters["url"] = "The path to the excel sheet (can be a url as well).";
+        $this->parameters["uri"] = "The path to the excel sheet (can be a url as well).";
         $this->parameters["sheet"] = "The sheet name of the excel";
         $this->parameters["named_range"] = "The named range of the excel";
         $this->parameters["cell_range"] = "Range of cells (i.e. A1:B10)";
@@ -24,7 +24,7 @@ class XLS extends ATabularData {
     }
     
     public function documentCreateRequiredParameters(){
-        return array("url", "sheet");    
+        return array("uri", "sheet");    
     }
 
     public function documentReadRequiredParameters(){
@@ -46,132 +46,128 @@ class XLS extends ATabularData {
     }
 
     protected function isValid($package_id,$generic_resource_id) {
-        try{      
-            if(Config::$PHPEXCEL_IOFACTORY_PATH!="") {
-                if(!file_exists(Config::$PHPEXCEL_IOFACTORY_PATH)){
-                    throw new NotFoundTDTException("Could not include " . Config::$PHPEXCEL_IOFACTORY_PATH);
-                } else {
-                    include_once(Config::$PHPEXCEL_IOFACTORY_PATH);
-                }
-            }else{
-                throw new NotFoundTDTException("No path to the PHPExcel library was defined in the Config file.");
-            }
-        
-
-            if(!isset($this->url)){
-                $this->throwException($package_id,$generic_resource_id, "Can't find url of the XLS");
-            }
-		
-            if(!isset($this->sheet)){
-                $this->throwException($package_id,$generic_resource_id, "Can't find sheet of the XLS");
-            }		
-	
-	
-            if (!isset($this->columns)) {
-                $this->columns = array();
-            }
-
-            if (!isset($this->PK)) {
-                $this->PK = "";
-            }
-
-            if (!isset($this->start_row)) {
-                $this->start_row = 1;
-            }
-		
-            if (!isset($this->has_header_row)) {
-                $this->has_header_row = 1;
-            }
-
-            $url = $this->url;
-            $sheet = $this->sheet;
-            $columns = $this->columns;
-
-            /**
-             * if no header row is given, then the columns that are being passed should be 
-             * int => something, int => something
-             * if a header row is given however in the csv file, then we're going to extract those 
-             * header fields and put them in our back-end as well.
-             */
-        
-            if ($this->has_header_row == "0") {
-                // no header row ? then columns must be passed
-                if(empty($this->columns)){
-                    $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
-                }
-            
-                foreach ($this->columns as $index => $value) {
-                    if (!is_numeric($index)) {
-                        $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array.");
-                    }
-                }
-
+           
+        if(Config::$PHPEXCEL_IOFACTORY_PATH!="") {
+            if(!file_exists(Config::$PHPEXCEL_IOFACTORY_PATH)){
+                throw new NotFoundTDTException("Could not include " . Config::$PHPEXCEL_IOFACTORY_PATH);
             } else {
+                include_once(Config::$PHPEXCEL_IOFACTORY_PATH);
+            }
+        }else{
+            throw new NotFoundTDTException("No path to the PHPExcel library was defined in the Config file.");
+        }
 
-                // if no column aliases have been passed, then fill the columns variable 
-                if(empty($this->columns)){
-                    if (!is_dir("tmp")) {
-                        mkdir("tmp");
-                    }
-			
-                    $isUrl = (substr($url , 0, 4) == "http");
-                    if ($isUrl) {				
-                        $tmpFile = uniqid();
-                        file_put_contents("tmp/" . $tmpFile, file_get_contents($url));
-                        $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($url),$sheet);
-                    } else {
-                        $objPHPExcel = $this->loadExcel($url,$this->getFileExtension($url),$sheet);				
-                    }
-                    
-                    $worksheet = $objPHPExcel->getSheetByName($sheet);
-				
-                    if (!isset($this->named_range) && !isset($this->cell_range)) {
-                        foreach ($worksheet->getRowIterator() as $row) {
-                            $rowIndex = $row->getRowIndex();
-                            if ($rowIndex == $this->start_row) {
-                                $cellIterator = $row->getCellIterator();
-                                $cellIterator->setIterateOnlyExistingCells(false);
-                                foreach ($cellIterator as $cell) {
-                                    if($cell->getCalculatedValue() != ""){
-                                        $this->columns[$cell->getCalculatedValue()] = $cell->getCalculatedValue();
-                                    }
-                                }
-                            }
-                        }			
-                    } else {
-                        if(isset($this->named_range)) {
-                            $range = $worksheet->namedRangeToArray($this->named_range);
-                        }
-                        if(isset($this->cell_range)) {
-                            $range = $worksheet->rangeToArray($this->cell_range);					
-                        }
-                        $rowIndex = 1;
-                        foreach ($range as $row) {
-                            if ($rowIndex == $this->start_row) {
-                                foreach ($row as $cell) {
-                                    $this->columns[$cell] = $cell;
-                                }
-                            }
-                            $rowIndex += 1;
-                        }					
-                        }
-                    $objPHPExcel->disconnectWorksheets();
-                    unset($objPHPExcel);
-                    if ($isUrl) {
-                        unlink("tmp/" . $tmpFile);				
-                    }
+        if(!isset($this->uri)){
+            $this->throwException($package_id,$generic_resource_id, "Can't find uri of the XLS");
+        }
+		
+        if(!isset($this->sheet)){
+            $this->throwException($package_id,$generic_resource_id, "Can't find sheet of the XLS");
+        }		
+	
+	
+        if (!isset($this->columns)) {
+            $this->columns = array();
+        }
+
+        if (!isset($this->PK)) {
+            $this->PK = "";
+        }
+
+        if (!isset($this->start_row)) {
+            $this->start_row = 1;
+        }
+		
+        if (!isset($this->has_header_row)) {
+            $this->has_header_row = 1;
+        }
+
+        $uri = $this->uri;
+        $sheet = $this->sheet;
+        $columns = $this->columns;
+
+        /**
+         * if no header row is given, then the columns that are being passed should be 
+         * int => something, int => something
+         * if a header row is given however in the csv file, then we're going to extract those 
+         * header fields and put them in our back-end as well.
+         */
+        
+        if ($this->has_header_row == "0") {
+            // no header row ? then columns must be passed
+            if(empty($this->columns)){
+                $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
+            }
+            
+            foreach ($this->columns as $index => $value) {
+                if (!is_numeric($index)) {
+                    $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array.");
                 }
             }
-            return true;
-        }catch(Exception $ex){
-            return false;
+
+        } else {
+
+            // if no column aliases have been passed, then fill the columns variable 
+            if(empty($this->columns)){
+                if (!is_dir("tmp")) {
+                    mkdir("tmp");
+                }
+			
+                $isUri = (substr($uri , 0, 4) == "http");
+                if ($isUri) {				
+                    $tmpFile = uniqid();
+                    file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
+                    $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
+                } else {
+                    $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);				
+                }
+                    
+                $worksheet = $objPHPExcel->getSheetByName($sheet);
+				
+                if (!isset($this->named_range) && !isset($this->cell_range)) {
+                    foreach ($worksheet->getRowIterator() as $row) {
+                        $rowIndex = $row->getRowIndex();
+                        if ($rowIndex == $this->start_row) {
+                            $cellIterator = $row->getCellIterator();
+                            $cellIterator->setIterateOnlyExistingCells(false);
+                            foreach ($cellIterator as $cell) {
+                                if($cell->getCalculatedValue() != ""){
+                                    $this->columns[$cell->getCalculatedValue()] = $cell->getCalculatedValue();
+                                }
+                            }
+                        }
+                    }			
+                } else {
+                    if(isset($this->named_range)) {
+                        $range = $worksheet->namedRangeToArray($this->named_range);
+                    }
+                    if(isset($this->cell_range)) {
+                        $range = $worksheet->rangeToArray($this->cell_range);					
+                    }
+                    $rowIndex = 1;
+                    foreach ($range as $row) {
+                        if ($rowIndex == $this->start_row) {
+                            foreach ($row as $cell) {
+                                $this->columns[$cell] = $cell;
+                            }
+                        }
+                        $rowIndex += 1;
+                    }					
+                }
+                $objPHPExcel->disconnectWorksheets();
+                unset($objPHPExcel);
+                if ($isUri) {
+                    unlink("tmp/" . $tmpFile);				
+                }
+            }
         }
+        return true;
     }
 	
     public function read(&$configObject) {
        
         parent::read($configObject);
-        $url = $configObject->url;
+        $uri = $configObject->uri;
         $sheet = $configObject->sheet;
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;
@@ -190,14 +186,14 @@ class XLS extends ATabularData {
         }
 
         try { 
-            $isUrl = (substr($url , 0, 4) == "http");
-            if ($isUrl) {						
+            $isUri = (substr($uri , 0, 4) == "http");
+            if ($isUri) {						
                 $tmpFile = uniqid();
-                file_put_contents("tmp/" . $tmpFile, file_get_contents($url));
+                file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
 				
-                $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($url),$sheet);
+                $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
             } else {
-                $objPHPExcel = $this->loadExcel($url,$this->getFileExtension($url),$sheet);			
+                $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);			
             }
             
             $worksheet = $objPHPExcel->getSheetByName($sheet);
@@ -288,13 +284,13 @@ class XLS extends ATabularData {
             
             $objPHPExcel->disconnectWorksheets();
             unset($objPHPExcel);
-            if ($isUrl) {									
+            if ($isUri) {									
                 unlink("tmp/" . $tmpFile);
             }
 			
             return $arrayOfRowObjects;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $url );
+            throw new CouldNotGetDataTDTException( $uri );
         }
     }
 	
