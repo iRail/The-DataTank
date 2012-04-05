@@ -64,7 +64,15 @@ class RemoteResourceFactory extends AResourceFactory{
     }
     
     public function makeDescriptionDoc($doc){
-        $this->makeDoc($doc);
+        foreach($this->getAllResourceNames() as $package => $resourcenames){
+            if(!isset($doc->$package)){
+                $doc->$package = new StdClass();
+            }
+            foreach($resourcenames as $resource){
+                $doc->$package->$resource = new StdClass();
+                $doc->$package->$resource = $this->fetchResourceDescription($package, $resource);
+            }
+        }
     }
 
     public function makeDeleteDoc($doc){
@@ -112,6 +120,48 @@ class RemoteResourceFactory extends AResourceFactory{
         }
         $data = unserialize($request->data);
         $remoteResource = new stdClass();
+        
+        if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
+            $remoteResource->doc = $data[$resource]->doc;
+        }else{
+            $remoteResource->doc = new stdClass();
+        }
+
+        if(isset($data[$resource]->parameters)){
+            $remoteResource->parameters = $data[$resource]->parameters;
+        }else{
+            $remoteResource->parameters = array();
+        }
+        
+        if(isset($data[$resource]->requiredparameters)){
+            $remoteResource->requiredparameters = $data[$resource]->requiredparameters;
+        }else{
+            $remoteResource->requiredparameters = array();
+        }
+        return $remoteResource;
+    }
+
+    /*
+     * This object contains all the information 
+     * FROM the last used
+     * requested object. This way we wont have to call the remote resource
+     * every single call to this factory. If we receive a call
+     * for another resource, we replace it by the newly asked factory.
+     */
+    private function fetchResourceDescription($package,$resource){
+        $result = DBQueries::getRemoteResource($package, $resource);
+        if(sizeof($result) == 0){
+            throw new ResourceOrPackageNotFoundTDTException("Cannot find the remote resource with package and resource pair as: ".$package."/".$resource);
+        }
+        $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
+        $options = array("cache-time" => 5); //cache for 5 seconds
+        $request = TDT::HttpRequest($url, $options);
+
+        if(isset($request->error)){
+            throw new HttpOutTDTException($url);
+        }
+        $data = unserialize($request->data);
+        $remoteResource = new stdClass();
         $remoteResource->package_name = $package;
         $remoteResource->remote_package = $result["package"];
         if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
@@ -119,7 +169,6 @@ class RemoteResourceFactory extends AResourceFactory{
         }else{
             $remoteResource->doc = new stdClass();
         }
-        
         
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
@@ -137,7 +186,6 @@ class RemoteResourceFactory extends AResourceFactory{
         }
         return $remoteResource;
     }
-    
 }
 
 ?>

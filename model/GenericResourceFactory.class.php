@@ -138,7 +138,7 @@ class GenericResourceFactory extends AResourceFactory {
             include_once("model/resources/update/GenericResourceUpdater.class.php");
             $res = new GenericResourceUpdater("","", array(),$strategy);
             $d[$strategy] = new stdClass();
-            $d[$strategy]->doc = "When your generic resource is made you can update properties of it by passing the property names via a POST request. Note that not all properties are adjustable.";
+            $d[$strategy]->doc = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that not all properties are adjustable.";
             $d[$strategy]->parameters = array();
             $d[$strategy]->requiredparameters = array();
         }

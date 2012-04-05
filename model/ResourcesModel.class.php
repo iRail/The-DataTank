@@ -138,12 +138,16 @@ class ResourcesModel {
              */
 
             $resourceTypeParts = explode("/",$parameters["resource_type"]);
-            if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) && isset($resourceTypeParts[1])) {
-                $parameters["generic_type"] = $resourceTypeParts[1];
-                $parameters["resource_type"] = $resourceTypeParts[0];
-            }else if(!isset($parameters["generic_type"])){
-                throw new ResourceAdditionTDTException("Parameter generic_txype hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example is: generic/CSV");
+            if($resourceTypeParts[0] != "remote"){    
+                if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) 
+                                                        && isset($resourceTypeParts[1])) {
+                    $parameters["generic_type"] = $resourceTypeParts[1];
+                    $parameters["resource_type"] = $resourceTypeParts[0];
+                }else if(!isset($parameters["generic_type"])){
+                    throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example is: generic/CSV");
+                }
             }
+            
 
             $restype = $parameters["resource_type"];
 

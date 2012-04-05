@@ -66,9 +66,6 @@ abstract class AResourceStrategy{
         }
     }
 
-    /**
-     * An Update method
-     */ 
     public function onUpdate($package, $resource){
         
     }
