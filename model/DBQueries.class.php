@@ -500,65 +500,7 @@ class DBQueries {
             
         );
     }
-
-    /**
-     * Check if tag exists
-     */
-    static function hasTag($tagname){
-        return R::exec(
-            "SELECT id
-             FROM tags
-             WHERE tagname =:tag",
-            array(":tag" => $tagname)
-        );
-    }
-
-    /**
-     * Store a tag in the tag table
-     */
-    static function storeTag($tagname){
-        $tag = R::dispense("tags");
-        $tag->tagname = $tagname;
-        return R::store($tag);
-    }
-
-    /**
-     * Store resource tag couple in the coupling resource -> tag table
-     */
-    static function storeResourceTag($resource_id,$tag_id){
-        $resourceTag = R::dispense("resource_tag");
-        $resourceTag->resource_id = $resource_id;
-        $resourceTag->tag_id = $tag_id;
-        return R::store($resourceTag);
-    }
-
-    /**
-     * Delete resource-tag entry
-     */
-    static function deleteResourceTag($package,$resource){
-        return R::exec(
-            "DELETE FROM resource_tag
-             WHERE resource_id IN
-             (SELECT resource.id
-              FROM package,resource
-              WHERE package.package_name =:package AND resource.resource_name = :resource
-             )",
-            array(":package" => $package , ":resource" => $resource)
-        );
-    }
-
-    /**
-     * Check if couple resource - tag exists
-     */
-    static function hasResourceTag($resource_id,$tag_id){
-        return R::getCell(
-            "SELECT count(1) as present
-             FROM resource_tag
-             WHERE resource_id =:resource_id AND tag_id=:tag_id",
-            array(":resource_id" => $resource_id, ":tag_id" =>$tag_id)
-        );
-    }
-
+   
     /**
      * Get the type of the resource
      */
@@ -580,6 +522,59 @@ class DBQueries {
              FROM $strategy_table
              WHERE gen_resource_id=:gen_res_id",
             array(":gen_res_id" => $generic_resource_id)
+        );
+    }
+
+    /**
+     * Store the metadata provided
+     * @param $resource_id int The resource id of the resource
+     * @param $resource object The resource object ( in which the meta data is set )
+     * @param $metadata array The array in which all allowed meta data properties are contained.
+     */
+    static function storeMetaData($resource_id,$resource,$metadataArray){
+        $metadata = R::dispense("metadata");
+        $add = false;
+        foreach($metadataArray as $key){
+            if(isset($resource->$key) && $resource->$key != ""){
+                $metadata->$key = $resource->$key;
+                $add = true;
+            }
+        }
+        $metadata->resource_id = $resource_id;
+        if($add){
+            return R::store($metadata);   
+        }
+    }
+
+    /**
+     * Get the metadata for a certain package resource pair
+     */
+    static function getMetaData($package,$resource){
+        return R::getRow(
+            "SELECT *
+             FROM metadata
+             WHERE resource_id IN (
+                       SELECT resource.id 
+                       FROM resource,package
+                       WHERE resource.resource_name = :resource AND package.package_name = :package
+             )",
+            array(":package"=>$package,":resource"=>$resource)
+        );
+    }
+
+    /**
+     * Delete the metadata for a certain package resource pair
+     */
+    static function deleteMetaData($package,$resource){
+        return R::exec(
+            "DELETE 
+             FROM metadata
+             WHERE resource_id IN ( 
+                       SELECT resource.id 
+                       FROM resource,package
+                       WHERE resource.resource_name = :resource AND package.package_name = :package 
+             )",
+            array(":package" => $package, ":resource" => $resource)
         );
     }
 }

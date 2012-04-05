@@ -63,8 +63,7 @@ class XLS extends ATabularData {
 		
         if(!isset($this->sheet)){
             $this->throwException($package_id,$generic_resource_id, "Can't find sheet of the XLS");
-        }		
-	
+        }
 	
         if (!isset($this->columns)) {
             $this->columns = array();
@@ -123,7 +122,6 @@ class XLS extends ATabularData {
                 }
                     
                 $worksheet = $objPHPExcel->getSheetByName($sheet);
-				
                 if (!isset($this->named_range) && !isset($this->cell_range)) {
                     foreach ($worksheet->getRowIterator() as $row) {
                         $rowIndex = $row->getRowIndex();
@@ -136,7 +134,7 @@ class XLS extends ATabularData {
                                 }
                             }
                         }
-                    }			
+                    }
                 } else {
                     if(isset($this->named_range)) {
                         $range = $worksheet->namedRangeToArray($this->named_range);

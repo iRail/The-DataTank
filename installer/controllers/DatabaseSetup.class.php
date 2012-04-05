@@ -50,7 +50,6 @@ class DatabaseSetup extends InstallController {
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `package_name` varchar(255) NOT NULL,
               `timestamp` bigint(20) NOT NULL,
-              `title` varchar(80) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
@@ -98,8 +97,6 @@ class DatabaseSetup extends InstallController {
               `creation_timestamp` bigint(20) NOT NULL,
               `last_update_timestamp` bigint(20) NOT NULL,
               `type` varchar(30) NOT NULL,
-              `tags` varchar(512) DEFAULT NULL,
-              `title` varchar(80) DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -158,24 +155,6 @@ class DatabaseSetup extends InstallController {
               KEY `s_obj_idx` (`object`(250)),
               KEY `s_obj_ftidx` (`object`(250))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-        
-        
-        $queries["resource_tag"] = "CREATE TABLE IF NOT EXISTS `resource_tag` (
-              `id` bigint(20) NOT NULL AUTO_INCREMENT,
-              `resource_id` bigint(20) NOT NULL,
-              `tag_id` bigint(20) NOT NULL,
-              PRIMARY KEY (`id`),
-              KEY `resource_id` (`resource_id`),
-				  KEY `tag_id` (`tag_id`) 	
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
-     
-        $queries["tags"] = "CREATE TABLE IF NOT EXISTS `tags` (
-              `id` bigint(20) NOT NULL AUTO_INCREMENT,
-              `tagname` varchar(50) NOT NULL,
-              PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
-     
-        
 
         $tables = array();
         foreach($queries as $table=>$query) {

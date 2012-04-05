@@ -91,6 +91,7 @@ abstract class ATabularData extends AResourceStrategy{
             
             // for every parameter that has been passed for the creation of the strategy, make a datamember
             $createParams = array_keys($this->documentCreateParameters());
+
             foreach($createParams as $createParam){
                 // dont add the columns parameter
                 if($createParam != "columns"){

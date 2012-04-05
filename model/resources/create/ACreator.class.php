@@ -15,7 +15,7 @@ abstract class ACreator{
     }
   
     /**
-     * set parameters, we leave this to the subclass
+     * set parameters, we leave this to the subclassx
      */
     abstract public function setParameter($key,$value);
 
@@ -29,11 +29,25 @@ abstract class ACreator{
      * @return hash with key = parameter name and value = documentation about the parameter
      */
     public function documentParameters(){
-        return array("resource_type" => "The type of the resource.", 
+        $createParameters = array("resource_type" => "The type of the resource.");
+        return array_merge($createParameters, $this->documentMetaDataParameters());
+    }
+
+    public function documentMetaDataParameters(){
+        return array( 
                      "package_title" => "An alias for the package name, used for presentation and visualization purposes.", 
                      "resource_title" => "An alias for the resource name, used for presentation and visualization purposes.",
-                     "tags" => "A serie of descriptive tags, separated with a semi-colon."
-                     );
+                     "tags" => "A serie of descriptive tags, separated with a semi-colon.",
+                     "audience" => "A class of entity for whom the resource is intended or useful.",
+                     "contributor" => "An entity responsible for making contributions to the resource.",
+                     "coverage" => "The spatial or temporal topic of the resource, the spatial applicability of the resource, or the jurisdiction under which the resource is relevant.",
+                     "creator" => "An entity primarily responsible for making the resource.",
+                     "language" => "A language of the resource.",
+                     "license" => "A legal entity (link or name) giving official permission to do something with the resource.",
+                     "publisher" => "An entity responsible for making the resource available.",
+                     "rights" => "Information about rights held in and over the resource.",
+                     "rightsHolder" => "A person or organization owning or managing rights over the resource."
+               );
     }
     
     /**

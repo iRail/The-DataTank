@@ -85,6 +85,32 @@ class GenericResourceFactory extends AResourceFactory {
                         }
                     }
                 }
+
+                /**
+                 * Get the metadata properties
+                 */
+                $metadata = DBQueries::getMetaData($package,$resourcename);
+                if(!empty($metadata)){
+                    foreach($metadata as $name => $value){
+                        if($name != "id" && $name != "resource_id"){
+                            $doc->$package->$resourcename->$name = $value;
+                        }
+                    }
+                }
+                
+                /**
+                 * Get the published columns
+                 */
+                $columns = DBQueries::getPublishedColumns($genericId);
+                // pretty formatted columns 
+                $prettyColumns = array();
+                if(!empty($columns)){
+                    foreach($columns as $columnentry){
+                        $prettyColumns[$columnentry["column_name"]] = $columnentry["column_name_alias"];
+                    }
+                    $doc->$package->$resourcename->columns = $prettyColumns;
+                }
+                
                 $doc->$package->$resourcename->parameters = array();
                 $doc->$package->$resourcename->requiredparameters = array();
             }

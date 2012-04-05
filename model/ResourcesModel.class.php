@@ -105,26 +105,9 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($package, $resource, $parameters, $RESTparameters) {
+
         //If we want to CRUD ontology, handle differently
         if (!$this->checkOntology($package, $resource, $RESTparameters)) {
-            //first check if there resource exists yet
-            if ($this->hasResource($package, $resource)) {
-                //If it exists, delete it first and continue adding it.
-                //It could be that because errors occured after the addition, that
-                //the documentation reset in the CUDController isn't up to date anymore
-                //This will result in a hasResource() returning true and deleteResource returning false (error)
-                //This is our queue to reset the documentation.
-                try{
-                    $this->deleteResource($package, $resource,$RESTparameters);
-                }catch(Exception $ex){
-                     //Clear the documentation in our cache for it has changed        
-                    $c = Cache::getInstance();
-                    $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
-                    $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
-                    throw new InternalServerTDTException("Error: ". $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers.");
-                }
-            }
-            
             //if it doesn't, test whether the resource_type has been set
             if (!isset($parameters["resource_type"])) {
                 throw new ResourceAdditionTDTException("Parameter resource_type hasn't been set");
@@ -140,7 +123,7 @@ class ResourcesModel {
             $resourceTypeParts = explode("/",$parameters["resource_type"]);
             if($resourceTypeParts[0] != "remote"){    
                 if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) 
-                                                        && isset($resourceTypeParts[1])) {
+                     && isset($resourceTypeParts[1])) {
                     $parameters["generic_type"] = $resourceTypeParts[1];
                     $parameters["resource_type"] = $resourceTypeParts[0];
                 }else if(!isset($parameters["generic_type"])){
@@ -183,6 +166,7 @@ class ResourcesModel {
                     throw new RequiredParameterTDTException("Required parameter " . $key . " has not been passed");
                 }
             }
+           
             //now check if there are nonexistent parameters given
             foreach (array_keys($parameters) as $key) {
                 if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
@@ -193,7 +177,23 @@ class ResourcesModel {
             // all is well, let's create that resource!
             $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
             try{
-                $creator->create();
+                //first check if there resource exists yet
+                if ($this->hasResource($package, $resource)) {
+                    //If it exists, delete it first and continue adding it.
+                    //It could be that because errors occured after the addition, that
+                    //the documentation reset in the CUDController isn't up to date anymore
+                    //This will result in a hasResource() returning true and deleteResource returning false (error)
+                    //This is our queue to reset the documentation.
+                    try{
+                        $this->deleteResource($package, $resource,$RESTparameters);
+                    }catch(Exception $ex){
+                        //Clear the documentation in our cache for it has changed        
+                        $c = Cache::getInstance();
+                        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+                        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+                        throw new InternalServerTDTException("Error: ". $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers.");
+                    }
+                }
             }catch(Exception $ex){
                 //Clear the documentation in our cache for it has changed        
                 $c = Cache::getInstance();
@@ -202,7 +202,7 @@ class ResourcesModel {
                 $this->deleteResource($package, $resource,$RESTparameters);
                 throw new Exception($ex->getMessage());
             }
-            
+            $creator->create();
         } else {
             // all is well, let's create that ontology!
             $creator = $this->factories["ontology"]->createCreator($package, $resource, $parameters, $RESTparameters);
@@ -279,16 +279,29 @@ class ResourcesModel {
         unset($currentParameters->remote_package);
         unset($currentParameters->doc);
         unset($currentParameters->resource);
-        
 
         foreach($parameters as $parameter => $value){
-            if(isset($currentParameters->$parameter)){
+            if($value != "" && $parameter != "columns"){
                 $currentParameters->$parameter = $value;
-            }else{
-                throw new ParameterDoesntExistTDTException($parameter);
             }
         }
         
+        /**
+         * Columns aren't key = value datamembers and will be handled separatly
+         */
+        if(isset($currentParameters->columns) && isset($parameters["columns"])){
+            foreach($parameters["columns"] as $index => $value){
+                $currentParameters->columns[$index] = $value;
+            }
+        }
+
+        // delete the empty parameters from the currentParameters object
+        foreach((array)$currentParameters as $key => $value){
+            if($value == ""){
+                unset($currentParameters->$key);
+            }
+        }
+
         $currentParameters = (array)$currentParameters;
         $this->createResource($package,$resource,$currentParameters,array());
         
@@ -296,8 +309,8 @@ class ResourcesModel {
          * DO NOT DELETE the snippet below, might be necessary for Ontology-addition, awaiting reply of Miel Van der Sande
          */
         /*$updater = new $this->updateActions[$parameters["update_type"]]($package, $resource, $RESTparameters);
-        $updater->processParameters($parameters);
-        $updater->update();*/
+          $updater->processParameters($parameters);
+          $updater->update();*/
     }
 
     /**

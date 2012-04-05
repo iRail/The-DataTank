@@ -70,6 +70,17 @@ class RemoteResourceFactory extends AResourceFactory{
             }
             foreach($resourcenames as $resource){
                 $doc->$package->$resource = new StdClass();
+                /**
+                 * Get the metadata properties
+                 */
+                $metadata = DBQueries::getMetaData($package,$resource);
+                if(!empty($metadata)){
+                    foreach($metadata as $name => $value){
+                        if($name != "id" && $name != "resource_id"){
+                            $doc->$package->$resource->$name = $value;
+                        }
+                    }
+                }
                 $doc->$package->$resource = $this->fetchResourceDescription($package, $resource);
             }
         }
