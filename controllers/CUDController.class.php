@@ -21,6 +21,12 @@ class CUDController extends AController {
     function GET($matches) {
         $package = $matches["package"];
         $resource = trim($matches["resource"]);
+
+        //we need to be authenticated
+        if (!$this->isAuthenticated()) {
+            throw new AuthenticationTDTException("Cannot GET this resource without administration rights. Authentication failed.");
+        }
+
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
         if ($resource == "") {
@@ -58,12 +64,17 @@ class CUDController extends AController {
     public function HEAD($matches){
         $package = $matches["package"];
         $resource = trim($matches["resource"]);
+
+        //we need to be authenticated
+        if (!$this->isAuthenticated()) {
+            throw new AuthenticationTDTException("Cannot HEAD this resource without administration rights. Authentication failed.");
+        }
+
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
         if ($resource == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
-                unset($resourcenames["creation_date"]);
                 throw new NoResourceGivenTDTException($resourcenames);
             } else {
                 throw new NoResourceGivenTDTException(array());
@@ -181,11 +192,12 @@ class CUDController extends AController {
         if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
-        
-        parse_str(file_get_contents("php://input"), $_POST);
+        // patch (array) contains all the patch parameters
+        $patch = array();
+        parse_str(file_get_contents("php://input"), $patch);
         
         $model = ResourcesModel::getInstance();
-        $model->updateResource($package, $resource, $_POST, $RESTparameters);
+        $model->updateResource($package, $resource, $patch, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);

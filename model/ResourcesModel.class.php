@@ -260,7 +260,7 @@ class ResourcesModel {
          * Get the resource properties from the documentation
          * Replace that passed properties and re-add the resource
          */
-        $doc = $this->getAllDoc();
+        $doc = $this->getAllDescriptionDoc();
         $currentParameters = $doc->$package->$resource;
 
         /** issue with updates:
@@ -358,13 +358,17 @@ class ResourcesModel {
 
     /**
      * Uses a visitor to get all docs and return them
-     * To have an idea what's in here, just check yourinstallation/TDTInfo/Resources
-     *
+     * To have an idea what's in here, just check yourinstallationfolder/TDTInfo/Resources
      * @return a doc object containing all the packages, resources and further documentation
      */
     public function getAllDoc() {
         $doc = new Doc();
         return $doc->visitAll($this->factories);
+    }
+
+    public function getAllDescriptionDoc(){
+        $doc = new Doc();
+        return $doc->visitAllDescriptions($this->factories);
     }
 
     public function getAllAdminDoc() {

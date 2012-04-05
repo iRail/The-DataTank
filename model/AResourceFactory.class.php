@@ -59,6 +59,13 @@ abstract class AResourceFactory{
      */
     abstract public function makeDoc($doc);
 
+     /**
+     * Visitor pattern function: This is the documentation on what all of the description properties of a resource are
+     * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds its full description.
+     */
+    abstract public function makeDescriptionDoc($doc);
+
+
     /**
      * Visitor pattern function
      * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds what it wants to add.

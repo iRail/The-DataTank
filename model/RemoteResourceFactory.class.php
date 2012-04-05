@@ -62,6 +62,10 @@ class RemoteResourceFactory extends AResourceFactory{
             }
         }
     }
+    
+    public function makeDescriptionDoc($doc){
+        $this->makeDoc($doc);
+    }
 
     public function makeDeleteDoc($doc){
         $d = new StdClass();

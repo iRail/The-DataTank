@@ -30,7 +30,7 @@ class TDTInfoResources extends AReader{
     }
 
     public static function getDoc(){
-	return "This resource contains all the resource definitions.";
+	return "This resource contains the documentation of all resources.";
     }
 }
 

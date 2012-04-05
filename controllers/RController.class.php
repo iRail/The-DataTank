@@ -23,6 +23,15 @@ class RController extends AController {
         //always required: a package and a resource. 
         $package = trim($matches['package']);
         $resourcename = trim($matches['resource']);
+
+        if($package == "TDTAdmin" && $resourcename== "Resources"){
+            //we need to be authenticated
+            if (!$this->isAuthenticated()) {
+                throw new AuthenticationTDTException("Cannot GET this resource without administration rights. Authentication failed.");
+            }
+        }
+        
+        
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
@@ -225,6 +234,10 @@ class RController extends AController {
      */
     public function PATCH($matches) {
         throw new RepresentationCUDCallTDTException();
+    }
+
+    private function isAuthenticated() {
+        return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
     }
 }
 ?>

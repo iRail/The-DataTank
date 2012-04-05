@@ -44,6 +44,10 @@ class InstalledResourceFactory extends AResourceFactory{
         }
     }
 
+    public function makeDescriptionDoc($doc){
+        $this->makeDoc($doc);
+    }
+
     private function getCreationTime($package, $resource) {
         //if the object read is a directory and the configuration methods file exists, 
         //then add it to the installed packages

@@ -77,11 +77,11 @@ $urls = array(
     
     // This is a request on the real-world object
     // examples of matches:
-    //  PUT /package/
-    //  POST /package/resource/property/
-    //  POST /package/resource
-    //  DELETE /package/resource
-    '/TDTInfo/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+    //  PUT TDTAdmin/Admin/package/
+    //  PATCH TDTAdmin/Admin /package/resource/property/
+    //  PUT TDTAdmin/Admin/package/resource
+    //  DELETE TDTAdmin/Admin/package/resource
+    '/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
 );
 
 

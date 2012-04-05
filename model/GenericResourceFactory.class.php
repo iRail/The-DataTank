@@ -53,6 +53,22 @@ class GenericResourceFactory extends AResourceFactory {
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
+                $doc->$package->$resourcename->parameters = array();
+                $doc->$package->$resourcename->requiredparameters = array();
+            }
+        }
+    }
+
+    public function makeDescriptionDoc($doc){
+        foreach($this->getAllResourceNames() as $package => $resourcenames){
+            if(!isset($doc->$package)){
+                $doc->$package = new StdClass();
+            }
+           
+            foreach($resourcenames as $resourcename){
+                $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
+                $doc->$package->$resourcename = new StdClass();
+                $doc->$package->$resourcename->documentation = $documentation["doc"];
                 $doc->$package->$resourcename->generic_type = $documentation["type"];
                 $doc->$package->$resourcename->resource_type = "generic";
                 /**

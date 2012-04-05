@@ -12,7 +12,8 @@ class CoreResourceFactory extends AResourceFactory {
 
     protected function getAllResourceNames(){
         return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin", "Formatters"),
-                     "TDTStats" => array("UserAgents","Day","Week","Month","Quarter","Year","Languages")
+                     "TDTStats" => array("UserAgents","Day","Week","Month","Quarter","Year","Languages"),
+                     "TDTAdmin" => array("Resources")
         );
     }
 
@@ -47,6 +48,10 @@ class CoreResourceFactory extends AResourceFactory {
 		$doc->$package->$resourcename->parameters = $classname::getParameters();
             }
         }
+    }
+
+    public function makeDescriptionDoc($doc){
+        $this->makeDoc($doc);
     }
 
     private function getCreationTime($package, $resource) {
