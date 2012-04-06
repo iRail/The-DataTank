@@ -16,30 +16,6 @@ class RedirectController extends AController{
      * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
      */
     function GET($matches){
-        $package = $matches["package"];
-        $resource = trim($matches["resource"]);
-        $model = ResourcesModel::getInstance();
-        $doc = $model->getAllDoc();
-        if ($resource == "") {
-            if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);
-                unset($resourcenames["creation_date"]);
-                foreach($resourcenames as $resourcename => $value){
-                    echo '<a href="'. Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename . '">'. $resourcename . "</a>";
-                }
-            }else if($model->hasPackage($package)){
-                echo "No resources are listed for this package <br>";
-            } else {
-                echo "This package name ( $package ) has not been created yet.";
-            }
-            exit();
-        }
-
-        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
-        if (!$model->hasResource($package, $resource)) {
-            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
-        }
-
         //get the current URL
         $ru = RequestURI::getInstance();
         $pageURL = $ru->getURI();
