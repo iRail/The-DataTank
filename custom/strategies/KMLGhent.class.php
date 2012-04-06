@@ -16,7 +16,7 @@ class KMLGhent extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters(){
-        return array("url" => "The url of where the OGD Wien JSON is found.",
+        return array("uri" => "The uri of where the KML of City of Ghent is found.",
                      "columns" => "The columns that are to be published from the KML.",
                      "PK" => "The primary key of each row."
         );  
@@ -27,7 +27,7 @@ class KMLGhent extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateRequiredParameters(){
-        return array("url");    
+        return array("uri");    
     }
 
     /**
@@ -48,8 +48,8 @@ class KMLGhent extends ATabularData {
     
 
     protected function isValid($package_id,$generic_resource_id) {
-        if(!isset($this->url)){
-            $this->throwException($package_id,$generic_resource_id, "Can't find url of the KML");
+        if(!isset($this->uri)){
+            $this->throwException($package_id,$generic_resource_id, "Can't find uri of the KML");
         }
 		
         if (!isset($this->columns)) {
@@ -60,7 +60,7 @@ class KMLGhent extends ATabularData {
             $this->PK = "id";
         }
 
-        $url = $this->url;
+        $uri = $this->uri;
         $columns = $this->columns;
         
         if(empty($this->columns)) {
@@ -70,7 +70,7 @@ class KMLGhent extends ATabularData {
                 //This isn't always the most elegant message, but it allows to inform the developers with 
                 //very specific information if it turns out that it's not the users fault that caused the error.
                 libxml_use_internal_errors(true);
-                $xml = @simplexml_load_file($url);
+                $xml = @simplexml_load_file($uri);
                             
                 $xmlns = $xml->getDocNamespaces();
                 $xmlns = $xmlns[''];
@@ -104,7 +104,7 @@ class KMLGhent extends ATabularData {
                     $this->columns["distance"] = "distance";
                 }
             } catch( Exception $ex) {
-                throw new CouldNotGetDataTDTException( $url );
+                throw new CouldNotGetDataTDTException( $uri );
             }
         }
 		
@@ -120,10 +120,10 @@ class KMLGhent extends ATabularData {
 	
         parent::read($configObject);
        
-        if(isset($configObject->url)){
-            $url = $configObject->url;
+        if(isset($configObject->uri)){
+            $uri = $configObject->uri;
         }else{
-            throw new ResourceTDTException("Can't find url of the KML");
+            throw new ResourceTDTException("Can't find uri of the KML");
         }
 		
         $columns = array();
@@ -139,7 +139,7 @@ class KMLGhent extends ATabularData {
      
         try { 
 
-            $xml = simplexml_load_file($url);
+            $xml = simplexml_load_file($uri);
 
             $xmlns = $xml->getDocNamespaces();
             $xmlns = $xmlns[''];
@@ -226,7 +226,7 @@ class KMLGhent extends ATabularData {
 
             return $arrayOfRowObjects;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $url );
+            throw new CouldNotGetDataTDTException( $uri );
         }
     }
 }

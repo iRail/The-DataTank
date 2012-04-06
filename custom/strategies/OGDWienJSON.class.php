@@ -16,7 +16,7 @@ class OGDWienJSON extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters(){
-        return array("url" => "The url of where the OGD Wien JSON is found.",
+        return array("uri" => "The uri of where the OGD Wien JSON is found.",
                      "columns" => "The columns that are to be published from the OGD Wien JSON.",
                      "PK" => "The primary key of each row."
         );  
@@ -27,7 +27,7 @@ class OGDWienJSON extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateRequiredParameters(){
-        return array("url");    
+        return array("uri");    
     }
 
     /**
@@ -48,8 +48,8 @@ class OGDWienJSON extends ATabularData {
     
 
     protected function isValid($package_id,$generic_resource_id) {
-        if(!isset($this->url)){
-            $this->throwException($package_id,$generic_resource_id, "Can't find url of the OGD Wien JSON");
+        if(!isset($this->uri)){
+            $this->throwException($package_id,$generic_resource_id, "Can't find uri of the OGD Wien JSON");
         }
 		
         if (!isset($this->columns)) {
@@ -60,13 +60,13 @@ class OGDWienJSON extends ATabularData {
             $this->PK = "id";
         }
 
-        $url = $this->url;
+        $uri = $this->uri;
         $columns = $this->columns;
         
         if(empty($this->columns)){ 
             try { 
 
-                $json = file_get_contents($url,0,null,null);
+                $json = file_get_contents($uri,0,null,null);
                 $json = utf8_encode($json);
                 $json = json_decode($json);
                 
@@ -74,7 +74,7 @@ class OGDWienJSON extends ATabularData {
                 // will result in a controlled error, if the json is null, the error of php will be thrown
                 // because it's a fatal one.
                 if(is_null($json)){
-                    throw new CouldNotGetDataTDTException($url);
+                    throw new CouldNotGetDataTDTException($uri);
                 }
                 
 
@@ -89,7 +89,7 @@ class OGDWienJSON extends ATabularData {
                 $this->columns["lat"] = "lat";
                 $this->columns["distance"] = "distance";
             } catch( Exception $ex) {
-                throw new CouldNotGetDataTDTException( $url );
+                throw new CouldNotGetDataTDTException( $uri );
             }
         }
 		
@@ -101,10 +101,10 @@ class OGDWienJSON extends ATabularData {
 	
         parent::read($configObject);
        
-        if(isset($configObject->url)){
-            $url = $configObject->url;
+        if(isset($configObject->uri)){
+            $uri = $configObject->uri;
         }else{
-            throw new ResourceTDTException("Can't find url of the OGD Wien Json");
+            throw new ResourceTDTException("Can't find uri of the OGD Wien Json");
         }
 		
         $columns = array();
@@ -119,7 +119,7 @@ class OGDWienJSON extends ATabularData {
      
         try { 
 
-            $json = file_get_contents($url,0,null,null);
+            $json = file_get_contents($uri,0,null,null);
             $json = utf8_encode($json);
             $json = json_decode($json);
             
@@ -158,7 +158,7 @@ class OGDWienJSON extends ATabularData {
 
             return $arrayOfRowObjects;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $url );
+            throw new CouldNotGetDataTDTException( $uri );
         }
     }
 }
