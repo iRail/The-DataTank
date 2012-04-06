@@ -76,7 +76,7 @@ private function displayTree($var) {
                 $output .= "<li>" . $value . "</li>" . $newline;
              }
              else {
-                $output .= $value . $newline;
+                $output .= $key. $value . $newline;
              }
          
          }
