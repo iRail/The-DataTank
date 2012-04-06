@@ -14,7 +14,7 @@ class XML extends AResourceStrategy{
   
     public function read(&$configObject){
 
-        $xmlString = file_get_contents($configObject->url);
+        $xmlString = file_get_contents($configObject->uri);
 
         $xml = simplexml_load_string($xmlString);
         $json = json_encode($xml);
@@ -28,7 +28,7 @@ class XML extends AResourceStrategy{
     }
 
     public function documentCreateRequiredParameters(){
-        return array("url");
+        return array("uri");
     }
     
     public function documentReadRequiredParameters(){
@@ -43,7 +43,7 @@ class XML extends AResourceStrategy{
 
    public function documentCreateParameters(){
        return array(
-           "url" => "The url to the xml document."
+           "uri" => "The uri to the xml document."
        );
        
    }

@@ -14,7 +14,7 @@ include_once("includes/proj4php/proj4php.php");
 class SHP extends ATabularData {
 
     public function documentCreateParameters(){
-        return array("url" => "The path to the shape file (can be a url).",
+        return array("uri" => "The path to the shape file (can be a url).",
                      "EPSG" => "EPSG coordinate system code.",
                      "columns" => "The columns that are to be published.",
                      "PK" => "The primary key for each row.",
@@ -22,7 +22,7 @@ class SHP extends ATabularData {
     }
     
     public function documentCreateRequiredParameters(){
-        return array("url");    
+        return array("uri");    
     }
 
     public function documentReadRequiredParameters(){
@@ -34,8 +34,8 @@ class SHP extends ATabularData {
     }
 
     protected function isValid($package_id,$generic_resource_id) {
-        if(!isset($this->url)){
-			$this->throwException($package_id,$generic_resource_id, "Can't find url of the Shape file");
+        if(!isset($this->uri)){
+			$this->throwException($package_id,$generic_resource_id, "Can't find uri of the Shape file");
         }
 		
         if (!isset($this->columns)) {
@@ -50,7 +50,7 @@ class SHP extends ATabularData {
             $this->EPSG = "";
         }		
 
-		$url = $this->url;
+		$uri = $this->uri;
 		$columns = $this->columns;
 
 		if (!is_dir("tmp")) {
@@ -59,16 +59,16 @@ class SHP extends ATabularData {
 
 		if(empty($this->columns)){ 
 			$options = array('noparts' => false);
-			$isUrl = (substr($url , 0, 4) == "http");
+			$isUrl = (substr($uri , 0, 4) == "http");
 			if ($isUrl) {
 				$tmpFile = uniqid();
-				file_put_contents("tmp/" . $tmpFile . ".shp", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shp"));
-				file_put_contents("tmp/" . $tmpFile . ".dbf", file_get_contents(substr($url, 0, strlen($url) - 4) . ".dbf"));
-				file_put_contents("tmp/" . $tmpFile . ".shx", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shx"));
+				file_put_contents("tmp/" . $tmpFile . ".shp", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shp"));
+				file_put_contents("tmp/" . $tmpFile . ".dbf", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".dbf"));
+				file_put_contents("tmp/" . $tmpFile . ".shx", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shx"));
 
 				$shp = new ShapeFile("tmp/" . $tmpFile . ".shp", $options); // along this file the class will use file.shx and file.dbf
 			} else {
-				$shp = new ShapeFile($url, $options); // along this file the class will use file.shx and file.dbf			
+				$shp = new ShapeFile($uri, $options); // along this file the class will use file.shx and file.dbf			
 			}
 
 			$record = $shp->getNext();
@@ -107,10 +107,10 @@ class SHP extends ATabularData {
 	
 		parent::read($configObject);
        
-        if(isset($configObject->url)){
-            $url = $configObject->url;
+        if(isset($configObject->uri)){
+            $uri = $configObject->uri;
         }else{
-            throw new ResourceTDTException("Can't find url of the Shape file");
+            throw new ResourceTDTException("Can't find uri of the Shape file");
         }
 		
         $columns = array();
@@ -131,16 +131,16 @@ class SHP extends ATabularData {
 
 		try { 
 			$options = array('noparts' => false);
-			$isUrl = (substr($url , 0, 4) == "http");
+			$isUrl = (substr($uri , 0, 4) == "http");
 			if ($isUrl) {	
 				$tmpFile = uniqid();
-				file_put_contents("tmp/" . $tmpFile . ".shp", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shp"));
-				file_put_contents("tmp/" . $tmpFile . ".dbf", file_get_contents(substr($url, 0, strlen($url) - 4) . ".dbf"));
-				file_put_contents("tmp/" . $tmpFile . ".shx", file_get_contents(substr($url, 0, strlen($url) - 4) . ".shx"));
+				file_put_contents("tmp/" . $tmpFile . ".shp", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shp"));
+				file_put_contents("tmp/" . $tmpFile . ".dbf", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".dbf"));
+				file_put_contents("tmp/" . $tmpFile . ".shx", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shx"));
 
 				$shp = new ShapeFile("tmp/" . $tmpFile . ".shp", $options); // along this file the class will use file.shx and file.dbf
 			} else {
-				$shp = new ShapeFile($url, $options); // along this file the class will use file.shx and file.dbf						
+				$shp = new ShapeFile($uri, $options); // along this file the class will use file.shx and file.dbf						
 			}
 
 			while ($record = $shp->getNext()) {
@@ -214,7 +214,7 @@ class SHP extends ATabularData {
 			}
 			return $arrayOfRowObjects;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $url );
+            throw new CouldNotGetDataTDTException( $uri );
         }
     }	
 }
