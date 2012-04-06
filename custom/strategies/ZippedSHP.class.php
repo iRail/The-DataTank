@@ -12,7 +12,7 @@ include_once("custom/strategies/SHP.class.php");
 class ZippedSHP extends SHP {
 
     public function documentCreateParameters(){
-        return array("url" => "The path to the zipped shape file (can be a url).",
+        return array("uri" => "The path to the zipped shape file (can be a uri).",
 					 "shppath" => "The path to the shape file within the zip.",
                      "EPSG" => "EPSG coordinate system code.",
                      "columns" => "The columns that are to be published.",
@@ -21,7 +21,7 @@ class ZippedSHP extends SHP {
     }
     
     public function documentCreateRequiredParameters(){
-        return array("url","shppath");    
+        return array("uri","shppath");    
     }
 
     public function documentReadRequiredParameters(){
@@ -33,13 +33,13 @@ class ZippedSHP extends SHP {
     }
 
     protected function isValid($package_id,$generic_resource_id) {
-        if(isset($this->url)){
-			$url = $this->url;
+        if(isset($this->uri)){
+			$uri = $this->uri;
 		} else {
-			$this->throwException($package_id,$generic_resource_id, "Can't find url of the zipfile.");
+			$this->throwException($package_id,$generic_resource_id, "Can't find uri of the zipfile.");
         }
 		
-		$isUrl = (substr($url , 0, 4) == "http");
+		$isUrl = (substr($uri , 0, 4) == "http");
 		$tmpGuid = uniqid();
 
 		if (!is_dir("tmp")) {
@@ -47,11 +47,11 @@ class ZippedSHP extends SHP {
 		}
 		
 		if ($isUrl) {
-			file_put_contents("tmp/" . $tmpGuid . ".zip", file_get_contents($url));
+			file_put_contents("tmp/" . $tmpGuid . ".zip", file_get_contents($uri));
 
 			$zipFile = "tmp/" . $tmpGuid . ".zip";
 		} else {
-			$zipFile = $url;
+			$zipFile = $uri;
 		}
 		
 		$zip = new ZipArchive;
@@ -63,11 +63,11 @@ class ZippedSHP extends SHP {
 			$this->throwException($package_id,$generic_resource_id, "Can't unzip zipfile.");
 		}
 		 
-		$this->url = "tmp/" . $tmpGuid . "/" . $this->shppath;
+		$this->uri = "tmp/" . $tmpGuid . "/" . $this->shppath;
 		
 		$retVal = parent::isValid($package_id,$generic_resource_id);
 		
-		$this->url = $url;
+		$this->uri = $uri;
 		
 		if ($isUrl) {
 			unlink("tmp/" . $tmpGuid . ".zip");
@@ -80,13 +80,13 @@ class ZippedSHP extends SHP {
     public function read(&$configObject) {
 		set_time_limit(1000);
 
-        if(isset($configObject->url)){
-            $url = $configObject->url;
+        if(isset($configObject->uri)){
+            $uri = $configObject->uri;
         }else{
-            throw new ResourceTDTException("Can't find url of the zipfile.");
+            throw new ResourceTDTException("Can't find uri of the zipfile.");
         }
 	
-		$isUrl = (substr($url , 0, 4) == "http");
+		$isUrl = (substr($uri , 0, 4) == "http");
 		$tmpGuid = uniqid();
 
 		if (!is_dir("tmp")) {
@@ -94,11 +94,11 @@ class ZippedSHP extends SHP {
 		}
 
 		if ($isUrl) {
-			file_put_contents("tmp/" . $tmpGuid . ".zip", file_get_contents($url));
+			file_put_contents("tmp/" . $tmpGuid . ".zip", file_get_contents($uri));
 
 			$zipFile = "tmp/" . $tmpGuid . ".zip";
 		} else {
-			$zipFile = $url;
+			$zipFile = $uri;
 		}
 		
 		$zip = new ZipArchive;
@@ -110,7 +110,7 @@ class ZippedSHP extends SHP {
 			throw new ResourceTDTException("Can't unzip zipfile.");
 		}
 		 
-		$configObject->url = "tmp/" . $tmpGuid . "/" . $configObject->shppath;
+		$configObject->uri = "tmp/" . $tmpGuid . "/" . $configObject->shppath;
 
 		$retVal = parent::read($configObject);
 
