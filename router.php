@@ -65,16 +65,18 @@ $urls = array(
     // explanation of the last part of regex:
     // continue the REST parameters as long as no . is encountered. Continue format as long as no ? or end of URI occurs
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
-    '/(?P<package>[^/.]*)/(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
+    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
     // Calling the Create, Update, Delete- controller
 
     // Calling a READ but no format is passed, so we redirect the request towards content negotation
     //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
     // But also:
     //  GET /package/ - should give all resources in package in an exception
-    
     '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)' => 'RedirectController',
     
+    // Calling a READ with only the package and a format.
+    //'/(?P<package>[^/.]*)\.(?P<format>[^?]+).*' => 'RController',    
+
     // This is a request on the real-world object
     // examples of matches:
     //  PUT TDTAdmin/Admin/package/

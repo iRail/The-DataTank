@@ -23,23 +23,57 @@ class RController extends AController {
         //always required: a package and a resource. 
         $package = trim($matches['package']);
         $resourcename = trim($matches['resource']);
+        
+        /**
+         * Even GET operations on TDTAdmin need to be authenticated!
+         */
 
-        if($package == "TDTAdmin" && $resourcename== "Resources"){
+        if($package == "TDTAdmin"){
             //we need to be authenticated
             if (!$this->isAuthenticated()) {
                 throw new AuthenticationTDTException("Cannot GET this resource without administration rights. Authentication failed.");
             }
         }
-        
-        
-        //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+
+        /**
+         * Of there is only a package passed, pass along a list of its resources
+         */
 
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
-        //ask the model for our documentation: access to all packages and resources!
-
         $doc = $model->getAllDoc();
+        if ($resourcename == "") {
+            if (isset($doc->$package)) {
+                $resourcenames = get_object_vars($doc->$package);
+                $linkObject = new StdClass();
+                $links = array();
+                foreach($resourcenames as $resourcename => $value){
+                    
+                    $link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
+                    $links[] = $link;
+                    $linkObject->$package = $links;
+                }
+                //This will create an instance of a factory depending on which format is set
+                $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+
+                $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
+                $printer->printAll();
+                RequestLogger::logRequest();
+            }else if($model->hasPackage($package)){
+                echo "No resources are listed for this package <br>";
+            } else {
+                echo "This package name ( $package ) has not been created yet.";
+            }
+            exit();
+        }
+        
+        /**
+         * At this stage a package and a resource have been passed, lets check if they exists, and if so lets call the read()
+         * action and return the result.
+         */
+        
+        //This will create an instance of a factory depending on which format is set
+        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
         
         if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
             throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");

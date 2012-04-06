@@ -25,7 +25,7 @@ class RedirectController extends AController{
                 $resourcenames = get_object_vars($doc->$package);
                 unset($resourcenames["creation_date"]);
                 foreach($resourcenames as $resourcename => $value){
-                    echo '<a href="'. Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename . '">'. $resourcename . "</a><br>";
+                    echo '<a href="'. Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename . '">'. $resourcename . "</a>";
                 }
             }else if($model->hasPackage($package)){
                 echo "No resources are listed for this package <br>";

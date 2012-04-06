@@ -1,8 +1,8 @@
 <?php
 /**
- * This is a class which will return all the available resources in this DataTank
+ * This is a class which will return all the available resources definitions in this DataTank
  * 
- * @package The-Datatank/packages/TDTInfo
+ * @package The-Datatank/packages/TDTAdmin
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>
