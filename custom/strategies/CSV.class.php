@@ -115,19 +115,36 @@ class CSV extends ATabularData {
             }
         }
 
+        $line = 0;
         foreach ($rows as $row => $fields) {
-            $data = str_getcsv($fields, $delimiter);
+            $line++;
+            
+            $data = str_getcsv($fields, $delimiter, '"');
                 
             // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
             if(count($data)<=1){
                 throw new ReadTDTException("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter.");
             }
             
-            
-            if(count($data) != count($columns)){
-                throw new ReadTDTException("The amount of columns and data from the csv don't match up, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used.");
+            /**
+             * We support sparse trailing (empty) cells 
+             * 
+             */
+            if(count($data) != count($columns)){ 
+                if(count($data) < count($columns)){ 
+                    /**
+                     * trailing empty cells
+                     */
+                    $missing = count($columns) - count($data);
+                    for ($i = 0; $i < $missing; $i++){
+                        $data[] = "";
+                    }                    
+                }else if(count($data) > count($columns)){
+                    $line+= $start_row;
+                    throw new ReadTDTException("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used. Line number of the error: $line.");
+                }
             }
-                
+
             // keys not found yet
             if (!count($fieldhash)) {
 
@@ -221,11 +238,11 @@ class CSV extends ATabularData {
                 // then the first argument will return false, and being an &&-statement the second validation will not be processed
                 $commentlinecounter = 1;
                 while($commentlinecounter < $this->start_row ){
-                    $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $this->delimiter);
+                    $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $this->delimiter,'"');
                     $commentlinecounter++;
                 }
 
-                if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter)) !== FALSE) {
+                if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter,'"')) !== FALSE) {
                     // if no column aliases have been passed, then fill the columns variable 
                     if(count($line) <= 1){
                         throw new ResourceAdditionTDTException("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter.");
