@@ -68,7 +68,7 @@ private function displayTree($var) {
      $output ="";
      foreach($var as $key => $value) {
          if (is_array($value) || is_object($value)) {
-             $value = $newline . "<ul>" . $this->displayTree($value) . "</ul>";
+             $value = $newline . "<ul>" . $this->displayTree($value) . "</ul><br>";
          }
 
          if (is_array($var)) {
@@ -87,7 +87,6 @@ private function displayTree($var) {
             
             $output .= "<li>" . $key . $value . "</li>" . $newline;
          }
-         
      }
      return $output;
 }
