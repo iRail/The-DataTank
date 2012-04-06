@@ -24,7 +24,9 @@ class CUDController extends AController {
 
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot GET this resource without administration rights. Authentication failed.");
+            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+            header('HTTP/1.0 401 Unauthorized');
+            exit();
         }
 
         $model = ResourcesModel::getInstance();
@@ -67,7 +69,9 @@ class CUDController extends AController {
 
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot HEAD this resource without administration rights. Authentication failed.");
+            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+            header('HTTP/1.0 401 Unauthorized');
+            exit();
         }
 
         $model = ResourcesModel::getInstance();
@@ -109,7 +113,10 @@ class CUDController extends AController {
 
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
+            //throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
+            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+            header('HTTP/1.0 401 Unauthorized');
+            exit();
         }
         $package = $matches["package"];
         $resource = $matches["resource"];
@@ -157,7 +164,10 @@ class CUDController extends AController {
         }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot DELETE without administration rights. Authentication failed.");
+            //throw new AuthenticationTDTException("Cannot DELETE without administration rights. Authentication failed.");
+            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+            header('HTTP/1.0 401 Unauthorized');
+            exit();
         }
         //delete the package and resource when authenticated and authorized in the model
         $model = ResourcesModel::getInstance();
@@ -185,7 +195,9 @@ class CUDController extends AController {
         }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
+            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+            header('HTTP/1.0 401 Unauthorized');
+            exit();
         }
         $package = trim($matches["package"]);
         $resource = trim($matches["resource"]);
@@ -219,7 +231,9 @@ class CUDController extends AController {
         }
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationTDTException("Cannot POST without administration rights. Authentication failed.");
+            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+            header('HTTP/1.0 401 Unauthorized');
+            exit();
         }
         $package = trim($matches["package"]);
         $resource = trim($matches["resource"]);
