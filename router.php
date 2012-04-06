@@ -73,10 +73,7 @@ $urls = array(
     // But also:
     //  GET /package/ - should give all resources in package in an exception
     '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)' => 'RedirectController',
-    
-    // Calling a READ with only the package and a format.
-    //'/(?P<package>[^/.]*)\.(?P<format>[^?]+).*' => 'RController',    
-
+   
     // This is a request on the real-world object
     // examples of matches:
     //  PUT TDTAdmin/Admin/package/

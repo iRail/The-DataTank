@@ -34,13 +34,13 @@ class Doc{
      */
     public function visitAllDescriptions($factories){
         $c = Cache::getInstance();
-        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         if(is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDescriptionDoc($doc);
             }
-            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "documentation",$doc,60*60*60); // cache it for 1 hour by default
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation",$doc,60*60*60); // cache it for 1 hour by default
         }
         return $doc;
     }
