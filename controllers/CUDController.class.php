@@ -31,14 +31,27 @@ class CUDController extends AController {
 
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
-        if ($resource == "") {
+        if ($resourcename == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
+                $linkObject = new StdClass();
+                $links = array();
                 foreach($resourcenames as $resourcename => $value){
-                    echo '<a href="'. Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename . '">'. $resourcename . "</a><br>";
+                    
+                    $link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
+                    $links[] = $link;
+                    $linkObject->$package = $links;
                 }
-            } else {
+                //This will create an instance of a factory depending on which format is set
+                $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+
+                $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
+                $printer->printAll();
+                RequestLogger::logRequest();
+            }else if($model->hasPackage($package)){
                 echo "No resources are listed for this package <br>";
+            } else {
+                echo "This package name ( $package ) has not been created yet.";
             }
             exit();
         }

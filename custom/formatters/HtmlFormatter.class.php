@@ -73,24 +73,35 @@ private function displayTree($var) {
 
          if (is_array($var)) {
              if (!stripos($value, "<li")) {
-                $output .= "<li>" . $value . "</li>" . $newline;
+                 if(is_numeric($key)){
+                     $output .= "<li>" . $this->formatValue($value) . "</li>" . $newline;
+                 }else{
+                     $output .= "<li>" . $key. " : " . $this->formatValue($value) . "</li>" . $newline;
+                 }
+                
              }
              else {
-                $output .= $key. $value . $newline;
+                $output .= $key. $this->formatValue($value) . $newline;
              }
          
          }
          else { // is_object
             if (!stripos($value, "<li")) {
-               $value = "<ul><li>" . $value . "</li></ul>" . $newline;
+               $value = "<ul><li>" . $this->formatValue($value) . "</li></ul>" . $newline;
             } 
             
-            $output .= "<li>" . $key . $value . "</li>" . $newline;
+            $output .= "<li>" . $key . $this->formatValue($value) . "</li>" . $newline;
          }
      }
      return $output;
 }
 
-
+// formats url-values to a href=
+private function formatValue($value){
+    if(substr($value,0,4) == "http" || substr($value,0,5) == "https"){
+        $value = '<a href="'.$value.'">' . $value ."</a>";
+    }
+    return $value;
+}
 }
 ?>

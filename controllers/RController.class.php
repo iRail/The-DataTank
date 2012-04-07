@@ -38,7 +38,7 @@ class RController extends AController {
         }
 
         /**
-         * Of there is only a package passed, pass along a list of its resources
+         * If there is only a package passed, pass along a list of its resources
          */
 
         //Get an instance of our resourcesmodel
