@@ -173,7 +173,7 @@ class CSV extends ATabularData {
                 if ($PK == "") {
                     array_push($arrayOfRowObjects, $rowobject);
                 } else {
-                    if (!isset($arrayOfRowObjects[$rowobject->$PK])) {
+                    if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
                         $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                     }
                 }

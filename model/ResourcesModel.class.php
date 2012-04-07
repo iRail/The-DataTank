@@ -54,6 +54,13 @@ class ResourcesModel {
     }
 
     /**
+     * Checks of which type the resource is
+     */
+    public static function getResourceType($package,$resource){
+        
+    }
+
+    /**
      * Checks if a package exists
      */
     public function hasPackage($package){
