@@ -157,6 +157,7 @@ class CUDController extends AController {
         //Clear the documentation in our cache for it has changed        
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
@@ -195,6 +196,7 @@ class CUDController extends AController {
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
@@ -230,6 +232,7 @@ class CUDController extends AController {
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
@@ -265,6 +268,7 @@ class CUDController extends AController {
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
