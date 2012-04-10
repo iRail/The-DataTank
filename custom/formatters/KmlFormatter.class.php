@@ -104,7 +104,7 @@ class KmlFormatter extends AFormatter{
 
     private function printArray(&$val){
 //	var_dump($val);
-	foreach($val as $key => &$value) {
+	    foreach($val as $key => &$value) {
             $long = "";
             $lat = "";
             $coords = array();
@@ -134,8 +134,9 @@ class KmlFormatter extends AFormatter{
                     unset($array[$latkey]);
                     $name = $this->xmlgetelement($array);
                     $extendeddata = $this->getExtendedDataElement($array);				   
+                    $coords[0] = $lat . "," . $long;
                 } else if($coordskey) {
-                    $coords = explode("|",$array[$coordskey]);
+                    $coords = explode(";",$array[$coordskey]);
                     unset($array[$coordskey]);
                     $name = $this->xmlgetelement($array);
                     $extendeddata = $this->getExtendedDataElement($array);				   
@@ -143,27 +144,28 @@ class KmlFormatter extends AFormatter{
                 else {
                     $this->printArray($array);
                 }
-                if(($lat != "" && $long != "") || count($coords) != 0){
+                if(count($coords) > 0){
                     echo "<Placemark><name>$key</name><Description>".$name."</Description>";
                     echo $extendeddata;
-                    if($lat != "" && $long != "") {
-                        echo "<Point><coordinates>".$long.",".$lat."</coordinates></Point>";
-                    }
-                    if (count($coords)  > 0) {
-                        if (count($coords)  == 1) {
-                            echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
-                        } else {
-                            echo "<MultiGeometry>";
-                            foreach($coords as $coord) {
-                                echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coord."</coordinates></LinearRing></outerBoundaryIs></Polygon>";					                            
-                            }
-                            echo "</MultiGeometry>";
+                    if (count($coords)  == 1) {
+                        echo "<Point><coordinates>".$this->toKmlCoord($coords[0])."</coordinates></Point>";
+                    } else {
+                        echo "<LineString><coordinates>";
+                        foreach($coords as $coord) {
+                            echo $this->toKmlCoord($coord).",0 ";
                         }
+                        echo "</coordinates></LineString>";
                     }
                     echo "</Placemark>";
                 }
             }
         }
+    }
+
+    /** switch order of lat-long for kml representation */
+    private function toKmlCoord($coord) {
+        $ll = explode(",", $coord);
+        return $ll[1].",".$ll[0];
     }
 
     /**
