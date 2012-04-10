@@ -84,7 +84,7 @@ class MapFormatter extends AFormatter {
 			
 			map.addLayer(new OpenLayers.Layer.OSM());
 			
-			var center = new OpenLayers.LonLat(153.02775, -27.47558).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+			var center = new OpenLayers.LonLat(3.128357,50.973994).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
 			
 			var zoom = 11
 			map.setCenter(center, zoom);			
