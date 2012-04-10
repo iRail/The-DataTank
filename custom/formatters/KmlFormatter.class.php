@@ -50,11 +50,6 @@ class KmlFormatter extends AFormatter{
         $this->printArray($hash);
     }
 
-    private function printPlacemark($value){
-        echo "<Placemark><name>".htmlspecialchars($value->getName())."</name>";
-        echo "<Point><coordinates>".$value->getLat().",".$value->getLong()."</coordinates></Point></Placemark>";	  
-    }
-
     private function xmlgetelement($value){
         $result = "<![CDATA[";
         if(is_object($value)){
