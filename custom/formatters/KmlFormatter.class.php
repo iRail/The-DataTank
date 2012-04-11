@@ -116,15 +116,15 @@ class KmlFormatter extends AFormatter{
             }
             if(isset($array)) {   
                 $longkey = $this->array_key_exists_nc("long",$array);
-                if ($longkey == false) {
+                if (!$longkey) {
                     $longkey = $this->array_key_exists_nc("longitude",$array);			   
                 }
                 $latkey = $this->array_key_exists_nc("lat",$array);
-                if ($latkey == false) {
+                if (!$latkey) {
                     $latkey = $this->array_key_exists_nc("latitude",$array);			   
                 }
                 $coordskey = $this->array_key_exists_nc("coords",$array);
-                if ($coordskey == false) {
+                if (!$coordskey) {
                     $coordskey = $this->array_key_exists_nc("coordinates",$array);			   
                 }
                 if($longkey && $latkey) {
