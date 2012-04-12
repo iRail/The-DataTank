@@ -13,10 +13,10 @@ class ZippedSHP extends SHP {
 
     public function documentCreateParameters(){
         return array("uri" => "The path to the zipped shape file (can be a uri).",
-					 "shppath" => "The path to the shape file within the zip.",
+                     "shppath" => "The path to the shape file within the zip.",
                      "EPSG" => "EPSG coordinate system code.",
                      "columns" => "The columns that are to be published.",
-                     "PK" => "The primary key for each row.",
+                     "PK" => "The primary key for each row."
         );
     }
     
