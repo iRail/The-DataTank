@@ -11,6 +11,7 @@
 
 include_once("lib/parse_engine.php");
 include_once("controllers/spectql/SPECTQLTokenizer.class.php");
+include_once("controllers/spectql/filters/SPECTQLGeoFilter.class.php");
 include_once("controllers/spectql/filters/SPECTQLFilter.class.php");
 include_once("controllers/spectql/filters/SPECTQLFilterList.class.php");
 include_once("controllers/spectql/selectors/SPECTQLSelector.class.php");

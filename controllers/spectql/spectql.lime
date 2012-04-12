@@ -33,6 +33,15 @@ resourceid = name '/' name  { $$ = new SPECTQLResource($1,$3); }
 | resourceid '/' num { $1->addParameter($3); $$ = $1; }
 .
 
+name = name '-' name { $$ = $1 . $3; }
+|
+.
+
+
+num = num '.' num { $num = $1 . $3;  }
+|
+.
+
 filterlist = filter { $$ = new SPECTQLFilterList($1); }
 | filterlist '&' filterlist { $1->merge($3,true); $$ = $1; }
 | filterlist '|' filterlist { $1->merge($3, false); $$ = $1; }
@@ -46,6 +55,7 @@ filter = name '>' string { $$ = new SPECTQLFilter($1,">",$3); }
 | name EQ num { $$ = new SPECTQLFilter($1,"==",$3); }
 | name '<' num { $$ = new SPECTQLFilter($1,"<",$3); }
 | name '~' string { $$ = new SPECTQLFilter($1,"~",$3); }
+| name/function '(' num/lat ',' num/long ',' num/radius ')' { if($function == "in_radius"){ $$ = new SPECTQLGeoFilter($lat,$long,$radius); } }
 .
 
 selector = argument { $$ = new SPECTQLSelector($1); }
