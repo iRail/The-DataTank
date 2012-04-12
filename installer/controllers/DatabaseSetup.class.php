@@ -186,6 +186,12 @@ class DatabaseSetup extends InstallController {
              */
 
             R::exec("ALTER TABLE generic_resource_xls CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_json CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_ogdwienjson CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_kmlghent CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_shp CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_xml CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_zippedshp CHANGE url uri varchar(255)");
 
             $data["status"] = "passed";
             $data["tables"] = $tables;

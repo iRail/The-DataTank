@@ -77,6 +77,10 @@ class OGDWienJSON extends ATabularData {
                     throw new CouldNotGetDataTDTException($uri);
                 }
                 
+                if(!isset($json->features)){
+                    throw new ResourceAdditionTDTException("We could not find the features property, which may indicate this is not a OGDWienJSON json file.");
+                }
+                
 
                 $feature = $json->features[0];
 				
