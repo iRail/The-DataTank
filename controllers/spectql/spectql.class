@@ -989,7 +989,7 @@ function reduce_14_num_1($tokens, &$result) {
 # (14) num :=  num  '.'  num
 #
 $result = reset($tokens);
- $num = $tokens[0] . $tokens[2];  
+ $result = (double) ($tokens[0] .".". $tokens[2]);  
 }
 
 function reduce_15_num_2($tokens, &$result) {

@@ -86,7 +86,7 @@ class SPECTQLParser{
             while($tokenizer->hasNext()){
                 $t = $tokenizer->pop();
                 if (is_numeric($t)){
-                    $this->parser->eat('num', doubleval($t));
+                    $this->parser->eat('num', $t);
                 }
                 else if (preg_match("/'[ 0-9a-zA-Z_.\-]+'/si",$t)){
                     $t = trim($t,"'");

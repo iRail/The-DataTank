@@ -12,8 +12,8 @@ class SPECTQLGeoFilter{
     private $long, $lat, $radius;
 
     public function __construct($lat, $long, $radius){
-        $this->long = $long;
         $this->lat = $lat;
+        $this->long = $long;
         $this->radius = $radius;
     }
     
@@ -34,10 +34,12 @@ class SPECTQLGeoFilter{
     }
 
     public function in_radius($lat,$long){
+        $olat = $lat;
+        $olon = $long;
         $R = 6371; // earth's radius in km
-        $dLat = deg2rad($this->lat - $lat);
-        $dLon = deg2rad($this->long - $long);
-        $rolat = deg2rad($lat);
+        $dLat = deg2rad($this->lat - $olat);
+        $dLon = deg2rad($this->long - $olon);
+        $rolat = deg2rad($olat);
         $rlat = deg2rad($this->lat);
         $a = sin($dLat/2) * sin($dLat/2) + sin($dLon/2) * sin($dLon/2) * cos($rolat) * cos($rlat); 
         $c = 2 * atan2(sqrt($a), sqrt(1-$a)); 
