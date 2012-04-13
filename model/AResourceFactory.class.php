@@ -27,6 +27,9 @@ abstract class AResourceFactory{
         return false;
     }
 
+    /**
+     * Get all of the available resources (their names) and return them in an array.
+     */
     abstract protected function getAllResourceNames();
 
     /**
