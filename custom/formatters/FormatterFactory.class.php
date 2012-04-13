@@ -86,7 +86,7 @@ class FormatterFactory{
     }
 
     private function formatExists($format){
-        return file_exists("custom/formatters/". $format . "Formatter.class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
+        return file_exists("custom/formatters/". $format . "Formatter.class.php") || file_exists("custom/formatters/visualizations/". $format . "Formatter.class.php");
     }
 
     /**
@@ -115,7 +115,13 @@ class FormatterFactory{
 	    return new $format($rootname,$objectToPrint,$callback);
 	}
         $format=$this->format."Formatter";
-	include_once("custom/formatters/". $this->format . "Formatter.class.php");
+        // Before this is done, a check on the existence of the format has already been done, so we now we can 
+        // automatically include the visualization format if the format isn't found in the formatters folder.
+	if(file_exists("custom/formatters/". $this->format . "Formatter.class.php")){
+            include_once("custom/formatters/". $this->format . "Formatter.class.php");
+        }else{
+            include_once("custom/formatters/visualizations/". $this->format . "Formatter.class.php");
+        }
 	return new $format($rootname, $objectToPrint);
     }
     
