@@ -368,6 +368,18 @@ class DBQueries {
     }
 
     /**
+     * Retrieve a resource's id by packagename and resourcename
+     */
+    static function getResourceIdByName($package,$resource){
+        return R::getCell(
+            "SELECT resource.id
+             FROM resource,package
+             WHERE package_name =:package and resource_name =:resource",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
      * Retrieve a specific generic resource id
      */
     static function getGenericResourceId($package,$resource){
@@ -574,6 +586,47 @@ class DBQueries {
                        FROM resource,package
                        WHERE resource.resource_name = :resource AND package.package_name = :package 
              )",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Get the API id, with a key who's associated with an ACTIVE status
+     * expects a key to be passed 
+     */
+    static function getAPIId($key){
+        return R::getCell(
+            "SELECT id 
+             FROM api_key 
+             WHERE api_key.api_key = :key and api_key.status = 'active'",
+            array(":key" => $key)
+        );
+    }
+
+    /**
+     * Query the access entry
+     */
+    static function getAccessEntry($resource_id,$api_key_id){
+        return R::getCell(
+            "SELECT id
+             FROM access_list
+             WHERE resource_id =:resource_id and api_key_id = :api_key_id",
+            array(":resource_id" => $resource_id , ":api_key_id" => $api_key_id)
+        );
+    }
+
+    /**
+     * Delete all of the access entries according to the resource_id
+     */
+    static function deleteAccessEntries($package,$resource){
+        return R::exec(
+            "DELETE 
+             FROM access_list
+             WHERE resource_id IN (
+                   SELECT resource.id 
+                   FROM resource,package
+                   WHERE resource.resource_name =:resource and package.package_name=:package 
+            )",
             array(":package" => $package, ":resource" => $resource)
         );
     }

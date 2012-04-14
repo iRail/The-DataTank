@@ -24,26 +24,27 @@ class RController extends AController {
         $package = trim($matches['package']);
         $resourcename = trim($matches['resource']);
         
-        /**
-         * Even GET operations on TDTAdmin need to be authenticated!
-         */
-
-        if($package == "TDTAdmin"){
-            //we need to be authenticated
-            if (!$this->isAuthenticated()) {
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
+       
+        if (isset($package) && isset($resourcename)){
+            if(isset($doc->$package) && isset($doc->$package->$resourcename) 
+                                     && !$this->isAuthenticated($package,$resourcename)) {
                 header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
-                header('HTTP/1.0 401 Unauthorized');
+                header('HTTP/1.0 403 Forbidden');
                 exit();
             }
+        }else{
+            throw new ResourceOrPackageNotFoundTDTException("You have to pass along a resource behind your package.");
         }
 
         /**
          * If there is only a package passed, pass along a list of its resources
+         * NOTE: for this branch a package and a resource must be passed ! So the part where package list their 
+         * resource might become obsolete.
          */
+        
 
-        //Get an instance of our resourcesmodel
-        $model = ResourcesModel::getInstance();
-        $doc = $model->getAllDoc();
         if ($resourcename == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
@@ -272,8 +273,28 @@ class RController extends AController {
         throw new RepresentationCUDCallTDTException();
     }
 
-    private function isAuthenticated() {
-        return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
+    private function isAuthenticated($package,$resource) {
+        if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
+            return $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
+        }
+
+        if(isset($_GET["key"])){
+            /**
+             * Get the resource_ids that are connected with the key
+             * 1) Get the key from url
+             * 2) Look it up in the api_key table
+             * 3) Get the id from the api_key entry
+             * 4) Look up the id in the access_list table, get all of the resource_id's
+             * 5) Get the Resource id from the requested resource and look for matches from result 4)
+             * 6) return false or true according to step 5)
+             */
+            $model = ResourcesModel::getInstance();
+            $key = $_GET["key"];
+            $apiId = $model->getAPIId($key);
+            $access_granted = $model->isKeyAuthorized($apiId, $package,$resource);
+            return $access_granted;
+        }
+        return FALSE;
     }
 }
 ?>

@@ -156,6 +156,31 @@ class DatabaseSetup extends InstallController {
               KEY `s_obj_ftidx` (`object`(250))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
+        $queries["user_profile"] = "CREATE TABLE IF NOT EXISTS `user_profile`(
+             `id` bigint(20) NOT NULL AUTO_INCREMENT,
+             `name` varchar(255) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
+        $queries["api_key"] = "CREATE TABLE IF NOT EXISTS `api_key`(
+             `id` bigint(20) NOT NULL AUTO_INCREMENT,
+             `user_profile_id` bigint(20) NOT NULL, 
+             `api_key` varchar(255) NOT NULL,
+             `status` varchar(255) NOT NULL,
+              PRIMARY KEY (`id`),
+              FOREIGN KEY(user_profile_id) references user_profile(id)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
+        // coupling table with access_list
+        $queries["access_list"] = "CREATE TABLE IF NOT EXISTS `access_list`(
+             `id` bigint(20) NOT NULL AUTO_INCREMENT,
+             `resource_id` bigint(20) NOT NULL,
+             `api_key_id`  bigint(20) NOT NULL,
+              PRIMARY KEY (`id`),
+              FOREIGN KEY(resource_id) references resource(id),
+              FOREIGN KEY(api_key_id) references api_key(id)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
         $tables = array();
         foreach($queries as $table=>$query) {
             $tables[$table] = "failed";
@@ -184,7 +209,6 @@ class DatabaseSetup extends InstallController {
             /**
              * updates
              */
-
             R::exec("ALTER TABLE generic_resource_xls CHANGE url uri varchar(255)");
             R::exec("ALTER TABLE generic_resource_json CHANGE url uri varchar(255)");
             R::exec("ALTER TABLE generic_resource_ogdwienjson CHANGE url uri varchar(255)");

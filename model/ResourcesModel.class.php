@@ -112,7 +112,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($package, $resource, $parameters, $RESTparameters) {
-
+        
         //If we want to CRUD ontology, handle differently
         if (!$this->checkOntology($package, $resource, $RESTparameters)) {
             //if it doesn't, test whether the resource_type has been set
@@ -140,14 +140,13 @@ class ResourcesModel {
             
 
             $restype = $parameters["resource_type"];
-
             //now check if the file exist and include it
             if (!in_array($restype, array("generic", "remote"))) {
                 throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
             }
             // get the documentation containing information about the required parameters
             $doc = $this->getAllAdminDoc();
-
+            
             /**
              * get the correct requiredparameters list to check
              */
@@ -400,6 +399,23 @@ class ResourcesModel {
         return $doc->visitAllAdmin($this->factories);
     }
 
-}
+    /**
+     * Will only return an id if the key has an active status !!!!
+     */
+    public function getAPIId($key){
+        $result = DBQueries::getAPIId($key);
+        return $result;
+    }
 
+    public function isKeyAuthorized($api_key_id,$package,$resource){
+        $resourceId = DBQueries::getResourceIdByName($package,$resource);
+        $result = DBQueries::getAccessEntry($resourceId,$api_key_id);
+        return $result != NULL && $result != 0;
+    }
+}
 ?>
+
+
+
+
+

@@ -26,6 +26,9 @@ class GenericResourceDeleter extends ADeleter{
         // delete metadata about the resource
         DBQueries::deleteMetaData($this->package,$this->resource);
 
+        // delete the access entries to this resource
+        DBQueries::deleteAccessEntries($this->package,$this->resource);
+
         //now the only thing left to delete is the main row
         DBQueries::deleteGenericResource($this->package, $this->resource);
 

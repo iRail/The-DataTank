@@ -126,7 +126,6 @@ class CUDController extends AController {
 
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
-            //throw new AuthenticationTDTException("Cannot PUT without administration rights. Authentication failed.");
             header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
