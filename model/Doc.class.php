@@ -87,7 +87,7 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "visualizationdocs");
         $ff = FormatterFactory::getInstance();
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = $ff->getVisualizationDocumentation();
             $c->set(Config::$HOSTNAME . Config::$SUBDIR . "visualizationdocs",$doc,60*60*60);
         }
