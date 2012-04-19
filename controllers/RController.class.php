@@ -149,7 +149,7 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
-        RequestLogger::logRequest();
+        RequestLogger::logRequest($package,$resourcename,$parameters);
     }
 
     public function HEAD($matches){
@@ -240,7 +240,7 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
-        RequestLogger::logRequest();
+        RequestLogger::logRequest($package,$resourcename,$parameters);
     }
 
     /**
