@@ -179,8 +179,9 @@ class GenericResourceFactory extends AResourceFactory {
         $strategies = array();
         if ($handle = opendir('custom/strategies')) {
             while (false !== ($strat = readdir($handle))) {
-                //if the object read is a directory and the configuration methods file exists, then add it to the installed strategie          
-                if ($strat != "." && $strat != ".." && $strat != "README.md"&& !is_dir("custom/strategies/" . $strat) && file_exists("custom/strategies/" . $strat)) {
+                //if the object read is a directory and the configuration methods file exists, then add it to the installed strategie
+                if ($strat != "." && $strat != ".." && $strat != "README.md" && !is_dir("custom/strategies/" . $strat) && file_exists("custom/strategies/" . $strat)) {
+
                     include_once("custom/strategies/" . $strat);
                     $fileexplode = explode(".",$strat);
                     $class = new ReflectionClass($fileexplode[0]);

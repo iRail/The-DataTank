@@ -131,7 +131,7 @@ class TDTStatsMonth extends AReader{
         
         $selectclause .= ", count(1) as requests";
         if ($whereclause != "") {
-            $whereclause = "WHERE " . $whereclause;
+            $whereclause = "WHERE " . $whereclause . " AND request_method = 'GET'";
         }
         if ($groupbyclause != "") {
             $groupbyclause = "GROUP BY " . $groupbyclause;

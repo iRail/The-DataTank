@@ -47,7 +47,7 @@ class TDTStatsLanguages extends AReader{
     }
 
     public static function getDoc(){
-        return "This resource returns the overall language usage of this The DataTank instance";
+        return "This resource returns the overall language usage of this The DataTank instance. Hasn't been completed yet!";
     }
 
 }

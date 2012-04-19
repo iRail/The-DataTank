@@ -26,7 +26,7 @@ class RController extends AController {
         
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
-       
+        
         if (isset($package) && isset($resourcename)){
             if(isset($doc->$package) && isset($doc->$package->$resourcename) 
                                      && !$this->isAuthenticated($package,$resourcename)) {
@@ -88,8 +88,8 @@ class RController extends AController {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
 
-        $parameters = $_GET;        
-            
+        $parameters = $_GET;
+
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
                 
@@ -150,7 +150,7 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
-        RequestLogger::logRequest();
+        RequestLogger::logRequest($package,$resourcename,$parameters);
     }
 
     public function HEAD($matches){
@@ -241,7 +241,7 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
-        RequestLogger::logRequest();
+        RequestLogger::logRequest($package,$resourcename,$parameters);
     }
 
     /**
@@ -274,6 +274,9 @@ class RController extends AController {
     }
 
     private function isAuthenticated($package,$resource) {
+
+        return TRUE;
+
         if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
             return $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
         }

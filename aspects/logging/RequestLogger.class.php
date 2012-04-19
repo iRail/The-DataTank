@@ -30,6 +30,13 @@ class RequestLogger{
         }else{
             $request->user_agent = "";
         }
+
+        $request->request_method = $_SERVER['REQUEST_METHOD'];
+
+        if(array_key_exists("key",$parameters)){
+            $request->api_key = $parameters["key"];
+        }
+        
         
         $request->url_request = $URI->getURI();
         if($package == ""){
