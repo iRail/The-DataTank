@@ -11,7 +11,7 @@
 class CoreResourceFactory extends AResourceFactory {
 
     protected function getAllResourceNames(){
-        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin", "Formatters"),
+        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin", "Formatters","Visualizations"),
                      "TDTStats" => array("UserAgents","Day","Week","Month","Quarter","Year","Languages"),
                      "TDTAdmin" => array("Resources", "Export")
         );
