@@ -86,7 +86,6 @@ class DatabaseSetup extends InstallController {
               `requiredparameter` varchar(255) DEFAULT NULL,
               `ip` varchar(255) DEFAULT NULL, 
               `hash` varchar(255) DEFAULT NULL,
-              `location` varchar(255) DEFAULT NULL,
               `request_method` varchar(255) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";    
@@ -110,6 +109,13 @@ class DatabaseSetup extends InstallController {
               KEY `name` (`name`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
+        $queries["logs"] = "CREATE TABLE IF NOT EXISTS `logs` (
+              `id` int(255) NOT NULL AUTO_INCREMENT,
+              `source` varchar(255) NOT NULL,
+              `message` varchar(255) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
         $queries["datasets"] = "CREATE TABLE IF NOT EXISTS `datasets` (
               `datasetName` varchar(255) NOT NULL DEFAULT '',
               `defaultModelUri` varchar(255) NOT NULL DEFAULT '0',
