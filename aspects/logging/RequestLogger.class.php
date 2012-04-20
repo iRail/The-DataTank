@@ -30,7 +30,9 @@ class RequestLogger{
         }else{
             $request->user_agent = "";
         }
-        
+
+        $request->request_method = $_SERVER['REQUEST_METHOD'];        
+
         $request->url_request = $URI->getURI();
         if($package == ""){
             $request->package = $URI->getPackage();

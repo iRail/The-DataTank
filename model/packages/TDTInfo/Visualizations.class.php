@@ -1,15 +1,14 @@
 <?php
 /**
- * Returns all formatters in TDT
+ * Returns all visualizations in TDT
  * 
  * @package The-Datatank/packages/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
- * @author Pieter Colpaert   <pieter@iRail.be>
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-class TDTInfoFormatters extends AReader{
+class TDTInfoVisualizations extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -25,11 +24,11 @@ class TDTInfoFormatters extends AReader{
 
     public function read(){
         $d = new Doc();
-        return $d->visitAllFormatters();
+        return $d->visitAllVisualizations();
     }
 
     public static function getDoc(){
-	return "Returns all formatters in this DataTank.";
+	return "Returns all visualizations in this DataTank.";
     }
     
 

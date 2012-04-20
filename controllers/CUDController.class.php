@@ -159,6 +159,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        RequestLogger::logRequest();
     }
 
     /**
@@ -198,6 +199,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        RequestLogger::logRequest();
     }
 
     /**
@@ -234,6 +236,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        RequestLogger::logRequest();
     }
 
 
@@ -270,6 +273,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        RequestLogger::logRequest();
     }
 
 

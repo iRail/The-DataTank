@@ -87,6 +87,7 @@ class DatabaseSetup extends InstallController {
               `ip` varchar(255) DEFAULT NULL, 
               `hash` varchar(255) DEFAULT NULL,
               `location` varchar(255) DEFAULT NULL,
+              `request_method` varchar(255) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";    
         
@@ -193,6 +194,13 @@ class DatabaseSetup extends InstallController {
             R::exec("ALTER TABLE generic_resource_xml CHANGE url uri varchar(255)");
             R::exec("ALTER TABLE generic_resource_zippedshp CHANGE url uri varchar(255)");
 
+             // update the requests table and fill in the method GET for entries who dont have a request_method yet
+            if($this->checkIfColumnsExists("requests","request_method") == 0){
+                R::exec("ALTER TABLE requests ADD request_method varchar(255)");
+            }
+            R::exec('UPDATE requests SET request_method = "GET" WHERE request_method IS NULL');
+
+
             $data["status"] = "passed";
             $data["tables"] = $tables;
         }
@@ -205,5 +213,9 @@ class DatabaseSetup extends InstallController {
         
         $this->view("database_setup", $data);
     }
-    
+
+    private function checkIfColumnsExists($table,$column){
+        return R::exec("SELECT * FROM information_schema.columns WHERE table_name =:table AND column_name =:column",
+                       array(":table" => $table, ":column" => $column));
+    }
 }
