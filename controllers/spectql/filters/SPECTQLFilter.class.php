@@ -34,26 +34,25 @@ class SPECTQLFilter{
 
         $result = array();
         foreach($current as &$row){
-            if(isset($row[$this->key]) && $function($row[$this->key],$this->value)){
+            if(isset($row[$this->key]) && self::$function($row[$this->key],$this->value)){
                 array_push($result,$row);
             }
         }
         $current = $result;
     }
-}
 
-//Specify some comparators
-function equals($a,$b){
-    return strnatcmp($a,$b) == 0;
+    //Specify some comparators
+    static function equals($a,$b){
+        return strnatcmp($a,$b) == 0;
+    }
+    static function greaterthan($a,$b){
+        return strnatcmp($a,$b) > 0;
+    }
+    static function lessthan($a,$b){
+        return strnatcmp($a,$b) < 0;
+    }
+    static function like($a,$b){
+        return strstr($a,$b);
+    }
 }
-function greaterthan($a,$b){
-    return strnatcmp($a,$b) > 0;
-}
-function lessthan($a,$b){
-    return strnatcmp($a,$b) < 0;
-}
-function like($a,$b){
-    return strstr($a,$b);
-}
-
 ?>
