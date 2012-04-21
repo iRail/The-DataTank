@@ -44,8 +44,7 @@ class OGDWienJSON extends ATabularData {
      */
     public function documentReadParameters(){
         return array("long", "lat", "radius");
-    }
-    
+    }    
 
     protected function isValid($package_id,$generic_resource_id) {
         if(!isset($this->uri)){
@@ -100,10 +99,9 @@ class OGDWienJSON extends ATabularData {
         return true;
     }
 
-    public function read(&$configObject){
+    public function read(&$configObject,$package,$resource){
         set_time_limit(1000);
-	
-        parent::read($configObject);
+        parent::read($configObject,$package,$resource);
        
         if(isset($configObject->uri)){
             $uri = $configObject->uri;

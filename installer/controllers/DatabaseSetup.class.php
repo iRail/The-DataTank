@@ -52,6 +52,16 @@ class DatabaseSetup extends InstallController {
               `timestamp` bigint(20) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
+        $queries["logs"] = "CREATE TABLE IF NOT EXISTS `logs` (
+              `id` bigint(255) NOT NULL AUTO_INCREMENT,
+              `source` varchar(255) NOT NULL,
+              `message` varchar(255) NOT NULL,
+              `package` varchar(255) NOT NULL,
+              `resource` varchar(255) NOT NULL,
+              `time` bigint(20) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["published_columns"] = "CREATE TABLE IF NOT EXISTS `published_columns` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,

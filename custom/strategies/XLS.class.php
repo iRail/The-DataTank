@@ -162,9 +162,9 @@ class XLS extends ATabularData {
         return true;
     }
 	
-    public function read(&$configObject) {
+    public function read(&$configObject,$package,$resource){
        
-        parent::read($configObject);
+        parent::read($configObject,$package,$resource);
         $uri = $configObject->uri;
         $sheet = $configObject->sheet;
         $has_header_row = $configObject->has_header_row;

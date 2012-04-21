@@ -88,7 +88,7 @@ class RController extends AController {
         }
 
         $parameters = $_GET;        
-            
+
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
                 

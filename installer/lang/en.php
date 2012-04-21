@@ -57,8 +57,8 @@ $lang["database_setup_failed"] = "One or more tables could not be created, pleas
 
 $lang["finish_title"] = "DataTank ".Installer::version()." installation completed";
 $lang["finish_message"] = "Your DataTank has been installed. Further information can be found on:<br>
- our github page: http://github.com/iRail/The-DataTank  <br>
- our wiki page: http://thedatatank.org. <br><br><br>
+ our <a href='http://github.com/iRail/The-DataTank'> github page</a> <br>
+ our <a href='http://thedatatank.org'>wiki page </a> <br><br><br>
  To get you started with some interesting default resources check out:<br>
  <a href='" . Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo'> public package and resource information </a><br>
  <a href='" . Config::$HOSTNAME . Config::$SUBDIR . "TDTAdmin'> private package and resource information </a><br>";
