@@ -21,6 +21,9 @@ class DatabaseSetup extends InstallController {
               `format` varchar(24) DEFAULT NULL,
               `error_message` text,
               `error_code` varchar(255) DEFAULT NULL,
+              `stacktrace` varchar(255) DEFAULT NULL,
+              `file` varchar(255) DEFAULT NULL,
+              `linenumber` int(20) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         

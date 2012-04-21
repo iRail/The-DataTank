@@ -75,8 +75,8 @@ class ZippedSHP extends SHP {
         $this->deleteDir("tmp/" . $tmpGuid);
 		
         return $retVal;
-    }	
-	
+    }
+
     public function read(&$configObject,$package,$resource) {
         set_time_limit(1000);
 
@@ -112,7 +112,11 @@ class ZippedSHP extends SHP {
 		 
         $configObject->uri = "tmp/" . $tmpGuid . "/" . $configObject->shppath;
 
+<<<<<<< HEAD
         $retVal = parent::read($configObject,$package,$resource);
+=======
+        $retVal = parent::read($configObject);
+>>>>>>> logs_exceptions_rework
 
         if ($isUrl) {
             unlink("tmp/" . $tmpGuid . ".zip");
@@ -123,7 +127,10 @@ class ZippedSHP extends SHP {
     }
 	
     private function deleteDir($dir){
+<<<<<<< HEAD
 
+=======
+>>>>>>> logs_exceptions_rework
         if (substr($dir, strlen($dir)-1, 1) != '/')
             $dir .= '/';
 

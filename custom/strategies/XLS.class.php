@@ -188,7 +188,6 @@ class XLS extends ATabularData {
             if ($isUri) {						
                 $tmpFile = uniqid();
                 file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
-				
                 $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
             } else {
                 $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);			
@@ -224,8 +223,15 @@ class XLS extends ATabularData {
                             if($PK == "") {
                                 array_push($arrayOfRowObjects,$rowobject);   
                             } else {
-                                if(!isset($arrayOfRowObjects[$rowobject->$PK])){
+                                if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != ""){
                                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                                }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
+                                    // this means the primary key wasn't unique !
+                                    BacklogLogger::addLog("XLS", "Primary key ". $rowobject->$PK . " isn't unique.", $package,$resource);
+                                }else{
+                                    // this means the primary key was empty, log the problem and continue 
+                                    BacklogLogger::addLog("XLS", "Primary key is empty.", 
+                                                          $package,$resource);
                                 }
                             }
                         }
@@ -270,8 +276,14 @@ class XLS extends ATabularData {
                             if($PK == "") {
                                 array_push($arrayOfRowObjects,$rowobject);   
                             } else {
-                                if(!isset($arrayOfRowObjects[$rowobject->$PK])){
+                                if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != ""){
                                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                                }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
+                                    // this means the primary key wasn't unique !
+                                    BacklogLogger::addLog("XLS", "Primary key ". $rowobject->$PK . " isn't unique.", $package,$resource);
+                                }else{
+                                    // this means the primary key was empty, log the problem and continue 
+                                    BacklogLogger::addLog("XLS", "Primary key is empty.",$package,$resource);
                                 }
                             }							
                         }
