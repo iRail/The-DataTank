@@ -112,11 +112,7 @@ class ZippedSHP extends SHP {
 		 
         $configObject->uri = "tmp/" . $tmpGuid . "/" . $configObject->shppath;
 
-<<<<<<< HEAD
         $retVal = parent::read($configObject,$package,$resource);
-=======
-        $retVal = parent::read($configObject);
->>>>>>> logs_exceptions_rework
 
         if ($isUrl) {
             unlink("tmp/" . $tmpGuid . ".zip");
@@ -127,10 +123,6 @@ class ZippedSHP extends SHP {
     }
 	
     private function deleteDir($dir){
-<<<<<<< HEAD
-
-=======
->>>>>>> logs_exceptions_rework
         if (substr($dir, strlen($dir)-1, 1) != '/')
             $dir .= '/';
 

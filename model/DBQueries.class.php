@@ -249,7 +249,7 @@ class DBQueries {
     static function getRemoteResource($package, $resource) {
         return R::getRow(
             "SELECT rem_rec.base_url as url ,rem_rec.package_name as package,
-                    resource.resource_name as resource
+                    rem_rec.resource_name as resource
              FROM   package,remote_resource as rem_rec,resource
              WHERE  package.package_name=:package and resource.resource_name =:resource
                     and package.id = package_id and resource_id = resource.id",
@@ -272,10 +272,11 @@ class DBQueries {
     /**
      * Store a remote resource
      */
-    static function storeRemoteResource($resource_id, $package_name, $base_url) {
+    static function storeRemoteResource($resource_id, $package_name,$resource_name, $base_url) {
         $remres = R::dispense("remote_resource");
         $remres->resource_id = $resource_id;
         $remres->package_name = $package_name;
+        $remres->resource_name = $resource_name;
         $remres->base_url = $base_url;
         return R::store($remres);
     }
