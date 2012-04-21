@@ -200,8 +200,14 @@ class SHP extends ATabularData {
                 if($PK == "") {
                     array_push($arrayOfRowObjects,$rowobject);
                 } else {
-                    if(!isset($arrayOfRowObjects[$rowobject->$PK])){
+                    if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
                         $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                    }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
+                        // this means the primary key wasn't unique !
+                        BacklogLogger::addLog("SHP", "Primary key ". $rowobject->$PK . " isn't unique.",$package,$resource);
+                    }else{
+                        // this means the primary key was empty, log the problem and continue 
+                        BacklogLogger::addLog("SHP", "Primary key is empty.",$package,$resource);
                     }
                 }				
             }

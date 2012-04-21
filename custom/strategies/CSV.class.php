@@ -175,6 +175,14 @@ class CSV extends ATabularData {
                 } else {
                     if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
                         $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                    }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
+                        // this means the primary key wasn't unique !
+                        BacklogLogger::addLog("CSV", "Primary key ". $rowobject->$PK . " isn't unique on line " . $line.".",
+                                              $package,$resource);
+                    }else{
+                        // this means the primary key was empty, log the problem and continue 
+                        BacklogLogger::addLog("CSV", "Primary key is empty on line ". $line . ".", 
+                                              $package,$resource);
                     }
                 }
             }
