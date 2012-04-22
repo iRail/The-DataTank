@@ -169,6 +169,30 @@ class XLS extends ATabularData {
 	
     public function read(&$configObject,$package,$resource) {
        
+         /**
+         * Check if the possible read parameters are passed in a correct way
+         */
+
+        if(isset($this->startindex) && isset($this->endindex) && $this->endindex < $this->startindex){
+            throw new ParameterTDTException("Your endindex cannot be smaller than your startindex.");
+        }else if(isset($this->page) && (isset($this->startindex) || isset($this->endindex))){
+            throw new ParameterTDTException("The usage of page and indexes are mutually exclusive.");
+        }else if(isset($this->endindex) && !isset($this->startindex)){
+            throw new ParameterTDTException("You cannot use endindex without a startindex.");
+        }
+
+        /**
+         * convert page to startindex and endindex
+         */
+        if(isset($this->page)){
+            $this->startindex = $this->page * XLS::$PAGE_SIZE - XLS::$PAGE_SIZE + 1;
+            $this->endindex = $this->startindex + XLS::$PAGE_SIZE -1;
+        }
+
+        if(!isset($this->startindex)){
+            $this->startindex = 1;
+        }
+
         parent::read($configObject,$package,$resource);
         $uri = $configObject->uri;
         $sheet = $configObject->sheet;
@@ -187,6 +211,16 @@ class XLS extends ATabularData {
         if (!is_dir("tmp")) {
             mkdir("tmp");
         }
+
+        if(!isset($this->startindex)){
+            $this->startindex = 1;
+        }
+
+        if(!isset($this->endindex)){
+            // the documentation of php excel is broken, the usage of reading XLS-files is corrupt ... 
+            $this->endindex = -1;
+        }
+        
 
         try { 
             $isUri = (substr($uri , 0, 4) == "http");
@@ -207,6 +241,7 @@ class XLS extends ATabularData {
                     if ($rowIndex >= $start_row) {
                         $cellIterator = $row->getCellIterator();
                         $cellIterator->setIterateOnlyExistingCells(false);
+
                         if ($rowIndex == $start_row && $has_header_row == "1") {
                             foreach ($cellIterator as $cell) {
                                 if(!is_null($cell) && $cell->getCalculatedValue() != ""){    
@@ -214,7 +249,8 @@ class XLS extends ATabularData {
                                     $fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;
                                 }
                             }
-                        } else {
+                        } else if($start_row + $this->startindex <= $rowIndex
+                                  && ($start_row + $this->endindex >= $rowIndex || $this->endindex == -1)){
                             $rowobject = new stdClass();
                             $keys = array_keys($fieldhash);
                             foreach ($cellIterator as $cell) {
@@ -233,6 +269,15 @@ class XLS extends ATabularData {
                                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                                 }
                             }
+                        }else if($start_row + $this->endindex < $rowIndex && $this->endindex != -1){
+                            if(isset($this->page)){
+                                $page = $this->page + 1;
+                                header("Link: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource .".about?page=".$page);
+                            }else{
+                                $start = $start_row+$this->endindex;
+                                header("Link: " . Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource .".about?beginindex=".$start);
+                            }
+                            break;
                         }
                     }
                 }

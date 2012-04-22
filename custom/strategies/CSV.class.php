@@ -73,7 +73,7 @@ class CSV extends ATabularData {
 
         if(isset($this->startindex) && isset($this->endindex) && $this->endindex < $this->startindex){
             throw new ParameterTDTException("Your endindex cannot be smaller than your startindex.");
-        }else if(isset($this->page) && isset($this->startindex) || isset($this->endindex)){
+        }else if(isset($this->page) && (isset($this->startindex) || isset($this->endindex))){
             throw new ParameterTDTException("The usage of page and indexes are mutually exclusive.");
         }else if(isset($this->endindex) && !isset($this->startindex)){
             throw new ParameterTDTException("You cannot use endindex without a startindex.");
@@ -83,8 +83,8 @@ class CSV extends ATabularData {
          * convert page to startindex and endindex
          */
         if(isset($this->page)){
-            $this->startindex = $this->page * CSV::$PAGE_SIZE;
-            $this->endindex = $this->startindex + CSV::$PAGE_SIZE;
+            $this->startindex = $this->page * CSV::$PAGE_SIZE - CSV::$PAGE_SIZE + 1;
+            $this->endindex = $this->startindex + CSV::$PAGE_SIZE - 1;
         }
 
         if(!isset($this->startindex)){
@@ -170,7 +170,7 @@ class CSV extends ATabularData {
              * Check if we have to end the reading ( don't push over endindex )
              */
             
-            if($this->endindex - $this->startindex + 1  == $rownumber){
+            if($this->endindex - $this->startindex + 1  == $rownumber -1){
                 if($rownumber < count($rows)){
                     if(!isset($this->page)){
                         $start = $rownumber+1;
