@@ -14,7 +14,7 @@ class CSV extends ATabularData {
 
     // amount of chars in one row that can be read
     public static $MAX_LINE_LENGTH = 15000;
-
+    public static $PAGE_SIZE = 2;
     /**
      * Returns an array with params => documentation pairs who are required to create a CSV resource.
      * @return array with parameter => documentation pairs
@@ -54,7 +54,9 @@ class CSV extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentReadParameters() {
-        return array();
+        return array("startindex" => "The startrow of the datasource you want as a starting point of your response. Do note that this is the rownumber starting(!!) from the start_row passed with the creation of the resource.",
+                     "endindex" => "The endrow of the datasource you want in the response. Note that a startindex must be passed in order to use the endindex parameter.",
+                     "page" => "The page of the datasource you want to access, paging is done on an internal parameter, currently set to " . CSV::$PAGE_SIZE ." rows are on 1 page. You can only use page, when no index is passed as parameter.");
     }
     
     /**
@@ -63,13 +65,34 @@ class CSV extends ATabularData {
      * @param $resource The resource name of the resource
      * @return $mixed An object created with fields of a CSV file.
      */
-    public function read(&$configObject) {
-        /*
-         * First retrieve the values for the generic fields of the CSV logic
-         * This is the uri to the file, and a parameter which states if the CSV file
-         * has a header row or not.
+    public function read(&$configObject,$package,$resource) {
+
+        /**
+         * Check if the possible read parameters are passed in a correct way
          */
-        parent::read($configObject);
+
+        if(isset($this->startindex) && isset($this->endindex) && $this->endindex < $this->startindex){
+            throw new ParameterTDTException("Your endindex cannot be smaller than your startindex.");
+        }else if(isset($this->page) && isset($this->startindex) || isset($this->endindex)){
+            throw new ParameterTDTException("The usage of page and indexes are mutually exclusive.");
+        }else if(isset($this->endindex) && !isset($this->startindex)){
+            throw new ParameterTDTException("You cannot use endindex without a startindex.");
+        }
+
+        /**
+         * convert page to startindex and endindex
+         */
+        if(isset($this->page)){
+            $this->startindex = $this->page * CSV::$PAGE_SIZE;
+            $this->endindex = $this->startindex + CSV::$PAGE_SIZE;
+        }
+
+        if(!isset($this->startindex)){
+            $this->startindex = 1;
+        }
+        
+
+        parent::read($configObject,$package,$resource);
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;
         $delimiter = $configObject->delimiter;
@@ -97,7 +120,12 @@ class CSV extends ATabularData {
         }
         $csv = utf8_encode($request->data);
         $rows = str_getcsv($csv, "\n");
-        // get rid for the comment lines according to the given start_row
+
+        if(!isset($this->endindex)){
+            $this->endindex = count($rows);
+        }
+        
+        // get rid for the comment lines according to the given start_row & beginindex
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
         }
@@ -113,12 +141,48 @@ class CSV extends ATabularData {
             foreach ($columns as $index => $column_name) {
                 $fieldhash[$index] = $index;
             }
+        }else{
+            // <<fast!>> way to detect empty fields
+            // if it contains empty fields, it should not be our field hash
+            $data = str_getcsv($rows[0],$delimiter, '"');
+            $empty_elements = array_keys($data, "");
+            if (!count($empty_elements)){
+                // we found our key fields
+                for ($i = 0; $i < sizeof($data); $i++)
+                    $fieldhash[$data[$i]] = $i;
+                array_shift($rows);
+            }else{
+                throw new ReadTDTException("The columns couldn't be resolved, line which, according to the parameters, holds the columns is: ". implode($delimiter,$data));
+            }
         }
 
-        $line = 0;
-        foreach ($rows as $row => $fields) {
-            $line++;
+        /**
+         * throw away the rows we dont need (startindex)
+         */
+        // get rid for the comment lines according to the given start_row & beginindex
+        for ($i = 1; $i < $this->startindex; $i++) {
+            array_shift($rows);
+        }
+
+        $rownumber = 1;
+        foreach ($rows as $row => $fields) {     
+            /**
+             * Check if we have to end the reading ( don't push over endindex )
+             */
             
+            if($this->endindex - $this->startindex + 1  == $rownumber){
+                if($rownumber < count($rows)){
+                    if(!isset($this->page)){
+                        $start = $rownumber+1;
+                        header("Link: " . Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource .".about?beginindex=".$start);
+                    }else{
+                        $page = $this->page + 1;
+                        header("Link: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource .".about?page=".$page);
+                    }
+                }
+                break;
+            }
+
             $data = str_getcsv($fields, $delimiter, '"');
                 
             // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
@@ -140,44 +204,33 @@ class CSV extends ATabularData {
                         $data[] = "";
                     }                    
                 }else if(count($data) > count($columns)){
-                    $line+= $start_row;
+                    $line = $start_row + $this->startindex + $rownumber ;
                     throw new ReadTDTException("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used. Line number of the error: $line.");
                 }
             }
 
-            // keys not found yet
-            if (!count($fieldhash)) {
-
-                // <<fast!>> way to detect empty fields
-                // if it contains empty fields, it should not be our field hash
-                $empty_elements = array_keys($data, "");
-                if (!count($empty_elements)) {
-                    // we found our key fields
-                    for ($i = 0; $i < sizeof($data); $i++)
-                        $fieldhash[$data[$i]] = $i;
-                }
-            } else {
-                $rowobject = new stdClass();
-                $keys = array_keys($fieldhash);
-
-                for ($i = 0; $i < sizeof($keys); $i++) {
-                    $c = $keys[$i];
-
-                    if (sizeof($columns) == 0 || !array_key_exists($c, $columns)) {
-                        $rowobject->$c = $data[$fieldhash[$c]];
-                    } else if (array_key_exists($c, $columns)) {
-                        $rowobject->$columns[$c] = $data[$fieldhash[$c]];
-                    }
-                }
-
-                if ($PK == "") {
-                    array_push($arrayOfRowObjects, $rowobject);
-                } else {
-                    if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
-                        $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
-                    }
+            
+            $rowobject = new stdClass();
+            $keys = array_keys($fieldhash);
+            
+            for ($i = 0; $i < sizeof($keys); $i++) {
+                $c = $keys[$i];
+                
+                if (sizeof($columns) == 0 || !array_key_exists($c, $columns)) {
+                    $rowobject->$c = $data[$fieldhash[$c]];
+                } else if (array_key_exists($c, $columns)) {
+                    $rowobject->$columns[$c] = $data[$fieldhash[$c]];
                 }
             }
+            
+            if ($PK == "") {
+                array_push($arrayOfRowObjects, $rowobject);
+            } else {
+                if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
+                    $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                }
+            }
+            $rownumber++;
         }
         return $arrayOfRowObjects;
     }

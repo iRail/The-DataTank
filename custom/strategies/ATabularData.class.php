@@ -56,7 +56,7 @@ abstract class ATabularData extends AResourceStrategy{
         }
     }
 
-    public function read(&$configObject){
+    public function read(&$configObject,$package,$resource){
          $published_columns = DBQueries::getPublishedColumns($configObject->gen_resource_id);
          $PK ="";
          $columns = array();

@@ -12,7 +12,7 @@ class RequestLogger{
     /**
      * This function implements the logging part of the RequestLogger functionality.
      */
-    public static function logRequest($package="", $resource="", $parameters="",$RESTparameters = "") {
+    public static function logRequest($package="", $resource="", $parameters=array(),$RESTparameters = array()) {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 	//an instance of printerfactory so we can check the format
 	$ff = FormatterFactory::getInstance();

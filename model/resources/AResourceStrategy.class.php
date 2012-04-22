@@ -16,7 +16,7 @@ abstract class AResourceStrategy{
      * This functions contains the businesslogic of a read method (non paged reading)
      * @return StdClass object representing the result of the businesslogic.
      */
-    abstract public function read(&$configObject);
+    abstract public function read(&$configObject,$package,$resource);
 
     /**
      * Delete all extra information on the server about this resource when it gets deleted

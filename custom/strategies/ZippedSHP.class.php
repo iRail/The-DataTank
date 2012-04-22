@@ -77,7 +77,7 @@ class ZippedSHP extends SHP {
         return $retVal;
     }	
 	
-    public function read(&$configObject) {
+    public function read(&$configObject,$package,$resource) {
 		set_time_limit(1000);
 
         if(isset($configObject->uri)){

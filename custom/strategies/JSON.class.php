@@ -12,7 +12,7 @@ include_once("model/DBQueries.class.php");
 
 class JSON extends AResourceStrategy{
     
-    public function read(&$configObject){ 
+    public function read(&$configObject,$package,$resource){ 
         return json_decode(file_get_contents($configObject->uri));
     }
 

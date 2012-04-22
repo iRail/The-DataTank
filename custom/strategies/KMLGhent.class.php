@@ -115,10 +115,10 @@ class KMLGhent extends ATabularData {
         //TODO ( as this proxy's a json resource, this will probably not use any paging )
     }
 
-    public function read(&$configObject){
+    public function read(&$configObject,$package,$resource){
         set_time_limit(1000);
 	
-        parent::read($configObject);
+        parent::read($configObject,$package,$resource);
        
         if(isset($configObject->uri)){
             $uri = $configObject->uri;

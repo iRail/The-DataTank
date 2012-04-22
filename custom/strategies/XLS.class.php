@@ -11,6 +11,8 @@ include_once("custom/strategies/ATabularData.class.php");
 
 class XLS extends ATabularData {
 
+    public static $PAGE_SIZE = 2;
+
     public function documentCreateParameters(){
         $this->parameters["uri"] = "The path to the excel sheet (can be a url as well).";
         $this->parameters["sheet"] = "The sheet name of the excel";
@@ -32,7 +34,10 @@ class XLS extends ATabularData {
     }
     
     public function documentReadParameters(){
-        return array();
+        return array("startindex" => "The startrow of the datasource you want as a starting point of your response.",
+                     "endindex" => "The endrow of the datasource you want in the response. Note that a startindex must be passed in order to use the endindex parameter.",
+                     "page" => "The page of the datasource you want to access, paging is done on an internal parameter, currently set to " . XLS::$PAGE_SIZE ."."
+        );
     }
 
     public function __construct() {
@@ -162,9 +167,9 @@ class XLS extends ATabularData {
         return true;
     }
 	
-    public function read(&$configObject) {
+    public function read(&$configObject,$package,$resource) {
        
-        parent::read($configObject);
+        parent::read($configObject,$package,$resource);
         $uri = $configObject->uri;
         $sheet = $configObject->sheet;
         $has_header_row = $configObject->has_header_row;

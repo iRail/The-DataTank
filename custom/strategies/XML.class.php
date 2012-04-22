@@ -12,7 +12,7 @@ include_once("model/DBQueries.class.php");
 
 class XML extends AResourceStrategy{
   
-    public function read(&$configObject){
+    public function read(&$configObject,$package,$resource){
 
         $xmlString = file_get_contents($configObject->uri);
 

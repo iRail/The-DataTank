@@ -20,6 +20,7 @@ class RController extends AController {
     private $formatterfactory;
 
     function GET($matches) {
+
         //always required: a package and a resource. 
         $package = trim($matches['package']);
         $resourcename = trim($matches['resource']);
@@ -43,8 +44,6 @@ class RController extends AController {
          * NOTE: for this branch a package and a resource must be passed ! So the part where package list their 
          * resource might become obsolete.
          */
-        
-
         if ($resourcename == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
@@ -104,6 +103,20 @@ class RController extends AController {
         
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
         
+        /**
+         * paging and startindexes might cause a link in the http headers with a .about format
+         * we have to replace this with the format the user requested
+         */
+        foreach(headers_list() as $header){
+            if(substr($header,0,4) == "Link"){
+                $link = $header;
+                // about is the agreed "default" format to pass for replacement from the strategy itself
+                $link = str_replace(".about?",".".$matches["format"]."?",$link);
+                header_remove("Link");
+                header($link);
+            }
+        }
+        //var_dump(headers_list());
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
@@ -275,6 +288,7 @@ class RController extends AController {
 
     private function isAuthenticated($package,$resource) {
 
+        
         return TRUE;
 
         if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
