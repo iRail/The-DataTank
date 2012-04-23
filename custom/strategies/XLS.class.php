@@ -306,7 +306,11 @@ class XLS extends ATabularData {
                                 }
                             }
                         } 
-                        if ($has_header_row == 0 or ($rowIndex > $start_row and $has_header_row != 0)) {
+								//$start_row + $this->startindex <= $rowIndex
+	//                   && ($start_row + $this->endindex >= $rowIndex || $this->endindex == -1)
+                        if ($has_header_row == 0 or 
+                            ($rowIndex >= $start_row + $this->startindex && ($start_row + $this->endindex >= $rowIndex || $this->endindex == -1)
+                                                   )) {
                             $rowobject = new stdClass();
                             $keys = array_keys($fieldhash);
                             $columnIndex = 1;
@@ -324,6 +328,15 @@ class XLS extends ATabularData {
                                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                                 }
                             }							
+                        }else if($start_row + $this->endindex < $rowIndex && $this->endindex != -1){
+                            if(isset($this->page)){
+                                $page = $this->page + 1;
+                                header("Link: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource .".about?page=".$page);
+                            }else{
+                                $start = $start_row+$this->endindex;
+                                header("Link: " . Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource .".about?beginindex=".$start);
+                            }
+                            break;
                         }
                     }
                     $rowIndex += 1;
