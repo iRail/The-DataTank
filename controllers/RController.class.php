@@ -20,11 +20,6 @@ class RController extends AController {
     private $formatterfactory;
 
     function GET($matches) {
-        
-        $c = Cache::getInstance();
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
 
         //always required: a package and a resource. 
         $package = trim($matches['package']);
@@ -292,9 +287,6 @@ class RController extends AController {
     }
 
     private function isAuthenticated($package,$resource) {
-
-        
-        return TRUE;
 
         if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
             return $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
