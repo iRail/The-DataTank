@@ -281,5 +281,4 @@ class CUDController extends AController {
     }
 
 }
-
 ?>
