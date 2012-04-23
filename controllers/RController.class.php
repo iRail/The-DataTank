@@ -21,6 +21,11 @@ class RController extends AController {
 
     function GET($matches) {
 
+        $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+
         //always required: a package and a resource. 
         $package = trim($matches['package']);
         $resourcename = trim($matches['resource']);

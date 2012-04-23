@@ -10,6 +10,7 @@
  */
 
 include_once("model/resources/AResource.class.php");
+include_once("model/resources/GenericResource.class.php");
 
 class GenericResourceFactory extends AResourceFactory {
 
@@ -43,6 +44,7 @@ class GenericResourceFactory extends AResourceFactory {
         return $deleter;
     }
 
+    // make Read doc
     public function makeDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
@@ -53,7 +55,14 @@ class GenericResourceFactory extends AResourceFactory {
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
-                $doc->$package->$resourcename->parameters = array();
+                /**
+                 * Create a generic resource, get the strategy and ask for 
+                 * the read parameters of the strategy.
+                 * NOTE: We don't ask for generic resource parameters, because there are none !
+                 */
+                $genres = new GenericResource($package,$resourcename);
+                $strategy = $genres->getStrategy();
+                $doc->$package->$resourcename->parameters = $strategy->documentReadParameters();
                 $doc->$package->$resourcename->requiredparameters = array();
             }
         }
