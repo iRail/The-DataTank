@@ -163,7 +163,12 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printAll();
-        RequestLogger::logRequest($package,$resourcename,$parameters);
+
+        // dont log requests to visualizations, these visualizations will trigger another request to (mostly) the json 
+        // representation of the resource
+        if(!$this->isVisualization($matches["format"])){
+            RequestLogger::logRequest($package,$resourcename,$parameters);
+        }
     }
 
     public function HEAD($matches){
@@ -254,7 +259,10 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
-        RequestLogger::logRequest($package,$resourcename,$parameters);
+
+        if(!$this->isVisualization($matches["format"])){
+            RequestLogger::logRequest($package,$resourcename,$parameters);
+        }
     }
 
     /**
@@ -288,6 +296,8 @@ class RController extends AController {
 
     private function isAuthenticated($package,$resource) {
 
+        return TRUE;
+
         if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
             return $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
         }
@@ -309,6 +319,12 @@ class RController extends AController {
             return $access_granted;
         }
         return FALSE;
+    }
+
+    // visualizations may not be logged
+    private function isVisualization($format){
+        $vis = array("map","grid","bar","chart","column","pie");
+        return in_array($format,$vis);
     }
 }
 ?>

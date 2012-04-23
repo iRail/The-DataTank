@@ -51,7 +51,7 @@ class TDTStatsUserAgents extends AReader{
         }
 
         $clause.= " AND request_method = 'GET'";
-        
+
         $qresult = R::getAll(
             "SELECT count(1) as requests, user_agent
              FROM  requests

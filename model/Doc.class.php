@@ -73,11 +73,25 @@ class Doc{
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "formatterdocs");
         $ff = FormatterFactory::getInstance();
         if(is_null($doc)){
-            $doc = $ff->getDocumentation();
+            $doc = $ff->getFormatterDocumentation();
             $c->set(Config::$HOSTNAME . Config::$SUBDIR . "formatterdocs",$doc,60*60*60);
         }
         return $doc;
     }
 
+    /**
+     * Gets the documentation on the visualizations
+     * @return $mixed An object which holds the information about the visualizations
+     */
+    public function visitAllVisualizations(){
+        $c = Cache::getInstance();
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "visualizationdocs");
+        $ff = FormatterFactory::getInstance();
+        if(is_null($doc)){
+            $doc = $ff->getVisualizationDocumentation();
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "visualizationdocs",$doc,60*60*60);
+        }
+        return $doc;
+    }
 }
 ?>

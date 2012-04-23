@@ -21,6 +21,9 @@ class DatabaseSetup extends InstallController {
               `format` varchar(24) DEFAULT NULL,
               `error_message` text,
               `error_code` varchar(255) DEFAULT NULL,
+              `stacktrace` varchar(255) DEFAULT NULL,
+              `file` varchar(255) DEFAULT NULL,
+              `linenumber` int(20) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
@@ -52,6 +55,16 @@ class DatabaseSetup extends InstallController {
               `timestamp` bigint(20) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
+        $queries["logs"] = "CREATE TABLE IF NOT EXISTS `logs` (
+              `id` bigint(255) NOT NULL AUTO_INCREMENT,
+              `source` varchar(255) NOT NULL,
+              `message` varchar(255) NOT NULL,
+              `package` varchar(255) NOT NULL,
+              `resource` varchar(255) NOT NULL,
+              `time` bigint(20) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["published_columns"] = "CREATE TABLE IF NOT EXISTS `published_columns` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -68,6 +81,7 @@ class DatabaseSetup extends InstallController {
               `resource_id` bigint(20) NOT NULL,
               `package_name` varchar(255) NOT NULL,
               `base_url` varchar(128) NOT NULL,
+              `resource_name` varchar(128) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `resource_id` (`resource_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -241,6 +255,13 @@ class DatabaseSetup extends InstallController {
                 R::store($info);
             }    
 
+             // update the requests table and fill in the method GET for entries who dont have a request_method yet
+            if($this->checkIfColumnsExists("requests","request_method") == 0){
+                R::exec("ALTER TABLE requests ADD request_method varchar(255)");
+            }
+            R::exec('UPDATE requests SET request_method = "GET" WHERE request_method IS NULL');
+
+
             $data["status"] = "passed";
             $data["tables"] = $tables;
         }
@@ -253,10 +274,9 @@ class DatabaseSetup extends InstallController {
         
         $this->view("database_setup", $data);
     }
-    
+
     private function checkIfColumnsExists($table,$column){
         return R::exec("SELECT * FROM information_schema.columns WHERE table_name =:table AND column_name =:column",
                        array(":table" => $table, ":column" => $column));
     }
-    
 }

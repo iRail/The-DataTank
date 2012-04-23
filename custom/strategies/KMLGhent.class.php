@@ -111,10 +111,6 @@ class KMLGhent extends ATabularData {
         return true;
     }
 
-    public function readPaged($package,$resource,$page){
-        //TODO ( as this proxy's a json resource, this will probably not use any paging )
-    }
-
     public function read(&$configObject,$package,$resource){
         set_time_limit(1000);
 	

@@ -62,7 +62,6 @@ class GenericResourceFactory extends AResourceFactory {
                  */
                 $genres = new GenericResource($package,$resourcename);
                 $strategy = $genres->getStrategy();
-
                 $doc->$package->$resourcename->parameters = $strategy->documentReadParameters();
                 $doc->$package->$resourcename->requiredparameters = array();
             }

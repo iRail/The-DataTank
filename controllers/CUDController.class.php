@@ -119,6 +119,12 @@ class CUDController extends AController {
     }
 
     function PUT($matches) {
+        $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+
+
         //both package and resource set?
         if (!isset($matches["package"]) || strlen($matches["resource"]) == 0) {
             throw new RequiredParameterTDTException("package/resource couple is not passed correctly.");

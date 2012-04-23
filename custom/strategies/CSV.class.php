@@ -8,7 +8,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once ("custom/strategies/ATabularData.class.php");
+include_once("custom/strategies/ATabularData.class.php");
+include_once("aspects/logging/BacklogLogger.class.php");
 
 class CSV extends ATabularData {
 
@@ -89,8 +90,7 @@ class CSV extends ATabularData {
 
         if(!isset($this->startindex)){
             $this->startindex = 1;
-        }
-        
+        }        
 
         parent::read($configObject,$package,$resource);
         $has_header_row = $configObject->has_header_row;
@@ -120,6 +120,7 @@ class CSV extends ATabularData {
         }
         $csv = utf8_encode($request->data);
         $rows = str_getcsv($csv, "\n");
+        $line =1;
 
         if(!isset($this->endindex)){
             $this->endindex = count($rows);
@@ -128,6 +129,7 @@ class CSV extends ATabularData {
         // get rid for the comment lines according to the given start_row & beginindex
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
+            $line++;
         }
 
         $fieldhash = array();
@@ -151,6 +153,7 @@ class CSV extends ATabularData {
                 for ($i = 0; $i < sizeof($data); $i++)
                     $fieldhash[$data[$i]] = $i;
                 array_shift($rows);
+                $line++;
             }else{
                 throw new ReadTDTException("The columns couldn't be resolved, line which, according to the parameters, holds the columns is: ". implode($delimiter,$data));
             }
@@ -162,6 +165,7 @@ class CSV extends ATabularData {
         // get rid for the comment lines according to the given start_row & beginindex
         for ($i = 1; $i < $this->startindex; $i++) {
             array_shift($rows);
+            $line++;
         }
 
         $rownumber = 1;
@@ -226,11 +230,40 @@ class CSV extends ATabularData {
             if ($PK == "") {
                 array_push($arrayOfRowObjects, $rowobject);
             } else {
-                if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
-                    $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+
+                $rowobject = new stdClass();
+                $keys = array_keys($fieldhash);
+
+                for ($i = 0; $i < sizeof($keys); $i++) {
+                    $c = $keys[$i];
+
+                    if (sizeof($columns) == 0 || !array_key_exists($c, $columns)) {
+                        $rowobject->$c = $data[$fieldhash[$c]];
+                    } else if (array_key_exists($c, $columns)) {
+                        $rowobject->$columns[$c] = $data[$fieldhash[$c]];
+                    }
+                }
+
+                if ($PK == "") {
+                    array_push($arrayOfRowObjects, $rowobject);
+                } else {
+                    if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
+                        $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                    }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
+                        
+                        // this means the primary key wasn't unique !
+                        BacklogLogger::addLog("CSV", "Primary key ". $rowobject->$PK . " isn't unique on line " . $line.".",
+                                              $package,$resource);
+                    }else{
+                        // this means the primary key was empty, log the problem and continue 
+                        BacklogLogger::addLog("CSV", "Primary key is empty on line ". $line . ".", 
+                                              $package,$resource);
+                    }
+
                 }
             }
             $rownumber++;
+            $line++;
         }
         return $arrayOfRowObjects;
     }

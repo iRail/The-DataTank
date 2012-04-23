@@ -12,7 +12,3 @@ errorhandling...
 As a generic webservice which is used by a lot of entities, we have a lot of cross cutting concerns. These concerns are gathered in aspects over here.
 
 
-## Not exactly AOP
-
-...
-

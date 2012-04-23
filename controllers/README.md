@@ -1,4 +1,3 @@
-
 # Controllers
 
 There is a certain problem concerning representations and actual entities on the internet, which is explained further below. It's called the HTTP range 14 problem.

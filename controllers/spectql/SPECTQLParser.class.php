@@ -11,6 +11,7 @@
 
 include_once("lib/parse_engine.php");
 include_once("controllers/spectql/SPECTQLTokenizer.class.php");
+include_once("controllers/spectql/filters/SPECTQLGeoFilter.class.php");
 include_once("controllers/spectql/filters/SPECTQLFilter.class.php");
 include_once("controllers/spectql/filters/SPECTQLFilterList.class.php");
 include_once("controllers/spectql/selectors/SPECTQLSelector.class.php");
@@ -85,7 +86,7 @@ class SPECTQLParser{
             while($tokenizer->hasNext()){
                 $t = $tokenizer->pop();
                 if (is_numeric($t)){
-                    $this->parser->eat('num', doubleval($t));
+                    $this->parser->eat('num', $t);
                 }
                 else if (preg_match("/'[ 0-9a-zA-Z_.\-]+'/si",$t)){
                     $t = trim($t,"'");

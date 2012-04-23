@@ -48,10 +48,19 @@ class ErrorHandler{
     private static function WriteToDB(Exception $e) {
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
         $URI = RequestURI::getInstance();
+        
 	//ask the printerfactory which format we should store in the db
 	$ff = FormatterFactory::getInstance();
 	$format = $ff->getFormat();
-        
+
+        // get the stack trace
+        $trace = $e->getTrace();
+        $trace = ErrorHandler::makePrettyTrace($trace);
+        // get the linenumber of where the exception has occured
+        $line = $e->getLine();
+        // get the file of where the exception has occured
+        $file = $e->getFile();
+
         $error = R::dispense('errors');
         $error->time = time();
         if(isset($_SERVER['HTTP_USER_AGENT'])){
@@ -64,7 +73,22 @@ class ErrorHandler{
         $error->url_request = $URI->getURI();
         $error->error_message = $e->getMessage();
         $error->error_code = $e->getCode();
+        $error->trace = $trace;
+        $error->line = $line;
+        $error->file = $file;
         R::store($error);
+    }
+
+    private static function makePrettyTrace($trace){
+        $traceString = "";
+        foreach($trace as $traceEntry){
+            unset($traceEntry["args"]);
+            foreach($traceEntry as $key => $value){
+                $traceString.= " " . $key . " = " . $value ." ;";
+            }
+            $traceString.= " ||";
+        }
+        return $traceString;
     }
 }
 ?>

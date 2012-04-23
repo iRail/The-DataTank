@@ -14,16 +14,11 @@ We have a lot of branches. In order to understand them we suggest you read this 
 
 This is the "stable" branch. It only contains code that works. In the future versions will be added as tags.
 
-### hotfixes ###
+### develop ### 
 
-This branch is a branch where quick bugs in previous releases are fixed. They can be pulled into any of the next branches
+This is the development branch, this branch will be merged with separate branches where big features will be implemented separatly. When a branch is adult enough to merge it with the development branch, it will be merged and deleted. For small fixes and very small features the development will be adjusted without branching first.
 
-### feature branches ###
-
-If I'm working on a new feature, I will branch the hotfixes (=master+general bugfixes) into my feature name. This will allow everyone to work on a working hotfixes branch for his or her new feature.
-
-
-When all features, most likely at the end of the month, are completed, we're in for a new release.
+Take a look at the issues-section for further discussion and features!
 
 Any questions? Add a support issue.
 

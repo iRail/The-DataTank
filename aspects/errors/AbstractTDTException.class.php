@@ -22,8 +22,9 @@ abstract class AbstractTDTException extends Exception {
      * @return The documentation of this exception.
      */
     public static function getDoc() {
-        return "No documentation given :(";
+        return "No documentation given.";
     }
+
     /**
      * This should return an errorcode which relates to the implemented exception class.
      */

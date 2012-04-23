@@ -45,8 +45,7 @@ class JSON extends AResourceStrategy{
    public function documentCreateParameters(){
        return array(
            "uri" => "The uri to the json document."
-       );
-       
+       );  
    }
    
    public function documentReadParameters(){
