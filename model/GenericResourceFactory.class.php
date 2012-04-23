@@ -53,7 +53,14 @@ class GenericResourceFactory extends AResourceFactory {
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
-                $doc->$package->$resourcename->parameters = array();
+                /**
+                 * Create a generic resource, get the strategy and ask for 
+                 * the read parameters of the strategy.
+                 * NOTE: We don't ask for generic resource parameters, because there are none !
+                 */
+                $genres = new GenericResource($package,$resourcename);
+                $strategy = $genres->getStrategy();
+                $doc->$package->$resourcename->parameters = $strategy->documentReadParameters();
                 $doc->$package->$resourcename->requiredparameters = array();
             }
         }
