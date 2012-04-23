@@ -36,8 +36,7 @@ class RequestLogger{
         if(array_key_exists("key",$parameters)){
             $request->api_key = $parameters["key"];
         }
-        
-        
+
         $request->url_request = $URI->getURI();
         if($package == ""){
             $request->package = $URI->getPackage();

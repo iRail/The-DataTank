@@ -20,7 +20,7 @@ class RController extends AController {
     private $formatterfactory;
 
     function GET($matches) {
-
+        
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");

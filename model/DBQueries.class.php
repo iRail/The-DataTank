@@ -630,5 +630,53 @@ class DBQueries {
             array(":package" => $package, ":resource" => $resource)
         );
     }
+
+    /**
+     * Get the amount of resource requests to a resource, given an api_key
+     */
+    static function getRequestsForApiKey($key){
+        return R::getAll(
+            "SELECT count(1) as requests,package,resource,api_key 
+             FROM requests 
+             WHERE api_key= :api_key
+             GROUP BY package,resource",
+            array(":api_key" => $key)
+        );
+    }
+    
+
+    /**
+     * Get all of the api_keys for a certain user
+     */
+    static function getApiKeysForUser($username){
+        return R::getAll(
+            "SELECT api_key 
+             FROM api_key, user_profile 
+             WHERE user_profile_id = user_profile.id and name = :username",
+            array(":username" => $username)
+        );
+    }
+
+    /**
+     * Get all of the users
+     */
+    static function getAllApiUsers(){
+        return R::getAll(
+            "SELECT name
+             FROM user_profile"
+        );
+    }   
+
+    /**
+     * Get a user for a certain api key
+     */
+    static function getApiKeyUser($key){
+        return R::getRow(
+            "SELECT name
+             FROM user_profile,api_key
+             WHERE user_profile_id = user_profile.id and api_key =:key",
+            array(":key" => $key)
+        );
+    }
 }
 ?>

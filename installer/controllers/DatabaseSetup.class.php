@@ -87,6 +87,7 @@ class DatabaseSetup extends InstallController {
               `ip` varchar(255) DEFAULT NULL, 
               `hash` varchar(255) DEFAULT NULL,
               `request_method` varchar(255) DEFAULT NULL,
+              `api_key` varchar(255) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";    
         
