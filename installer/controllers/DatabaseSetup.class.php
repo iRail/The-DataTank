@@ -167,6 +167,7 @@ class DatabaseSetup extends InstallController {
         $queries["user_profile"] = "CREATE TABLE IF NOT EXISTS `user_profile`(
              `id` bigint(20) NOT NULL AUTO_INCREMENT,
              `name` varchar(255) NOT NULL,
+              UNIQUE(name),
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
 
