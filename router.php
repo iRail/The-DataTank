@@ -80,7 +80,8 @@ $urls = array(
     //  PATCH TDTAdmin/Admin /package/resource/property/
     //  PUT TDTAdmin/Admin/package/resource
     //  DELETE TDTAdmin/Admin/package/resource
-    '/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+    //'/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+    '/TDTAdmin/Resources/(?P<packageresourcestring>.*)' => 'CUDController'
 );
 
 

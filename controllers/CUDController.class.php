@@ -119,14 +119,12 @@ class CUDController extends AController {
     }
 
     function PUT($matches) {
-        $c = Cache::getInstance();
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
 
+        $packageresourcestring = $matches["packageresourcestring"];
+        $pieces = explode("/",$packageresourcestring);
 
         //both package and resource set?
-        if (!isset($matches["package"]) || strlen($matches["resource"]) == 0) {
+        if (count($pieces) < 2) {
             throw new RequiredParameterTDTException("package/resource couple is not passed correctly.");
         }
 
@@ -136,12 +134,6 @@ class CUDController extends AController {
             header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
-        }
-        $package = $matches["package"];
-        $resource = $matches["resource"];
-        $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
         
         //fetch all the PUT variables in one array
@@ -154,8 +146,9 @@ class CUDController extends AController {
         }
         
         $model = ResourcesModel::getInstance();
+        $RESTparameters = array();
         
-        $model->createResource($package, $resource, $_PUT, $RESTparameters);
+        $model->createResource($packageresourcestring, $_PUT);
         header("Content-Location: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/". $resource);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);

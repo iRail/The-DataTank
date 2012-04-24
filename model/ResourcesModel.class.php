@@ -111,7 +111,19 @@ class ResourcesModel {
      * @param array $parameters An array with create parameters
      * @param array $RESTparameters An array with additional RESTparameters
      */
-    public function createResource($package, $resource, $parameters, $RESTparameters) {
+    public function createResource($packageresourcestring, $parameters) {
+
+        /**
+         * Hierachical package/resource structure
+         * check if the package/resource structure is correct
+         */
+        $pieces = explode("/",$packageresourcestring);
+        
+        //throws exception when it's not valid
+        $this->isResourceValid($pieces);
+
+        echo "IS OK DOLAN";
+        exit();
 
         //If we want to CRUD ontology, handle differently
         if (!$this->checkOntology($package, $resource, $RESTparameters)) {
@@ -215,6 +227,55 @@ class ResourcesModel {
             $creator = $this->factories["ontology"]->createCreator($package, $resource, $parameters, $RESTparameters);
             $creator->create();
         }
+    }
+
+    /**
+     * This function doesn't return anything, but throws exceptions when the validation fails
+     */
+    private function isResourceValid($pieces){
+        /**
+         * build the package/resource from scratch and check with every step
+         * if the condition isn't false, the condition to add the resource is:
+         *  ((1)) a package/resource cannot replace a package, example:
+         * we have a package called X/Y/Z and our new package/resource is also called X/Y/Z
+         * this cannot be tolerated as we would then delete an entire package (and all of its resources) to add a new resource
+         * you can thus only replace/renew resource with resources. 
+         *  ((2)) the package so far built (first X, then X/Y, then X/Y/Z in our example) cannot be a resource
+         * so we have to built the package first, and check if it's not a resource
+         */
+        
+        /**
+         * If we have only 1 package entry (resource consists of 1 hierarchy of packages i.e. package/resource)
+         * then we can return true, because a package/resource may overwrite an existing package/resource
+         */
+        $resource = array_pop($pieces);
+        if(count($pieces) == 1){
+            return;
+        }
+        /**
+         * check if the packagestring isn't a resource ((2))
+         */
+        $packagestring = array_shift($pieces);
+        
+        foreach($pieces as $package){
+            if($this->isResource($packagestring,$package)){
+                throw new ResourceAdditionTDTException($packagestring. "/".$package ." is already a resource, you cannot overwrite resources with packages!");
+            }
+            $packagestring .= "/".$package;
+        }
+
+        /**
+         * check if the resource isn't a package ((1))
+         */
+        $resourcestring = $packagestring."/".$resource;
+        if($this->isPackage($resourcestring)){
+            throw new ResourceAdditionTDTException($resourcestring . " is already a packagename, you cannot overwrite a package with a resource.");
+        }
+    }
+
+    private function isResource($package,$subpackage){
+        $result = DBQueries::getResourceId($package,$subpackage);
+        return $result != NULL;
     }
 
     /**
