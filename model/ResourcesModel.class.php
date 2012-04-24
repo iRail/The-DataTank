@@ -118,7 +118,6 @@ class ResourcesModel {
          * check if the package/resource structure is correct
          */
         $pieces = explode("/",$packageresourcestring);
-        
         //throws exception when it's not valid, returns packagestring when done
         $package = $this->isResourceValid($pieces);
 
@@ -381,14 +380,7 @@ class ResourcesModel {
         }
 
         $currentParameters = (array)$currentParameters;
-        $this->createResource($package,$resource,$currentParameters,array());
-        
-        /**
-         * DO NOT DELETE the snippet below, might be necessary for Ontology-addition, awaiting reply of Miel Van der Sande
-         */
-        /*$updater = new $this->updateActions[$parameters["update_type"]]($package, $resource, $RESTparameters);
-          $updater->processParameters($parameters);
-          $updater->update();*/
+        $this->createResource($package . '/' . $resource,$currentParameters);
     }
 
     /**
