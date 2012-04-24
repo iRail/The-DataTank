@@ -27,6 +27,7 @@ class RedirectController extends AController{
         } else {
             $pageURL .= ".about";
         }
+
         header("HTTP/1.1 303 See Other");
         header("Location:" . $pageURL);    
     }

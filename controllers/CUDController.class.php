@@ -149,7 +149,7 @@ class CUDController extends AController {
         $RESTparameters = array();
         
         $model->createResource($packageresourcestring, $_PUT);
-        header("Content-Location: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/". $resource);
+        header("Content-Location: ". Config::$HOSTNAME . Config::$SUBDIR . $packageresourcestring);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 

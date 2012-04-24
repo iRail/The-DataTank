@@ -119,11 +119,15 @@ class ResourcesModel {
          */
         $pieces = explode("/",$packageresourcestring);
         
-        //throws exception when it's not valid
-        $this->isResourceValid($pieces);
+        //throws exception when it's not valid, returns packagestring when done
+        $package = $this->isResourceValid($pieces);
 
-        echo "IS OK DOLAN";
-        exit();
+        $resource = array_pop($pieces);
+
+        // NOTE: not sure why we used RESTparameters with a create for a resource, can't really think of any
+        // case where RESTparameters should be used for the creation of a resource. Will not adjust
+        // the code for now, using a dummy array().
+        $RESTparameters = array();
 
         //If we want to CRUD ontology, handle differently
         if (!$this->checkOntology($package, $resource, $RESTparameters)) {
@@ -271,10 +275,16 @@ class ResourcesModel {
         if($this->isPackage($resourcestring)){
             throw new ResourceAdditionTDTException($resourcestring . " is already a packagename, you cannot overwrite a package with a resource.");
         }
+        return $packagestring;
+    }
+
+    private function isPackage($needle){
+        $result = DBQueries::getPackageId($needle);
+        return $result != NULL;
     }
 
     private function isResource($package,$subpackage){
-        $result = DBQueries::getResourceId($package,$subpackage);
+        $result = DBQueries::getResourceType($package,$subpackage);
         return $result != NULL;
     }
 
