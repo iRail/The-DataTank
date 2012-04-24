@@ -309,7 +309,6 @@ class CUDController extends AController {
             $foundPackage = TRUE;
             $resource = array_shift($pieces);
             $reqparamsstring = implode("/",$pieces);
-            break;
         }
 
         $RESTparameters = array();
@@ -319,13 +318,14 @@ class CUDController extends AController {
         }
 
         if(!$foundPackage){
-            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+            throw new ResourceOrPackageNotFoundTDTException( $packageresourcestring);
         }
 
         //both package and resource set?
         if ($resource == "") {
             throw new ResourceOrPackageNotFoundTDTException("Resource " . $packageresourcestring. " not found.");
         }
+
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
             header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
