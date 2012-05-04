@@ -201,24 +201,6 @@ class CUDController extends AController {
      */
     public function DELETE($matches) {
 
-         $c = Cache::getInstance();
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
-
-
-
-
-
-        
-        
-
-
-
-
-
-
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
 
