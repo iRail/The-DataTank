@@ -29,6 +29,26 @@ class Doc{
     }
 
     /**
+     * This function returns all packages present in the datatank
+     */
+    public function visitAllPackages(){
+        $c = Cache::getInstance();
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
+        if(is_null($doc)){
+            $doc = new stdClass();
+            $packages = DBQueries::getAllPackages();
+            foreach($packages as $package){
+                $packagename = $package->package_name;
+                $doc->$packagename = new StdClass();
+            }
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation",$doc,60*60*60); // cache it for 1 hour by default
+        }
+        return $doc;
+
+    }
+    
+
+    /**
      * This function will visit any given factory and ask for the description of the resources they're responsible for.
      * @return Will return the entire description array which can be used by TDTAdmin/Resources. 
      */

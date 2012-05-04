@@ -54,7 +54,6 @@ class CUDController extends AController {
             $foundPackage = TRUE;
             $resourcename = array_shift($pieces);
             $reqparamsstring = implode("/",$pieces);
-            break;
         }
 
         $RESTparameters = array();
@@ -191,6 +190,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
         RequestLogger::logRequest();
     }
 
@@ -201,7 +201,24 @@ class CUDController extends AController {
      */
     public function DELETE($matches) {
 
+         $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
+
+
+
+
+
         
+        
+
+
+
+
+
+
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
 
@@ -234,7 +251,6 @@ class CUDController extends AController {
             $foundPackage = TRUE;
             $resource = array_shift($pieces);
             $reqparamsstring = implode("/",$pieces);
-            break;
         }
 
         $RESTparameters = array();
@@ -243,7 +259,8 @@ class CUDController extends AController {
             $RESTparameters = array();
         }
 
-        if(!$foundPackage){
+        $packageDoc = $model->getAllPackagesDoc();
+        if(!$foundPackage && !isset($packageDoc->$package)){
             throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
         }
 
@@ -269,6 +286,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
         RequestLogger::logRequest();
     }
 
@@ -347,6 +365,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
         RequestLogger::logRequest();
     }
 

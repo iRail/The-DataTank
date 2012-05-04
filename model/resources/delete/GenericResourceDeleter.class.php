@@ -16,6 +16,7 @@ class GenericResourceDeleter extends ADeleter{
      * execution method
      */
     public function delete(){
+
         $resource = new GenericResource($this->package,$this->resource);
         $strategy = $resource->getStrategy();
         $strategy->onDelete($this->package,$this->resource);
@@ -31,6 +32,7 @@ class GenericResourceDeleter extends ADeleter{
 
         // also delete the resource entry
         DBQueries::deleteResource($this->package,$this->resource);
+
     }
 }
 ?>

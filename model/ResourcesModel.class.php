@@ -221,6 +221,7 @@ class ResourcesModel {
                 $c = Cache::getInstance();
                 $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
                 $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+                $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
                 $this->deleteResource($package, $resource,$RESTparameters);
                 throw new Exception($ex->getMessage());
             }
@@ -422,6 +423,7 @@ class ResourcesModel {
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
     }
 
     /**
@@ -429,17 +431,27 @@ class ResourcesModel {
      * @param string $package The packagename that needs to be deleted.
      */
     public function deletePackage($package) {
-        $d = $this->getAllDoc();
-        if (isset($d->$package)) {
-            $resources = $d->$package;
-            foreach ($d->$package as $resource => $documentation) {
-                if ($resource != "creation_date") {
-                    $this->deleteResource($package, $resource, array());
+        $resourceDoc = $this->getAllDoc();
+        $packageDoc = $this->getAllPackagesDoc();
+        if(isset($packageDoc->$package)){
+            $packageId = DBQueries::getPackageId($package);
+            $subpackages = DBQueries::getAllSubpackages($packageId["id"]);
+            
+            foreach($subpackages as $subpackage){
+                $subpackage = $subpackage["full_package_name"];
+                if (isset($resourceDoc->$subpackage)){
+                    $resources = $resourceDoc->$subpackage;
+                    foreach ($resourceDoc->$subpackage as $resource => $documentation){
+                        if ($resource != "creation_date") {
+                            $this->deleteResource($subpackage, $resource, array());
+                        }
+                    }
                 }
+                $this->deletePackage($subpackage);
             }
             DBQueries::deletePackage($package);
-        } else {
-            throw new ResourceOrPackageNotFoundTDTException($package . " is not an existing package.");
+        }else{
+            throw new ResourceOrPackageNotFoundTDTException("The package named ". $package ." was not found.");
         }
     }
 
@@ -463,6 +475,10 @@ class ResourcesModel {
         return $doc->visitAllAdmin($this->factories);
     }
 
+    public function getAllPackagesDoc(){
+        $doc = new Doc();
+        return $doc->visitAllPackages();
+    }
 }
 
 ?>
