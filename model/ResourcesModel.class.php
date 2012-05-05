@@ -54,17 +54,10 @@ class ResourcesModel {
     }
 
     /**
-     * Checks of which type the resource is
-     */
-    public static function getResourceType($package,$resource){
-        
-    }
-
-    /**
      * Checks if a package exists
      */
     public function hasPackage($package){
-        $doc = $this->getAllDoc();
+        $doc = $this->getAllPackagesDoc();
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
                 return true;
