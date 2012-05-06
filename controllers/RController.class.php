@@ -296,7 +296,7 @@ class RController extends AController {
 
     private function isAuthenticated($package,$resource) {
 
-        return TRUE;
+        //return TRUE;
 
         if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
             return $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;

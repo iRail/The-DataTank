@@ -605,6 +605,18 @@ class DBQueries {
     }
 
     /**
+     * Get the status from an api key
+     */
+    static function getApikeyStatus($api_key_id){
+        return R::getCell(
+            "SELECT status
+             FROM api_key
+             WHERE id = :api_key_id",
+            array(":api_key_id" => $api_key_id)
+        );
+    }
+    
+    /**
      * Query the access entry
      */
     static function getAccessEntry($resource_id,$api_key_id){

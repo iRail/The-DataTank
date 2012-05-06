@@ -54,13 +54,6 @@ class ResourcesModel {
     }
 
     /**
-     * Checks of which type the resource is
-     */
-    public static function getResourceType($package,$resource){
-        
-    }
-
-    /**
      * Checks if a package exists
      */
     public function hasPackage($package){
@@ -137,7 +130,6 @@ class ResourcesModel {
                     throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example is: generic/CSV");
                 }
             }
-            
 
             $restype = $parameters["resource_type"];
             //now check if the file exist and include it
@@ -409,7 +401,13 @@ class ResourcesModel {
 
     public function isKeyAuthorized($api_key_id,$package,$resource){
         $resourceId = DBQueries::getResourceIdByName($package,$resource);
-        $result = DBQueries::getAccessEntry($resourceId,$api_key_id);
+        $status = DBQueries::getApikeyStatus($api_key_id);
+        $result = NULL;
+        if($status == "active"){
+            $result = DBQueries::getAccessEntry($resourceId,$api_key_id);
+        }
+        
+        
         return $result != NULL && $result != 0;
     }
 }
