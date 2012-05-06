@@ -66,8 +66,7 @@ $urls = array(
     // continue the REST parameters as long as no . is encountered. Continue format as long as no ? or end of URI occurs
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
     '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
-    // Calling the Create, Update, Delete- controller
-
+    
     // Calling a READ but no format is passed, so we redirect the request towards content negotation
     //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
     // But also:
@@ -80,6 +79,7 @@ $urls = array(
     //  PATCH TDTAdmin/Admin /package/resource/property/
     //  PUT TDTAdmin/Admin/package/resource
     //  DELETE TDTAdmin/Admin/package/resource
+    //  GET Will result in the same behaviour as a request to the Read- controller
     '/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
 );
 

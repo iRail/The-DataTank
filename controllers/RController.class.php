@@ -26,7 +26,7 @@ class RController extends AController {
         $resourcename = trim($matches['resource']);
         
         /**
-         * Even GET operations on TDTAdmin need to be authenticated!
+         * GET operations on TDTAdmin need to be authenticated!
          */
 
         if($package == "TDTAdmin"){
@@ -45,6 +45,11 @@ class RController extends AController {
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
+        /**
+         * If the resourcename isn't provided then provide a list of resources
+         * that this package contains.
+         */
+
         if ($resourcename == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
@@ -158,7 +163,7 @@ class RController extends AController {
     }
 
     public function HEAD($matches){
-                //always required: a package and a resource. 
+        //always required: a package and a resource. 
         $package = trim($matches['package']);
         $resourcename = trim($matches['resource']);
         //This will create an instance of a factory depending on which format is set
@@ -169,7 +174,6 @@ class RController extends AController {
         //ask the model for our documentation: access to all packages and resources!
 
         $doc = $model->getAllDoc();
-
         
         if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
             throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");
@@ -182,12 +186,9 @@ class RController extends AController {
         }
 
         $parameters = $_GET;
-        
-        
             
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
-                
             if (!isset($RESTparameters[0])) {
                 throw new ParameterTDTException($parameter);
             }
@@ -195,12 +196,17 @@ class RController extends AController {
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
-       
         
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
         
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
+
+        /**
+         * Apply filters to the resulting object
+         * 1) RESTfilter
+         * 2) OSpec filter
+         */
 
         // apply RESTFilter
         $subresources = array();
@@ -225,7 +231,6 @@ class RController extends AController {
                 if (isset($_GET["filterOp"])) {
                     $filterparameters["filterOp"] = $_GET["filterOp"];
                 }
-
                 $searchFilter = $filterfactory->getFilter("SearchFilter", $filterparameters);
                 $result = $searchFilter->filter($result);
             }
@@ -245,6 +250,10 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
+        /**
+         * Don't log visualizations, they themselves make a follow up request to the datatank
+         * to get their data. 
+         */
         if(!$this->isVisualization($matches["format"])){
             RequestLogger::logRequest($package,$resourcename,$parameters);
         }

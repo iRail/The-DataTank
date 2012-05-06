@@ -43,7 +43,9 @@ class KMLGhent extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentReadParameters(){
-        return array("long", "lat", "radius");
+        return array("long" => "The longitude of the centerpoint.",
+                     "lat" => "The latitude of the centerpoint.",
+                     "radius" => "The radius that will reside from the centerpoint and form a circle that will act as a geo-spatial filter.");
     }
     
 

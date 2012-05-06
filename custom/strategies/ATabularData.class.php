@@ -19,21 +19,20 @@ abstract class ATabularData extends AResourceStrategy{
         $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published. Note that this parameter is not required, however if you do not have a header row, we do expect the columns to be passed along, otherwise there's no telling what the names of the columns are. This array should be build as column_name => column_alias or index => column_alias.";
     }
 
+    // @deprecated
     public function onUpdate($package, $resource){
         
     }
 
     /**
-     * Return an array with key = parameter and value = documentation about the parameter
-     * @return hash array with param = documentation pairs for update purposes
+     * @deprecated
      */
     public function documentUpdateParameters(){
         return array();
     }
 
     /**
-     * Returns an array similar as the documentUpdateParameters, but now with the obligatory parameters
-     * @return hash array with param = documentation pairs for update purposes, of which the parameters are obligatory.
+     * @deprecated
      */
     public function documentUpdateRequiredParameters(){
         return array();
@@ -56,6 +55,7 @@ abstract class ATabularData extends AResourceStrategy{
         }
     }
 
+    // fill in the configuration object that the strategy will receive
     public function read(&$configObject,$package,$resource){
          $published_columns = DBQueries::getPublishedColumns($configObject->gen_resource_id);
          $PK ="";
@@ -80,6 +80,8 @@ abstract class ATabularData extends AResourceStrategy{
 
     /**
      * When a strategy is added, execute this piece of code.
+     * It will generate a separate table in the back-end
+     * specifically tuned for the parameters of the strategy.
      */
     public function onAdd($package_id, $gen_resource_id){
         if($this->isValid($package_id,$gen_resource_id)){

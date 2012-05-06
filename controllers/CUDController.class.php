@@ -31,13 +31,15 @@ class CUDController extends AController {
 
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
+        /**
+         * If the resourcename doesn't exist, provide a list of resources that this package contains.
+         */
         if ($resourcename == "") {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
                 $linkObject = new StdClass();
                 $links = array();
                 foreach($resourcenames as $resourcename => $value){
-                    
                     $link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
                     $links[] = $link;
                     $linkObject->$package = $links;
@@ -119,11 +121,6 @@ class CUDController extends AController {
     }
 
     function PUT($matches) {
-        $c = Cache::getInstance();
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
-        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
-
 
         //both package and resource set?
         if (!isset($matches["package"]) || strlen($matches["resource"]) == 0) {

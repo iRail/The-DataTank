@@ -2,7 +2,7 @@
 
 This is The DataTank Git repo.
 
-If you want to know more about installen The DataTank and using it, please visit http://thedatatank.org
+If you want to know more about installing The DataTank and using it, please visit http://thedatatank.org
 
 # Being a developer #
 
@@ -12,7 +12,7 @@ We have a lot of branches. In order to understand them we suggest you read this 
 
 ### Master ###
 
-This is the "stable" branch. It only contains code that works. In the future versions will be added as tags.
+This is the "stable" branch. It only contains code that works. In the future, different versions of The DataTank will be added as tags. We do however encourage to take a look at the develop branch, this branch contains the latest updates, but may contain some minor bugs.
 
 ### develop ### 
 

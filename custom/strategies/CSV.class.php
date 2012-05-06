@@ -17,7 +17,7 @@ class CSV extends ATabularData {
     public static $MAX_LINE_LENGTH = 15000;
 
     /**
-     * Returns an array with params => documentation pairs who are required to create a CSV resource.
+     * The parameters returned are required to make this strategy work.
      * @return array with parameter => documentation pairs
      */
     public function documentCreateRequiredParameters() {
@@ -25,8 +25,7 @@ class CSV extends ATabularData {
     }
 
     /**
-     * Returns an array with params => documentation pairs that can be used to update a CSV resource.
-     * @return array with parameter => documentation pairs
+     * @deprecated
      */
     public function documentUpdateParameters(){
         $this->parameters["uri"] = "The URI to the CSV file.";
@@ -38,7 +37,7 @@ class CSV extends ATabularData {
     }
 
     /**
-     * Returns an array with params => documentation pairs that can be used to create a CSV resource.
+     * The parameters ( array keys ) returned all of the parameters that can be used to create a strategy.
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters() {
@@ -60,11 +59,12 @@ class CSV extends ATabularData {
     
     /**
      * Read a resource
+     * @param $configObject The configuration object containing all of the parameters necessary to read the resource.
      * @param $package The package name of the resource 
      * @param $resource The resource name of the resource
      * @return $mixed An object created with fields of a CSV file.
      */
-    public function read(&$configObject,$package,$resource) {
+    public function read(&$configObject,$package,$resource){
         /*
          * First retrieve the values for the generic fields of the CSV logic
          * This is the uri to the file, and a parameter which states if the CSV file
@@ -74,6 +74,7 @@ class CSV extends ATabularData {
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;
         $delimiter = $configObject->delimiter;
+
         /**
          * check if the uri is valid ( not empty )
          */
@@ -96,6 +97,7 @@ class CSV extends ATabularData {
         if (isset($request->error)) {
             throw new CouldNotGetDataTDTException($filename);
         }
+
         $csv = utf8_encode($request->data);
         $rows = str_getcsv($csv, "\n");
         // get rid for the comment lines according to the given start_row
@@ -129,7 +131,6 @@ class CSV extends ATabularData {
             
             /**
              * We support sparse trailing (empty) cells 
-             * 
              */
             if(count($data) != count($columns)){ 
                 if(count($data) < count($columns)){ 
@@ -189,8 +190,8 @@ class CSV extends ATabularData {
             }
         }
         return $arrayOfRowObjects;
-    }
-    
+    }    
+
     protected function isValid($package_id,$generic_resource_id) {
 
         if (!isset($this->columns)) {

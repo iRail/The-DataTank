@@ -23,7 +23,7 @@ class JSON extends AResourceStrategy{
         }
     }
     
-
+    // @deprecated
     public function onUpdate($package, $resource){
         
     }
