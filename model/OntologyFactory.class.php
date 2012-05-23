@@ -51,8 +51,12 @@ class OntologyFactory extends AResourceFactory {
 
     }
 
-    public function makeDeleteDoc($doc) {
+    public function makeDescriptionDoc($doc){
         
+    }
+
+    public function makeDeleteDoc($doc) {
+
     }
 
     public function makeDoc($doc) {

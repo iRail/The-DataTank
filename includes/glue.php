@@ -53,6 +53,11 @@ class glue {
     static function stick ($urls) {
         
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
+        $HTTPheaders = getallheaders();
+        if(isset($HTTPheaders["X-HTTP-Method-Override"])){
+            $method = strtoupper($HTTPheaders["X-HTTP-Method-Override"]);
+        }
+
         $path = $_SERVER['REQUEST_URI'];
         if(strlen(Config::$SUBDIR) > 0) {
             $path = substr($path,strlen(Config::$SUBDIR));	
@@ -68,11 +73,11 @@ class glue {
             if (preg_match("/$regex/i", $path, $matches)) {
                 $found = true;
                 if (class_exists($class)) {
-                    $obj = new $class;    
+                    $obj = new $class;
                     if (method_exists($obj, $method)) {
                         $obj->$method($matches);
                     } else {
-                        throw new BadMethodCallTDTException("Method, $method, not supported.");
+                        throw new NotFoundTDTException("Method, $method, not supported.");
                     }
                 } else {
                     throw new NotFoundTDTException("Class, $class, not found.");

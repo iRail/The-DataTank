@@ -12,16 +12,24 @@ include_once("model/DBQueries.class.php");
 
 class JSON extends AResourceStrategy{
     
-    public function read(&$configObject){ 
-        return json_decode(file_get_contents($configObject->url));
+    public function read(&$configObject,$package,$resource){ 
+        return json_decode(file_get_contents($configObject->uri));
     }
 
+    public function isValid($package_id,$generic_resource_id){
+        $result = json_decode(file_get_contents($this->uri));
+        if($result != true){
+            throw new ResourceAdditionTDTException("Could not transfrom the json data from ". $this->uri ." to a php object model, please check if the json is valid.");
+        }
+    }
+    
+    // @deprecated
     public function onUpdate($package, $resource){
         
     }
 
     public function documentCreateRequiredParameters(){
-        return array("url");
+        return array("uri");
     }
     
     public function documentReadRequiredParameters(){
@@ -36,9 +44,8 @@ class JSON extends AResourceStrategy{
 
    public function documentCreateParameters(){
        return array(
-           "url" => "The url to the json document."
-       );
-       
+           "uri" => "The uri to the json document."
+       );  
    }
    
    public function documentReadParameters(){

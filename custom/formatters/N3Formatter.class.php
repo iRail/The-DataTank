@@ -16,7 +16,7 @@ class N3Formatter extends AFormatter {
         parent::__construct($rootname, $objectToPrint);
     }
 
-    protected function printBody() {
+    public function printBody() {
         //Unwrap the object
         foreach ($this->objectToPrint as $class => $prop){
             if (is_a($prop,"MemModel")){
@@ -41,7 +41,7 @@ class N3Formatter extends AFormatter {
         echo $rdf;
     }
 
-    protected function printHeader() {
+    public function printHeader() {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/rdf+n3; charset=UTF-8");
     }

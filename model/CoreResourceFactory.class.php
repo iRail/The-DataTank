@@ -11,8 +11,9 @@
 class CoreResourceFactory extends AResourceFactory {
 
     protected function getAllResourceNames(){
-        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin", "Formatters"),
-                     "TDTStats" => array("UserAgents","Month","Year","Day","Languages")
+        return array("TDTInfo" => array("Resources", "Queries", "Packages", "Exceptions", "Ontology", "Admin", "Formatters","Visualizations"),
+                     "TDTStats" => array("UserAgents","Day","Week","Month","Quarter","Year","Languages"),
+                     "TDTAdmin" => array("Resources", "Export")
         );
     }
 
@@ -49,6 +50,10 @@ class CoreResourceFactory extends AResourceFactory {
         }
     }
 
+    public function makeDescriptionDoc($doc){
+        $this->makeDoc($doc);
+    }
+
     private function getCreationTime($package, $resource) {
         //if the object read is a directory and the configuration methods file exists, 
         //then add it to the installed packages
@@ -65,10 +70,21 @@ class CoreResourceFactory extends AResourceFactory {
 
     public function makeDeleteDoc($doc){
         //We cannot delete Core Resources
+        $d = new StdClass();
+        $d->doc = "You cannot delete core resources.";
+        if(!isset($doc->delete)){
+            $doc->delete = new StdClass();
+        }
+        $doc->delete->core = new StdClass();
+        $doc->delete->core = $d;
     }
     
     public function makeCreateDoc($doc){
         //we cannot create Core Resources
+    }
+    
+    public function makeUpdateDoc($doc){
+        // we cannot update Core Resources
     }
     
 

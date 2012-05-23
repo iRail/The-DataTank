@@ -16,7 +16,7 @@ class OGDWienJSON extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters(){
-        return array("url" => "The url of where the OGD Wien JSON is found.",
+        return array("uri" => "The uri of where the OGD Wien JSON is found.",
                      "columns" => "The columns that are to be published from the OGD Wien JSON.",
                      "PK" => "The primary key of each row."
         );  
@@ -27,7 +27,7 @@ class OGDWienJSON extends ATabularData {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateRequiredParameters(){
-        return array("url");    
+        return array("uri");    
     }
 
     /**
@@ -44,12 +44,11 @@ class OGDWienJSON extends ATabularData {
      */
     public function documentReadParameters(){
         return array("long", "lat", "radius");
-    }
-    
+    }    
 
     protected function isValid($package_id,$generic_resource_id) {
-        if(!isset($this->url)){
-			$this->throwException($package_id,$generic_resource_id, "Can't find url of the OGD Wien JSON");
+        if(!isset($this->uri)){
+            $this->throwException($package_id,$generic_resource_id, "Can't find uri of the OGD Wien JSON");
         }
 		
         if (!isset($this->columns)) {
@@ -60,47 +59,54 @@ class OGDWienJSON extends ATabularData {
             $this->PK = "id";
         }
 
-		$url = $this->url;
-		$columns = $this->columns;
+        $uri = $this->uri;
+        $columns = $this->columns;
         
-		if(empty($this->columns)){ 
-			try { 
+        if(empty($this->columns)){ 
+            try { 
 
-				$json = file_get_contents($url,0,null,null);
-				$json = utf8_encode($json);
-				$json = json_decode($json);
+                $json = file_get_contents($uri,0,null,null);
+                $json = utf8_encode($json);
+                $json = json_decode($json);
+                
+                // exception will be the same as the catched one, yet the check for a null value
+                // will result in a controlled error, if the json is null, the error of php will be thrown
+                // because it's a fatal one.
+                if(is_null($json)){
+                    throw new CouldNotGetDataTDTException($uri);
+                }
+                
+                if(!isset($json->features)){
+                    throw new ResourceAdditionTDTException("We could not find the features property, which may indicate this is not a OGDWienJSON json file.");
+                }
+                
+
+                $feature = $json->features[0];
 				
-				$feature = $json->features[0];
-				
-				foreach($feature->properties as $property => $value) {
-					$property = strtolower($property);
-					$this->columns[$property] = $property;
-				}
-				$this->columns["id"] = "id";
-				$this->columns["long"] = "long";
-				$this->columns["lat"] = "lat";
-				$this->columns["distance"] = "distance";
-			} catch( Exception $ex) {
-				throw new CouldNotGetDataTDTException( $url );
-			}
-		}
+                foreach($feature->properties as $property => $value) {
+                    $property = strtolower($property);
+                    $this->columns[$property] = $property;
+                }
+                $this->columns["id"] = "id";
+                $this->columns["long"] = "long";
+                $this->columns["lat"] = "lat";
+                $this->columns["distance"] = "distance";
+            } catch( Exception $ex) {
+                throw new CouldNotGetDataTDTException( $uri );
+            }
+        }
 		
         return true;
     }
 
-    public function readPaged($package,$resource,$page){
-        //TODO ( as this proxy's a json resource, this will probably not use any paging )
-    }
-
-    public function read(&$configObject){
-		set_time_limit(1000);
-	
-		parent::read($configObject);
+    public function read(&$configObject,$package,$resource){
+        set_time_limit(1000);
+        parent::read($configObject,$package,$resource);
        
-        if(isset($configObject->url)){
-            $url = $configObject->url;
+        if(isset($configObject->uri)){
+            $uri = $configObject->uri;
         }else{
-            throw new ResourceTDTException("Can't find url of the OGD Wien JSON");
+            throw new ResourceTDTException("Can't find uri of the OGD Wien Json");
         }
 		
         $columns = array();
@@ -108,48 +114,14 @@ class OGDWienJSON extends ATabularData {
         $PK = $configObject->PK;
             
         $columns = $configObject->columns;
-
-        //$gen_res_id = $configObject->gen_res_id;
         
         $resultobject = new stdClass();
         $arrayOfRowObjects = array();
         $row = 0;
-		
-        /*
-         * First retrieve the values for the generic fields of the OGD Wien JSON logic
-         */
-/*
-		 $result = DBQueries::getOGDWienJSONResource($package, $resource);
-*/
-        
-
-/*
-        if(isset($result["url"])){
-            $url = $result["url"];
-        }else{
-            throw new ResourceTDTException("Can't find url of the OGD Wien JSON.");
-        }
-*/		
-       
-        //$columns = array();
-        
-        // get the columns from the columns table
-        //$allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
-            
-        //$columns = array();
-        //$PK = "id";
-		
-/*
-        foreach($allowed_columns as $result){
-            array_push($columns,$result["column_name"]);
-        }
-*/		
-        $arrayOfRowObjects = array();
-        //$row = 0;
      
         try { 
 
-            $json = file_get_contents($url,0,null,null);
+            $json = file_get_contents($uri,0,null,null);
             $json = utf8_encode($json);
             $json = json_decode($json);
             
@@ -188,7 +160,7 @@ class OGDWienJSON extends ATabularData {
 
             return $arrayOfRowObjects;
         } catch( Exception $ex) {
-            throw new CouldNotGetDataTDTException( $url );
+            throw new CouldNotGetDataTDTException( $uri );
         }
     }
 }

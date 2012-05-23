@@ -21,7 +21,7 @@ class KmlFormatter extends AFormatter{
 
     public function printHeader(){
         header("Access-Control-Allow-Origin: *");
-        header("Content-Type: text/xml; charset=UTF-8");
+        header("Content-Type: application/vnd.google-earth.kml+xml; charset=utf-8");
     }
 
     public function printBody(){
@@ -48,11 +48,6 @@ class KmlFormatter extends AFormatter{
     private function printPlacemarks($val){
         $hash = get_object_vars($val);
         $this->printArray($hash);
-    }
-
-    private function printPlacemark($value){
-        echo "<Placemark><name>".htmlspecialchars($value->getName())."</name>";
-        echo "<Point><coordinates>".$value->getLat().",".$value->getLong()."</coordinates></Point></Placemark>";	  
     }
 
     private function xmlgetelement($value){
@@ -121,15 +116,15 @@ class KmlFormatter extends AFormatter{
             }
             if(isset($array)) {   
                 $longkey = $this->array_key_exists_nc("long",$array);
-                if ($longkey == false) {
+                if (!$longkey) {
                     $longkey = $this->array_key_exists_nc("longitude",$array);			   
                 }
                 $latkey = $this->array_key_exists_nc("lat",$array);
-                if ($latkey == false) {
+                if (!$latkey) {
                     $latkey = $this->array_key_exists_nc("latitude",$array);			   
                 }
                 $coordskey = $this->array_key_exists_nc("coords",$array);
-                if ($coordskey == false) {
+                if (!$coordskey) {
                     $coordskey = $this->array_key_exists_nc("coordinates",$array);			   
                 }
                 if($longkey && $latkey) {

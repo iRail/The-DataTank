@@ -20,12 +20,14 @@ include_once('controllers/RController.class.php');
 include_once('controllers/SPECTQLController.class.php');
 include_once('controllers/SPECTQLIndex.class.php');
 include_once('controllers/CUDController.class.php');
+include_once('controllers/RedirectController.class.php');
 include_once('TDT.class.php'); //general purpose static class
 include_once('Config.class.php'); //Configfile
 include_once('RequestURI.class.php');
 include_once('model/ResourcesModel.class.php');
 
 include_once('model/semantics/OntologyProcessor.class.php');
+
 include_once('model/semantics/RDFOutput.class.php');
 
 define("RDFAPI_INCLUDE_DIR", "model/semantics/rdfapi-php/api/"); 
@@ -63,20 +65,24 @@ $urls = array(
     // explanation of the last part of regex:
     // continue the REST parameters as long as no . is encountered. Continue format as long as no ? or end of URI occurs
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
-    '/(?P<package>[^/.]*)/(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
-    // Calling the Create, Update, Delete- controller
-
-    // This is a request on the real-world object
-    // examples of matches:
-    //  PUT /package/
-    //  POST /package/resource/property/
-    //  POST /package/resource
-    //  DELETE /package/resource
+    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
+    
+    // Calling a READ but no format is passed, so we redirect the request towards content negotation
+    //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
     // But also:
     //  GET /package/ - should give all resources in package in an exception
-    //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
-    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)' => 'RedirectController',
+   
+    // This is a request on the real-world object
+    // examples of matches:
+    //  PUT TDTAdmin/Admin/package/
+    //  PATCH TDTAdmin/Admin /package/resource/property/
+    //  PUT TDTAdmin/Admin/package/resource
+    //  DELETE TDTAdmin/Admin/package/resource
+    //  GET Will result in the same behaviour as a request to the Read- controller
+    '/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
 );
+
 
 //This function will do the magic. See includes/glue.php
 try {

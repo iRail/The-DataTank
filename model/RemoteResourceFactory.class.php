@@ -62,17 +62,38 @@ class RemoteResourceFactory extends AResourceFactory{
             }
         }
     }
-
-    public function makeDeleteDoc($doc){
-        //add stuff to the delete attribute in doc. No other parameters expected
-        foreach($this->getAllResourceNames() as $package => $v){
-            foreach($v as $resource){
-                $d = new stdClass();
-                $d->doc = "Delete this remote resource by calling the URI given in this object with a HTTP DELETE method";
-                $d->uri = Config::$HOSTNAME . Config::$SUBDIR . $package . "/" . $resource;
-                $doc->delete[] = $d;
+    
+    public function makeDescriptionDoc($doc){
+        foreach($this->getAllResourceNames() as $package => $resourcenames){
+            if(!isset($doc->$package)){
+                $doc->$package = new StdClass();
+            }
+            foreach($resourcenames as $resource){
+                $doc->$package->$resource = new StdClass();
+                /**
+                 * Get the metadata properties
+                 */
+                $metadata = DBQueries::getMetaData($package,$resource);
+                if(!empty($metadata)){
+                    foreach($metadata as $name => $value){
+                        if($name != "id" && $name != "resource_id"){
+                            $doc->$package->$resource->$name = $value;
+                        }
+                    }
+                }
+                $doc->$package->$resource = $this->fetchResourceDescription($package, $resource);
             }
         }
+    }
+
+    public function makeDeleteDoc($doc){
+        $d = new StdClass();
+        $d->doc = "You can delete every remote resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
+        if(!isset($doc->delete)){
+            $doc->delete = new StdClass();
+        }
+        $doc->delete->remote = new StdClass();
+        $doc->delete->remote = $d;
     }
     
     public function makeCreateDoc($doc){
@@ -110,26 +131,72 @@ class RemoteResourceFactory extends AResourceFactory{
         }
         $data = unserialize($request->data);
         $remoteResource = new stdClass();
-        $remoteResource->package = $package;
+        
+        if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
+            $remoteResource->doc = $data[$resource]->doc;
+        }else{
+            $remoteResource->doc = new stdClass();
+        }
+
+        if(isset($data[$resource]->parameters)){
+            $remoteResource->parameters = $data[$resource]->parameters;
+        }else{
+            $remoteResource->parameters = array();
+        }
+        
+        if(isset($data[$resource]->requiredparameters)){
+            $remoteResource->requiredparameters = $data[$resource]->requiredparameters;
+        }else{
+            $remoteResource->requiredparameters = array();
+        }
+        return $remoteResource;
+    }
+
+    /*
+     * This object contains all the information 
+     * FROM the last used
+     * requested object. This way we wont have to call the remote resource
+     * every single call to this factory. If we receive a call
+     * for another resource, we replace it by the newly asked factory.
+     */
+    private function fetchResourceDescription($package,$resource){
+        $result = DBQueries::getRemoteResource($package, $resource);
+        if(sizeof($result) == 0){
+            throw new ResourceOrPackageNotFoundTDTException("Cannot find the remote resource with package and resource pair as: ".$package."/".$resource);
+        }
+        $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
+        $options = array("cache-time" => 5); //cache for 5 seconds
+        $request = TDT::HttpRequest($url, $options);
+
+        if(isset($request->error)){
+            throw new HttpOutTDTException($url);
+        }
+        $data = unserialize($request->data);
+        $remoteResource = new stdClass();
+        $remoteResource->package_name = $package;
         $remoteResource->remote_package = $result["package"];
-        if(isset($remoteResource->doc) && isset($data[$resource])){
+        if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
             $remoteResource->doc = $data[$resource]->doc;
         }else{
             $remoteResource->doc = new stdClass();
         }
         
-        
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
+        $remoteResource->resource_type = "remote";
         if(isset($data[$resource]->parameters)){
             $remoteResource->parameters = $data[$resource]->parameters;
+        }else{
+            $remoteResource->parameters = array();
         }
+        
         if(isset($data[$resource]->requiredparameters)){
             $remoteResource->requiredparameters = $data[$resource]->requiredparameters;
+        }else{
+            $remoteResource->requiredparameters = array();
         }
         return $remoteResource;
     }
-    
 }
 
 ?>

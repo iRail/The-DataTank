@@ -27,6 +27,9 @@ abstract class AResourceFactory{
         return false;
     }
 
+    /**
+     * Get all of the available resources (their names) and return them in an array.
+     */
     abstract protected function getAllResourceNames();
 
     /**
@@ -59,6 +62,13 @@ abstract class AResourceFactory{
      */
     abstract public function makeDoc($doc);
 
+     /**
+     * Visitor pattern function: This is the documentation on what all of the description properties of a resource are
+     * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds its full description.
+     */
+    abstract public function makeDescriptionDoc($doc);
+
+
     /**
      * Visitor pattern function
      * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds what it wants to add.
@@ -71,5 +81,12 @@ abstract class AResourceFactory{
      */
     abstract public function makeCreateDoc($doc);
 
+/**
+     * Visitor pattern function
+     * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds what it wants to add.
+     */
+    public function makeUpdateDoc($doc){
+        
+    }
 }
 ?>

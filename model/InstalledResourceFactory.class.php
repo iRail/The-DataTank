@@ -44,6 +44,10 @@ class InstalledResourceFactory extends AResourceFactory{
         }
     }
 
+    public function makeDescriptionDoc($doc){
+        $this->makeDoc($doc);
+    }
+
     private function getCreationTime($package, $resource) {
         //if the object read is a directory and the configuration methods file exists, 
         //then add it to the installed packages
@@ -76,6 +80,13 @@ class InstalledResourceFactory extends AResourceFactory{
 
     public function makeDeleteDoc($doc){
         //We cannot delete an Installed Resources
+        $d = new StdClass();
+        $d->doc = "You cannot delete installed resources.";
+        if(!isset($doc->delete)){
+            $doc->delete = new StdClass();
+        }
+        $doc->delete->installed = new StdClass();
+        $doc->delete->installed = $d;
     }
     
     public function makeCreateDoc($doc){

@@ -21,6 +21,9 @@ class DatabaseSetup extends InstallController {
               `format` varchar(24) DEFAULT NULL,
               `error_message` text,
               `error_code` varchar(255) DEFAULT NULL,
+              `stacktrace` varchar(255) DEFAULT NULL,
+              `file` varchar(255) DEFAULT NULL,
+              `linenumber` int(20) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
@@ -41,6 +44,7 @@ class DatabaseSetup extends InstallController {
               `has_header_row` tinyint(2) NOT NULL,
               `start_row` int(128) NOT NULL,
               `delimiter` varchar(10) NOT NULL,
+              `PK` varchar(128) DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `gen_resource_id` (`gen_resource_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -49,7 +53,16 @@ class DatabaseSetup extends InstallController {
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `package_name` varchar(255) NOT NULL,
               `timestamp` bigint(20) NOT NULL,
-              `title` varchar(80) DEFAULT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
+        $queries["logs"] = "CREATE TABLE IF NOT EXISTS `logs` (
+              `id` bigint(255) NOT NULL AUTO_INCREMENT,
+              `source` varchar(255) NOT NULL,
+              `message` varchar(255) NOT NULL,
+              `package` varchar(255) NOT NULL,
+              `resource` varchar(255) NOT NULL,
+              `time` bigint(20) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
@@ -68,6 +81,7 @@ class DatabaseSetup extends InstallController {
               `resource_id` bigint(20) NOT NULL,
               `package_name` varchar(255) NOT NULL,
               `base_url` varchar(128) NOT NULL,
+              `resource_name` varchar(128) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `resource_id` (`resource_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -84,6 +98,10 @@ class DatabaseSetup extends InstallController {
               `reqparameters` varchar(128) DEFAULT NULL,
               `allparameters` varchar(164) DEFAULT NULL,
               `requiredparameter` varchar(255) DEFAULT NULL,
+              `ip` varchar(255) DEFAULT NULL, 
+              `hash` varchar(255) DEFAULT NULL,
+              `location` varchar(255) DEFAULT NULL,
+              `request_method` varchar(255) DEFAULT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";    
         
@@ -94,8 +112,6 @@ class DatabaseSetup extends InstallController {
               `creation_timestamp` bigint(20) NOT NULL,
               `last_update_timestamp` bigint(20) NOT NULL,
               `type` varchar(30) NOT NULL,
-              `tags` varchar(512) DEFAULT NULL,
-              `title` varchar(80) DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -154,8 +170,6 @@ class DatabaseSetup extends InstallController {
               KEY `s_obj_idx` (`object`(250)),
               KEY `s_obj_ftidx` (`object`(250))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-        
-
 
         $tables = array();
         foreach($queries as $table=>$query) {
@@ -180,8 +194,27 @@ class DatabaseSetup extends InstallController {
                 $info = R::findOne('info','name=:name LIMIT 1', array(":name"=>"version"));
                 $info->value = $this->installer->version();
                 R::store($info);
+            }            
+
+            /**
+             * updates
+             */
+
+            R::exec("ALTER TABLE generic_resource_xls CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_json CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_ogdwienjson CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_kmlghent CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_shp CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_xml CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_zippedshp CHANGE url uri varchar(255)");
+
+             // update the requests table and fill in the method GET for entries who dont have a request_method yet
+            if($this->checkIfColumnsExists("requests","request_method") == 0){
+                R::exec("ALTER TABLE requests ADD request_method varchar(255)");
             }
-            
+            R::exec('UPDATE requests SET request_method = "GET" WHERE request_method IS NULL');
+
+
             $data["status"] = "passed";
             $data["tables"] = $tables;
         }
@@ -194,5 +227,9 @@ class DatabaseSetup extends InstallController {
         
         $this->view("database_setup", $data);
     }
-    
+
+    private function checkIfColumnsExists($table,$column){
+        return R::exec("SELECT * FROM information_schema.columns WHERE table_name =:table AND column_name =:column",
+                       array(":table" => $table, ":column" => $column));
+    }
 }

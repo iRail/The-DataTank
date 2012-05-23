@@ -149,7 +149,7 @@ class DBQueries {
     static function getGenericResourceDoc($package,$resource) {
         return R::getRow(
             "SELECT generic_resource.documentation as doc, creation_timestamp as creation_timestamp,
-                        last_update_timestamp as last_update_timestamp 
+                        last_update_timestamp as last_update_timestamp, generic_resource.type as type, generic_resource.id as id 
                  FROM package,generic_resource,resource 
                  WHERE package.package_name=:package and resource.resource_name =:resource
                        and package.id=resource.package_id and resource.id = generic_resource.resource_id",
@@ -249,7 +249,7 @@ class DBQueries {
     static function getRemoteResource($package, $resource) {
         return R::getRow(
             "SELECT rem_rec.base_url as url ,rem_rec.package_name as package,
-                    resource.resource_name as resource
+                    rem_rec.resource_name as resource
              FROM   package,remote_resource as rem_rec,resource
              WHERE  package.package_name=:package and resource.resource_name =:resource
                     and package.id = package_id and resource_id = resource.id",
@@ -272,10 +272,11 @@ class DBQueries {
     /**
      * Store a remote resource
      */
-    static function storeRemoteResource($resource_id, $package_name, $base_url) {
+    static function storeRemoteResource($resource_id, $package_name,$resource_name, $base_url) {
         $remres = R::dispense("remote_resource");
         $remres->resource_id = $resource_id;
         $remres->package_name = $package_name;
+        $remres->resource_name = $resource_name;
         $remres->base_url = $base_url;
         return R::store($remres);
     }
@@ -498,6 +499,83 @@ class DBQueries {
                     )",
             array(":package" => $package, ":resource" => $resource)
             
+        );
+    }
+   
+    /**
+     * Get the type of the resource
+     */
+    static function getResourceType($package,$resource){
+        return R::getCell(
+            "SELECT type
+             FROM resource,package
+             WHERE package_name =:package AND resource_name=:resource",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Get all the properties of a strategy
+     */
+    static function getStrategyProperties($generic_resource_id,$strategy_table){
+        return R::getAll(
+            "SELECT * 
+             FROM $strategy_table
+             WHERE gen_resource_id=:gen_res_id",
+            array(":gen_res_id" => $generic_resource_id)
+        );
+    }
+
+    /**
+     * Store the metadata provided
+     * @param $resource_id int The resource id of the resource
+     * @param $resource object The resource object ( in which the meta data is set )
+     * @param $metadata array The array in which all allowed meta data properties are contained.
+     */
+    static function storeMetaData($resource_id,$resource,$metadataArray){
+        $metadata = R::dispense("metadata");
+        $add = false;
+        foreach($metadataArray as $key){
+            if(isset($resource->$key) && $resource->$key != ""){
+                $metadata->$key = $resource->$key;
+                $add = true;
+            }
+        }
+        $metadata->resource_id = $resource_id;
+        if($add){
+            return R::store($metadata);   
+        }
+    }
+
+    /**
+     * Get the metadata for a certain package resource pair
+     */
+    static function getMetaData($package,$resource){
+        return R::getRow(
+            "SELECT *
+             FROM metadata
+             WHERE resource_id IN (
+                       SELECT resource.id 
+                       FROM resource,package
+                       WHERE resource.resource_name = :resource AND package.package_name = :package
+             )",
+            array(":package"=>$package,":resource"=>$resource)
+        );
+    }
+
+    /**
+     * Delete the metadata for a certain package resource pair
+     */
+    static function deleteMetaData($package,$resource){
+        return R::exec(
+            "DELETE 
+             FROM metadata
+             WHERE resource_id IN ( 
+                       SELECT resource.id 
+                       FROM resource,package
+                       WHERE resource.resource_name = :resource AND package.package_name = :package 
+             )",
+            array(":package" => $package, ":resource" => $resource)
         );
     }
 }

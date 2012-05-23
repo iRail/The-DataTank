@@ -7,8 +7,12 @@
  * @author Jens Segers
  */
 
+include_once("../aspects/caching/Cache.class.php");
+include_once("../Config.class.php");
+
 class InstallController {
     
+
     protected $installer;
     
     public function __construct() {

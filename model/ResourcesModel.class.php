@@ -54,6 +54,19 @@ class ResourcesModel {
     }
 
     /**
+     * Checks if a package exists
+     */
+    public function hasPackage($package){
+        $doc = $this->getAllPackagesDoc();
+        foreach ($doc as $packagename => $resourcenames) {
+            if ($package == $packagename) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks the doc whether a certain resource exists in our system.
      * We will look for a definition in the documentation. Of course,
      * the result of the documentation visitor class will be cached
@@ -92,21 +105,32 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($package, $resource, $parameters, $RESTparameters) {
+
         //If we want to CRUD ontology, handle differently
         if (!$this->checkOntology($package, $resource, $RESTparameters)) {
-            //first check if there resource exists yet
-            if ($this->hasResource($package, $resource)) {
-                //If it exists, delete it first and continue adding it.
-                $this->deleteResource($package, $resource,$RESTparameters);
-            }
-            
             //if it doesn't, test whether the resource_type has been set
             if (!isset($parameters["resource_type"])) {
                 throw new ResourceAdditionTDTException("Parameter resource_type hasn't been set");
             }
-            if ($parameters["resource_type"] == "generic" && !isset($parameters["generic_type"])) {
-                throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set");
+
+            /**
+             * adding some semantics to the resource_type parameter
+             * generic/generic_type should be parsed as generic being the resource_type and generic_type as the
+             * generic type, without passing that as a separate parameter
+             * NOTE that passing generic/generic_type has priority over generic_type = ...
+             */
+
+            $resourceTypeParts = explode("/",$parameters["resource_type"]);
+            if($resourceTypeParts[0] != "remote"){    
+                if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) 
+                     && isset($resourceTypeParts[1])) {
+                    $parameters["generic_type"] = $resourceTypeParts[1];
+                    $parameters["resource_type"] = $resourceTypeParts[0];
+                }else if(!isset($parameters["generic_type"])){
+                    throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example is: generic/CSV");
+                }
             }
+            
 
             $restype = $parameters["resource_type"];
 
@@ -122,6 +146,13 @@ class ResourcesModel {
              */
             $resourceCreationDoc;
             if ($restype == "generic") {
+                /*
+                 * Issue: keys of an array cannot be gotten without an exact match, csv != CSV is an example
+                 * of a result of this matter, this however should be ==
+                 * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace 
+                 * generic_type with the "correct" one
+                 */
+                $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"],$doc->create->generic);
                 $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
             } else { // remote
                 $resourceCreationDoc = $doc->create->remote;
@@ -135,6 +166,7 @@ class ResourcesModel {
                     throw new RequiredParameterTDTException("Required parameter " . $key . " has not been passed");
                 }
             }
+           
             //now check if there are nonexistent parameters given
             foreach (array_keys($parameters) as $key) {
                 if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
@@ -144,6 +176,32 @@ class ResourcesModel {
 
             // all is well, let's create that resource!
             $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
+            try{
+                //first check if there resource exists yet
+                if ($this->hasResource($package, $resource)) {
+                    //If it exists, delete it first and continue adding it.
+                    //It could be that because errors occured after the addition, that
+                    //the documentation reset in the CUDController isn't up to date anymore
+                    //This will result in a hasResource() returning true and deleteResource returning false (error)
+                    //This is our queue to reset the documentation.
+                    try{
+                        $this->deleteResource($package, $resource,$RESTparameters);
+                    }catch(Exception $ex){
+                        //Clear the documentation in our cache for it has changed        
+                        $c = Cache::getInstance();
+                        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+                        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+                        throw new InternalServerTDTException("Error: ". $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers.");
+                    }
+                }
+            }catch(Exception $ex){
+                //Clear the documentation in our cache for it has changed        
+                $c = Cache::getInstance();
+                $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+                $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+                $this->deleteResource($package, $resource,$RESTparameters);
+                throw new Exception($ex->getMessage());
+            }
             $creator->create();
         } else {
             // all is well, let's create that ontology!
@@ -151,6 +209,21 @@ class ResourcesModel {
             $creator->create();
         }
     }
+
+    /**
+     * Searches for a generic entry in the generic- create part of the documentation, independent of 
+     * how it is passed (i.e. csv == CSV )
+     * @return The correct entry in the generic table ( csv would be changed with CSV )
+     */
+    private function formatGenericType($genType, $genericTable){
+        foreach($genericTable as $type => $value){
+            if(strtoupper($genType) == strtoupper($type)){
+                return $type;
+            }
+        }
+        throw new ResourceAdditionTDTException($genType . " was not found as a generic_type");
+    }
+    
 
     /**
      * Reads the resource with the given parameters
@@ -186,13 +259,58 @@ class ResourcesModel {
         if (!$this->hasResource($package, $resource)) {
             throw new ResourceOrPackageNotFoundTDTException($package, $resource);
         }
-        //check the parameters for the right updater
-        if (!isset($parameters["update_type"])) {
-            throw new ParameterTDTException("update_type");
+        
+        /**
+         * Get the resource properties from the documentation
+         * Replace that passed properties and re-add the resource
+         */
+        $doc = $this->getAllDescriptionDoc();
+        $currentParameters = $doc->$package->$resource;
+
+        /** issue with updates:
+         * not all things you see are primary put parameters, some are derived and can't be update
+         * i.e. doc property of a remote resource, that property hasn't been put but has been derived from 
+         * the other properties of a remote resource.
+         * currently hard coded because there are no extensive units of abstract descriptions (generic, remote) yet...
+         */
+
+        unset($currentParameters->parameters);
+        unset($currentParameters->requiredparameters);
+        unset($currentParameters->remote_package);
+        unset($currentParameters->doc);
+        unset($currentParameters->resource);
+
+        foreach($parameters as $parameter => $value){
+            if($value != "" && $parameter != "columns"){
+                $currentParameters->$parameter = $value;
+            }
         }
-        $updater = new $this->updateActions[$parameters["update_type"]]($package, $resource, $RESTparameters);
-        $updater->processParameters($parameters);
-        $updater->update();
+        
+        /**
+         * Columns aren't key = value datamembers and will be handled separatly
+         */
+        if(isset($currentParameters->columns) && isset($parameters["columns"])){
+            foreach($parameters["columns"] as $index => $value){
+                $currentParameters->columns[$index] = $value;
+            }
+        }
+
+        // delete the empty parameters from the currentParameters object
+        foreach((array)$currentParameters as $key => $value){
+            if($value == ""){
+                unset($currentParameters->$key);
+            }
+        }
+
+        $currentParameters = (array)$currentParameters;
+        $this->createResource($package,$resource,$currentParameters,array());
+        
+        /**
+         * DO NOT DELETE the snippet below, might be necessary for Ontology-addition, awaiting reply of Miel Van der Sande
+         */
+        /*$updater = new $this->updateActions[$parameters["update_type"]]($package, $resource, $RESTparameters);
+          $updater->processParameters($parameters);
+          $updater->update();*/
     }
 
     /**
@@ -210,12 +328,13 @@ class ResourcesModel {
             if (!$this->hasResource($package, $resource)) {
                 throw new ResourceOrPackageNotFoundTDTException("package/resource couple " . $package . "/" . $resource . " not found.");
             }
-
+            
             /**
              * We only support the deletion of generic and remote resources and packages by 
              * an API call.
              */
             $factory = "";
+
             if ($this->factories["generic"]->hasResource($package, $resource)) {
                 $factory = $this->factories["generic"];
             } else if ($this->factories["remote"]->hasResource($package, $resource)) {
@@ -229,6 +348,10 @@ class ResourcesModel {
             $deleter = $this->factories["ontology"]->createDeleter($package, $resource, $RESTparameters);
             $deleter->delete();
         }
+        //Clear the documentation in our cache for it has changed        
+        $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
     }
 
     /**
@@ -252,8 +375,7 @@ class ResourcesModel {
 
     /**
      * Uses a visitor to get all docs and return them
-     * To have an idea what's in here, just check yourinstallation/TDTInfo/Resources
-     *
+     * To have an idea what's in here, just check yourinstallationfolder/TDTInfo/Resources
      * @return a doc object containing all the packages, resources and further documentation
      */
     public function getAllDoc() {
@@ -261,9 +383,19 @@ class ResourcesModel {
         return $doc->visitAll($this->factories);
     }
 
+    public function getAllDescriptionDoc(){
+        $doc = new Doc();
+        return $doc->visitAllDescriptions($this->factories);
+    }
+
     public function getAllAdminDoc() {
         $doc = new Doc();
         return $doc->visitAllAdmin($this->factories);
+    }
+
+    public function getAllPackagesDoc(){
+        $doc = new Doc();
+        return $doc->visitAllPackages();
     }
 
 }

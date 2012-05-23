@@ -17,12 +17,17 @@ class RemoteResourceReader extends AReader{
     public function __construct($package,$resource, $RESTparameters, $remoteResourceDocumentation){
         parent::__construct($package,$resource, $RESTparameters);  
         $this->remoteResource = $remoteResourceDocumentation;
+        $remoteRes = DBQueries::getRemoteResource($package,$resource);
+        $this->base_url = $remoteRes["url"];
+        $this->remote_package = $remoteRes["package"];
+        $this->resource_name = $remoteRes["resource"];
     }
 
     /**
      * read method
      */
     public function read(){
+
 	//extract the right parameters (the non optional ones) and concatenate them to create the right URL
 	$params = "?";
 	foreach(array_keys($this->remoteResource->parameters) as $key){
@@ -33,11 +38,13 @@ class RemoteResourceReader extends AReader{
 	$params = rtrim($params, "&");
 
 	//the url consists of the baseurl (this has a trailing slash and contains the subdir) - the resource is a specifier in the baseurl
-	//params is a url containing the possible 
-	$url = $this->remoteResource->base_url . $this->remoteResource->remote_package . "/".$this->resource . "/";
+	//params is a url containing the possible
+	$url = $this->base_url . $this->remote_package . "/".$this->resource_name . "/";
+
         foreach($this->remoteResource->requiredparameters as $param){
             $url = $url . $this->$param."/";
         }
+
         $url= rtrim($url, "/");
         //add format: php because we're going to deserialize this
         $url .= ".php";
@@ -52,7 +59,7 @@ class RemoteResourceReader extends AReader{
 	}
 
 	//unserialize the data of the request and return it!
-        $res = $this->resource;
+        $res = $this->resource_name;
 	$obj =  unserialize($request->data);
         return $obj[$res];
     }

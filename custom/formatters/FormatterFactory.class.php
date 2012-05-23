@@ -86,7 +86,7 @@ class FormatterFactory{
     }
 
     private function formatExists($format){
-        return file_exists("custom/formatters/". $format . "Formatter.class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
+        return file_exists("custom/formatters/". $format . "Formatter.class.php") || file_exists("custom/formatters/visualizations/". $format . "Formatter.class.php");
     }
 
     /**
@@ -115,7 +115,13 @@ class FormatterFactory{
 	    return new $format($rootname,$objectToPrint,$callback);
 	}
         $format=$this->format."Formatter";
-	include_once("custom/formatters/". $this->format . "Formatter.class.php");
+        // Before this is done, a check on the existence of the format has already been done, so we now we can 
+        // automatically include the visualization format if the format isn't found in the formatters folder.
+	if(file_exists("custom/formatters/". $this->format . "Formatter.class.php")){
+            include_once("custom/formatters/". $this->format . "Formatter.class.php");
+        }else{
+            include_once("custom/formatters/visualizations/". $this->format . "Formatter.class.php");
+        }
 	return new $format($rootname, $objectToPrint);
     }
     
@@ -124,7 +130,7 @@ class FormatterFactory{
      * This will fetch all the documentation from the formatters and put it into the documentation visitor
      * @return The documentation object from the formatters
      */
-    public function getDocumentation(){
+    public function getFormatterDocumentation(){
         $doc = array();
         //open the custom directory and loop through it
         if ($handle = opendir('custom/formatters')) {
@@ -135,6 +141,32 @@ class FormatterFactory{
                     $formatterclass = $boom[0];
                     if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
                         include_once("custom/formatters/" . $formatter);
+                        if(is_subclass_of($formatterclass, "AFormatter")){
+                            $doc[$match[1]] = $formatterclass::getDocumentation();
+                        }
+                    }
+                }   
+            }
+            closedir($handle);
+        }
+        return $doc;
+    }
+
+    /**
+     * This will fetch all the documentation from the formatters and put it into the documentation visitor
+     * @return The documentation object from the formatters
+     */
+    public function getVisualizationDocumentation(){
+        $doc = array();
+        //open the custom directory and loop through it
+        if ($handle = opendir('custom/formatters/visualizations')) {
+            while (false !== ($formatter = readdir($handle))) {
+                //if the object read is a directory and the configuration methods file exists, then add it to the installed formatters
+                if ($formatter != "." && $formatter != ".." && file_exists("custom/formatters/visualizations/" . $formatter)) {
+                    $boom = explode(".",$formatter);
+                    $formatterclass = $boom[0];
+                    if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
+                        include_once("custom/formatters/visualizations/" . $formatter);
                         if(is_subclass_of($formatterclass, "AFormatter")){
                             $doc[$match[1]] = $formatterclass::getDocumentation();
                         }

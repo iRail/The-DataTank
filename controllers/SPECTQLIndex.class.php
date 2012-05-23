@@ -20,6 +20,10 @@ class SPECTQLIndex extends AController {
         include("controllers/spectql/index.php");
     }
 
+    function HEAD($matches){
+        include("controllers/spectql/index.php");
+    }
+
     /**
      * You cannot PUT on a representation
      */
@@ -38,6 +42,13 @@ class SPECTQLIndex extends AController {
      * You cannot use post on a representation
      */
     public function POST($matches) {
+        throw new RepresentationCUDCallTDTException();
+    }
+
+    /**
+     * You cannot use patch a representation
+     */
+    public function PATCH($matches) {
         throw new RepresentationCUDCallTDTException();
     }
 

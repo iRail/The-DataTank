@@ -22,18 +22,9 @@ class TDTInfoPackages extends AReader{
     }
     
     public function read(){
-	$resmod = ResourcesModel::getInstance();
-        $doc = $resmod->getAllDoc();
-        $packages = array();
-	$packagenames = array_keys(get_object_vars($doc));
-
-        foreach($packagenames as $packagename){
-            $package = new stdClass();
-            $package->name = $packagename;
-            $packages[] = $package;
-        }
-        
-	return $packages;
+        $resmod = ResourcesModel::getInstance();
+        $doc = $resmod->getAllPackagesDoc();
+        return $doc;
     }
     
     public static function getDoc(){

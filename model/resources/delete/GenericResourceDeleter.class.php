@@ -23,6 +23,9 @@ class GenericResourceDeleter extends ADeleter{
         // delete any published columns entry
         DBQueries::deletePublishedColumns($this->package,$this->resource);
         
+        // delete metadata about the resource
+        DBQueries::deleteMetaData($this->package,$this->resource);
+
         //now the only thing left to delete is the main row
         DBQueries::deleteGenericResource($this->package, $this->resource);
 
