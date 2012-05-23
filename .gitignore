@@ -12,9 +12,7 @@ bin/testAPI_CSV.php
 custom/packages/*
 !custom/packages/README.md
 !custom/formatters/*
-!custom/formatters/README.md
 custom/genericstrategies/*
-!custom/genericstrategies/README.md
 Makefile
 .DS_Store
 */.DS_Store
