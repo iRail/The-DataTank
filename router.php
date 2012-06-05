@@ -80,7 +80,8 @@ $urls = array(
     //  PUT TDTAdmin/Admin/package/resource
     //  DELETE TDTAdmin/Admin/package/resource
     //  GET Will result in the same behaviour as a request to the Read- controller
-    '/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+    //mVS: added TDTAdmin/Ontology as well
+    '/TDTAdmin/(Resources|Ontology)/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
 );
 
 
