@@ -58,7 +58,8 @@ class SPECTQLParser{
         "," => "','",
         "^" => "'^'",
         "%" => "'%'",
-        "?" => "'?'"
+        "?" => "'?'",
+        "'" => "SQ"
     );
     
     /**
@@ -87,14 +88,11 @@ class SPECTQLParser{
                 $t = $tokenizer->pop();
                 if (is_numeric($t)){
                     $this->parser->eat('num', $t);
+                }else if(preg_match("/'.*?'/si",$t)){
+                    $t = trim($t, "'");                    
+                    $this->parser->eat('string',$t);
                 }
-                else if (preg_match("/'[ 0-9a-zA-Z_.\-]+'/si",$t)){
-                    $t = trim($t,"'");
-                    //escaped chars
-                    $t = str_replace("''","'",$t);
-                    $this->parser->eat('string', $t);
-                }
-                else if (preg_match("/[0-9a-zA-Z_]+/si",$t)) {
+                else if (preg_match("/[0-9a-zA-Z_\-]+/si",$t)) {
                     $this->parser->eat('name', $t);
                 }
                 else{

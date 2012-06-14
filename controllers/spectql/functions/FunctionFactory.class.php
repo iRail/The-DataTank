@@ -19,6 +19,7 @@ class FunctionFactory {
         "min" => "SPECTQLMin",
         "avg" => "SPECTQLAvg",
         "limit" => "SPECTQLLimit",
+        "distance" => "SPECTQLDistance"
     );
 
     public static function getInstance(){
@@ -30,14 +31,13 @@ class FunctionFactory {
 
     private function __construct(){}
 
-    public function createFunction($name, $argument){
+    public function createFunction($name, $argument, $argument2 = ""){
         if(isset($this->functions[$name]) && file_exists("controllers/spectql/functions/" . $this->functions[$name] . ".class.php")){
             include_once("controllers/spectql/functions/" . $this->functions[$name] . ".class.php");
-            return new $this->functions[$name]($name,$argument);
+            if($argument2 == "")
+                return new $this->functions[$name]($name,$argument);
+            return new $this->functions[$name]($name,$argument,$argument2);
         }
         throw new ParserTDTException("Unknown function: " . $name);
-    }
-    
-    
-    
+    }    
 }

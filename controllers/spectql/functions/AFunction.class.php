@@ -12,9 +12,13 @@ abstract class AFunction  extends AArgument{
     
     protected $argument;
     
-    public function __construct($name, $argument, $alias = ""){
+    public function __construct($name, $arguments, $alias = ""){
         parent::__construct($name,$alias);
-        $this->argument = $argument;
+        $this->argument = $arguments[0];
+        if(isset($arguments[1]))
+            $this->argument2 = $arguments[1];
+        else 
+            $this->argument2 = "";
     }
     
     /**

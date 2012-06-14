@@ -32,11 +32,13 @@ class SPECTQLTokenizer{
             //itoken will be the index inside a certain token
             $itoken = $i;
             //new loop will continue while no symbol has been found
-            //it also checks if a token exists when combining it with the next character
+            //it also checks if a token exists when combining it with the next character or if in a group (between '')
             while($itoken < strlen($querystring) && !in_array(substr($querystring,$itoken, 1), $symbols) && !in_array(substr($querystring,$itoken,2),$symbols)){
+                
                 $tempstr .= substr($querystring,$itoken, 1);
                 $itoken ++;
             }
+            
             //store the tempstr as a token if there's something in it (there isn't at start, and also not when a symbol is placed right after another
             if(strlen($tempstr) > 0){
                 $this->tokens[] = $tempstr;
@@ -45,11 +47,23 @@ class SPECTQLTokenizer{
             //first check whether 2 characters is a symbol!
             if(in_array(substr($querystring,$itoken,2),$symbols)){
                 $symbol = substr($querystring,$itoken, 2);
-                $this->tokens[] = $symbol;
             }else if(in_array(substr($querystring,$itoken, 1), $symbols)){
                 $symbol = substr($querystring,$itoken, 1);
-                $this->tokens[] = $symbol;
             }
+            //check if group
+            if($symbol == "'"){
+                $symbol == "";
+                $itoken++;
+                while(substr($querystring,$itoken, 1) != "'" || substr($querystring,$itoken, 2) == "''" && $itoken < strlen($querystring)){
+                    $symbol .= substr($querystring,$itoken, 1);
+                    $itoken ++;
+                }
+                $itoken ++;
+                $symbol = "'" . $symbol . "'";
+            }
+            
+
+            $this->tokens[] = $symbol;
             //when a token is stored, give $i a new starting point. The new starting point lies behind the symbol that terminates the previous one
             $i = $itoken + strlen($symbol);
         }
