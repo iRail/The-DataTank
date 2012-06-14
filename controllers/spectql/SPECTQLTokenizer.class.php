@@ -50,22 +50,24 @@ class SPECTQLTokenizer{
             }else if(in_array(substr($querystring,$itoken, 1), $symbols)){
                 $symbol = substr($querystring,$itoken, 1);
             }
-            //check if group
+            //check if group, then just skip all
             if($symbol == "'"){
-                $symbol == "";
+                //shift 'zkhjbj... until end'
                 $itoken++;
                 while(substr($querystring,$itoken, 1) != "'" || substr($querystring,$itoken, 2) == "''" && $itoken < strlen($querystring)){
-                    $symbol .= substr($querystring,$itoken, 1);
                     $itoken ++;
                 }
+                //add another one for the other single quote
                 $itoken ++;
-                $symbol = "'" . $symbol . "'";
+                //add 2 single quotes 
+                $this->tokens[] = "'";
+                $this->tokens[] = "'";
+            }else{
+                $this->tokens[] = $symbol;
+                //when a token is stored, give $i a new starting point. The new starting point lies behind the symbol that terminates the previous one
+                $i = $itoken + strlen($symbol);
             }
             
-
-            $this->tokens[] = $symbol;
-            //when a token is stored, give $i a new starting point. The new starting point lies behind the symbol that terminates the previous one
-            $i = $itoken + strlen($symbol);
         }
         //DBG:var_dump($this->tokens);
     }
