@@ -88,10 +88,9 @@ class SPECTQLParser{
                 $t = $tokenizer->pop();
                 if (is_numeric($t)){
                     $this->parser->eat('num', $t);
-                }else if($t == "'"){                    
+                }else if($t == "'"){                  
                     $this->parser->eat('string',$tokenizer->pop());
                     $tokenizer->pop();
-                    
                 }
                 else if (preg_match("/[0-9a-zA-Z_\-]+/si",$t)) {
                     $this->parser->eat('name', $t);

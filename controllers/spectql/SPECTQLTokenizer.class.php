@@ -34,7 +34,6 @@ class SPECTQLTokenizer{
             //new loop will continue while no symbol has been found
             //it also checks if a token exists when combining it with the next character or if in a group (between '')
             while($itoken < strlen($querystring) && !in_array(substr($querystring,$itoken, 1), $symbols) && !in_array(substr($querystring,$itoken,2),$symbols)){
-                
                 $tempstr .= substr($querystring,$itoken, 1);
                 $itoken ++;
             }
@@ -54,20 +53,27 @@ class SPECTQLTokenizer{
             if($symbol == "'"){
                 //shift 'zkhjbj... until end'
                 $itoken++;
+                $start = $itoken;
                 while(substr($querystring,$itoken, 1) != "'" || substr($querystring,$itoken, 2) == "''" && $itoken < strlen($querystring)){
                     $itoken ++;
                 }
+                $symbol = substr($querystring,$start, $itoken-$start);
                 //add another one for the other single quote
-                $itoken ++;
+                if(substr($querystring,$itoken, 1) == "'"){
+                    $itoken ++;
+                }
                 //add 2 single quotes 
                 $this->tokens[] = "'";
+                $this->tokens[] = $symbol;
                 $this->tokens[] = "'";
-            }else{
+                $i = $itoken;
+            }else if($symbol != ""){
                 $this->tokens[] = $symbol;
                 //when a token is stored, give $i a new starting point. The new starting point lies behind the symbol that terminates the previous one
                 $i = $itoken + strlen($symbol);
+            }else{
+                $i = $itoken + strlen($symbol);
             }
-            
         }
         //DBG:var_dump($this->tokens);
     }
