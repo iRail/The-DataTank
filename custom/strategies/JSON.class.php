@@ -21,6 +21,7 @@ class JSON extends AResourceStrategy{
         if($result != true){
             throw new ResourceAdditionTDTException("Could not transfrom the json data from ". $this->uri ." to a php object model, please check if the json is valid.");
         }
+        return true;
     }
     
     // @deprecated

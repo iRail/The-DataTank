@@ -3,10 +3,10 @@
  * Implements a counting function count(parameterinresource)
  *
  * @package The-Datatank/controllers/spectql/functions
- * @copyright (C) 2011 by OKFN chapter Belgium vzw/asbl
+ * @copyright (C) 2012 by OKFN Belgium vzw/asbl
  * @license LGPL
  * @author Pieter Colpaert
- * @organisation Hogent
+ * @organisation FlatTurtle
  */
 class SPECTQLCount extends AFunction{
 

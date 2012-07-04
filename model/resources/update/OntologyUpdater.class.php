@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This class OntologyUpdater updates ontologgy's by adding mappings
  * When updating an ontology, we always expect a POST method!
@@ -30,7 +31,7 @@ class OntologyUpdater extends AUpdater {
     }
 
     public function getRequiredParameters() {
-        return array("update_type", "method","value","namespace");
+        return array("update_type", "method", "value", "namespace");
     }
 
     public function getDocumentation() {
@@ -42,17 +43,21 @@ class OntologyUpdater extends AUpdater {
     }
 
     public function update() {
-        if ($this->resource !== "Ontology")
-            throw new OntologyUpdateTDTException("Update only allowed on the resource TDTInfo/Ontology");
-        
-        //First RESTparameters is the package, rest is the Resource path
-        $package = array_shift($this->RESTparameters);
+        /* TDTAdmin/Ontoloy is now trimmed, this code is not correct anymore
+         * if ($this->resource !== "Ontology")
+          throw new OntologyUpdateTDTException("Update only allowed on the resource TDTAdmin/Ontology");
+
+          //First RESTparameters is the package, rest is the Resource path
+          $package = array_shift($this->RESTparameters);
+         * 
+         */
+
         //Resource path empty? 
         if (count($this->RESTparameters) == 0)
             throw new OntologyUpdateTDTException("Cannot update the ontology of a package, please specify a resource");
-        
+
         //Assemble path
-        $path = implode('/', $this->RESTparameters);
+        $path = $this->resource.'/'. implode('/', $this->RESTparameters);
 
         if (!isset($this->params['method']))
             throw new OntologyUpdateTDTException('Method parameter is not set!');
@@ -65,19 +70,19 @@ class OntologyUpdater extends AUpdater {
 
         if (!isset($this->params['namespace']))
             $this->params['prefix'] = null;
-
+        
         //Do we want to add a mapping, or do we want to set the mapping we prefer to the others
         switch ($this->params['method']) {
             case 'add_map':
-                OntologyProcessor::getInstance()->updatePathMap($package, $path, $this->params['value'], $this->params['namespace'], $this->params['prefix']);
+                OntologyProcessor::getInstance()->updatePathMap($this->package, $path, $this->params['value'], $this->params['namespace'], $this->params['prefix']);
                 break;
 
             case 'prefer_map':
-                OntologyProcessor::getInstance()->updatePathPreferredMap($package, $path, $this->params['value'], $this->params['namespace']);
+                OntologyProcessor::getInstance()->updatePathPreferredMap($this->package, $path, $this->params['value'], $this->params['namespace']);
                 break;
-            
+
             case 'delete_map':
-                OntologyProcessor::getInstance()->updatePathDeleteMap($package, $path, $this->params['value'], $this->params['namespace']);
+                OntologyProcessor::getInstance()->updatePathDeleteMap($this->package, $path, $this->params['value'], $this->params['namespace']);
                 break;
 
             default:

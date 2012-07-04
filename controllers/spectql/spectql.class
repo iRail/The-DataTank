@@ -28,10 +28,10 @@ var $i = array (
     'resource' => 's 15',
     'calc' => 's 45',
     'resourceid' => 's 60',
-    'name' => 's 76',
+    'name' => 's 80',
     'num' => 's 47',
     '\'(\'' => 's 57',
-    'stmt' => 's 92',
+    'stmt' => 's 95',
     '\'start\'' => 'a \'start\'',
     '\'/\'' => 'r 13',
     '\'-\'' => 'r 13',
@@ -60,7 +60,7 @@ var $i = array (
   4 => 
   array (
     '\'-\'' => 's 5',
-    '#' => 'r 42',
+    '#' => 'r 43',
   ),
   5 => 
   array (
@@ -454,13 +454,13 @@ var $i = array (
   47 => 
   array (
     '\'.\'' => 's 48',
-    '\'+\'' => 'r 43',
-    '\'-\'' => 'r 43',
-    '\'*\'' => 'r 43',
-    '\'/\'' => 'r 43',
-    '\':\'' => 'r 43',
-    '\')\'' => 'r 43',
-    '#' => 'r 43',
+    '\'+\'' => 'r 44',
+    '\'-\'' => 'r 44',
+    '\'*\'' => 'r 44',
+    '\'/\'' => 'r 44',
+    '\':\'' => 'r 44',
+    '\')\'' => 'r 44',
+    '#' => 'r 44',
   ),
   48 => 
   array (
@@ -487,14 +487,14 @@ var $i = array (
   ),
   50 => 
   array (
-    '\'+\'' => 'r 44',
-    '\'-\'' => 'r 44',
+    '\'+\'' => 'r 45',
+    '\'-\'' => 'r 45',
     '\'*\'' => 's 53',
     '\'/\'' => 's 55',
-    '\'.\'' => 'r 44',
-    '\':\'' => 'r 44',
-    '\')\'' => 'r 44',
-    '#' => 'r 44',
+    '\'.\'' => 'r 45',
+    '\':\'' => 'r 45',
+    '\')\'' => 'r 45',
+    '#' => 'r 45',
   ),
   51 => 
   array (
@@ -512,14 +512,14 @@ var $i = array (
   ),
   52 => 
   array (
-    '\'+\'' => 'r 45',
-    '\'-\'' => 'r 45',
+    '\'+\'' => 'r 46',
+    '\'-\'' => 'r 46',
     '\'*\'' => 's 53',
     '\'/\'' => 's 55',
-    '\'.\'' => 'r 45',
-    '\':\'' => 'r 45',
-    '\')\'' => 'r 45',
-    '#' => 'r 45',
+    '\'.\'' => 'r 46',
+    '\':\'' => 'r 46',
+    '\')\'' => 'r 46',
+    '#' => 'r 46',
   ),
   53 => 
   array (
@@ -537,14 +537,14 @@ var $i = array (
   ),
   54 => 
   array (
-    '\'+\'' => 'r 46',
-    '\'-\'' => 'r 46',
-    '\'*\'' => 'r 46',
-    '\'/\'' => 'r 46',
-    '\'.\'' => 'r 46',
-    '\':\'' => 'r 46',
-    '\')\'' => 'r 46',
-    '#' => 'r 46',
+    '\'+\'' => 'r 47',
+    '\'-\'' => 'r 47',
+    '\'*\'' => 'r 47',
+    '\'/\'' => 'r 47',
+    '\'.\'' => 'r 47',
+    '\':\'' => 'r 47',
+    '\')\'' => 'r 47',
+    '#' => 'r 47',
   ),
   55 => 
   array (
@@ -562,14 +562,14 @@ var $i = array (
   ),
   56 => 
   array (
-    '\'+\'' => 'r 47',
-    '\'-\'' => 'r 47',
-    '\'*\'' => 'r 47',
-    '\'/\'' => 'r 47',
-    '\'.\'' => 'r 47',
-    '\':\'' => 'r 47',
-    '\')\'' => 'r 47',
-    '#' => 'r 47',
+    '\'+\'' => 'r 48',
+    '\'-\'' => 'r 48',
+    '\'*\'' => 'r 48',
+    '\'/\'' => 'r 48',
+    '\'.\'' => 'r 48',
+    '\':\'' => 'r 48',
+    '\')\'' => 'r 48',
+    '#' => 'r 48',
   ),
   57 => 
   array (
@@ -593,19 +593,19 @@ var $i = array (
   ),
   59 => 
   array (
-    '\'/\'' => 'r 49',
-    '\'*\'' => 'r 49',
-    '\'-\'' => 'r 49',
-    '\'+\'' => 'r 49',
-    '\'.\'' => 'r 49',
-    '\':\'' => 'r 49',
-    '\')\'' => 'r 49',
-    '#' => 'r 49',
+    '\'/\'' => 'r 50',
+    '\'*\'' => 'r 50',
+    '\'-\'' => 'r 50',
+    '\'+\'' => 'r 50',
+    '\'.\'' => 'r 50',
+    '\':\'' => 'r 50',
+    '\')\'' => 'r 50',
+    '#' => 'r 50',
   ),
   60 => 
   array (
     '\'{\'' => 's 61',
-    '\'/\'' => 's 80',
+    '\'/\'' => 's 84',
     '\'?\'' => 'r 8',
     '\'.\'' => 'r 8',
     '\':\'' => 'r 8',
@@ -615,10 +615,10 @@ var $i = array (
   array (
     'selector' => 's 62',
     'name' => 's 65',
-    'argument' => 's 90',
-    'link' => 's 71',
-    '\'*\'' => 's 72',
-    'function' => 's 89',
+    'argument' => 's 93',
+    'link' => 's 74',
+    '\'*\'' => 's 75',
+    'function' => 's 76',
     'ALIAS' => 'r 13',
     '\'-\'' => 'r 13',
     '\'(\'' => 'r 13',
@@ -642,10 +642,10 @@ var $i = array (
   64 => 
   array (
     'name' => 's 65',
-    'argument' => 's 85',
-    'link' => 's 71',
-    '\'*\'' => 's 72',
-    'function' => 's 89',
+    'argument' => 's 89',
+    'link' => 's 74',
+    '\'*\'' => 's 75',
+    'function' => 's 76',
     'ALIAS' => 'r 13',
     '\'-\'' => 'r 13',
     '\'(\'' => 'r 13',
@@ -658,29 +658,31 @@ var $i = array (
   array (
     '\'-\'' => 's 5',
     '\'(\'' => 's 66',
-    'ALIAS' => 's 73',
-    'LN' => 's 75',
-    '\'+\'' => 'r 36',
-    '\',\'' => 'r 36',
-    '\'}\'' => 'r 36',
-    '\')\'' => 'r 36',
+    'ALIAS' => 's 77',
+    'LN' => 's 79',
+    '\'+\'' => 'r 37',
+    '\',\'' => 'r 37',
+    '\'}\'' => 'r 37',
+    '\')\'' => 'r 37',
   ),
   66 => 
   array (
     'name' => 's 65',
     'function' => 's 67',
     'argument' => 's 69',
-    'link' => 's 71',
-    '\'*\'' => 's 72',
+    'link' => 's 74',
+    '\'*\'' => 's 75',
     'ALIAS' => 'r 13',
     '\'-\'' => 'r 13',
     '\'(\'' => 'r 13',
     'LN' => 'r 13',
+    '\',\'' => 'r 13',
     '\')\'' => 'r 13',
   ),
   67 => 
   array (
     '\')\'' => 's 68',
+    '\',\'' => 'r 40',
   ),
   68 => 
   array (
@@ -693,6 +695,7 @@ var $i = array (
   69 => 
   array (
     '\')\'' => 's 70',
+    '\',\'' => 's 71',
   ),
   70 => 
   array (
@@ -704,13 +707,30 @@ var $i = array (
   ),
   71 => 
   array (
-    '\'+\'' => 'r 37',
-    '\'-\'' => 'r 37',
-    '\',\'' => 'r 37',
-    '\'}\'' => 'r 37',
-    '\')\'' => 'r 37',
+    'name' => 's 65',
+    'argument' => 's 72',
+    'link' => 's 74',
+    '\'*\'' => 's 75',
+    'function' => 's 76',
+    'ALIAS' => 'r 13',
+    '\'-\'' => 'r 13',
+    '\'(\'' => 'r 13',
+    'LN' => 'r 13',
+    '\')\'' => 'r 13',
   ),
   72 => 
+  array (
+    '\')\'' => 's 73',
+  ),
+  73 => 
+  array (
+    '\')\'' => 'r 34',
+    '\'+\'' => 'r 34',
+    '\'-\'' => 'r 34',
+    '\',\'' => 'r 34',
+    '\'}\'' => 'r 34',
+  ),
+  74 => 
   array (
     '\'+\'' => 'r 38',
     '\'-\'' => 'r 38',
@@ -718,38 +738,54 @@ var $i = array (
     '\'}\'' => 'r 38',
     '\')\'' => 'r 38',
   ),
-  73 => 
+  75 => 
   array (
-    'name' => 's 74',
+    '\'+\'' => 'r 39',
+    '\'-\'' => 'r 39',
+    '\',\'' => 'r 39',
+    '\'}\'' => 'r 39',
+    '\')\'' => 'r 39',
+  ),
+  76 => 
+  array (
+    '\'+\'' => 'r 40',
+    '\'-\'' => 'r 40',
+    '\',\'' => 'r 40',
+    '\'}\'' => 'r 40',
+    '\')\'' => 'r 40',
+  ),
+  77 => 
+  array (
+    'name' => 's 78',
     '\'-\'' => 'r 13',
     '\'+\'' => 'r 13',
     '\',\'' => 'r 13',
     '\'}\'' => 'r 13',
     '\')\'' => 'r 13',
   ),
-  74 => 
+  78 => 
   array (
     '\'-\'' => 's 5',
-    '\'+\'' => 'r 40',
-    '\',\'' => 'r 40',
-    '\'}\'' => 'r 40',
-    '\')\'' => 'r 40',
+    '\'+\'' => 'r 41',
+    '\',\'' => 'r 41',
+    '\'}\'' => 'r 41',
+    '\')\'' => 'r 41',
   ),
-  75 => 
+  79 => 
   array (
-    'name' => 's 76',
-    'resourceid' => 's 79',
+    'name' => 's 80',
+    'resourceid' => 's 83',
     '\'/\'' => 'r 13',
     '\'-\'' => 'r 13',
   ),
-  76 => 
+  80 => 
   array (
-    '\'/\'' => 's 77',
+    '\'/\'' => 's 81',
     '\'-\'' => 's 5',
   ),
-  77 => 
+  81 => 
   array (
-    'name' => 's 78',
+    'name' => 's 82',
     '\'-\'' => 'r 13',
     '\'/\'' => 'r 13',
     '\'{\'' => 'r 13',
@@ -758,7 +794,7 @@ var $i = array (
     '\':\'' => 'r 13',
     '#' => 'r 13',
   ),
-  78 => 
+  82 => 
   array (
     '\'-\'' => 's 5',
     '\'/\'' => 'r 9',
@@ -768,15 +804,15 @@ var $i = array (
     '\':\'' => 'r 9',
     '#' => 'r 9',
   ),
-  79 => 
+  83 => 
   array (
-    '\'/\'' => 's 80',
-    '\'.\'' => 's 83',
+    '\'/\'' => 's 84',
+    '\'.\'' => 's 87',
   ),
-  80 => 
+  84 => 
   array (
-    'name' => 's 81',
-    'num' => 's 82',
+    'name' => 's 85',
+    'num' => 's 86',
     '\'-\'' => 'r 13',
     '\'/\'' => 'r 13',
     '\'{\'' => 'r 13',
@@ -785,7 +821,7 @@ var $i = array (
     '\':\'' => 'r 13',
     '#' => 'r 13',
   ),
-  81 => 
+  85 => 
   array (
     '\'-\'' => 's 5',
     '\'/\'' => 'r 10',
@@ -795,7 +831,7 @@ var $i = array (
     '\':\'' => 'r 10',
     '#' => 'r 10',
   ),
-  82 => 
+  86 => 
   array (
     '\'.\'' => 'r 11',
     '\'/\'' => 'r 11',
@@ -804,69 +840,62 @@ var $i = array (
     '\':\'' => 'r 11',
     '#' => 'r 11',
   ),
-  83 => 
+  87 => 
   array (
-    'name' => 's 84',
+    'name' => 's 88',
     '\'-\'' => 'r 13',
     '\'+\'' => 'r 13',
     '\',\'' => 'r 13',
     '\'}\'' => 'r 13',
     '\')\'' => 'r 13',
   ),
-  84 => 
+  88 => 
   array (
     '\'-\'' => 's 5',
-    '\'+\'' => 'r 41',
-    '\',\'' => 'r 41',
-    '\'}\'' => 'r 41',
-    '\')\'' => 'r 41',
+    '\'+\'' => 'r 42',
+    '\',\'' => 'r 42',
+    '\'}\'' => 'r 42',
+    '\')\'' => 'r 42',
   ),
-  85 => 
+  89 => 
   array (
-    'order' => 's 86',
-    '\'+\'' => 's 87',
-    '\'-\'' => 's 88',
+    'order' => 's 90',
+    '\'+\'' => 's 91',
+    '\'-\'' => 's 92',
     '\',\'' => 'r 30',
     '\'}\'' => 'r 30',
   ),
-  86 => 
+  90 => 
   array (
     '\'}\'' => 'r 31',
     '\',\'' => 'r 31',
   ),
-  87 => 
-  array (
-    '\'}\'' => 'r 34',
-    '\',\'' => 'r 34',
-  ),
-  88 => 
+  91 => 
   array (
     '\'}\'' => 'r 35',
     '\',\'' => 'r 35',
   ),
-  89 => 
+  92 => 
   array (
-    '\'+\'' => 'r 39',
-    '\'-\'' => 'r 39',
-    '\',\'' => 'r 39',
-    '\'}\'' => 'r 39',
+    '\'}\'' => 'r 36',
+    '\',\'' => 'r 36',
   ),
-  90 => 
+  93 => 
   array (
-    'order' => 's 91',
-    '\'+\'' => 's 87',
-    '\'-\'' => 's 88',
+    'order' => 's 94',
+    '\'+\'' => 's 91',
+    '\'-\'' => 's 92',
     '\',\'' => 'r 28',
     '\'}\'' => 'r 28',
   ),
-  91 => 
+  94 => 
   array (
     '\',\'' => 'r 29',
     '\'}\'' => 'r 29',
   ),
-  92 => 
+  95 => 
   array (
-    '#' => 'r 50',
+    '#' => 'r 51',
   ),
 );
 function reduce_0_stmt_1($tokens, &$result) {
@@ -973,7 +1002,7 @@ function reduce_12_name_1($tokens, &$result) {
 # (12) name :=  name  '-'  name
 #
 $result = reset($tokens);
- $result = $tokens[0] . $tokens[2]; 
+ $result = $tokens[0] . "-" . $tokens[2]; 
 }
 
 function reduce_13_name_2($tokens, &$result) {
@@ -1148,137 +1177,145 @@ $result = reset($tokens);
  $ff = FunctionFactory::getInstance(); $result = $ff->createFunction($tokens[0], $tokens[2]); 
 }
 
-function reduce_34_order_1($tokens, &$result) {
+function reduce_34_function_3($tokens, &$result) {
 #
-# (34) order :=  '+'
+# (34) function :=  name  '('  argument  ','  argument  ')'
+#
+$result = reset($tokens);
+ $ff = FunctionFactory::getInstance(); $result = $ff->createFunction($tokens[0],$tokens[2],$tokens[4]); 
+}
+
+function reduce_35_order_1($tokens, &$result) {
+#
+# (35) order :=  '+'
 #
 $result = reset($tokens);
  $result = 1; 
 }
 
-function reduce_35_order_2($tokens, &$result) {
+function reduce_36_order_2($tokens, &$result) {
 #
-# (35) order :=  '-'
+# (36) order :=  '-'
 #
 $result = reset($tokens);
  $result = -1; 
 }
 
-function reduce_36_argument_1($tokens, &$result) {
+function reduce_37_argument_1($tokens, &$result) {
 #
-# (36) argument :=  name
+# (37) argument :=  name
 #
 $result = reset($tokens);
  $result = new SPECTQLColumnName($tokens[0]); 
 }
 
-function reduce_37_argument_2($tokens, &$result) {
+function reduce_38_argument_2($tokens, &$result) {
 #
-# (37) argument :=  link
+# (38) argument :=  link
 #
 $result = reset($tokens);
 
 }
 
-function reduce_38_argument_3($tokens, &$result) {
+function reduce_39_argument_3($tokens, &$result) {
 #
-# (38) argument :=  '*'
+# (39) argument :=  '*'
 #
 $result = reset($tokens);
  $result = new SPECTQLWildcard("all"); 
 }
 
-function reduce_39_argument_4($tokens, &$result) {
+function reduce_40_argument_4($tokens, &$result) {
 #
-# (39) argument :=  function
+# (40) argument :=  function
 #
 $result = reset($tokens);
 
 }
 
-function reduce_40_argument_5($tokens, &$result) {
+function reduce_41_argument_5($tokens, &$result) {
 #
-# (40) argument :=  name  ALIAS  name
+# (41) argument :=  name  ALIAS  name
 #
 $result = reset($tokens);
  $result = new SPECTQLColumnName($tokens[2],$tokens[0]); 
 }
 
-function reduce_41_link_1($tokens, &$result) {
+function reduce_42_link_1($tokens, &$result) {
 #
-# (41) link :=  name  LN  resourceid  '.'  name
+# (42) link :=  name  LN  resourceid  '.'  name
 #
 $result = reset($tokens);
  $result = new SPECTQLLink($tokens[0], $tokens[2], $tokens[4]); 
 }
 
-function reduce_42_format_1($tokens, &$result) {
+function reduce_43_format_1($tokens, &$result) {
 #
-# (42) format :=  name
+# (43) format :=  name
 #
 $result = reset($tokens);
  $ff = FormatterFactory::getInstance(); $ff->setFormat($tokens[0]); 
 }
 
-function reduce_43_calc_1($tokens, &$result) {
+function reduce_44_calc_1($tokens, &$result) {
 #
-# (43) calc :=  num
+# (44) calc :=  num
 #
 $result = reset($tokens);
  $result = new SPECTQLCalc($tokens[0]); 
 }
 
-function reduce_44_calc_2($tokens, &$result) {
+function reduce_45_calc_2($tokens, &$result) {
 #
-# (44) calc :=  calc  '+'  calc
+# (45) calc :=  calc  '+'  calc
 #
 $result = reset($tokens);
  $result = $tokens[0]->Plus($tokens[2]); 
 }
 
-function reduce_45_calc_3($tokens, &$result) {
+function reduce_46_calc_3($tokens, &$result) {
 #
-# (45) calc :=  calc  '-'  calc
+# (46) calc :=  calc  '-'  calc
 #
 $result = reset($tokens);
  $result = $tokens[0]->Minus($tokens[2]); 
 }
 
-function reduce_46_calc_4($tokens, &$result) {
+function reduce_47_calc_4($tokens, &$result) {
 #
-# (46) calc :=  calc  '*'  calc
+# (47) calc :=  calc  '*'  calc
 #
 $result = reset($tokens);
  $result = $tokens[0]->Multiply($tokens[2]); 
 }
 
-function reduce_47_calc_5($tokens, &$result) {
+function reduce_48_calc_5($tokens, &$result) {
 #
-# (47) calc :=  calc  '/'  calc
+# (48) calc :=  calc  '/'  calc
 #
 $result = reset($tokens);
  $result = $tokens[0]->Divide($tokens[2]); 
 }
 
-function reduce_48_calc_6($tokens, &$result) {
+function reduce_49_calc_6($tokens, &$result) {
 #
-# (48) calc :=  num  '.'  num
+# (49) calc :=  num  '.'  num
 #
 $result = reset($tokens);
  $result = new SPECTQLCalc((double)($tokens[0] . "." . $tokens[2])); 
 }
 
-function reduce_49_calc_7($tokens, &$result) {
+function reduce_50_calc_7($tokens, &$result) {
 #
-# (49) calc :=  '('  calc  ')'
+# (50) calc :=  '('  calc  ')'
 #
 $result = $tokens[1];
 
 }
 
-function reduce_50_start_1($tokens, &$result) {
+function reduce_51_start_1($tokens, &$result) {
 #
-# (50) 'start' :=  stmt
+# (51) 'start' :=  stmt
 #
 $result = reset($tokens);
 
@@ -1319,23 +1356,24 @@ var $method = array (
   31 => 'reduce_31_selector_4',
   32 => 'reduce_32_function_1',
   33 => 'reduce_33_function_2',
-  34 => 'reduce_34_order_1',
-  35 => 'reduce_35_order_2',
-  36 => 'reduce_36_argument_1',
-  37 => 'reduce_37_argument_2',
-  38 => 'reduce_38_argument_3',
-  39 => 'reduce_39_argument_4',
-  40 => 'reduce_40_argument_5',
-  41 => 'reduce_41_link_1',
-  42 => 'reduce_42_format_1',
-  43 => 'reduce_43_calc_1',
-  44 => 'reduce_44_calc_2',
-  45 => 'reduce_45_calc_3',
-  46 => 'reduce_46_calc_4',
-  47 => 'reduce_47_calc_5',
-  48 => 'reduce_48_calc_6',
-  49 => 'reduce_49_calc_7',
-  50 => 'reduce_50_start_1',
+  34 => 'reduce_34_function_3',
+  35 => 'reduce_35_order_1',
+  36 => 'reduce_36_order_2',
+  37 => 'reduce_37_argument_1',
+  38 => 'reduce_38_argument_2',
+  39 => 'reduce_39_argument_3',
+  40 => 'reduce_40_argument_4',
+  41 => 'reduce_41_argument_5',
+  42 => 'reduce_42_link_1',
+  43 => 'reduce_43_format_1',
+  44 => 'reduce_44_calc_1',
+  45 => 'reduce_45_calc_2',
+  46 => 'reduce_46_calc_3',
+  47 => 'reduce_47_calc_4',
+  48 => 'reduce_48_calc_5',
+  49 => 'reduce_49_calc_6',
+  50 => 'reduce_50_calc_7',
+  51 => 'reduce_51_start_1',
 );
 var $a = array (
   0 => 
@@ -1544,8 +1582,8 @@ var $a = array (
   ),
   34 => 
   array (
-    'symbol' => 'order',
-    'len' => 1,
+    'symbol' => 'function',
+    'len' => 6,
     'replace' => true,
   ),
   35 => 
@@ -1556,7 +1594,7 @@ var $a = array (
   ),
   36 => 
   array (
-    'symbol' => 'argument',
+    'symbol' => 'order',
     'len' => 1,
     'replace' => true,
   ),
@@ -1581,31 +1619,31 @@ var $a = array (
   40 => 
   array (
     'symbol' => 'argument',
-    'len' => 3,
+    'len' => 1,
     'replace' => true,
   ),
   41 => 
+  array (
+    'symbol' => 'argument',
+    'len' => 3,
+    'replace' => true,
+  ),
+  42 => 
   array (
     'symbol' => 'link',
     'len' => 5,
     'replace' => true,
   ),
-  42 => 
-  array (
-    'symbol' => 'format',
-    'len' => 1,
-    'replace' => true,
-  ),
   43 => 
   array (
-    'symbol' => 'calc',
+    'symbol' => 'format',
     'len' => 1,
     'replace' => true,
   ),
   44 => 
   array (
     'symbol' => 'calc',
-    'len' => 3,
+    'len' => 1,
     'replace' => true,
   ),
   45 => 
@@ -1639,6 +1677,12 @@ var $a = array (
     'replace' => true,
   ),
   50 => 
+  array (
+    'symbol' => 'calc',
+    'len' => 3,
+    'replace' => true,
+  ),
+  51 => 
   array (
     'symbol' => '\'start\'',
     'len' => 1,

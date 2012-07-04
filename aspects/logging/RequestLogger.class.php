@@ -20,7 +20,7 @@ class RequestLogger{
         $URI = RequestURI::getInstance();
         
         $request = R::dispense('requests');
-        $format = $URI->getGivenFormat();
+        $format = $ff->getFormat();
 
         $ip = RequestLogger::getIpAddress();
         $request->ip = $ip;

@@ -151,7 +151,7 @@ class CUDController extends AController {
         }
         
         $model = ResourcesModel::getInstance();
-        
+
         $model->createResource($package, $resource, $_PUT, $RESTparameters);
         header("Content-Location: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/". $resource);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
@@ -247,6 +247,7 @@ class CUDController extends AController {
      * POST is currently used to create ontology's
      */
     public function POST($matches) {
+
          //both package and resource set?
         if (!isset($matches["package"]) || !isset($matches["resource"])) {
             throw new ParameterTDTException("package/resource not set");
@@ -259,6 +260,7 @@ class CUDController extends AController {
         }
         $package = trim($matches["package"]);
         $resource = trim($matches["resource"]);
+
          $RESTparameters = array();
         if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
             $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));

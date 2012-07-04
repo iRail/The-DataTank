@@ -303,8 +303,8 @@ class CSV extends ATabularData {
                     
                     if(empty($this->columns)){                        
                         for ($i = 0; $i < sizeof($line); $i++){
-                            $fieldhash[$line[$i]] = $i;
-                            $this->columns[$i] = $line[$i];
+                            $fieldhash[trim($line[$i])] = $i;
+                            $this->columns[$i] = trim($line[$i]);
                         }
                     }
                 }else{
