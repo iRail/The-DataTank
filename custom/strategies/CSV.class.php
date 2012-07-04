@@ -173,6 +173,7 @@ class CSV extends ATabularData {
                         $fieldhash[$data[$i]] = $i;
                 }
             } else {
+
                 $rowobject = new stdClass();
                 $keys = array_keys($fieldhash);
 
@@ -204,22 +205,6 @@ class CSV extends ATabularData {
             }
         }
         return $arrayOfRowObjects;
-    }    
-
-    private function csv_to_array($csv, $delimiter = ',', $enclosure = '"', $escape = '\\', $terminator = "\n") { 
-        $r = array(); 
-        $rows = explode($terminator,trim($csv));
-        $names = array_shift($rows); 
-        $names = str_getcsv($names,$delimiter,$enclosure,$escape); 
-        $nc = count($names); 
-        foreach ($rows as $row) { 
-            if (trim($row)) { 
-                $values = str_getcsv($row,$delimiter,$enclosure,$escape); 
-                if (!$values) $values = array_fill(0,$nc,null); 
-                $r[] = array_combine($names,$values); 
-            } 
-        } 
-        return $r; 
     }
 
     /**
