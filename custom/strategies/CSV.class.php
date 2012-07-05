@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt
  */
 include_once("custom/strategies/ATabularData.class.php");
-//include_once("aspects/logging/BacklogLogger.class.php");
+include_once("aspects/logging/BacklogLogger.class.php");
 
 class CSV extends ATabularData {
 
