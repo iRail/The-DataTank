@@ -1,0 +1,143 @@
+%class SQLgrammar
+%start filterresult
+
+filterresult = selectfromstatement {$$ = $1;/*TODO*/}
+             | unionstatement {$$ = $1;/*TODO*/}
+             .
+
+unionstatement = expression/expr1 UNION expression/expr2 {$$ = null;/*TODO*/}
+               .
+
+selectfromstatement = SELECT uniquefilter/distinct tablelist/selecttables FROM expression/fromtable wherefilter/where groupfilter/groupby 
+                        {// 1) fromtables
+                         // 2) wherefilter (if defined)
+                         // 3) groupbyfilter (if defined)
+                         // 4) selecttables
+                         // 5) distinctfilter (if defined)
+                        
+                        $totalfilter=$fromtable;
+                        $totalfilter=putFilterAfterIfExists($totalfilter, $where);
+                        $totalfilter=putFilterAfterIfExists($totalfilter, $groupby);
+                        $totalfilter=putFilterAfterIfExists($totalfilter, new ColumnSelectionFilter($selecttables));
+                        $totalfilter=putFilterAfterIfExists($totalfilter, $distinct);
+                        
+                        $$=$totalfilter;}
+                    .
+
+uniquefilter = DISTINCT {$$ = new DistinctFilter();}
+             | {$$ = null;}
+             . 
+
+wherefilter = WHERE expression/expr {$$ = new FilterByExpression($expr);}
+            | {$$ = null;}
+            .
+
+groupfilter = GROUP BY identifierlist/groupFields havingfiler/having 
+                   {$$ = putFilterAfterIfExists(new DataGrouper($groupFields), $having);}
+           |  {$$ = null;}
+           .
+
+havingfilter = HAVING expression/expr {$$ = new FilterByExpression($expr);}
+             | {$$ = null;}
+             .
+
+
+
+
+tablelist = '*' {$$ = array(ColumnSelectionFilter::$KEY_ALL);}
+          | listoftables {$$ = $1;}
+          .
+
+listoftables = expression/expr {$$ = array($expr);}
+          | expression/expr ',' tablelist/arr {array_unshift($arr, $expr);$$ = $arr;}
+          .
+          
+constantlist = constant {$$ = array(new Constant($1));}
+             | constant ',' constantlist/arr {array_unshift($arr, $1);$$ = $arr;}
+             .
+
+
+
+
+expression = expressionA  {$$ = $1;}
+           | expressionA/a BETWEEN expressionA/b AND expressionA/c 
+                 {$$ = new TertairyFunction(TertairyFunction::$FUNCTION_TERTIARY_BETWEEN, $a, $b, $c);}
+           | IN '(' constantlist/constantlist ')' 
+                 {$$ = new CheckInFunction($constantlist);}
+           | expressionA/a INNER JOIN expressionA/b ON expressionA/c
+                 {$$ = null;/*TODO*/}
+           | expressionA/a LEFT JOIN expressionA/b ON expressionA/c 
+                 {$$ = null;/*TODO*/}
+           | expressionA/a RIGHT JOIN expressionA/b ON expressionA/c 
+                 {$$ = null;/*TODO*/}
+           | expressionA/a FULL JOIN expressionA/b ON expressionA/c 
+                 {$$ = null;/*TODO*/}
+           | expressionA/expr LIKE likeexpression/likeexpr
+                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_UNAIRY_MATCH_REGEX, $expr, convertRegexFromSQLToUniversal($likeexpr));}
+           .
+            
+expressionA = expressionB/a OR expressionA/b 
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR, $a, $b);}
+            | expressionB {$$ = $1;}
+            .
+            
+expressionB = expressionC/a AND expressionB/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, $a, $b);}
+            | expressionC {$$ = $1;}
+            .
+            
+expressionC = expressionD/a '=' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL, $a, $b);}
+            | expressionD/a '<' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, $a, $b);}
+            | expressionD/a '>' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, $a, $b);}
+            | expressionD/a '<' '=' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $b);}
+            | expressionD/a '>' '=' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, $a, $b);}
+            | expressionD/a '<' '>' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
+            | expressionD
+                {$$ = $1;}
+            .
+
+expressionD = expressionE/a '+' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $a, $b);}
+            | expressionE/a '-' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $a, $b);}
+            | expressionE
+                {$$ = $1;}
+            .
+
+expressionE = expressionF/a '*' expressionE/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $a, $b);}
+            | expressionF/a '/' expressionE/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $a, $b);}
+            | expressionF 
+                {$$ = $1;}
+            .
+
+expressionF = endexpression {$$ = $1;}
+            .
+
+endexpression = identifier 
+                {$$ = new Identifier($1);}
+            | '(' statement/stat ')' 
+                {$$ = $stat;}
+            | constant 
+                {$$ = new Constant($1);}
+            | identifier/functid '(' statement/arg1 ')' 
+                {$$ = getUnaryFilterForSQLFunction($functid, $arg1);}
+            | identifier/functid '(' statement/arg1 ',' statement/arg2 ')' {$$ = null;}
+                {$$ = getBinaryFunctionForSQLFunction($functid, $arg1, $arg2);}
+            | identifier/functid '(' statement/arg1 ',' statement/arg2 ',' statement/arg3 ')'
+                {$$ =getTertairyFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);}
+            .
+
+likeexpression = constant {$$ = new Constant($1);}
+               .
+
+identifierlist = identifier {$$ = array(new Identifier($1));}
+               | identifier ',' identifierlist/arr {$$ = array_unshift($arr, $1);}
+               .

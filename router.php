@@ -17,6 +17,7 @@ include_once('aspects/errors/system/Exceptions.php');
 include_once('aspects/logging/ErrorLogger.class.php');
 include_once('controllers/AController.class.php');
 include_once('controllers/RController.class.php');
+include_once('controllers/SQLController.class.php');
 include_once('controllers/SPECTQLController.class.php');
 include_once('controllers/SPECTQLIndex.class.php');
 include_once('controllers/CUDController.class.php');
@@ -58,6 +59,8 @@ $urls = array(
     '/spectql/?' => 'SPECTQLIndex',
     //When a call is done to the TDTQL end-point, forward it to the TDTQLController
     '/spectql(?P<query>/.*)' => 'SPECTQLController',
+    
+    '/sql/(?P<query>.*)' => 'SQLController',
 
 
     // Calling the Read- controller
