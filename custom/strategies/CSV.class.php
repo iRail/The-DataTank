@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt
  */
 include_once("custom/strategies/ATabularData.class.php");
-//include_once("aspects/logging/BacklogLogger.class.php");
+include_once("aspects/logging/BacklogLogger.class.php");
 
 class CSV extends ATabularData {
 
@@ -66,7 +66,7 @@ class CSV extends ATabularData {
      */
     public function read(&$configObject,$package,$resource){
         /*
-         * First retrieve the values for the generic fields of the CSV logic
+         * First retrieve the values for the generic fields of the CSV logic.
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
@@ -110,7 +110,7 @@ class CSV extends ATabularData {
             }
             fclose($handle);
         }
-        
+
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
@@ -187,7 +187,7 @@ class CSV extends ATabularData {
                     }
                 }
 
-                if ($PK == "") {
+                if ($PK == ""){
                     array_push($arrayOfRowObjects, $rowobject);
                 } else {
                     if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
