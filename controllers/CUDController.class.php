@@ -134,6 +134,7 @@ class CUDController extends AController {
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }
+
         $package = $matches["package"];
         $resource = $matches["resource"];
         $RESTparameters = array();

@@ -66,7 +66,7 @@ class CSV extends ATabularData {
      */
     public function read(&$configObject,$package,$resource){
         /*
-         * First retrieve the values for the generic fields of the CSV logic
+         * First retrieve the values for the generic fields of the CSV logic.
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
@@ -98,13 +98,25 @@ class CSV extends ATabularData {
             throw new CouldNotGetDataTDTException($filename);
         }
 
-        $csv = utf8_encode($request->data);
-        $rows = str_getcsv($csv, "\n");
+        $rows = array();
+        if (($handle = fopen($filename, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+                $num = count($data);
+                $csvRow = "";
+                for ($c=0; $c < $num; $c++) {
+                    $csvRow = $csvRow . $delimiter . $this->enclose($data[$c]);
+                }
+                array_push($rows,ltrim($csvRow,$delimiter));
+            }
+            fclose($handle);
+        }
+
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
         }
-
+        
+        
         $fieldhash = array();
         /**
          * loop through each row, and fill the fieldhash with the column names
@@ -119,13 +131,13 @@ class CSV extends ATabularData {
         }
 
         $line = 0;
+        
         foreach ($rows as $row => $fields) {
             $line++;
-            
-            $data = str_getcsv($fields, $delimiter, '"');
+            $data = str_getcsv($fields, $delimiter,'"');
                 
             // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
-            if(count($data)<=1){
+            if(count($data)<=1 && $row == ""){
                 throw new ReadTDTException("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter.");
             }
             
@@ -143,7 +155,9 @@ class CSV extends ATabularData {
                     }                    
                 }else if(count($data) > count($columns)){
                     $line+= $start_row;
-                    throw new ReadTDTException("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used. Line number of the error: $line.");
+                    $amountOfElements = count($data);
+                    $amountOfColumns = count($columns);
+                    throw new ReadTDTException("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used. Line number of the error: $line. amount of columns - elements : $amountOfColumns - $amountOfElements.");
                 }
             }
 
@@ -159,6 +173,7 @@ class CSV extends ATabularData {
                         $fieldhash[$data[$i]] = $i;
                 }
             } else {
+
                 $rowobject = new stdClass();
                 $keys = array_keys($fieldhash);
 
@@ -172,7 +187,7 @@ class CSV extends ATabularData {
                     }
                 }
 
-                if ($PK == "") {
+                if ($PK == ""){
                     array_push($arrayOfRowObjects, $rowobject);
                 } else {
                     if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
@@ -190,7 +205,17 @@ class CSV extends ATabularData {
             }
         }
         return $arrayOfRowObjects;
-    }    
+    }
+
+    /**
+     * encloses the $element in double quotes
+     */
+    private function enclose($element){
+        $element = rtrim($element, '"');
+        $element = ltrim($element, '"');
+        $element = '"'.$element.'"';
+        return $element;
+    }
 
     protected function isValid($package_id,$generic_resource_id) {
 
@@ -251,11 +276,14 @@ class CSV extends ATabularData {
                     $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $this->delimiter,'"');
                     $commentlinecounter++;
                 }
-
+                $index = 0;
+                
                 if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter,'"')) !== FALSE) {
                     // if no column aliases have been passed, then fill the columns variable 
+                    $index++;
+                    
                     if(count($line) <= 1){
-                        throw new ResourceAdditionTDTException("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter.");
+                        throw new ResourceAdditionTDTException("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter. On line $index.");
                     }
                     
                     if(empty($this->columns)){                        

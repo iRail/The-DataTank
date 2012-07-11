@@ -9,7 +9,7 @@
 
 /**
  * This class inherits from the abstract Formatter. It will return our resultobject into a
- * json datastructure.
+ * csv datastructure.
  */
 class CsvFormatter extends AFormatter{
      
@@ -21,6 +21,16 @@ class CsvFormatter extends AFormatter{
 	  header("Access-Control-Allow-Origin: *");
 	  header("Content-Type: text/csv;charset=UTF-8");	  	  
      }
+
+     /**
+     * encloses the $element in double quotes
+     */
+    private function enclose($element){
+        $element = rtrim($element, '"');
+        $element = ltrim($element, '"');
+        $element = '"'.$element.'"';
+        return $element;
+    }
 
      public function printBody(){
          $keys = array_keys(get_object_vars($this->objectToPrint));
@@ -39,7 +49,14 @@ class CsvFormatter extends AFormatter{
                  $headerrow = array_keys($this->objectToPrint[0]);
              }
 
-             echo implode(";",$headerrow);
+             // we're going to enclose all of our fields in double quotes
+             $enclosedHeaderrow = array();
+
+             foreach($headerrow as $element){
+                 array_push($enclosedHeaderrow,$this->enclose($element));
+             }
+
+             echo implode(";",$enclosedHeaderrow);
              echo "\n";
              
              foreach($this->objectToPrint as $row){
@@ -68,7 +85,7 @@ class CsvFormatter extends AFormatter{
                          }
                      }
                      else{
-                         echo $element;
+                         echo '"' . $element . '"';
                      }
                      echo sizeof($row)-1 != $i ? ";" : "\n";   
                      $i++;

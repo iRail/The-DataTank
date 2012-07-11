@@ -136,11 +136,11 @@ class ResourcesModel {
 
             $restype = $parameters["resource_type"];
 
-//now check if the file exist and include it
+            //now check if the file exist and include it
             if (!in_array($restype, array("generic", "remote"))) {
                 throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
             }
-// get the documentation containing information about the required parameters
+            // get the documentation containing information about the required parameters
             $doc = $this->getAllAdminDoc();
 
             /**
@@ -161,7 +161,7 @@ class ResourcesModel {
             }
 
             /**
-             * Check if all required parameters are being passed
+             * Check if all required parameters are being 
              */
             foreach ($resourceCreationDoc->requiredparameters as $key) {
                 if (!isset($parameters[$key])) {
@@ -169,27 +169,27 @@ class ResourcesModel {
                 }
             }
 
-//now check if there are nonexistent parameters given
+            //now check if there are nonexistent parameters given
             foreach (array_keys($parameters) as $key) {
                 if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
                     throw new ParameterDoesntExistTDTException($key);
                 }
             }
 
-// all is well, let's create that resource!
+            // all is well, let's create that resource!
             $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
             try {
-//first check if there resource exists yet
+                //first check if there resource exists yet
                 if ($this->hasResource($package, $resource)) {
-//If it exists, delete it first and continue adding it.
-//It could be that because errors occured after the addition, that
-//the documentation reset in the CUDController isn't up to date anymore
-//This will result in a hasResource() returning true and deleteResource returning false (error)
-//This is our queue to reset the documentation.
+                    //If it exists, delete it first and continue adding it.
+                    //It could be that because errors occured after the addition, that
+                    //the documentation reset in the CUDController isn't up to date anymore
+                    //This will result in a hasResource() returning true and deleteResource returning false (error)
+                    //This is our queue to reset the documentation.
                     try {
                         $this->deleteResource($package, $resource, $RESTparameters);
                     } catch (Exception $ex) {
-//Clear the documentation in our cache for it has changed        
+                        //Clear the documentation in our cache for it has changed        
                         $c = Cache::getInstance();
                         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
                         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
@@ -197,7 +197,7 @@ class ResourcesModel {
                     }
                 }
             } catch (Exception $ex) {
-//Clear the documentation in our cache for it has changed        
+                //Clear the documentation in our cache for it has changed        
                 $c = Cache::getInstance();
                 $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
                 $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
@@ -206,7 +206,7 @@ class ResourcesModel {
             }
             $creator->create();
         } else {
-// all is well, let's create that ontology!
+            // all is well, let's create that ontology!
             $creator = $this->factories["ontology"]->createCreator($package, $resource, $parameters, $RESTparameters);
             $creator->create();
         }

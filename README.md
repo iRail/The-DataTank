@@ -1,3 +1,7 @@
+# Installation
+
+Currently our wiki is virtually down, it's physically still up, but there have been some authorization problems, and most of our content is unreachable. A how-to-get-started will be soon released on this page, either in this readme.md or in a separate file in the filestructure. The timeframe for this is july 2012.
+
 # FlatTurtle bvba#
 
 FlatTurtle creates APIs for your office building. Your office needs to keep in touch with real-time data surrounding the building: menu's, opening hours, traffic information, weather forecast, car parkings, train delays, expected arrival hours of airplanes, and so on.
