@@ -22,16 +22,13 @@ class TDTInfoPackages extends AReader{
     }
     
     public function read(){
-        $resmod = ResourcesModel::getInstance();
+	$resmod = ResourcesModel::getInstance();
         $doc = $resmod->getAllPackagesDoc();
-        return $doc;
+	return $doc;
     }
     
     public static function getDoc(){
 	return "This resource contains every package installed on this DataTank instance.";
     }
-    
-
 }
-
 ?>

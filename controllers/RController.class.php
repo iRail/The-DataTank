@@ -21,9 +21,15 @@ class RController extends AController {
 
     function GET($matches) {
 
+        $c = Cache::getInstance();
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+
         //always required: a package and a resource. 
-        $package = trim($matches['package']);
-        $resourcename = trim($matches['resource']);
+        $packageresourcestring = $matches["packageresourcestring"];
+        $pieces = explode("/",$packageresourcestring);
+        $package = array_shift($pieces);
         
         /**
          * GET operations on TDTAdmin need to be authenticated!
@@ -37,18 +43,60 @@ class RController extends AController {
                 exit();
             }
         }
+        
+        //Get an instance of our resourcesmodel
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
 
+        
+        /**
+         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * ResourcesModel class -> funcion isResourceValid()
+         */
+        $foundPackage = FALSE;
+        $resourcename ="";
+        $reqparamsstring ="";
+
+        if(!isset($doc->$package)){
+            while(!empty($pieces)){
+                $package .= "/".array_shift($pieces);
+                if(isset($doc->$package)){
+                    $foundPackage = TRUE;
+                    $resourcename = array_shift($pieces);
+                    $reqparamsstring = implode("/",$pieces);
+                }
+            }
+        }else{
+            $foundPackage = TRUE;
+            $resourcename = array_shift($pieces);
+            $reqparamsstring = implode("/",$pieces);
+        }
+
+        $RESTparameters = array();
+        $RESTparameters = explode("/",$reqparamsstring);
+        if($RESTparameters[0] == ""){
+            $RESTparameters = array();
+        }
+
+        if(!$foundPackage){
+            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+        }
+        
+        
         /**
          * If there is only a package passed, pass along a list of its resources
          */
 
+        /*
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
         /**
          * If the resourcename isn't provided then provide a list of resources
          * that this package contains.
-         */
+         *HEAD */
+
 
         if ($resourcename == "") {
             if (isset($doc->$package)) {
@@ -74,7 +122,7 @@ class RController extends AController {
             }
             exit();
         }
-        
+       
         /**
          * At this stage a package and a resource have been passed, lets check if they exists, and if so lets call the read()
          * action and return the result.
@@ -85,12 +133,6 @@ class RController extends AController {
         
         if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
             throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");
-        }        
-
-        // get the RESTful parameters from the request
-        $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
 
         $parameters = $_GET;        
@@ -108,7 +150,7 @@ class RController extends AController {
        
         
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
-        
+
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
@@ -149,6 +191,7 @@ class RController extends AController {
         } else {
             $RESTresource = $resourcename;
         }
+
         $o->$RESTresource = $result;
         $result = $o;
         
@@ -164,8 +207,51 @@ class RController extends AController {
 
     public function HEAD($matches){
         //always required: a package and a resource. 
-        $package = trim($matches['package']);
-        $resourcename = trim($matches['resource']);
+        /*HEAD$package = trim($matches['package']);
+          $resourcename = trim($matches['resource']);HEAD*/
+
+
+        //always required: a package and a resource. 
+        $packageresourcestring = $matches["packageresourcestring"];
+        $pieces = explode("/",$packageresourcestring);       
+        $package = array_shift($pieces);
+
+        /**
+         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * ResourcesModel class -> funcion isResourceValid()
+         */
+        $foundPackage = FALSE;
+        $resourcename ="";
+        $reqparamsstring ="";
+
+        if(!isset($doc->$package)){
+            while(!empty($pieces)){
+                $package .= "/".array_shift($pieces);
+                if(isset($doc->$package)){
+                    $foundPackage = TRUE;
+                    $resourcename = array_shift($pieces);
+                    $reqparamsstring = implode("/",$pieces);
+                }
+            }
+        }else{
+            $foundPackage = TRUE;
+            $resourcename = array_shift($pieces);
+            $reqparamsstring = implode("/",$pieces);
+            break;
+        }
+
+        $RESTparameters = array();
+        $RESTparameters = explode("/",$reqparamsstring);
+        if($RESTparameters[0] == ""){
+            $RESTparameters = array();
+        }
+
+
+        if(!$foundPackage){
+            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+        }
+
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
@@ -177,14 +263,8 @@ class RController extends AController {
         
         if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
             throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");
-        }        
-
-        // get the RESTful parameters from the request
-        $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
         }
-
+       
         $parameters = $_GET;
             
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
@@ -246,7 +326,7 @@ class RController extends AController {
         }
         $o->$RESTresource = $result;
         $result = $o;
-        
+
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
