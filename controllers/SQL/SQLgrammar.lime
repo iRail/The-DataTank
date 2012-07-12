@@ -1,6 +1,12 @@
 %class SQLgrammar
 %start filterresult
 
+statement = filterresult
+                {$$ = $1;}
+            | expression
+                {$$ = $1;}
+            .
+
 filterresult = selectfromstatement {$$ = $1;/*TODO*/}
              | unionstatement {$$ = $1;/*TODO*/}
              .
@@ -8,17 +14,17 @@ filterresult = selectfromstatement {$$ = $1;/*TODO*/}
 unionstatement = expression/expr1 UNION expression/expr2 {$$ = null;/*TODO*/}
                .
 
-selectfromstatement = SELECT uniquefilter/distinct tablelist/selecttables FROM expression/fromtable wherefilter/where groupfilter/groupby 
+selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM expression/fromtable wherefilter/where groupfilter/groupby 
                         {// 1) fromtables
                          // 2) wherefilter (if defined)
                          // 3) groupbyfilter (if defined)
-                         // 4) selecttables
+                         // 4) selecttables (if not '*')
                          // 5) distinctfilter (if defined)
                         
                         $totalfilter=$fromtable;
                         $totalfilter=putFilterAfterIfExists($totalfilter, $where);
                         $totalfilter=putFilterAfterIfExists($totalfilter, $groupby);
-                        $totalfilter=putFilterAfterIfExists($totalfilter, new ColumnSelectionFilter($selecttables));
+                        $totalfilter=putFilterAfterIfExists($totalfilter, $selecttables);
                         $totalfilter=putFilterAfterIfExists($totalfilter, $distinct);
                         
                         $$=$totalfilter;}
@@ -28,7 +34,7 @@ uniquefilter = DISTINCT {$$ = new DistinctFilter();}
              | {$$ = null;}
              . 
 
-wherefilter = WHERE expression/expr {$$ = new FilterByExpression($expr);}
+wherefilter = WHERE expression/expr {$$ = new FilterByExpressionFilter($expr);}
             | {$$ = null;}
             .
 
@@ -44,18 +50,25 @@ havingfilter = HAVING expression/expr {$$ = new FilterByExpression($expr);}
 
 
 
-tablelist = '*' {$$ = array(ColumnSelectionFilter::$KEY_ALL);}
-          | listoftables {$$ = $1;}
+selecttablelist = '*' {$$ = null;}
+          | listoftables {$$ = new ColumnSelectionFilter($1);}
           .
 
-listoftables = expression/expr {$$ = array($expr);}
-          | expression/expr ',' tablelist/arr {array_unshift($arr, $expr);$$ = $arr;}
+listoftables = expression/expr 
+                {$$ = array(new ColumnSelectionFilterColumn($expr, null));}
+          | expression/expr asopt identifier/alias 
+                {$$ = array(new ColumnSelectionFilterColumn($expr, $alias));}
+          | expression/expr ',' listoftables/arr 
+                {array_unshift($arr, new ColumnSelectionFilterColumn($expr, null));$$ = $arr;}
+          | expression/expr asopt identifier/alias ',' listoftables/arr 
+                {array_unshift($arr, new ColumnSelectionFilterColumn($expr, $alias));$$ = $arr;}
           .
           
 constantlist = constant {$$ = array(new Constant($1));}
              | constant ',' constantlist/arr {array_unshift($arr, $1);$$ = $arr;}
              .
 
+asopt = AS | .
 
 
 
@@ -129,7 +142,7 @@ endexpression = identifier
                 {$$ = new Constant($1);}
             | identifier/functid '(' statement/arg1 ')' 
                 {$$ = getUnaryFilterForSQLFunction($functid, $arg1);}
-            | identifier/functid '(' statement/arg1 ',' statement/arg2 ')' {$$ = null;}
+            | identifier/functid '(' statement/arg1 ',' statement/arg2 ')'
                 {$$ = getBinaryFunctionForSQLFunction($functid, $arg1, $arg2);}
             | identifier/functid '(' statement/arg1 ',' statement/arg2 ',' statement/arg3 ')'
                 {$$ =getTertairyFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);}

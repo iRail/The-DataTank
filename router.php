@@ -60,7 +60,7 @@ $urls = array(
     //When a call is done to the TDTQL end-point, forward it to the TDTQLController
     '/spectql(?P<query>/.*)' => 'SPECTQLController',
     
-    '/sql/(?P<query>.*)' => 'SQLController',
+    '/sql\.(?P<format>[^?]+)\?query=(?P<query>.*)' => 'SQLController',
 
 
     // Calling the Read- controller

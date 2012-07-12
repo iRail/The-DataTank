@@ -2,7 +2,7 @@
 /**
  * This file contains an uniform representation of a query tree
  *
- * @package The-Datatank/controllers/SQL
+ * @package The-Datatank/universalfilter
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
@@ -31,7 +31,7 @@ class UniversalFilterNode {
  * format: 
  * - package.package.resource
  * - package.package.resource.name_of_column
- * - alias
+ * - alias.name_of_column
  */
 class Identifier extends UniversalFilterNode {
     private $value;//type:String
@@ -42,7 +42,7 @@ class Identifier extends UniversalFilterNode {
     }
     
     public function getIdentifierString() {
-        return $value;
+        return $this->value;
     }
 }
 
@@ -59,7 +59,7 @@ class Constant extends UniversalFilterNode {
     }
     
     public function getConstant() {
-        return $constant;
+        return $this->constant;
     }
 }
 
@@ -75,6 +75,27 @@ class NormalFilterNode extends UniversalFilterNode {
     public function setSource(UniversalFilterNode $source){
         $this->source=$source;
     }
+    
+    public function getSource(){
+        return $this->source;
+    }
+}
+
+/**
+ * Represents an alias
+ * Has a source and 
+ */
+class TableAliasFilter extends NormalFilterNode {
+    private $alias;//type:String
+    
+    public function __construct($alias) {
+        parent::__construct("TABLEALIAS");
+        $this->alias=$alias;
+    }
+    
+    public function getConstant() {
+        return $constant;
+    }
 }
 
 /**
@@ -86,7 +107,7 @@ class NormalFilterNode extends UniversalFilterNode {
  *
  * aka "WHERE" or "HAVING"
  */
-class FilterByExpression extends NormalFilterNode{
+class FilterByExpressionFilter extends NormalFilterNode{
     private $expression;//type:UniversalFilterNode
     
     public function __construct(UniversalFilterNode $expression) {
@@ -107,23 +128,42 @@ class FilterByExpression extends NormalFilterNode{
  *
  * As a result, the resulting table is never grouped.
  * 
+ * Table aliases will be removed when executing this filter
+ * 
  * type: Table -> Table
  * type: GroupedTable -> Table
  *
  * aka "SELECT"
  */
 class ColumnSelectionFilter extends NormalFilterNode {
-    public static $KEY_ALL="*";
-    
-    private $columndata;//type:Array[UniversalFilterNode]
-    
-    public function __construct(array $columndata) {
+    private $columndata;//type:Array[ColumnSelectionFilterColumn]
+
+    public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata) {
         parent::__construct("FILTERCOLUMN");
         $this->columndata=$columndata;
     }
     
     public function getColumnData(){
         return $this->columndata;
+    }
+}
+
+/** Represents a column used in the ColumnSelectionFilter */
+class ColumnSelectionFilterColumn {
+    private $column;//type:UniversalFilterNode
+    private $alias;//type:String (can be null)
+
+    public function __construct(UniversalFilterNode $column, $alias) {
+        $this->column=$column;
+        $this->alias=$alias;
+    }
+    
+    public function getColumn(){
+        return $this->column;
+    }
+    
+    public function getAlias(){
+        return $this->alias;
     }
 }
 
@@ -199,7 +239,7 @@ class UnairyFunction extends ExpressionNode {
     public static $FUNCTION_UNAIRY_ISNULL="FUNCTION_UNAIRY_ISNULL";
     
     public function __construct($kind, UniversalFilterNode $column) {
-        parent::__construct(getKind());
+        parent::__construct($kind);
         $this->column=$column;
     }
     

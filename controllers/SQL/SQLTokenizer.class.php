@@ -17,7 +17,7 @@ class SQLTokenizer{
     
     /* parsing: special chars */
     private static $specialchars=array('\n', '\r', ' ', '\t', 
-        ')', '(', '+', '-', '*', '/', '\'', ',');//todo < >, ...
+        ')', '(', '+', '-', '*', '/', ',', '=', '<', '>');//todo < >, ...
     private static $whitespacechars=array('\n', '\r', ' ', '\t');
     
     /* parsing: tool-functions 
@@ -56,14 +56,17 @@ class SQLTokenizer{
         $char=SQLTokenizer::readCharOrFail($querystring, $index);//read at least one char
         $str="";
         if($char=="'"){// string constant
+            $str=$str.$char;
+            $char=SQLTokenizer::readCharOrFail($querystring, $index);
+            
             $escaped=false;
             while($escaped || $char!="'"){
                 $escaped=false;
                 $str=$str.$char;
-                $char=readCharOrFail($querystring, $index);
+                $char=SQLTokenizer::readCharOrFail($querystring, $index);
                 if($char=='\\'){
                     $escaped=true;
-                    $char=readCharOrFail($querystring, $index);
+                    $char=SQLTokenizer::readCharOrFail($querystring, $index);
                 }
             }
             $str=$str.$char;
@@ -100,7 +103,7 @@ class SQLTokenizer{
                 }
             }
         }
-        var_dump($this->tokens);
+        //var_dump($this->tokens);
     }
     
     public function hasNext(){

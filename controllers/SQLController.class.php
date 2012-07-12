@@ -12,6 +12,13 @@ include_once("controllers/sql/SQLParser.class.php");
 include_once("model/ResourcesModel.class.php");
 include_once("model/DBQueries.class.php");
 
+
+//debug
+include_once("universalfilter/interpreter/UniversalInterpreter.php");
+include_once("universalfilter/tablemanager/UniversalFilterTableManager.class.php");
+
+include_once("universalfilter/tablemanager/tools/TableToPhpObjectConverter.class.php");
+
 class SQLController extends AController {
 
     /**
@@ -19,24 +26,53 @@ class SQLController extends AController {
      * 
      */
     function GET($matches) {
+        //query
         $query = "/";
+        $format = $matches["format"];
         if(isset($matches["query"])){
             $query = $matches["query"];
         }else{
             throw new Exception("No query given");
         }
         $parser = new SQLParser($query);
-
+        
         $result = $parser->interpret();
-        var_dump($result);
+        
+//        var_dump($result);
+        
+//        echo "<br/>";
+//        echo "-end parser- -start interpreter- ";
+//        echo "<br/>";
+        
+        
+        $interpreter=new UniversalInterpreter();
+        $executer = $interpreter->findExecuterFor($result);
+        $env = $executer->execute($result, $interpreter);
+        
+//        echo "<br/>";
+//        echo "-end interpreter- -start result- ";
+//        echo "<br/>";
+//        
+//        var_dump($env->getLastTable());
+//        
+//        echo "<br/>";
+//        echo "-end result- ";
+//        echo "<br/>";
+//        exit();
+        
+        //convert format
+        $converter = new TableToPhpObjectConverter();
+        
+        $object = $converter->getPhpObjectForTable($env->getLastTable());
+        
         
         //pack everything in a new object
         $RESTresource="sqlquery";
         $o = new stdClass();
-        $o->$RESTresource = $result;
+        $o->$RESTresource = $object;
         $result = $o;
         
-        $formatterfactory = FormatterFactory::getInstance("json");//start content negotiation if the formatter factory doesn't exist
+        $formatterfactory = FormatterFactory::getInstance($format);//start content negotiation if the formatter factory doesn't exist
 
         
         $printer = $formatterfactory->getPrinter(strtolower("sqlquery"), $result);

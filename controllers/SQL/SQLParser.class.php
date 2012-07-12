@@ -24,7 +24,7 @@ class SQLParser{
      */ 
     private static $keywords = array(
         "SELECT", "FROM", "DISTINCT", "GROUP", "BY", "WHERE", "HAVING", "LIKE", "UNION", "BETWEEN", "INNER", "LEFT", "RIGHT", "FULL", "JOIN", "IN",
-        "+", "-", "*", "/", "=", "<", ">", "OR", "AND", 
+        "+", "-", "*", "/", "=", "<", ">", "OR", "AND", "AS",
         ",", "(", ")");
     
     /**
@@ -48,7 +48,7 @@ class SQLParser{
             exit(0);
             
         }
-        echo "-<br/>";
+        //echo "-<br/>";
         try {
             while($tokenizer->hasNext()){
                 $t = $tokenizer->pop();
