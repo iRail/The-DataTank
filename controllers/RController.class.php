@@ -47,7 +47,6 @@ class RController extends AController {
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
-
         
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
@@ -87,16 +86,6 @@ class RController extends AController {
         /**
          * If there is only a package passed, pass along a list of its resources
          */
-
-        /*
-        //Get an instance of our resourcesmodel
-        $model = ResourcesModel::getInstance();
-        $doc = $model->getAllDoc();
-        /**
-         * If the resourcename isn't provided then provide a list of resources
-         * that this package contains.
-         *HEAD */
-
 
         if ($resourcename == "") {
             if (isset($doc->$package)) {
@@ -206,11 +195,7 @@ class RController extends AController {
     }
 
     public function HEAD($matches){
-        //always required: a package and a resource. 
-        /*HEAD$package = trim($matches['package']);
-          $resourcename = trim($matches['resource']);HEAD*/
-
-
+       
         //always required: a package and a resource. 
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/",$packageresourcestring);       
