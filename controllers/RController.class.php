@@ -47,7 +47,6 @@ class RController extends AController {
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
-
         
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
@@ -69,7 +68,16 @@ class RController extends AController {
             }
         }else{
             $foundPackage = TRUE;
-            $resourcename = array_shift($pieces);
+            $resourceNotFound = TRUE;
+            while(!empty($pieces) && $resourceNotFound){
+                 $resourcename = array_shift($pieces);
+                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
+                    $package .= "/" . $resourcename;
+                    $resourcename = "";
+                }else{
+                    $resourceNotFound = FALSE;
+                }
+            }
             $reqparamsstring = implode("/",$pieces);
         }
 
@@ -79,39 +87,62 @@ class RController extends AController {
             $RESTparameters = array();
         }
 
-        if(!$foundPackage){
-            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
-        }
-        
-        
         /**
-         * If there is only a package passed, pass along a list of its resources
-         */
+         * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
+         */        
 
-        if ($resourcename == "") {
+        if($foundPackage && $resourcename == ""){
+            $packageDoc = $model->getAllPackagesDoc();
+            $allPackages = array_keys(get_object_vars($packageDoc));
+            $linkObject = new StdClass();
+            $links = array();
+
+            foreach($allPackages as $packagestring){
+                if(strpos($packagestring,$package) == 0 
+                   && strpos($packagestring,$package) !== false && $package != $packagestring){
+
+                    $foundPackage = TRUE;
+                    $link = Config::$HOSTNAME . Config::$SUBDIR . $packagestring;
+                    $packagelinks[] = $link;
+                    if(!isset($linkObject->subPackages)){
+                        $linkObject->subPackages = new stdClass();
+                    }
+                    $linkObject->subPackages->$package = $packagelinks;
+                }
+                
+            }
+
             if (isset($doc->$package)) {
+                $foundPackage = TRUE;
                 $resourcenames = get_object_vars($doc->$package);
-                $linkObject = new StdClass();
-                $links = array();
                 foreach($resourcenames as $resourcename => $value){
-                    
                     $link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
                     $links[] = $link;
-                    $linkObject->$package = $links;
+                    if(!isset($linkObject->resources)){
+                        $linkObject->resources = new stdClass();
+                    }
+                    $linkObject->resources->$package = $links;
                 }
-                //This will create an instance of a factory depending on which format is set
-                $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-
-                $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
-                $printer->printAll();
-                RequestLogger::logRequest();
-            }else if($model->hasPackage($package)){
-                echo "No resources are listed for this package <br>";
-            } else {
-                echo "This package name ( $package ) has not been created yet.";
+            }else{
+                if(!$foundPackage){
+                    throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+                }
             }
+            
+            //This will create an instance of a factory depending on which format is set
+            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+            
+            $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
+            $printer->printAll();
+            RequestLogger::logRequest();
             exit();
         }
+
+
+
+        if(!$foundPackage){
+            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+        } 
        
         /**
          * At this stage a package and a resource have been passed, lets check if they exists, and if so lets call the read()
@@ -120,7 +151,7 @@ class RController extends AController {
         
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-        
+
         if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
             throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");
         }
@@ -192,6 +223,26 @@ class RController extends AController {
         // representation of the resource
         if(!$this->isVisualization($matches["format"])){
             RequestLogger::logRequest($package,$resourcename,$parameters);
+        }
+    }
+
+    private function getAllSubPackages($package,&$linkObject,&$links){
+        $model = ResourcesModel::getInstance();
+        $packageDoc = $model->getAllPackagesDoc();
+        $allPackages = array_keys(get_object_vars($packageDoc));
+        
+        foreach($allPackages as $packagestring){
+            if(strpos($packagestring,$package) == 0 
+               && strpos($packagestring,$package) !== false && $package != $packagestring){
+
+                $foundPackage = TRUE;
+                $link = Config::$HOSTNAME . Config::$SUBDIR . $packagestring;
+                $links[] = $link;
+                if(!isset($linkObject->subPackages)){
+                    $linkObject->subPackages = new stdClass();
+                }
+                $linkObject->subPackages->$package = $links;
+            }
         }
     }
 

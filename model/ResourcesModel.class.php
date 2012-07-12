@@ -113,7 +113,6 @@ class ResourcesModel {
         $pieces = explode("/",$packageresourcestring);
         //throws exception when it's not valid, returns packagestring when done
         $package = $this->isResourceValid($pieces);
-
         $resource = array_pop($pieces);
 
         // NOTE: not sure why we used RESTparameters with a create for a resource, can't really think of any
@@ -247,7 +246,7 @@ class ResourcesModel {
          */
         $resource = array_pop($pieces);
         if(count($pieces) == 1){
-            return;
+            return $pieces[0];
         }
         /**
          * check if the packagestring isn't a resource ((2))
