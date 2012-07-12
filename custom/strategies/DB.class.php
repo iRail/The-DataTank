@@ -11,7 +11,7 @@
  * @author Jan Vansteenlandt
  */
 include_once("custom/strategies/ATabularData.class.php");
-include_once(Config::$INSTALLDIR . Config::$SUBDIR.  "doctrine/Doctrine/Common/ClassLoader.php");
+include_once(Config::$INSTALLDIR . Config::$SUBDIR.  "includes/DoctrineDBAL-2.2.2/Doctrine/Common/ClassLoader.php");
 include_once("aspects/logging/BacklogLogger.class.php");
 
 use Doctrine\Common\ClassLoader;
