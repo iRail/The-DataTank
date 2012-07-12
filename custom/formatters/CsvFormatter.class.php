@@ -85,7 +85,8 @@ class CsvFormatter extends AFormatter{
                          }
                      }
                      else{
-                         echo '"' . $element . '"';
+                         //echo '"' . $element . '"';
+                         echo $this->enclose($element);
                      }
                      echo sizeof($row)-1 != $i ? ";" : "\n";   
                      $i++;
