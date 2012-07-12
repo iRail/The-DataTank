@@ -97,9 +97,14 @@ class RController extends AController {
             $linkObject = new StdClass();
             $links = array();
 
+            /**
+             * We only want 1 level deeper, so we're gonna count the amount of /'s in the package
+             * and the amount of /'s in the packagestring
+             */
             foreach($allPackages as $packagestring){
                 if(strpos($packagestring,$package) == 0 
-                   && strpos($packagestring,$package) !== false && $package != $packagestring){
+                   && strpos($packagestring,$package) !== false && $package != $packagestring
+                   && substr_count($package, "/") +1 == substr_count($packagestring,"/")){
 
                     $foundPackage = TRUE;
                     $link = Config::$HOSTNAME . Config::$SUBDIR . $packagestring;
