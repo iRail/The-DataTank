@@ -21,10 +21,12 @@ class RController extends AController {
 
     function GET($matches) {
 
+        /*
         $c = Cache::getInstance();
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        */
 
         //always required: a package and a resource. 
         $packageresourcestring = $matches["packageresourcestring"];
@@ -70,7 +72,7 @@ class RController extends AController {
             $foundPackage = TRUE;
             $resourceNotFound = TRUE;
             while(!empty($pieces) && $resourceNotFound){
-                 $resourcename = array_shift($pieces);
+                $resourcename = array_shift($pieces);
                 if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
                     $package .= "/" . $resourcename;
                     $resourcename = "";
@@ -252,12 +254,29 @@ class RController extends AController {
     }
 
     public function HEAD($matches){
-       
+
         //always required: a package and a resource. 
         $packageresourcestring = $matches["packageresourcestring"];
-        $pieces = explode("/",$packageresourcestring);       
+        $pieces = explode("/",$packageresourcestring);
         $package = array_shift($pieces);
+        
+        /**
+         * Even GET operations on TDTAdmin need to be authenticated!
+         */
 
+        if($package == "TDTAdmin"){
+            //we need to be authenticated
+            if (!$this->isAuthenticated()) {
+                header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+                header('HTTP/1.0 401 Unauthorized');
+                exit();
+            }
+        }
+        
+        //Get an instance of our resourcesmodel
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
+        
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
          * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
@@ -278,9 +297,17 @@ class RController extends AController {
             }
         }else{
             $foundPackage = TRUE;
-            $resourcename = array_shift($pieces);
+            $resourceNotFound = TRUE;
+            while(!empty($pieces) && $resourceNotFound){
+                $resourcename = array_shift($pieces);
+                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
+                    $package .= "/" . $resourcename;
+                    $resourcename = "";
+                }else{
+                    $resourceNotFound = FALSE;
+                }
+            }
             $reqparamsstring = implode("/",$pieces);
-            break;
         }
 
         $RESTparameters = array();
@@ -289,26 +316,81 @@ class RController extends AController {
             $RESTparameters = array();
         }
 
+        /**
+         * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
+         */        
+
+        if($foundPackage && $resourcename == ""){
+            $packageDoc = $model->getAllPackagesDoc();
+            $allPackages = array_keys(get_object_vars($packageDoc));
+            $linkObject = new StdClass();
+            $links = array();
+
+            /**
+             * We only want 1 level deeper, so we're gonna count the amount of /'s in the package
+             * and the amount of /'s in the packagestring
+             */
+            foreach($allPackages as $packagestring){
+                if(strpos($packagestring,$package) == 0 
+                   && strpos($packagestring,$package) !== false && $package != $packagestring
+                   && substr_count($package, "/") +1 == substr_count($packagestring,"/")){
+
+                    $foundPackage = TRUE;
+                    $link = Config::$HOSTNAME . Config::$SUBDIR . $packagestring;
+                    $packagelinks[] = $link;
+                    if(!isset($linkObject->subPackages)){
+                        $linkObject->subPackages = new stdClass();
+                    }
+                    $linkObject->subPackages->$package = $packagelinks;
+                }
+                
+            }
+
+            if (isset($doc->$package)) {
+                $foundPackage = TRUE;
+                $resourcenames = get_object_vars($doc->$package);
+                foreach($resourcenames as $resourcename => $value){
+                    $link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
+                    $links[] = $link;
+                    if(!isset($linkObject->resources)){
+                        $linkObject->resources = new stdClass();
+                    }
+                    $linkObject->resources->$package = $links;
+                }
+            }else{
+                if(!$foundPackage){
+                    throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+                }
+            }
+            
+            //This will create an instance of a factory depending on which format is set
+            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+            
+            $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
+            $printer->printHeader();
+            RequestLogger::logRequest();
+            exit();
+        }
+
 
         if(!$foundPackage){
             throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
-        }
-
+        } 
+       
+        /**
+         * At this stage a package and a resource have been passed, lets check if they exists, and if so lets call the read()
+         * action and return the result.
+         */
+        
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-        //Get an instance of our resourcesmodel
-        $model = ResourcesModel::getInstance();
-        //ask the model for our documentation: access to all packages and resources!
-
-        $doc = $model->getAllDoc();
-        
         if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
             throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");
         }
-       
-        $parameters = $_GET;
-            
+
+        $parameters = $_GET;        
+
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
             if (!isset($RESTparameters[0])) {
@@ -320,7 +402,7 @@ class RController extends AController {
         }
         
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
-        
+
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
@@ -366,16 +448,17 @@ class RController extends AController {
         } else {
             $RESTresource = $resourcename;
         }
+
         $o->$RESTresource = $result;
         $result = $o;
-
+        
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
-        /**
-         * Don't log visualizations, they themselves make a follow up request to the datatank
-         * to get their data. 
-         */
+
+        // dont log requests to visualizations, these visualizations will trigger another request to (mostly) the json 
+        // representation of the resource
+
         if(!$this->isVisualization($matches["format"])){
             RequestLogger::logRequest($package,$resourcename,$parameters);
         }
