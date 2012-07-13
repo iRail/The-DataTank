@@ -30,7 +30,7 @@ class CsvFormatter extends AFormatter{
         $element = rtrim($element, '"');
         $element = ltrim($element, '"');
         $element = '"'.$element.'"';
-        return $element;
+        return utf8_encode($element);
     }
 
      public function printBody(){
