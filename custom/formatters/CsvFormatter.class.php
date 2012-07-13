@@ -5,6 +5,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert   <pieter@iRail.be>
+ * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
 /**
@@ -29,7 +30,7 @@ class CsvFormatter extends AFormatter{
         $element = rtrim($element, '"');
         $element = ltrim($element, '"');
         $element = '"'.$element.'"';
-        return $element;
+        return utf8_encode($element);
     }
 
      public function printBody(){
@@ -58,7 +59,7 @@ class CsvFormatter extends AFormatter{
 
              echo implode(";",$enclosedHeaderrow);
              echo "\n";
-             
+
              foreach($this->objectToPrint as $row){
                  if(is_object($row)){
                      $row = get_object_vars($row);
@@ -85,7 +86,6 @@ class CsvFormatter extends AFormatter{
                          }
                      }
                      else{
-                         //echo '"' . $element . '"';
                          echo $this->enclose($element);
                      }
                      echo sizeof($row)-1 != $i ? ";" : "\n";   
