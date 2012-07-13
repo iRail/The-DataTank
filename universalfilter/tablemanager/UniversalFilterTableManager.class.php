@@ -4,11 +4,12 @@ include_once("universalfilter/data/UniversalFilterTableContentRow.class.php");
 include_once("universalfilter/data/UniversalFilterTableHeader.class.php");
 include_once("universalfilter/data/UniversalFilterTableContent.class.php");
 include_once("universalfilter/data/UniversalFilterTable.class.php");
+include_once("universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
 
 include_once("universalfilter/tablemanager/tools/PhpObjectTableConverter.class.php");
 
 /**
- * TODO...
+ * The TableManager makes it easier to view The DataTank as a collection of tables
  *
  * @package The-Datatank/universalfilter/tablemanager
  * @copyright (C) 2012 by iRail vzw/asbl
@@ -53,7 +54,7 @@ class UniversalFilterTableManager {
                 throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename.");
             }
         }else{
-            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Identifier does contain a packagename.");
+            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Identifier does not contain a packagename.");
         }
     }
     

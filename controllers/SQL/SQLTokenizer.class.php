@@ -72,13 +72,16 @@ class SQLTokenizer{
             $str=$str.$char;
         }else{//all other tokens / whitespace
             $str=$str.$char;
+            $readedToMuch=false;
             while(!SQLTokenizer::isSpecialChar($char) && SQLTokenizer::hasMoreChars($querystring, $index)){
                 $char=SQLTokenizer::readCharOrFail($querystring, $index);
                 if(!SQLTokenizer::isSpecialChar($char)){
                     $str=$str.$char;
+                }else{
+                    $readedToMuch=true;
                 }
             }
-            if(strlen($str)>1 && SQLTokenizer::isSpecialChar($char)){
+            if($readedToMuch){
                 $index--;//read the last special character another time
             }
         }

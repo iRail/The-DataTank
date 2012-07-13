@@ -9,42 +9,64 @@
  */
 class UnaryFunctionExecuter extends ExpressionNodeExecuter {
     
-    public function evaluateAsExpressionHeader(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
-        $tableheader = $this->getHeaderFor($filter->getArgument(), $topenv, $interpreter);
+    private $filter;
+    
+    private $header;
+    
+    private $executer1;
+    
+    private $header1;
+    
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+        $this->filter = $filter;
         
-        $combinedName = $this->getName($tableheader->getColumnName());
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getArgument());
+        $this->executer2 = $interpreter->findExecuterFor($arg2);
         
-        return new UniversalFilterTableHeader(array($combinedName), array(), $tableheader->isSingleRowByConstruction(), true);
+        //init down
+        $this->executer1->initExpression($this->filter->getArgument(), $topenv, $interpreter);
+        
+        $this->header1 = $this->executer1->getExpresionHeader();
+        
+        //combined name
+        $combinedName = $this->getName(
+                $table1header->getColumnNameById($this->header1->getColumnId()));
+        
+        //column
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
+        
+        //single row?
+        $isSingleRowByConstruction = $this->header1->isSingleRowByConstruction();
+        
+        //new Header
+        $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
     
-    public function evaluateAsExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        $arg = $filter->getArgument();
+    public function getExpresionHeader(){
+        return $this->header;
+    }
+    
+    public function evaluateAsExpression() {
+        $table1content = $this->executer1->evaluateAsExpression();
         
-        $argExecuter = $interpreter->findExecuterFor($arg);
-        
-        $tableheader = $argExecuter->evaluateAsExpressionHeader($arg, $topenv, $interpreter);
-        
-        $name = $tableheader->getColumnName();
-        
-        $combinedName = $this->getName($name);
-        
-        $tablecontent = $argExecuter->evaluateAsExpression($arg, $topenv, $interpreter);
+        $idA = $this->header1->getColumnId();
+        $finalid = $this->header->getColumnId();
         
         $rows=array();
         
-        $size=$tablecontent->getRowCount();
+        $size=$table1content->getRowCount();
         
         //loop through all rows and evaluate the expression
         for ($i=0;$i<$size;$i++){
             $row=new UniversalFilterTableContentRow();
             
-            //get the value for index i for the tables
-            $value=$tablecontent->getValue($name, $i);
+            //get the value for index i for both tables
+            $valueA=$table1content->getValue($idA, 0);
             
             //evaluate
-            $newValue = $this->doUnaryFunction($value);
+            $value = $this->doUnaryFunction($valueA, $valueB);
             
-            $row->defineValue($combinedName, $newValue);
+            $row->defineValue($finalid, $value);
             
             array_push($rows, $row);
         }
@@ -52,8 +74,6 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
         //return the result
         return new UniversalFilterTableContent($rows);
     }
-    
-    
     
     public function getName($name){
         return $name;

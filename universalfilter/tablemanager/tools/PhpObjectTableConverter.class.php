@@ -1,13 +1,16 @@
 <?php
 
 /**
- * Description of PhpObjectTableConverter
+ * This class can convert a php-object to a table (as used by the interpreter)
  *
- * @author Jeroen
+ * @package The-Datatank/universalfilter/tablemanager/tools
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
  */
 class PhpObjectTableConverter {
     
-    public static $ID_KEY="key_";
+    public static $ID_KEY="_key_";
     
     
     /**
@@ -77,41 +80,49 @@ class PhpObjectTableConverter {
     }
     
     private function getPhpObjectTableHeader($nameOfTable, $objects){
+        $columns = array();
         $columnNames = array();
-        $tableLinks = array();
         
         foreach($objects as $obj){
             $arr_obj = get_object_vars($obj);
             foreach($arr_obj as $key => $value){
                 $columnName=$this->parseColumnName($key);
+                
                 if(!in_array($columnName, $columnNames)){
                     array_push($columnNames, $columnName);
+                    $isLinked=false;
+                    $linkedTable=null;
+                    $linkedTableKey=null;
+                    
                     if(is_array($value) || is_object($value)){
-                        $linkInfo = new stdClass();
-                        $linkInfo->table=$totalId.".".$columnName;
-                        $linkInfo->key=PhpObjectTableConverter::$ID_KEY+$nameOfTable;//todo: check first if field does not exists...
+                        $isLinked=true;
+                        $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!
+                        $linkedTableKey=PhpObjectTableConverter::$ID_KEY+$nameOfTable;//todo: check first if field does not exists...
                         
                         array_push($tableLinks, $linkInfo);
                     }
+                    
+                    array_push($columns, new UniversalFilterTableHeaderColumnInfo(array($columnName), $isLinked, $linkedTable, $linkedTableKey));
                 }
             }
             //todo: add id field
         }
         
-        $header = new UniversalFilterTableHeader($columnNames, $tableLinks, false, false);
+        $header = new UniversalFilterTableHeader($columns, false, false);
         
         return $header;
     }
     
-    private function getPhpObjectTableContent($nameOfTable, $objects){
+    private function getPhpObjectTableContent($header, $nameOfTable, $objects){
         $rows=array();
         
         foreach($objects as $obj){
             $arr_obj = get_object_vars($obj);
             $currentrow=new UniversalFilterTableContentRow();
             foreach($arr_obj as $key => $value){
-                $columnName=$this->parseColumnName($key);
-                $currentrow->defineValue($columnName, $value);
+                $columnName = $this->parseColumnName($key);
+                $columnId = $header->getColumnIdByName($columnName);//crashes when header contains two times the same columnName
+                $currentrow->defineValue($columnId, $value);//todo: if key!!!
             }
             //todo: add id field
             //todo: loop through header, and add key-fields
@@ -133,7 +144,7 @@ class PhpObjectTableConverter {
         
         $header = $this->getPhpObjectTableHeader($nameOfTable, $objects);
         
-        $body = $this->getPhpObjectTableContent($nameOfTable, $objects);
+        $body = $this->getPhpObjectTableContent($header, $nameOfTable, $objects);
         
         return new UniversalFilterTable($header, $body);
     }

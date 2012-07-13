@@ -1,8 +1,11 @@
 <?php
 /**
- * Description of IUniversalFilterTableContent
+ * The content of the universal representation of a table
  *
- * @author Jeroen
+ * @package The-Datatank/universalfilter/data
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
  */
 class UniversalFilterTableContent {
     private $rows;
@@ -24,7 +27,7 @@ class UniversalFilterTableContent {
      */
     public function getValue($name, $index){
         $rows=$this->getRows();
-        return $rows[0]->getValue($name);
+        return $rows[$index]->getValue($name);
     }
     
     /**

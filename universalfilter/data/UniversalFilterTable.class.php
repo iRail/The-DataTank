@@ -3,7 +3,10 @@
 /**
  * A universal representation of a table
  *
- * @author Jeroen
+ * @package The-Datatank/universalfilter/data
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
  */
 class UniversalFilterTable {
     private $header;

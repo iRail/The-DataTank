@@ -10,6 +10,13 @@
  */
 class ConstantExecuter extends UniversalFilterNodeExecuter {
     
+    private $filter;
+    
+    private $header;
+    
+    private $const;
+    private $nameOfField;
+    
     private function getStripedConstant(UniversalFilterNode $filter){
         $const = $filter->getConstant();
         if(substr($const,0,1)=="'"){
@@ -26,22 +33,32 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
         }
     }
     
-    public function evaluateAsExpressionHeader(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
-        $const=$this->getStripedConstant($filter);
-        $nameOfField=$this->getFieldName($const);
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+        $this->filter = $filter;
         
-        return new UniversalFilterTableHeader(array($nameOfField), array(), true, true);
+        $this->const=$this->getStripedConstant($filter);
+        $this->nameOfField=$this->getFieldName($const);
+        
+        //column
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(aaray($nameOfField));
+        
+        //new Header
+        $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), true, true);
     }
     
-    public function evaluateAsExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        $const=$this->getStripedConstant($filter);
-        $nameOfField=$this->getFieldName($const);
+    public function getExpresionHeader(){
+        return $this->header;
+    }
+    
+    public function evaluateAsExpression() {
+        $id = $this->header->getColumnId();
         
         $row=new UniversalFilterTableContentRow();
-        $row->defineValue($nameOfField, $const);
+        $row->defineValue($id, $const);
         
         return new UniversalFilterTableContent(array($row));
     }
+    
     
     public function execute(UniversalFilterNode $filter, IInterpreter $interpreter) {
         throw new Exception("A constant can not be executed. Illegal filtertree.");

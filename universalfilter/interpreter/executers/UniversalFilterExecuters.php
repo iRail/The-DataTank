@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file collects all imports for the UniversalInterpreter
+ *
+ * @package The-Datatank/universalfilter/interpreter/executers
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
+ */
+
 // base filters
 include_once("universalfilter/interpreter/executers/UniversalFilterNodeExecuter.class.php");
 include_once("universalfilter/interpreter/executers/IdentifierExecuter.class.php");

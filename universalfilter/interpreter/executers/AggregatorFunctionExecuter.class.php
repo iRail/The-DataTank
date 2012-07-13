@@ -9,7 +9,11 @@
  */
 abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
     
-    public function evaluateAsExpressionHeader(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+        
+    }
+    
+    public function evaluateAsExpressionHeader(){
 //        $table1header = $this->getHeaderFor($filter->getArgument1(), $topenv, $interpreter);
 //        $table2header = $this->getHeaderFor($filter->getArgument2(), $topenv, $interpreter);
 //        
@@ -22,7 +26,7 @@ abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
 //        return new UniversalFilterTableHeader(array($combinedName), array(), $isSingleRowByConstruction, true);
     }
     
-    public function evaluateAsExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function evaluateAsExpression() {
 //        $arg1 = $filter->getArgument1();
 //        $arg2 = $filter->getArgument2();
 //        

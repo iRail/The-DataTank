@@ -1,9 +1,12 @@
 <?php
 
 /**
- * Description of Interpreter
+ * The global interpreter model. (used when executing a query)
  *
- * @author Jeroen
+ * @package The-Datatank/universalfilter/interpreter
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
  */
 interface IInterpreter {
     

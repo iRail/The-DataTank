@@ -15,25 +15,25 @@
  */
 class IdentifierExecuter extends UniversalFilterNodeExecuter {
     // TODO: error handling
-    // TODO: TableManager uit Environment gooien !!! 
     
-    // Evaluate Column/Cell
-    public function evaluateAsExpressionHeader(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
-        //skip of the last part of the identifier and
-        $parts = explode(".", $filter->getIdentifierString());
-        $columnId = array_pop($parts);
-        $alias=implode(".",$parts);
+    private $filter;
+    private $header;
+    private $topenv;
+    
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+        $this->filter = $filter;
+        $this->topenv = $topenv;
         
-        return $topenv->getColumnDataHeader($alias, $columnId);
+        $this->header = $topenv->getColumnDataHeader($this->filter->getIdentifierString());
     }
     
-    public function evaluateAsExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        //skip of the last part of the identifier and
-        $parts = explode(".", $filter->getIdentifierString());
-        $columnId = array_pop($parts);
-        $alias=implode(".",$parts);
-        
-        return $topenv->getColumnDataContent($alias, $columnId);
+    // Evaluate Column/Cell
+    public function getExpressionHeader(){
+        return $this->header;
+    }
+    
+    public function evaluateAsExpression() {
+        return $this->topenv->getColumnDataContent($this->filter->getIdentifierString(), $this->header);
     }
     
     /**
@@ -41,11 +41,12 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
      * And creates a new Environment with only this table.
      */
     public function execute(UniversalFilterNode $filter, IInterpreter $interpreter) {
-        $newEnv = new Environment($interpreter->getTableManager());
+        $newEnv = new Environment();
         $tableName = $filter->getIdentifierString();
         
-        $newEnv->addTable($interpreter->getTableManager()->getFullTable($tableName));//TODO: error handling
+        $newEnv->setTable($interpreter->getTableManager()->getFullTable($tableName));//TODO: error handling
         //echo "resource(table) => $tableName<br/>";
+        
         return $newEnv;
     }
 }

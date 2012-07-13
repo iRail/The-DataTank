@@ -8,13 +8,24 @@
  * @author Jeroen Penninck
  */
 abstract class UniversalFilterNodeExecuter {
+    
+    /**
+     * USE AS AN EXPRESSION (Returns a single cell or column)
+     */
+    
+    /**
+     * Initializes this node as an expression. It gets the environment of the executer as an argument. 
+     */
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+        //nothing
+    }
 
     /**
      * Returns a single cell or column. => Only the header !!!
      * 
      * It also gets the environment of the executer as an argument. But it should NOT be modified!
      */
-    public function evaluateAsExpressionHeader(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function getExpresionHeader(){
         return null;
     }
     
@@ -23,9 +34,15 @@ abstract class UniversalFilterNodeExecuter {
      * 
      * It also gets the environment of the executer as an argument. But it should NOT be modified!
      */
-    public function evaluateAsExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function evaluateAsExpression(){
         return null;
     }
+    
+    
+    
+    /**
+     * USE AS A FILTER (Returns an environment)
+     */
     
     /**
      * Returns a complete environment.

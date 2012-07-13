@@ -9,40 +9,61 @@
  */
 abstract class BinaryFunctionExecuter extends ExpressionNodeExecuter {
     
-    public function evaluateAsExpressionHeader(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
-        $table1header = $this->getHeaderFor($filter->getArgument1(), $topenv, $interpreter);
-        $table2header = $this->getHeaderFor($filter->getArgument2(), $topenv, $interpreter);
+    private $filter;
+    
+    private $header;
+    
+    private $executer1;
+    private $executer2;
+    
+    private $header1;
+    private $header2;
+    
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+        $this->filter = $filter;
         
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getArgument1());
+        $this->executer2 = $interpreter->findExecuterFor($this->filter->getArgument2());
+        
+        //init down
+        $this->executer1->initExpression($this->filter->getArgument1(), $topenv, $interpreter);
+        $this->executer2->initExpression($this->filter->getArgument2(), $topenv, $interpreter);
+        
+        $this->header1 = $this->executer1->getExpresionHeader();
+        $this->header2 = $this->executer2->getExpresionHeader();
+        
+        //combined name
         $combinedName = $this->getName(
-                $table1header->getColumnName(), 
-                $table2header->getColumnName());
+                $table1header->getColumnNameById($this->header1->getColumnId()), 
+                $table2header->getColumnNameById($this->header2->getColumnId()));
         
-        $isSingleRowByConstruction = $table1header->isSingleRowByConstruction() && $table2header->isSingleRowByConstruction();
+        //column
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
         
-        return new UniversalFilterTableHeader(array($combinedName), array(), $isSingleRowByConstruction, true);
+        //single row?
+        $isSingleRowByConstruction = $this->header1->isSingleRowByConstruction() && $this->header2->isSingleRowByConstruction();
+        
+        //new Header
+        $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
     
-    public function evaluateAsExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        $arg1 = $filter->getArgument1();
-        $arg2 = $filter->getArgument2();
+    public function getExpresionHeader(){
+        return $this->header;
+    }
+    
+    public function evaluateAsExpression() {
+        $table1content = $this->executer1->evaluateAsExpression();
+        $table2content = $this->executer2->evaluateAsExpression();
         
-        $argExecuter1 = $interpreter->findExecuterFor($arg1);
-        $argExecuter2 = $interpreter->findExecuterFor($arg2);
+        $idA = $this->header1->getColumnId();
+        $idB = $this->header1->getColumnId();
+        $finalid = $this->header->getColumnId();
         
-        $table1header = $argExecuter1->evaluateAsExpressionHeader($arg1, $topenv, $interpreter);
-        $table2header = $argExecuter2->evaluateAsExpressionHeader($arg2, $topenv, $interpreter);
-        
-        $nameA = $table1header->getColumnName();
-        $nameB = $table2header->getColumnName();
-        $combinedName = $this->getName($nameA, $nameB);
-        
-        $table1content = $argExecuter1->evaluateAsExpression($arg1, $topenv, $interpreter);
-        $table2content = $argExecuter2->evaluateAsExpression($arg2, $topenv, $interpreter);
-        
-        if(!$table1header->isSingleRowByConstruction() && 
-                !$table2header->isSingleRowByConstruction() &&
+        if(
+                !$this->header1->isSingleRowByConstruction() && 
+                !$this->header2->isSingleRowByConstruction() &&
                 $table1content->getRowCount()!=$table2content->getRowCount()){
-            throw new Exception("Columns differ in size");//TODO we should check if the columns are from the same table!!!!
+            throw new Exception("Columns differ in size");//Can that happen??????????
         }
         
         $rows=array();
@@ -54,19 +75,19 @@ abstract class BinaryFunctionExecuter extends ExpressionNodeExecuter {
             $row=new UniversalFilterTableContentRow();
             
             //get the value for index i for both tables
-            $valueA=$table1content->getValue($nameA, 0);
-            $valueB=$table2content->getValue($nameB, 0);
+            $valueA=$table1content->getValue($idA, 0);
+            $valueB=$table2content->getValue($idB, 0);
             if($table1content->getRowCount()>$i){
-                $valueA=$table1content->getValue($nameA, $i);
+                $valueA=$table1content->getValue($idA, $i);
             }
             if($table2content->getRowCount()>$i){
-                $valueB=$table2content->getValue($nameB, $i);
+                $valueB=$table2content->getValue($idB, $i);
             }
             
             //evaluate
             $value = $this->doBinaryFunction($valueA, $valueB);
             
-            $row->defineValue($combinedName, $value);
+            $row->defineValue($finalid, $value);
             
             array_push($rows, $row);
         }

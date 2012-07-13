@@ -36,7 +36,7 @@ class SQLController extends AController {
         }
         $parser = new SQLParser($query);
         
-        $result = $parser->interpret();
+        $universalquery = $parser->interpret();
         
 //        var_dump($result);
         
@@ -46,8 +46,7 @@ class SQLController extends AController {
         
         
         $interpreter=new UniversalInterpreter();
-        $executer = $interpreter->findExecuterFor($result);
-        $env = $executer->execute($result, $interpreter);
+        $result = $interpreter->interpret($universalquery);
         
 //        echo "<br/>";
 //        echo "-end interpreter- -start result- ";
@@ -63,7 +62,7 @@ class SQLController extends AController {
         //convert format
         $converter = new TableToPhpObjectConverter();
         
-        $object = $converter->getPhpObjectForTable($env->getLastTable());
+        $object = $converter->getPhpObjectForTable($result);
         
         
         //pack everything in a new object

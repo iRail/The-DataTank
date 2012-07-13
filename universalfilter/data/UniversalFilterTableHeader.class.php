@@ -1,51 +1,84 @@
 <?php
 
 /**
- * Default implementation of IUniversalFilterTableHeader
+ * The header of the universal representation of a table
  *
- * @author Jeroen
+ * @package The-Datatank/universalfilter/data
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
  */
 class UniversalFilterTableHeader {
-    private $columnNames;
-    private $tableLinks;
+    private $columns;//array of UniversalFilterTableHeaderColumnInfo
     
     private $isSingleRowByConstruction;
     private $isSingleColumnByConstruction;
     
-    public function __construct($columnNames, $tableLinks, $isSingleRowByConstruction, $isSingleColumnByConstruction) {
-        $this->columnNames=$columnNames;
-        $this->tableLinks=$tableLinks;
+    public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction) {//TODO [X] check
+        $this->columns=$columns;
         $this->isSingleRowByConstruction=$isSingleRowByConstruction;
         $this->isSingleColumnByConstruction=$isSingleColumnByConstruction;
     }
     
     /**
-     * return an array of columnnames
+     * Rename this table
      */
-    public function getColumnNames() {
-        return $this->columnNames;
+    public function renameAlias($newname){
+        throw new Exception("TODO [header-renameAlias]");
     }
     
     /**
-     * return true if the column contains id's
-     *    of one (or multiple) rows in another table
+     * Gets the columnId for a given name
      */
-    public function isLinkedColumn($columnName) {
-        return isset ($tableLinks[$columnName]);
+    public function getColumnIdByName($columnName) {
+        $columnNameParts = explode(".", $columnName);
+        $found=false;
+        $id=null;
+        foreach($this->columns as $column){
+            if($column->matchName($columnNameParts)){
+                if(!$found){
+                    $found=true;
+                    $id = $column->getId();
+                }else{
+                    throw new Exception("That identifier is not unique \"".$columnName."\"");
+                }
+            }
+        }
+        return $id;
     }
     
     /**
-     * returns the table where the column links to.
+     * Gets the columnName for a given id
      */
-    public function getLinkedTable($columnName) {
-        return $tableLinks[$columnName]["table"];
+    public function getColumnNameById($id) {
+        return $this->getColumnInformationById($id)->getName();
     }
     
     /**
-     * returns the field in the table which contains the key where is linked to.
+     * returns the number of columns
      */
-    public function getLinkedTableKey($columnName) {
-        return $tableLinks[$columnName]["key"];
+    public function getColumnCount() {
+        return count($this->columns);
+    }
+    
+    /**
+     * get a certain column id
+     */
+    public function getColumnIdByIndex($index) {
+        return $this->columns[$index]->getId();
+    }
+    
+    /**
+     * get columnInformation
+     */
+    public function getColumnInformationById($id){
+        foreach($this->columns as $column){
+            if($column->getId()==$id){
+                return $column;
+            }
+        }
+        var_dump($id);
+        throw new Exception("ColumnInformation not found for id: \"".$id."\"");
     }
     
     /**
@@ -60,21 +93,6 @@ class UniversalFilterTableHeader {
     }
     
     /**
-     * return if this table is constructed that way only one cell can exist
-     */
-    public function isSingleCellByConstruction() {
-        return $this->isSingleColumnByConstruction() && $this->isSingleRowByConstruction();
-    }
-    
-    public function getColumnName(){
-        $columnNames=$this->getColumnNames();
-        if(!$this->isSingleColumnByConstruction()){
-            throw new Exception("Not a single column.");
-        }
-        return $columnNames[0];
-    }
-    
-    /**
      * return if this table is constructed that way only one column can exist (e.g. by a columnselector)
      */
     public function isSingleColumnByConstruction() {
@@ -82,7 +100,24 @@ class UniversalFilterTableHeader {
     }
     
     /**
-     *
+     * return if this table is constructed that way only one cell can exist
+     */
+    public function isSingleCellByConstruction() {
+        return $this->isSingleColumnByConstruction() && $this->isSingleRowByConstruction();
+    }
+    
+    /**
+     * returns the only columnId (if a column)
+     */
+    public function getColumnId(){
+        if(!$this->isSingleColumnByConstruction()){
+            throw new Exception("Not a single column.");
+        }
+        return $this->getColumnIdByIndex(0);
+    }
+    
+    /**
+     * throws an exception if this is not a cell
      */
     public function checkCell(){
         if(!$this->isSingleCellByConstruction()){
@@ -92,8 +127,7 @@ class UniversalFilterTableHeader {
     
     public function cloneHeader(){
         return new UniversalFilterTableHeader(
-                $this->columnNames,
-                $this->tableLinks,
+                $this->columns,
                 $this->isSingleRowByConstruction,
                 $this->isSingleColumnByConstruction);
     }

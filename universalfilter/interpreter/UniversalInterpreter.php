@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * The UniversalInterpreter: 
+ * Create an instance of this class and give it a query-tree execute the filter.
+ *
+ * @package The-Datatank/universalfilter/interpreter
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
+ */
+
 include_once("universalfilter/interpreter/IInterpreter.class.php");
 include_once("universalfilter/interpreter/Environment.class.php");
 
@@ -57,6 +67,13 @@ class UniversalInterpreter implements IInterpreter{
     
     public function getTableManager() {
         return $this->tablemanager;
+    }
+    
+    public function interpret(UniversalFilterNode $tree){
+        $executer = $this->findExecuterFor($tree);
+        $env = $executer->execute($tree, $this);
+        
+        return $env->getTable();
     }
 }
 

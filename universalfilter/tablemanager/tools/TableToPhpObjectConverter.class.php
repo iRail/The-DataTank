@@ -1,7 +1,7 @@
 <?php
 
 /**
- * TODO...
+ * This class can convert a table (as used by the interpreter) to a php-object
  *
  * @package The-Datatank/universalfilter/tablemanager/tools
  * @copyright (C) 2012 by iRail vzw/asbl
@@ -18,11 +18,14 @@ class TableToPhpObjectConverter {
         }
         
         //loop all columns
-        foreach($table->getHeader()->getColumnNames() as $index => $column){
-            foreach($table->getContent()->getRows() as $index => $row){
-                $newRows[$index][$column] = $row->getValue($column);
+        for ($index = 0; $index < $table->getHeader()->getColumnCount(); $index++) {
+            $id = $table->getHeader()->getColumnIdByIndex($index);
+            $name = $table->getHeader()->getColumnNameById($id);
+            foreach($table->getContent()->getRows() as $rindex => $row){
+                $newRows[$rindex][$name] = $row->getValue($id);
             }
         }
+        
         return $newRows;
     }
 }

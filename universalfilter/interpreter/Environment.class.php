@@ -1,9 +1,12 @@
 <?php
 
 /**
- * Description of Environment
+ * An environment is passed to the filterexecuters while executing a query
  *
- * @author Jeroen
+ * @package The-Datatank/universalfilter/interpreter
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
  */
 class Environment {
     //
@@ -16,156 +19,76 @@ class Environment {
     //  => Aliases and TableManager and other Tables should be kept inside Environment
     //
     
-    private $aliasses=array();
-    
-    private $tablemanager;
-    
-    private $tables=array();
-    private $lasttable;
-    private $tableint;
-    
-    public function __construct(UniversalFilterTableManager $tablemanager) {
-        $this->tablemanager = $tablemanager;
-        $lasttable = -1;
-    }
+    private $table=null;
 
-
-    public function getTableManager(){
-        return $this->tablemanager;
-    }
-    
-    
-    /**
-     * manage aliases
-     */
-    public function aliasLastTable($aliasname){
-        $this->aliasses[$aliasname]=$lasttable;
-    }
-    
-    public function clearAliases(){
-        $this->aliasses=array();
-    }
-    
-    
     /**
      * Manage tables
      */
     
     /**
-     * add a table
+     * set the current table
      */
-    public function addTable(UniversalFilterTable $table) {
-        $this->tableint++;
-        $this->lasttable=$this->tableint;
-        $this->tables[$this->lasttable]=$table;
-    }
-    
-    public function replaceCurrentTable(UniversalFilterTable $table){
-        $this->tables[$this->lasttable]=$table;
-        $this->clearColumnContentCache();
+    public function setTable(UniversalFilterTable $table) {
+        $this->table=$table;
     }
     
     /**
      * get the last added table
      */
-    public function getLastTable(){
-        return $this->tables[$this->lasttable];
+    public function getTable(){
+        return $this->table;
     }
     
-    public function setTableAliasCurrent($alias) {
-        $this->lasttable = $aliasnames[$alias];
-        $this->columnName = null;//no column
-        //TODO: clear cache if alias already in tables
-        return $name;
-    }
-    
-    private function getAliasTable($tablealias){
-        if(isset($this->aliasses[$tablealias])){
-            return $this->tables[$this->aliasses[$tablealias]];
-        }else{
-            return $this->getLastTable();
-        }
-    }
-    
-    private $columnHeaderCache=array();
     /**
-     * Get a column from the data (header)
+     * Get a single column from the data (header)
      */
-    public function getColumnDataHeader($tablealias, $columnName){//get a single column from the table
-        if(!isset($this->columnHeaderCache[$tablealias.".".$columnName])){
-
-            $table=$this->getAliasTable($tablealias);
-
-            $oldheader = $table->getHeader();
-
-            if(!in_array($columnName, $oldheader->getColumnNames())){
-                throw new Exception("Illegal column request. No column with id \"$columnName\".");
-            }
-            $newColumnNames=array($columnName);
-            $newLinks=array();
-            if($oldheader->isLinkedColumn($columnName)){
-                $newLinks=array($columnName=>array(
-                    "table"=>$oldheader->getLinkedTable($columnName), 
-                    "key"=>$oldheader->getLinkedTableKey($columnName)));//$oldheader
-            }
-
-            $columnHeader = new UniversalFilterTableHeader(array($columnName), $newLinks, $oldheader->isSingleRowByConstruction(), true);
-            $this->columnHeaderCache[$tablealias.".".$columnName]=$columnHeader;
-            return $columnHeader;
-        }else{
-            return $this->columnHeaderCache[$tablealias.".".$columnName];
+    public function getColumnDataHeader($fullid){
+        $oldheader = $this->table->getHeader();
+        $columnid = $oldheader->getColumnIdByName($fullid);
+        
+        if($columnid==null){
+            throw new Exception("Column not found".$fullid.".");
         }
+        
+        $newHeaderColumn=$oldheader->getColumnInformationById($columnid)->cloneColumnNewId();
+
+        $columnHeader = new UniversalFilterTableHeader(array($newHeaderColumn), $oldheader->isSingleRowByConstruction(), true);
+
+
+        return $columnHeader;
     }
-    
-    private $columnContentCache=array();
     
     /**
      * Get a column from the data (content)
      */
-    public function getColumnDataContent($tablealias, $columnName){//get a single column from the table
-        if(!isset($this->columnContentCache[$tablealias.".".$columnName])){
-            $table=$this->getAliasTable($tablealias);
+    public function getColumnDataContent($fullid, $header){//get a single column from the table
+        $oldheader = $this->table->getHeader();
+        $oldcolumnid = $oldheader->getColumnIdByName($fullid);
+        
+        $newcolumnid = $header->getColumnId();
 
-            $oldheader = $table->getHeader();
-
-            if(!in_array($columnName, $oldheader->getColumnNames())){
-                throw new Exception("Illegal column request. No column with id \"".$this->columnName."\".");
-            }
-
-            $oldRows=$table->getContent()->getRows();
-            $rows=array();
-            foreach($oldRows as $index => $row){
-                $newRow=new UniversalFilterTableContentRow();
-                $newRow->defineValue($columnName, $row->getValue($columnName));
-                $rows[$index] = $newRow;
-            }
-
-            $columnContent = new UniversalFilterTableContent($rows);
-            $this->columnContentCache[$tablealias.".".$columnName]=$columnContent;
-            return $columnContent;
-        }else{
-            return $this->columnContentCache[$tablealias.".".$columnName];
+        //copyFields
+        //$oldcolumnid -> $newcolumnid
+        
+        $oldRows=$this->table->getContent()->getRows();
+        $rows=array();
+        foreach($oldRows as $index => $oldRow){
+            $newRow=new UniversalFilterTableContentRow();
+            $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
+            $rows[$index] = $newRow;
         }
-    }
-    
-    public function clearColumnContentCache(){
-        $this->columnContentCache=array();
+
+        $columnContent = new UniversalFilterTableContent($rows);
+        return $columnContent;
     }
 
     /**
      * Clone Environment
      */
     public function newModifiableEnvironment(){
-        $newEnv=new Environment($this->tablemanager);
-        $newEnv->setData($this->aliasses, $this->tables, $this->lasttable, $this->tableint);
+        $newEnv=new Environment();
+        $newEnv->setTable($this->getTable());
         return $newEnv;
-    }
-    
-    protected function setData($aliasses, $tables, $lasttable, $tableint){
-        $this->aliasses = $aliasses;//copy
-        $this->tables = $tables;//copy array, not tables (those should not be modified)
-        $this->lasttable = $lasttable;//copy string
-        $this->tableint = $tableint;
     }
 }
 

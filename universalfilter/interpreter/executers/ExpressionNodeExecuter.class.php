@@ -14,10 +14,5 @@ abstract class ExpressionNodeExecuter extends UniversalFilterNodeExecuter {
     public function execute(UniversalFilterNode $filter, IInterpreter $interpreter) {
         throw new Exception("Can not execute binary function!");
     }
-    
-    protected function getHeaderFor($arg, Environment $topenv, IInterpreter $interpreter) {
-        $argExecuter = $interpreter->findExecuterFor($arg);
-        return $argExecuter->evaluateAsExpressionHeader($arg, $topenv, $interpreter);
-    }
 }
 ?>
