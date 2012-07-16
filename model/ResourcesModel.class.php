@@ -40,7 +40,7 @@ class ResourcesModel {
          * part of the resource itself. i.e. a foreign relation between two resources
          */
         $this->updateActions = array();
-//Added for linking this resource to a class descibed in an onthology
+        //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["ontology"] = "OntologyUpdater";
         $this->updateActions["generic"] = "GenericResourceUpdater";
     }
@@ -137,10 +137,11 @@ class ResourcesModel {
              * generic type, without passing that as a separate parameter
              * NOTE that passing generic/generic_type has priority over generic_type = ...
              */
-            $resourceTypeParts = explode("/", $parameters["resource_type"]);
-            if ($resourceTypeParts[0] != "remote") {
-                if ($resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"])
-                    && isset($resourceTypeParts[1])) {
+
+            $resourceTypeParts = explode("/",$parameters["resource_type"]);
+            if($resourceTypeParts[0] != "remote" && $resourceTypeParts[0] != "installed"){    
+                if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) 
+                     && isset($resourceTypeParts[1])) {
                     $parameters["generic_type"] = $resourceTypeParts[1];
                     $parameters["resource_type"] = $resourceTypeParts[0];
                 } else if (!isset($parameters["generic_type"])) {
@@ -150,9 +151,9 @@ class ResourcesModel {
 
 
             $restype = $parameters["resource_type"];
-
+            $restype = strtolower($restype);
             //now check if the file exist and include it
-            if (!in_array($restype, array("generic", "remote"))) {
+            if (!in_array($restype, array("generic", "remote","installed"))) {
                 throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
             }
             // get the documentation containing information about the required parameters
@@ -171,9 +172,12 @@ class ResourcesModel {
                  */
                 $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"], $doc->create->generic);
                 $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
-            } else { // remote
+            }elseif($restype == "remote") { 
                 $resourceCreationDoc = $doc->create->remote;
+            }elseif($restype == "installed"){
+                $resourceCreationDoc = $doc->create->installed;
             }
+            
 
             /**
              * Check if all required parameters are being 
@@ -216,10 +220,6 @@ class ResourcesModel {
                 $c = Cache::getInstance();
                 $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
                 $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
-                /* <<<<<<< HEAD
-                   $this->deleteResource($package, $resource, $RESTparameters);
-                   =======
-                */
                 $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
                 $this->deleteResource($package, $resource,$RESTparameters);
                 throw new Exception($ex->getMessage());
@@ -401,12 +401,13 @@ class ResourcesModel {
              * an API call.
              */
             $factory = "";
-
             if ($this->factories["generic"]->hasResource($package, $resource)) {
                 $factory = $this->factories["generic"];
             } else if ($this->factories["remote"]->hasResource($package, $resource)) {
                 $factory = $this->factories["remote"];
-            } else {
+            } else if ($this->factories["installed"]->hasResource($package, $resource)) {
+                $factory = $this->factories["installed"];
+            }else {
                 throw new DeleterTDTException($package . "/" . $resource);
             }
             $deleter = $factory->createDeleter($package, $resource, $RESTparameters);

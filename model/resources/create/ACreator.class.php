@@ -29,7 +29,7 @@ abstract class ACreator{
      * @return hash with key = parameter name and value = documentation about the parameter
      */
     public function documentParameters(){
-        $createParameters = array("resource_type" => "The type of the resource.");
+        $createParameters = array("resource_type" => "The type of the resource. i.e. generic, installed,remote");
         return array_merge($createParameters, $this->documentMetaDataParameters());
     }
 
