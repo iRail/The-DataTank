@@ -135,7 +135,7 @@ class ResourcesModel {
              */
 
             $resourceTypeParts = explode("/",$parameters["resource_type"]);
-            if($resourceTypeParts[0] != "remote"){    
+            if($resourceTypeParts[0] != "remote" && $resourceTypeParts[0] != "installed"){    
                 if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) 
                      && isset($resourceTypeParts[1])) {
                     $parameters["generic_type"] = $resourceTypeParts[1];
@@ -147,9 +147,9 @@ class ResourcesModel {
             
 
             $restype = $parameters["resource_type"];
-
+            $restype = strtolower($restype);
             //now check if the file exist and include it
-            if (!in_array($restype, array("generic", "remote"))) {
+            if (!in_array($restype, array("generic", "remote","installed"))) {
                 throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
             }
             // get the documentation containing information about the required parameters
@@ -168,9 +168,12 @@ class ResourcesModel {
                  */
                 $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"],$doc->create->generic);
                 $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
-            } else { // remote
+            }elseif($restype == "remote") { 
                 $resourceCreationDoc = $doc->create->remote;
+            }elseif($restype == "installed"){
+                $resourceCreationDoc = $doc->create->installed;
             }
+            
 
             /**
              * Check if all required parameters are being passed
@@ -397,12 +400,13 @@ class ResourcesModel {
              * an API call.
              */
             $factory = "";
-
             if ($this->factories["generic"]->hasResource($package, $resource)) {
                 $factory = $this->factories["generic"];
             } else if ($this->factories["remote"]->hasResource($package, $resource)) {
                 $factory = $this->factories["remote"];
-            } else {
+            } else if ($this->factories["installed"]->hasResource($package, $resource)) {
+                $factory = $this->factories["installed"];
+            }else {
                 throw new DeleterTDTException($package . "/" . $resource);
             }
             $deleter = $factory->createDeleter($package, $resource, $RESTparameters);

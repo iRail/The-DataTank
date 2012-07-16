@@ -167,7 +167,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     public function makeUpdateDoc($doc){
-         $d = array();
+        $d = array();
         foreach($this->getAllStrategies() as $strategy){
             include_once("model/resources/update/GenericResourceUpdater.class.php");
             $res = new GenericResourceUpdater("","", array(),$strategy);

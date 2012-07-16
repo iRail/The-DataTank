@@ -469,7 +469,6 @@ class DBQueries {
         $newResource->type = $type;
         return R::store($newResource);
     }
-    
 
     /**
      * Delete a specific resource
@@ -615,5 +614,82 @@ class DBQueries {
             array(":parent_id" => $parentId)
         );
     }
+
+    /**
+     * Store the installed resource
+     */
+    static function storeInstalledResource($resource_id,$location,$classname){
+        $installed_resource = R::dispense("installed_resource");
+        $installed_resource->resource_id = $resource_id;
+        $installed_resource->location = $location;
+        $installed_resource->classname = $classname;
+        return R::store($installed_resource);
+    }
+
+    /**
+     * Delete the installed resource
+     */
+    static function deleteInstalledResource($package,$resource){
+        return R::exec(
+            "DELETE FROM installed_resource
+                    WHERE resource_id IN (SELECT resource.id 
+                                   FROM package,resource 
+                                   WHERE package.full_package_name=:package and package_id = package.id
+                                   and resource_id = resource.id and resource.resource_name =:resource
+                                   )",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Get all of the installed resources 
+     */
+    static function getAllInstalledResources(){
+        return R::getAll(
+            "SELECT full_package_name as package,resource_name as resource
+             FROM package,resource,installed_resource
+             WHERE resource.package_id=package.id 
+                    and installed_resource.resource_id=resource.id"
+        );
+    }
+
+    /**
+     * Get the physical location of an installed resource
+     */
+    static function getLocationOfResource($package,$resource){
+        return R::getCell(
+            "SELECT location
+             FROM package,resource,installed_resource
+             WHERE resource.package_id=package.id 
+                    and installed_resource.resource_id=resource.id",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+    
+    /**
+     * Get the classname of the installed resource
+     */
+    static function getClassnameOfResource($package,$resource){
+        return R::getCell(
+            "SELECT classname
+             FROM package,resource,installed_resource
+             WHERE resource.package_id=package.id 
+                    and installed_resource.resource_id=resource.id",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
+     * Ask if a resource is an installed resource
+     */
+    static function hasInstalledResource($package,$resource) {
+        return R::getRow(
+    	    "SELECT count(1) as present 
+             FROM package,installed_resource,resource 
+             WHERE package.full_package_name=:package and resource.resource_name=:resource
+             and resource.package_id=package.id",
+    	    array(':package' => $package, ':resource' => $resource)
+    	);
+    } 
 }
 ?>

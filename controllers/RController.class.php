@@ -91,7 +91,7 @@ class RController extends AController {
          * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
          */        
 
-        if($foundPackage && $resourcename == ""){
+        if($resourcename == ""){
             $packageDoc = $model->getAllPackagesDoc();
             $allPackages = array_keys(get_object_vars($packageDoc));
             $linkObject = new StdClass();
@@ -112,7 +112,7 @@ class RController extends AController {
                     if(!isset($linkObject->subPackages)){
                         $linkObject->subPackages = new stdClass();
                     }
-                    $linkObject->subPackages->$package = $packagelinks;
+                    $linkObject->subPackages = $packagelinks;
                 }
                 
             }
@@ -126,7 +126,7 @@ class RController extends AController {
                     if(!isset($linkObject->resources)){
                         $linkObject->resources = new stdClass();
                     }
-                    $linkObject->resources->$package = $links;
+                    $linkObject->resources = $links;
                 }
             }else{
                 if(!$foundPackage){
@@ -452,7 +452,7 @@ class RController extends AController {
 
         $o->$RESTresource = $result;
         $result = $o;
-        
+
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
