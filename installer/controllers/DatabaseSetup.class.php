@@ -118,6 +118,15 @@ class DatabaseSetup extends InstallController {
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
+
+        $queries["installed_resource"] = "CREATE TABLE IF NOT EXISTS `installed_resource` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `location` varchar(255) NOT NULL,
+              `classname` varchar(255) NOT NULL,
+              `resource_id` varchar(255) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["info"] = "CREATE TABLE IF NOT EXISTS `info` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
