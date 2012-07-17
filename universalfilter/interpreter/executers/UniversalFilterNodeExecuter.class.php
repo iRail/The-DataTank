@@ -3,7 +3,7 @@
  * Top of all executers
  *
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -24,8 +24,9 @@ abstract class UniversalFilterNodeExecuter {
      * Returns a single cell or column. => Only the header !!!
      * 
      * It also gets the environment of the executer as an argument. But it should NOT be modified!
+     * @return UniversalFilterTableHeader
      */
-    public function getExpresionHeader(){
+    public function getExpressionHeader(){
         return null;
     }
     
@@ -33,6 +34,8 @@ abstract class UniversalFilterNodeExecuter {
      * Returns a single cell or column. => Only the content !!!
      * 
      * It also gets the environment of the executer as an argument. But it should NOT be modified!
+     * 
+     * @return UniversalFilterTableContent
      */
     public function evaluateAsExpression(){
         return null;
@@ -46,6 +49,7 @@ abstract class UniversalFilterNodeExecuter {
     
     /**
      * Returns a complete environment.
+     * @return Environment
      */
     public function execute(UniversalFilterNode $filter, IInterpreter $interpreter) {
         return null;

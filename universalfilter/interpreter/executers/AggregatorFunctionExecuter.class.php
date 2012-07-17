@@ -3,91 +3,209 @@
  * This file contains the abstact top class for all aggregators
  *
  * @package The-Datatank/universalfilter
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
 abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    private $filter;
+    
+    private $header;
+    
+    private $executer1;
+    
+    private $header1;
+    
+    private $singleColumnSingleRow;
+    
+    /**
+     * Call this method in the initExpression if the aggregator works on "arrays"
+     */
+    public function makeAllColumnsHeader(){
+        if($this->header1->isSingleColumnByConstruction()){
+            //single column, may be grouped...
+            $singleRow=true;
+            
+            
+            $columnId = $this->header1->getColumnId();
+            $columnInfo = $this->header1->getColumnInformationById($columnId);
+            $columnName = $columnInfo->getName();
+            
+            if($columnInfo->isGrouped()){
+                $singleRow=false;
+            }
+
+            $cominedHeaderColumn=null;
+            if($this->keepFullInfo()){
+                $cominedHeaderColumn = $columnInfo->cloneColumnInfo();
+            }else{
+                $combinedName = $this->getName($columnName);
+                $cominedHeaderColumn = $columnInfo->cloneBaseUpon($combinedName);
+            }
+            $newColumns=array($cominedHeaderColumn);
+            
+            
+            $this->header = new UniversalFilterTableHeader($newColumns, $singleRow, true);
+            $this->singleColumnSingleRow=$singleRow;
+            
+        }else{
+            //multiple columns -> grouping not allowed!
+            
+            $newColumns=array();
+        
+            for ($index = 0; $index < $this->header1->getColumnCount(); $index++) {
+                $columnId = $this->header1->getColumnIdByIndex($index);
+                $columnInfo = $this->header1->getColumnInformationById($columnId);
+                $columnName = $columnInfo->getName();
+                
+                if($columnInfo->isGrouped()){
+                    //Should never happen?
+                    throw new Exception("This operation can not be used on multiple columns with grouping.");
+                }
+
+                $cominedHeaderColumn=null;
+                if($this->keepFullInfo()){
+                    $cominedHeaderColumn = $columnInfo->cloneColumnInfo();
+                }else{
+                    $combinedName = $this->getName($columnName);
+                    $cominedHeaderColumn = $columnInfo->cloneBaseUpon($combinedName);
+                }
+                array_push($newColumns, $cominedHeaderColumn);
+            }
+            
+            $this->header = new UniversalFilterTableHeader($newColumns, true, false);
+        }
+    }
+    
+    /**
+     * Call this method in the init IF this aggregator converts a complete table in a single field.
+     */
+    public function makeSingleColumnHeader(){
+        $name="";
+        if($this->header1->isSingleColumnByConstruction()){
+            $columnId = $this->header1->getColumnId();
+            $columnInfo = $this->header1->getColumnInformationById($columnId);
+            
+            $name=$columnInfo->getName();
+        }else{
+            $name="_multiple_columns_";
+        }
+        
+        $this->header = new UniversalFilterTableHeader(array($this->getName($name)), true, true);
+    }
+    
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+        $this->filter = $filter;
+        
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getColumn());
+        
+        $this->executer1->initExpression($this->filter->getColumn(), $topenv, $interpreter);
+        
+        $this->header1 = $this->executer1->getExpressionHeader();
+        
         
     }
     
-    public function evaluateAsExpressionHeader(){
-//        $table1header = $this->getHeaderFor($filter->getArgument1(), $topenv, $interpreter);
-//        $table2header = $this->getHeaderFor($filter->getArgument2(), $topenv, $interpreter);
-//        
-//        $combinedName = $this->getName(
-//                $table1header->getColumnName(), 
-//                $table2header->getColumnName());
-//        
-//        $isSingleRowByConstruction = $table1header->isSingleRowByConstruction() && $table2header->isSingleRowByConstruction();
-//        
-//        return new UniversalFilterTableHeader(array($combinedName), array(), $isSingleRowByConstruction, true);
+    public function getExpressionHeader(){
+        return $this->header;
+    }
+    
+    public function callForAllColumns(){
+        $oldContent = $this->executer1->evaluateAsExpression();
+        $newContent = new UniversalFilterTableContent();
+        
+        echo "XXX";
+        
+        if($this->header1->isSingleColumnByConstruction()){
+            $sourceColumnId = $this->header1->getColumnId();
+            $finalid = $this->header->getColumnId();
+            
+            if($this->singleColumnSingleRow){
+                //single column - not grouped
+                $values=$this->convertColumnToArray($oldContent, $sourceColumnId);
+                
+                $row = new UniversalFilterTableContentRow();
+                $row->defineValue($finalid, $this->calculateValue($values));
+                
+                $newContent->addRow($row);
+            }else{
+                echo "AAAAAAAAAAAAAAAAAAAAAAAA";
+                //single column - grouped
+                for ($index = 0; $index < $oldContent->getRowCount(); $index++) {
+                    //row
+                    $row = $newContent->getRow($index);
+
+                    $newRow = new UniversalFilterTableContentRow();
+                    $newRow->defineValue($finalid, $this->calculateValue($row->getGroupedValue($sourceColumnId)));
+                    
+                    $newContent->addRow($newRow);
+                }
+                
+            }
+        }else{
+            echo "BBBBBBBBBBBBBBBBBBBBB";
+            //multiple columns - not grouped
+            $newRow = new UniversalFilterTableContentRow();
+
+            for ($index = 0; $index < $this->header1->getColumnCount(); $index++) {
+                $columnId = $this->header1->getColumnIdByIndex($index);
+                $columnInfo = $this->header1->getColumnInformationById($columnId);
+                
+                $finalid = $this->header->getColumnIdByIndex($index);
+                
+                $values = $this->convertColumnToArray($oldContent, $columnId);
+                
+                $newRow->defineValue($finalid, $this->calculateValue($values));
+            }
+            $newContent->addRow($newRow);
+        }
+        return $newContent;
+    }
+    
+    /**
+     * Call this method in the init IF this aggregator converts a complete table in a single field.
+     */
+    public function callSingleColumn(){
+        $oldContent = $this->executer1->evaluateAsExpression();
+        $newContent = new UniversalFilterTableContent();
+        
+        $finalid = $this->header->getColumnId();
+        
+        $newRow = new UniversalFilterTableContentRow();
+        $newRow->defineValue($finalid, $this->calculateValueForTable($oldContent));
+        
+        $newContent->addRow($newRow);
+        
+        return $newContent;
+    }
+    
+    public function convertColumnToArray(UniversalFilterTableContent $content, $columnId){
+        $arr = array();
+        for ($index = 0; $index < $content->getRowCount(); $index++) {
+            array_push($arr, $content->getRow($index)->getCellValue($columnId));
+        }
+        return $arr;
     }
     
     public function evaluateAsExpression() {
-//        $arg1 = $filter->getArgument1();
-//        $arg2 = $filter->getArgument2();
-//        
-//        $argExecuter1 = $interpreter->findExecuterFor($arg1);
-//        $argExecuter2 = $interpreter->findExecuterFor($arg2);
-//        
-//        $table1header = $argExecuter1->evaluateAsExpressionHeader($arg1, $topenv, $interpreter);
-//        $table2header = $argExecuter2->evaluateAsExpressionHeader($arg2, $topenv, $interpreter);
-//        
-//        $nameA = $table1header->getColumnName();
-//        $nameB = $table2header->getColumnName();
-//        $combinedName = $this->getName($nameA, $nameB);
-//        
-//        $table1content = $argExecuter1->evaluateAsExpression($arg1, $topenv, $interpreter);
-//        $table2content = $argExecuter2->evaluateAsExpression($arg2, $topenv, $interpreter);
-//        
-//        if(!$table1header->isSingleRowByConstruction() && 
-//                !$table2header->isSingleRowByConstruction() &&
-//                $table1content->getRowCount()!=$table2content->getRowCount()){
-//            throw new Exception("Columns differ in size");//TODO we should check if the columns are from the same table!!!!
-//        }
-//        
-//        $rows=array();
-//        
-//        $size=max(array($table1content->getRowCount(), $table2content->getRowCount()));
-//        
-//        //loop through all rows and evaluate the expression
-//        for ($i=0;$i<$size;$i++){
-//            $row=new UniversalFilterTableContentRow();
-//            
-//            //get the value for index i for both tables
-//            $valueA=$table1content->getValue($nameA, 0);
-//            $valueB=$table2content->getValue($nameB, 0);
-//            if($table1content->getRowCount()>$i){
-//                $valueA=$table1content->getValue($nameA, $i);
-//            }
-//            if($table2content->getRowCount()>$i){
-//                $valueB=$table2content->getValue($nameB, $i);
-//            }
-//            
-//            //evaluate
-//            $value = doBinaryFunction($valueA, $valueB);
-//            
-//            $row->defineValue($combinedName, $value);
-//            
-//            array_push($rows, $row);
-//        }
-//        
-//        //return the result
-//        return new UniversalFilterTableContent($rows);
     }
     
+    public function getName($name){
+        return $name;
+    }
     
+    public function calculateValue(array $values){
+        return 0;
+    }
     
-//    public function getName($nameA, $nameB){
-//        return $nameA." combined ".$nameA;
-//    }
-//    
-//    public function doBinaryFunction($valueA, $valueB){
-//        return null;
-//    }
+    public function calculateValueForTable(UniversalFilterTableContent $content){
+        return 0;
+    }
+    
+    public function keepFullInfo(){
+        return true;
+    }
 }
 
 ?>

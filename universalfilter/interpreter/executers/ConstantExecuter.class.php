@@ -4,7 +4,7 @@
  * "Executes" a constant and returns a table
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -37,16 +37,16 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
         $this->filter = $filter;
         
         $this->const=$this->getStripedConstant($filter);
-        $this->nameOfField=$this->getFieldName($const);
+        $this->nameOfField=$this->getFieldName($this->const);
         
         //column
-        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(aaray($nameOfField));
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($this->nameOfField));
         
         //new Header
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), true, true);
     }
     
-    public function getExpresionHeader(){
+    public function getExpressionHeader(){
         return $this->header;
     }
     
@@ -54,9 +54,12 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
         $id = $this->header->getColumnId();
         
         $row=new UniversalFilterTableContentRow();
-        $row->defineValue($id, $const);
+        $row->defineValue($id, $this->const);
         
-        return new UniversalFilterTableContent(array($row));
+        $content = new UniversalFilterTableContent();
+        $content->addRow($row);
+        
+        return $content;
     }
     
     

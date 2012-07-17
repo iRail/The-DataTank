@@ -3,7 +3,7 @@
  * The controller will handle all SQL requests
  *
  * @package The-Datatank/controllers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */

@@ -4,7 +4,7 @@
  * This file contains all evaluators for binary functions
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -13,7 +13,7 @@
 class BinaryFunctionEqualityExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_isequal_".$nameA;
+        return $nameA."_isequal_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -25,7 +25,7 @@ class BinaryFunctionEqualityExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionSmallerExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_issmaller_".$nameA;
+        return $nameA."_issmaller_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -37,7 +37,7 @@ class BinaryFunctionSmallerExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionLargerExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_islarger_".$nameA;
+        return $nameA."_islarger_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -49,7 +49,7 @@ class BinaryFunctionLargerExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionSmallerEqualExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_issmallerorequal_".$nameA;
+        return $nameA."_issmallerorequal_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -61,7 +61,7 @@ class BinaryFunctionSmallerEqualExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionLargerEqualExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_islargerorequal_".$nameA;
+        return $nameA."_islargerorequal_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -73,7 +73,7 @@ class BinaryFunctionLargerEqualExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionNotEqualExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_isnotequal_".$nameA;
+        return $nameA."_isnotequal_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -85,7 +85,7 @@ class BinaryFunctionNotEqualExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionOrExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_or_".$nameA;
+        return $nameA."_or_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -97,7 +97,7 @@ class BinaryFunctionOrExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionAndExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_and_".$nameA;
+        return $nameA."_and_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -109,7 +109,7 @@ class BinaryFunctionAndExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionPlusExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_plus_".$nameA;
+        return $nameA."_plus_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -121,7 +121,7 @@ class BinaryFunctionPlusExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionMinusExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_minus_".$nameA;
+        return $nameA."_minus_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -133,7 +133,7 @@ class BinaryFunctionMinusExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionMultiplyExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_multiply_".$nameA;
+        return $nameA."_multiply_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -145,7 +145,7 @@ class BinaryFunctionMultiplyExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionDivideExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_isnotequal_".$nameA;
+        return $nameA."_isnotequal_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
@@ -157,7 +157,7 @@ class BinaryFunctionDivideExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionMatchRegexExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_matches_".$nameA;
+        return $nameA."_matches_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){

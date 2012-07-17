@@ -4,7 +4,7 @@
  * It throw SQLParseTDTExceptions (TODO)
  *
  * @package The-Datatank/controllers/SQL
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -70,7 +70,7 @@ class SQLParser{
                 }
                 else if (!$this->is_keyword($t)){
                     //echo " --> identifier <br/>";
-                    $this->parser->eat('identifier', $t);
+                    $this->parser->eat('name', $t);
                 }
                 else{
                     //echo " --> keyword <br/>";

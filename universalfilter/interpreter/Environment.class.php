@@ -4,7 +4,7 @@
  * An environment is passed to the filterexecuters while executing a query
  *
  * @package The-Datatank/universalfilter/interpreter
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -34,6 +34,7 @@ class Environment {
     
     /**
      * get the last added table
+     * @return UniversalFilterTable
      */
     public function getTable(){
         return $this->table;
@@ -41,8 +42,14 @@ class Environment {
     
     /**
      * Get a single column from the data (header)
+     * @return UniversalFilterTableHeader
      */
     public function getColumnDataHeader($fullid){
+        if($fullid=="*"){
+            //special case
+            return $this->table->getHeader()->cloneHeader();
+        }
+        
         $oldheader = $this->table->getHeader();
         $columnid = $oldheader->getColumnIdByName($fullid);
         
@@ -54,14 +61,20 @@ class Environment {
 
         $columnHeader = new UniversalFilterTableHeader(array($newHeaderColumn), $oldheader->isSingleRowByConstruction(), true);
 
-
         return $columnHeader;
     }
     
     /**
      * Get a column from the data (content)
+     * @param UniversalFilterTableHeader $header
+     * @return UniversalFilterTableContent
      */
     public function getColumnDataContent($fullid, $header){//get a single column from the table
+        if($fullid=="*"){
+            //special case
+            return $this->table->getContent();
+        }
+        
         $oldheader = $this->table->getHeader();
         $oldcolumnid = $oldheader->getColumnIdByName($fullid);
         
@@ -70,16 +83,19 @@ class Environment {
         //copyFields
         //$oldcolumnid -> $newcolumnid
         
-        $oldRows=$this->table->getContent()->getRows();
+        $content = $this->table->getContent();
+        
+        $newContent= new UniversalFilterTableContent();
         $rows=array();
-        foreach($oldRows as $index => $oldRow){
-            $newRow=new UniversalFilterTableContentRow();
+        for ($index = 0; $index < $content->getRowCount(); $index++) {
+            $oldRow = $content->getRow($index);
+            $newRow = new UniversalFilterTableContentRow();
             $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
-            $rows[$index] = $newRow;
+            
+            $newContent->addRow($newRow);
         }
-
-        $columnContent = new UniversalFilterTableContent($rows);
-        return $columnContent;
+        
+        return $newContent;
     }
 
     /**

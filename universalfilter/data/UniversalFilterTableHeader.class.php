@@ -4,7 +4,7 @@
  * The header of the universal representation of a table
  *
  * @package The-Datatank/universalfilter/data
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -29,6 +29,7 @@ class UniversalFilterTableHeader {
     
     /**
      * Gets the columnId for a given name
+     * @return string
      */
     public function getColumnIdByName($columnName) {
         $columnNameParts = explode(".", $columnName);
@@ -70,6 +71,7 @@ class UniversalFilterTableHeader {
     
     /**
      * get columnInformation
+     * @return UniversalFilterTableHeaderColumnInfo
      */
     public function getColumnInformationById($id){
         foreach($this->columns as $column){
@@ -88,6 +90,9 @@ class UniversalFilterTableHeader {
         return $this->isSingleRowByConstruction;
     }
     
+    /**
+     * sets the isSingleRowByConstruction value
+     */
     public function setIsSingleRowByConstruction($value) {
         $this->isSingleRowByConstruction=$value;
     }
@@ -125,6 +130,12 @@ class UniversalFilterTableHeader {
         }
     }
     
+    /**
+     * Clones this header...
+     * Only usefull if you rename the table afterwards or if you set singleRowByConstruction.
+     * 
+     * @return UniversalFilterTableHeader 
+     */
     public function cloneHeader(){
         return new UniversalFilterTableHeader(
                 $this->columns,

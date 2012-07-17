@@ -38,29 +38,28 @@ wherefilter = WHERE expression/expr {$$ = new FilterByExpressionFilter($expr);}
             | {$$ = null;}
             .
 
-groupfilter = GROUP BY identifierlist/groupFields havingfiler/having 
+groupfilter = GROUP BY identifierlist/groupFields havingfilter/having 
                    {$$ = putFilterAfterIfExists(new DataGrouper($groupFields), $having);}
            |  {$$ = null;}
            .
 
-havingfilter = HAVING expression/expr {$$ = new FilterByExpression($expr);}
+havingfilter = HAVING expression/expr {$$ = new FilterByExpressionFilter($expr);}
              | {$$ = null;}
              .
 
 
 
 
-selecttablelist = '*' {$$ = null;}
-          | listoftables {$$ = new ColumnSelectionFilter($1);}
-          .
+selecttablelist =  listoftables {$$ = new ColumnSelectionFilter($1);}
+                .
 
 listoftables = expression/expr 
                 {$$ = array(new ColumnSelectionFilterColumn($expr, null));}
-          | expression/expr asopt identifier/alias 
+          | expression/expr asopt allowedalias/alias 
                 {$$ = array(new ColumnSelectionFilterColumn($expr, $alias));}
           | expression/expr ',' listoftables/arr 
                 {array_unshift($arr, new ColumnSelectionFilterColumn($expr, null));$$ = $arr;}
-          | expression/expr asopt identifier/alias ',' listoftables/arr 
+          | expression/expr asopt allowedalias/alias ',' listoftables/arr 
                 {array_unshift($arr, new ColumnSelectionFilterColumn($expr, $alias));$$ = $arr;}
           .
           
@@ -73,8 +72,10 @@ asopt = AS | .
 
 
 expression = expressionA  {$$ = $1;}
-           | expressionA/a BETWEEN expressionA/b AND expressionA/c 
-                 {$$ = new TertairyFunction(TertairyFunction::$FUNCTION_TERTIARY_BETWEEN, $a, $b, $c);}
+           | expressionA/a BETWEEN expressionD/b AND expressionD/c 
+                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, 
+                                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $b, $a), 
+                                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $c));}
            | IN '(' constantlist/constantlist ')' 
                  {$$ = new CheckInFunction($constantlist);}
            | expressionA/a INNER JOIN expressionA/b ON expressionA/c
@@ -152,5 +153,12 @@ likeexpression = constant {$$ = new Constant($1);}
                .
 
 identifierlist = identifier {$$ = array(new Identifier($1));}
-               | identifier ',' identifierlist/arr {$$ = array_unshift($arr, $1);}
+               | identifier ',' identifierlist/arr {array_unshift($arr, new Identifier($1));$$=$arr;}
                .
+
+allowedalias = name {$$=$1;}
+             .
+
+identifier = name {$$=$1;} 
+           | '*' {$$="*";} 
+           .

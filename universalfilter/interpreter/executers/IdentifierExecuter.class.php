@@ -9,7 +9,7 @@
  * - alias.name_of_column
  *
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */

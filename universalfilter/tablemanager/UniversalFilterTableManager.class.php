@@ -1,5 +1,9 @@
 <?php
 
+include_once("universalfilter/common/BigDataBlockManager.class.php");
+include_once("universalfilter/common/BigList.class.php");
+include_once("universalfilter/common/BigMap.class.php");
+
 include_once("universalfilter/data/UniversalFilterTableContentRow.class.php");
 include_once("universalfilter/data/UniversalFilterTableHeader.class.php");
 include_once("universalfilter/data/UniversalFilterTableContent.class.php");
@@ -12,7 +16,7 @@ include_once("universalfilter/tablemanager/tools/PhpObjectTableConverter.class.p
  * The TableManager makes it easier to view The DataTank as a collection of tables
  *
  * @package The-Datatank/universalfilter/tablemanager
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */

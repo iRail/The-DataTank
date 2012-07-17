@@ -3,7 +3,7 @@
  * This file contains the abstact top class for all evaluators for unary functions
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -21,16 +21,15 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
         $this->filter = $filter;
         
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getArgument());
-        $this->executer2 = $interpreter->findExecuterFor($arg2);
         
-        //init down
+        //init
         $this->executer1->initExpression($this->filter->getArgument(), $topenv, $interpreter);
         
-        $this->header1 = $this->executer1->getExpresionHeader();
+        $this->header1 = $this->executer1->getExpressionHeader();
         
         //combined name
         $combinedName = $this->getName(
-                $table1header->getColumnNameById($this->header1->getColumnId()));
+                $this->header1->getColumnNameById($this->header1->getColumnId()));
         
         //column
         $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
@@ -42,7 +41,7 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
     
-    public function getExpresionHeader(){
+    public function getExpressionHeader(){
         return $this->header;
     }
     
@@ -52,7 +51,7 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
         $idA = $this->header1->getColumnId();
         $finalid = $this->header->getColumnId();
         
-        $rows=array();
+        $rows=new UniversalFilterTableContent();
         
         $size=$table1content->getRowCount();
         
@@ -60,19 +59,19 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
         for ($i=0;$i<$size;$i++){
             $row=new UniversalFilterTableContentRow();
             
-            //get the value for index i for both tables
-            $valueA=$table1content->getValue($idA, 0);
+            //get the value for index i
+            $valueA=$table1content->getCellValue($idA, $i);
             
             //evaluate
-            $value = $this->doUnaryFunction($valueA, $valueB);
+            $value = $this->doUnaryFunction($valueA);
             
             $row->defineValue($finalid, $value);
             
-            array_push($rows, $row);
+            $rows->addRow($row);
         }
         
         //return the result
-        return new UniversalFilterTableContent($rows);
+        return $rows;
     }
     
     public function getName($name){

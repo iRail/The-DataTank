@@ -3,7 +3,7 @@
  * This file is used by the grammar to create the tree
  *
  * @package The-Datatank/controllers/SQL
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -16,7 +16,11 @@ include_once("universalfilter/UniversalFilters.php");
  */
 function putFilterAfterIfExists($filter, $filterToPutAfter){
     if($filterToPutAfter!=null){
-        $filterToPutAfter->setSource($filter);
+        if($filterToPutAfter->getSource()==null){
+            $filterToPutAfter->setSource($filter);
+        }else{
+            putFilterAfterIfExists($filter, $filterToPutAfter->getSource());
+        }
         return $filterToPutAfter;
     }else{
         return $filter;
@@ -51,7 +55,7 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "SUM" => AggregatorFunction::$AGGREGATOR_SUM
     );
     
-    if($unarymap[$SQLname]!=null){
+    if(isset($unarymap[$SQLname])){
         return new UnairyFunction($unarymap[$SQLname], $arg1);
     }else{
         if($unaryaggregatormap[$SQLname]!=null){

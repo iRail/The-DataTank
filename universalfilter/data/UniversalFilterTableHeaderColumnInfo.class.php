@@ -4,7 +4,7 @@
  * A column in the header of the universal representation of a table
  *
  * @package The-Datatank/universalfilter/data
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -12,26 +12,49 @@ class UniversalFilterTableHeaderColumnInfo {
     private $completeColumnNameParts; //array(package, package, resource, subtable, ...)
     private $columnId; //unique Id
     
+    private $isGrouped;
+    
     private $isLinked;
     private $linkedTable;
     private $linkedTableKey;
     
-    public function __construct($completeColumnName, $isLinked=false, $linkedTable=null, $linkedTableKey=null) {
+    public function __construct(array $completeColumnName, $isLinked=false, $linkedTable=null, $linkedTableKey=null, $isGrouped=false) {
         $this->completeColumnNameParts = $completeColumnName;
         $this->isLinked = $isLinked;
         $this->linkedTable = $linkedTable;
         $this->linkedTableKey = $linkedTableKey;
         $this->columnId = uniqid();
+        $this->isGrouped = $isGrouped;
     }
     
+    /**
+     * Get the unique id of this column
+     * @return string 
+     */
     public function getId(){
         return $this->columnId;
     }
     
+    /**
+     * Gets the last part of the name of this column
+     * @return string 
+     */
     public function getName(){
         return $this->completeColumnNameParts[count($this->completeColumnNameParts)-1];//last
     }
     
+    /**
+     * returns true if this column is grouped
+     * @return bool 
+     */
+    public function isGrouped(){
+        return $this->isGrouped;
+    }
+    
+    /**
+     * renames this column
+     * @param type $newColumName 
+     */
     public function aliasColumn($newColumName){
         if(strpos($newColumName, ".")!=-1){
             $oldName = array_pop($this->completeColumnNameParts);
@@ -41,7 +64,12 @@ class UniversalFilterTableHeaderColumnInfo {
         }
     }
     
-    public function matchName($nameParts){
+    /**
+     * checks if the given name matches this column
+     * @param array $nameParts
+     * @return bool 
+     */
+    public function matchName(array $nameParts){
         $completeCount = count($this->completeColumnNameParts);
         $partCount = count($nameParts);
         if($partCount>$completeCount){
@@ -58,23 +86,49 @@ class UniversalFilterTableHeaderColumnInfo {
     }
     
     
+    /**
+     * clone this columnInfo
+     * @return UniversalFilterTableHeaderColumnInfo 
+     */
     public function cloneColumnInfo(){
         $a = new UniversalFilterTableHeaderColumnInfo($this->completeColumnNameParts);
         $a->isLinked=$this->isLinked;
+        $a->isGrouped=$this->isGrouped;
         $a->linkedTable=$this->linkedTable;
         $a->linkedTableKey=$this->linkedTableKey;
         $a->columnId=$this->columnId;
         return $a;
     }
     
+    /**
+     * clones this column, but makes it distinctive by id
+     * @return UniversalFilterTableHeaderColumnInfo
+     */
     public function cloneColumnNewId(){
         $a = $this->cloneColumnInfo();
         $a->columnId = uniqid();
         return $a;
     }
     
+    /**
+     * Make a new Column with the give id.
+     * (the "is based upon" info is not used...)
+     * @param type $newFieldName
+     * @return UniversalFilterTableHeaderColumnInfo 
+     */
     public function cloneBaseUpon($newFieldName){
         $a = new UniversalFilterTableHeaderColumnInfo(array($newFieldName));
+        return $a;
+    }
+    
+    /**
+     * Clones this column, but sets it to be grouped
+     * @return UniversalFilterTableHeaderColumnInfo
+     */
+    public function cloneColumnGrouped(){
+        $a = $this->cloneColumnInfo();
+        $a->columnId = uniqid();
+        $a->isGrouped=true;
         return $a;
     }
 }

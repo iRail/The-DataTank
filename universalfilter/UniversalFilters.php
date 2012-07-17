@@ -3,7 +3,7 @@
  * This file contains an uniform representation of a query tree
  *
  * @package The-Datatank/universalfilter
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -299,7 +299,6 @@ class TertairyFunction extends ExpressionNode {
     private $columnC;
     
     public static $FUNCTION_TERTIARY_SUBSTRING="FUNCTION_TERTIARY_SUBSTRING";
-    public static $FUNCTION_TERTIARY_BETWEEN="FUNCTION_TERTIARY_BETWEEN";
     
     public function __construct($kind, UniversalFilterNode $columnA, UniversalFilterNode $columnB, UniversalFilterNode $columnC) {
         parent::__construct($kind);

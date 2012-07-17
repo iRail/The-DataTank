@@ -4,7 +4,7 @@
  * Executes the FilterByExpression filter
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -34,7 +34,7 @@ class FilterByExpressionExecuter extends UniversalFilterNodeExecuter {
         $newHeader->setIsSingleRowByConstruction(true);
         
         //calculate the header
-        $singleRowTable = new UniversalFilterTable($newHeader, new UniversalFilterTableContent(array($row)));
+        $singleRowTable = new UniversalFilterTable($newHeader, new UniversalFilterTableContent());//empty table
         $newEnv->setTable($singleRowTable);
         
         $exprexec->initExpression($expr, $newEnv, $interpreter);
@@ -46,25 +46,32 @@ class FilterByExpressionExecuter extends UniversalFilterNodeExecuter {
         }
         
         
-        $filteredRows = array();
+        $filteredRows = new UniversalFilterTableContent();
+        
+        // a table with one row
+        $singleRowContent = new UniversalFilterTableContent();
+        $singleRowContent->addRow(new UniversalFilterTableContentRow());
+        $singleRowTable = new UniversalFilterTable($newHeader, $singleRowContent);
+        $newEnv->setTable($singleRowTable);//works because header stays the same. Only rows change, but those should not be accessed in init.
         
         //loop all rows
-        foreach($sourcetable->getContent()->getRows() as $row){
+        for ($index = 0; $index < $sourcetable->getContent()->getRowCount(); $index++) {
+            $row = $sourcetable->getContent()->getRow($index);
+            
             // make a table with only this row
-            $singleRowTable = new UniversalFilterTable($newHeader, new UniversalFilterTableContent(array($row)));
-            $newEnv->setTable($singleRowTable);//works because header stays the same. Only rows change, but those should not be accessed in init.
+            $singleRowContent->setRow(0, $row);
             
             //request the header and content
             $anwser = $exprexec->evaluateAsExpression();//
             
             //if the expression evaluates to true, then add the row
             if($anwser->getCellValue($header->getColumnId())=="true"){
-                array_push($filteredRows, $row);
+                $filteredRows->addRow($row);
             }
         }
         
         //the new table
-        $newtable = new UniversalFilterTable($sourcetable->getHeader(), new UniversalFilterTableContent($filteredRows));
+        $newtable = new UniversalFilterTable($sourcetable->getHeader(), $filteredRows);
         
         //add it to the environment
         $environment->setTable($newtable);

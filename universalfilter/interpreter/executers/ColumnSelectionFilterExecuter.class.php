@@ -4,7 +4,7 @@
  * Executes the ColumnSelectionFilter filter
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -34,9 +34,9 @@ class ColumnSelectionFilterExecuter extends UniversalFilterNodeExecuter {
         
         
         //create a new empty table of the same size.
-        $newRows = array();
-        foreach($sourcetable->getContent()->getRows() as $row){
-            array_push($newRows, new UniversalFilterTableContentRow());
+        $newRows = new UniversalFilterTableContent();
+        for ($index = 0; $index < $sourcetable->getContent()->getRowCount(); $index++) {
+            $newRows->addRow(new UniversalFilterTableContentRow());
         }
         
         // the header for the returned table:
@@ -54,7 +54,7 @@ class ColumnSelectionFilterExecuter extends UniversalFilterNodeExecuter {
             $columnAlias = $column->getAlias();
             
             //init and request the header
-            $singleRowTable = new UniversalFilterTable($singleRowHeader, new UniversalFilterTableContent(array()));//no rows
+            $singleRowTable = new UniversalFilterTable($singleRowHeader, new UniversalFilterTableContent());//no rows
             $newEnv->setTable($singleRowTable);
             
             $exprexec->initExpression($filterColumn, $newEnv, $interpreter);
@@ -65,32 +65,49 @@ class ColumnSelectionFilterExecuter extends UniversalFilterNodeExecuter {
                 throw new Exception("Not a valid column-expression in column selection filter!");
             }
             
-            //column information
-            $columnInfo = $header->getColumnInformationById($header->getColumnId());
-            
-            //add the new column
-            array_push($columns, $columnInfo);
-            
-            //loop all rows
-            foreach($sourcetable->getContent()->getRows() as $index => $row){
-                // make a table with only this row
-                $singleRowTable = new UniversalFilterTable($singleRowHeader, new UniversalFilterTableContent(array($row)));
+            for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
+                //column information
+                $columnId = $header->getColumnIdByIndex($resultColumnIndex);
+                $columnInfo = $header->getColumnInformationById($columnId)->cloneColumnInfo();
+                
+                //set column alias
+                if($columnAlias!=null){
+                    if($header->isSingleColumnByConstruction()){
+                        $columnInfo->aliasColumn($columnAlias);
+                    }else{
+                        //crashes if more than one column given...
+                        throw new Exception("Column-alias not supported for *!");
+                    }
+                }
+
+                //add the new column
+                array_push($columns, $columnInfo);
+
+                $oldContent = $sourcetable->getContent();
+                $newContent = new UniversalFilterTableContent();
+
+                //make a table with only one row (to give to the expression)
+                $singleRowContent = new UniversalFilterTableContent();
+                $singleRowContent->addRow(new UniversalFilterTableContent());
+                $singleRowTable = new UniversalFilterTable($singleRowHeader, $singleRowContent);
                 $newEnv->setTable($singleRowTable);
 
-                //request the content
-                $anwser = $exprexec->evaluateAsExpression();
-                
-                //get the column
-                $rows = $anwser->getRows();
-                $anwserrow = $rows[0];
-                
-                //copy the value in the row
-                $anwserrow->copyValueTo($newRows[$index], $header->getColumnId(), $header->getColumnId());
-            }
-            
-            //set column alias
-            if($columnAlias!=null){
-                $columnInfo->aliasColumn($columnAlias);
+                //loop all rows
+                for ($index = 0; $index < $oldContent->getRowCount(); $index++) {
+                    $row = $oldContent->getRow($index);
+
+                    // change the row in the table...
+                    $singleRowContent->setRow(0, $row);
+
+                    //request the content
+                    $anwser = $exprexec->evaluateAsExpression();
+
+                    //get the column
+                    $anwserrow = $anwser->getRow(0);
+
+                    //copy the value in the row
+                    $anwserrow->copyValueTo($newRows->getRow($index), $columnId, $columnId);
+                }
             }
         }
         
@@ -99,7 +116,7 @@ class ColumnSelectionFilterExecuter extends UniversalFilterNodeExecuter {
         $newTableHeader=new UniversalFilterTableHeader($columns, false, false);
         
         //the new table
-        $newtable = new UniversalFilterTable($newTableHeader, new UniversalFilterTableContent($newRows));
+        $newtable = new UniversalFilterTable($newTableHeader, $newRows);
         
         //add it to the environment
         $environment->setTable($newtable);

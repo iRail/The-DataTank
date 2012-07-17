@@ -3,7 +3,7 @@
  * Splits a SQL query string in tokens.
  *
  * @package The-Datatank/controllers/SQL
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */

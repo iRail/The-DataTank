@@ -3,45 +3,81 @@
  * The content of the universal representation of a table
  *
  * @package The-Datatank/universalfilter/data
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
 class UniversalFilterTableContent {
     private $rows;
+    private $size;
     
-    public function __construct(array $rows) {
-        $this->rows=$rows;
+    private $id;
+    
+    public static $IDCOUNT=0;
+    
+    public function __construct() {
+        $this->rows=new BigList();
+        $this->size=0;
+        
+        $this->id=UniversalFilterTableContent::$IDCOUNT;
+        UniversalFilterTableContent::$IDCOUNT++;
     }
     
     /**
-     * return array of Rows
+     * Get the row on a certain index
+     * @param int $index
+     * @return UniversalFilterTableContentRow
      */
-    public function getRows(){
-        return $this->rows;
+    public function getRow($index){
+        if($index<$this->size){
+            return $this->rows->getIndex($index);
+        }else{throw new Exception("UniversalFilterTableContent: Index out of bounds");}//should not happen
+    }
+    
+    /**
+     * Sets the row on a cetain index
+     * @param int $index
+     * @param UniversalFilterTableContentRow $row 
+     */
+    public function setRow($index, $row){
+        if($index<$this->size){
+            $this->rows->setIndex($index, $row);
+        }else{throw new Exception("UniversalFilterTableContent: Index out of bounds");}//should not happen
+    }
+    
+    /**
+     * Adds a row to this table
+     * @param UniversalFilterTableContentRow $row 
+     */
+    public function addRow($row){
+        $this->size++;
+        $this->rows->addItem($row);
     }
     
     
     /**
-     * throws an exception if not a Column
+     * Get a value of a column in a row
+     * @param string $name
+     * @param int $index
      */
     public function getValue($name, $index){
-        $rows=$this->getRows();
-        return $rows[$index]->getValue($name);
+        return $this->getRow($index)->getCellValue($name);
     }
     
     /**
-     * throws an exception if not a Cell
+     * Get the value of a column in the first row
+     * @param string $name
+     * @return string
      */
     public function getCellValue($name){
         return $this->getValue($name, 0);
     }
     
     /**
-     * Size of table (rows
+     * Get the size of the table
      */
     public function getRowCount(){
-        return Count($this->getRows());
+        return $this->size;
     }
 }
 

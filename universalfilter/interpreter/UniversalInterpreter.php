@@ -5,7 +5,7 @@
  * Create an instance of this class and give it a query-tree execute the filter.
  *
  * @package The-Datatank/universalfilter/interpreter
- * @copyright (C) 2012 by iRail vzw/asbl
+ * @copyright (C) 2012 We Open Data
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -33,6 +33,7 @@ class UniversalInterpreter implements IInterpreter{
             "CONSTANT" => "ConstantExecuter",
             "FILTERCOLUMN" => "ColumnSelectionFilterExecuter",
             "FILTEREXPRESSION" => "FilterByExpressionExecuter",
+            "DATAGROUPER" => "DataGrouperExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
@@ -51,13 +52,14 @@ class UniversalInterpreter implements IInterpreter{
             BinaryFunction::$FUNCTION_BINARY_OR => "BinaryFunctionOrExecuter",
             BinaryFunction::$FUNCTION_BINARY_AND => "BinaryFunctionAndExecuter",
             BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX => "BinaryFunctionMatchRegexExecuter",
-            AggregatorFunction::$AGGREGATOR_AVG => "",
-            AggregatorFunction::$AGGREGATOR_COUNT => "",
-            AggregatorFunction::$AGGREGATOR_FIRST => "",
-            AggregatorFunction::$AGGREGATOR_LAST => "",
-            AggregatorFunction::$AGGREGATOR_MAX => "",
-            AggregatorFunction::$AGGREGATOR_MIN => "",
-            AggregatorFunction::$AGGREGATOR_SUM => ""
+            TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING => "TertairyFunctionSubstringExecuter",
+            AggregatorFunction::$AGGREGATOR_AVG => "AverageAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_COUNT => "CountAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_FIRST => "FirstAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_LAST => "LastAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_MAX => "MaxAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_MIN => "MinAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_SUM => "SumAggregatorExecuter"
         );
     }
     
