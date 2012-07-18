@@ -1920,7 +1920,7 @@ function reduce_30_expression_8($tokens, &$result) {
 $result = reset($tokens);
 $expr =& $tokens[0];
 $likeexpr =& $tokens[2];
-$result = new BinaryFunction(BinaryFunction::$FUNCTION_UNAIRY_MATCH_REGEX, $expr, convertRegexFromSQLToUniversal($likeexpr));
+$result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, $expr, new Constant(convertRegexFromSQLToUniversal($likeexpr)));
 }
 
 function reduce_31_expressionA_1($tokens, &$result) {
@@ -2164,7 +2164,7 @@ function reduce_56_likeexpression_1($tokens, &$result) {
 # (56) likeexpression :=  constant
 #
 $result = reset($tokens);
-$result = new Constant($tokens[0]);
+$result = $tokens[0];
 }
 
 function reduce_57_identifierlist_1($tokens, &$result) {

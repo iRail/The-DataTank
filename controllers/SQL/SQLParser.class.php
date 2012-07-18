@@ -65,7 +65,7 @@ class SQLParser{
                     $this->parser->eat('constant', "-".$t);
                 }else if ($this->is_constant($t)){
                     //echo " --> constant <br/>";
-                    $this->parser->eat('constant', $t);
+                    $this->parser->eat('constant', $this->getStripedConstant($t));
                 }
                 else if (!$this->is_keyword($t)){
                     //echo " --> identifier <br/>";
@@ -105,5 +105,12 @@ class SQLParser{
     
     private function is_keyword($token){
         return in_array(strtoupper($token), SQLParser::$keywords);
+    }
+    
+    private function getStripedConstant($const){
+        if(substr($const,0,1)=="'"){
+            $const = substr($const,1,-1);
+        }
+        return $const;
     }
 }

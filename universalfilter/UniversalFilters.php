@@ -237,6 +237,7 @@ class UnairyFunction extends ExpressionNode {
     public static $FUNCTION_UNAIRY_STRINGLENGTH="FUNCTION_UNAIRY_STRINGLENGTH";
     public static $FUNCTION_UNAIRY_ROUND="FUNCTION_UNAIRY_ROUND";
     public static $FUNCTION_UNAIRY_ISNULL="FUNCTION_UNAIRY_ISNULL";
+    public static $FUNCTION_UNAIRY_NOT="FUNCTION_UNAIRY_NOT";
     
     public function __construct($kind, UniversalFilterNode $column) {
         parent::__construct($kind);
@@ -270,7 +271,7 @@ class BinaryFunction extends ExpressionNode {
     public static $FUNCTION_BINARY_COMPARE_NOTEQUAL="FUNCTION_BINARY_COMPARE_NOTEQUAL";
     public static $FUNCTION_BINARY_OR="FUNCTION_BINARY_OR";
     public static $FUNCTION_BINARY_AND="FUNCTION_BINARY_AND";
-    public static $FUNCTION_BINARY_MATCH_REGEX="FUNCTION_BINARY_MATCH_REGEX";// regex in format of php !!!
+    public static $FUNCTION_BINARY_MATCH_REGEX="FUNCTION_BINARY_MATCH_REGEX";// does $1 matches $2 ? ($2 is in php regex format!)
     
     public function __construct($kind, UniversalFilterNode $columnA, UniversalFilterNode $columnB) {
         parent::__construct($kind);
@@ -298,7 +299,8 @@ class TertairyFunction extends ExpressionNode {
     private $columnB;
     private $columnC;
     
-    public static $FUNCTION_TERTIARY_SUBSTRING="FUNCTION_TERTIARY_SUBSTRING";
+    public static $FUNCTION_TERTIARY_SUBSTRING="FUNCTION_TERTIARY_SUBSTRING";//get part of $1 from index $2 with length $3
+    public static $FUNCTION_TERTIARY_REGEX_REPLACE="FUNCTION_TERTIARY_REGEX_REPLACE";//replace $1 by $2 in $3
     
     public function __construct($kind, UniversalFilterNode $columnA, UniversalFilterNode $columnB, UniversalFilterNode $columnC) {
         parent::__construct($kind);

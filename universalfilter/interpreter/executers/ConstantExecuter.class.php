@@ -17,14 +17,6 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
     private $const;
     private $nameOfField;
     
-    private function getStripedConstant(UniversalFilterNode $filter){
-        $const = $filter->getConstant();
-        if(substr($const,0,1)=="'"){
-            $const = substr($const,1,-1);
-        }
-        return $const;
-    }
-    
     private function getFieldName($const){
         if($const!=""){
             return "$const";
@@ -36,7 +28,7 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
         $this->filter = $filter;
         
-        $this->const=$this->getStripedConstant($filter);
+        $this->const=$filter->getConstant();
         $this->nameOfField=$this->getFieldName($this->const);
         
         //column

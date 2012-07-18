@@ -31,7 +31,11 @@ function putFilterAfterIfExists($filter, $filterToPutAfter){
  * Converts the regex from the normal format to the format used in Universal
  */
 function convertRegexFromSQLToUniversal($SQLRegex){
-    return $SQLRegex;
+    $phpregex = preg_quote($SQLRegex, "/");
+    $phpregex = str_replace("%", ".*", $phpregex);
+    $phpregex = str_replace("?", ".", $phpregex);
+    $phpregex = "/".$phpregex."/";
+    return $phpregex;
 }
 
 /**
@@ -45,7 +49,8 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "LCASE" => UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE,
         "LEN" => UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH,
         "ROUND" => UnairyFunction::$FUNCTION_UNAIRY_ROUND,
-        "ISNULL" => UnairyFunction::$FUNCTION_UNAIRY_ISNULL
+        "ISNULL" => UnairyFunction::$FUNCTION_UNAIRY_ISNULL,
+        "NOT" => UnairyFunction::$FUNCTION_UNAIRY_NOT
     );
     $unaryaggregatormap = array(
         "AVG" => AggregatorFunction::$AGGREGATOR_AVG,
@@ -74,19 +79,32 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
  */
 function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
     //all binary functions like "+", "*", ... are defined in the grammar
-    throw new Exception("That binary function does not exist... (".$SQLname.")");
+    $SQLname=strtoupper($SQLname);
+    
+    $binarymap = array(
+        "REGEX_MATCH" => BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX
+    );
+    
+    if($binarymap[$SQLname]!=null){
+        return new BinaryFunction($binarymap[$SQLname], $arg1);
+    }else{
+        throw new Exception("That tertary function does not exist... (".$SQLname.")");
+    }
 }
 
 /**
  * Gets the universal name (and filter) for a tertary SQLFunction
  */
 function getTertairyFunctionForSQLFunction($SQLname, $arg1, $arg2){
+    $SQLname=strtoupper($SQLname);
+    
     $tertarymap = array(
-        "MID" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING
+        "MID" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING,
+        "REGEX_REPLACE" => TertairyFunction::$FUNCTION_TERTIARY_REGEX_REPLACE
     );
     
     if($tertarymap[$SQLname]!=null){
-        return new AggregatorFunction($tertarymap[$SQLname], $arg1);
+        return new TertairyFunction($tertarymap[$SQLname], $arg1);
     }else{
         throw new Exception("That tertary function does not exist... (".$SQLname.")");
     }

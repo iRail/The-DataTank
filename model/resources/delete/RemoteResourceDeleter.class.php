@@ -24,8 +24,3 @@ class RemoteResourceDeleter extends ADeleter{
         DBQueries::deletePackage($this->package);
     }
 }
-?>
-
-
-
-

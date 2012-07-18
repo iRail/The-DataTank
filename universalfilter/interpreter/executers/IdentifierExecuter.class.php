@@ -78,7 +78,6 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
      * @return UniversalFilterTableHeader
      */
     private function getColumnDataHeader(Environment $topenv, $fullid){
-        echo "$fullid";
         if($fullid=="*"){
             //special case => current table
             return $topenv->getTable()->getHeader()->cloneHeader();
