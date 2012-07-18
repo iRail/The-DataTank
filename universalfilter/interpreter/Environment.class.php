@@ -4,26 +4,69 @@
  * An environment is passed to the filterexecuters while executing a query
  *
  * @package The-Datatank/universalfilter/interpreter
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
 class Environment {
-    //
-    // Identifier should be able to ask: 
-    //  - what is the full table name of this alias?
-    //  - can you give me the table with full name ... ?
-    //  - give me the column with name ...
-    //  - give me a cell with name ...
-    //  
-    //  => Aliases and TableManager and other Tables should be kept inside Environment
-    //
     
-    private $table=null;
+    /**
+     * Single values
+     */
+    private $singlevaluecolumns = array();
+    private $singlevaluerows = array();
+    
+    /**
+     * Adds a single environment value
+     * @param UniversalFilterTableHeaderColumnInfo $column
+     * @param UniversalFilterTableContentRow $datarow 
+     */
+    public function addSingleValue(UniversalFilterTableHeaderColumnInfo $column, UniversalFilterTableContentRow $datarow) {
+        array_push($this->singlevaluecolumns, $column);
+        array_push($this->singlevaluerows, $datarow);
+        return $index;
+    }
+    
+    /**
+     * Returns a single value -> header
+     * @param int $index
+     * @return UniversalFilterTableHeaderColumnInfo
+     */
+    public function getSingleValueHeader($index){
+        return $this->singlevaluecolumns[$index];
+    }
+    
+    /**
+     * Returns a single value -> row
+     * @param int $index
+     * @return UniversalFilterTableContentRow 
+     */
+    public function getSingleValue($index){
+        return $this->singlevaluerows[$index];
+    }
+    
+    /**
+     * Sets the single value on a certain index
+     * @param int $index
+     * @param UniversalFilterTableContentRow $datarow 
+     */
+    public function setSingleValue($index, UniversalFilterTableContentRow $datarow) {
+        $this->singlevaluerows[$index] = $datarow;
+    }
+    
+    /**
+     * Gets the number of single values
+     * @return int
+     */
+    public function getSingleValueCount(){
+        return count($this->singlevaluecolumns);
+    }
 
     /**
      * Manage tables
      */
+    
+    private $table=null;
     
     /**
      * set the current table
@@ -39,64 +82,6 @@ class Environment {
     public function getTable(){
         return $this->table;
     }
-    
-    /**
-     * Get a single column from the data (header)
-     * @return UniversalFilterTableHeader
-     */
-    public function getColumnDataHeader($fullid){
-        if($fullid=="*"){
-            //special case
-            return $this->table->getHeader()->cloneHeader();
-        }
-        
-        $oldheader = $this->table->getHeader();
-        $columnid = $oldheader->getColumnIdByName($fullid);
-        
-        if($columnid==null){
-            throw new Exception("Column not found".$fullid.".");
-        }
-        
-        $newHeaderColumn=$oldheader->getColumnInformationById($columnid)->cloneColumnNewId();
-
-        $columnHeader = new UniversalFilterTableHeader(array($newHeaderColumn), $oldheader->isSingleRowByConstruction(), true);
-
-        return $columnHeader;
-    }
-    
-    /**
-     * Get a column from the data (content)
-     * @param UniversalFilterTableHeader $header
-     * @return UniversalFilterTableContent
-     */
-    public function getColumnDataContent($fullid, $header){//get a single column from the table
-        if($fullid=="*"){
-            //special case
-            return $this->table->getContent();
-        }
-        
-        $oldheader = $this->table->getHeader();
-        $oldcolumnid = $oldheader->getColumnIdByName($fullid);
-        
-        $newcolumnid = $header->getColumnId();
-
-        //copyFields
-        //$oldcolumnid -> $newcolumnid
-        
-        $content = $this->table->getContent();
-        
-        $newContent= new UniversalFilterTableContent();
-        $rows=array();
-        for ($index = 0; $index < $content->getRowCount(); $index++) {
-            $oldRow = $content->getRow($index);
-            $newRow = new UniversalFilterTableContentRow();
-            $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
-            
-            $newContent->addRow($newRow);
-        }
-        
-        return $newContent;
-    }
 
     /**
      * Clone Environment
@@ -104,6 +89,8 @@ class Environment {
     public function newModifiableEnvironment(){
         $newEnv=new Environment();
         $newEnv->setTable($this->getTable());
+        $newEnv->singlevaluerows=$this->singlevaluerows;
+        $newEnv->singlevaluecolumns=$this->singlevaluecolumns;
         return $newEnv;
     }
 }

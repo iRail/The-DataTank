@@ -3,7 +3,7 @@
  * This file contains an uniform representation of a query tree
  *
  * @package The-Datatank/universalfilter
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -270,7 +270,7 @@ class BinaryFunction extends ExpressionNode {
     public static $FUNCTION_BINARY_COMPARE_NOTEQUAL="FUNCTION_BINARY_COMPARE_NOTEQUAL";
     public static $FUNCTION_BINARY_OR="FUNCTION_BINARY_OR";
     public static $FUNCTION_BINARY_AND="FUNCTION_BINARY_AND";
-    public static $FUNCTION_BINARY_MATCH_REGEX="FUNCTION_BINARY_MATCH_REGEX";/* note: TODO: define possible regex */
+    public static $FUNCTION_BINARY_MATCH_REGEX="FUNCTION_BINARY_MATCH_REGEX";// regex in format of php !!!
     
     public function __construct($kind, UniversalFilterNode $columnA, UniversalFilterNode $columnB) {
         parent::__construct($kind);

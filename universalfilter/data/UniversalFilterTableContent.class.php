@@ -3,7 +3,7 @@
  * The content of the universal representation of a table
  *
  * @package The-Datatank/universalfilter/data
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -31,7 +31,7 @@ class UniversalFilterTableContent {
     public function getRow($index){
         if($index<$this->size){
             return $this->rows->getIndex($index);
-        }else{throw new Exception("UniversalFilterTableContent: Index out of bounds");}//should not happen
+        }else{throw new Exception("UniversalFilterTableContent: getRow: Index out of bounds");}//should not happen
     }
     
     /**
@@ -42,7 +42,7 @@ class UniversalFilterTableContent {
     public function setRow($index, $row){
         if($index<$this->size){
             $this->rows->setIndex($index, $row);
-        }else{throw new Exception("UniversalFilterTableContent: Index out of bounds");}//should not happen
+        }else{throw new Exception("UniversalFilterTableContent: setRow: Index out of bounds");}//should not happen
     }
     
     /**

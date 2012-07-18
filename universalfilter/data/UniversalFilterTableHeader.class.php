@@ -4,7 +4,7 @@
  * The header of the universal representation of a table
  *
  * @package The-Datatank/universalfilter/data
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */

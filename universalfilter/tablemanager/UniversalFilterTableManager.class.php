@@ -16,7 +16,7 @@ include_once("universalfilter/tablemanager/tools/PhpObjectTableConverter.class.p
  * The TableManager makes it easier to view The DataTank as a collection of tables
  *
  * @package The-Datatank/universalfilter/tablemanager
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -55,14 +55,16 @@ class UniversalFilterTableManager {
             if($this->resourcesmodel->hasResource($package, $resourcename)){
                 return array($package,$resourcename,$identifierpieces);
             }else{
-                throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename.");
+                throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename: ".$globalTableIdentifier);
             }
         }else{
-            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Identifier does not contain a packagename.");
+            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Identifier does not contain a packagename: ".$globalTableIdentifier);
         }
     }
     
-    public function getTableHeader($globalTableIdentifier){
+    private $requestedTables=array();
+    
+    private function loadTable($globalTableIdentifier){
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
         // TODO: do optimalisation here (if object supports getHeader itself)
         
@@ -70,17 +72,21 @@ class UniversalFilterTableManager {
         
         $table = $converter->getPhpObjectTable($globalTableIdentifier, $splitedId);
         
-        return $table->getHeader();
+        $this->requestedTables[$globalTableIdentifier] = $table;
     }
     
-    public function getFullTable($globalTableIdentifier){
-        $splitedId = $this->splitIdentifier($globalTableIdentifier);
-        
-        $converter = new PhpObjectTableConverter();
-        
-        $table = $converter->getPhpObjectTable($globalTableIdentifier, $splitedId);
-        
-        return $table;
+    public function getTableHeader($globalTableIdentifier){
+        if(!isset($this->requestedTables[$globalTableIdentifier])){
+            $this->loadTable($globalTableIdentifier);
+        }
+        return $this->requestedTables[$globalTableIdentifier]->getHeader();
+    }
+    
+    public function getTableContent($globalTableIdentifier){
+        if(!isset($this->requestedTables[$globalTableIdentifier])){
+            $this->loadTable($globalTableIdentifier);
+        }
+        return $this->requestedTables[$globalTableIdentifier]->getContent();
     }
     
 }

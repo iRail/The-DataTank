@@ -5,7 +5,7 @@
  * Create an instance of this class and give it a query-tree execute the filter.
  *
  * @package The-Datatank/universalfilter/interpreter
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -59,7 +59,8 @@ class UniversalInterpreter implements IInterpreter{
             AggregatorFunction::$AGGREGATOR_LAST => "LastAggregatorExecuter",
             AggregatorFunction::$AGGREGATOR_MAX => "MaxAggregatorExecuter",
             AggregatorFunction::$AGGREGATOR_MIN => "MinAggregatorExecuter",
-            AggregatorFunction::$AGGREGATOR_SUM => "SumAggregatorExecuter"
+            AggregatorFunction::$AGGREGATOR_SUM => "SumAggregatorExecuter",
+            CheckInFunction::$FUNCTION_IN_LIST => "CheckInFunctionExecuter"
         );
     }
     
@@ -73,9 +74,18 @@ class UniversalInterpreter implements IInterpreter{
     
     public function interpret(UniversalFilterNode $tree){
         $executer = $this->findExecuterFor($tree);
-        $env = $executer->execute($tree, $this);
         
-        return $env->getTable();
+        $emptyEnv = new Environment();
+        $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
+        
+        $executer->initExpression($tree, $emptyEnv, $this);
+        
+        //get the table, in two steps
+        $header = $executer->getExpressionHeader();
+        
+        $content = $executer->evaluateAsExpression();
+        
+        return new UniversalFilterTable($header, $content);
     }
 }
 

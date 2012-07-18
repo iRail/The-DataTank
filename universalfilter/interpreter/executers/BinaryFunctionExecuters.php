@@ -4,7 +4,7 @@
  * This file contains all evaluators for binary functions
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -145,7 +145,7 @@ class BinaryFunctionMultiplyExecuter extends BinaryFunctionExecuter {
 class BinaryFunctionDivideExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
-        return $nameA."_isnotequal_".$nameB;
+        return $nameA."_divide_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){

@@ -3,7 +3,7 @@
  * This file is used by the grammar to create the tree
  *
  * @package The-Datatank/controllers/SQL
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -38,6 +38,8 @@ function convertRegexFromSQLToUniversal($SQLRegex){
  * Gets the universal name (and filter) for a unary SQLFunction
  */
 function getUnaryFilterForSQLFunction($SQLname, $arg1){
+    $SQLname=strtoupper($SQLname);
+    
     $unarymap = array(
         "UCASE" => UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE,
         "LCASE" => UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE,

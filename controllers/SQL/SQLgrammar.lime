@@ -112,6 +112,8 @@ expressionC = expressionD/a '=' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, $a, $b);}
             | expressionD/a '<' '>' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
+            | expressionD/a '!' '=' expressionD/b
+                {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
             | expressionD
                 {$$ = $1;}
             .

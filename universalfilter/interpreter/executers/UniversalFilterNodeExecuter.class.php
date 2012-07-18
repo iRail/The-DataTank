@@ -1,29 +1,27 @@
 <?php
 /**
- * Top of all executers
+ * Base class of all executers
  *
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
 abstract class UniversalFilterNodeExecuter {
     
     /**
-     * USE AS AN EXPRESSION (Returns a single cell or column)
-     */
-    
-    /**
      * Initializes this node as an expression. It gets the environment of the executer as an argument. 
+     * @param UniversalFilterNode $filter The corresponding filter
+     * @param Environment $topenv The environment given to evaluate this filter. It should NEVER be modified.
+     * @param IInterpreter $interpreter The interpreter that evaluates this tree.
      */
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
         //nothing
     }
 
     /**
-     * Returns a single cell or column. => Only the header !!!
+     * Returns the header of the returned table
      * 
-     * It also gets the environment of the executer as an argument. But it should NOT be modified!
      * @return UniversalFilterTableHeader
      */
     public function getExpressionHeader(){
@@ -31,27 +29,11 @@ abstract class UniversalFilterNodeExecuter {
     }
     
     /**
-     * Returns a single cell or column. => Only the content !!!
-     * 
-     * It also gets the environment of the executer as an argument. But it should NOT be modified!
+     * Calculates and returns the content of the table
      * 
      * @return UniversalFilterTableContent
      */
     public function evaluateAsExpression(){
-        return null;
-    }
-    
-    
-    
-    /**
-     * USE AS A FILTER (Returns an environment)
-     */
-    
-    /**
-     * Returns a complete environment.
-     * @return Environment
-     */
-    public function execute(UniversalFilterNode $filter, IInterpreter $interpreter) {
         return null;
     }
 }

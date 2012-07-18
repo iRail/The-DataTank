@@ -3,7 +3,7 @@
  * This file contains the abstact top class for all evaluators for tertairy functions
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -97,19 +97,19 @@ abstract class TertairyFunctionExecuter extends ExpressionNodeExecuter {
             $valueB=null;
             $valueC=null;
             if($table1content->getRowCount()>$i){
-                $valueA=$table1content->getCellValue($idA, $i);
+                $valueA=$table1content->getValue($idA, $i);
             }else{
-                $valueA=$table1content->getCellValue($idA, 0);
+                $valueA=$table1content->getCellValue($idA);
             }
             if($table2content->getRowCount()>$i){
-                $valueB=$table2content->getCellValue($idB, $i);
+                $valueB=$table2content->getValue($idB, $i);
             }else{
-                $valueB=$table2content->getCellValue($idB, 0);
+                $valueB=$table2content->getCellValue($idB);
             }
             if($table3content->getRowCount()>$i){
-                $valueC=$table3content->getCellValue($idC, $i);
+                $valueC=$table3content->getValue($idC, $i);
             }else{
-                $valueC=$table3content->getCellValue($idC, 0);
+                $valueC=$table3content->getCellValue($idC);
             }
             
             //evaluate

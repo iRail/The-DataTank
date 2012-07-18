@@ -4,7 +4,7 @@
  * "Executes" a constant and returns a table
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -60,11 +60,6 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
         $content->addRow($row);
         
         return $content;
-    }
-    
-    
-    public function execute(UniversalFilterNode $filter, IInterpreter $interpreter) {
-        throw new Exception("A constant can not be executed. Illegal filtertree.");
     }
 }
 

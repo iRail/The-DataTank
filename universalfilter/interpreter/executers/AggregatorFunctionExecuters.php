@@ -5,57 +5,36 @@
  * This file contains all evaluators for aggregators
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
 
 /* average */
-class AverageAggregatorExecuter extends AggregatorFunctionExecuter {
+class AverageAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
-        
-        $this->makeAllColumnsHeader();
+    public function calculateValue(array $data){
+        $sum = array_sum($data);
+        $count = count($data);
+        if($count==0) {return 0;}
+        return $sum/$count;
     }
     
-    public function evaluateAsExpression() {
-        parent::evaluateAsExpression();
-        
-        return $this->callForAllColumns();
+    public function keepFullInfo(){
+        return false;
     }
     
     public function getName($name){
         return "avg_".$name;
     }
     
-    public function calculateValue(array $data){
-        return array_sum($data)/count($data);
-    }
-    
-    public function keepFullInfo(){
+    public function errorIfNoItems(){
         return false;
     }
 }
 
 /* max */
-class MaxAggregatorExecuter extends AggregatorFunctionExecuter {
-    
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
-        
-        $this->makeAllColumnsHeader();
-    }
-    
-    public function evaluateAsExpression() {
-        parent::evaluateAsExpression();
-        
-        return $this->callForAllColumns();
-    }
-    
-    public function getName($name){
-        return "max_".$name;
-    }
+class MaxAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
     
     public function calculateValue(array $data){
         return max($data);
@@ -64,26 +43,18 @@ class MaxAggregatorExecuter extends AggregatorFunctionExecuter {
     public function keepFullInfo(){
         return false;
     }
+    
+    public function getName($name){
+        return "max_".$name;
+    }
+    
+    public function errorIfNoItems(){
+        return true;
+    }
 }
 
 /* min */
-class MinAggregatorExecuter extends AggregatorFunctionExecuter {
-    
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
-        
-        $this->makeAllColumnsHeader();
-    }
-    
-    public function evaluateAsExpression() {
-        parent::evaluateAsExpression();
-        
-        return $this->callForAllColumns();
-    }
-    
-    public function getName($name){
-        return "min_".$name;
-    }
+class MinAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
     
     public function calculateValue(array $data){
         return min($data);
@@ -92,27 +63,19 @@ class MinAggregatorExecuter extends AggregatorFunctionExecuter {
     public function keepFullInfo(){
         return false;
     }
+    
+    public function getName($name){
+        return "min_".$name;
+    }
+    
+    public function errorIfNoItems(){
+        return true;
+    }
 }
 
 /* sum */
-class SumAggregatorExecuter extends AggregatorFunctionExecuter {
-    
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
-        
-        $this->makeAllColumnsHeader();
-    }
-    
-    public function evaluateAsExpression() {
-        parent::evaluateAsExpression();
-        
-        return $this->callForAllColumns();
-    }
-    
-    public function getName($name){
-        return "sum_".$name;
-    }
-    
+class SumAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+
     public function calculateValue(array $data){
         return array_sum($data);
     }
@@ -120,62 +83,38 @@ class SumAggregatorExecuter extends AggregatorFunctionExecuter {
     public function keepFullInfo(){
         return false;
     }
+    
+    public function getName($name){
+        return "sum_".$name;
+    }
+    
+    public function errorIfNoItems(){
+        return false;
+    }
 }
 
 
 
 /* first */
-class FirstAggregatorExecuter extends AggregatorFunctionExecuter {
-    
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
-        
-        $this->makeAllColumnsHeader();
-    }
-    
-    public function evaluateAsExpression() {
-        parent::evaluateAsExpression();
-        
-        return $this->callForAllColumns();
-    }
-    
-//    public function getName($name){
-//        return "first_".$name;
-//    }
+class FirstAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
     
     public function calculateValue(array $data){
         return $data[0];
     }
     
-    public function keepFullInfo(){
+    public function errorIfNoItems(){
         return true;
     }
 }
 
 /* last */
-class LastAggregatorExecuter extends AggregatorFunctionExecuter {
-    
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
-        
-        $this->makeAllColumnsHeader();
-    }
-    
-    public function evaluateAsExpression() {
-        parent::evaluateAsExpression();
-        
-        return $this->callForAllColumns();
-    }
-    
-//    public function getName($name){
-//        return "last_".$name;
-//    }
+class LastAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
     
     public function calculateValue(array $data){
         return $data[count($data)-1];
     }
     
-    public function keepFullInfo(){
+    public function errorIfNoItems(){
         return true;
     }
 }
@@ -183,19 +122,7 @@ class LastAggregatorExecuter extends AggregatorFunctionExecuter {
 
 
 /* count */
-class CountAggregatorExecuter extends AggregatorFunctionExecuter {
-    
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
-        
-        $this->makeSingleColumnHeader();
-    }
-    
-    public function evaluateAsExpression() {
-        parent::evaluateAsExpression();
-        
-        return $this->callSingleColumn();
-    }
+class CountAggregatorExecuter extends FullTableAggregatorFunctionExecuter {
     
     public function getName($name){
         return "count_".$name;

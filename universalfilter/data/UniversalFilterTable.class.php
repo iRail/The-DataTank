@@ -5,7 +5,7 @@
  * (This class is just a group for the header and content classes...)
  *
  * @package The-Datatank/universalfilter/data
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */

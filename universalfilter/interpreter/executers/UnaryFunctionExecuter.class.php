@@ -3,7 +3,7 @@
  * This file contains the abstact top class for all evaluators for unary functions
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -60,7 +60,7 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
             $row=new UniversalFilterTableContentRow();
             
             //get the value for index i
-            $valueA=$table1content->getCellValue($idA, $i);
+            $valueA=$table1content->getValue($idA, $i);
             
             //evaluate
             $value = $this->doUnaryFunction($valueA);

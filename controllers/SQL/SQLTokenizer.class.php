@@ -3,7 +3,7 @@
  * Splits a SQL query string in tokens.
  *
  * @package The-Datatank/controllers/SQL
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -17,7 +17,7 @@ class SQLTokenizer{
     
     /* parsing: special chars */
     private static $specialchars=array('\n', '\r', ' ', '\t', 
-        ')', '(', '+', '-', '*', '/', ',', '=', '<', '>');//todo < >, ...
+        ')', '(', '+', '-', '*', '/', ',', '=', '<', '>', '!');//todo < >, ...
     private static $whitespacechars=array('\n', '\r', ' ', '\t');
     
     /* parsing: tool-functions 

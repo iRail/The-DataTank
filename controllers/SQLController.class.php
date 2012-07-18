@@ -3,7 +3,7 @@
  * The controller will handle all SQL requests
  *
  * @package The-Datatank/controllers
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
@@ -124,5 +124,3 @@ class SQLController extends AController {
         throw new RepresentationCUDCallTDTException();
     }
 }
-
-?>

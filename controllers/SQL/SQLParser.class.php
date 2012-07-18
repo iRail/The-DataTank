@@ -4,11 +4,10 @@
  * It throw SQLParseTDTExceptions (TODO)
  *
  * @package The-Datatank/controllers/SQL
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-
 include_once("lib/parse_engine.php");
 include_once("controllers/SQL/SQLGrammarFunctions.php");
 include_once("controllers/SQL/SQLTokenizer.class.php");
@@ -25,7 +24,7 @@ class SQLParser{
     private static $keywords = array(
         "SELECT", "FROM", "DISTINCT", "GROUP", "BY", "WHERE", "HAVING", "LIKE", "UNION", "BETWEEN", "INNER", "LEFT", "RIGHT", "FULL", "JOIN", "IN",
         "+", "-", "*", "/", "=", "<", ">", "OR", "AND", "AS",
-        ",", "(", ")");
+        ",", "(", ")", "!");
     
     /**
      * Takes: A SQL Query
@@ -108,5 +107,3 @@ class SQLParser{
         return in_array(strtoupper($token), SQLParser::$keywords);
     }
 }
-
-?>

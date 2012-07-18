@@ -4,7 +4,7 @@
  * This class can convert a table (as used by the interpreter) to a php-object
  *
  * @package The-Datatank/universalfilter/tablemanager/tools
- * @copyright (C) 2012 We Open Data
+ * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
