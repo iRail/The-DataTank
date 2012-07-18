@@ -131,6 +131,16 @@ class UniversalFilterTableHeaderColumnInfo {
         $a->isGrouped=true;
         return $a;
     }
+    
+    /**
+     * Clones this column, with a new tablename
+     */
+    public function cloneColumnTableAlias($tablename){
+        $newColum = $this->cloneColumnInfo();
+        $newColum->completeColumnNameParts=array($tablename, $this->completeColumnNameParts[count($this->completeColumnNameParts)-1]);
+        return $newColum;
+    }
+    
 }
 
 ?>
