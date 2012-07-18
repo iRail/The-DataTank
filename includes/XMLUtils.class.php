@@ -33,6 +33,8 @@ Class XmlUtils {
         //**********************************************************
         // For each child node: add attributes as object properties and invoke recursion
         $arrayIdx = array();
+        
+        
         foreach ($xml->children() as $xmlChild) {
             $str = trim($xmlChild);
             //print_r($xmlChild->attributes());

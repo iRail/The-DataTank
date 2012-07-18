@@ -25,7 +25,3 @@ class RemoteResourceDeleter extends ADeleter{
     }
 }
 ?>
-
-
-
-

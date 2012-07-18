@@ -24,8 +24,3 @@ class InstalledResourceDeleter extends ADeleter{
         DBQueries::deletePackage($this->package);
     }
 }
-?>
-
-
-
-

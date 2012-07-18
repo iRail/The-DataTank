@@ -5,7 +5,7 @@
 %left '.'
 %left '?'
 %left LN
-%left '&' 
+%left '&'
 %left '|'
 %left '+' '-'
 %left '*' '/'
@@ -16,82 +16,84 @@ stmt = flow
 .
 
 flow = expression
-| expression/e '.' name/function '(' num/n1 ')' { if($function == "limit") { $ff = FunctionFactory::getInstance(); $f = $ff->createFunction($function, $n1); $f->execute($e,$e); $$ = $e; } }
+| expression/e '.' name/function '(' num/n1 ')' { if($function == "limit"){ /* TODO */ $$ = null;}else{ $$ = createAggregatorFilter($function,$n1);/* TODO create function php file to map constants*/  } }
 .
 
-expression = resource/$ '?' filterlist { $3->execute($$); }
+expression = resource '?' filterlist { $$ = new FilterByExpressionFilter($3); $$->setSource($1); }
 | resource
-| calc { $$ = $1->execute(); }
+| calc { /* TODO execute calculation */ $$ = $1->execute(); }
+.
+resource = resourceid '{' selector/sel '}' { $columns = new ColumnSelectionFilter($sel["filters"]); $columns->setSource(new Identifier($1)); /* $sorts = new SORTOBJECT(); $sort->setSource($columns); $$ = $sorts;*/ $$ = $columns; }
+| resourceid { $$ = new Identifier($1); }
 .
 
-resource = resourceid '{' selector '}' { $$ = $3->execute($1); }
-| resourceid { $$ = $1->execute(); }
-.
-
-resourceid = name '/' name  { $$ = new SPECTQLResource($1,$3); }
-| resourceid '/' name { $1->addParameter($3); $$ = $1; }
-| resourceid '/' num { $1->addParameter($3); $$ = $1; }
+resourceid = name '/' name  { $$ = $1 . "." . $3; }
+| resourceid '/' name { $$ = $1 . "." . $3; }
+| resourceid '/' num { /* TODO */ }
 .
 
 name = name '-' name { $$ = $1 . "-" . $3; }
 |
 .
 
-
-
-num = num '.' num { $$ = (double) ($1 .".". $3);  }
+num = num '.' num { $$ = new Constant((double) ($1 . "." . $3));  }
 |
 .
 
-filterlist = filter { $$ = new SPECTQLFilterList($1); }
-| filterlist '&' filterlist { $1->merge($3,true); $$ = $1; }
-| filterlist '|' filterlist { $1->merge($3, false); $$ = $1; }
-| '(' filterlist/$ ')'
+filterlist = filter { $$ = $1; }
+| filterlist '&' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,$1,$3); }
+| filterlist '|' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR,$1,$3); }
+| '(' filterlist/list ')' { $$ = $list;}
 .
 
-filter = name '>' string { $$ = new SPECTQLFilter($1,">",$3); }
-| name EQ string { $$ = new SPECTQLFilter($1,"==",$3); }
-| name '<' string { $$ = new SPECTQLFilter($1,"<",$3); }
-| name '>' num { $$ = new SPECTQLFilter($1,">",$3); }
-| name EQ num { $$ = new SPECTQLFilter($1,"==",$3); }
-| name '<' num { $$ = new SPECTQLFilter($1,"<",$3); }
-| name '~' string { $$ = new SPECTQLFilter($1,"~",$3); }
-| name/function '(' num/lat ',' num/long ',' num/radius ')' { if($function == "in_radius"){ $$ = new SPECTQLGeoFilter($lat,$long,$radius); } }
+filter = name/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| name/a EQ string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| name/a '<' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| name/a '>' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
+| name/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| name/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| name/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); }
+| name/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (tertiary function)*/ }
 .
 
-selector = argument { $$ = new SPECTQLSelector($1); }
-| argument order { $$ = new SPECTQLSelector($1, $2); }
-| selector ',' argument { $1->addArgument($3); $$ = $1; }
-| selector ',' argument order { $1->addArgument($3, $4); $$ = $1; }
+
+selector = selectargument/arg { $$ = $1; }
+| selector ',' selectargument/arg { $filters = array_merge($1["filters"],$3["filters"]); 
+                                    $sorts = array_merge($1["sorts"],$3["sorts"]);
+                                    $$ = array("filters"=>$filters,"sorts"=>$sorts); }
 .
 
-function = name '(' function ')' { $ff = FunctionFactory::getInstance(); $$ = $ff->createFunction($1, $3); }
-| name '(' argument ')' { $ff = FunctionFactory::getInstance(); $$ = $ff->createFunction($1, $3); }
-| name '(' argument ',' argument ')' { $ff = FunctionFactory::getInstance(); $$ = $ff->createFunction($1,$3,$5); }
+selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array()); }
+| argument/arg order { $$ = array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array()); /* eens sort by functions bestaan, $$ = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ }
+| name ALIAS argument/arg  {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array());}
+| name ALIAS argument/arg order {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array());}
 .
 
-order = '+' { $$ = 1; }
-| '-' { $$ = -1; }
+function = name '(' argument ')' { $$ = createUnaryFunction($1,$3); }
+| name '(' argument ',' argument ')' { $$ = createBinaryFunction($1,$3,$5); }
 .
 
-argument = name { $$ = new SPECTQLColumnName($1); }
+order = '+' { /* SORT BY ascending */ $$ = 1; }
+| '-' { /* SORT BY descending  */ $$ = -1; }
+.
+
+argument = name/name { $$ = new Identifier($name); }
 | link
-| '*' { $$ = new SPECTQLWildcard("all"); }
-| function
-| name ALIAS name { $$ = new SPECTQLColumnName($3,$1); }
+| '*' { $$ = new Identifier('*'); }
+| function { $$ = $1;}
 .
 
-link = name LN resourceid '.' name { $$ = new SPECTQLLink($1, $3, $5); }
+link = name LN resourceid '.' name { /* joined resource */ }
 .
 
-format = name { $ff = FormatterFactory::getInstance(); $ff->setFormat($1); }
+format = name { /* do nothing, format isnt used in the AST for it is an abstract filter tree , format is not a filter.*/ }
 .
 
-calc = num { $$ = new SPECTQLCalc($1); }
-| calc '+' calc { $$ = $1->Plus($3); }
-| calc '-' calc { $$ = $1->Minus($3); }
-| calc '*' calc { $$ = $1->Multiply($3); }
-| calc '/' calc { $$ = $1->Divide($3); }
-| num '.' num { $$ = new SPECTQLCalc((double)($1 . "." . $3)); }
-| '(' calc/$ ')'
+calc = num { $$ = new Constant($1); }
+| calc '+' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $1, $3);  }
+| calc '-' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $1, $3); }
+| calc '*' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $1, $3); }
+| calc '/' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $1, $3); }
+| num '.' num { $$ = new Constant((double)($1 . "." . $3)); }
+| '(' calc ')' {$$ = $1;} 
 .

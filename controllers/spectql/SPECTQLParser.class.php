@@ -24,7 +24,7 @@ include_once("controllers/spectql/functions/AFunction.class.php");
 include_once("controllers/spectql/parseexceptions.php");
 include_once("controllers/spectql/SPECTQLResource.class.php");
 include_once("controllers/spectql/SPECTQLTools.class.php");
-include_once("controllers/spectql/spectql.class");
+include_once("controllers/spectql/spectql.php");
 
 class SPECTQLParser{
     private $querystring;
@@ -99,11 +99,7 @@ class SPECTQLParser{
                     $this->parser->eat(self::$symbols[$t], null);
                 }
             }
-            $result=  $this->parser->eat_eof();
-            $o = new StdClass();
-            $o->spectql=$result;
-            //DBG: var_dump($o);
-            return $o;
+            return $this->parser->eat_eof();
         } catch (parse_error $e) {
             throw new ParserTDTException($e->getMessage());
         }

@@ -8,7 +8,7 @@
  * @author Jeroen Penninck
  */
 include_once("custom/formatters/FormatterFactory.class.php");
-include_once("controllers/sql/SQLParser.class.php");
+include_once("controllers/SQL/SQLParser.class.php");
 include_once("model/ResourcesModel.class.php");
 include_once("model/DBQueries.class.php");
 
