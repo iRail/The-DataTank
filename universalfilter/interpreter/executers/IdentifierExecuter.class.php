@@ -40,7 +40,11 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
             $this->isNewTable = true;
             //no matching column/value found => !! load new table
             $tableName = $filter->getIdentifierString();
+            try {
             $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
+            } catch(ResourceOrPackageNotFoundTDTException $rce){
+                throw new Exception("The identifier \"".$tableName."\" can not be found. It is not a table or a column.");
+            }
         }else{
             if(!$this->isColumn){
                 $this->singlevaluecolumnheader=$this->header->getColumnInformationById($this->header->getColumnId());
