@@ -364,7 +364,7 @@ class CheckInFunction extends NormalFilterNode {
     public static $FUNCTION_IN_LIST="FUNCTION_IN_LIST";// is a varargs function
     
     public function __construct($constants) {
-        parent::__construct(FUNCTION_IN_LIST);
+        parent::__construct(CheckInFunction::$FUNCTION_IN_LIST);
         $this->constants=$constants;
     }
     

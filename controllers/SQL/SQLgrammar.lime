@@ -64,7 +64,7 @@ listoftables = expression/expr
           .
           
 constantlist = constant {$$ = array(new Constant($1));}
-             | constant ',' constantlist/arr {array_unshift($arr, $1);$$ = $arr;}
+             | constant ',' constantlist/arr {array_unshift($arr, new Constant($1));$$ = $arr;}
              .
 
 asopt = AS | .
@@ -76,8 +76,8 @@ expression = expressionA  {$$ = $1;}
                  {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, 
                                     new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $b, $a), 
                                     new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $c));}
-           | IN '(' constantlist/constantlist ')' 
-                 {$$ = new CheckInFunction($constantlist);}
+           | expressionA IN '(' constantlist/constantlist ')' 
+                 {$$ = putFilterAfterIfExists($1, new CheckInFunction($constantlist));}
            | expressionA/a INNER JOIN expressionA/b ON expressionA/c
                  {$$ = null;/*TODO*/}
            | expressionA/a LEFT JOIN expressionA/b ON expressionA/c 
@@ -112,7 +112,7 @@ expressionC = expressionD/a '=' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
             | expressionD/a '!' '=' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
-            | expressionA/expr LIKE likeexpression/likeexpr
+            | expressionD/expr LIKE likeexpression/likeexpr
                  {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, $expr, new Constant(convertRegexFromSQLToUniversal($likeexpr)));}
             | expressionD
                 {$$ = $1;}
