@@ -86,8 +86,6 @@ expression = expressionA  {$$ = $1;}
                  {$$ = null;/*TODO*/}
            | expressionA/a FULL JOIN expressionA/b ON expressionA/c 
                  {$$ = null;/*TODO*/}
-           | expressionA/expr LIKE likeexpression/likeexpr
-                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, $expr, new Constant(convertRegexFromSQLToUniversal($likeexpr)));}
            .
             
 expressionA = expressionB/a OR expressionA/b 
@@ -114,6 +112,8 @@ expressionC = expressionD/a '=' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
             | expressionD/a '!' '=' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
+            | expressionA/expr LIKE likeexpression/likeexpr
+                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, $expr, new Constant(convertRegexFromSQLToUniversal($likeexpr)));}
             | expressionD
                 {$$ = $1;}
             .
