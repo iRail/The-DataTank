@@ -161,8 +161,7 @@ class BinaryFunctionMatchRegexExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
-        //TODO Regular expressions
-        throw new Exception("TODO Regular expressions are not supported yet....");
+        return (preg_match($valueB, $valueA)?"true":"false");
     }
 }
 ?>

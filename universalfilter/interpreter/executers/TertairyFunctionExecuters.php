@@ -21,4 +21,16 @@ class TertairyFunctionSubstringExecuter extends TertairyFunctionExecuter {
     }
 }
 
+/* regex replace */
+class TertairyFunctionRegexReplacementExecuter extends TertairyFunctionExecuter {
+    
+    public function getName($nameA, $nameB, $nameC){
+        return $nameA."_replaced_".$nameB."_with_".$nameC;
+    }
+    
+    public function doTertairyFunction($valueA, $valueB, $valueC){
+        return preg_replace($valueA, $valueB, $valueC);
+    }
+}
+
 ?>

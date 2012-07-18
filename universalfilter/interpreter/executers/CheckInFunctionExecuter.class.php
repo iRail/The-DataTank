@@ -8,8 +8,41 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class CheckInFunctionExecuter extends UniversalFilterNodeExecuter {
-    //TODO
+class CheckInFunctionExecuter extends UnaryFunctionExecuter {
+    
+    private $filter;
+
+    protected function getSourceExpression(){
+        return $this->filter->getSource();
+    }
+    
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+        $this->filter = $filter;
+        parent::initExpression($filter, $topenv, $interpreter);
+    }
+    
+    private function constantsToString(){
+        $arr = $this->filter->getConstants();
+        $outarr = array();
+        foreach ($arr as $constant) {
+            array_push($outarr, $constant->getConstant());
+        }
+        
+        return implode("-", $outarr);
+    }
+    
+    
+    public function getName($name){
+        return "_".$name."_in_".$this->constantsToString()."_";
+    }
+    
+    public function doUnaryFunction($value){
+        $arr = $this->filter->getConstants();
+        foreach ($arr as $constant) {
+            if($constant->getConstant()==$value) {return "true";}
+        }
+        return "false";
+    }
 }
 
 ?>

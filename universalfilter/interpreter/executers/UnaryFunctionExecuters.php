@@ -68,4 +68,16 @@ class UnaryFunctionIsNullExecuter extends UnaryFunctionExecuter {
         return is_null($value);
     }
 }
+
+/* not */
+class UnaryFunctionNotExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "not_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        return ($value=="true" || $value==1?"false":"true");
+    }
+}
 ?>
