@@ -22,6 +22,7 @@ include_once("universalfilter/interpreter/executers/BaseHashingFilterExecuter.cl
 include_once("universalfilter/interpreter/executers/DistinctFilterExecuter.class.php");
 include_once("universalfilter/interpreter/executers/DataGrouperExecuter.class.php");
 
+include_once("universalfilter/interpreter/executers/TableAliasExecuter.class.php");
 
 // expressions
 include_once("universalfilter/interpreter/executers/ExpressionNodeExecuter.class.php");

@@ -11,16 +11,11 @@ class UniversalFilterTableContent {
     private $rows;
     private $size;
     
-    private $id;
-    
     public static $IDCOUNT=0;
     
     public function __construct() {
         $this->rows=new BigList();
         $this->size=0;
-        
-        $this->id=UniversalFilterTableContent::$IDCOUNT;
-        UniversalFilterTableContent::$IDCOUNT++;
     }
     
     /**

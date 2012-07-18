@@ -24,7 +24,11 @@ class UniversalFilterTableHeader {
      * Rename this table
      */
     public function renameAlias($newname){
-        throw new Exception("TODO [header-renameAlias]");
+        $newcolumns = array();
+        foreach($this->columns as $column){
+            array_push($newcolumns, $column->cloneColumnTableAlias($newname));
+        }
+        $this->columns = $newcolumns;
     }
     
     /**

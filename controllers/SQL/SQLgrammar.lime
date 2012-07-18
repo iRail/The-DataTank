@@ -139,8 +139,12 @@ expressionF = endexpression {$$ = $1;}
 
 endexpression = identifier 
                 {$$ = new Identifier($1);}
+            | identifier/tab asopt identifier/tablealias 
+                {$$ = putFilterAfterIfExists(new Identifier($tab), new TableAliasFilter($tablealias));}
             | '(' statement/stat ')' 
                 {$$ = $stat;}
+            | '(' statement/stat ')' asopt identifier/tablealias
+                {$$ = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));}
             | constant 
                 {$$ = new Constant($1);}
             | identifier/functid '(' statement/arg1 ')' 

@@ -34,6 +34,7 @@ class UniversalInterpreter implements IInterpreter{
             "FILTERCOLUMN" => "ColumnSelectionFilterExecuter",
             "FILTEREXPRESSION" => "FilterByExpressionExecuter",
             "DATAGROUPER" => "DataGrouperExecuter",
+            "TABLEALIAS" => "TableAliasExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",

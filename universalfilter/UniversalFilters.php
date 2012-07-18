@@ -93,8 +93,8 @@ class TableAliasFilter extends NormalFilterNode {
         $this->alias=$alias;
     }
     
-    public function getConstant() {
-        return $constant;
+    public function getAlias() {
+        return $this->alias;
     }
 }
 
