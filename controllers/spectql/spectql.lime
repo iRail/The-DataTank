@@ -19,12 +19,16 @@ flow = expression
 | expression/e '.' name/function '(' num/n1 ')' { if($function == "limit"){ /* TODO */ $$ = null;}else{ $$ = createAggregatorFilter($function,$n1);/* TODO create function php file to map constants*/  } }
 .
 
-expression = resource '?' filterlist { $$ = new FilterByExpressionFilter($3); $$->setSource($1); }
-| resource
+expression = resource {$$ = $1;}
 | calc { /* TODO execute calculation */ $$ = $1->execute(); }
 .
 resource = resourceid '{' selector/sel '}' { $columns = new ColumnSelectionFilter($sel["filters"]); $columns->setSource(new Identifier($1)); /* $sorts = new SORTOBJECT(); $sort->setSource($columns); $$ = $sorts;*/ $$ = $columns; }
+|resourceid '{' selector/sel '}' '?' filterlist/fl { $expressionFilter = new FilterByExpressionFilter($fl); 
+                                                     $columns = new ColumnSelectionFilter($sel["filters"]); 
+                                                     $columns->setSource($expressionFilter); $expressionFilter->setSource(new Identifier($1)); 
+                                                     /* $sorts = new SORTOBJECT(); $sort->setSource($columns); $$ = $sorts;*/ $$ = $columns; }
 | resourceid { $$ = new Identifier($1); }
+| resourceid '?' filterlist { $$ = new FilterByExpressionFilter($3); $$->setSource(new Identifier($1)); }
 .
 
 resourceid = name '/' name  { $$ = $1 . "." . $3; }
