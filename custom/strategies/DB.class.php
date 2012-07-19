@@ -11,7 +11,7 @@
  * @author Jan Vansteenlandt
  */
 include_once("custom/strategies/ATabularData.class.php");
-include_once(Config::$INSTALLDIR . Config::$SUBDIR.  "includes/DoctrineDBAL-2.2.2/Doctrine/Common/ClassLoader.php");
+include_once("includes/DoctrineDBAL-2.2.2/Doctrine/Common/ClassLoader.php");
 include_once("aspects/logging/BacklogLogger.class.php");
 
 use Doctrine\Common\ClassLoader;
@@ -84,7 +84,7 @@ class DB extends ATabularData {
         // prepare to get some of them data from the database!
         $sql = "SELECT $fields FROM $configObject->db_table";
 
-        $classLoader = new ClassLoader('Doctrine', Config::$INSTALLDIR . Config::$SUBDIR.  "doctrine");
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
 
