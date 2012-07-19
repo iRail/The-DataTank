@@ -26,12 +26,15 @@ For this example we assume we have a resource "gentsefeesten/dag15" in The DataT
 Assume the user wants the titles and the description of all events from day 15 of the Gentse Feesten where the title starts with 'Bloem'
 
 In SQL this is: 
+
     SELECT Titel, Omschrijving FROM genstefeesten.dag15 WHERE Titel LIKE 'Bloem%'
 
 To give this SQL-query to The DataTank, we first need to url-encode it. You can use online tools for this. (or the javascript encode()-function) Encoded this becomes:
+
     SELECT%20Titel%2C%20Omschrijving%20FROM%20genstefeesten.dag15%20WHERE%20Titel%20LIKE%20'Bloem%25'
 
 Add it to the url for sql, and we have:
+
     localhost/The-DataTank/sql.csv?query=SELECT%20Titel%2C%20Omschrijving%20FROM%20genstefeesten.dag15%20WHERE%20Titel%20LIKE%20'Bloem%25'
 
 Surf to this url and you get back the data you want.

@@ -357,6 +357,7 @@ class AggregatorFunction extends ExpressionNode {
 /**
  * Checks if the value is in a list of constants
  * type: [Cell, [Constant, ...]] -> Cell
+ * type: [Column, [Constant, ...]] -> Column
  */
 class CheckInFunction extends NormalFilterNode {
     private $constants;
