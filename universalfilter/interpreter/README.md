@@ -31,8 +31,8 @@ We also need some kind of structure/class to save the data in. I called it the `
 
 The ``UniversalTable`` is build of two parts: ``UniversalTableHeader`` and ``UniversalTableContent``. 
 
-The ``UniversalTableHeader`` contains information about the table but not the content. So it contains the names of the columns, information about links to other tables, if the table contains only one column or could contain more than one,... 
-It contains a array of ``UniversalTableHeaderColumnInfo``-objects. Which keep the information for the individual columns. 
+The ``UniversalTableHeader`` contains information about the table but not the content. So it contains the names of the columns, information about links to other tables, whether the table contains exactly one column or if it could contain more than one,... (same for rows)
+It contains a array of ``UniversalTableHeaderColumnInfo``-objects, which keeps the information for the individual columns. 
 
 Note that the name of a column is not a string but an array. For example the column ``Titel`` in the table of the ``gentsefeesten.dag15`` is actually named ``gentsefeesten.dag15.Titel``.
 
@@ -76,13 +76,13 @@ This executer first looks which filter is underneath him, creates an executer fo
 ### In the executer, evaluating the content (simplified version)
 
 Evaluating content also happens recursive. Filters combine tables and return these...
-There are also special kinds of tables (this information is kept in the header): a column is a table, a table with one row is a table, and a table which will always return one column and one row is also a table. (But some need special threatment)
+There are also special kinds of tables (this information is kept in the header): a column is a table, a table with one row is a table, and a table which will always return one column and one row is also a table. (But some need special treatment)
 
 ### What with expressions? => The ``Environment``
 
 ColumnSelectionFilters and FilterByExpressionFilters also evaluate expressions. But these depend on the data in the source. 
 
-So, we first execute the source-filter and then give the result in the ``Environment`` to the expressions. This way they can access columns and combine them in all kind of ways to return true (case of the FilterByExpressionFilter) or return a new column (ColumnSelectionFilter).
+So, we first execute the source-filter and then give the result in the ``Environment`` to the expressions. This way they can access columns and combine them in all kind of ways to return true or false (case of the FilterByExpressionFilter) or return a new column (ColumnSelectionFilter).
 
 
 ### ColumnSelectionFilter also has an enviroment, but it has a source too...

@@ -24,12 +24,12 @@ It can parse and convert:
  - Comparision: "<", ">", "<=", ">=", "<>", "!=", "="
  - Boolean operations: "AND", "OR", "NOT"
  - Functions:
-   * Unary: "UCASE(_)", "LCASE(_)", "LEN(_)", "ROUND(_)", "ISNULL(_)"
-   * Binary: "MATCH_REGEX(_,_)"
-   * Tertairy: "MID(_,_,_)", "REPLACE_REGEX(_,_,_)" 
-   * Aggregators: "AVG(_)", "COUNT(_)", "FIRST(_)", "LAST(_)", "MAX(_)", "MIN(_)"
+   * Unary: "UCASE(\_)", "LCASE(\_)", "LEN(\_)", "ROUND(\_)", "ISNULL(\_)"
+   * Binary: "MATCH_REGEX(\_,\_)"
+   * Tertairy: "MID(\_,\_,\_)", "REPLACE_REGEX(\_,\_,\_)" 
+   * Aggregators: "AVG(\_)", "COUNT(\_)", "FIRST(\_)", "LAST(\_)", "MAX(\_)", "MIN(\_)"
 
- (Note: "ISNULL(_)", "MATCH_REGEX(_,_)" and "REPLACE_REGEX(_,_,_)" are not SQL functions)
+ (Note: "ISNULL(\_)", "MATCH_REGEX(\_,\_)" and "REPLACE_REGEX(\_,\_,\_)" are not SQL functions)
 
 
 How I parse SQL querys
@@ -40,23 +40,23 @@ example: ``SELECT * FROM package.table``
 
  1. SQLTokenizer => split query in tokens
  
-    "SELECT", "*", "FROM", "package.table"
+        "SELECT", "*", "FROM", "package.table"
     
  2. SQLParser => categorize the tokens and give the tokens to the grammar
  
-    "SELECT"        => category SELECT, value null
-    "*"             => category '*',    value null
-    "FROM"          => category FROM,   value null
-    "package.table" => category identifier, value "package.table"
+        "SELECT"        => category SELECT, value null
+        "*"             => category '*',    value null
+        "FROM"          => category FROM,   value null
+        "package.table" => category identifier, value "package.table"
     
  3. SQLgrammar => build the tree.
 
-    ...result:
-    ColumnSelectionFilter(
-        new ColumnSelectionFilterColumn(
-            new Identifier("*"), null));
-    ...after...
-    Identifier("package.table");
+        ...result:
+        ColumnSelectionFilter(
+            new ColumnSelectionFilterColumn(
+                new Identifier("*"), null));
+        ...after...
+        Identifier("package.table");
 
 
 SQLgrammar.lime
