@@ -24,7 +24,11 @@ The redirectcontroller will redirect requests that don't directly specify a cert
 
 ## SPECTQLController and SPECTQIndex
 
-These controllers handle spectql requests.
+These controllers handle SPECTQL requests.
+
+## SQLController
+
+This controller handles SQL endpoint requests.
 
 # The HTTP Range 14 problem
 

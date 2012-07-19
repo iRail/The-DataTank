@@ -14,4 +14,4 @@ When you want to write your own resource, then you can add a new or an existing 
 
 ## Generic Strategies
 
-Generic strategies can be used when you have a lot of files in the same format. You can implement the AResourceStrategy class to get this done. In contrast with packages these strategies behave more like a template which can be filled in by users. For example we provided a CSV strategy, this is a template containing some fields such as uri, delimiter, etc. Every resource which finds himself under the CSV strategy will then consist of a set of parameters that fill in this template and is held in the back-end of The DataTank.
+Generic strategies can be used when you have a lot of files in the same format. You can implement the AResourceStrategy class to get this done. In contrast with packages these strategies behave more like a template which can be filled in by users. For example, one of the strategies is a CSV strategy, this is a template containing some fields such as uri, delimiter, etc. These fields are necessary to read a CSV file and convert it into a PHP object.
