@@ -41,6 +41,14 @@ class Doc{
                 $packagename = $package->package_name;
                 $doc->$packagename = new StdClass();
             }
+
+            $coreResourceFactory = new CoreResourceFactory();
+            $packages = $coreResourceFactory->getAllPackagesDoc();
+            
+            foreach($packages as $package){
+                $doc->$package = new StdClass();
+            }
+
             $c->set(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation",$doc,60*60*60); // cache it for 1 hour by default
         }
         return $doc;
