@@ -109,7 +109,7 @@ class CUDController extends AController {
         //fetch all the PUT variables in one array
         // NOTE: when php://input is called upon, the contents are flushed !! So you can call php://input only once !
         $HTTPheaders = getallheaders();
-        if($HTTPheaders["Content-Type"] == "application/json"){
+        if(isset($HTTPheaders["Content-Type"]) && $HTTPheaders["Content-Type"] == "application/json"){
             $_PUT = (array)json_decode(file_get_contents("php://input"));
         }else {
             parse_str(file_get_contents("php://input"), $_PUT);
