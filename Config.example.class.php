@@ -14,9 +14,6 @@ class Config {
     //the webserver subdirectory, if it's not in a subdir, fill in blank. Just like $HOSTNAME, you must add a trailing slash!
     public static $SUBDIR = "";
 
-    //add a trailing slash!
-    public static $INSTALLDIR = "/var/www/";
-
     // host for caching purposes
     public static $CACHE_SYSTEM = "MemCache"; //other possibilities: NoCache, apc...
     public static $CACHE_HOST = "localhost";
