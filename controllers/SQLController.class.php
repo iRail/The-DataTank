@@ -13,11 +13,12 @@ include_once("model/ResourcesModel.class.php");
 include_once("model/DBQueries.class.php");
 
 
-//debug
+//imports for the evaluation of the universalfilter
 include_once("universalfilter/interpreter/UniversalInterpreter.php");
 include_once("universalfilter/tablemanager/UniversalFilterTableManager.class.php");
 
 include_once("universalfilter/tablemanager/tools/TableToPhpObjectConverter.class.php");
+
 
 class SQLController extends AController {
 
@@ -34,34 +35,19 @@ class SQLController extends AController {
         }else{
             throw new Exception("No query given");
         }
-        $parser = new SQLParser($query);
         
+        // (!) Documentation about the parser => see controllers/SQL/REAMDE.md
+        
+        // string -> filter syntax tree
+        $parser = new SQLParser($query);
         $universalquery = $parser->interpret();
         
-//        var_dump($result);
-        
-//        echo "<br/>";
-//        echo "-end parser- -start interpreter- ";
-//        echo "<br/>";
-        
-        
+        // executer filter (returns Table)
         $interpreter=new UniversalInterpreter();
         $result = $interpreter->interpret($universalquery);
-        
-//        echo "<br/>";
-//        echo "-end interpreter- -start result- ";
-//        echo "<br/>";
-//        
-//        var_dump($env->getLastTable());
-//        
-//        echo "<br/>";
-//        echo "-end result- ";
-//        echo "<br/>";
-//        exit();
-        
-        //convert format
+                
+        //convert format (Table->PhpObject)
         $converter = new TableToPhpObjectConverter();
-        
         $object = $converter->getPhpObjectForTable($result);
         
         

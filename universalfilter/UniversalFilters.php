@@ -11,7 +11,7 @@
 /**
  * Top class of all filters
  */
-class UniversalFilterNode {
+abstract class UniversalFilterNode {
     private $type;
     
     public function __construct($type) {
@@ -69,7 +69,7 @@ class Constant extends UniversalFilterNode {
  *  -> you can use putBefore or putAfter to put a filter on the beginning 
  *     or the end of the list
  */
-class NormalFilterNode extends UniversalFilterNode {
+abstract class NormalFilterNode extends UniversalFilterNode {
     private $source;//type:UniversalFilterNode
     
     public function setSource(UniversalFilterNode $source){
@@ -210,7 +210,7 @@ class DataGrouper extends NormalFilterNode {
  * Top class of all functions
  * - all these functions need to get an environment to be able to execute
  */
-class ExpressionNode extends UniversalFilterNode {}
+abstract class ExpressionNode extends UniversalFilterNode {}
 
 
 /*
@@ -363,7 +363,7 @@ class CheckInFunction extends NormalFilterNode {
     
     public static $FUNCTION_IN_LIST="FUNCTION_IN_LIST";// is a varargs function
     
-    public function __construct($constants) {
+    public function __construct(array /* of Constant */ $constants) {
         parent::__construct(CheckInFunction::$FUNCTION_IN_LIST);
         $this->constants=$constants;
     }
