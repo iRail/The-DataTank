@@ -16,6 +16,7 @@ class RedirectController extends AController{
      * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
      */
     function GET($matches){
+
         //get the current URL
         $ru = RequestURI::getInstance();
         $pageURL = $ru->getURI();

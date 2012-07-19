@@ -19,13 +19,13 @@ class RController extends AController {
 
     private $formatterfactory;
 
-    function GET($matches) {
+    public function GET($matches) {
 
         //always required: a package and a resource. 
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/",$packageresourcestring);
         $package = array_shift($pieces);
-        
+
         /**
          * GET operations on TDTAdmin need to be authenticated!
          */
@@ -38,11 +38,11 @@ class RController extends AController {
                 exit();
             }
         }
-        
+
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
-        
+
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
          * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 

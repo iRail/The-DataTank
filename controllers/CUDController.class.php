@@ -19,100 +19,22 @@ class CUDController extends AController {
      * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation. 
      */
     function GET($matches) {
+        $packageresourcestring = $matches[0];
 
-        //always required: a package and a resource. 
-        $packageresourcestring = $matches["packageresourcestring"];
-        $pieces = explode("/",$packageresourcestring);
-        $package = array_shift($pieces);
-
-        //we need to be authenticated
-        if (!$this->isAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
-        }
-
-         /**
-         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
-         * ResourcesModel class -> funcion isResourceValid()
+        /*
+         * get the format of the string
          */
-        $foundPackage = FALSE;
-        $resourcename ="";
-        $reqparamsstring ="";
 
-        if(!isset($doc->$package)){
-            while(!empty($pieces)){
-                $package .= "/".array_shift($pieces);
-                if(isset($doc->$package)){
-                    $foundPackage = TRUE;
-                    $resourcename = array_shift($pieces);
-                    $reqparamsstring = implode("/",$pieces);
-                }
-            }
-        }else{
-            $foundPackage = TRUE;
-            $resourcename = array_shift($pieces);
-            $reqparamsstring = implode("/",$pieces);
-        }
-
-        $RESTparameters = array();
-        $RESTparameters = explode("/",$reqparamsstring);
-        if($RESTparameters[0] == ""){
-            $RESTparameters = array();
-        }
-
-        if(!$foundPackage){
-            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
-        }
-
-        $model = ResourcesModel::getInstance();
-        $doc = $model->getAllDoc();
-        /**
-         * If the resourcename doesn't exist, provide a list of resources that this package contains.
-         */
-        if ($resourcename == "") {
-            if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);
-                $linkObject = new StdClass();
-                $links = array();
-                foreach($resourcenames as $resourcename => $value){
-
-                    //HEAD$link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
-                    
-                    
-                    $link = Config::$HOSTNAME . Config::$SUBDIR . $packageresourcestring;
-
-                    $links[] = $link;
-                    $linkObject->$package = $links;
-                }
-                //This will create an instance of a factory depending on which format is set
-                $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-
-                $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
-                $printer->printAll();
-                RequestLogger::logRequest();
-            }else if($model->hasPackage($package)){
-                echo "No resources are listed for this package <br>";
-            } else {
-                echo "This package name ( $package ) has not been created yet.";
-            }
-            exit();
-        }
-
-        //get the current URL
-        $ru = RequestURI::getInstance();
-        $pageURL = $ru->getURI();
-        $pageURL = rtrim($pageURL, "/");
-        //add .about before the ?
-        if (sizeof($_GET) > 0) {
-            $pageURL = str_replace("?", ".about?", $pageURL);
-            $pageURL = str_replace("/.about", ".about", $pageURL);
-        } else {
-            $pageURL .= ".about";
-        }
-        header("HTTP/1.1 303 See Other");
-        header("Location:" . $pageURL);    
+        $dotposition = strrpos($packageresourcestring,".");
+        $format = substr($packageresourcestring,$dotposition);
+        $format = ltrim($format,".");
+        $end = $dotposition -1;
+        $packageresourcestring = substr($packageresourcestring,1,$end);
+        
+        $matches["packageresourcestring"] = ltrim($packageresourcestring,"/");
+        $matches["format"] = $format;
+        $RController = new RController();
+        $RController->GET($matches);
     }
     
     public function HEAD($matches){
