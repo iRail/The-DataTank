@@ -96,15 +96,6 @@ class CUDController extends AController {
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }
-
-        /* HEAD
-        $package = $matches["package"];
-        $resource = $matches["resource"];
-        $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
-            }HEAD*/
-
         
         //fetch all the PUT variables in one array
         // NOTE: when php://input is called upon, the contents are flushed !! So you can call php://input only once !
@@ -116,11 +107,7 @@ class CUDController extends AController {
         }
         
         $model = ResourcesModel::getInstance();
-
-        /*HEAD
-        $model->createResource($package, $resource, $_PUT, $RESTparameters);
-        header("Content-Location: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/". $resource);
-        */
+      
         $RESTparameters = array();
         
         $model->createResource($packageresourcestring, $_PUT);
@@ -217,7 +204,7 @@ class CUDController extends AController {
     }
 
     /**
-     * You cannot use patch a representation
+     * PATCH is a 'new' request HTTP HEADER which allows to update a piece of a definition of a resource in our context
      */
     public function PATCH($matches) {
 
@@ -236,8 +223,16 @@ class CUDController extends AController {
          * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
          * ResourcesModel class -> funcion isResourceValid()
          */
+
+
+
+         /**
+         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * ResourcesModel class -> funcion isResourceValid()
+         */
         $foundPackage = FALSE;
-        $resource ="";
+        $resourcename ="";
         $reqparamsstring ="";
 
         if(!isset($doc->$package)){
@@ -245,13 +240,22 @@ class CUDController extends AController {
                 $package .= "/".array_shift($pieces);
                 if(isset($doc->$package)){
                     $foundPackage = TRUE;
-                    $resource = array_shift($pieces);
+                    $resourcename = array_shift($pieces);
                     $reqparamsstring = implode("/",$pieces);
                 }
             }
         }else{
             $foundPackage = TRUE;
-            $resource = array_shift($pieces);
+            $resourceNotFound = TRUE;
+            while(!empty($pieces) && $resourceNotFound){
+                $resourcename = array_shift($pieces);
+                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
+                    $package .= "/" . $resourcename;
+                    $resourcename = "";
+                }else{
+                    $resourceNotFound = FALSE;
+                }
+            }
             $reqparamsstring = implode("/",$pieces);
         }
 
@@ -266,8 +270,8 @@ class CUDController extends AController {
         }
 
         //both package and resource set?
-        if ($resource == "") {
-            throw new ResourceOrPackageNotFoundTDTException("Resource " . $packageresourcestring. " not found.");
+        if ($resourcename == "") {
+            throw new ResourceOrPackageNotFoundTDTException($packageresourcestring. " is not a resource.");
         }
 
         //we need to be authenticated
@@ -282,7 +286,7 @@ class CUDController extends AController {
         parse_str(file_get_contents("php://input"), $patch);
         
         $model = ResourcesModel::getInstance();
-        $model->updateResource($package, $resource, $patch, $RESTparameters);
+        $model->updateResource($package, $resourcename, $patch, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
