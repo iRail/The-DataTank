@@ -9,7 +9,15 @@
  * @author Jeroen Penninck
  */
 class TableToPhpObjectConverter {
-    public function getPhpObjectForTable(UniversalFilterTable $table){
+    
+    /**
+     * Converts a table (as used by the interpreter) to a php-object
+     * 
+     * @param UniversalFilterTable $table
+     * @param boolean $removeAdditionalField Remove the _id and _key_... fields?
+     * @return array The Php-version of the table 
+     */
+    public function getPhpObjectForTable(UniversalFilterTable $table, $removeAdditionalField=true){
         $newRows = array();
         
         //initialize rows
@@ -23,11 +31,16 @@ class TableToPhpObjectConverter {
         for ($index = 0; $index < $table->getHeader()->getColumnCount(); $index++) {
             $id = $table->getHeader()->getColumnIdByIndex($index);
             $name = $table->getHeader()->getColumnNameById($id);
-            if(!$table->getHeader()->getColumnInformationById($id)->isGrouped()){
+            
+            // don't show grouped fields and _id and _key_... fields
+            if(!$table->getHeader()->getColumnInformationById($id)->isGrouped() && !(!$removeAdditionalField || ($name=="_id" || strpos($name, "_key_")===0))){
+                // loop all rows
                 for ($rindex = 0; $rindex < $table->getContent()->getRowCount(); $rindex++) {
+                    // and add the column to the php object
                     $row = $table->getContent()->getRow($rindex);
                     $newRows[$rindex][$name] = $row->getCellValue($id);
                 }
+                
             }
         }
         
