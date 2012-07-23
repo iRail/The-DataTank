@@ -476,6 +476,86 @@ class ResourcesModel {
         $doc = new Doc();
         return $doc->visitAllPackages();
     }     
-}
 
+    /**
+     * This function processes a resourcepackage-string 
+     * It will analyze it trying to do the following:
+     * Find the first package-name hit, it will continue to eat pieces
+     * of the resourcepackage string, untill it finds that the eaten string matches a package name
+     * the piece after it found the package will be the resourcename ( if any pieces left ofcourse )
+     * the pieces after the resourcename are the RESTparameters
+     * @return array First entry is the [packagename], second entry is the [resourcename], third is the array with [RESTparameters]
+     If the package hasn't been found FALSE is returned! 
+    */
+    public function processPackageResourceString($packageresourcestring){
+        $result = array();
+
+        $pieces = explode("/",$packageresourcestring);
+        if(count($pieces) == 0){
+            array_push($pieces,$packageresourcestring);
+        }
+        
+        $package = array_shift($pieces);
+        
+        //Get an instance of our resourcesmodel
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
+        $foundPackage = FALSE;
+
+        /**
+         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * ResourcesModel class -> funcion isResourceValid()
+         */
+        $resourcename ="";
+        $reqparamsstring ="";
+
+        if(!isset($doc->$package)){
+            while(!empty($pieces)){
+                $package .= "/".array_shift($pieces);
+                if(isset($doc->$package)){
+                    $foundPackage = TRUE;
+                    $resourcename = array_shift($pieces);
+                    $reqparamsstring = implode("/",$pieces);
+                }
+            }
+        }else{
+            $foundPackage = TRUE;
+            $resourceNotFound = TRUE;
+            while(!empty($pieces) && $resourceNotFound){
+                $resourcename = array_shift($pieces);
+                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
+                    $package .= "/" . $resourcename;
+                    $resourcename = "";
+                }else{
+                    $resourceNotFound = FALSE;
+                }
+            }
+            $reqparamsstring = implode("/",$pieces);
+        }
+        
+
+        $RESTparameters = array();
+        $RESTparameters = explode("/",$reqparamsstring);
+        if($RESTparameters[0] == ""){
+            $RESTparameters = array();
+        }
+
+        if($resourcename == ""){
+            $packageDoc = $model->getAllPackagesDoc();
+            $allPackages = array_keys(get_object_vars($packageDoc));
+
+            $foundPackage = in_array($package,$allPackages);
+
+            if (!$foundPackage){
+                   throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+            }
+        }
+
+        $result["packagename"] = $package;
+        $result["resourcename"] = $resourcename;
+        $result["RESTparameters"] = $RESTparameters;
+        return $result;
+    }
+}
 ?>

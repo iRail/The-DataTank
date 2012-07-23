@@ -40,26 +40,18 @@ class UniversalFilterTableManager {
      */
     private function splitIdentifier($globalTableIdentifier){
         $identifierpieces=explode(UniversalFilterTableManager::$IDENTIFIERSEPARATOR,$globalTableIdentifier);
-        
-        $packageDot=array_shift($identifierpieces);
-        $package=$packageDot;
-        
-        while(!$this->resourcesmodel->hasPackage($package) && !empty($identifierpieces)){
-            $firstitem=array_shift($identifierpieces);
-            $packageDot.=UniversalFilterTableManager::$IDENTIFIERSEPARATOR.$firstitem;
-            $package.="/".$firstitem;
+
+        $packageresourcestring = implode("/",$identifierpieces);
+
+        // The function will throw an exception if a package hasn't been found that matches
+        // it will not however throw an exception if no resource has been found.
+        $result = $this->resourcesmodel->processPackageResourceString($packageresourcestring);
+
+        if($result["resourcename"] == ""){
+            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename: ".$globalTableIdentifier);
         }
         
-        if($this->resourcesmodel->hasPackage($package)){
-            $resourcename = array_shift($identifierpieces);
-            if($this->resourcesmodel->hasResource($package, $resourcename)){
-                return array($package,$resourcename,$identifierpieces);
-            }else{
-                throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename: ".$globalTableIdentifier);
-            }
-        }else{
-            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Identifier does not contain a packagename: ".$globalTableIdentifier);
-        }
+        return array($result["packagename"],$result["resourcename"],$result["RESTparameters"]);    
     }
     
     private $requestedTables=array();

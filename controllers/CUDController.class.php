@@ -38,45 +38,24 @@ class CUDController extends AController {
     }
     
     public function HEAD($matches){
-        $package = $matches["package"];
-        $resource = trim($matches["resource"]);
 
-        //we need to be authenticated
-        if (!$this->isAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
-        }
 
-        $model = ResourcesModel::getInstance();
-        $doc = $model->getAllDoc();
-        if ($resource == "") {
-            if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);
-                throw new NoResourceGivenTDTException($resourcenames);
-            } else {
-                throw new NoResourceGivenTDTException(array());
-            }
-        }
+        $packageresourcestring = $matches[0];
 
-        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
-        if (!$model->hasResource($package, $resource)) {
-            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
-        }
-
-        //get the current URL
-        $ru = RequestURI::getInstance();
-        $pageURL = $ru->getURI();
-        $pageURL = rtrim($pageURL, "/");
-        //add .about before the ?
-        if (sizeof($_GET) > 0) {
-            $pageURL = str_replace("?", ".about?", $pageURL);
-            $pageURL = str_replace("/.about", ".about", $pageURL);
-        } else {
-            $pageURL .= ".about";
-        }
-        header("HTTP/1.1 303 See Other");
-        header("Location:" . $pageURL);    
+        /*
+         * get the format of the string
+         */
+        $dotposition = strrpos($packageresourcestring,".");
+        $format = substr($packageresourcestring,$dotposition);
+        $format = ltrim($format,".");
+        $end = $dotposition -1;
+        $packageresourcestring = substr($packageresourcestring,1,$end);
+        
+        // fill in the matches array
+        $matches["packageresourcestring"] = ltrim($packageresourcestring,"/");
+        $matches["format"] = $format;
+        $RController = new RController();
+        $RController->HEAD($matches);
     }
 
     function PUT($matches) {
@@ -217,14 +196,6 @@ class CUDController extends AController {
         $package = array_shift($pieces);
 
         $RESTparameters = array();
-
-        /**
-         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
-         * ResourcesModel class -> funcion isResourceValid()
-         */
-
-
 
          /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
