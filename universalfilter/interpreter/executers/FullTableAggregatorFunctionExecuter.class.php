@@ -37,6 +37,8 @@ abstract class FullTableAggregatorFunctionExecuter extends AggregatorFunctionExe
         
         $newContent->addRow($newRow);
         
+        $oldContent->tryDestroyTable();
+        
         return $newContent;
     }
     
@@ -47,6 +49,10 @@ abstract class FullTableAggregatorFunctionExecuter extends AggregatorFunctionExe
     
     public function evaluateAsExpression() {
         return $this->callSingleColumn();
+    }
+    
+    public function allowMultipleColumns(){
+        return true;
     }
     
 }

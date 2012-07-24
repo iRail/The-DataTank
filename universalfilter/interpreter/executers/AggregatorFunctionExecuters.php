@@ -11,7 +11,7 @@
  */
 
 /* average */
-class AverageAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class AverageAggregatorExecuter extends ColumnAggregatorFunctionExecuter {
     
     public function calculateValue(array $data){
         $sum = array_sum($data);
@@ -34,7 +34,7 @@ class AverageAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* max */
-class MaxAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class MaxAggregatorExecuter extends ColumnAggregatorFunctionExecuter {
     
     public function calculateValue(array $data){
         return max($data);
@@ -54,7 +54,7 @@ class MaxAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* min */
-class MinAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class MinAggregatorExecuter extends ColumnAggregatorFunctionExecuter {
     
     public function calculateValue(array $data){
         return min($data);
@@ -74,7 +74,7 @@ class MinAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* sum */
-class SumAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class SumAggregatorExecuter extends ColumnAggregatorFunctionExecuter {
 
     public function calculateValue(array $data){
         return array_sum($data);
@@ -96,7 +96,7 @@ class SumAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 
 
 /* first */
-class FirstAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class FirstAggregatorExecuter extends ColumnAggregatorFunctionExecuter {
     
     public function calculateValue(array $data){
         return $data[0];
@@ -108,7 +108,7 @@ class FirstAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* last */
-class LastAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class LastAggregatorExecuter extends ColumnAggregatorFunctionExecuter {
     
     public function calculateValue(array $data){
         return $data[count($data)-1];

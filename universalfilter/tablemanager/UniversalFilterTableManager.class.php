@@ -73,6 +73,8 @@ class UniversalFilterTableManager {
         $table = $converter->getPhpObjectTable($globalTableIdentifier, $splitedId);
         
         $this->requestedTables[$globalTableIdentifier] = $table;
+        
+        $table->getContent()->tableNeeded();//do not destroy content... it's cached...
     }
     
     public function getTableHeader($globalTableIdentifier){

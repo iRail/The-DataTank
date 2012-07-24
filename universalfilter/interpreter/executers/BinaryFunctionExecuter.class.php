@@ -96,6 +96,9 @@ abstract class BinaryFunctionExecuter extends ExpressionNodeExecuter {
             $rows->addRow($row);
         }
         
+        $table1content->tryDestroyTable();
+        $table2content->tryDestroyTable();
+        
         //return the result
         return $rows;
     }

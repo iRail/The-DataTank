@@ -88,6 +88,9 @@ class UniversalInterpreter implements IInterpreter{
         
         $content = $executer->evaluateAsExpression();
         
+        //after return:
+        //$content->tryDestroyTable();
+        
         return new UniversalFilterTable($header, $content);
     }
 }

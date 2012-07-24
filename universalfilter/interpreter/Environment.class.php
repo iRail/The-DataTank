@@ -24,7 +24,6 @@ class Environment {
     public function addSingleValue(UniversalFilterTableHeaderColumnInfo $column, UniversalFilterTableContentRow $datarow) {
         array_push($this->singlevaluecolumns, $column);
         array_push($this->singlevaluerows, $datarow);
-        return $index;
     }
     
     /**

@@ -17,6 +17,7 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
     
     private $executer;
     
+    private $childEnvironmentData;
     private $giveToColumnsEnvironment;
     
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
@@ -31,7 +32,8 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $this->executer = $executer;
         
         
-        $this->giveToColumnsEnvironment=$this->buildChildEnvironment($filter, $topenv, $interpreter, $executer);
+        $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer);
+        $this->giveToColumnsEnvironment = $this->getChildEnvironment($this->childEnvironmentData);
         
         
         
@@ -53,6 +55,7 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $sourceheader =$this->executer->getExpressionHeader();
         $sourcecontent=$this->executer->evaluateAsExpression();
         
+        $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
         
         // get executer for expression
@@ -85,6 +88,10 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
                 $filteredRows->addRow($row);
             }
         }
+        
+        $inResultTable->tryDestroyTable();
+        
+        $sourcecontent->tryDestroyTable();
         
         return $filteredRows;
     }

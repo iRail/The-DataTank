@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class ColumnAggregatoFunctionExecuter extends AggregatorFunctionExecuter {
+abstract class ColumnAggregatorFunctionExecuter extends AggregatorFunctionExecuter {
 
     
     private function makeAllColumnsHeader(){
@@ -112,6 +112,9 @@ abstract class ColumnAggregatoFunctionExecuter extends AggregatorFunctionExecute
             }
             $newContent->addRow($newRow);
         }
+        
+        $oldContent->tryDestroyTable();
+        
         return $newContent;
     }
     

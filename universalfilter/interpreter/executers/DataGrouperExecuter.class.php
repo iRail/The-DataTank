@@ -156,6 +156,8 @@ class DataGrouperExecuter extends BaseHashingFilterExecuter {
             $newRows->addRow($newRow);
         }
         
+        $sourcetablecontent->tryDestroyTable();
+        
         return $newRows;
     }
 }

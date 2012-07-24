@@ -153,7 +153,7 @@ class ColumnSelectionFilterColumn {
     private $column;//type:UniversalFilterNode
     private $alias;//type:String (can be null)
 
-    public function __construct(UniversalFilterNode $column, $alias) {
+    public function __construct(UniversalFilterNode $column, $alias=null) {
         $this->column=$column;
         $this->alias=$alias;
     }
@@ -373,3 +373,9 @@ class CheckInFunction extends NormalFilterNode {
         return $this->constants;
     }
 }
+
+
+/**
+ * Extre functions
+ */
+include_once("universalfilter/CombinedFilterGenerators.class.php");
