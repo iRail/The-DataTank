@@ -93,7 +93,7 @@ class CSV extends ATabularData {
 
        
         // check if the file is accessible
-        if(fopen($filename, "r")) == FALSE){
+        if(fopen($filename, "r") == FALSE){
 			throw new CouldNotGetDataTDTException($filename);
 		}
 		
