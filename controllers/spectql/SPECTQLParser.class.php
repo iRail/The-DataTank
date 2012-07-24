@@ -11,16 +11,6 @@
 
 include_once("lib/parse_engine.php");
 include_once("controllers/spectql/SPECTQLTokenizer.class.php");
-include_once("controllers/spectql/filters/SPECTQLGeoFilter.class.php");
-include_once("controllers/spectql/filters/SPECTQLFilter.class.php");
-include_once("controllers/spectql/filters/SPECTQLFilterList.class.php");
-include_once("controllers/spectql/selectors/SPECTQLSelector.class.php");
-include_once("controllers/spectql/selectors/AArgument.class.php");
-include_once("controllers/spectql/selectors/SPECTQLLink.class.php");
-include_once("controllers/spectql/selectors/SPECTQLWildcard.class.php");
-include_once("controllers/spectql/selectors/SPECTQLColumnName.class.php");
-include_once("controllers/spectql/functions/FunctionFactory.class.php");
-include_once("controllers/spectql/functions/AFunction.class.php");
 include_once("controllers/spectql/parseexceptions.php");
 include_once("controllers/spectql/SPECTQLResource.class.php");
 include_once("controllers/spectql/SPECTQLTools.class.php");

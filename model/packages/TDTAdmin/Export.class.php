@@ -180,7 +180,7 @@ class TDTAdminExport extends AReader{
     }
 
     /**
-     * 
+     * Echo what should be in the php export file
      */
     private function createDump($package,$resource,$resourceDefinition){
         $dump ="";

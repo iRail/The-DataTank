@@ -43,10 +43,6 @@ class SPECTQLController extends AController {
         $context = array(); // array of context variables
 
         $universalquery = $parser->interpret($context);
-        /*echo "<pre>";
-        var_dump($universalquery);
-        echo "</pre>";
-        exit();*/
 
         $interpreter=new UniversalInterpreter();
         $result = $interpreter->interpret($universalquery);

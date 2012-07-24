@@ -26,6 +26,7 @@ class RController extends AController {
         $pieces = explode("/",$packageresourcestring);
         $package = array_shift($pieces);
 
+
         /**
          * GET operations on TDTAdmin need to be authenticated!
          */
@@ -38,49 +39,14 @@ class RController extends AController {
                 exit();
             }
         }
-
-        //Get an instance of our resourcesmodel
+        
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
 
-        /**
-         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
-         * ResourcesModel class -> funcion isResourceValid()
-         */
-        $foundPackage = FALSE;
-        $resourcename ="";
-        $reqparamsstring ="";
-
-        if(!isset($doc->$package)){
-            while(!empty($pieces)){
-                $package .= "/".array_shift($pieces);
-                if(isset($doc->$package)){
-                    $foundPackage = TRUE;
-                    $resourcename = array_shift($pieces);
-                    $reqparamsstring = implode("/",$pieces);
-                }
-            }
-        }else{
-            $foundPackage = TRUE;
-            $resourceNotFound = TRUE;
-            while(!empty($pieces) && $resourceNotFound){
-                $resourcename = array_shift($pieces);
-                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
-                    $package .= "/" . $resourcename;
-                    $resourcename = "";
-                }else{
-                    $resourceNotFound = FALSE;
-                }
-            }
-            $reqparamsstring = implode("/",$pieces);
-        }
-
-        $RESTparameters = array();
-        $RESTparameters = explode("/",$reqparamsstring);
-        if($RESTparameters[0] == ""){
-            $RESTparameters = array();
-        }
+        $result = $model->processPackageResourceString($matches["packageresourcestring"]);
+        $resourcename = $result["resourcename"];
+        $package = $result["packagename"];
+        $RESTparameters = $result["RESTparameters"];
 
         /**
          * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
@@ -100,8 +66,6 @@ class RController extends AController {
                 if(strpos($packagestring,$package) == 0 
                    && strpos($packagestring,$package) !== false && $package != $packagestring
                    && substr_count($package, "/") +1 == substr_count($packagestring,"/")){
-
-                    $foundPackage = TRUE;
                     $link = Config::$HOSTNAME . Config::$SUBDIR . $packagestring;
                     $packagelinks[] = $link;
                     if(!isset($linkObject->subPackages)){
@@ -113,7 +77,6 @@ class RController extends AController {
             }
 
             if (isset($doc->$package)) {
-                $foundPackage = TRUE;
                 $resourcenames = get_object_vars($doc->$package);
                 foreach($resourcenames as $resourcename => $value){
                     $link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
@@ -122,10 +85,6 @@ class RController extends AController {
                         $linkObject->resources = new stdClass();
                     }
                     $linkObject->resources = $links;
-                }
-            }else{
-                if(!$foundPackage){
-                    throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
                 }
             }
             
@@ -137,24 +96,9 @@ class RController extends AController {
             RequestLogger::logRequest();
             exit();
         }
-
-
-
-        if(!$foundPackage){
-            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
-        } 
-       
-        /**
-         * At this stage a package and a resource have been passed, lets check if they exists, and if so lets call the read()
-         * action and return the result.
-         */
         
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-
-        if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
-            throw new ResourceOrPackageNotFoundTDTException("please check if $package and $resourcename are a correct package-resource pair");
-        }
 
         $parameters = $_GET;        
 
@@ -401,6 +345,7 @@ class RController extends AController {
 
         /**
          * Apply filters to the resulting object
+         * TODO : put the OSpec filter into the .lime file as a grammar, and let the AST handle the filtering
          * 1) RESTfilter
          * 2) OSpec filter
          */
@@ -477,7 +422,6 @@ class RController extends AController {
     public function POST($matches) {
         throw new RepresentationCUDCallTDTException();
     }
-
 
     /**
      * You cannot use patch a representation

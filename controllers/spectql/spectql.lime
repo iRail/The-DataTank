@@ -22,7 +22,9 @@ flow = expression
 expression = resource {$$ = $1;}
 | calc { /* TODO execute calculation */ $$ = $1->execute(); }
 .
-resource = resourceid '{' selector/sel '}' { $columns = new ColumnSelectionFilter($sel["filters"]); $columns->setSource(new Identifier($1)); /* $sorts = new SORTOBJECT(); $sort->setSource($columns); $$ = $sorts;*/ $$ = $columns; }
+resource = resourceid '{' selector/sel '}' { $columns = new ColumnSelectionFilter($sel["filters"]); 
+                                             $columns->setSource(new Identifier($1)); /* $sorts = new SORTOBJECT(); 
+                                             $sort->setSource($columns); $$ = $sorts;*/ $$ = $columns; }
 |resourceid '{' selector/sel '}' '?' filterlist/fl { $expressionFilter = new FilterByExpressionFilter($fl); 
                                                      $columns = new ColumnSelectionFilter($sel["filters"]); 
                                                      $columns->setSource($expressionFilter); $expressionFilter->setSource(new Identifier($1)); 
@@ -33,7 +35,7 @@ resource = resourceid '{' selector/sel '}' { $columns = new ColumnSelectionFilte
 
 resourceid = name '/' name  { $$ = $1 . "." . $3; }
 | resourceid '/' name { $$ = $1 . "." . $3; }
-| resourceid '/' num { /* TODO */ }
+| resourceid '/' num { $$ = $1 . "." . $3; }
 .
 
 name = name '-' name { $$ = $1 . "-" . $3; }
@@ -57,6 +59,12 @@ filter = name/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTIO
 | name/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
 | name/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
 | name/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); }
+| name/a NE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| name/a NE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| name/a GE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| name/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| name/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| name/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
 | name/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (tertiary function)*/ }
 .
 
