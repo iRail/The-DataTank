@@ -1,5 +1,7 @@
 <?php
 
+include_once("universalfilter/common/HashString.php");
+
 /**
  * Keeps blocks of data in memory if possible, but otherwise, writes them to file
  * 
@@ -8,7 +10,7 @@
  * 
  * @todo TODO: clean directory when files are older than a certain time (cron?) (directory: sys_get_temp_dir()."/The-DataTank-BigDataBlockManager" )
  *
- * @package The-Datatank/universalfilter/interpreter/executers
+ * @package The-Datatank/universalfilter/common
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
@@ -41,15 +43,7 @@ class BigDataBlockManager {
     }
     
     private function fileNameFor($key){
-        return ($this->getDirToWriteTo()).$this->strToHex($key).".datablock";
-    }
-    
-    private function strToHex($string) {
-        $hex='';
-        for ($i=0; $i < strlen($string); $i++) {
-            $hex .= dechex(ord($string[$i]));
-        }
-        return $hex;
+        return ($this->getDirToWriteTo()).hashWithNoSpecialChars($key).".datablock";
     }
     
     /*

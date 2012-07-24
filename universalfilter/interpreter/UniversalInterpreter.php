@@ -35,6 +35,7 @@ class UniversalInterpreter implements IInterpreter{
             "FILTEREXPRESSION" => "FilterByExpressionExecuter",
             "DATAGROUPER" => "DataGrouperExecuter",
             "TABLEALIAS" => "TableAliasExecuter",
+            "FILTERDISTINCT" => "DistinctFilterExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
@@ -76,6 +77,12 @@ class UniversalInterpreter implements IInterpreter{
     }
     
     public function interpret(UniversalFilterNode $tree){
+        //OPTIMIZE
+        $optimizer = new UniversalOptimizer();
+        
+        $tree = $optimizer->optimize($tree);
+        
+        //EXECUTE
         $executer = $this->findExecuterFor($tree);
         
         $emptyEnv = new Environment();
@@ -88,7 +95,8 @@ class UniversalInterpreter implements IInterpreter{
         
         $content = $executer->evaluateAsExpression();
         
-        //after return:
+        
+        //after return: CLEANUP
         //$content->tryDestroyTable();
         
         return new UniversalFilterTable($header, $content);
