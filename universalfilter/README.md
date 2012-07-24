@@ -83,7 +83,6 @@ If you need to select columns or build a new table from existing or calculated c
 
 #### Filter: DistinctFilter
 Removes double rows...
-*not implemented yet...*
 
 #### Filter: DataGrouper
 Groups data on the given fields. You probably want to use aggregator functions after you did the grouping.
@@ -129,7 +128,6 @@ See the README.md in the folder universaltree/interpreter to start.
 
 Future development
 ------------------
-As noted above the distinct filter is not implemented yet.
 
 ### There is also no filter yet: 
 1. to sort the data. (order multiple columns ascending/descending)
@@ -140,6 +138,26 @@ As noted above the distinct filter is not implemented yet.
 - there are no datatypes. It can be usefull to keep information about the datatype in the tree, so that booleans can be used as numbers, and date's can be compared but also printed without problem. You will also need functions to convert datatypes if you implement this.
 
 ### Optimalisation:
-The Aggregators are NOT optimized for big datasets (except for count). All the other filters are (*).
+The Aggregators are NOT optimized for big datasets (except for count).
+Group By is not optimized for big datasets because BigMap is not implemented correctly (keeps everything in memory)
 
-(*) = If you implement BigDataBlockManager and let it write things to file.
+### Query optimalisation:
+See README in universalfilters/interpreter/optimizer if you would like to implement that.
+
+### Converting the tree back to SQL and other filters... to execute directly on a source.
+That is possible, BUT...
+You have to be careful with joins and nested querys. The can contain data from different sources.
+E.g. if you have an xml-file and a table of a database, you can join them, but it's hard to convert to SQL...
+
+#### More in detail... What does it take to implement this feature...
+First you have to check all dependencies between identifiers to see if they all belong to the same source. (1)
+You also have to take table and column aliases in account in this step.
+
+After that you can split the query-tree in pieces where each piece only depends on 1 source. You will also have one toppiece which afterwards combines all sources. (join)
+
+You can then try to convert the pieces to other query languages and execute them on the source directly. (2) (3)
+After that you just execute the toppiece...
+
+(1) You can do this while calculating the headers... (in initExpression)
+(2) Note that not all querylanguages are as expressive as the query tree. So sometimes those little pieces have to be split up themself too.
+(3) Sometimes it is more efficient to just download the full source. E.g. with nested querys, where a subquery is executed for each row in another table.
