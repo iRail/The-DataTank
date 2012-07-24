@@ -26,33 +26,32 @@ var $i = array (
     'selectfromstatement' => 's 1',
     'unionstatement' => 's 2',
     'expression' => 's 3',
-    'SELECT' => 's 27',
+    'SELECT' => 's 28',
     'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-    'filterresult' => 's 125',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+    'filterresult' => 's 142',
     '\'start\'' => 'a \'start\'',
   ),
   1 => 
   array (
-    '\',\'' => 'r 2',
-    '\')\'' => 'r 2',
-    '#' => 'r 2',
-  ),
-  2 => 
-  array (
     '\',\'' => 'r 3',
     '\')\'' => 'r 3',
     '#' => 'r 3',
+  ),
+  2 => 
+  array (
+    '\',\'' => 'r 4',
+    '\')\'' => 'r 4',
+    '#' => 'r 4',
   ),
   3 => 
   array (
@@ -62,41 +61,40 @@ var $i = array (
   array (
     'expression' => 's 5',
     'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   5 => 
   array (
-    '\',\'' => 'r 4',
-    '\')\'' => 'r 4',
-    '#' => 'r 4',
+    '\',\'' => 'r 5',
+    '\')\'' => 'r 5',
+    '#' => 'r 5',
   ),
   6 => 
   array (
     'BETWEEN' => 's 7',
-    'IN' => 's 98',
-    'INNER' => 's 105',
-    'LEFT' => 's 110',
-    'RIGHT' => 's 115',
-    'FULL' => 's 120',
-    'UNION' => 'r 23',
-    '\',\'' => 'r 23',
-    '\')\'' => 'r 23',
-    'AS' => 'r 23',
-    'name' => 'r 23',
-    'FROM' => 'r 23',
-    'WHERE' => 'r 23',
-    'GROUP' => 'r 23',
-    '#' => 'r 23',
+    'IN' => 's 115',
+    'INNER' => 's 122',
+    'LEFT' => 's 127',
+    'RIGHT' => 's 132',
+    'FULL' => 's 137',
+    'UNION' => 'r 26',
+    '\',\'' => 'r 26',
+    '\')\'' => 'r 26',
+    'AS' => 'r 26',
+    'name' => 'r 26',
+    'FROM' => 'r 26',
+    'WHERE' => 'r 26',
+    'GROUP' => 'r 26',
+    '#' => 'r 26',
   ),
   7 => 
   array (
@@ -105,10 +103,9 @@ var $i = array (
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   8 => 
   array (
@@ -121,1207 +118,30 @@ var $i = array (
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   10 => 
   array (
-    'UNION' => 'r 24',
-    '\',\'' => 'r 24',
-    '\')\'' => 'r 24',
-    'AS' => 'r 24',
-    'name' => 'r 24',
-    'FROM' => 'r 24',
-    'WHERE' => 'r 24',
-    'GROUP' => 'r 24',
-    '#' => 'r 24',
+    'UNION' => 'r 27',
+    '\',\'' => 'r 27',
+    '\')\'' => 'r 27',
+    'AS' => 'r 27',
+    'name' => 'r 27',
+    'FROM' => 'r 27',
+    'WHERE' => 'r 27',
+    'GROUP' => 'r 27',
+    '#' => 'r 27',
   ),
   11 => 
   array (
     '\'+\'' => 's 12',
-    '\'-\'' => 's 96',
-    'LIKE' => 'r 45',
-    '\'!\'' => 'r 45',
-    '\'<\'' => 'r 45',
-    '\'>\'' => 'r 45',
-    '\'=\'' => 'r 45',
-    'AND' => 'r 45',
-    'OR' => 'r 45',
-    'FULL' => 'r 45',
-    'RIGHT' => 'r 45',
-    'LEFT' => 'r 45',
-    'INNER' => 'r 45',
-    'IN' => 'r 45',
-    'BETWEEN' => 'r 45',
-    'UNION' => 'r 45',
-    '\',\'' => 'r 45',
-    '\')\'' => 'r 45',
-    'AS' => 'r 45',
-    'name' => 'r 45',
-    'FROM' => 'r 45',
-    'WHERE' => 'r 45',
-    'GROUP' => 'r 45',
-    'ON' => 'r 45',
-    '#' => 'r 45',
-  ),
-  12 => 
-  array (
-    'expressionE' => 's 11',
-    'expressionD' => 's 13',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  13 => 
-  array (
-    'LIKE' => 'r 43',
-    '\'!\'' => 'r 43',
-    '\'<\'' => 'r 43',
-    '\'>\'' => 'r 43',
-    '\'=\'' => 'r 43',
-    'AND' => 'r 43',
-    'OR' => 'r 43',
-    'FULL' => 'r 43',
-    'RIGHT' => 'r 43',
-    'LEFT' => 'r 43',
-    'INNER' => 'r 43',
-    'IN' => 'r 43',
-    'BETWEEN' => 'r 43',
-    'UNION' => 'r 43',
-    '\',\'' => 'r 43',
-    '\')\'' => 'r 43',
-    'AS' => 'r 43',
-    'name' => 'r 43',
-    'FROM' => 'r 43',
-    'WHERE' => 'r 43',
-    'GROUP' => 'r 43',
-    'ON' => 'r 43',
-    '#' => 'r 43',
-  ),
-  14 => 
-  array (
-    '\'*\'' => 's 15',
-    '\'/\'' => 's 94',
-    '\'-\'' => 'r 48',
-    '\'+\'' => 'r 48',
-    'LIKE' => 'r 48',
-    '\'!\'' => 'r 48',
-    '\'<\'' => 'r 48',
-    '\'>\'' => 'r 48',
-    '\'=\'' => 'r 48',
-    'AND' => 'r 48',
-    'OR' => 'r 48',
-    'FULL' => 'r 48',
-    'RIGHT' => 'r 48',
-    'LEFT' => 'r 48',
-    'INNER' => 'r 48',
-    'IN' => 'r 48',
-    'BETWEEN' => 'r 48',
-    'UNION' => 'r 48',
-    '\',\'' => 'r 48',
-    '\')\'' => 'r 48',
-    'AS' => 'r 48',
-    'name' => 'r 48',
-    'FROM' => 'r 48',
-    'WHERE' => 'r 48',
-    'GROUP' => 'r 48',
-    'ON' => 'r 48',
-    '#' => 'r 48',
-  ),
-  15 => 
-  array (
-    'expressionF' => 's 14',
-    'expressionE' => 's 16',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  16 => 
-  array (
-    '\'-\'' => 'r 46',
-    '\'+\'' => 'r 46',
-    'LIKE' => 'r 46',
-    '\'!\'' => 'r 46',
-    '\'<\'' => 'r 46',
-    '\'>\'' => 'r 46',
-    '\'=\'' => 'r 46',
-    'AND' => 'r 46',
-    'OR' => 'r 46',
-    'FULL' => 'r 46',
-    'RIGHT' => 'r 46',
-    'LEFT' => 'r 46',
-    'INNER' => 'r 46',
-    'IN' => 'r 46',
-    'BETWEEN' => 'r 46',
-    'UNION' => 'r 46',
-    '\',\'' => 'r 46',
-    '\')\'' => 'r 46',
-    'AS' => 'r 46',
-    'name' => 'r 46',
-    'FROM' => 'r 46',
-    'WHERE' => 'r 46',
-    'GROUP' => 'r 46',
-    'ON' => 'r 46',
-    '#' => 'r 46',
-  ),
-  17 => 
-  array (
-    '\'/\'' => 'r 49',
-    '\'*\'' => 'r 49',
-    '\'-\'' => 'r 49',
-    '\'+\'' => 'r 49',
-    'LIKE' => 'r 49',
-    '\'!\'' => 'r 49',
-    '\'<\'' => 'r 49',
-    '\'>\'' => 'r 49',
-    '\'=\'' => 'r 49',
-    'AND' => 'r 49',
-    'OR' => 'r 49',
-    'FULL' => 'r 49',
-    'RIGHT' => 'r 49',
-    'LEFT' => 'r 49',
-    'INNER' => 'r 49',
-    'IN' => 'r 49',
-    'BETWEEN' => 'r 49',
-    'UNION' => 'r 49',
-    '\',\'' => 'r 49',
-    '\')\'' => 'r 49',
-    'AS' => 'r 49',
-    'name' => 'r 49',
-    'FROM' => 'r 49',
-    'WHERE' => 'r 49',
-    'GROUP' => 'r 49',
-    'ON' => 'r 49',
-    '#' => 'r 49',
-  ),
-  18 => 
-  array (
-    'AS' => 's 19',
-    'asopt' => 's 20',
-    '\'(\'' => 's 24',
-    'name' => 'r 22',
-    '\'*\'' => 'r 22',
-    '\'/\'' => 'r 50',
-    '\'-\'' => 'r 50',
-    '\'+\'' => 'r 50',
-    'LIKE' => 'r 50',
-    '\'!\'' => 'r 50',
-    '\'<\'' => 'r 50',
-    '\'>\'' => 'r 50',
-    '\'=\'' => 'r 50',
-    'AND' => 'r 50',
-    'OR' => 'r 50',
-    'FULL' => 'r 50',
-    'RIGHT' => 'r 50',
-    'LEFT' => 'r 50',
-    'INNER' => 'r 50',
-    'IN' => 'r 50',
-    'BETWEEN' => 'r 50',
-    'UNION' => 'r 50',
-    '\',\'' => 'r 50',
-    '\')\'' => 'r 50',
-    'FROM' => 'r 50',
-    'WHERE' => 'r 50',
-    'GROUP' => 'r 50',
-    'ON' => 'r 50',
-    '#' => 'r 50',
-  ),
-  19 => 
-  array (
-    'name' => 'r 21',
-    '\'*\'' => 'r 21',
-  ),
-  20 => 
-  array (
-    'identifier' => 's 21',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  21 => 
-  array (
-    '\'/\'' => 'r 51',
-    '\'*\'' => 'r 51',
-    '\'-\'' => 'r 51',
-    '\'+\'' => 'r 51',
-    'LIKE' => 'r 51',
-    '\'!\'' => 'r 51',
-    '\'<\'' => 'r 51',
-    '\'>\'' => 'r 51',
-    '\'=\'' => 'r 51',
-    'AND' => 'r 51',
-    'OR' => 'r 51',
-    'FULL' => 'r 51',
-    'RIGHT' => 'r 51',
-    'LEFT' => 'r 51',
-    'INNER' => 'r 51',
-    'IN' => 'r 51',
-    'BETWEEN' => 'r 51',
-    'UNION' => 'r 51',
-    '\',\'' => 'r 51',
-    '\')\'' => 'r 51',
-    'AS' => 'r 51',
-    'name' => 'r 51',
-    'FROM' => 'r 51',
-    'WHERE' => 'r 51',
-    'GROUP' => 'r 51',
-    'ON' => 'r 51',
-    '#' => 'r 51',
-  ),
-  22 => 
-  array (
-    '\'(\'' => 'r 62',
-    'AS' => 'r 62',
-    'name' => 'r 62',
-    '\'*\'' => 'r 62',
-    '\'/\'' => 'r 62',
-    '\'-\'' => 'r 62',
-    '\'+\'' => 'r 62',
-    'LIKE' => 'r 62',
-    '\'!\'' => 'r 62',
-    '\'<\'' => 'r 62',
-    '\'>\'' => 'r 62',
-    '\'=\'' => 'r 62',
-    'AND' => 'r 62',
-    'OR' => 'r 62',
-    'FULL' => 'r 62',
-    'RIGHT' => 'r 62',
-    'LEFT' => 'r 62',
-    'INNER' => 'r 62',
-    'IN' => 'r 62',
-    'BETWEEN' => 'r 62',
-    'UNION' => 'r 62',
-    '\',\'' => 'r 62',
-    '\')\'' => 'r 62',
-    'FROM' => 'r 62',
-    'WHERE' => 'r 62',
-    'GROUP' => 'r 62',
-    'HAVING' => 'r 62',
-    'ON' => 'r 62',
-    '#' => 'r 62',
-  ),
-  23 => 
-  array (
-    '\'(\'' => 'r 63',
-    'AS' => 'r 63',
-    'name' => 'r 63',
-    '\'*\'' => 'r 63',
-    '\'/\'' => 'r 63',
-    '\'-\'' => 'r 63',
-    '\'+\'' => 'r 63',
-    'LIKE' => 'r 63',
-    '\'!\'' => 'r 63',
-    '\'<\'' => 'r 63',
-    '\'>\'' => 'r 63',
-    '\'=\'' => 'r 63',
-    'AND' => 'r 63',
-    'OR' => 'r 63',
-    'FULL' => 'r 63',
-    'RIGHT' => 'r 63',
-    'LEFT' => 'r 63',
-    'INNER' => 'r 63',
-    'IN' => 'r 63',
-    'BETWEEN' => 'r 63',
-    'UNION' => 'r 63',
-    '\',\'' => 'r 63',
-    '\')\'' => 'r 63',
-    'FROM' => 'r 63',
-    'WHERE' => 'r 63',
-    'GROUP' => 'r 63',
-    'HAVING' => 'r 63',
-    'ON' => 'r 63',
-    '#' => 'r 63',
-  ),
-  24 => 
-  array (
-    'filterresult' => 's 25',
-    'expression' => 's 26',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 27',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'statement' => 's 86',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  25 => 
-  array (
-    '\',\'' => 'r 0',
-    '\')\'' => 'r 0',
-  ),
-  26 => 
-  array (
-    'UNION' => 's 4',
-    '\',\'' => 'r 1',
-    '\')\'' => 'r 1',
-  ),
-  27 => 
-  array (
-    'uniquefilter' => 's 28',
-    'DISTINCT' => 's 85',
-    '\'(\'' => 'r 7',
-    'constant' => 'r 7',
-    'name' => 'r 7',
-    '\'*\'' => 'r 7',
-  ),
-  28 => 
-  array (
-    'selecttablelist' => 's 29',
-    'listoftables' => 's 76',
-    'expression' => 's 77',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  29 => 
-  array (
-    'FROM' => 's 30',
-  ),
-  30 => 
-  array (
-    'expression' => 's 31',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  31 => 
-  array (
-    'wherefilter' => 's 32',
-    'WHERE' => 's 74',
-    'GROUP' => 'r 9',
-    '\',\'' => 'r 9',
-    '\')\'' => 'r 9',
-    '#' => 'r 9',
-  ),
-  32 => 
-  array (
-    'groupfilter' => 's 33',
-    'GROUP' => 's 34',
-    '\',\'' => 'r 11',
-    '\')\'' => 'r 11',
-    '#' => 'r 11',
-  ),
-  33 => 
-  array (
-    '\',\'' => 'r 5',
-    '\')\'' => 'r 5',
-    '#' => 'r 5',
-  ),
-  34 => 
-  array (
-    'BY' => 's 35',
-  ),
-  35 => 
-  array (
-    'identifierlist' => 's 36',
-    'identifier' => 's 71',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  36 => 
-  array (
-    'havingfilter' => 's 37',
-    'HAVING' => 's 38',
-    '\',\'' => 'r 13',
-    '\')\'' => 'r 13',
-    '#' => 'r 13',
-  ),
-  37 => 
-  array (
-    '\',\'' => 'r 10',
-    '\')\'' => 'r 10',
-    '#' => 'r 10',
-  ),
-  38 => 
-  array (
-    'expression' => 's 39',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  39 => 
-  array (
-    '\',\'' => 'r 12',
-    '\')\'' => 'r 12',
-    '#' => 'r 12',
-  ),
-  40 => 
-  array (
-    'OR' => 's 41',
-    'FULL' => 'r 31',
-    'RIGHT' => 'r 31',
-    'LEFT' => 'r 31',
-    'INNER' => 'r 31',
-    'IN' => 'r 31',
-    'BETWEEN' => 'r 31',
-    'UNION' => 'r 31',
-    '\',\'' => 'r 31',
-    '\')\'' => 'r 31',
-    'AS' => 'r 31',
-    'name' => 'r 31',
-    'FROM' => 'r 31',
-    'WHERE' => 'r 31',
-    'GROUP' => 'r 31',
-    'ON' => 'r 31',
-    '#' => 'r 31',
-  ),
-  41 => 
-  array (
-    'expressionB' => 's 40',
-    'expressionA' => 's 42',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  42 => 
-  array (
-    'FULL' => 'r 30',
-    'RIGHT' => 'r 30',
-    'LEFT' => 'r 30',
-    'INNER' => 'r 30',
-    'IN' => 'r 30',
-    'BETWEEN' => 'r 30',
-    'UNION' => 'r 30',
-    '\',\'' => 'r 30',
-    '\')\'' => 'r 30',
-    'AS' => 'r 30',
-    'name' => 'r 30',
-    'FROM' => 'r 30',
-    'WHERE' => 'r 30',
-    'GROUP' => 'r 30',
-    'ON' => 'r 30',
-    '#' => 'r 30',
-  ),
-  43 => 
-  array (
-    'AND' => 's 44',
-    'OR' => 'r 33',
-    'FULL' => 'r 33',
-    'RIGHT' => 'r 33',
-    'LEFT' => 'r 33',
-    'INNER' => 'r 33',
-    'IN' => 'r 33',
-    'BETWEEN' => 'r 33',
-    'UNION' => 'r 33',
-    '\',\'' => 'r 33',
-    '\')\'' => 'r 33',
-    'AS' => 'r 33',
-    'name' => 'r 33',
-    'FROM' => 'r 33',
-    'WHERE' => 'r 33',
-    'GROUP' => 'r 33',
-    'ON' => 'r 33',
-    '#' => 'r 33',
-  ),
-  44 => 
-  array (
-    'expressionC' => 's 43',
-    'expressionB' => 's 45',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  45 => 
-  array (
-    'OR' => 'r 32',
-    'FULL' => 'r 32',
-    'RIGHT' => 'r 32',
-    'LEFT' => 'r 32',
-    'INNER' => 'r 32',
-    'IN' => 'r 32',
-    'BETWEEN' => 'r 32',
-    'UNION' => 'r 32',
-    '\',\'' => 'r 32',
-    '\')\'' => 'r 32',
-    'AS' => 'r 32',
-    'name' => 'r 32',
-    'FROM' => 'r 32',
-    'WHERE' => 'r 32',
-    'GROUP' => 'r 32',
-    'ON' => 'r 32',
-    '#' => 'r 32',
-  ),
-  46 => 
-  array (
-    '\'=\'' => 's 47',
-    '\'<\'' => 's 55',
-    '\'>\'' => 's 61',
-    '\'!\'' => 's 65',
-    'LIKE' => 's 68',
-    'AND' => 'r 42',
-    'OR' => 'r 42',
-    'FULL' => 'r 42',
-    'RIGHT' => 'r 42',
-    'LEFT' => 'r 42',
-    'INNER' => 'r 42',
-    'IN' => 'r 42',
-    'BETWEEN' => 'r 42',
-    'UNION' => 'r 42',
-    '\',\'' => 'r 42',
-    '\')\'' => 'r 42',
-    'AS' => 'r 42',
-    'name' => 'r 42',
-    'FROM' => 'r 42',
-    'WHERE' => 'r 42',
-    'GROUP' => 'r 42',
-    'ON' => 'r 42',
-    '#' => 'r 42',
-  ),
-  47 => 
-  array (
-    'expressionD' => 's 48',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  48 => 
-  array (
-    'AND' => 'r 34',
-    'OR' => 'r 34',
-    'FULL' => 'r 34',
-    'RIGHT' => 'r 34',
-    'LEFT' => 'r 34',
-    'INNER' => 'r 34',
-    'IN' => 'r 34',
-    'BETWEEN' => 'r 34',
-    'UNION' => 'r 34',
-    '\',\'' => 'r 34',
-    '\')\'' => 'r 34',
-    'AS' => 'r 34',
-    'name' => 'r 34',
-    'FROM' => 'r 34',
-    'WHERE' => 'r 34',
-    'GROUP' => 'r 34',
-    'ON' => 'r 34',
-    '#' => 'r 34',
-  ),
-  49 => 
-  array (
-    'filterresult' => 's 25',
-    'expression' => 's 26',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 27',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'statement' => 's 50',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  50 => 
-  array (
-    '\')\'' => 's 51',
-  ),
-  51 => 
-  array (
-    'AS' => 's 19',
-    'asopt' => 's 52',
-    'name' => 'r 22',
-    '\'*\'' => 'r 22',
-    '\'/\'' => 'r 52',
-    '\'-\'' => 'r 52',
-    '\'+\'' => 'r 52',
-    'LIKE' => 'r 52',
-    '\'!\'' => 'r 52',
-    '\'<\'' => 'r 52',
-    '\'>\'' => 'r 52',
-    '\'=\'' => 'r 52',
-    'AND' => 'r 52',
-    'OR' => 'r 52',
-    'FULL' => 'r 52',
-    'RIGHT' => 'r 52',
-    'LEFT' => 'r 52',
-    'INNER' => 'r 52',
-    'IN' => 'r 52',
-    'BETWEEN' => 'r 52',
-    'UNION' => 'r 52',
-    '\',\'' => 'r 52',
-    '\')\'' => 'r 52',
-    'FROM' => 'r 52',
-    'WHERE' => 'r 52',
-    'GROUP' => 'r 52',
-    'ON' => 'r 52',
-    '#' => 'r 52',
-  ),
-  52 => 
-  array (
-    'identifier' => 's 53',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  53 => 
-  array (
-    '\'/\'' => 'r 53',
-    '\'*\'' => 'r 53',
-    '\'-\'' => 'r 53',
-    '\'+\'' => 'r 53',
-    'LIKE' => 'r 53',
-    '\'!\'' => 'r 53',
-    '\'<\'' => 'r 53',
-    '\'>\'' => 'r 53',
-    '\'=\'' => 'r 53',
-    'AND' => 'r 53',
-    'OR' => 'r 53',
-    'FULL' => 'r 53',
-    'RIGHT' => 'r 53',
-    'LEFT' => 'r 53',
-    'INNER' => 'r 53',
-    'IN' => 'r 53',
-    'BETWEEN' => 'r 53',
-    'UNION' => 'r 53',
-    '\',\'' => 'r 53',
-    '\')\'' => 'r 53',
-    'AS' => 'r 53',
-    'name' => 'r 53',
-    'FROM' => 'r 53',
-    'WHERE' => 'r 53',
-    'GROUP' => 'r 53',
-    'ON' => 'r 53',
-    '#' => 'r 53',
-  ),
-  54 => 
-  array (
-    '\'/\'' => 'r 54',
-    '\'*\'' => 'r 54',
-    '\'-\'' => 'r 54',
-    '\'+\'' => 'r 54',
-    'LIKE' => 'r 54',
-    '\'!\'' => 'r 54',
-    '\'<\'' => 'r 54',
-    '\'>\'' => 'r 54',
-    '\'=\'' => 'r 54',
-    'AND' => 'r 54',
-    'OR' => 'r 54',
-    'FULL' => 'r 54',
-    'RIGHT' => 'r 54',
-    'LEFT' => 'r 54',
-    'INNER' => 'r 54',
-    'IN' => 'r 54',
-    'BETWEEN' => 'r 54',
-    'UNION' => 'r 54',
-    '\',\'' => 'r 54',
-    '\')\'' => 'r 54',
-    'AS' => 'r 54',
-    'name' => 'r 54',
-    'FROM' => 'r 54',
-    'WHERE' => 'r 54',
-    'GROUP' => 'r 54',
-    'ON' => 'r 54',
-    '#' => 'r 54',
-  ),
-  55 => 
-  array (
-    'expressionD' => 's 56',
-    '\'=\'' => 's 57',
-    '\'>\'' => 's 59',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  56 => 
-  array (
-    'AND' => 'r 35',
-    'OR' => 'r 35',
-    'FULL' => 'r 35',
-    'RIGHT' => 'r 35',
-    'LEFT' => 'r 35',
-    'INNER' => 'r 35',
-    'IN' => 'r 35',
-    'BETWEEN' => 'r 35',
-    'UNION' => 'r 35',
-    '\',\'' => 'r 35',
-    '\')\'' => 'r 35',
-    'AS' => 'r 35',
-    'name' => 'r 35',
-    'FROM' => 'r 35',
-    'WHERE' => 'r 35',
-    'GROUP' => 'r 35',
-    'ON' => 'r 35',
-    '#' => 'r 35',
-  ),
-  57 => 
-  array (
-    'expressionD' => 's 58',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  58 => 
-  array (
-    'AND' => 'r 37',
-    'OR' => 'r 37',
-    'FULL' => 'r 37',
-    'RIGHT' => 'r 37',
-    'LEFT' => 'r 37',
-    'INNER' => 'r 37',
-    'IN' => 'r 37',
-    'BETWEEN' => 'r 37',
-    'UNION' => 'r 37',
-    '\',\'' => 'r 37',
-    '\')\'' => 'r 37',
-    'AS' => 'r 37',
-    'name' => 'r 37',
-    'FROM' => 'r 37',
-    'WHERE' => 'r 37',
-    'GROUP' => 'r 37',
-    'ON' => 'r 37',
-    '#' => 'r 37',
-  ),
-  59 => 
-  array (
-    'expressionD' => 's 60',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  60 => 
-  array (
-    'AND' => 'r 39',
-    'OR' => 'r 39',
-    'FULL' => 'r 39',
-    'RIGHT' => 'r 39',
-    'LEFT' => 'r 39',
-    'INNER' => 'r 39',
-    'IN' => 'r 39',
-    'BETWEEN' => 'r 39',
-    'UNION' => 'r 39',
-    '\',\'' => 'r 39',
-    '\')\'' => 'r 39',
-    'AS' => 'r 39',
-    'name' => 'r 39',
-    'FROM' => 'r 39',
-    'WHERE' => 'r 39',
-    'GROUP' => 'r 39',
-    'ON' => 'r 39',
-    '#' => 'r 39',
-  ),
-  61 => 
-  array (
-    'expressionD' => 's 62',
-    '\'=\'' => 's 63',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  62 => 
-  array (
-    'AND' => 'r 36',
-    'OR' => 'r 36',
-    'FULL' => 'r 36',
-    'RIGHT' => 'r 36',
-    'LEFT' => 'r 36',
-    'INNER' => 'r 36',
-    'IN' => 'r 36',
-    'BETWEEN' => 'r 36',
-    'UNION' => 'r 36',
-    '\',\'' => 'r 36',
-    '\')\'' => 'r 36',
-    'AS' => 'r 36',
-    'name' => 'r 36',
-    'FROM' => 'r 36',
-    'WHERE' => 'r 36',
-    'GROUP' => 'r 36',
-    'ON' => 'r 36',
-    '#' => 'r 36',
-  ),
-  63 => 
-  array (
-    'expressionD' => 's 64',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  64 => 
-  array (
-    'AND' => 'r 38',
-    'OR' => 'r 38',
-    'FULL' => 'r 38',
-    'RIGHT' => 'r 38',
-    'LEFT' => 'r 38',
-    'INNER' => 'r 38',
-    'IN' => 'r 38',
-    'BETWEEN' => 'r 38',
-    'UNION' => 'r 38',
-    '\',\'' => 'r 38',
-    '\')\'' => 'r 38',
-    'AS' => 'r 38',
-    'name' => 'r 38',
-    'FROM' => 'r 38',
-    'WHERE' => 'r 38',
-    'GROUP' => 'r 38',
-    'ON' => 'r 38',
-    '#' => 'r 38',
-  ),
-  65 => 
-  array (
-    '\'=\'' => 's 66',
-  ),
-  66 => 
-  array (
-    'expressionD' => 's 67',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  67 => 
-  array (
-    'AND' => 'r 40',
-    'OR' => 'r 40',
-    'FULL' => 'r 40',
-    'RIGHT' => 'r 40',
-    'LEFT' => 'r 40',
-    'INNER' => 'r 40',
-    'IN' => 'r 40',
-    'BETWEEN' => 'r 40',
-    'UNION' => 'r 40',
-    '\',\'' => 'r 40',
-    '\')\'' => 'r 40',
-    'AS' => 'r 40',
-    'name' => 'r 40',
-    'FROM' => 'r 40',
-    'WHERE' => 'r 40',
-    'GROUP' => 'r 40',
-    'ON' => 'r 40',
-    '#' => 'r 40',
-  ),
-  68 => 
-  array (
-    'likeexpression' => 's 69',
-    'constant' => 's 70',
-  ),
-  69 => 
-  array (
-    'AND' => 'r 41',
-    'OR' => 'r 41',
-    'FULL' => 'r 41',
-    'RIGHT' => 'r 41',
-    'LEFT' => 'r 41',
-    'INNER' => 'r 41',
-    'IN' => 'r 41',
-    'BETWEEN' => 'r 41',
-    'UNION' => 'r 41',
-    '\',\'' => 'r 41',
-    '\')\'' => 'r 41',
-    'AS' => 'r 41',
-    'name' => 'r 41',
-    'FROM' => 'r 41',
-    'WHERE' => 'r 41',
-    'GROUP' => 'r 41',
-    'ON' => 'r 41',
-    '#' => 'r 41',
-  ),
-  70 => 
-  array (
-    'AND' => 'r 58',
-    'OR' => 'r 58',
-    'FULL' => 'r 58',
-    'RIGHT' => 'r 58',
-    'LEFT' => 'r 58',
-    'INNER' => 'r 58',
-    'IN' => 'r 58',
-    'BETWEEN' => 'r 58',
-    'UNION' => 'r 58',
-    '\',\'' => 'r 58',
-    '\')\'' => 'r 58',
-    'AS' => 'r 58',
-    'name' => 'r 58',
-    'FROM' => 'r 58',
-    'WHERE' => 'r 58',
-    'GROUP' => 'r 58',
-    'ON' => 'r 58',
-    '#' => 'r 58',
-  ),
-  71 => 
-  array (
-    '\',\'' => 's 72',
-    'HAVING' => 'r 59',
-    '\')\'' => 'r 59',
-    '#' => 'r 59',
-  ),
-  72 => 
-  array (
-    'identifier' => 's 71',
-    'identifierlist' => 's 73',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  73 => 
-  array (
-    'HAVING' => 'r 60',
-    '\',\'' => 'r 60',
-    '\')\'' => 'r 60',
-    '#' => 'r 60',
-  ),
-  74 => 
-  array (
-    'expression' => 's 75',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  75 => 
-  array (
-    'GROUP' => 'r 8',
-    '\',\'' => 'r 8',
-    '\')\'' => 'r 8',
-    '#' => 'r 8',
-  ),
-  76 => 
-  array (
-    'FROM' => 'r 14',
-  ),
-  77 => 
-  array (
-    'asopt' => 's 78',
-    '\',\'' => 's 83',
-    'AS' => 's 19',
-    'FROM' => 'r 15',
-    'name' => 'r 22',
-  ),
-  78 => 
-  array (
-    'allowedalias' => 's 79',
-    'name' => 's 82',
-  ),
-  79 => 
-  array (
-    '\',\'' => 's 80',
-    'FROM' => 'r 16',
-  ),
-  80 => 
-  array (
-    'expression' => 's 77',
-    'listoftables' => 's 81',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  81 => 
-  array (
-    'FROM' => 'r 18',
-  ),
-  82 => 
-  array (
-    '\',\'' => 'r 61',
-    'FROM' => 'r 61',
-  ),
-  83 => 
-  array (
-    'expression' => 's 77',
-    'listoftables' => 's 84',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  84 => 
-  array (
-    'FROM' => 'r 17',
-  ),
-  85 => 
-  array (
-    '\'(\'' => 'r 6',
-    'constant' => 'r 6',
-    'name' => 'r 6',
-    '\'*\'' => 'r 6',
-  ),
-  86 => 
-  array (
-    '\')\'' => 's 87',
-    '\',\'' => 's 88',
-  ),
-  87 => 
-  array (
-    '\'/\'' => 'r 55',
-    '\'*\'' => 'r 55',
-    '\'-\'' => 'r 55',
-    '\'+\'' => 'r 55',
-    'LIKE' => 'r 55',
-    '\'!\'' => 'r 55',
-    '\'<\'' => 'r 55',
-    '\'>\'' => 'r 55',
-    '\'=\'' => 'r 55',
-    'AND' => 'r 55',
-    'OR' => 'r 55',
-    'FULL' => 'r 55',
-    'RIGHT' => 'r 55',
-    'LEFT' => 'r 55',
-    'INNER' => 'r 55',
-    'IN' => 'r 55',
-    'BETWEEN' => 'r 55',
-    'UNION' => 'r 55',
-    '\',\'' => 'r 55',
-    '\')\'' => 'r 55',
-    'AS' => 'r 55',
-    'name' => 'r 55',
-    'FROM' => 'r 55',
-    'WHERE' => 'r 55',
-    'GROUP' => 'r 55',
-    'ON' => 'r 55',
-    '#' => 'r 55',
-  ),
-  88 => 
-  array (
-    'filterresult' => 's 25',
-    'expression' => 's 26',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 27',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'statement' => 's 89',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
-  89 => 
-  array (
-    '\')\'' => 's 90',
-    '\',\'' => 's 91',
-  ),
-  90 => 
-  array (
-    '\'/\'' => 'r 56',
-    '\'*\'' => 'r 56',
-    '\'-\'' => 'r 56',
-    '\'+\'' => 'r 56',
+    '\'-\'' => 's 113',
     'LIKE' => 'r 56',
     '\'!\'' => 'r 56',
-    '\'<\'' => 'r 56',
     '\'>\'' => 'r 56',
+    '\'<\'' => 'r 56',
     '\'=\'' => 'r 56',
     'AND' => 'r 56',
     'OR' => 'r 56',
@@ -1342,41 +162,91 @@ var $i = array (
     'ON' => 'r 56',
     '#' => 'r 56',
   ),
-  91 => 
+  12 => 
   array (
-    'filterresult' => 's 25',
-    'expression' => 's 26',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 27',
-    'expressionA' => 's 6',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
     'expressionE' => 's 11',
+    'expressionD' => 's 13',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'statement' => 's 92',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
-  92 => 
+  13 => 
   array (
-    '\')\'' => 's 93',
+    'LIKE' => 'r 54',
+    '\'!\'' => 'r 54',
+    '\'>\'' => 'r 54',
+    '\'<\'' => 'r 54',
+    '\'=\'' => 'r 54',
+    'AND' => 'r 54',
+    'OR' => 'r 54',
+    'FULL' => 'r 54',
+    'RIGHT' => 'r 54',
+    'LEFT' => 'r 54',
+    'INNER' => 'r 54',
+    'IN' => 'r 54',
+    'BETWEEN' => 'r 54',
+    'UNION' => 'r 54',
+    '\',\'' => 'r 54',
+    '\')\'' => 'r 54',
+    'AS' => 'r 54',
+    'name' => 'r 54',
+    'FROM' => 'r 54',
+    'WHERE' => 'r 54',
+    'GROUP' => 'r 54',
+    'ON' => 'r 54',
+    '#' => 'r 54',
   ),
-  93 => 
+  14 => 
   array (
-    '\'/\'' => 'r 57',
-    '\'*\'' => 'r 57',
+    '\'*\'' => 's 15',
+    '\'/\'' => 's 111',
+    '\'-\'' => 'r 59',
+    '\'+\'' => 'r 59',
+    'LIKE' => 'r 59',
+    '\'!\'' => 'r 59',
+    '\'>\'' => 'r 59',
+    '\'<\'' => 'r 59',
+    '\'=\'' => 'r 59',
+    'AND' => 'r 59',
+    'OR' => 'r 59',
+    'FULL' => 'r 59',
+    'RIGHT' => 'r 59',
+    'LEFT' => 'r 59',
+    'INNER' => 'r 59',
+    'IN' => 'r 59',
+    'BETWEEN' => 'r 59',
+    'UNION' => 'r 59',
+    '\',\'' => 'r 59',
+    '\')\'' => 'r 59',
+    'AS' => 'r 59',
+    'name' => 'r 59',
+    'FROM' => 'r 59',
+    'WHERE' => 'r 59',
+    'GROUP' => 'r 59',
+    'ON' => 'r 59',
+    '#' => 'r 59',
+  ),
+  15 => 
+  array (
+    'expressionF' => 's 14',
+    'expressionE' => 's 16',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  16 => 
+  array (
     '\'-\'' => 'r 57',
     '\'+\'' => 'r 57',
     'LIKE' => 'r 57',
     '\'!\'' => 'r 57',
-    '\'<\'' => 'r 57',
     '\'>\'' => 'r 57',
+    '\'<\'' => 'r 57',
     '\'=\'' => 'r 57',
     'AND' => 'r 57',
     'OR' => 'r 57',
@@ -1397,64 +267,597 @@ var $i = array (
     'ON' => 'r 57',
     '#' => 'r 57',
   ),
-  94 => 
+  17 => 
   array (
-    'expressionF' => 's 14',
-    'expressionE' => 's 95',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    '\'/\'' => 'r 60',
+    '\'*\'' => 'r 60',
+    '\'-\'' => 'r 60',
+    '\'+\'' => 'r 60',
+    'LIKE' => 'r 60',
+    '\'!\'' => 'r 60',
+    '\'>\'' => 'r 60',
+    '\'<\'' => 'r 60',
+    '\'=\'' => 'r 60',
+    'AND' => 'r 60',
+    'OR' => 'r 60',
+    'FULL' => 'r 60',
+    'RIGHT' => 'r 60',
+    'LEFT' => 'r 60',
+    'INNER' => 'r 60',
+    'IN' => 'r 60',
+    'BETWEEN' => 'r 60',
+    'UNION' => 'r 60',
+    '\',\'' => 'r 60',
+    '\')\'' => 'r 60',
+    'AS' => 'r 60',
+    'name' => 'r 60',
+    'FROM' => 'r 60',
+    'WHERE' => 'r 60',
+    'GROUP' => 'r 60',
+    'ON' => 'r 60',
+    '#' => 'r 60',
   ),
-  95 => 
+  18 => 
   array (
-    '\'-\'' => 'r 47',
-    '\'+\'' => 'r 47',
-    'LIKE' => 'r 47',
-    '\'!\'' => 'r 47',
-    '\'<\'' => 'r 47',
-    '\'>\'' => 'r 47',
-    '\'=\'' => 'r 47',
-    'AND' => 'r 47',
-    'OR' => 'r 47',
-    'FULL' => 'r 47',
-    'RIGHT' => 'r 47',
-    'LEFT' => 'r 47',
-    'INNER' => 'r 47',
-    'IN' => 'r 47',
-    'BETWEEN' => 'r 47',
-    'UNION' => 'r 47',
-    '\',\'' => 'r 47',
-    '\')\'' => 'r 47',
-    'AS' => 'r 47',
-    'name' => 'r 47',
-    'FROM' => 'r 47',
-    'WHERE' => 'r 47',
-    'GROUP' => 'r 47',
-    'ON' => 'r 47',
-    '#' => 'r 47',
+    '\'(\'' => 's 19',
+    '\'/\'' => 'r 61',
+    '\'*\'' => 'r 61',
+    '\'-\'' => 'r 61',
+    '\'+\'' => 'r 61',
+    'LIKE' => 'r 61',
+    '\'!\'' => 'r 61',
+    '\'>\'' => 'r 61',
+    '\'<\'' => 'r 61',
+    '\'=\'' => 'r 61',
+    'AND' => 'r 61',
+    'OR' => 'r 61',
+    'FULL' => 'r 61',
+    'RIGHT' => 'r 61',
+    'LEFT' => 'r 61',
+    'INNER' => 'r 61',
+    'IN' => 'r 61',
+    'BETWEEN' => 'r 61',
+    'UNION' => 'r 61',
+    '\',\'' => 'r 61',
+    '\')\'' => 'r 61',
+    'AS' => 'r 61',
+    'name' => 'r 61',
+    'FROM' => 'r 61',
+    'WHERE' => 'r 61',
+    'GROUP' => 'r 61',
+    'ON' => 'r 61',
+    '#' => 'r 61',
   ),
-  96 => 
+  19 => 
   array (
+    'filterresult' => 's 20',
+    'expression' => 's 21',
+    '\'(\'' => 's 22',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'SELECT' => 's 28',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
     'expressionE' => 's 11',
-    'expressionD' => 's 97',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'statement' => 's 103',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
-  97 => 
+  20 => 
   array (
-    'LIKE' => 'r 44',
-    '\'!\'' => 'r 44',
-    '\'<\'' => 'r 44',
-    '\'>\'' => 'r 44',
-    '\'=\'' => 'r 44',
+    '\',\'' => 'r 0',
+    '\')\'' => 'r 0',
+  ),
+  21 => 
+  array (
+    'UNION' => 's 4',
+    '\',\'' => 'r 1',
+    '\')\'' => 'r 1',
+  ),
+  22 => 
+  array (
+    'filterresult' => 's 23',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'expression' => 's 3',
+    'SELECT' => 's 28',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  23 => 
+  array (
+    '\')\'' => 's 24',
+  ),
+  24 => 
+  array (
+    'asopt' => 's 25',
+    'AS' => 's 27',
+    'name' => 'r 25',
+  ),
+  25 => 
+  array (
+    'name' => 's 26',
+  ),
+  26 => 
+  array (
+    '\',\'' => 'r 2',
+    '\')\'' => 'r 2',
+  ),
+  27 => 
+  array (
+    'name' => 'r 24',
+  ),
+  28 => 
+  array (
+    'uniquefilter' => 's 29',
+    'DISTINCT' => 's 102',
+    'constant' => 'r 8',
+    'name' => 'r 8',
+    '\'*\'' => 'r 8',
+  ),
+  29 => 
+  array (
+    'selecttablelist' => 's 30',
+    'listoftables' => 's 93',
+    'expression' => 's 94',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  30 => 
+  array (
+    'FROM' => 's 31',
+  ),
+  31 => 
+  array (
+    'fromtableexpression' => 's 32',
+    'expression' => 's 90',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  32 => 
+  array (
+    'wherefilter' => 's 33',
+    'WHERE' => 's 88',
+    'GROUP' => 'r 10',
+    '\',\'' => 'r 10',
+    '\')\'' => 'r 10',
+    '#' => 'r 10',
+  ),
+  33 => 
+  array (
+    'groupfilter' => 's 34',
+    'GROUP' => 's 35',
+    '\',\'' => 'r 12',
+    '\')\'' => 'r 12',
+    '#' => 'r 12',
+  ),
+  34 => 
+  array (
+    '\',\'' => 'r 6',
+    '\')\'' => 'r 6',
+    '#' => 'r 6',
+  ),
+  35 => 
+  array (
+    'BY' => 's 36',
+  ),
+  36 => 
+  array (
+    'identifierlist' => 's 37',
+    'identifier' => 's 85',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  37 => 
+  array (
+    'havingfilter' => 's 38',
+    'HAVING' => 's 39',
+    '\',\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  38 => 
+  array (
+    '\',\'' => 'r 11',
+    '\')\'' => 'r 11',
+    '#' => 'r 11',
+  ),
+  39 => 
+  array (
+    'expression' => 's 40',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  40 => 
+  array (
+    '\',\'' => 'r 13',
+    '\')\'' => 'r 13',
+    '#' => 'r 13',
+  ),
+  41 => 
+  array (
+    'OR' => 's 42',
+    'FULL' => 'r 34',
+    'RIGHT' => 'r 34',
+    'LEFT' => 'r 34',
+    'INNER' => 'r 34',
+    'IN' => 'r 34',
+    'BETWEEN' => 'r 34',
+    'UNION' => 'r 34',
+    '\',\'' => 'r 34',
+    '\')\'' => 'r 34',
+    'AS' => 'r 34',
+    'name' => 'r 34',
+    'FROM' => 'r 34',
+    'WHERE' => 'r 34',
+    'GROUP' => 'r 34',
+    'ON' => 'r 34',
+    '#' => 'r 34',
+  ),
+  42 => 
+  array (
+    'expressionB' => 's 41',
+    'expressionA' => 's 43',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  43 => 
+  array (
+    'FULL' => 'r 33',
+    'RIGHT' => 'r 33',
+    'LEFT' => 'r 33',
+    'INNER' => 'r 33',
+    'IN' => 'r 33',
+    'BETWEEN' => 'r 33',
+    'UNION' => 'r 33',
+    '\',\'' => 'r 33',
+    '\')\'' => 'r 33',
+    'AS' => 'r 33',
+    'name' => 'r 33',
+    'FROM' => 'r 33',
+    'WHERE' => 'r 33',
+    'GROUP' => 'r 33',
+    'ON' => 'r 33',
+    '#' => 'r 33',
+  ),
+  44 => 
+  array (
+    'AND' => 's 45',
+    'OR' => 'r 36',
+    'FULL' => 'r 36',
+    'RIGHT' => 'r 36',
+    'LEFT' => 'r 36',
+    'INNER' => 'r 36',
+    'IN' => 'r 36',
+    'BETWEEN' => 'r 36',
+    'UNION' => 'r 36',
+    '\',\'' => 'r 36',
+    '\')\'' => 'r 36',
+    'AS' => 'r 36',
+    'name' => 'r 36',
+    'FROM' => 'r 36',
+    'WHERE' => 'r 36',
+    'GROUP' => 'r 36',
+    'ON' => 'r 36',
+    '#' => 'r 36',
+  ),
+  45 => 
+  array (
+    'expressionC' => 's 44',
+    'expressionB' => 's 46',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  46 => 
+  array (
+    'OR' => 'r 35',
+    'FULL' => 'r 35',
+    'RIGHT' => 'r 35',
+    'LEFT' => 'r 35',
+    'INNER' => 'r 35',
+    'IN' => 'r 35',
+    'BETWEEN' => 'r 35',
+    'UNION' => 'r 35',
+    '\',\'' => 'r 35',
+    '\')\'' => 'r 35',
+    'AS' => 'r 35',
+    'name' => 'r 35',
+    'FROM' => 'r 35',
+    'WHERE' => 'r 35',
+    'GROUP' => 'r 35',
+    'ON' => 'r 35',
+    '#' => 'r 35',
+  ),
+  47 => 
+  array (
+    '\'=\'' => 's 48',
+    '\'<\'' => 's 53',
+    '\'>\'' => 's 67',
+    '\'!\'' => 's 79',
+    'LIKE' => 's 82',
+    'AND' => 'r 53',
+    'OR' => 'r 53',
+    'FULL' => 'r 53',
+    'RIGHT' => 'r 53',
+    'LEFT' => 'r 53',
+    'INNER' => 'r 53',
+    'IN' => 'r 53',
+    'BETWEEN' => 'r 53',
+    'UNION' => 'r 53',
+    '\',\'' => 'r 53',
+    '\')\'' => 'r 53',
+    'AS' => 'r 53',
+    'name' => 'r 53',
+    'FROM' => 'r 53',
+    'WHERE' => 'r 53',
+    'GROUP' => 'r 53',
+    'ON' => 'r 53',
+    '#' => 'r 53',
+  ),
+  48 => 
+  array (
+    'expressionD' => 's 49',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  49 => 
+  array (
+    'AND' => 'r 37',
+    'OR' => 'r 37',
+    'FULL' => 'r 37',
+    'RIGHT' => 'r 37',
+    'LEFT' => 'r 37',
+    'INNER' => 'r 37',
+    'IN' => 'r 37',
+    'BETWEEN' => 'r 37',
+    'UNION' => 'r 37',
+    '\',\'' => 'r 37',
+    '\')\'' => 'r 37',
+    'AS' => 'r 37',
+    'name' => 'r 37',
+    'FROM' => 'r 37',
+    'WHERE' => 'r 37',
+    'GROUP' => 'r 37',
+    'ON' => 'r 37',
+    '#' => 'r 37',
+  ),
+  50 => 
+  array (
+    '\'/\'' => 'r 62',
+    '\'*\'' => 'r 62',
+    '\'-\'' => 'r 62',
+    '\'+\'' => 'r 62',
+    'LIKE' => 'r 62',
+    '\'!\'' => 'r 62',
+    '\'>\'' => 'r 62',
+    '\'<\'' => 'r 62',
+    '\'=\'' => 'r 62',
+    'AND' => 'r 62',
+    'OR' => 'r 62',
+    'FULL' => 'r 62',
+    'RIGHT' => 'r 62',
+    'LEFT' => 'r 62',
+    'INNER' => 'r 62',
+    'IN' => 'r 62',
+    'BETWEEN' => 'r 62',
+    'UNION' => 'r 62',
+    '\',\'' => 'r 62',
+    '\')\'' => 'r 62',
+    'AS' => 'r 62',
+    'name' => 'r 62',
+    'FROM' => 'r 62',
+    'WHERE' => 'r 62',
+    'GROUP' => 'r 62',
+    'ON' => 'r 62',
+    '#' => 'r 62',
+  ),
+  51 => 
+  array (
+    '\'(\'' => 'r 70',
+    '\'/\'' => 'r 70',
+    '\'*\'' => 'r 70',
+    '\'-\'' => 'r 70',
+    '\'+\'' => 'r 70',
+    'LIKE' => 'r 70',
+    '\'!\'' => 'r 70',
+    '\'>\'' => 'r 70',
+    '\'<\'' => 'r 70',
+    '\'=\'' => 'r 70',
+    'AND' => 'r 70',
+    'OR' => 'r 70',
+    'FULL' => 'r 70',
+    'RIGHT' => 'r 70',
+    'LEFT' => 'r 70',
+    'INNER' => 'r 70',
+    'IN' => 'r 70',
+    'BETWEEN' => 'r 70',
+    'UNION' => 'r 70',
+    '\',\'' => 'r 70',
+    '\')\'' => 'r 70',
+    'AS' => 'r 70',
+    'name' => 'r 70',
+    'FROM' => 'r 70',
+    'WHERE' => 'r 70',
+    'GROUP' => 'r 70',
+    'HAVING' => 'r 70',
+    'ON' => 'r 70',
+    '#' => 'r 70',
+  ),
+  52 => 
+  array (
+    '\'(\'' => 'r 71',
+    '\'/\'' => 'r 71',
+    '\'*\'' => 'r 71',
+    '\'-\'' => 'r 71',
+    '\'+\'' => 'r 71',
+    'LIKE' => 'r 71',
+    '\'!\'' => 'r 71',
+    '\'>\'' => 'r 71',
+    '\'<\'' => 'r 71',
+    '\'=\'' => 'r 71',
+    'AND' => 'r 71',
+    'OR' => 'r 71',
+    'FULL' => 'r 71',
+    'RIGHT' => 'r 71',
+    'LEFT' => 'r 71',
+    'INNER' => 'r 71',
+    'IN' => 'r 71',
+    'BETWEEN' => 'r 71',
+    'UNION' => 'r 71',
+    '\',\'' => 'r 71',
+    '\')\'' => 'r 71',
+    'AS' => 'r 71',
+    'name' => 'r 71',
+    'FROM' => 'r 71',
+    'WHERE' => 'r 71',
+    'GROUP' => 'r 71',
+    'HAVING' => 'r 71',
+    'ON' => 'r 71',
+    '#' => 'r 71',
+  ),
+  53 => 
+  array (
+    'expressionD' => 's 54',
+    '\'=\'' => 's 55',
+    '\'>\'' => 's 61',
+    'ALL' => 's 63',
+    'ANY' => 's 65',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  54 => 
+  array (
+    'AND' => 'r 38',
+    'OR' => 'r 38',
+    'FULL' => 'r 38',
+    'RIGHT' => 'r 38',
+    'LEFT' => 'r 38',
+    'INNER' => 'r 38',
+    'IN' => 'r 38',
+    'BETWEEN' => 'r 38',
+    'UNION' => 'r 38',
+    '\',\'' => 'r 38',
+    '\')\'' => 'r 38',
+    'AS' => 'r 38',
+    'name' => 'r 38',
+    'FROM' => 'r 38',
+    'WHERE' => 'r 38',
+    'GROUP' => 'r 38',
+    'ON' => 'r 38',
+    '#' => 'r 38',
+  ),
+  55 => 
+  array (
+    'expressionD' => 's 56',
+    'ALL' => 's 57',
+    'ANY' => 's 59',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  56 => 
+  array (
+    'AND' => 'r 40',
+    'OR' => 'r 40',
+    'FULL' => 'r 40',
+    'RIGHT' => 'r 40',
+    'LEFT' => 'r 40',
+    'INNER' => 'r 40',
+    'IN' => 'r 40',
+    'BETWEEN' => 'r 40',
+    'UNION' => 'r 40',
+    '\',\'' => 'r 40',
+    '\')\'' => 'r 40',
+    'AS' => 'r 40',
+    'name' => 'r 40',
+    'FROM' => 'r 40',
+    'WHERE' => 'r 40',
+    'GROUP' => 'r 40',
+    'ON' => 'r 40',
+    '#' => 'r 40',
+  ),
+  57 => 
+  array (
+    'expressionD' => 's 58',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  58 => 
+  array (
     'AND' => 'r 44',
     'OR' => 'r 44',
     'FULL' => 'r 44',
@@ -1474,184 +877,802 @@ var $i = array (
     'ON' => 'r 44',
     '#' => 'r 44',
   ),
+  59 => 
+  array (
+    'expressionD' => 's 60',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  60 => 
+  array (
+    'AND' => 'r 46',
+    'OR' => 'r 46',
+    'FULL' => 'r 46',
+    'RIGHT' => 'r 46',
+    'LEFT' => 'r 46',
+    'INNER' => 'r 46',
+    'IN' => 'r 46',
+    'BETWEEN' => 'r 46',
+    'UNION' => 'r 46',
+    '\',\'' => 'r 46',
+    '\')\'' => 'r 46',
+    'AS' => 'r 46',
+    'name' => 'r 46',
+    'FROM' => 'r 46',
+    'WHERE' => 'r 46',
+    'GROUP' => 'r 46',
+    'ON' => 'r 46',
+    '#' => 'r 46',
+  ),
+  61 => 
+  array (
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  62 => 
+  array (
+    'AND' => 'r 42',
+    'OR' => 'r 42',
+    'FULL' => 'r 42',
+    'RIGHT' => 'r 42',
+    'LEFT' => 'r 42',
+    'INNER' => 'r 42',
+    'IN' => 'r 42',
+    'BETWEEN' => 'r 42',
+    'UNION' => 'r 42',
+    '\',\'' => 'r 42',
+    '\')\'' => 'r 42',
+    'AS' => 'r 42',
+    'name' => 'r 42',
+    'FROM' => 'r 42',
+    'WHERE' => 'r 42',
+    'GROUP' => 'r 42',
+    'ON' => 'r 42',
+    '#' => 'r 42',
+  ),
+  63 => 
+  array (
+    'expressionD' => 's 64',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  64 => 
+  array (
+    'AND' => 'r 43',
+    'OR' => 'r 43',
+    'FULL' => 'r 43',
+    'RIGHT' => 'r 43',
+    'LEFT' => 'r 43',
+    'INNER' => 'r 43',
+    'IN' => 'r 43',
+    'BETWEEN' => 'r 43',
+    'UNION' => 'r 43',
+    '\',\'' => 'r 43',
+    '\')\'' => 'r 43',
+    'AS' => 'r 43',
+    'name' => 'r 43',
+    'FROM' => 'r 43',
+    'WHERE' => 'r 43',
+    'GROUP' => 'r 43',
+    'ON' => 'r 43',
+    '#' => 'r 43',
+  ),
+  65 => 
+  array (
+    'expressionD' => 's 66',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  66 => 
+  array (
+    'AND' => 'r 45',
+    'OR' => 'r 45',
+    'FULL' => 'r 45',
+    'RIGHT' => 'r 45',
+    'LEFT' => 'r 45',
+    'INNER' => 'r 45',
+    'IN' => 'r 45',
+    'BETWEEN' => 'r 45',
+    'UNION' => 'r 45',
+    '\',\'' => 'r 45',
+    '\')\'' => 'r 45',
+    'AS' => 'r 45',
+    'name' => 'r 45',
+    'FROM' => 'r 45',
+    'WHERE' => 'r 45',
+    'GROUP' => 'r 45',
+    'ON' => 'r 45',
+    '#' => 'r 45',
+  ),
+  67 => 
+  array (
+    'expressionD' => 's 68',
+    '\'=\'' => 's 69',
+    'ALL' => 's 75',
+    'ANY' => 's 77',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  68 => 
+  array (
+    'AND' => 'r 39',
+    'OR' => 'r 39',
+    'FULL' => 'r 39',
+    'RIGHT' => 'r 39',
+    'LEFT' => 'r 39',
+    'INNER' => 'r 39',
+    'IN' => 'r 39',
+    'BETWEEN' => 'r 39',
+    'UNION' => 'r 39',
+    '\',\'' => 'r 39',
+    '\')\'' => 'r 39',
+    'AS' => 'r 39',
+    'name' => 'r 39',
+    'FROM' => 'r 39',
+    'WHERE' => 'r 39',
+    'GROUP' => 'r 39',
+    'ON' => 'r 39',
+    '#' => 'r 39',
+  ),
+  69 => 
+  array (
+    'expressionD' => 's 70',
+    'ALL' => 's 71',
+    'ANY' => 's 73',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  70 => 
+  array (
+    'AND' => 'r 41',
+    'OR' => 'r 41',
+    'FULL' => 'r 41',
+    'RIGHT' => 'r 41',
+    'LEFT' => 'r 41',
+    'INNER' => 'r 41',
+    'IN' => 'r 41',
+    'BETWEEN' => 'r 41',
+    'UNION' => 'r 41',
+    '\',\'' => 'r 41',
+    '\')\'' => 'r 41',
+    'AS' => 'r 41',
+    'name' => 'r 41',
+    'FROM' => 'r 41',
+    'WHERE' => 'r 41',
+    'GROUP' => 'r 41',
+    'ON' => 'r 41',
+    '#' => 'r 41',
+  ),
+  71 => 
+  array (
+    'expressionD' => 's 72',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  72 => 
+  array (
+    'AND' => 'r 48',
+    'OR' => 'r 48',
+    'FULL' => 'r 48',
+    'RIGHT' => 'r 48',
+    'LEFT' => 'r 48',
+    'INNER' => 'r 48',
+    'IN' => 'r 48',
+    'BETWEEN' => 'r 48',
+    'UNION' => 'r 48',
+    '\',\'' => 'r 48',
+    '\')\'' => 'r 48',
+    'AS' => 'r 48',
+    'name' => 'r 48',
+    'FROM' => 'r 48',
+    'WHERE' => 'r 48',
+    'GROUP' => 'r 48',
+    'ON' => 'r 48',
+    '#' => 'r 48',
+  ),
+  73 => 
+  array (
+    'expressionD' => 's 74',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  74 => 
+  array (
+    'AND' => 'r 50',
+    'OR' => 'r 50',
+    'FULL' => 'r 50',
+    'RIGHT' => 'r 50',
+    'LEFT' => 'r 50',
+    'INNER' => 'r 50',
+    'IN' => 'r 50',
+    'BETWEEN' => 'r 50',
+    'UNION' => 'r 50',
+    '\',\'' => 'r 50',
+    '\')\'' => 'r 50',
+    'AS' => 'r 50',
+    'name' => 'r 50',
+    'FROM' => 'r 50',
+    'WHERE' => 'r 50',
+    'GROUP' => 'r 50',
+    'ON' => 'r 50',
+    '#' => 'r 50',
+  ),
+  75 => 
+  array (
+    'expressionD' => 's 76',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  76 => 
+  array (
+    'AND' => 'r 47',
+    'OR' => 'r 47',
+    'FULL' => 'r 47',
+    'RIGHT' => 'r 47',
+    'LEFT' => 'r 47',
+    'INNER' => 'r 47',
+    'IN' => 'r 47',
+    'BETWEEN' => 'r 47',
+    'UNION' => 'r 47',
+    '\',\'' => 'r 47',
+    '\')\'' => 'r 47',
+    'AS' => 'r 47',
+    'name' => 'r 47',
+    'FROM' => 'r 47',
+    'WHERE' => 'r 47',
+    'GROUP' => 'r 47',
+    'ON' => 'r 47',
+    '#' => 'r 47',
+  ),
+  77 => 
+  array (
+    'expressionD' => 's 78',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  78 => 
+  array (
+    'AND' => 'r 49',
+    'OR' => 'r 49',
+    'FULL' => 'r 49',
+    'RIGHT' => 'r 49',
+    'LEFT' => 'r 49',
+    'INNER' => 'r 49',
+    'IN' => 'r 49',
+    'BETWEEN' => 'r 49',
+    'UNION' => 'r 49',
+    '\',\'' => 'r 49',
+    '\')\'' => 'r 49',
+    'AS' => 'r 49',
+    'name' => 'r 49',
+    'FROM' => 'r 49',
+    'WHERE' => 'r 49',
+    'GROUP' => 'r 49',
+    'ON' => 'r 49',
+    '#' => 'r 49',
+  ),
+  79 => 
+  array (
+    '\'=\'' => 's 80',
+  ),
+  80 => 
+  array (
+    'expressionD' => 's 81',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  81 => 
+  array (
+    'AND' => 'r 51',
+    'OR' => 'r 51',
+    'FULL' => 'r 51',
+    'RIGHT' => 'r 51',
+    'LEFT' => 'r 51',
+    'INNER' => 'r 51',
+    'IN' => 'r 51',
+    'BETWEEN' => 'r 51',
+    'UNION' => 'r 51',
+    '\',\'' => 'r 51',
+    '\')\'' => 'r 51',
+    'AS' => 'r 51',
+    'name' => 'r 51',
+    'FROM' => 'r 51',
+    'WHERE' => 'r 51',
+    'GROUP' => 'r 51',
+    'ON' => 'r 51',
+    '#' => 'r 51',
+  ),
+  82 => 
+  array (
+    'likeexpression' => 's 83',
+    'constant' => 's 84',
+  ),
+  83 => 
+  array (
+    'AND' => 'r 52',
+    'OR' => 'r 52',
+    'FULL' => 'r 52',
+    'RIGHT' => 'r 52',
+    'LEFT' => 'r 52',
+    'INNER' => 'r 52',
+    'IN' => 'r 52',
+    'BETWEEN' => 'r 52',
+    'UNION' => 'r 52',
+    '\',\'' => 'r 52',
+    '\')\'' => 'r 52',
+    'AS' => 'r 52',
+    'name' => 'r 52',
+    'FROM' => 'r 52',
+    'WHERE' => 'r 52',
+    'GROUP' => 'r 52',
+    'ON' => 'r 52',
+    '#' => 'r 52',
+  ),
+  84 => 
+  array (
+    'AND' => 'r 66',
+    'OR' => 'r 66',
+    'FULL' => 'r 66',
+    'RIGHT' => 'r 66',
+    'LEFT' => 'r 66',
+    'INNER' => 'r 66',
+    'IN' => 'r 66',
+    'BETWEEN' => 'r 66',
+    'UNION' => 'r 66',
+    '\',\'' => 'r 66',
+    '\')\'' => 'r 66',
+    'AS' => 'r 66',
+    'name' => 'r 66',
+    'FROM' => 'r 66',
+    'WHERE' => 'r 66',
+    'GROUP' => 'r 66',
+    'ON' => 'r 66',
+    '#' => 'r 66',
+  ),
+  85 => 
+  array (
+    '\',\'' => 's 86',
+    'HAVING' => 'r 67',
+    '\')\'' => 'r 67',
+    '#' => 'r 67',
+  ),
+  86 => 
+  array (
+    'identifier' => 's 85',
+    'identifierlist' => 's 87',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  87 => 
+  array (
+    'HAVING' => 'r 68',
+    '\',\'' => 'r 68',
+    '\')\'' => 'r 68',
+    '#' => 'r 68',
+  ),
+  88 => 
+  array (
+    'expression' => 's 89',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  89 => 
+  array (
+    'GROUP' => 'r 9',
+    '\',\'' => 'r 9',
+    '\')\'' => 'r 9',
+    '#' => 'r 9',
+  ),
+  90 => 
+  array (
+    'asopt' => 's 91',
+    'AS' => 's 27',
+    'WHERE' => 'r 15',
+    'GROUP' => 'r 15',
+    '\',\'' => 'r 15',
+    '\')\'' => 'r 15',
+    '#' => 'r 15',
+    'name' => 'r 25',
+  ),
+  91 => 
+  array (
+    'name' => 's 92',
+  ),
+  92 => 
+  array (
+    'WHERE' => 'r 16',
+    'GROUP' => 'r 16',
+    '\',\'' => 'r 16',
+    '\')\'' => 'r 16',
+    '#' => 'r 16',
+  ),
+  93 => 
+  array (
+    'FROM' => 'r 17',
+  ),
+  94 => 
+  array (
+    'asopt' => 's 95',
+    '\',\'' => 's 100',
+    'AS' => 's 27',
+    'FROM' => 'r 18',
+    'name' => 'r 25',
+  ),
+  95 => 
+  array (
+    'allowedalias' => 's 96',
+    'name' => 's 99',
+  ),
+  96 => 
+  array (
+    '\',\'' => 's 97',
+    'FROM' => 'r 19',
+  ),
+  97 => 
+  array (
+    'expression' => 's 94',
+    'listoftables' => 's 98',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
   98 => 
   array (
-    '\'(\'' => 's 99',
+    'FROM' => 'r 21',
   ),
   99 => 
   array (
-    'constant' => 's 100',
-    'constantlist' => 's 103',
+    '\',\'' => 'r 69',
+    'FROM' => 'r 69',
   ),
   100 => 
   array (
-    '\',\'' => 's 101',
-    '\')\'' => 'r 19',
+    'expression' => 's 94',
+    'listoftables' => 's 101',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   101 => 
   array (
-    'constant' => 's 100',
-    'constantlist' => 's 102',
+    'FROM' => 'r 20',
   ),
   102 => 
   array (
-    '\')\'' => 'r 20',
+    'constant' => 'r 7',
+    'name' => 'r 7',
+    '\'*\'' => 'r 7',
   ),
   103 => 
   array (
     '\')\'' => 's 104',
+    '\',\'' => 's 105',
   ),
   104 => 
   array (
-    'UNION' => 'r 25',
-    '\',\'' => 'r 25',
-    '\')\'' => 'r 25',
-    'AS' => 'r 25',
-    'name' => 'r 25',
-    'FROM' => 'r 25',
-    'WHERE' => 'r 25',
-    'GROUP' => 'r 25',
-    '#' => 'r 25',
+    '\'/\'' => 'r 63',
+    '\'*\'' => 'r 63',
+    '\'-\'' => 'r 63',
+    '\'+\'' => 'r 63',
+    'LIKE' => 'r 63',
+    '\'!\'' => 'r 63',
+    '\'>\'' => 'r 63',
+    '\'<\'' => 'r 63',
+    '\'=\'' => 'r 63',
+    'AND' => 'r 63',
+    'OR' => 'r 63',
+    'FULL' => 'r 63',
+    'RIGHT' => 'r 63',
+    'LEFT' => 'r 63',
+    'INNER' => 'r 63',
+    'IN' => 'r 63',
+    'BETWEEN' => 'r 63',
+    'UNION' => 'r 63',
+    '\',\'' => 'r 63',
+    '\')\'' => 'r 63',
+    'AS' => 'r 63',
+    'name' => 'r 63',
+    'FROM' => 'r 63',
+    'WHERE' => 'r 63',
+    'GROUP' => 'r 63',
+    'ON' => 'r 63',
+    '#' => 'r 63',
   ),
   105 => 
   array (
-    'JOIN' => 's 106',
+    'filterresult' => 's 20',
+    'expression' => 's 21',
+    '\'(\'' => 's 22',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'SELECT' => 's 28',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'statement' => 's 106',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   106 => 
   array (
-    'expressionA' => 's 107',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    '\')\'' => 's 107',
+    '\',\'' => 's 108',
   ),
   107 => 
   array (
-    'ON' => 's 108',
+    '\'/\'' => 'r 64',
+    '\'*\'' => 'r 64',
+    '\'-\'' => 'r 64',
+    '\'+\'' => 'r 64',
+    'LIKE' => 'r 64',
+    '\'!\'' => 'r 64',
+    '\'>\'' => 'r 64',
+    '\'<\'' => 'r 64',
+    '\'=\'' => 'r 64',
+    'AND' => 'r 64',
+    'OR' => 'r 64',
+    'FULL' => 'r 64',
+    'RIGHT' => 'r 64',
+    'LEFT' => 'r 64',
+    'INNER' => 'r 64',
+    'IN' => 'r 64',
+    'BETWEEN' => 'r 64',
+    'UNION' => 'r 64',
+    '\',\'' => 'r 64',
+    '\')\'' => 'r 64',
+    'AS' => 'r 64',
+    'name' => 'r 64',
+    'FROM' => 'r 64',
+    'WHERE' => 'r 64',
+    'GROUP' => 'r 64',
+    'ON' => 'r 64',
+    '#' => 'r 64',
   ),
   108 => 
   array (
-    'expressionA' => 's 109',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
+    'filterresult' => 's 20',
+    'expression' => 's 21',
+    '\'(\'' => 's 22',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'SELECT' => 's 28',
+    'expressionA' => 's 6',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'statement' => 's 109',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   109 => 
   array (
-    'UNION' => 'r 26',
-    '\',\'' => 'r 26',
-    '\')\'' => 'r 26',
-    'AS' => 'r 26',
-    'name' => 'r 26',
-    'FROM' => 'r 26',
-    'WHERE' => 'r 26',
-    'GROUP' => 'r 26',
-    '#' => 'r 26',
+    '\')\'' => 's 110',
   ),
   110 => 
   array (
-    'JOIN' => 's 111',
+    '\'/\'' => 'r 65',
+    '\'*\'' => 'r 65',
+    '\'-\'' => 'r 65',
+    '\'+\'' => 'r 65',
+    'LIKE' => 'r 65',
+    '\'!\'' => 'r 65',
+    '\'>\'' => 'r 65',
+    '\'<\'' => 'r 65',
+    '\'=\'' => 'r 65',
+    'AND' => 'r 65',
+    'OR' => 'r 65',
+    'FULL' => 'r 65',
+    'RIGHT' => 'r 65',
+    'LEFT' => 'r 65',
+    'INNER' => 'r 65',
+    'IN' => 'r 65',
+    'BETWEEN' => 'r 65',
+    'UNION' => 'r 65',
+    '\',\'' => 'r 65',
+    '\')\'' => 'r 65',
+    'AS' => 'r 65',
+    'name' => 'r 65',
+    'FROM' => 'r 65',
+    'WHERE' => 'r 65',
+    'GROUP' => 'r 65',
+    'ON' => 'r 65',
+    '#' => 'r 65',
   ),
   111 => 
   array (
-    'expressionA' => 's 112',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
     'expressionF' => 's 14',
+    'expressionE' => 's 112',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   112 => 
   array (
-    'ON' => 's 113',
+    '\'-\'' => 'r 58',
+    '\'+\'' => 'r 58',
+    'LIKE' => 'r 58',
+    '\'!\'' => 'r 58',
+    '\'>\'' => 'r 58',
+    '\'<\'' => 'r 58',
+    '\'=\'' => 'r 58',
+    'AND' => 'r 58',
+    'OR' => 'r 58',
+    'FULL' => 'r 58',
+    'RIGHT' => 'r 58',
+    'LEFT' => 'r 58',
+    'INNER' => 'r 58',
+    'IN' => 'r 58',
+    'BETWEEN' => 'r 58',
+    'UNION' => 'r 58',
+    '\',\'' => 'r 58',
+    '\')\'' => 'r 58',
+    'AS' => 'r 58',
+    'name' => 'r 58',
+    'FROM' => 'r 58',
+    'WHERE' => 'r 58',
+    'GROUP' => 'r 58',
+    'ON' => 'r 58',
+    '#' => 'r 58',
   ),
   113 => 
   array (
-    'expressionA' => 's 114',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
     'expressionE' => 's 11',
+    'expressionD' => 's 114',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   114 => 
   array (
-    'UNION' => 'r 27',
-    '\',\'' => 'r 27',
-    '\')\'' => 'r 27',
-    'AS' => 'r 27',
-    'name' => 'r 27',
-    'FROM' => 'r 27',
-    'WHERE' => 'r 27',
-    'GROUP' => 'r 27',
-    '#' => 'r 27',
+    'LIKE' => 'r 55',
+    '\'!\'' => 'r 55',
+    '\'>\'' => 'r 55',
+    '\'<\'' => 'r 55',
+    '\'=\'' => 'r 55',
+    'AND' => 'r 55',
+    'OR' => 'r 55',
+    'FULL' => 'r 55',
+    'RIGHT' => 'r 55',
+    'LEFT' => 'r 55',
+    'INNER' => 'r 55',
+    'IN' => 'r 55',
+    'BETWEEN' => 'r 55',
+    'UNION' => 'r 55',
+    '\',\'' => 'r 55',
+    '\')\'' => 'r 55',
+    'AS' => 'r 55',
+    'name' => 'r 55',
+    'FROM' => 'r 55',
+    'WHERE' => 'r 55',
+    'GROUP' => 'r 55',
+    'ON' => 'r 55',
+    '#' => 'r 55',
   ),
   115 => 
   array (
-    'JOIN' => 's 116',
+    '\'(\'' => 's 116',
   ),
   116 => 
   array (
-    'expressionA' => 's 117',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 117',
+    'constantlist' => 's 120',
   ),
   117 => 
   array (
-    'ON' => 's 118',
+    '\',\'' => 's 118',
+    '\')\'' => 'r 22',
   ),
   118 => 
   array (
-    'expressionA' => 's 119',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 117',
+    'constantlist' => 's 119',
   ),
   119 => 
+  array (
+    '\')\'' => 'r 23',
+  ),
+  120 => 
+  array (
+    '\')\'' => 's 121',
+  ),
+  121 => 
   array (
     'UNION' => 'r 28',
     '\',\'' => 'r 28',
@@ -1663,45 +1684,43 @@ var $i = array (
     'GROUP' => 'r 28',
     '#' => 'r 28',
   ),
-  120 => 
-  array (
-    'JOIN' => 's 121',
-  ),
-  121 => 
-  array (
-    'expressionA' => 's 122',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
-  ),
   122 => 
   array (
-    'ON' => 's 123',
+    'JOIN' => 's 123',
   ),
   123 => 
   array (
     'expressionA' => 's 124',
-    'expressionB' => 's 40',
-    'expressionC' => 's 43',
-    'expressionD' => 's 46',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    '\'(\'' => 's 49',
-    'constant' => 's 54',
-    'name' => 's 22',
-    '\'*\'' => 's 23',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
   ),
   124 => 
+  array (
+    'ON' => 's 125',
+  ),
+  125 => 
+  array (
+    'expressionA' => 's 126',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  126 => 
   array (
     'UNION' => 'r 29',
     '\',\'' => 'r 29',
@@ -1713,9 +1732,153 @@ var $i = array (
     'GROUP' => 'r 29',
     '#' => 'r 29',
   ),
-  125 => 
+  127 => 
   array (
-    '#' => 'r 64',
+    'JOIN' => 's 128',
+  ),
+  128 => 
+  array (
+    'expressionA' => 's 129',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  129 => 
+  array (
+    'ON' => 's 130',
+  ),
+  130 => 
+  array (
+    'expressionA' => 's 131',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  131 => 
+  array (
+    'UNION' => 'r 30',
+    '\',\'' => 'r 30',
+    '\')\'' => 'r 30',
+    'AS' => 'r 30',
+    'name' => 'r 30',
+    'FROM' => 'r 30',
+    'WHERE' => 'r 30',
+    'GROUP' => 'r 30',
+    '#' => 'r 30',
+  ),
+  132 => 
+  array (
+    'JOIN' => 's 133',
+  ),
+  133 => 
+  array (
+    'expressionA' => 's 134',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  134 => 
+  array (
+    'ON' => 's 135',
+  ),
+  135 => 
+  array (
+    'expressionA' => 's 136',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  136 => 
+  array (
+    'UNION' => 'r 31',
+    '\',\'' => 'r 31',
+    '\')\'' => 'r 31',
+    'AS' => 'r 31',
+    'name' => 'r 31',
+    'FROM' => 'r 31',
+    'WHERE' => 'r 31',
+    'GROUP' => 'r 31',
+    '#' => 'r 31',
+  ),
+  137 => 
+  array (
+    'JOIN' => 's 138',
+  ),
+  138 => 
+  array (
+    'expressionA' => 's 139',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  139 => 
+  array (
+    'ON' => 's 140',
+  ),
+  140 => 
+  array (
+    'expressionA' => 's 141',
+    'expressionB' => 's 41',
+    'expressionC' => 's 44',
+    'expressionD' => 's 47',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 50',
+    'name' => 's 51',
+    '\'*\'' => 's 52',
+  ),
+  141 => 
+  array (
+    'UNION' => 'r 32',
+    '\',\'' => 'r 32',
+    '\')\'' => 'r 32',
+    'AS' => 'r 32',
+    'name' => 'r 32',
+    'FROM' => 'r 32',
+    'WHERE' => 'r 32',
+    'GROUP' => 'r 32',
+    '#' => 'r 32',
+  ),
+  142 => 
+  array (
+    '#' => 'r 72',
   ),
 );
 function reduce_0_statement_1($tokens, &$result) {
@@ -1734,25 +1897,35 @@ $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_2_filterresult_1($tokens, &$result) {
+function reduce_2_statement_3($tokens, &$result) {
 #
-# (2) filterresult :=  selectfromstatement
+# (2) statement :=  '('  filterresult  ')'  asopt  name
+#
+$result = reset($tokens);
+$stat =& $tokens[1];
+$tablealias =& $tokens[4];
+$result = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));
+}
+
+function reduce_3_filterresult_1($tokens, &$result) {
+#
+# (3) filterresult :=  selectfromstatement
 #
 $result = reset($tokens);
 $result = $tokens[0];/*TODO*/
 }
 
-function reduce_3_filterresult_2($tokens, &$result) {
+function reduce_4_filterresult_2($tokens, &$result) {
 #
-# (3) filterresult :=  unionstatement
+# (4) filterresult :=  unionstatement
 #
 $result = reset($tokens);
 $result = $tokens[0];/*TODO*/
 }
 
-function reduce_4_unionstatement_1($tokens, &$result) {
+function reduce_5_unionstatement_1($tokens, &$result) {
 #
-# (4) unionstatement :=  expression  UNION  expression
+# (5) unionstatement :=  expression  UNION  expression
 #
 $result = reset($tokens);
 $expr1 =& $tokens[0];
@@ -1760,9 +1933,9 @@ $expr2 =& $tokens[2];
 $result = null;/*TODO*/
 }
 
-function reduce_5_selectfromstatement_1($tokens, &$result) {
+function reduce_6_selectfromstatement_1($tokens, &$result) {
 #
-# (5) selectfromstatement :=  SELECT  uniquefilter  selecttablelist  FROM  expression  wherefilter  groupfilter
+# (6) selectfromstatement :=  SELECT  uniquefilter  selecttablelist  FROM  fromtableexpression  wherefilter  groupfilter
 #
 $result = reset($tokens);
 $distinct =& $tokens[1];
@@ -1785,42 +1958,42 @@ $groupby =& $tokens[6];
                         $result=$totalfilter;
 }
 
-function reduce_6_uniquefilter_1($tokens, &$result) {
+function reduce_7_uniquefilter_1($tokens, &$result) {
 #
-# (6) uniquefilter :=  DISTINCT
+# (7) uniquefilter :=  DISTINCT
 #
 $result = reset($tokens);
 $result = new DistinctFilter();
 }
 
-function reduce_7_uniquefilter_2($tokens, &$result) {
+function reduce_8_uniquefilter_2($tokens, &$result) {
 #
-# (7) uniquefilter :=
+# (8) uniquefilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_8_wherefilter_1($tokens, &$result) {
+function reduce_9_wherefilter_1($tokens, &$result) {
 #
-# (8) wherefilter :=  WHERE  expression
+# (9) wherefilter :=  WHERE  expression
 #
 $result = reset($tokens);
 $expr =& $tokens[1];
 $result = new FilterByExpressionFilter($expr);
 }
 
-function reduce_9_wherefilter_2($tokens, &$result) {
+function reduce_10_wherefilter_2($tokens, &$result) {
 #
-# (9) wherefilter :=
+# (10) wherefilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_10_groupfilter_1($tokens, &$result) {
+function reduce_11_groupfilter_1($tokens, &$result) {
 #
-# (10) groupfilter :=  GROUP  BY  identifierlist  havingfilter
+# (11) groupfilter :=  GROUP  BY  identifierlist  havingfilter
 #
 $result = reset($tokens);
 $groupFields =& $tokens[2];
@@ -1828,51 +2001,69 @@ $having =& $tokens[3];
 $result = putFilterAfterIfExists(new DataGrouper($groupFields), $having);
 }
 
-function reduce_11_groupfilter_2($tokens, &$result) {
+function reduce_12_groupfilter_2($tokens, &$result) {
 #
-# (11) groupfilter :=
+# (12) groupfilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_12_havingfilter_1($tokens, &$result) {
+function reduce_13_havingfilter_1($tokens, &$result) {
 #
-# (12) havingfilter :=  HAVING  expression
+# (13) havingfilter :=  HAVING  expression
 #
 $result = reset($tokens);
 $expr =& $tokens[1];
 $result = new FilterByExpressionFilter($expr);
 }
 
-function reduce_13_havingfilter_2($tokens, &$result) {
+function reduce_14_havingfilter_2($tokens, &$result) {
 #
-# (13) havingfilter :=
+# (14) havingfilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_14_selecttablelist_1($tokens, &$result) {
+function reduce_15_fromtableexpression_1($tokens, &$result) {
 #
-# (14) selecttablelist :=  listoftables
+# (15) fromtableexpression :=  expression
+#
+$result = reset($tokens);
+$result=$tokens[0];
+}
+
+function reduce_16_fromtableexpression_2($tokens, &$result) {
+#
+# (16) fromtableexpression :=  expression  asopt  name
+#
+$result = reset($tokens);
+$stat =& $tokens[0];
+$tablealias =& $tokens[2];
+$result = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));
+}
+
+function reduce_17_selecttablelist_1($tokens, &$result) {
+#
+# (17) selecttablelist :=  listoftables
 #
 $result = reset($tokens);
 $result = new ColumnSelectionFilter($tokens[0]);
 }
 
-function reduce_15_listoftables_1($tokens, &$result) {
+function reduce_18_listoftables_1($tokens, &$result) {
 #
-# (15) listoftables :=  expression
+# (18) listoftables :=  expression
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
 $result = array(new ColumnSelectionFilterColumn($expr, null));
 }
 
-function reduce_16_listoftables_2($tokens, &$result) {
+function reduce_19_listoftables_2($tokens, &$result) {
 #
-# (16) listoftables :=  expression  asopt  allowedalias
+# (19) listoftables :=  expression  asopt  allowedalias
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -1880,9 +2071,9 @@ $alias =& $tokens[2];
 $result = array(new ColumnSelectionFilterColumn($expr, $alias));
 }
 
-function reduce_17_listoftables_3($tokens, &$result) {
+function reduce_20_listoftables_3($tokens, &$result) {
 #
-# (17) listoftables :=  expression  ','  listoftables
+# (20) listoftables :=  expression  ','  listoftables
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -1890,9 +2081,9 @@ $arr =& $tokens[2];
 array_unshift($arr, new ColumnSelectionFilterColumn($expr, null));$result = $arr;
 }
 
-function reduce_18_listoftables_4($tokens, &$result) {
+function reduce_21_listoftables_4($tokens, &$result) {
 #
-# (18) listoftables :=  expression  asopt  allowedalias  ','  listoftables
+# (21) listoftables :=  expression  asopt  allowedalias  ','  listoftables
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -1901,83 +2092,70 @@ $arr =& $tokens[4];
 array_unshift($arr, new ColumnSelectionFilterColumn($expr, $alias));$result = $arr;
 }
 
-function reduce_19_constantlist_1($tokens, &$result) {
+function reduce_22_constantlist_1($tokens, &$result) {
 #
-# (19) constantlist :=  constant
+# (22) constantlist :=  constant
 #
 $result = reset($tokens);
 $result = array(new Constant($tokens[0]));
 }
 
-function reduce_20_constantlist_2($tokens, &$result) {
+function reduce_23_constantlist_2($tokens, &$result) {
 #
-# (20) constantlist :=  constant  ','  constantlist
+# (23) constantlist :=  constant  ','  constantlist
 #
 $result = reset($tokens);
 $arr =& $tokens[2];
 array_unshift($arr, new Constant($tokens[0]));$result = $arr;
 }
 
-function reduce_21_asopt_1($tokens, &$result) {
+function reduce_24_asopt_1($tokens, &$result) {
 #
-# (21) asopt :=  AS
-#
-$result = reset($tokens);
-
-}
-
-function reduce_22_asopt_2($tokens, &$result) {
-#
-# (22) asopt :=
+# (24) asopt :=  AS
 #
 $result = reset($tokens);
 
 }
 
-function reduce_23_expression_1($tokens, &$result) {
+function reduce_25_asopt_2($tokens, &$result) {
 #
-# (23) expression :=  expressionA
+# (25) asopt :=
+#
+$result = reset($tokens);
+
+}
+
+function reduce_26_expression_1($tokens, &$result) {
+#
+# (26) expression :=  expressionA
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_24_expression_2($tokens, &$result) {
+function reduce_27_expression_2($tokens, &$result) {
 #
-# (24) expression :=  expressionA  BETWEEN  expressionD  AND  expressionD
+# (27) expression :=  expressionA  BETWEEN  expressionD  AND  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
 $c =& $tokens[4];
-$result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, 
-                                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $b, $a), 
-                                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $c));
+$result = CombinedFilterGenerators::makeBetweenFilter($a,$b,$c);
 }
 
-function reduce_25_expression_3($tokens, &$result) {
+function reduce_28_expression_3($tokens, &$result) {
 #
-# (25) expression :=  expressionA  IN  '('  constantlist  ')'
+# (28) expression :=  expressionA  IN  '('  constantlist  ')'
 #
 $result = reset($tokens);
 $constantlist =& $tokens[3];
 $result = putFilterAfterIfExists($tokens[0], new CheckInFunction($constantlist));
 }
 
-function reduce_26_expression_4($tokens, &$result) {
+function reduce_29_expression_4($tokens, &$result) {
 #
-# (26) expression :=  expressionA  INNER  JOIN  expressionA  ON  expressionA
-#
-$result = reset($tokens);
-$a =& $tokens[0];
-$b =& $tokens[3];
-$c =& $tokens[5];
-$result = null;/*TODO*/
-}
-
-function reduce_27_expression_5($tokens, &$result) {
-#
-# (27) expression :=  expressionA  LEFT  JOIN  expressionA  ON  expressionA
+# (29) expression :=  expressionA  INNER  JOIN  expressionA  ON  expressionA
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1986,20 +2164,9 @@ $c =& $tokens[5];
 $result = null;/*TODO*/
 }
 
-function reduce_28_expression_6($tokens, &$result) {
+function reduce_30_expression_5($tokens, &$result) {
 #
-# (28) expression :=  expressionA  RIGHT  JOIN  expressionA  ON  expressionA
-#
-$result = reset($tokens);
-$a =& $tokens[0];
-$b =& $tokens[3];
-$c =& $tokens[5];
-$result = null;/*TODO*/
-}
-
-function reduce_29_expression_7($tokens, &$result) {
-#
-# (29) expression :=  expressionA  FULL  JOIN  expressionA  ON  expressionA
+# (30) expression :=  expressionA  LEFT  JOIN  expressionA  ON  expressionA
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2008,9 +2175,31 @@ $c =& $tokens[5];
 $result = null;/*TODO*/
 }
 
-function reduce_30_expressionA_1($tokens, &$result) {
+function reduce_31_expression_6($tokens, &$result) {
 #
-# (30) expressionA :=  expressionB  OR  expressionA
+# (31) expression :=  expressionA  RIGHT  JOIN  expressionA  ON  expressionA
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$c =& $tokens[5];
+$result = null;/*TODO*/
+}
+
+function reduce_32_expression_7($tokens, &$result) {
+#
+# (32) expression :=  expressionA  FULL  JOIN  expressionA  ON  expressionA
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$c =& $tokens[5];
+$result = null;/*TODO*/
+}
+
+function reduce_33_expressionA_1($tokens, &$result) {
+#
+# (33) expressionA :=  expressionB  OR  expressionA
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2018,17 +2207,17 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR, $a, $b);
 }
 
-function reduce_31_expressionA_2($tokens, &$result) {
+function reduce_34_expressionA_2($tokens, &$result) {
 #
-# (31) expressionA :=  expressionB
+# (34) expressionA :=  expressionB
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_32_expressionB_1($tokens, &$result) {
+function reduce_35_expressionB_1($tokens, &$result) {
 #
-# (32) expressionB :=  expressionC  AND  expressionB
+# (35) expressionB :=  expressionC  AND  expressionB
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2036,17 +2225,17 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, $a, $b);
 }
 
-function reduce_33_expressionB_2($tokens, &$result) {
+function reduce_36_expressionB_2($tokens, &$result) {
 #
-# (33) expressionB :=  expressionC
+# (36) expressionB :=  expressionC
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_34_expressionC_1($tokens, &$result) {
+function reduce_37_expressionC_1($tokens, &$result) {
 #
-# (34) expressionC :=  expressionD  '='  expressionD
+# (37) expressionC :=  expressionD  '='  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2054,9 +2243,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL, $a, $b);
 }
 
-function reduce_35_expressionC_2($tokens, &$result) {
+function reduce_38_expressionC_2($tokens, &$result) {
 #
-# (35) expressionC :=  expressionD  '<'  expressionD
+# (38) expressionC :=  expressionD  '<'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2064,9 +2253,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, $a, $b);
 }
 
-function reduce_36_expressionC_3($tokens, &$result) {
+function reduce_39_expressionC_3($tokens, &$result) {
 #
-# (36) expressionC :=  expressionD  '>'  expressionD
+# (39) expressionC :=  expressionD  '>'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2074,9 +2263,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, $a, $b);
 }
 
-function reduce_37_expressionC_4($tokens, &$result) {
+function reduce_40_expressionC_4($tokens, &$result) {
 #
-# (37) expressionC :=  expressionD  '<'  '='  expressionD
+# (40) expressionC :=  expressionD  '<'  '='  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2084,9 +2273,9 @@ $b =& $tokens[3];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $b);
 }
 
-function reduce_38_expressionC_5($tokens, &$result) {
+function reduce_41_expressionC_5($tokens, &$result) {
 #
-# (38) expressionC :=  expressionD  '>'  '='  expressionD
+# (41) expressionC :=  expressionD  '>'  '='  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2094,19 +2283,9 @@ $b =& $tokens[3];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, $a, $b);
 }
 
-function reduce_39_expressionC_6($tokens, &$result) {
+function reduce_42_expressionC_6($tokens, &$result) {
 #
-# (39) expressionC :=  expressionD  '<'  '>'  expressionD
-#
-$result = reset($tokens);
-$a =& $tokens[0];
-$b =& $tokens[3];
-$result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);
-}
-
-function reduce_40_expressionC_7($tokens, &$result) {
-#
-# (40) expressionC :=  expressionD  '!'  '='  expressionD
+# (42) expressionC :=  expressionD  '<'  '>'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2114,9 +2293,99 @@ $b =& $tokens[3];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);
 }
 
-function reduce_41_expressionC_8($tokens, &$result) {
+function reduce_43_expressionC_7($tokens, &$result) {
 #
-# (41) expressionC :=  expressionD  LIKE  likeexpression
+# (43) expressionC :=  expressionD  '<'  ALL  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b);
+}
+
+function reduce_44_expressionC_8($tokens, &$result) {
+#
+# (44) expressionC :=  expressionD  '<'  '='  ALL  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[4];
+$result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b,false);
+}
+
+function reduce_45_expressionC_9($tokens, &$result) {
+#
+# (45) expressionC :=  expressionD  '<'  ANY  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b, true, false);
+}
+
+function reduce_46_expressionC_10($tokens, &$result) {
+#
+# (46) expressionC :=  expressionD  '<'  '='  ANY  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[4];
+$result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b, false, false);
+}
+
+function reduce_47_expressionC_11($tokens, &$result) {
+#
+# (47) expressionC :=  expressionD  '>'  ALL  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b);
+}
+
+function reduce_48_expressionC_12($tokens, &$result) {
+#
+# (48) expressionC :=  expressionD  '>'  '='  ALL  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[4];
+$result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, false);
+}
+
+function reduce_49_expressionC_13($tokens, &$result) {
+#
+# (49) expressionC :=  expressionD  '>'  ANY  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, true, false);
+}
+
+function reduce_50_expressionC_14($tokens, &$result) {
+#
+# (50) expressionC :=  expressionD  '>'  '='  ANY  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[4];
+$result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, false, false);
+}
+
+function reduce_51_expressionC_15($tokens, &$result) {
+#
+# (51) expressionC :=  expressionD  '!'  '='  expressionD
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);
+}
+
+function reduce_52_expressionC_16($tokens, &$result) {
+#
+# (52) expressionC :=  expressionD  LIKE  likeexpression
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -2124,17 +2393,17 @@ $likeexpr =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, $expr, new Constant(convertRegexFromSQLToUniversal($likeexpr)));
 }
 
-function reduce_42_expressionC_9($tokens, &$result) {
+function reduce_53_expressionC_17($tokens, &$result) {
 #
-# (42) expressionC :=  expressionD
+# (53) expressionC :=  expressionD
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_43_expressionD_1($tokens, &$result) {
+function reduce_54_expressionD_1($tokens, &$result) {
 #
-# (43) expressionD :=  expressionE  '+'  expressionD
+# (54) expressionD :=  expressionE  '+'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2142,9 +2411,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $a, $b);
 }
 
-function reduce_44_expressionD_2($tokens, &$result) {
+function reduce_55_expressionD_2($tokens, &$result) {
 #
-# (44) expressionD :=  expressionE  '-'  expressionD
+# (55) expressionD :=  expressionE  '-'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2152,17 +2421,17 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $a, $b);
 }
 
-function reduce_45_expressionD_3($tokens, &$result) {
+function reduce_56_expressionD_3($tokens, &$result) {
 #
-# (45) expressionD :=  expressionE
+# (56) expressionD :=  expressionE
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_46_expressionE_1($tokens, &$result) {
+function reduce_57_expressionE_1($tokens, &$result) {
 #
-# (46) expressionE :=  expressionF  '*'  expressionE
+# (57) expressionE :=  expressionF  '*'  expressionE
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2170,9 +2439,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $a, $b);
 }
 
-function reduce_47_expressionE_2($tokens, &$result) {
+function reduce_58_expressionE_2($tokens, &$result) {
 #
-# (47) expressionE :=  expressionF  '/'  expressionE
+# (58) expressionE :=  expressionF  '/'  expressionE
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -2180,70 +2449,41 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $a, $b);
 }
 
-function reduce_48_expressionE_3($tokens, &$result) {
+function reduce_59_expressionE_3($tokens, &$result) {
 #
-# (48) expressionE :=  expressionF
-#
-$result = reset($tokens);
-$result = $tokens[0];
-}
-
-function reduce_49_expressionF_1($tokens, &$result) {
-#
-# (49) expressionF :=  endexpression
+# (59) expressionE :=  expressionF
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_50_endexpression_1($tokens, &$result) {
+function reduce_60_expressionF_1($tokens, &$result) {
 #
-# (50) endexpression :=  identifier
+# (60) expressionF :=  endexpression
+#
+$result = reset($tokens);
+$result = $tokens[0];
+}
+
+function reduce_61_endexpression_1($tokens, &$result) {
+#
+# (61) endexpression :=  identifier
 #
 $result = reset($tokens);
 $result = new Identifier($tokens[0]);
 }
 
-function reduce_51_endexpression_2($tokens, &$result) {
+function reduce_62_endexpression_2($tokens, &$result) {
 #
-# (51) endexpression :=  identifier  asopt  identifier
-#
-$result = reset($tokens);
-$tab =& $tokens[0];
-$tablealias =& $tokens[2];
-$result = putFilterAfterIfExists(new Identifier($tab), new TableAliasFilter($tablealias));
-}
-
-function reduce_52_endexpression_3($tokens, &$result) {
-#
-# (52) endexpression :=  '('  statement  ')'
-#
-$result = reset($tokens);
-$stat =& $tokens[1];
-$result = $stat;
-}
-
-function reduce_53_endexpression_4($tokens, &$result) {
-#
-# (53) endexpression :=  '('  statement  ')'  asopt  identifier
-#
-$result = reset($tokens);
-$stat =& $tokens[1];
-$tablealias =& $tokens[4];
-$result = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));
-}
-
-function reduce_54_endexpression_5($tokens, &$result) {
-#
-# (54) endexpression :=  constant
+# (62) endexpression :=  constant
 #
 $result = reset($tokens);
 $result = new Constant($tokens[0]);
 }
 
-function reduce_55_endexpression_6($tokens, &$result) {
+function reduce_63_endexpression_3($tokens, &$result) {
 #
-# (55) endexpression :=  identifier  '('  statement  ')'
+# (63) endexpression :=  identifier  '('  statement  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
@@ -2251,9 +2491,9 @@ $arg1 =& $tokens[2];
 $result = getUnaryFilterForSQLFunction($functid, $arg1);
 }
 
-function reduce_56_endexpression_7($tokens, &$result) {
+function reduce_64_endexpression_4($tokens, &$result) {
 #
-# (56) endexpression :=  identifier  '('  statement  ','  statement  ')'
+# (64) endexpression :=  identifier  '('  statement  ','  statement  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
@@ -2262,9 +2502,9 @@ $arg2 =& $tokens[4];
 $result = getBinaryFunctionForSQLFunction($functid, $arg1, $arg2);
 }
 
-function reduce_57_endexpression_8($tokens, &$result) {
+function reduce_65_endexpression_5($tokens, &$result) {
 #
-# (57) endexpression :=  identifier  '('  statement  ','  statement  ','  statement  ')'
+# (65) endexpression :=  identifier  '('  statement  ','  statement  ','  statement  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
@@ -2274,58 +2514,58 @@ $arg3 =& $tokens[6];
 $result =getTertairyFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);
 }
 
-function reduce_58_likeexpression_1($tokens, &$result) {
+function reduce_66_likeexpression_1($tokens, &$result) {
 #
-# (58) likeexpression :=  constant
+# (66) likeexpression :=  constant
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_59_identifierlist_1($tokens, &$result) {
+function reduce_67_identifierlist_1($tokens, &$result) {
 #
-# (59) identifierlist :=  identifier
+# (67) identifierlist :=  identifier
 #
 $result = reset($tokens);
 $result = array(new Identifier($tokens[0]));
 }
 
-function reduce_60_identifierlist_2($tokens, &$result) {
+function reduce_68_identifierlist_2($tokens, &$result) {
 #
-# (60) identifierlist :=  identifier  ','  identifierlist
+# (68) identifierlist :=  identifier  ','  identifierlist
 #
 $result = reset($tokens);
 $arr =& $tokens[2];
 array_unshift($arr, new Identifier($tokens[0]));$result=$arr;
 }
 
-function reduce_61_allowedalias_1($tokens, &$result) {
+function reduce_69_allowedalias_1($tokens, &$result) {
 #
-# (61) allowedalias :=  name
-#
-$result = reset($tokens);
-$result=$tokens[0];
-}
-
-function reduce_62_identifier_1($tokens, &$result) {
-#
-# (62) identifier :=  name
+# (69) allowedalias :=  name
 #
 $result = reset($tokens);
 $result=$tokens[0];
 }
 
-function reduce_63_identifier_2($tokens, &$result) {
+function reduce_70_identifier_1($tokens, &$result) {
 #
-# (63) identifier :=  '*'
+# (70) identifier :=  name
+#
+$result = reset($tokens);
+$result=$tokens[0];
+}
+
+function reduce_71_identifier_2($tokens, &$result) {
+#
+# (71) identifier :=  '*'
 #
 $result = reset($tokens);
 $result="*";
 }
 
-function reduce_64_start_1($tokens, &$result) {
+function reduce_72_start_1($tokens, &$result) {
 #
-# (64) 'start' :=  filterresult
+# (72) 'start' :=  filterresult
 #
 $result = reset($tokens);
 
@@ -2334,69 +2574,77 @@ $result = reset($tokens);
 var $method = array (
   0 => 'reduce_0_statement_1',
   1 => 'reduce_1_statement_2',
-  2 => 'reduce_2_filterresult_1',
-  3 => 'reduce_3_filterresult_2',
-  4 => 'reduce_4_unionstatement_1',
-  5 => 'reduce_5_selectfromstatement_1',
-  6 => 'reduce_6_uniquefilter_1',
-  7 => 'reduce_7_uniquefilter_2',
-  8 => 'reduce_8_wherefilter_1',
-  9 => 'reduce_9_wherefilter_2',
-  10 => 'reduce_10_groupfilter_1',
-  11 => 'reduce_11_groupfilter_2',
-  12 => 'reduce_12_havingfilter_1',
-  13 => 'reduce_13_havingfilter_2',
-  14 => 'reduce_14_selecttablelist_1',
-  15 => 'reduce_15_listoftables_1',
-  16 => 'reduce_16_listoftables_2',
-  17 => 'reduce_17_listoftables_3',
-  18 => 'reduce_18_listoftables_4',
-  19 => 'reduce_19_constantlist_1',
-  20 => 'reduce_20_constantlist_2',
-  21 => 'reduce_21_asopt_1',
-  22 => 'reduce_22_asopt_2',
-  23 => 'reduce_23_expression_1',
-  24 => 'reduce_24_expression_2',
-  25 => 'reduce_25_expression_3',
-  26 => 'reduce_26_expression_4',
-  27 => 'reduce_27_expression_5',
-  28 => 'reduce_28_expression_6',
-  29 => 'reduce_29_expression_7',
-  30 => 'reduce_30_expressionA_1',
-  31 => 'reduce_31_expressionA_2',
-  32 => 'reduce_32_expressionB_1',
-  33 => 'reduce_33_expressionB_2',
-  34 => 'reduce_34_expressionC_1',
-  35 => 'reduce_35_expressionC_2',
-  36 => 'reduce_36_expressionC_3',
-  37 => 'reduce_37_expressionC_4',
-  38 => 'reduce_38_expressionC_5',
-  39 => 'reduce_39_expressionC_6',
-  40 => 'reduce_40_expressionC_7',
-  41 => 'reduce_41_expressionC_8',
-  42 => 'reduce_42_expressionC_9',
-  43 => 'reduce_43_expressionD_1',
-  44 => 'reduce_44_expressionD_2',
-  45 => 'reduce_45_expressionD_3',
-  46 => 'reduce_46_expressionE_1',
-  47 => 'reduce_47_expressionE_2',
-  48 => 'reduce_48_expressionE_3',
-  49 => 'reduce_49_expressionF_1',
-  50 => 'reduce_50_endexpression_1',
-  51 => 'reduce_51_endexpression_2',
-  52 => 'reduce_52_endexpression_3',
-  53 => 'reduce_53_endexpression_4',
-  54 => 'reduce_54_endexpression_5',
-  55 => 'reduce_55_endexpression_6',
-  56 => 'reduce_56_endexpression_7',
-  57 => 'reduce_57_endexpression_8',
-  58 => 'reduce_58_likeexpression_1',
-  59 => 'reduce_59_identifierlist_1',
-  60 => 'reduce_60_identifierlist_2',
-  61 => 'reduce_61_allowedalias_1',
-  62 => 'reduce_62_identifier_1',
-  63 => 'reduce_63_identifier_2',
-  64 => 'reduce_64_start_1',
+  2 => 'reduce_2_statement_3',
+  3 => 'reduce_3_filterresult_1',
+  4 => 'reduce_4_filterresult_2',
+  5 => 'reduce_5_unionstatement_1',
+  6 => 'reduce_6_selectfromstatement_1',
+  7 => 'reduce_7_uniquefilter_1',
+  8 => 'reduce_8_uniquefilter_2',
+  9 => 'reduce_9_wherefilter_1',
+  10 => 'reduce_10_wherefilter_2',
+  11 => 'reduce_11_groupfilter_1',
+  12 => 'reduce_12_groupfilter_2',
+  13 => 'reduce_13_havingfilter_1',
+  14 => 'reduce_14_havingfilter_2',
+  15 => 'reduce_15_fromtableexpression_1',
+  16 => 'reduce_16_fromtableexpression_2',
+  17 => 'reduce_17_selecttablelist_1',
+  18 => 'reduce_18_listoftables_1',
+  19 => 'reduce_19_listoftables_2',
+  20 => 'reduce_20_listoftables_3',
+  21 => 'reduce_21_listoftables_4',
+  22 => 'reduce_22_constantlist_1',
+  23 => 'reduce_23_constantlist_2',
+  24 => 'reduce_24_asopt_1',
+  25 => 'reduce_25_asopt_2',
+  26 => 'reduce_26_expression_1',
+  27 => 'reduce_27_expression_2',
+  28 => 'reduce_28_expression_3',
+  29 => 'reduce_29_expression_4',
+  30 => 'reduce_30_expression_5',
+  31 => 'reduce_31_expression_6',
+  32 => 'reduce_32_expression_7',
+  33 => 'reduce_33_expressionA_1',
+  34 => 'reduce_34_expressionA_2',
+  35 => 'reduce_35_expressionB_1',
+  36 => 'reduce_36_expressionB_2',
+  37 => 'reduce_37_expressionC_1',
+  38 => 'reduce_38_expressionC_2',
+  39 => 'reduce_39_expressionC_3',
+  40 => 'reduce_40_expressionC_4',
+  41 => 'reduce_41_expressionC_5',
+  42 => 'reduce_42_expressionC_6',
+  43 => 'reduce_43_expressionC_7',
+  44 => 'reduce_44_expressionC_8',
+  45 => 'reduce_45_expressionC_9',
+  46 => 'reduce_46_expressionC_10',
+  47 => 'reduce_47_expressionC_11',
+  48 => 'reduce_48_expressionC_12',
+  49 => 'reduce_49_expressionC_13',
+  50 => 'reduce_50_expressionC_14',
+  51 => 'reduce_51_expressionC_15',
+  52 => 'reduce_52_expressionC_16',
+  53 => 'reduce_53_expressionC_17',
+  54 => 'reduce_54_expressionD_1',
+  55 => 'reduce_55_expressionD_2',
+  56 => 'reduce_56_expressionD_3',
+  57 => 'reduce_57_expressionE_1',
+  58 => 'reduce_58_expressionE_2',
+  59 => 'reduce_59_expressionE_3',
+  60 => 'reduce_60_expressionF_1',
+  61 => 'reduce_61_endexpression_1',
+  62 => 'reduce_62_endexpression_2',
+  63 => 'reduce_63_endexpression_3',
+  64 => 'reduce_64_endexpression_4',
+  65 => 'reduce_65_endexpression_5',
+  66 => 'reduce_66_likeexpression_1',
+  67 => 'reduce_67_identifierlist_1',
+  68 => 'reduce_68_identifierlist_2',
+  69 => 'reduce_69_allowedalias_1',
+  70 => 'reduce_70_identifier_1',
+  71 => 'reduce_71_identifier_2',
+  72 => 'reduce_72_start_1',
 );
 var $a = array (
   0 => 
@@ -2413,8 +2661,8 @@ var $a = array (
   ),
   2 => 
   array (
-    'symbol' => 'filterresult',
-    'len' => 1,
+    'symbol' => 'statement',
+    'len' => 5,
     'replace' => true,
   ),
   3 => 
@@ -2425,152 +2673,152 @@ var $a = array (
   ),
   4 => 
   array (
+    'symbol' => 'filterresult',
+    'len' => 1,
+    'replace' => true,
+  ),
+  5 => 
+  array (
     'symbol' => 'unionstatement',
     'len' => 3,
     'replace' => true,
   ),
-  5 => 
+  6 => 
   array (
     'symbol' => 'selectfromstatement',
     'len' => 7,
     'replace' => true,
   ),
-  6 => 
+  7 => 
   array (
     'symbol' => 'uniquefilter',
     'len' => 1,
     'replace' => true,
   ),
-  7 => 
+  8 => 
   array (
     'symbol' => 'uniquefilter',
     'len' => 0,
-    'replace' => true,
-  ),
-  8 => 
-  array (
-    'symbol' => 'wherefilter',
-    'len' => 2,
     'replace' => true,
   ),
   9 => 
   array (
     'symbol' => 'wherefilter',
-    'len' => 0,
+    'len' => 2,
     'replace' => true,
   ),
   10 => 
   array (
-    'symbol' => 'groupfilter',
-    'len' => 4,
+    'symbol' => 'wherefilter',
+    'len' => 0,
     'replace' => true,
   ),
   11 => 
   array (
     'symbol' => 'groupfilter',
-    'len' => 0,
+    'len' => 4,
     'replace' => true,
   ),
   12 => 
   array (
-    'symbol' => 'havingfilter',
-    'len' => 2,
+    'symbol' => 'groupfilter',
+    'len' => 0,
     'replace' => true,
   ),
   13 => 
   array (
     'symbol' => 'havingfilter',
-    'len' => 0,
+    'len' => 2,
     'replace' => true,
   ),
   14 => 
   array (
-    'symbol' => 'selecttablelist',
-    'len' => 1,
+    'symbol' => 'havingfilter',
+    'len' => 0,
     'replace' => true,
   ),
   15 => 
   array (
-    'symbol' => 'listoftables',
+    'symbol' => 'fromtableexpression',
     'len' => 1,
     'replace' => true,
   ),
   16 => 
   array (
-    'symbol' => 'listoftables',
+    'symbol' => 'fromtableexpression',
     'len' => 3,
     'replace' => true,
   ),
   17 => 
   array (
-    'symbol' => 'listoftables',
-    'len' => 3,
+    'symbol' => 'selecttablelist',
+    'len' => 1,
     'replace' => true,
   ),
   18 => 
   array (
     'symbol' => 'listoftables',
-    'len' => 5,
+    'len' => 1,
     'replace' => true,
   ),
   19 => 
   array (
-    'symbol' => 'constantlist',
-    'len' => 1,
+    'symbol' => 'listoftables',
+    'len' => 3,
     'replace' => true,
   ),
   20 => 
   array (
-    'symbol' => 'constantlist',
+    'symbol' => 'listoftables',
     'len' => 3,
     'replace' => true,
   ),
   21 => 
   array (
+    'symbol' => 'listoftables',
+    'len' => 5,
+    'replace' => true,
+  ),
+  22 => 
+  array (
+    'symbol' => 'constantlist',
+    'len' => 1,
+    'replace' => true,
+  ),
+  23 => 
+  array (
+    'symbol' => 'constantlist',
+    'len' => 3,
+    'replace' => true,
+  ),
+  24 => 
+  array (
     'symbol' => 'asopt',
     'len' => 1,
     'replace' => true,
   ),
-  22 => 
+  25 => 
   array (
     'symbol' => 'asopt',
     'len' => 0,
     'replace' => true,
   ),
-  23 => 
+  26 => 
   array (
     'symbol' => 'expression',
     'len' => 1,
     'replace' => true,
   ),
-  24 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 5,
-    'replace' => true,
-  ),
-  25 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 5,
-    'replace' => true,
-  ),
-  26 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 6,
-    'replace' => true,
-  ),
   27 => 
   array (
     'symbol' => 'expression',
-    'len' => 6,
+    'len' => 5,
     'replace' => true,
   ),
   28 => 
   array (
     'symbol' => 'expression',
-    'len' => 6,
+    'len' => 5,
     'replace' => true,
   ),
   29 => 
@@ -2581,62 +2829,62 @@ var $a = array (
   ),
   30 => 
   array (
-    'symbol' => 'expressionA',
-    'len' => 3,
+    'symbol' => 'expression',
+    'len' => 6,
     'replace' => true,
   ),
   31 => 
   array (
-    'symbol' => 'expressionA',
-    'len' => 1,
+    'symbol' => 'expression',
+    'len' => 6,
     'replace' => true,
   ),
   32 => 
   array (
-    'symbol' => 'expressionB',
-    'len' => 3,
+    'symbol' => 'expression',
+    'len' => 6,
     'replace' => true,
   ),
   33 => 
   array (
-    'symbol' => 'expressionB',
-    'len' => 1,
+    'symbol' => 'expressionA',
+    'len' => 3,
     'replace' => true,
   ),
   34 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 3,
+    'symbol' => 'expressionA',
+    'len' => 1,
     'replace' => true,
   ),
   35 => 
   array (
-    'symbol' => 'expressionC',
+    'symbol' => 'expressionB',
     'len' => 3,
     'replace' => true,
   ),
   36 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 3,
+    'symbol' => 'expressionB',
+    'len' => 1,
     'replace' => true,
   ),
   37 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 4,
+    'len' => 3,
     'replace' => true,
   ),
   38 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 4,
+    'len' => 3,
     'replace' => true,
   ),
   39 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 4,
+    'len' => 3,
     'replace' => true,
   ),
   40 => 
@@ -2648,142 +2896,190 @@ var $a = array (
   41 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 3,
+    'len' => 4,
     'replace' => true,
   ),
   42 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 1,
+    'len' => 4,
     'replace' => true,
   ),
   43 => 
   array (
-    'symbol' => 'expressionD',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 4,
     'replace' => true,
   ),
   44 => 
   array (
-    'symbol' => 'expressionD',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 5,
     'replace' => true,
   ),
   45 => 
   array (
-    'symbol' => 'expressionD',
-    'len' => 1,
+    'symbol' => 'expressionC',
+    'len' => 4,
     'replace' => true,
   ),
   46 => 
   array (
-    'symbol' => 'expressionE',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 5,
     'replace' => true,
   ),
   47 => 
   array (
-    'symbol' => 'expressionE',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 4,
     'replace' => true,
   ),
   48 => 
   array (
-    'symbol' => 'expressionE',
-    'len' => 1,
+    'symbol' => 'expressionC',
+    'len' => 5,
     'replace' => true,
   ),
   49 => 
   array (
-    'symbol' => 'expressionF',
-    'len' => 1,
+    'symbol' => 'expressionC',
+    'len' => 4,
     'replace' => true,
   ),
   50 => 
   array (
-    'symbol' => 'endexpression',
-    'len' => 1,
+    'symbol' => 'expressionC',
+    'len' => 5,
     'replace' => true,
   ),
   51 => 
   array (
-    'symbol' => 'endexpression',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 4,
     'replace' => true,
   ),
   52 => 
   array (
-    'symbol' => 'endexpression',
+    'symbol' => 'expressionC',
     'len' => 3,
     'replace' => true,
   ),
   53 => 
   array (
-    'symbol' => 'endexpression',
-    'len' => 5,
+    'symbol' => 'expressionC',
+    'len' => 1,
     'replace' => true,
   ),
   54 => 
   array (
-    'symbol' => 'endexpression',
-    'len' => 1,
+    'symbol' => 'expressionD',
+    'len' => 3,
     'replace' => true,
   ),
   55 => 
   array (
-    'symbol' => 'endexpression',
-    'len' => 4,
+    'symbol' => 'expressionD',
+    'len' => 3,
     'replace' => true,
   ),
   56 => 
   array (
-    'symbol' => 'endexpression',
-    'len' => 6,
+    'symbol' => 'expressionD',
+    'len' => 1,
     'replace' => true,
   ),
   57 => 
   array (
-    'symbol' => 'endexpression',
-    'len' => 8,
+    'symbol' => 'expressionE',
+    'len' => 3,
     'replace' => true,
   ),
   58 => 
   array (
-    'symbol' => 'likeexpression',
-    'len' => 1,
+    'symbol' => 'expressionE',
+    'len' => 3,
     'replace' => true,
   ),
   59 => 
   array (
-    'symbol' => 'identifierlist',
+    'symbol' => 'expressionE',
     'len' => 1,
     'replace' => true,
   ),
   60 => 
   array (
-    'symbol' => 'identifierlist',
-    'len' => 3,
+    'symbol' => 'expressionF',
+    'len' => 1,
     'replace' => true,
   ),
   61 => 
   array (
-    'symbol' => 'allowedalias',
+    'symbol' => 'endexpression',
     'len' => 1,
     'replace' => true,
   ),
   62 => 
   array (
-    'symbol' => 'identifier',
+    'symbol' => 'endexpression',
     'len' => 1,
     'replace' => true,
   ),
   63 => 
   array (
+    'symbol' => 'endexpression',
+    'len' => 4,
+    'replace' => true,
+  ),
+  64 => 
+  array (
+    'symbol' => 'endexpression',
+    'len' => 6,
+    'replace' => true,
+  ),
+  65 => 
+  array (
+    'symbol' => 'endexpression',
+    'len' => 8,
+    'replace' => true,
+  ),
+  66 => 
+  array (
+    'symbol' => 'likeexpression',
+    'len' => 1,
+    'replace' => true,
+  ),
+  67 => 
+  array (
+    'symbol' => 'identifierlist',
+    'len' => 1,
+    'replace' => true,
+  ),
+  68 => 
+  array (
+    'symbol' => 'identifierlist',
+    'len' => 3,
+    'replace' => true,
+  ),
+  69 => 
+  array (
+    'symbol' => 'allowedalias',
+    'len' => 1,
+    'replace' => true,
+  ),
+  70 => 
+  array (
     'symbol' => 'identifier',
     'len' => 1,
     'replace' => true,
   ),
-  64 => 
+  71 => 
+  array (
+    'symbol' => 'identifier',
+    'len' => 1,
+    'replace' => true,
+  ),
+  72 => 
   array (
     'symbol' => '\'start\'',
     'len' => 1,

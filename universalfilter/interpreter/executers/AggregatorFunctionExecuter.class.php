@@ -24,6 +24,7 @@ abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
     private $evaluatorTable;
     private $topenv;
 
+    private $typeInlineSelect;
     
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
         $this->filter = $filter;
@@ -54,21 +55,41 @@ abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
         
         //check executer header
         $evaluatedHeader = $this->executer1->getExpressionHeader();
-        if(!$evaluatedHeader->isSingleRowByConstruction()){
-            throw new Exception("That function can not be used inside an aggregator!");
-            //Could do a fall back -> BUT: In that case the thing inside this filter can have no dependencies on whatever we are calculating on. (It loads a new table...)
+        $this->typeInlineSelect = !$evaluatedHeader->isSingleRowByConstruction();
+        if($this->typeInlineSelect){
+            if(!$evaluatedHeader->isSingleColumnByConstruction()){
+                if(!$this->allowMultipleColumns()){
+                    throw new Exception("If you use a columnSelectionFilter in a Aggregator, the columnSelectionFilter should only return 1 column.");
+                }
+            }
         }
         
         // header for the executer, as seen by the classes that override this class. (what you would expect as header)
         // not the same as the evaluatedHeader, as we execute it row by row...
+        $singleRow = $topenv->getTable()->getHeader()->isSingleRowByConstruction();
         $globalHeader = $evaluatedHeader->cloneHeader();
-        $globalHeader->setIsSingleRowByConstruction($topenv->getTable()->getHeader()->isSingleRowByConstruction());
+        $globalHeader->setIsSingleRowByConstruction($singleRow);
+        if($this->typeInlineSelect){//special header for inline select...
+            $newColumns = array();
+            
+            for ($columnIndex = 0; $columnIndex < $globalHeader->getColumnCount(); $columnIndex++) {
+                $columnId=$globalHeader->getColumnIdByIndex($columnIndex);
+                $groupedHeaderColumn = $globalHeader->getColumnInformationById($columnId)->cloneColumnGrouped();
+
+                array_push($newColumns, $groupedHeaderColumn);
+            }
+            $globalHeader = new UniversalFilterTableHeader($newColumns, $singleRow, true);
+        }
 
         //set the seen header
         $this->header1 = $globalHeader;
         
         //save context for content-generation
         $this->topenv = $topenv;
+    }
+    
+    public function allowMultipleColumns(){
+        return true;
     }
     
     /**
@@ -78,18 +99,35 @@ abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
      */
     protected function evaluateSubExpression(){
         $context = $this->topenv->getTable()->getContent();
+        $evaluatedHeader = $this->executer1->getExpressionHeader();
         
         $newContent = new UniversalFilterTableContent();
         
-        
         for ($index = 0; $index < $context->getRowCount(); $index++) {
+
             $contextRow = $context->getRow($index);
-            
+
             $this->evaluatorTable->getContent()->setRow(0,$contextRow);
-            
-            $newRow = $this->executer1->evaluateAsExpression()->getRow(0);
-            $newContent->addRow($newRow);
+
+            $executedContent = $this->executer1->evaluateAsExpression();
+
+            if(!$this->typeInlineSelect){
+                $newContent->addRow($executedContent->getRow(0));
+            }else{
+                $newRow=new UniversalFilterTableContentRow();
+                for ($columnIndex = 0; $columnIndex < $this->header1->getColumnCount(); $columnIndex++) {
+                    $newColumnId=$this->header1->getColumnIdByIndex($columnIndex);
+                    $oldColumnId=$evaluatedHeader->getColumnIdByIndex($columnIndex);
+
+                    $newRow->defineGroupedValue($newColumnId, $this->convertColumnToArray($executedContent, $oldColumnId));//TODO: is saving grouped values as an array a good idea?
+                }
+                
+                $newContent->addRow($newRow);
+            }
+            $executedContent->tryDestroyTable();
         }
+        
+        $this->evaluatorTable->getContent()->tryDestroyTable();
         
         return $newContent;
     }

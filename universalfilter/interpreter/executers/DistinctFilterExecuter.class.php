@@ -8,8 +8,11 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class DistinctFilterExecuter extends UniversalFilterNodeExecuter {
-    //TODO
+class DistinctFilterExecuter extends BaseHashingFilterExecuter {
+    
+    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo){
+        return true;
+    }
 }
 
 ?>

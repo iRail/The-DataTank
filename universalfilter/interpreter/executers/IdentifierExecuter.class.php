@@ -65,7 +65,9 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
             }else{
                 $newRow = new UniversalFilterTableContentRow();
                 $value = $this->topenv->getSingleValue($this->singlevalueindex)->copyValueTo($newRow, $this->singlevaluecolumnheader->getId(), $this->header->getColumnId());
-                return new UniversalFilterTableHeader(array($newRow), true, true);
+                $content = new UniversalFilterTableContent();
+                $content->addRow($newRow);
+                return $content;
             }
         }else{
             return $this->getColumnDataContent($this->topenv->getTable(), $this->filter->getIdentifierString(), $this->header);
@@ -96,8 +98,7 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
             for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
                 $columninfo = $topenv->getSingleValueHeader($index);
                 
-                $columnid = $columninfo->getColumnIdByName($fullid);
-                if($columnid!=null){
+                if($columninfo->matchName(explode(".", $fullid))){
                     $this->singlevalueindex = $index;
                     return new UniversalFilterTableHeader(array($columninfo), true, true);
                 }
@@ -119,9 +120,20 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
      * @return UniversalFilterTableContent
      */
     private function getColumnDataContent($table, $fullid, $header){//get a single column from the table
+        $content=$table->getContent();
+        
         if($fullid=="*"){
             //special case
-            return $table->getContent();
+            
+            //have to copy because of ->tryDestroyTable on this one would otherwise also affect the full table...
+            //TODO: while we are copying anyway, we should also change the id's!!! (for select *, * from ... case)
+            $contentCopy = new UniversalFilterTableContent();
+            
+            for ($rowindex = 0; $rowindex < $content->getRowCount(); $rowindex++) {
+                $contentCopy->addRow($content->getRow($rowindex));
+            }
+            
+            return $contentCopy;
         }
         
         $oldheader = $table->getHeader();
@@ -131,8 +143,6 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
 
         //copyFields
         //$oldcolumnid -> $newcolumnid
-        
-        $content = $table->getContent();
         
         $newContent= new UniversalFilterTableContent();
         $rows=array();

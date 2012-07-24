@@ -34,6 +34,6 @@ include_once("universalfilter/interpreter/executers/TertairyFunctionExecuter.cla
 include_once("universalfilter/interpreter/executers/TertairyFunctionExecuters.php");
 include_once("universalfilter/interpreter/executers/AggregatorFunctionExecuter.class.php");
 include_once("universalfilter/interpreter/executers/FullTableAggregatorFunctionExecuter.class.php");
-include_once("universalfilter/interpreter/executers/ColumnAggregatoFunctionExecuter.class.php");
+include_once("universalfilter/interpreter/executers/ColumnAggregatorFunctionExecuter.class.php");
 include_once("universalfilter/interpreter/executers/AggregatorFunctionExecuters.php");
 include_once("universalfilter/interpreter/executers/CheckInFunctionExecuter.class.php");

@@ -83,7 +83,6 @@ class UniversalFilterTableHeader {
                 return $column;
             }
         }
-        var_dump($id);
         throw new Exception("ColumnInformation not found for id: \"".$id."\"");
     }
     

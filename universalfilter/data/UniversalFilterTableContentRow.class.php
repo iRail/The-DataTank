@@ -1,4 +1,7 @@
 <?php
+
+include_once("universalfilter/common/HashString.php");
+
 /**
  * A row in the content of the universal representation of a table
  *
@@ -79,7 +82,7 @@ class UniversalFilterTableContentRow {
      * @return type 
      */
     public function getHashForField($idOfField){
-        return $this->getCellValue($idOfField);// for now (TODO: if support recursion!)
+        return hashWithNoSpecialChars($this->getCellValue($idOfField));
     }
     
     /**

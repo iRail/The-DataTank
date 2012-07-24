@@ -5,6 +5,8 @@ statement = filterresult
                 {$$ = $1;}
             | expression
                 {$$ = $1;}
+            | '(' filterresult/stat ')' asopt name/tablealias
+                {$$ = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));}
             .
 
 filterresult = selectfromstatement {$$ = $1;/*TODO*/}
@@ -14,7 +16,7 @@ filterresult = selectfromstatement {$$ = $1;/*TODO*/}
 unionstatement = expression/expr1 UNION expression/expr2 {$$ = null;/*TODO*/}
                .
 
-selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM expression/fromtable wherefilter/where groupfilter/groupby 
+selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM fromtableexpression/fromtable wherefilter/where groupfilter/groupby 
                         {// 1) fromtables
                          // 2) wherefilter (if defined)
                          // 3) groupbyfilter (if defined)
@@ -47,8 +49,10 @@ havingfilter = HAVING expression/expr {$$ = new FilterByExpressionFilter($expr);
              | {$$ = null;}
              .
 
-
-
+fromtableexpression = expression {$$=$1;}
+                    | expression/stat asopt name/tablealias
+                       {$$ = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));}
+                    .
 
 selecttablelist =  listoftables {$$ = new ColumnSelectionFilter($1);}
                 .
@@ -69,13 +73,9 @@ constantlist = constant {$$ = array(new Constant($1));}
 
 asopt = AS | .
 
-
-
 expression = expressionA  {$$ = $1;}
            | expressionA/a BETWEEN expressionD/b AND expressionD/c 
-                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, 
-                                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $b, $a), 
-                                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $c));}
+                 {$$ = CombinedFilterGenerators::makeBetweenFilter($a,$b,$c);}
            | expressionA IN '(' constantlist/constantlist ')' 
                  {$$ = putFilterAfterIfExists($1, new CheckInFunction($constantlist));}
            | expressionA/a INNER JOIN expressionA/b ON expressionA/c
@@ -110,6 +110,22 @@ expressionC = expressionD/a '=' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, $a, $b);}
             | expressionD/a '<' '>' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
+            | expressionD/a '<' ALL expressionD/b
+                {$$ = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b);}
+            | expressionD/a '<' '=' ALL expressionD/b
+                {$$ = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b,false);}
+            | expressionD/a '<' ANY expressionD/b
+                {$$ = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b, true, false);}
+            | expressionD/a '<' '=' ANY expressionD/b
+                {$$ = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b, false, false);}
+            | expressionD/a '>' ALL expressionD/b
+                {$$ = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b);}
+            | expressionD/a '>' '=' ALL expressionD/b
+                {$$ = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, false);}
+            | expressionD/a '>' ANY expressionD/b
+                {$$ = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, true, false);}
+            | expressionD/a '>' '=' ANY expressionD/b
+                {$$ = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, false, false);}
             | expressionD/a '!' '=' expressionD/b
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);}
             | expressionD/expr LIKE likeexpression/likeexpr
@@ -139,12 +155,6 @@ expressionF = endexpression {$$ = $1;}
 
 endexpression = identifier 
                 {$$ = new Identifier($1);}
-            | identifier/tab asopt identifier/tablealias 
-                {$$ = putFilterAfterIfExists(new Identifier($tab), new TableAliasFilter($tablealias));}
-            | '(' statement/stat ')' 
-                {$$ = $stat;}
-            | '(' statement/stat ')' asopt identifier/tablealias
-                {$$ = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));}
             | constant 
                 {$$ = new Constant($1);}
             | identifier/functid '(' statement/arg1 ')' 

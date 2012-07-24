@@ -19,6 +19,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     
     private $executer;
     
+    private $childEnvironmentData;
     private $giveToColumnsEnvironment;
     
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
@@ -28,7 +29,8 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         $this->executer = $executer;
         
         
-        $this->giveToColumnsEnvironment=$this->buildChildEnvironment($filter, $topenv, $interpreter, $executer);
+        $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer);
+        $this->giveToColumnsEnvironment = $this->getChildEnvironment($this->childEnvironmentData);
         
         
         //
@@ -40,7 +42,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         
         //header information
         $this->returnsSingleRow=true;
-        $this->returnsSingleColumn=false;
+        $this->returnsSingleColumn=true;
         $this->columnExecuters=array();
         
         // the columns for the returned table:
@@ -65,7 +67,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             if(!$header->isSingleRowByConstruction()){
                 $this->returnsSingleRow=false;
             }
-            if(!$header->isSingleRowByConstruction()){
+            if(!$header->isSingleColumnByConstruction()){
                 $this->returnsSingleColumn=false;
             }
             
@@ -77,7 +79,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 //column information
                 $columnId = $header->getColumnIdByIndex($resultColumnIndex);
                 $columnInfo = $header->getColumnInformationById($columnId)->cloneColumnInfo();
-                
+
                 //set column alias
                 if($columnAlias!=null){
                     if($header->isSingleColumnByConstruction()){
@@ -106,6 +108,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         $sourceheader =$this->executer->getExpressionHeader();
         $sourcecontent=$this->executer->evaluateAsExpression();
         
+        $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
         
         //create a new empty output table
@@ -151,7 +154,11 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                     }
                 }
             }
+            
+            $anwser->tryDestroyTable();
         }
+        
+        $sourcecontent->tryDestroyTable();
         
         return $newRows;
     }

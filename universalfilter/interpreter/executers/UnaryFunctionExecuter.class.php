@@ -74,6 +74,8 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
             $rows->addRow($row);
         }
         
+        $table1content->tryDestroyTable();
+        
         //return the result
         return $rows;
     }
