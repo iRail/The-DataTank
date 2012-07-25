@@ -49,4 +49,9 @@ abstract class UniversalFilterNodeExecuter {
      * @return UniversalFilterTableContent
      */
     public abstract function evaluateAsExpression();
+    
+    /**
+     * Cleanup
+     */
+    public function cleanUp(){}
 }

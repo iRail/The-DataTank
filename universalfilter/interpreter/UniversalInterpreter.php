@@ -112,6 +112,7 @@ class UniversalInterpreter implements IInterpreterControl{
         
         //BUILD A NEW QUERY WITH THE PRECALCULATED DATA
         
+        $executer->cleanUp();
         
         //EXECUTE (for real this time) (note: recalculate headers also...)
         $executer = $this->findExecuterFor($tree);
@@ -122,6 +123,7 @@ class UniversalInterpreter implements IInterpreterControl{
         
         $content = $executer->evaluateAsExpression();
         
+        $executer->cleanUp();
         
         //RETURN
         return new UniversalFilterTable($header, $content);

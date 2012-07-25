@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 class BigList {
-    public static $BLOCKSIZE = 100000;
+    public static $BLOCKSIZE = 50;
     
     private $id;
     private $size;
@@ -25,7 +25,7 @@ class BigList {
         }
         $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index/(BigList::$BLOCKSIZE));
-        $indexInBlock = $index%(BigList::$BLOCKSIZE);
+        $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
         
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
         if(is_null($oldList)){
@@ -41,7 +41,7 @@ class BigList {
         }
         $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index/(BigList::$BLOCKSIZE));
-        $indexInBlock = $index%(BigList::$BLOCKSIZE);
+        $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
         
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
         

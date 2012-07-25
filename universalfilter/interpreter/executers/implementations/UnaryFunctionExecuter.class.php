@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class UnaryFunctionExecuter extends ExpressionNodeExecuter {
+class UnaryFunctionExecuter extends UniversalFilterNodeExecuter {
     
     private $filter;
     
@@ -86,6 +86,10 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
     
     public function doUnaryFunction($value){
         return null;
+    }
+    
+    public function cleanUp(){
+        $this->executer1->cleanUp();
     }
 }
 

@@ -17,7 +17,7 @@ include_once("universalfilter/common/HashString.php");
  */
 class BigDataBlockManager {
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
-    private static $COUNT_KEEP_IN_MEMORY = 30;
+    private static $COUNT_KEEP_IN_MEMORY = 2000000;
     
     private static $instance;
     
@@ -39,7 +39,7 @@ class BigDataBlockManager {
     
     private function getDirToWriteTo(){
         // is this directory correct?????
-        return sys_get_temp_dir()."/The-DataTank-BigDataBlockManager/block_";
+        return sys_get_temp_dir()."/The-DataTank-BigDataBlockManager_block_";
     }
     
     private function fileNameFor($key){

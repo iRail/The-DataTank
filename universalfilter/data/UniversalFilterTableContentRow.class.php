@@ -17,16 +17,35 @@ class UniversalFilterTableContentRow {
         $this->data=new stdClass();
     }
     
+    /**
+     * Defines a value on this row
+     * 
+     * @param string $idOfField Which column?
+     * @param ? $value What value?
+     */
     public function defineValue($idOfField, $value){
         if($idOfField=="") throw new Exception("Not a valid fieldname...");// Can happen?
         $this->data->$idOfField=array("value" => $value);
     }
     
+    /**
+     * Defines a value which represents a id
+     * For the moment this is handled exactly the same as a value
+     * 
+     * @param string $idOfField
+     * @param ? $value 
+     */
     public function defineValueId($idOfField, $value){
         if($idOfField=="") throw new Exception("Not a valid fieldname...");// Can happen?
         $this->data->$idOfField=array("id" => $value);
     }
 
+    /**
+     * Defines a grouped value on this row
+     * 
+     * @param string $idOfField
+     * @param UniversalTableContent $groupedColumnValues where each row has only one field "data" and is not grouped itself
+     */
     public function defineGroupedValue($idOfField, $groupedColumnValues) {
         if($idOfField=="") throw new Exception("Not a valid fieldname...");// Can happen?
         $this->data->$idOfField=array("grouped" => $groupedColumnValues);
@@ -46,6 +65,7 @@ class UniversalFilterTableContentRow {
                     return $obj["id"];
                 }else{
                     if(isset($obj["grouped"])){
+                        debug_print_backtrace();
                         throw new Exception("Error: Can not execute this operation on a grouped field!");
                     }else{
                         //should we give a warning??? Or just return null?
@@ -60,7 +80,7 @@ class UniversalFilterTableContentRow {
     }
     
     /**
-     * returns the GROUPED value of a field in the table 
+     * returns the grouped value of a field in the table 
      * @return array
      */
     public function getGroupedValue($idOfField){

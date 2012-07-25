@@ -89,11 +89,17 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
             }
         }
         
+        $exprexec->cleanUp();
+        
         $inResultTable->tryDestroyTable();
         
         $sourcecontent->tryDestroyTable();
         
         return $filteredRows;
+    }
+    
+    public function cleanUp(){
+        $this->executer->cleanUp();
     }
 }
 

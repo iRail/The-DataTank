@@ -130,14 +130,16 @@ abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
                     $value = $oldRow->getCellValue($oldId);
                     
                     if($isGrouped){
-                        $arr=array();
+                        $data=new UniversalFilterTableContent();
                         
                         if(isset($groupedColumnValues[$newId])){
-                            $arr = $groupedColumnValues[$newId];
+                            $data = $groupedColumnValues[$newId];
                         }
+                        $row = new UniversalFilterTableContentRow();
+                        $row->defineValue("data", $value);
                         
-                        array_push($arr, $value);
-                        $groupedColumnValues[$newId]=$arr;
+                        $data->addRow($row);
+                        $groupedColumnValues[$newId]=$data;
                     }else{
                         //just set the value
                         $groupedColumnValues[$newId]=$value;
@@ -165,6 +167,10 @@ abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
         $sourcetablecontent->tryDestroyTable();
         
         return $newRows;
+    }
+    
+    public function cleanUp(){
+        $this->executer->cleanUp();
     }
 }
 

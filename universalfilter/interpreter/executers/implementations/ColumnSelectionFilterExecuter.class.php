@@ -163,6 +163,16 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         return $newRows;
     }
     
+    public function cleanUp(){
+        $this->executer->cleanUp();
+        
+        foreach($this->columnInterpreters as $columnIndex => $column){
+            //get executer
+            $exprexec = $this->columnExecuters[$columnIndex];
+            $exprexec->cleanUp();
+        }
+    }
+    
 }
 
 ?>

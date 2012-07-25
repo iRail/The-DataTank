@@ -29,7 +29,10 @@ class TableAliasExecuter extends UniversalFilterNodeExecuter {
     public function evaluateAsExpression() {
         return $this->executer->evaluateAsExpression();
     }
-
+    
+    public function cleanUp(){
+        $this->executer->cleanUp();
+    }
 }
 
 ?>
