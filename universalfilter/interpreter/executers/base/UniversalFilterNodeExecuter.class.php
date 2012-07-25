@@ -26,24 +26,6 @@ abstract class UniversalFilterNodeExecuter {
     public abstract function getExpressionHeader();
     
     /**
-     * What sources are used by this node or by the nodes this node uses.
-     * 
-     * @return SourceUsageData 
-     */
-    public function getCombinedSourceUsage(){return null;}
-    
-    /**
-     * Get the sources of this executer which can be executed without knowledge of the rest of the query.
-     * 
-     * Note that: AVG(someColumnName) returns no items, while AVG(SELECT ... FROM ...) returns its source (if it does not contain a columnName defined in the rest of the query).
-     * 
-     * @return array of UniversalFilterExecuters
-     */
-    public function getNonDependingSourceExecuters(){
-        return array();
-    }
-    
-    /**
      * Calculates and returns the content of the table
      * 
      * @return UniversalFilterTableContent
@@ -54,4 +36,17 @@ abstract class UniversalFilterNodeExecuter {
      * Cleanup
      */
     public function cleanUp(){}
+    
+    /**
+     * Finds out which sources this executer uses, 
+     * and which parts of the query can be executed on one source
+     * 
+     * @param UniversalFilterNode $filter The corresponding filter
+     * @param SourceUsageEnvironment $topenv The environment given to evaluate this filter. It should NEVER be modified.
+     * @param IInterpreterControl $interpreter The interpreter that evaluates this tree.
+     * @return array of SourceUsageData
+     */
+    public function filterSingleSourceUsages(UniversalFilterNode $filter, SourceUsageEnvironment $topenv, IInterpreterControl $interpreter){
+        return array();
+    }
 }

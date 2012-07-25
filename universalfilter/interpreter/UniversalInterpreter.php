@@ -14,6 +14,7 @@ include_once("universalfilter/interpreter/IInterpreterControl.class.php");
 include_once("universalfilter/interpreter/Environment.class.php");
 
 include_once("universalfilter/interpreter/sourceusage/SourceUsageData.class.php");
+include_once("universalfilter/interpreter/sourceusage/SourceUsageEnvironment.class.php");
 include_once("universalfilter/interpreter/cloning/FilterTreeCloner.class.php");
 
 include_once("universalfilter/interpreter/executers/UniversalFilterExecuters.php");
@@ -38,8 +39,8 @@ class UniversalInterpreter implements IInterpreterControl{
     /**
      * Constructor, fill the executer-class map.
      */
-    public function __construct() {
-        $this->tablemanager=new UniversalFilterTableManager();
+    public function __construct($tablemanager) {
+        $this->tablemanager=$tablemanager;
         
         $this->executers = array(
             "IDENTIFIER" => "IdentifierExecuter",
@@ -99,22 +100,45 @@ class UniversalInterpreter implements IInterpreterControl{
         
         $tree = $optimizer->optimize($clonedtree);
         
-        //START ENVIRONMENT... is empty
+        
+        //INITIAL ENVIRONMENT... is empty
         $emptyEnv = new Environment();
         $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
         
-        //CALCULATE ALL HEADERS
+        
+        //QUERY SYNTAX DETECTION
+        // calculate the header already once on the original query.
+        // it can throw errors...
         $executer = $this->findExecuterFor($tree);
         $executer->initExpression($tree, $emptyEnv, $this, false);
         
-        //TRAVERSE TREE AND GIVE QUERYS TO SOURCES THEMSELF...
-        // TODO: check headers for things that can be executed on a source...
         
-        //BUILD A NEW QUERY WITH THE PRECALCULATED DATA
+        //EXECUTE PARTS ON SOURCE
         
-        $executer->cleanUp();
+        // - create a empty environment
+        $usageEnv = new SourceUsageEnvironment();
         
-        //EXECUTE (for real this time) (note: recalculate headers also...)
+        // - calculate single source usages
+        $executer = $this->findExecuterFor($tree);
+        $singleSourceUsages = $executer->filterSingleSourceUsages($tree, $usageEnv, $this, false);
+        
+        // - calculated... now execute them on the sources... AND BUILD A NEW QUERY
+        foreach($singleSourceUsages as $singleSource){
+            // - unpack data
+            $filterSourceNode = $singleSource->getFilterSourceNode();
+            $filterParentNode = $singleSource->getFilterParentNode();
+            $filterParentSourceIndex = $singleSource->getFilterParentSourceIndex();
+            $sourceId = $singleSource->getSourceId();
+            
+            // - do it
+            $newQuery = $this->getTableManager()->runFilterOnSource($filterSourceNode, $sourceId);
+            $filterParentNode->setSource($newQuery, $filterParentSourceIndex);
+        }
+        
+        
+        
+        
+        //EXECUTE (for real this time)
         $executer = $this->findExecuterFor($tree);
         $executer->initExpression($tree, $emptyEnv, $this, false);
         

@@ -15,9 +15,9 @@ include_once("model/DBQueries.class.php");
 
 //imports for the evaluation of the universalfilter
 include_once("universalfilter/interpreter/UniversalInterpreter.php");
-include_once("universalfilter/tablemanager/UniversalFilterTableManager.class.php");
 
-include_once("universalfilter/tablemanager/tools/TableToPhpObjectConverter.class.php");
+include_once("universalfilter/tablemanager/implementation/UniversalFilterTableManager.class.php");
+include_once("universalfilter/tablemanager/implementation/tools/TableToPhpObjectConverter.class.php");
 
 
 class SQLController extends AController {
@@ -43,7 +43,7 @@ class SQLController extends AController {
         $universalquery = $parser->interpret();
         
         // executer filter (returns Table)
-        $interpreter=new UniversalInterpreter();
+        $interpreter=new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
                 
         //convert format (Table->PhpObject)

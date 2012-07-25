@@ -17,8 +17,8 @@ include_once("model/DBQueries.class.php");
 
 
 include_once("universalfilter/interpreter/UniversalInterpreter.php");
-include_once("universalfilter/tablemanager/UniversalFilterTableManager.class.php");
-include_once("universalfilter/tablemanager/tools/TableToPhpObjectConverter.class.php");
+include_once("universalfilter/tablemanager/implementation/UniversalFilterTableManager.class.php");
+include_once("universalfilter/tablemanager/implementation/tools/TableToPhpObjectConverter.class.php");
 
 class SPECTQLController extends AController {
 
@@ -44,7 +44,7 @@ class SPECTQLController extends AController {
 
         $universalquery = $parser->interpret($context);
 
-        $interpreter=new UniversalInterpreter();
+        $interpreter=new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
         $converter = new TableToPhpObjectConverter();
         
