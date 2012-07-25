@@ -10,22 +10,37 @@
 abstract class UniversalFilterNodeExecuter {
     
     /**
-     * Initializes this node as an expression. It gets the environment of the executer as an argument. 
+     * Initializes this node. It gets the environment of the executer as an argument. 
      * @param UniversalFilterNode $filter The corresponding filter
      * @param Environment $topenv The environment given to evaluate this filter. It should NEVER be modified.
-     * @param IInterpreter $interpreter The interpreter that evaluates this tree.
+     * @param IInterpreterControl $interpreter The interpreter that evaluates this tree.
+     * @param bool $preferColumn Does the parent expression would like me to give back a column?
      */
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
-        //nothing
-    }
+    public abstract function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn);
 
     /**
      * Returns the header of the returned table
      * 
      * @return UniversalFilterTableHeader
      */
-    public function getExpressionHeader(){
-        return null;
+    public abstract function getExpressionHeader();
+    
+    /**
+     * What sources are used by this node or by the nodes this node uses.
+     * 
+     * @return SourceUsageData 
+     */
+    public function getCombinedSourceUsage(){return null;}
+    
+    /**
+     * Get the sources of this executer which can be executed without knowledge of the rest of the query.
+     * 
+     * Note that: AVG(someColumnName) returns no items, while AVG(SELECT ... FROM ...) returns its source (if it does not contain a columnName defined in the rest of the query).
+     * 
+     * @return array of UniversalFilterExecuters
+     */
+    public function getNonDependingSourceExecuters(){
+        return array();
     }
     
     /**
@@ -33,7 +48,5 @@ abstract class UniversalFilterNodeExecuter {
      * 
      * @return UniversalFilterTableContent
      */
-    public function evaluateAsExpression(){
-        return null;
-    }
+    public abstract function evaluateAsExpression();
 }

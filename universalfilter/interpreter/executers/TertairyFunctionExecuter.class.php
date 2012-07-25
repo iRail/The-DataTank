@@ -21,17 +21,17 @@ abstract class TertairyFunctionExecuter extends ExpressionNodeExecuter {
     private $header2;
     private $header3;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
-        $this->executer1 = $interpreter->findExecuterFor($this->filter->getArgument1());
-        $this->executer2 = $interpreter->findExecuterFor($this->filter->getArgument2());
-        $this->executer3 = $interpreter->findExecuterFor($this->filter->getArgument3());
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
+        $this->executer2 = $interpreter->findExecuterFor($this->filter->getSource(1));
+        $this->executer3 = $interpreter->findExecuterFor($this->filter->getSource(2));
         
         //init down
-        $this->executer1->initExpression($this->filter->getArgument1(), $topenv, $interpreter);
-        $this->executer2->initExpression($this->filter->getArgument2(), $topenv, $interpreter);
-        $this->executer3->initExpression($this->filter->getArgument3(), $topenv, $interpreter);
+        $this->executer1->initExpression($this->filter->getSource(0), $topenv, $interpreter, true);
+        $this->executer2->initExpression($this->filter->getSource(1), $topenv, $interpreter, true);
+        $this->executer3->initExpression($this->filter->getSource(2), $topenv, $interpreter, true);
         
         $this->header1 = $this->executer1->getExpressionHeader();
         $this->header2 = $this->executer2->getExpressionHeader();

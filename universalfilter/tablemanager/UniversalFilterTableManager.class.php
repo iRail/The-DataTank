@@ -35,8 +35,8 @@ class UniversalFilterTableManager {
      *  - a resource (string)
      *  - a array of subidentifiers
      * 
-     * @param type $globalTableIdentifier string => see universal/UniversalFilters.php/Identifier for format
-     * @return type array of the three pieces
+     * @param string $globalTableIdentifier => see universal/UniversalFilters.php/Identifier for format
+     * @return array of the three pieces
      */
     private function splitIdentifier($globalTableIdentifier){
         $identifierpieces=explode(UniversalFilterTableManager::$IDENTIFIERSEPARATOR,$globalTableIdentifier);

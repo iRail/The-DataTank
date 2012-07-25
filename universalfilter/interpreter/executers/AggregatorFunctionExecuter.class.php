@@ -26,10 +26,10 @@ abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
 
     private $typeInlineSelect;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
-        $this->executer1 = $interpreter->findExecuterFor($this->filter->getColumn());
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource());
         
         
         //
@@ -51,12 +51,15 @@ abstract class AggregatorFunctionExecuter extends ExpressionNodeExecuter {
         $evaluatorEnvironment->setTable($this->evaluatorTable);
         
         //init executer
-        $this->executer1->initExpression($this->filter->getColumn(), $evaluatorEnvironment, $interpreter);
+        $this->executer1->initExpression($this->filter->getSource(), $evaluatorEnvironment, $interpreter, true);
         
         //check executer header
         $evaluatedHeader = $this->executer1->getExpressionHeader();
         $this->typeInlineSelect = !$evaluatedHeader->isSingleRowByConstruction();
         if($this->typeInlineSelect){
+            if(!UniversalInterpreter::$ALLOW_NESTED_QUERYS){
+                throw new Exception("Nested Query's are disabled because of performance issues.");
+            }
             if(!$evaluatedHeader->isSingleColumnByConstruction()){
                 if(!$this->allowMultipleColumns()){
                     throw new Exception("If you use a columnSelectionFilter in a Aggregator, the columnSelectionFilter should only return 1 column.");

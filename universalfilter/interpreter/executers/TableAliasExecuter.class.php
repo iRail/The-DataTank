@@ -14,9 +14,9 @@ class TableAliasExecuter extends UniversalFilterNodeExecuter {
     private $executer;
     private $header;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->executer = $interpreter->findExecuterFor($filter->getSource());
-        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter);
+        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         
         $this->header = $this->executer->getExpressionHeader()->cloneHeader();
         $this->header->renameAlias($filter->getAlias());

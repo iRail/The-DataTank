@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-interface IInterpreter {
+interface IInterpreterControl {
     
     /**
      * @return UniversalFilterNodeExecuter

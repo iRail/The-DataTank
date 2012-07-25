@@ -22,14 +22,14 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     private $childEnvironmentData;
     private $giveToColumnsEnvironment;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         
         //get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer = $executer;
         
         
-        $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer);
+        $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer, false);
         $this->giveToColumnsEnvironment = $this->getChildEnvironment($this->childEnvironmentData);
         
         
@@ -60,7 +60,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             array_push($this->columnExecuters, $exprexec);
             
             //init expression
-            $exprexec->initExpression($filterColumn, $this->giveToColumnsEnvironment, $interpreter);
+            $exprexec->initExpression($filterColumn, $this->giveToColumnsEnvironment, $interpreter, true);
             $header = $exprexec->getExpressionHeader();
             
             //header info

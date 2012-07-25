@@ -32,10 +32,10 @@ abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
     
     private $newColumns;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         //get source environment
         $this->executer = $interpreter->findExecuterFor($filter->getSource());
-        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter);
+        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         
         
         // make the new header

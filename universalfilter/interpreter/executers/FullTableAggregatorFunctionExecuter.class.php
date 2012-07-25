@@ -42,8 +42,8 @@ abstract class FullTableAggregatorFunctionExecuter extends AggregatorFunctionExe
         return $newContent;
     }
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+        parent::initExpression($filter, $topenv, $interpreter, $preferColumn);
         $this->makeSingleColumnHeader();
     }
     

@@ -25,7 +25,7 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
         }
     }
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
         $this->const=$filter->getConstant();

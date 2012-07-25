@@ -18,16 +18,16 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
     private $header1;
     
     protected function getSourceExpression(){
-        return $this->filter->getArgument();
+        return $this->filter->getSource(0);
     }
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
         $this->executer1 = $interpreter->findExecuterFor($this->getSourceExpression());
         
         //init
-        $this->executer1->initExpression($this->getSourceExpression(), $topenv, $interpreter);
+        $this->executer1->initExpression($this->getSourceExpression(), $topenv, $interpreter, true);
         
         $this->header1 = $this->executer1->getExpressionHeader();
         

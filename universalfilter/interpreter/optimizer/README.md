@@ -19,7 +19,7 @@ Where can you optimize?
     -> calculate the nested query only once, for the rest of the time, use the anwser
          (tip: create a new kind of UniversalFilterNode which does exactly that and put it in the tree)
     to implement: need to calculate all dependencies (also with aliases) (so the relations between all identifiers)
-    useful: always if possible (!)
+    useful: always if possible (!)  [Only possible with nested querys]
 
  * merge multiple columnSelectionNodes, multiple FilterByExpressionFilters, multiple DataGroupers that are placed after each other
     useful: not really, it only makes it easier to see/implement other optimalisations

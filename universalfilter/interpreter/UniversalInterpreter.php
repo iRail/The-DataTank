@@ -10,21 +10,34 @@
  * @author Jeroen Penninck
  */
 
-include_once("universalfilter/interpreter/IInterpreter.class.php");
+include_once("universalfilter/interpreter/IInterpreterControl.class.php");
 include_once("universalfilter/interpreter/Environment.class.php");
+
+include_once("universalfilter/interpreter/sourceusage/SourceUsageData.class.php");
+include_once("universalfilter/interpreter/cloning/FilterTreeCloner.class.php");
 
 include_once("universalfilter/interpreter/executers/UniversalFilterExecuters.php");
 
-/**
- * Description of UniversalInterpreter
- *
- * @author Jeroen
- */
-class UniversalInterpreter implements IInterpreter{
+include_once("universalfilter/interpreter/optimizer/UniversalOptimizer.class.php");
+
+
+class UniversalInterpreter implements IInterpreterControl{
     
     private $executers;
     private $tablemanager;
     
+    /**
+     * Are nested querys allowed?
+     * true = yes, they are allowed.
+     * false = no, throw an exception if you try to use them...
+     * 
+     * @var boolean 
+     */
+    public static $ALLOW_NESTED_QUERYS=false;
+    
+    /**
+     * Constructor, fill the executer-class map.
+     */
     public function __construct() {
         $this->tablemanager=new UniversalFilterTableManager();
         
@@ -76,19 +89,33 @@ class UniversalInterpreter implements IInterpreter{
         return $this->tablemanager;
     }
     
-    public function interpret(UniversalFilterNode $tree){
+    public function interpret(UniversalFilterNode $originaltree){
+        //CLONE QUERY (because we will modify it... and the caller might want to keep the original query)
+        $cloner = new FilterTreeCloner();
+        $clonedtree = $cloner->deepCopyTree($originaltree);
+        
         //OPTIMIZE
         $optimizer = new UniversalOptimizer();
         
-        $tree = $optimizer->optimize($tree);
+        $tree = $optimizer->optimize($clonedtree);
         
-        //EXECUTE
-        $executer = $this->findExecuterFor($tree);
-        
+        //START ENVIRONMENT... is empty
         $emptyEnv = new Environment();
         $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
         
-        $executer->initExpression($tree, $emptyEnv, $this);
+        //CALCULATE ALL HEADERS
+        $executer = $this->findExecuterFor($tree);
+        $executer->initExpression($tree, $emptyEnv, $this, false);
+        
+        //TRAVERSE TREE AND GIVE QUERYS TO SOURCES THEMSELF...
+        // TODO: check headers for things that can be executed on a source...
+        
+        //BUILD A NEW QUERY WITH THE PRECALCULATED DATA
+        
+        
+        //EXECUTE (for real this time) (note: recalculate headers also...)
+        $executer = $this->findExecuterFor($tree);
+        $executer->initExpression($tree, $emptyEnv, $this, false);
         
         //get the table, in two steps
         $header = $executer->getExpressionHeader();
@@ -96,10 +123,11 @@ class UniversalInterpreter implements IInterpreter{
         $content = $executer->evaluateAsExpression();
         
         
-        //after return: CLEANUP
-        //$content->tryDestroyTable();
-        
+        //RETURN
         return new UniversalFilterTable($header, $content);
+        
+        //CLEANUP -> when you don't need the data anymore
+        //$content->tryDestroyTable();
     }
 }
 

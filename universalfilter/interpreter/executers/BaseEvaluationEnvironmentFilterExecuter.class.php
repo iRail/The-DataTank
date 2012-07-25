@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class BaseEvaluationEnvironmentFilterExecuter extends UniversalFilterNodeExecuter {
+abstract class BaseEvaluationEnvironmentFilterExecuter extends UniversalFilterNodeExecuter {
     //put your code here
     
     /**
@@ -19,13 +19,13 @@ class BaseEvaluationEnvironmentFilterExecuter extends UniversalFilterNodeExecute
      * @param Environment $topenv
      * @return array Intern data
      */
-    protected function initChildEnvironment(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter, $executer) {
+    protected function initChildEnvironment(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $executer, $preferColumn) {
         //
         // BUILD ENVIRONMENT TO GIVE TO EXPRESSIONS
         //
         
         //get source environment header
-        $executer->initExpression($filter->getSource(), $topenv, $interpreter);
+        $executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         $header = $executer->getExpressionHeader();
         
         //create new enviroment => combine given table ($topenv) and source table (from executer)
@@ -35,7 +35,7 @@ class BaseEvaluationEnvironmentFilterExecuter extends UniversalFilterNodeExecute
         
         //build new environment
         if(!$oldtable->getHeader()->isSingleRowByConstruction()){
-            throw new Exception("Illegal location for columnSelectionFilter");
+            throw new Exception("Illegal location for ColumnSelectionFilter or FilterByExpressionFilter");
         }
         
         for ($oldtablecolumn = 0; $oldtablecolumn < $oldtable->getHeader()->getColumnCount(); $oldtablecolumn++) {

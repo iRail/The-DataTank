@@ -64,33 +64,69 @@ class Constant extends UniversalFilterNode {
 }
 
 /**
- * Top class of all real filters
- * - all these filters have a source
- *  -> you can use putBefore or putAfter to put a filter on the beginning 
- *     or the end of the list
+ * *Top class* of all real filters
+ * -> all these filters have one or more sources
+ * 
+ * Some filters like joins or binary functions have more than one source.
  */
 abstract class NormalFilterNode extends UniversalFilterNode {
-    private $source;//type:UniversalFilterNode
+    private $source=array();//of UniversalFilterNode
     
-    public function setSource(UniversalFilterNode $source){
-        $this->source=$source;
+    /**
+     * Is this index a correct index of a source?
+     * @param int $index 
+     */
+    private function checkBounds($index){
+        if($index<0 || $index>=$this->getSourceCount()){
+            throw new Exception("That is not a valid source-index for this kind of node (node kind: ".get_class($this).", index: ".$index.")");
+        }
     }
     
-    public function getSource(){
-        return $this->source;
+    /**
+     * Sets a source on this NormalFilterNode
+     * 
+     * @param UniversalFilterNode $source
+     * @param int $index The index of the source to set. Default: source 0.
+     */
+    public function setSource(UniversalFilterNode $source, $index=0){
+        $this->checkBounds($index);
+        $this->source[$index]=$source;
+    }
+    
+    /**
+     * Gets a source of this NormalFilterNode
+     * @param int $index
+     * @return NormalFilterNode the sourcefilter
+     */
+    public function getSource($index=0){
+        $this->checkBounds($index);
+        if(isset($this->source[$index])){
+            return $this->source[$index];
+        }else{
+            return null;
+        }
+    }
+    
+    /**
+     * How many sources does this filter have? (Most of the time: 1)
+     * @return int 
+     */
+    public function getSourceCount(){
+        return 1;
     }
 }
 
 /**
- * Represents an alias
- * Has a source and 
+ * Represents a table alias
+ * Has a source and a alias string
  */
 class TableAliasFilter extends NormalFilterNode {
     private $alias;//type:String
     
-    public function __construct($alias) {
+    public function __construct($alias, UniversalFilterNode $source=null) {
         parent::__construct("TABLEALIAS");
         $this->alias=$alias;
+        if($source!=null) $this->setSource($source);
     }
     
     public function getAlias() {
@@ -110,9 +146,10 @@ class TableAliasFilter extends NormalFilterNode {
 class FilterByExpressionFilter extends NormalFilterNode{
     private $expression;//type:UniversalFilterNode
     
-    public function __construct(UniversalFilterNode $expression) {
+    public function __construct(UniversalFilterNode $expression, UniversalFilterNode $source=null) {
         parent::__construct("FILTEREXPRESSION");
         $this->expression=$expression;
+        if($source!=null) $this->setSource($source);
     }
     
     public function getExpression(){
@@ -138,9 +175,10 @@ class FilterByExpressionFilter extends NormalFilterNode{
 class ColumnSelectionFilter extends NormalFilterNode {
     private $columndata;//type:Array[ColumnSelectionFilterColumn]
 
-    public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata) {
+    public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata, UniversalFilterNode $source=null) {
         parent::__construct("FILTERCOLUMN");
         $this->columndata=$columndata;
+        if($source!=null) $this->setSource($source);
     }
     
     public function getColumnData(){
@@ -175,8 +213,9 @@ class ColumnSelectionFilterColumn {
  * aka "DISTINCT"
  */
 class DistinctFilter extends NormalFilterNode{
-    public function __construct() {
+    public function __construct(UniversalFilterNode $source=null) {
         parent::__construct("FILTERDISTINCT");
+        if($source!=null) $this->setSource($source);
     }
 }
 
@@ -195,9 +234,10 @@ class DistinctFilter extends NormalFilterNode{
 class DataGrouper extends NormalFilterNode {
     private $columns;
     
-    public function __construct(array $columns) {
+    public function __construct(array $columns, UniversalFilterNode $source=null) {
         parent::__construct("DATAGROUPER");
         $this->columns=$columns;
+        if($source!=null) $this->setSource($source);
     }
     
     public function getColumns(){
@@ -205,22 +245,11 @@ class DataGrouper extends NormalFilterNode {
     }
 }
 
-
-/**
- * Top class of all functions
- * - all these functions need to get an environment to be able to execute
- */
-abstract class ExpressionNode extends UniversalFilterNode {}
-
-
 /*
  * 
  *  --- FUNCTIONS --- 
  * 
  */
-
-//TODO (?): format()? now()?
-
 
 
 /**
@@ -229,8 +258,7 @@ abstract class ExpressionNode extends UniversalFilterNode {}
  * type: Column -> Column
  * type: Cell -> Cell
  */
-class UnairyFunction extends ExpressionNode {
-    private $column;
+class UnairyFunction extends NormalFilterNode {
     
     public static $FUNCTION_UNAIRY_UPPERCASE="FUNCTION_UNAIRY_UPPERCASE";
     public static $FUNCTION_UNAIRY_LOWERCASE="FUNCTION_UNAIRY_LOWERCASE";
@@ -239,13 +267,9 @@ class UnairyFunction extends ExpressionNode {
     public static $FUNCTION_UNAIRY_ISNULL="FUNCTION_UNAIRY_ISNULL";
     public static $FUNCTION_UNAIRY_NOT="FUNCTION_UNAIRY_NOT";
     
-    public function __construct($kind, UniversalFilterNode $column) {
+    public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
-        $this->column=$column;
-    }
-    
-    public function getArgument(){
-        return $this->column;
+        if($column!=null) $this->setSource($column, 0);
     }
 }
 
@@ -255,9 +279,7 @@ class UnairyFunction extends ExpressionNode {
  * type: (Column,Column) -> Column
  * type: (Cell, Cell) -> Cell
  */
-class BinaryFunction extends ExpressionNode {
-    private $columnA;
-    private $columnB;
+class BinaryFunction extends NormalFilterNode {
     
     public static $FUNCTION_BINARY_PLUS="FUNCTION_BINARY_PLUS";
     public static $FUNCTION_BINARY_MINUS="FUNCTION_BINARY_MINUS";
@@ -273,18 +295,14 @@ class BinaryFunction extends ExpressionNode {
     public static $FUNCTION_BINARY_AND="FUNCTION_BINARY_AND";
     public static $FUNCTION_BINARY_MATCH_REGEX="FUNCTION_BINARY_MATCH_REGEX";// does $1 matches $2 ? ($2 is in php regex format!)
     
-    public function __construct($kind, UniversalFilterNode $columnA, UniversalFilterNode $columnB) {
+    public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null) {
         parent::__construct($kind);
-        $this->columnA=$columnA;
-        $this->columnB=$columnB;
+        if($columnA!=null) $this->setSource($columnA, 0);
+        if($columnB!=null) $this->setSource($columnB, 1);
     }
     
-    public function getArgument1(){
-        return $this->columnA;
-    }
-    
-    public function getArgument2(){
-        return $this->columnB;
+    public function getSourceCount() {
+        return 2;
     }
 }
 
@@ -294,31 +312,20 @@ class BinaryFunction extends ExpressionNode {
  * type: (Column,Column,Column) -> Column
  * type: (Cell, Cell, Cell) -> Cell
  */
-class TertairyFunction extends ExpressionNode {
-    private $columnA;
-    private $columnB;
-    private $columnC;
+class TertairyFunction extends NormalFilterNode {
     
     public static $FUNCTION_TERTIARY_SUBSTRING="FUNCTION_TERTIARY_SUBSTRING";//get part of $1 from index $2 with length $3
     public static $FUNCTION_TERTIARY_REGEX_REPLACE="FUNCTION_TERTIARY_REGEX_REPLACE";//replace $1 by $2 in $3
     
-    public function __construct($kind, UniversalFilterNode $columnA, UniversalFilterNode $columnB, UniversalFilterNode $columnC) {
+    public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null, UniversalFilterNode $columnC=null) {
         parent::__construct($kind);
-        $this->columnA=$columnA;
-        $this->columnB=$columnB;
-        $this->columnB=$columnC;
+        if($columnA!=null) $this->setSource($columnA, 0);
+        if($columnB!=null) $this->setSource($columnB, 1);
+        if($columnC!=null) $this->setSource($columnC, 2);
     }
     
-    public function getArgument1(){
-        return $this->columnA;
-    }
-    
-    public function getArgument2(){
-        return $this->columnB;
-    }
-    
-    public function getArgument3(){
-        return $this->columnC;
+    public function getSourceCount() {
+        return 3;
     }
 }
 
@@ -327,8 +334,7 @@ class TertairyFunction extends ExpressionNode {
  * 
  * type: Column -> Cell
  */
-class AggregatorFunction extends ExpressionNode {
-    private $column;
+class AggregatorFunction extends NormalFilterNode {
     
     public static $AGGREGATOR_AVG="AGGREGATOR_AVG";
     public static $AGGREGATOR_COUNT="AGGREGATOR_COUNT";
@@ -338,13 +344,9 @@ class AggregatorFunction extends ExpressionNode {
     public static $AGGREGATOR_MIN="AGGREGATOR_MIN";
     public static $AGGREGATOR_SUM="AGGREGATOR_SUM";
     
-    public function __construct($kind, UniversalFilterNode $column) {
+    public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
-        $this->column=$column;
-    }
-    
-    public function getColumn(){
-        return $this->column;
+        if($column!=null) $this->setSource($column);
     }
 }
 
@@ -364,9 +366,10 @@ class CheckInFunction extends NormalFilterNode {
     
     public static $FUNCTION_IN_LIST="FUNCTION_IN_LIST";// is a varargs function
     
-    public function __construct(array /* of Constant */ $constants) {
+    public function __construct(array /* of Constant */ $constants, UniversalFilterNode $source = null) {
         parent::__construct(CheckInFunction::$FUNCTION_IN_LIST);
         $this->constants=$constants;
+        if($column!=null) $this->setSource($source);
     }
     
     public function getConstants(){

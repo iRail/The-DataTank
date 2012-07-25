@@ -128,8 +128,8 @@ abstract class ColumnAggregatorFunctionExecuter extends AggregatorFunctionExecut
     }
     
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        parent::initExpression($filter, $topenv, $interpreter);
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+        parent::initExpression($filter, $topenv, $interpreter, $preferColumn);
         $this->makeAllColumnsHeader();
     }
     

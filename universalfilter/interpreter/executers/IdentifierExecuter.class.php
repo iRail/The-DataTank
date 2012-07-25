@@ -27,28 +27,32 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
     private $isColumn;
     private $isNewTable;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+        
         $this->filter = $filter;
         $this->interpreter = $interpreter;
         $this->topenv = $topenv;
         
-        $this->isColumn = true;
-        $this->isNewTable = false;
-        $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());
-        
-        if($this->header==null){
-            $this->isNewTable = true;
-            //no matching column/value found => !! load new table
-            $tableName = $filter->getIdentifierString();
-            //try {
-            $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
-            //} catch(ResourceOrPackageNotFoundTDTException $rce){
-            // throw new Exception("The identifier \"".$tableName."\" can not be found. It is not a table or a column.");
-            //}
-        }else{
+        if($preferColumn){
+            $this->isNewTable = false;
+            
+            $this->isColumn = true;
+            $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());
+            if($this->header==null){
+                throw new Exception("The identifier \"".$this->filter->getIdentifierString()."\" can not be found. It is not a column.");
+            }
             if(!$this->isColumn){
                 $this->singlevaluecolumnheader=$this->header->getColumnInformationById($this->header->getColumnId());
                 $this->header = new UniversalFilterTableHeader(array($this->singlevaluecolumnheader->cloneColumnNewId()), true, true);
+            }
+        }else{
+            $this->isNewTable = true;
+            // load new table
+            $tableName = $filter->getIdentifierString();
+            try {
+            $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
+            } catch(ResourceOrPackageNotFoundTDTException $rce){
+                throw new Exception("The identifier \"".$tableName."\" can not be found. It is not a table.");
             }
         }
     }
@@ -58,20 +62,19 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
     }
     
     public function evaluateAsExpression() {
-        if(!$this->isColumn){
-            if($this->isNewTable){
-                $tableName = $this->filter->getIdentifierString();
-                return $this->interpreter->getTableManager()->getTableContent($tableName);
-            }else{
+        if($this->isNewTable){
+            $tableName = $this->filter->getIdentifierString();
+            return $this->interpreter->getTableManager()->getTableContent($tableName);
+        }else{
+            if(!$this->isColumn){
                 $newRow = new UniversalFilterTableContentRow();
                 $value = $this->topenv->getSingleValue($this->singlevalueindex)->copyValueTo($newRow, $this->singlevaluecolumnheader->getId(), $this->header->getColumnId());
                 $content = new UniversalFilterTableContent();
                 $content->addRow($newRow);
                 return $content;
+            }else{
+                return $this->getColumnDataContent($this->topenv->getTable(), $this->filter->getIdentifierString(), $this->header);
             }
-        }else{
-            return $this->getColumnDataContent($this->topenv->getTable(), $this->filter->getIdentifierString(), $this->header);
-            
         }
     }
     
@@ -93,19 +96,32 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
         $columnid = $originalheader->getColumnIdByName($fullid);
         
         if($columnid==null){
-            $this->isColumn=false;//it's a new table OR a single value...
+            $this->isColumn=false;//it's a single value...
+            
+            $foundheader=null;
             
             for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
                 $columninfo = $topenv->getSingleValueHeader($index);
                 
                 if($columninfo->matchName(explode(".", $fullid))){
+                    if($foundheader!=null){
+                        throw new Exception("Ambiguos identifier: \"".$fullid."\". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
+                    }
                     $this->singlevalueindex = $index;
-                    return new UniversalFilterTableHeader(array($columninfo), true, true);
+                    $foundheader = new UniversalFilterTableHeader(array($columninfo), true, true);
                 }
                 
             }
-            return null;//it's a new table
+            return $foundheader;//if null: identifier not found
         }else{
+            //check single values for another match (to give an exception)
+            for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
+                if($topenv->getSingleValueHeader($index)->matchName(explode(".", $fullid))){
+                    throw new Exception("Ambiguos identifier: \"".$fullid."\". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
+                }
+            }
+            
+            //return
             $newHeaderColumn=$originalheader->getColumnInformationById($columnid)->cloneColumnNewId();
 
             $columnHeader = new UniversalFilterTableHeader(array($newHeaderColumn), $originalheader->isSingleRowByConstruction(), true);
@@ -126,7 +142,7 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
             //special case
             
             //have to copy because of ->tryDestroyTable on this one would otherwise also affect the full table...
-            //TODO: while we are copying anyway, we should also change the id's!!! (for select *, * from ... case)
+            //TODO: while we are copying anyway, we could also change the id's!!! (only matters in one case: select *, * from ...)
             $contentCopy = new UniversalFilterTableContent();
             
             for ($rowindex = 0; $rowindex < $content->getRowCount(); $rowindex++) {
