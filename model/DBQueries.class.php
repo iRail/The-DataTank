@@ -691,5 +691,18 @@ class DBQueries {
     	    array(':package' => $package, ':resource' => $resource)
     	);
     } 
+
+    /**
+     * Get the example uri of resource
+     */
+    static function getExampleUri($package,$resource){
+        return R::getCell(
+            "SELECT example_uri
+             FROM metadata,resource,package
+             WHERE package.full_package_name=:package and resource.resource_name=:resource
+             and resource.package_id=package.id and metadata.resource_id = resource.id",
+            array(":package" => $package, ":resource" => $resource)
+        );
+    }
 }
 ?>
