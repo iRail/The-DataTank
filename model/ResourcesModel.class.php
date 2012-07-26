@@ -145,7 +145,7 @@ class ResourcesModel {
                     $parameters["generic_type"] = $resourceTypeParts[1];
                     $parameters["resource_type"] = $resourceTypeParts[0];
                 } else if (!isset($parameters["generic_type"])) {
-                    throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example is: generic/CSV");
+                    throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV");
                 }
             }
 
@@ -154,7 +154,7 @@ class ResourcesModel {
             $restype = strtolower($restype);
             //now check if the file exist and include it
             if (!in_array($restype, array("generic", "remote","installed"))) {
-                throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
+                throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic,remote or installed");
             }
             // get the documentation containing information about the required parameters
             $doc = $this->getAllAdminDoc();

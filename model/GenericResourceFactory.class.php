@@ -52,8 +52,11 @@ class GenericResourceFactory extends AResourceFactory {
            
             foreach($resourcenames as $resourcename){
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
+                $example_uri = DBQueries::getExampleUri($package,$resourcename);
+                
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
+                $doc->$package->$resourcename->example_uri = $example_uri;
                 /**
                  * Create a generic resource, get the strategy and ask for 
                  * the read parameters of the strategy.
@@ -155,7 +158,7 @@ class GenericResourceFactory extends AResourceFactory {
             include_once("model/resources/create/GenericResourceCreator.class.php");
             $res = new GenericResourceCreator("","", array(),$strategy);
             $d[$strategy] = new stdClass();
-            $d[$strategy]->doc = "When your file is structured according to $strategy, you can perform a PUT request and load this file in this DataTank";
+            $d[$strategy]->doc = "When your file is structured according to a $strategy -datasource, you can perform a PUT request and load this file in this DataTank";
             $d[$strategy]->parameters = $res->documentParameters();
             $d[$strategy]->requiredparameters = $res->documentRequiredParameters();
         }

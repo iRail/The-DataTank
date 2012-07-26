@@ -47,7 +47,7 @@ interface IUniversalFilterTableManager {
      * 
      * If some parts of the query can be executed directly on the source:
      * This method is supposed to executes those parts on the source.
-     * Then convert the anwser to a UniversalTable.
+     * Then convert the answer to a UniversalTable.
      * And then in modify the query -> the parts that were executed are replaced with a ExternallyCalculatedFilterNode
      *   (new ExternallyCalculatedFilterNode($table, $originalFilterNode, ...);)
      *     where $originalFilterNode is the part of the query you replaced.

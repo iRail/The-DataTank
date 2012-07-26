@@ -54,6 +54,7 @@ class InstalledResourceFactory extends AResourceFactory{
             }
 
             foreach($resourcenames as $resourcename){
+                $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 $location = $this->getLocationOfResource($package,$resourcename);
                 // file can always have been removed after adding it as a published resource
                 if(file_exists("custom/packages/".$location)){
@@ -63,6 +64,7 @@ class InstalledResourceFactory extends AResourceFactory{
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();   
+                    $doc->$package->$resourcename->example_uri = $example_uri;
                 }
             }
         }
@@ -70,7 +72,29 @@ class InstalledResourceFactory extends AResourceFactory{
     }
 
     public function makeDescriptionDoc($doc){
-        $this->makeDoc($doc);
+        //ask every resource we have for documentation
+        foreach($this->getAllResourceNames() as $package => $resourcenames){
+            if(!isset($doc->$package)){
+                $doc->$package = new StdClass();
+            }
+
+            foreach($resourcenames as $resourcename){
+                $example_uri = DBQueries::getExampleUri($package,$resourcename);
+                $location = $this->getLocationOfResource($package,$resourcename);
+                // file can always have been removed after adding it as a published resource
+                if(file_exists("custom/packages/".$location)){
+                    $classname = $this->getClassnameOfResource($package,$resourcename);
+                    $doc->$package->$resourcename = new StdClass();
+                    include_once("custom/packages/" . $location);
+                    $doc->$package->$resourcename->doc = $classname::getDoc();
+                    $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
+                    $doc->$package->$resourcename->parameters = $classname::getParameters();   
+                    $doc->$package->$resourcename->example_uri = $example_uri;
+                    $doc->$package->$resourcename->resource_type = "installed";
+                }
+            }
+        }
+        return $doc;
     }
 
     private function getCreationTime($package, $resource) {
