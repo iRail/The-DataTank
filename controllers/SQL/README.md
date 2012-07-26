@@ -35,19 +35,19 @@ It can parse and convert:
 How I parse SQL querys
 ----------------------
 
-example: ``SELECT * FROM package.table``
+example: ``SELECT * FROM package.resource``
 
 
  1. SQLTokenizer => split query in tokens
  
-        "SELECT", "*", "FROM", "package.table"
+        "SELECT", "*", "FROM", "package.resource"
     
  2. SQLParser => categorize the tokens and give the tokens to the grammar
  
         "SELECT"        => category SELECT,     value null
         "*"             => category '*',        value null
         "FROM"          => category FROM,       value null
-        "package.table" => category identifier, value "package.table"
+        "package.table" => category identifier, value "package.resource"
     
  3. SQLgrammar => build the tree.
 
@@ -56,7 +56,7 @@ example: ``SELECT * FROM package.table``
             new ColumnSelectionFilterColumn(
                 new Identifier("*"), null));
         ...after...
-        Identifier("package.table");
+        Identifier("package.resource");
 
 
 SQLgrammar.lime

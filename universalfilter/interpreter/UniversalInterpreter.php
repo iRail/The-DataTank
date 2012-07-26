@@ -10,23 +10,37 @@
  * @author Jeroen Penninck
  */
 
-include_once("universalfilter/interpreter/IInterpreter.class.php");
+include_once("universalfilter/interpreter/IInterpreterControl.class.php");
 include_once("universalfilter/interpreter/Environment.class.php");
+
+include_once("universalfilter/interpreter/sourceusage/SourceUsageData.class.php");
+include_once("universalfilter/interpreter/sourceusage/SourceUsageEnvironment.class.php");
+include_once("universalfilter/interpreter/cloning/FilterTreeCloner.class.php");
 
 include_once("universalfilter/interpreter/executers/UniversalFilterExecuters.php");
 
-/**
- * Description of UniversalInterpreter
- *
- * @author Jeroen
- */
-class UniversalInterpreter implements IInterpreter{
+include_once("universalfilter/interpreter/optimizer/UniversalOptimizer.class.php");
+
+
+class UniversalInterpreter implements IInterpreterControl{
     
     private $executers;
     private $tablemanager;
     
-    public function __construct() {
-        $this->tablemanager=new UniversalFilterTableManager();
+    /**
+     * Are nested querys allowed?
+     * true = yes, they are allowed.
+     * false = no, throw an exception if you try to use them...
+     * 
+     * @var boolean 
+     */
+    public static $ALLOW_NESTED_QUERYS=false;
+    
+    /**
+     * Constructor, fill the executer-class map.
+     */
+    public function __construct($tablemanager) {
+        $this->tablemanager=$tablemanager;
         
         $this->executers = array(
             "IDENTIFIER" => "IdentifierExecuter",
@@ -35,6 +49,7 @@ class UniversalInterpreter implements IInterpreter{
             "FILTEREXPRESSION" => "FilterByExpressionExecuter",
             "DATAGROUPER" => "DataGrouperExecuter",
             "TABLEALIAS" => "TableAliasExecuter",
+            "FILTERDISTINCT" => "DistinctFilterExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
@@ -75,20 +90,70 @@ class UniversalInterpreter implements IInterpreter{
         return $this->tablemanager;
     }
     
-    public function interpret(UniversalFilterNode $tree){
-        $executer = $this->findExecuterFor($tree);
+    public function interpret(UniversalFilterNode $originaltree){
+        //CLONE QUERY (because we will modify it... and the caller might want to keep the original query)
+        $cloner = new FilterTreeCloner();
+        $clonedtree = $cloner->deepCopyTree($originaltree);
         
+        //OPTIMIZE
+        $optimizer = new UniversalOptimizer();
+        
+        $tree = $optimizer->optimize($clonedtree);
+        
+        
+        //INITIAL ENVIRONMENT... is empty
         $emptyEnv = new Environment();
         $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
         
-        $executer->initExpression($tree, $emptyEnv, $this);
+        
+        //QUERY SYNTAX DETECTION
+        // calculate the header already once on the original query.
+        // it can throw errors...
+        $executer = $this->findExecuterFor($tree);
+        $executer->initExpression($tree, $emptyEnv, $this, false);
+        
+        
+        //EXECUTE PARTS ON SOURCE
+        
+        // - create a empty environment
+        $usageEnv = new SourceUsageEnvironment();
+        
+        // - calculate single source usages
+        $executer = $this->findExecuterFor($tree);
+        $singleSourceUsages = $executer->filterSingleSourceUsages($tree, $usageEnv, $this, false);
+        
+        // - calculated... now execute them on the sources... AND BUILD A NEW QUERY
+        foreach($singleSourceUsages as $singleSource){
+            // - unpack data
+            $filterSourceNode = $singleSource->getFilterSourceNode();
+            $filterParentNode = $singleSource->getFilterParentNode();
+            $filterParentSourceIndex = $singleSource->getFilterParentSourceIndex();
+            $sourceId = $singleSource->getSourceId();
+            
+            // - do it
+            $newQuery = $this->getTableManager()->runFilterOnSource($filterSourceNode, $sourceId);
+            $filterParentNode->setSource($newQuery, $filterParentSourceIndex);
+        }
+        
+        
+        
+        
+        //EXECUTE (for real this time)
+        $executer = $this->findExecuterFor($tree);
+        $executer->initExpression($tree, $emptyEnv, $this, false);
         
         //get the table, in two steps
         $header = $executer->getExpressionHeader();
         
         $content = $executer->evaluateAsExpression();
         
+        $executer->cleanUp();
+        
+        //RETURN
         return new UniversalFilterTable($header, $content);
+        
+        //CLEANUP -> when you don't need the data anymore
+        //$content->tryDestroyTable();
     }
 }
 

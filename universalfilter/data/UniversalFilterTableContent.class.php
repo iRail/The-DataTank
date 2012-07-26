@@ -13,9 +13,36 @@ class UniversalFilterTableContent {
     
     public static $IDCOUNT=0;
     
+    private $needed;
+    
     public function __construct() {
+//        echo "<pre>";
+//        var_dump(debug_backtrace());
+//        echo "</pre>";
         $this->rows=new BigList();
         $this->size=0;
+        $this->needed=0;
+    }
+    
+    /**
+     * Destroy the content of this table if no-one needs this table anymore...
+     */
+    public function tryDestroyTable(){
+        if($this->needed==0){
+            if($this->rows==null){
+                debug_print_backtrace();
+            }else{
+                $this->rows->destroy();
+                $this->rows=null;
+            }
+        }
+    }
+    
+    /**
+     * Tell this table: "I need this table"
+     */
+    public function tableNeeded(){
+        $this->needed++;
     }
     
     /**

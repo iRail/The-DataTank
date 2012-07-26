@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 class BigList {
-    public static $BLOCKSIZE = 200;
+    public static $BLOCKSIZE = 50;
     
     private $id;
     private $size;
@@ -24,14 +24,14 @@ class BigList {
             throw new Exception("BigList: Index out of bounds: ".$index);
         }
         $inst = BigDataBlockManager::getInstance();
-        $blockindex = $index/(BigList::$BLOCKSIZE);
-        $indexInBlock = $index%(BigList::$BLOCKSIZE);
+        $blockindex = floor($index/(BigList::$BLOCKSIZE));
+        $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
         
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
         if(is_null($oldList)){
-            $oldList = array();
+            $oldList = new stdClass();
         }
-        $oldList[$indexInBlock] = $data;
+        $oldList->$indexInBlock = $data;
         $inst->set("BIGLIST_".$this->id."_".$blockindex, $oldList);//save it again
     }
     
@@ -40,24 +40,36 @@ class BigList {
             throw new Exception("BigList: Index out of bounds ".$index);
         }
         $inst = BigDataBlockManager::getInstance();
-        $blockindex = $index/(BigList::$BLOCKSIZE);
-        $indexInBlock = $index%(BigList::$BLOCKSIZE);
+        $blockindex = floor($index/(BigList::$BLOCKSIZE));
+        $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
         
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
         
         if(is_null($oldList)){
-            $oldList = array();
+            $oldList = new stdClass();
         }
-        return $oldList[$indexInBlock];
+        return $oldList->$indexInBlock;
     }
     
     public function addItem($data){
         $this->size++;
         $this->setIndex($this->size-1, $data);
+        if(floor(($this->size-1)/BigList::$BLOCKSIZE)!=floor(($this->size-2)/BigList::$BLOCKSIZE)){
+            //echo "biglist expand... ".$this->id;
+        }
     }
     
     public function getSize(){
         return $this->size;
+    }
+    
+    public function destroy(){
+        //echo "biglist destroyed... ".$this->id;
+        $inst = BigDataBlockManager::getInstance();
+        for($i=0;$i<=floor(($this->size-1)/BigList::$BLOCKSIZE);$i++){
+            $inst->delete("BIGLIST_".$this->id."_".$i);
+        }
+        $this->size=0;
     }
 }
 

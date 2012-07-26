@@ -17,9 +17,10 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
     
     private $executer;
     
+    private $childEnvironmentData;
     private $giveToColumnsEnvironment;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
         $this->interpreter = $interpreter;
         
@@ -31,7 +32,8 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $this->executer = $executer;
         
         
-        $this->giveToColumnsEnvironment=$this->buildChildEnvironment($filter, $topenv, $interpreter, $executer);
+        $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer, $preferColumn);
+        $this->giveToColumnsEnvironment = $this->getChildEnvironment($this->childEnvironmentData);
         
         
         
@@ -53,12 +55,13 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $sourceheader =$this->executer->getExpressionHeader();
         $sourcecontent=$this->executer->evaluateAsExpression();
         
+        $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
         
         // get executer for expression
         $expr = $this->filter->getExpression();
         $exprexec = $this->interpreter->findExecuterFor($expr);
-        $exprexec->initExpression($expr, $this->giveToColumnsEnvironment, $this->interpreter);
+        $exprexec->initExpression($expr, $this->giveToColumnsEnvironment, $this->interpreter, true);
         $exprheader = $exprexec->getExpressionHeader();
         
         // filter the content
@@ -86,7 +89,17 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
             }
         }
         
+        $exprexec->cleanUp();
+        
+        $inResultTable->tryDestroyTable();
+        
+        $sourcecontent->tryDestroyTable();
+        
         return $filteredRows;
+    }
+    
+    public function cleanUp(){
+        $this->executer->cleanUp();
     }
 }
 

@@ -11,9 +11,10 @@
  */
 
 /* average */
-class AverageAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class AverageAggregatorExecuter extends AggregatorFunctionExecuter {
     
-    public function calculateValue(array $data){
+    public function calculateValue(UniversalFilterTableContent $column, $columnId){
+        $data = $this->convertColumnToArray($column, $columnId);
         $sum = array_sum($data);
         $count = count($data);
         if($count==0) {return 0;}
@@ -34,9 +35,10 @@ class AverageAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* max */
-class MaxAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class MaxAggregatorExecuter extends AggregatorFunctionExecuter {
     
-    public function calculateValue(array $data){
+    public function calculateValue(UniversalFilterTableContent $column, $columnId){
+        $data = $this->convertColumnToArray($column, $columnId);
         return max($data);
     }
     
@@ -54,9 +56,10 @@ class MaxAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* min */
-class MinAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class MinAggregatorExecuter extends AggregatorFunctionExecuter {
     
-    public function calculateValue(array $data){
+    public function calculateValue(UniversalFilterTableContent $column, $columnId){
+        $data = $this->convertColumnToArray($column, $columnId);
         return min($data);
     }
     
@@ -74,9 +77,10 @@ class MinAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* sum */
-class SumAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class SumAggregatorExecuter extends AggregatorFunctionExecuter {
 
-    public function calculateValue(array $data){
+    public function calculateValue(UniversalFilterTableContent $column, $columnId){
+        $data = $this->convertColumnToArray($column, $columnId);
         return array_sum($data);
     }
     
@@ -96,9 +100,10 @@ class SumAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 
 
 /* first */
-class FirstAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class FirstAggregatorExecuter extends AggregatorFunctionExecuter {
     
-    public function calculateValue(array $data){
+    public function calculateValue(UniversalFilterTableContent $column, $columnId){
+        $data = $this->convertColumnToArray($column, $columnId);
         return $data[0];
     }
     
@@ -108,9 +113,10 @@ class FirstAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 }
 
 /* last */
-class LastAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
+class LastAggregatorExecuter extends AggregatorFunctionExecuter {
     
-    public function calculateValue(array $data){
+    public function calculateValue(UniversalFilterTableContent $column, $columnId){
+        $data = $this->convertColumnToArray($column, $columnId);
         return $data[count($data)-1];
     }
     
@@ -122,18 +128,22 @@ class LastAggregatorExecuter extends ColumnAggregatoFunctionExecuter {
 
 
 /* count */
-class CountAggregatorExecuter extends FullTableAggregatorFunctionExecuter {
+class CountAggregatorExecuter extends AggregatorFunctionExecuter {
     
     public function getName($name){
         return "count_".$name;
     }
     
-    public function calculateValueForTable(UniversalFilterTableContent $content) {
-        return $content->getRowCount();
+    public function calculateValue(UniversalFilterTableContent $column, $columnId){
+        return $column->getRowCount();
     }
     
     public function keepFullInfo(){
         return false;
+    }
+    
+    public function combinesMultipleColumns(){
+        return true;
     }
 }
 ?>

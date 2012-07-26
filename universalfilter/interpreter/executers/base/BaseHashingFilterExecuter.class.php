@@ -1,14 +1,29 @@
 <?php
 
 /**
- * Executes the DataGrouper "filter"
+ * Base class for filters that do hashing on records (like distinct or group by) to combine records that look ("hash") the same.
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class DataGrouperExecuter extends BaseHashingFilterExecuter {
+abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
+    
+    /**
+     * Need to be overriden by subclasses. Which columns need to be hashed???
+     * 
+     * @param UniversalFilterNode $filter
+     * @param UniversalFilterTableHeaderColumnInfo $oldColumnInfo 
+     */
+    public abstract function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo);
+    
+    
+    
+    /*
+     * Grouping implemntation...
+     */
+    
     
     private $header;
     private $oldHeader;
@@ -17,13 +32,10 @@ class DataGrouperExecuter extends BaseHashingFilterExecuter {
     
     private $newColumns;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         //get source environment
         $this->executer = $interpreter->findExecuterFor($filter->getSource());
-        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter);
-        
-        //get the columns to group
-        $columnIdentifiers = $filter->getColumns();
+        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         
         
         // make the new header
@@ -35,13 +47,7 @@ class DataGrouperExecuter extends BaseHashingFilterExecuter {
         for ($index = 0; $index < $this->oldHeader->getColumnCount(); $index++) {
             $oldColumnInfo = $this->oldHeader->getColumnInformationById($this->oldHeader->getColumnIdByIndex($index));
             
-            $needToBeGrouped=true;
-            for ($columnNameIndex = 0; $columnNameIndex < count($columnIdentifiers); $columnNameIndex++) {
-                $columnIdentifier = $columnIdentifiers[$columnNameIndex]->getIdentifierString();
-                if($oldColumnInfo->matchName(explode(".", $columnIdentifier))){
-                    $needToBeGrouped=false;
-                }
-            }
+            $needToBeGrouped=!$this->hashColumn($filter, $oldColumnInfo);
             
             $newColumnInfo=null;
             if($needToBeGrouped){
@@ -124,14 +130,16 @@ class DataGrouperExecuter extends BaseHashingFilterExecuter {
                     $value = $oldRow->getCellValue($oldId);
                     
                     if($isGrouped){
-                        $arr=array();
+                        $data=new UniversalFilterTableContent();
                         
                         if(isset($groupedColumnValues[$newId])){
-                            $arr = $groupedColumnValues[$newId];
+                            $data = $groupedColumnValues[$newId];
                         }
+                        $row = new UniversalFilterTableContentRow();
+                        $row->defineValue("data", $value);
                         
-                        array_push($arr, $value);
-                        $groupedColumnValues[$newId]=$arr;
+                        $data->addRow($row);
+                        $groupedColumnValues[$newId]=$data;
                     }else{
                         //just set the value
                         $groupedColumnValues[$newId]=$value;
@@ -156,7 +164,13 @@ class DataGrouperExecuter extends BaseHashingFilterExecuter {
             $newRows->addRow($newRow);
         }
         
+        $sourcetablecontent->tryDestroyTable();
+        
         return $newRows;
+    }
+    
+    public function cleanUp(){
+        $this->executer->cleanUp();
     }
 }
 

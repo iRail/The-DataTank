@@ -7,7 +7,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class UnaryFunctionExecuter extends ExpressionNodeExecuter {
+class UnaryFunctionExecuter extends UniversalFilterNodeExecuter {
     
     private $filter;
     
@@ -18,16 +18,16 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
     private $header1;
     
     protected function getSourceExpression(){
-        return $this->filter->getArgument();
+        return $this->filter->getSource(0);
     }
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
         $this->executer1 = $interpreter->findExecuterFor($this->getSourceExpression());
         
         //init
-        $this->executer1->initExpression($this->getSourceExpression(), $topenv, $interpreter);
+        $this->executer1->initExpression($this->getSourceExpression(), $topenv, $interpreter, true);
         
         $this->header1 = $this->executer1->getExpressionHeader();
         
@@ -74,6 +74,8 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
             $rows->addRow($row);
         }
         
+        $table1content->tryDestroyTable();
+        
         //return the result
         return $rows;
     }
@@ -84,6 +86,10 @@ class UnaryFunctionExecuter extends ExpressionNodeExecuter {
     
     public function doUnaryFunction($value){
         return null;
+    }
+    
+    public function cleanUp(){
+        $this->executer1->cleanUp();
     }
 }
 

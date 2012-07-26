@@ -91,13 +91,12 @@ class CSV extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
 
-        // only request public available files
-        $request = TDT::HttpRequest($filename);
-
-        if (isset($request->error)) {
-            throw new CouldNotGetDataTDTException($filename);
-        }
-
+       
+        // check if the file is accessible
+        if(fopen($filename, "r") == FALSE){
+			throw new CouldNotGetDataTDTException($filename);
+		}
+		
         $rows = array();
         if (($handle = fopen($filename, "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {

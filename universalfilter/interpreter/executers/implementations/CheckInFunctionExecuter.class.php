@@ -16,9 +16,9 @@ class CheckInFunctionExecuter extends UnaryFunctionExecuter {
         return $this->filter->getSource();
     }
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
-        parent::initExpression($filter, $topenv, $interpreter);
+        parent::initExpression($filter, $topenv, $interpreter, true);
     }
     
     private function constantsToString(){

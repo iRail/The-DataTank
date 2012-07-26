@@ -75,7 +75,7 @@ class UniversalFilterTableHeaderColumnInfo {
         if($partCount>$completeCount){
             return false;
         }
-        for ($index = 0; $index < count($partCount); $index++) {
+        for ($index = 0; $index < $partCount; $index++) {
             $completePart = $this->completeColumnNameParts[$completeCount-1-$index];
             $partialPart = $nameParts[$partCount-1-$index];
             if($completePart!=$partialPart){
