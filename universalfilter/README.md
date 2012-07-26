@@ -10,7 +10,7 @@ At the moment of writing this documentation two filters are implemented using th
 
 
 ### What do you need to do to implement a new query language?
-Anwser: convert the query to the Universal Query Syntax Tree, give it to the UniversalInterpreter, and you are done. Yes, it's that easy.
+Answer: convert the query to the Universal Query Syntax Tree, give it to the UniversalInterpreter, and you are done. Yes, it's that easy.
 
 The UniversalInterpreter interprets the query tree, filters rows, evaluates expressions, matches regexes, filters columns, groups data on certain fields, calculates aggregated values on those fields, ... You don't have to do all those things yourself. So, implementing a new filter becomes a lot easier!
 

@@ -134,7 +134,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             $header = $exprexec->getExpressionHeader();
             
             //evaluate
-            $anwser = $exprexec->evaluateAsExpression();
+            $answer = $exprexec->evaluateAsExpression();
             
             for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
                 //column information
@@ -142,7 +142,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 
                 if($header->isSingleRowByConstruction()){
                     //copy single value to all rows
-                    $rowValue = $anwser->getRow(0);
+                    $rowValue = $answer->getRow(0);
                     
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
@@ -150,13 +150,13 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 }else{
                     //copy values to coresponding rows
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
-                        $rowValue = $anwser->getRow($index);
+                        $rowValue = $answer->getRow($index);
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
                     }
                 }
             }
             
-            $anwser->tryDestroyTable();
+            $answer->tryDestroyTable();
         }
         
         $sourcecontent->tryDestroyTable();

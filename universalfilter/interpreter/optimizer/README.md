@@ -16,7 +16,7 @@ Where can you optimize?
 ----------------------
 
  * nested querys without dependencies
-    -> calculate the nested query only once, for the rest of the time, use the anwser
+    -> calculate the nested query only once, for the rest of the time, use the answer
          !!! Need to see it as a completely independent query
          So, remove it from the query, execute it first. Then, make a new Constant and put that one back in the query.
          Why? You need to split the execution because we give complete subtrees to the sources. 

@@ -110,7 +110,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 //                     (not necessary the case: (even without joins and nested querys)
 //                           e.g.: radius() is not a SQL function... etc... 
 //                              (bad example because you can convert it...)
-//            for each partial anwser the source can calculate {
+//            for each partial answer the source can calculate {
 //                convert it to a table $table
 //                replace the calculated node in the query with a new ExternallyCalculatedFilterNode($table, $originalFilterNode, true);
 //            }

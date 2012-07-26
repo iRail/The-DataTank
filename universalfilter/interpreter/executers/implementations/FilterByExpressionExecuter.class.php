@@ -81,15 +81,15 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
             $row = $sourcecontent->getRow($index);
             
             //get the right value in the result
-            $anwser = null;
+            $answer = null;
             if($index<$inResultTable->getRowCount()){
-                $anwser = $inResultTable->getRow($index);
+                $answer = $inResultTable->getRow($index);
             }else{
-                $anwser = $inResultTable->getRow(0);
+                $answer = $inResultTable->getRow(0);
             }
             
             //if the expression evaluates to true, then add the row
-            if($anwser->getCellValue($exprheader->getColumnId())=="true"){
+            if($answer->getCellValue($exprheader->getColumnId())=="true"){
                 $filteredRows->addRow($row);
             }
         }
