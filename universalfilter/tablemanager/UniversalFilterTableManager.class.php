@@ -21,6 +21,7 @@ include_once("universalfilter/tablemanager/tools/PhpObjectTableConverter.class.p
  * @author Jeroen Penninck
  */
 class UniversalFilterTableManager {
+
     private static $IDENTIFIERSEPARATOR=".";
     
     private $resourcesmodel;
