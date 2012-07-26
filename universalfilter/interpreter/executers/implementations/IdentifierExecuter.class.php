@@ -13,9 +13,8 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class IdentifierExecuter extends UniversalFilterNodeExecuter {
-
-    private $filter;
+class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
+    
     private $interpreter;
     private $topenv;
     
@@ -171,6 +170,15 @@ class IdentifierExecuter extends UniversalFilterNodeExecuter {
         }
         
         return $newContent;
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        if(!$this->isNewTable){
+            return array();
+        }else{
+            $sourceId=$this->interpreter->getTableManager()->getSourceIdFromIdentifier($this->filter->getIdentifierString());
+            return array(new SourceUsageData($this->filter, $parentNode, $parentIndex, $sourceId));
+        }
     }
 }
 

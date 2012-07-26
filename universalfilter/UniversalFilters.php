@@ -13,6 +13,7 @@
  */
 abstract class UniversalFilterNode {
     private $type;
+    private $attachments;
     
     public function __construct($type) {
         $this->type=$type;
@@ -20,6 +21,14 @@ abstract class UniversalFilterNode {
     
     public function getType() {
         return $this->type;
+    }
+    
+    public function attach($id, $data) {
+        $this->attachments[$id]=$data;
+    }
+    
+    public function getAttachment($id) {
+        return $this->attachments[$id];
     }
 }
 

@@ -17,9 +17,12 @@ Where can you optimize?
 
  * nested querys without dependencies
     -> calculate the nested query only once, for the rest of the time, use the anwser
-         (tip: create a new kind of UniversalFilterNode which does exactly that and put it in the tree)
+         !!! Need to see it as a completely independent query
+         So, remove it from the query, execute it first. Then, make a new Constant and put that one back in the query.
+         Why? You need to split the execution because we give complete subtrees to the sources. 
+            And if you keep it in the tree it can not be optimized... You can not give the containing subtree away...
     to implement: need to calculate all dependencies (also with aliases) (so the relations between all identifiers)
-    useful: always if possible (!)  [Only possible with nested querys]
+    useful: always if possible (!)  [Only possible with nested querys (!)]
 
  * merge multiple columnSelectionNodes, multiple FilterByExpressionFilters, multiple DataGroupers that are placed after each other
     useful: not really, it only makes it easier to see/implement other optimalisations
@@ -42,7 +45,7 @@ Where can you optimize?
 Conclusion
 ----------
 
-So, the first one is really useful.
+So, the first one is really useful if you have nested querys.
 
 The others are not always useful. 
 And at least in SQL, you can rewrite the query yourself to be more efficiënt... 

@@ -7,9 +7,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class TertairyFunctionExecuter extends UniversalFilterNodeExecuter {
-    
-    private $filter;
+abstract class TertairyFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -132,6 +130,22 @@ abstract class TertairyFunctionExecuter extends UniversalFilterNodeExecuter {
         $this->executer1->cleanUp();
         $this->executer2->cleanUp();
         $this->executer3->cleanUp();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer1->modififyFiltersWithHeaderInformation();
+        $this->executer2->modififyFiltersWithHeaderInformation();
+        $this->executer3->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=array_merge(
+            $this->executer1->filterSingleSourceUsages($this->filter, 0),
+            $this->executer2->filterSingleSourceUsages($this->filter, 1),
+            $this->executer3->filterSingleSourceUsages($this->filter, 2));
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
     
     

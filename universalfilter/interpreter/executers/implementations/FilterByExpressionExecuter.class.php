@@ -10,12 +10,12 @@
  */
 class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter {
 
-    private $filter;
     private $interpreter;
     
     private $header;
     
     private $executer;
+    private $exprexec;
     
     private $childEnvironmentData;
     private $giveToColumnsEnvironment;
@@ -45,6 +45,14 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         //   -> It's the same as the source (we could copy it here...)
         $this->header=$this->executer->getExpressionHeader();
         
+        
+        
+        
+        // get executer for expression
+        $expr = $this->filter->getExpression();
+        $this->exprexec = $this->interpreter->findExecuterFor($expr);
+        $this->exprexec->initExpression($expr, $this->giveToColumnsEnvironment, $this->interpreter, true);
+        
     }
     
     public function getExpressionHeader() {
@@ -58,18 +66,15 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
         
-        // get executer for expression
-        $expr = $this->filter->getExpression();
-        $exprexec = $this->interpreter->findExecuterFor($expr);
-        $exprexec->initExpression($expr, $this->giveToColumnsEnvironment, $this->interpreter, true);
-        $exprheader = $exprexec->getExpressionHeader();
+        //get expression header
+        $exprheader = $this->exprexec->getExpressionHeader();
         
         // filter the content
         $filteredRows = new UniversalFilterTableContent();
         
         
         // calcultate the table with true and false
-        $inResultTable = $exprexec->evaluateAsExpression();
+        $inResultTable = $this->exprexec->evaluateAsExpression();
         
         //loop all rows
         for ($index = 0; $index < $sourcecontent->getRowCount(); $index++) {
@@ -89,8 +94,6 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
             }
         }
         
-        $exprexec->cleanUp();
-        
         $inResultTable->tryDestroyTable();
         
         $sourcecontent->tryDestroyTable();
@@ -100,6 +103,21 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
     
     public function cleanUp(){
         $this->executer->cleanUp();
+        $this->exprexec->cleanUp();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer->modififyFiltersWithHeaderInformation();
+        $this->exprexec->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=array_merge(
+            $this->executer->filterSingleSourceUsages($this->filter, 0),
+            $this->exprexec->filterSingleSourceUsages($this->filter, -1));//TODO: give a correct source number -> only a problem when allowing independent select in where (!) (see also readme for optimizer) (not a problem when nested selects are not allowed)
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 }
 

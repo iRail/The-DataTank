@@ -9,12 +9,14 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class TableAliasExecuter extends UniversalFilterNodeExecuter {
+class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $executer;
     private $header;
     
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
+        $this->filter = $filter;
+        
         $this->executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         
@@ -32,6 +34,17 @@ class TableAliasExecuter extends UniversalFilterNodeExecuter {
     
     public function cleanUp(){
         $this->executer->cleanUp();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=$this->executer->filterSingleSourceUsages($this->filter, 0);
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 }
 

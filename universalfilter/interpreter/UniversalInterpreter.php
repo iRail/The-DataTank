@@ -13,13 +13,18 @@
 include_once("universalfilter/interpreter/IInterpreterControl.class.php");
 include_once("universalfilter/interpreter/Environment.class.php");
 
+include_once("universalfilter/interpreter/sourceusage/DummyUniversalFilterNode.class.php");
 include_once("universalfilter/interpreter/sourceusage/SourceUsageData.class.php");
-include_once("universalfilter/interpreter/sourceusage/SourceUsageEnvironment.class.php");
+include_once("universalfilter/sourcefilterbinding/ExpectedHeaderNamesAttachment.class.php");
+
 include_once("universalfilter/interpreter/cloning/FilterTreeCloner.class.php");
 
 include_once("universalfilter/interpreter/executers/UniversalFilterExecuters.php");
 
 include_once("universalfilter/interpreter/optimizer/UniversalOptimizer.class.php");
+
+//debug
+include_once("universalfilter/interpreter/debugging/TreePrinter.class.php");
 
 
 class UniversalInterpreter implements IInterpreterControl{
@@ -37,6 +42,12 @@ class UniversalInterpreter implements IInterpreterControl{
     public static $ALLOW_NESTED_QUERYS=false;
     
     /**
+     * For debugging purposses, would you like to see debug information about execution of querys on the source?
+     * @var boolean 
+     */
+    public static $DEBUG_QUERY_ON_SOURCE_EXECUTION=false;
+    
+    /**
      * Constructor, fill the executer-class map.
      */
     public function __construct($tablemanager) {
@@ -50,6 +61,7 @@ class UniversalInterpreter implements IInterpreterControl{
             "DATAGROUPER" => "DataGrouperExecuter",
             "TABLEALIAS" => "TableAliasExecuter",
             "FILTERDISTINCT" => "DistinctFilterExecuter",
+            "EXTERNALLY_CALCULATED_NODE" => "ExternallyCalculatedFilterNodeExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
@@ -91,6 +103,12 @@ class UniversalInterpreter implements IInterpreterControl{
     }
     
     public function interpret(UniversalFilterNode $originaltree){
+        if(UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION){
+            $printer = new TreePrinter();
+            echo "<h2>Original Query:</h2>";
+            $printer->printString($originaltree);
+        }
+        
         //CLONE QUERY (because we will modify it... and the caller might want to keep the original query)
         $cloner = new FilterTreeCloner();
         $clonedtree = $cloner->deepCopyTree($originaltree);
@@ -106,7 +124,7 @@ class UniversalInterpreter implements IInterpreterControl{
         $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
         
         
-        //QUERY SYNTAX DETECTION
+        //CALCULATE HEADER FIRST TIME + QUERY SYNTAX DETECTION
         // calculate the header already once on the original query.
         // it can throw errors...
         $executer = $this->findExecuterFor($tree);
@@ -115,12 +133,12 @@ class UniversalInterpreter implements IInterpreterControl{
         
         //EXECUTE PARTS ON SOURCE
         
-        // - create a empty environment
-        $usageEnv = new SourceUsageEnvironment();
+        // - modify the headers to include column names
+        $executer->modififyFiltersWithHeaderInformation();
         
         // - calculate single source usages
-        $executer = $this->findExecuterFor($tree);
-        $singleSourceUsages = $executer->filterSingleSourceUsages($tree, $usageEnv, $this, false);
+        $rootDummyFilter = new DummyUniversalFilterNode($tree);
+        $singleSourceUsages = $executer->filterSingleSourceUsages($rootDummyFilter, 0);
         
         // - calculated... now execute them on the sources... AND BUILD A NEW QUERY
         foreach($singleSourceUsages as $singleSource){
@@ -129,6 +147,13 @@ class UniversalInterpreter implements IInterpreterControl{
             $filterParentNode = $singleSource->getFilterParentNode();
             $filterParentSourceIndex = $singleSource->getFilterParentSourceIndex();
             $sourceId = $singleSource->getSourceId();
+            
+            // debug
+            if(UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION){
+                $printer = new TreePrinter();
+                echo "<h2>This is given to the source with id \"".$sourceId."\":</h2>";
+                $printer->printString($filterSourceNode);
+            }
             
             // - do it
             $newQuery = $this->getTableManager()->runFilterOnSource($filterSourceNode, $sourceId);

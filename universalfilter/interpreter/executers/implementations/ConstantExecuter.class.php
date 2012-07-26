@@ -8,9 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class ConstantExecuter extends UniversalFilterNodeExecuter {
-    
-    private $filter;
+class ConstantExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -52,6 +50,10 @@ class ConstantExecuter extends UniversalFilterNodeExecuter {
         $content->addRow($row);
         
         return $content;
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+        return array();
     }
 }
 

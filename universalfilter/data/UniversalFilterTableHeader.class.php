@@ -45,7 +45,7 @@ class UniversalFilterTableHeader {
                     $found=true;
                     $id = $column->getId();
                 }else{
-                    throw new Exception("That identifier is not unique \"".$columnName."\"");
+                    throw new Exception("That identifier is not unique \"".$columnName."\". Please be more specific.");
                 }
             }
         }

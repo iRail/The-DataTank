@@ -9,8 +9,9 @@
  * @author Jeroen Penninck
  */
 
-// base filters
-include_once("universalfilter/interpreter/executers/base/UniversalFilterNodeExecuter.class.php");
+// basic filters
+include_once("universalfilter/interpreter/executers/base/IUniversalFilterNodeExecuter.interface.php");
+include_once("universalfilter/interpreter/executers/base/AbstractUniversalFilterNodeExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/IdentifierExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/ConstantExecuter.class.php");
 
@@ -24,7 +25,7 @@ include_once("universalfilter/interpreter/executers/implementations/DataGrouperE
 
 include_once("universalfilter/interpreter/executers/implementations/TableAliasExecuter.class.php");
 
-// expressions
+// functions
 include_once("universalfilter/interpreter/executers/implementations/UnaryFunctionExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/UnaryFunctionExecuters.php");
 include_once("universalfilter/interpreter/executers/implementations/BinaryFunctionExecuter.class.php");
@@ -34,3 +35,6 @@ include_once("universalfilter/interpreter/executers/implementations/TertairyFunc
 include_once("universalfilter/interpreter/executers/implementations/AggregatorFunctionExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/AggregatorFunctionExecuters.php");
 include_once("universalfilter/interpreter/executers/implementations/CheckInFunctionExecuter.class.php");
+
+//externally calculated
+include_once("universalfilter/interpreter/executers/implementations/ExternallyCalculatedFilterNodeExecuter.class.php");

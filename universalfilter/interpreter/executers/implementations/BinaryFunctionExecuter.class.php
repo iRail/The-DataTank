@@ -7,9 +7,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class BinaryFunctionExecuter extends UniversalFilterNodeExecuter {
-    
-    private $filter;
+abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -116,6 +114,20 @@ abstract class BinaryFunctionExecuter extends UniversalFilterNodeExecuter {
     public function cleanUp(){
         $this->executer1->cleanUp();
         $this->executer2->cleanUp();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer1->modififyFiltersWithHeaderInformation();
+        $this->executer2->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=array_merge(
+            $this->executer1->filterSingleSourceUsages($this->filter, 0),
+            $this->executer2->filterSingleSourceUsages($this->filter, 1));
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 }
 ?>

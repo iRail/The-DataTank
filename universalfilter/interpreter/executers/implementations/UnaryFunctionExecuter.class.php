@@ -7,9 +7,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-class UnaryFunctionExecuter extends UniversalFilterNodeExecuter {
-    
-    private $filter;
+class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -17,17 +15,13 @@ class UnaryFunctionExecuter extends UniversalFilterNodeExecuter {
     
     private $header1;
     
-    protected function getSourceExpression(){
-        return $this->filter->getSource(0);
-    }
-    
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
-        $this->executer1 = $interpreter->findExecuterFor($this->getSourceExpression());
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource());
         
         //init
-        $this->executer1->initExpression($this->getSourceExpression(), $topenv, $interpreter, true);
+        $this->executer1->initExpression($this->filter->getSource(), $topenv, $interpreter, true);
         
         $this->header1 = $this->executer1->getExpressionHeader();
         
@@ -91,6 +85,18 @@ class UnaryFunctionExecuter extends UniversalFilterNodeExecuter {
     public function cleanUp(){
         $this->executer1->cleanUp();
     }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer1->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=$this->executer1->filterSingleSourceUsages($this->filter, 1);
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
+    }
+    
 }
 
 

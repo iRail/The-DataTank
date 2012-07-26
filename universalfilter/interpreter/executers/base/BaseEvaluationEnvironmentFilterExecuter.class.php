@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class BaseEvaluationEnvironmentFilterExecuter extends UniversalFilterNodeExecuter {
+abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     //put your code here
     
     /**

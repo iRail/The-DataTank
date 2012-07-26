@@ -9,9 +9,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class AggregatorFunctionExecuter extends UniversalFilterNodeExecuter {
-    
-    protected $filter;
+abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     
     protected $header;
     
@@ -271,6 +269,17 @@ abstract class AggregatorFunctionExecuter extends UniversalFilterNodeExecuter {
         $this->executer1->cleanUp();
         
         $this->evaluatorTable->getContent()->tryDestroyTable();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer1->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=$this->executer1->filterSingleSourceUsages($this->filter, 0);
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
     
     

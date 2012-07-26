@@ -23,6 +23,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     private $giveToColumnsEnvironment;
     
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+        $this->filter = $filter;
         
         //get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
@@ -171,6 +172,28 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             $exprexec = $this->columnExecuters[$columnIndex];
             $exprexec->cleanUp();
         }
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer->modififyFiltersWithHeaderInformation();
+        
+        foreach($this->columnInterpreters as $columnIndex => $column){
+            //get executer
+            $exprexec = $this->columnExecuters[$columnIndex];
+            $exprexec->modififyFiltersWithHeaderInformation();
+        }
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=$this->executer->filterSingleSourceUsages($this->filter, 0);
+        
+        foreach($this->columnInterpreters as $columnIndex => $column){
+            //get executer
+            $exprexec = $this->columnExecuters[$columnIndex];
+            $arr = array_merge($arr, $exprexec->filterSingleSourceUsages($this->filter, -1));//TODO: give a correct source number -> only a problem when allowing nested selects (!)
+        }
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
     
 }
