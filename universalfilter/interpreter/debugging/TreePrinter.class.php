@@ -20,7 +20,12 @@ class TreePrinter {
     public function treeToString(UniversalFilterNode $tree){
         $method = "print_".get_class($tree);
         //calls the correct clone method and then returns.
-        $var = $this->$method($tree);
+        $var = "";
+        if(method_exists($this, $method)){
+            $var = $this->$method($tree);
+        }else{
+            $var = $this->printSomeUnknownNode($tree);
+        }
         return $var;
     }
     
@@ -161,6 +166,22 @@ class TreePrinter {
                 $this->treeToStringWithPadding(2, $filter->getSource()).
                 $this->getPadding()."}\n";
     }
+    
+    private function printSomeUnknownNode(UniversalFilterNode $filter){
+        $string = $this->getPadding().$filter->getType()."[?]";
+        if($filter instanceof NormalFilterNode){
+            $string.=" {\n";
+            for ($index = 0; $index < $filter->getSourceCount(); $index++) {
+                $string.=$this->getPadding(1)."source ".($index+1).": \n".
+                $string.=$this->treeToStringWithPadding(2, $filter->getSource($index));
+            }
+            $string.=$this->getPadding()."}\n";
+            return $string;
+        }else{
+            return $string."\n";
+        }
+    }
+    
 }
 
 ?>
