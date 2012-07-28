@@ -330,10 +330,13 @@ class DB extends ATabularData implements iFilter {
 
 
     /**
+     * THIS IS AN EXAMPLE IMPLEMENTATION OF HOW TO HANDLE QUERIES FROM THE AST !
+     *
      * This function in DB resource is an example of how the processing of a query from the AST can be done.
      * This example will attempt to process the entire tree to an SQL query
      * if this doesnt work, it will say so by passing NULL as a phpDataObject
      * it will not try to execute parts and bits of the tree.
+     *
      */
     public function readAndProcessQuery($query,$parameters){
 
@@ -345,6 +348,10 @@ class DB extends ATabularData implements iFilter {
         $converter = new SQLConverter();
         $sql = $converter->treeToSQL($query);
 
+        // get the identifiers of the query, just to check that the query that has been passed, contains information
+        // that can be released
+        $identifiers = $converter->getIdentifiers();
+
         /* 
          * get the configuration object to read a DB resource
          * and get the extra information such as columns and primary key from the parent
@@ -354,13 +361,14 @@ class DB extends ATabularData implements iFilter {
 
         // replace the source with the actual database table
         $sourceIdentifier = $parameters["package"] . "." . $parameters["resource"];
-        $sourceIdentifier = str_replace("/",".",$sourceIdentifier);
-        
+        $sourceIdentifier = str_replace("/",".",$sourceIdentifier);        
         $sql = str_replace($sourceIdentifier,$configObject->db_table,$sql);
 
+        // prepare the DBAL
         $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
+
         $resultObject = new stdClass();
 
         try{
@@ -371,37 +379,33 @@ class DB extends ATabularData implements iFilter {
             $stmt = $conn->query($sql);
 
             $table_columns = array_keys($configObject->columns);
-            $aliases = $configObject->columns;
+
+            // check if the identifiers are part of the table_columns
+            $legitIdentifiers = array();
+            
+            foreach($identifiers as $identifier){
+                if(in_array($identifier,$table_columns)){
+                    array_push($legitIdentifiers,$identifier);
+                }elseif($identifier == "*"){
+                    array_push($legitIdentifiers,$table_columns);
+                }
+            }
 
             $arrayOfRowObjects = array();
             while ($row = $stmt->fetch()) {
+
                 $rowobject = new stdClass();
-                $PK = $configObject->PK;
 
                 // get the data out of the row and create an object out of it
-                foreach($table_columns as $table_column){
-                    $key = $aliases[$table_column];
-                    $rowobject->$key = $row[$table_column];
+                $rowKeys = array_keys($row);
+                foreach($rowKeys as $key){
+                    $rowobject->$key = $row[$key];
                 }
 
                 /**
                  * Add the object to the array of row objects
                  */
-                if ($PK == "") {
-                    array_push($arrayOfRowObjects, $rowobject);
-                } else {
-                    if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
-                        $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
-                    }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
-                        // this means the primary key wasn't unique !
-                        BacklogLogger::addLog("DB", "Primary key ". $rowobject->$PK ." isn't unique.",
-                                              $package,$resource);
-                    }else{
-                        // this means the primary key field was empty, log the problem and continue 
-                        BacklogLogger::addLog("DB", "Primary key is empty on line ". $line . ".", 
-                                              $package,$resource);
-                    }
-                }
+                array_push($arrayOfRowObjects, $rowobject);
 
             }
 

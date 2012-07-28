@@ -3,6 +3,9 @@
  * This class converts a tree to a SQL query string (simple query) 
  * This is based on the debugging TreeToString of the universalfilters
  *
+ * IMPORTANT NOTE: the functions which contain "not supported yet" are meant for this converter
+ * this doesnt mean that the functionality hasn't been implemented in the universalinterpreter!
+ *
  * @package The-Datatank/universalfilter/tools
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -15,7 +18,11 @@ class SQLConverter{
     
 
     private $sql = "";
-    
+
+    // the SELECT identifiers
+    private $identifiers = array();
+    private $IN_SELECT_CLAUSE = TRUE;
+
     /**
      * Converts a UniversalFilterNode to a string you can print...
      * @param UniversalFilterNode $tree
@@ -31,8 +38,18 @@ class SQLConverter{
     private function print_Identifier(Identifier $filter){
         // just add it to the string
         $this->sql.= $filter->getIdentifierString(). " ";
+        
+        if($this->IN_SELECT_CLAUSE){
+            array_push($this->identifiers,$filter->getIdentifierString());
+        }
+        
     }
-    
+
+    public function getIdentifiers(){
+        return $this->identifiers;
+        
+    }
+
     private function print_Constant(Constant $filter){
         // just add it to the string
         $this->sql.= $filter->getConstant(). " ";
@@ -47,6 +64,7 @@ class SQLConverter{
         // add a WHERE clause the source is to be added in the FROM
         $this->sql.= " FROM " . $filter->getSource()->getIdentifierString() . " ";
         $this->sql.= "WHERE ";
+        $this->IN_SELECT_CLAUSE = FALSE;
         $this->treeToSQL($filter->getExpression());
                 
     }
@@ -56,7 +74,7 @@ class SQLConverter{
         $this->sql.= "SELECT ";
         
         foreach ($filter->getColumnData() as $index => $originalColumn) {
-            $this->sql.= $originalColumn->getColumn()->getIdentifierString();
+            $this->treeToSQL($originalColumn->getColumn());
 
             if($originalColumn->getAlias() != null)
                 $this->sql.= " AS " . $originalColumn->getAlias();
@@ -87,6 +105,36 @@ class SQLConverter{
         // maybe the default should be mysql syntax in case different engines support
         // different unairyfunction grammatics.
         // NOT SUPPORTED IN THIS SIMPLE CONVERTER
+
+        switch($filter->getType()){
+            case UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE:
+                $this->sql.= "UPPER( ";
+                $this->treeToSQL($filter->getSource(0));
+                $this->sql.= " ) ";
+                break;
+            case UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE:
+                $this->sql.= "LOWER( ";
+                $this->treeToSQL($filter->getSource(0));
+                $this->sql.= " ) ";
+                break;
+            case UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH:
+                $this->sql.= "LEN( ";
+                $this->treeToSQL($filter->getSource(0));
+                $this->sql.= " ) ";
+                break;
+            case UnairyFunction::$FUNCTION_UNAIRY_ROUND:
+                $this->sql.= "ROUND( ";
+                $this->treeToSQL($filter->getSource(0));
+                $this->sql.= " ) ";
+                break;
+            case UnairyFunction::$FUNCTION_UNAIRY_ISNULL:
+                $this->sql.= "ISNULL( ";
+                $this->treeToSQL($filter->getSource(0));
+                $this->sql.= " ) ";
+                break;
+            default:
+                break;
+        }
     }
     
     private function print_BinaryFunction(BinaryFunction $filter){

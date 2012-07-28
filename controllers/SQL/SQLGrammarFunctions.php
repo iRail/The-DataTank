@@ -46,7 +46,9 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
     
     $unarymap = array(
         "UCASE" => UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE,
+        "UPPER" => UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE,
         "LCASE" => UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE,
+        "LOWER" => UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE,
         "LEN" => UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH,
         "ROUND" => UnairyFunction::$FUNCTION_UNAIRY_ROUND,
         "ISNULL" => UnairyFunction::$FUNCTION_UNAIRY_ISNULL,
