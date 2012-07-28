@@ -14,7 +14,7 @@ class UniversalFilterTableHeader {
     private $isSingleRowByConstruction;
     private $isSingleColumnByConstruction;
     
-    public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction) {//TODO [X] check
+    public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction) {
         $this->columns=$columns;
         $this->isSingleRowByConstruction=$isSingleRowByConstruction;
         $this->isSingleColumnByConstruction=$isSingleColumnByConstruction;

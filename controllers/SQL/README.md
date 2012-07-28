@@ -63,3 +63,13 @@ SQLgrammar.lime
 ---------------
 
 The SQLgrammar is writen in lime-php. That's a php library to describe and parse context free grammars. It uses a notation that looks like Bachus Naur Form, but than with php-statements which tell the parser what to do if it matches a certain part.
+
+
+Limits of the current SQL Parser
+--------------------------------
+
+- Joins, Sorting, Union and Limit+Offset are not supported, as the Abstract Filter Layer does not support that yet.
+- Also not supported yet: String concatentation ("|") and sqrt.
+- IS NULL or IS NOT NULL are not implemented and NULL is not a constant...
+- There are no datatypes, and no functions for dates yet.
+- bug? tokenizer has problems with newlines at the end of the query (???)

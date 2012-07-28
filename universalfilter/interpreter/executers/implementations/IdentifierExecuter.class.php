@@ -63,7 +63,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
     public function evaluateAsExpression() {
         if($this->isNewTable){
             $tableName = $this->filter->getIdentifierString();
-            return $this->interpreter->getTableManager()->getTableContent($tableName);
+            return $this->interpreter->getTableManager()->getTableContent($tableName, $this->header);
         }else{
             if(!$this->isColumn){
                 $newRow = new UniversalFilterTableContentRow();

@@ -29,7 +29,7 @@ class FilterTreeCloner {
     }
     
     private function clone_TableAliasFilter(TableAliasFilter $filter){
-        return new TableAliasFilter($filter->getConstant(), $this->deepCopyTree($filter->getSource()));
+        return new TableAliasFilter($filter->getAlias(), $this->deepCopyTree($filter->getSource()));
     }
     
     private function clone_FilterByExpressionFilter(FilterByExpressionFilter $filter){

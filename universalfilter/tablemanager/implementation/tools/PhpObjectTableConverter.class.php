@@ -123,6 +123,15 @@ class PhpObjectTableConverter {
         
         $subObjectIndex = array();
         
+        //optimalisation: build name->id map
+        $idMap=array();
+        for($index=0;$index<$header->getColumnCount();$index++){
+            $columnId = $header->getColumnIdByIndex($index);
+            $columnName = $header->getColumnNameById($columnId);
+            
+            $idMap[$columnName] = $columnId;
+        }
+        
         foreach($objects as $index => $data){
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
@@ -130,7 +139,7 @@ class PhpObjectTableConverter {
             $currentrow=new UniversalFilterTableContentRow();
             foreach($arr_obj as $key => $value){
                 $columnName = $this->parseColumnName($key);
-                $columnId = $header->getColumnIdByName($columnName);//crashes when header contains two times the same columnName
+                $columnId = $idMap[$columnName];//$header->getColumnIdByName($columnName);
                 
                 if(is_array($value) || is_object($value)){
                     //we have a subobject
@@ -150,11 +159,11 @@ class PhpObjectTableConverter {
             }
             
             //add value id field
-            $columnId = $header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
+            $columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
             $currentrow->defineValue($columnId, $parentindex);
             
             //add value key_parent field
-            $columnId = $header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
+            $columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
             $currentrow->defineValue($columnId, $index);
             
             $rows->addRow($currentrow);
