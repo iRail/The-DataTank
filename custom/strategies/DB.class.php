@@ -11,12 +11,16 @@
  * @author Jan Vansteenlandt
  */
 include_once("custom/strategies/ATabularData.class.php");
+
 include_once("includes/DoctrineDBAL-2.2.2/Doctrine/Common/ClassLoader.php");
+
 include_once("aspects/logging/BacklogLogger.class.php");
+
+include_once("model/resources/read/IFilter.class.php");
 
 use Doctrine\Common\ClassLoader;
 
-class DB extends ATabularData {
+class DB extends ATabularData implements iFilter {
 
 
     private static $allowed_db_driver = array(    "mysql" => "pdo_mysql", 
@@ -273,7 +277,7 @@ class DB extends ATabularData {
         /**
          * Prepare the doctrine DBAL
          */
-        $classLoader = new ClassLoader('Doctrine', Config::$INSTALLDIR . Config::$SUBDIR.  "doctrine");
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
 
@@ -322,6 +326,99 @@ class DB extends ATabularData {
             array_push($table_columns,$column->getName());
         }
         return $table_columns;
+    }
+
+
+    /**
+     * This function in DB resource is an example of how the processing of a query from the AST can be done.
+     * This example will attempt to process the entire tree to an SQL query
+     * if this doesnt work, it will say so by passing NULL as a phpDataObject
+     * it will not try to execute parts and bits of the tree.
+     */
+    public function readAndProcessQuery($query,$parameters){
+
+        include_once("universalfilter/converter/SQLConverter.class.php");
+
+        /**
+         * Convert the tree to a SQL string
+         */
+        $converter = new SQLConverter();
+        $sql = $converter->treeToSQL($query);
+
+        /* 
+         * get the configuration object to read a DB resource
+         * and get the extra information such as columns and primary key from the parent
+         */
+        $configObject = $parameters["configObject"];
+        parent::read($configObject,$parameters["package"],$parameters["resource"]);
+
+        // replace the source with the actual database table
+        $sourceIdentifier = $parameters["package"] . "." . $parameters["resource"];
+        $sourceIdentifier = str_replace("/",".",$sourceIdentifier);
+        
+        $sql = str_replace($sourceIdentifier,$configObject->db_table,$sql);
+
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
+        $classLoader->register();
+        $config = new \Doctrine\DBAL\Configuration();
+        $resultObject = new stdClass();
+
+        try{
+            
+            $connectionParams = $this->prepareConnectionParams($configObject);
+
+            $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+            $stmt = $conn->query($sql);
+
+            $table_columns = array_keys($configObject->columns);
+            $aliases = $configObject->columns;
+
+            $arrayOfRowObjects = array();
+            while ($row = $stmt->fetch()) {
+                $rowobject = new stdClass();
+                $PK = $configObject->PK;
+
+                // get the data out of the row and create an object out of it
+                foreach($table_columns as $table_column){
+                    $key = $aliases[$table_column];
+                    $rowobject->$key = $row[$table_column];
+                }
+
+                /**
+                 * Add the object to the array of row objects
+                 */
+                if ($PK == "") {
+                    array_push($arrayOfRowObjects, $rowobject);
+                } else {
+                    if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
+                        $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                    }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
+                        // this means the primary key wasn't unique !
+                        BacklogLogger::addLog("DB", "Primary key ". $rowobject->$PK ." isn't unique.",
+                                              $package,$resource);
+                    }else{
+                        // this means the primary key field was empty, log the problem and continue 
+                        BacklogLogger::addLog("DB", "Primary key is empty on line ". $line . ".", 
+                                              $package,$resource);
+                    }
+                }
+
+            }
+
+            $resultObject->indexInParent = "-1";
+            $resultObject->executedNode = $query;
+            $resultObject->parentNode = null;
+            $resultObject->phpDataObject = $arrayOfRowObjects;
+
+        }catch(Exception $ex){
+
+            $resultObject->indexInParent = "";
+            $resultObject->executeNode = NULL;
+            $resultObject->phpDataObject = NULL;
+            $resultObject->parentNode = null;
+        }
+        
+        return $resultObject;
     }
 }
 ?>

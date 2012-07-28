@@ -90,12 +90,6 @@ class CSV extends ATabularData {
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
-
-       
-        // check if the file is accessible
-        if(fopen($filename, "r") == FALSE){
-			throw new CouldNotGetDataTDTException($filename);
-		}
 		
         $rows = array();
         if (($handle = fopen($filename, "r")) !== FALSE) {
@@ -108,7 +102,10 @@ class CSV extends ATabularData {
                 array_push($rows,ltrim($csvRow,$delimiter));
             }
             fclose($handle);
+        }else{
+            throw new CouldNotGetDataTDTException($filename);
         }
+        
 
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {

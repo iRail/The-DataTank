@@ -40,6 +40,7 @@ class ResourcesModel {
          * part of the resource itself. i.e. a foreign relation between two resources
          */
         $this->updateActions = array();
+
         //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["ontology"] = "OntologyUpdater";
         $this->updateActions["generic"] = "GenericResourceUpdater";
@@ -555,6 +556,55 @@ class ResourcesModel {
         $result["packagename"] = $package;
         $result["resourcename"] = $resourcename;
         $result["RESTparameters"] = $RESTparameters;
+        return $result;
+    }
+
+    /**
+     * Check if the resource implements iFilter or not
+     * return FALSE if not the resource doesn't implement iFitler
+     * return the resource if it does
+     */
+    public function isResourceIFilter($package,$resource){
+        foreach ($this->factories as $factory) {
+
+            if ($factory->hasResource($package, $resource)) {
+
+                // remote resource just proxies the url so we don't need to take that into account
+                if(get_class($factory) == "GenericResourceFactory"){
+
+                    $genericResource = new GenericResource($package,$resource);
+                    $strategy = $genericResource->getStrategy();
+                    
+                    $interfaces = class_implements($strategy);
+
+                    if(in_array("iFilter",$interfaces)){
+                        return $genericResource;
+                    }else{
+                        return FALSE;
+                    }                   
+
+                }elseif(get_class($factory) == "InstalledResourceFactory"){
+
+                    $reader = $factory->createReader($package,$resource,array(),array());
+                    $interfaces = class_implements($reader);
+                    
+                    if(in_array("iFilter",$interfaces)){
+                        return $reader;
+                    }else{
+                        return FALSE;
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Read the resource but by calling the readAndProcessQuery function
+     */
+    public function readResourceWithFilter(UniversalFilterNode $query,$resource){
+        $result = $resource->readAndProcessQuery($query);
         return $result;
     }
 }

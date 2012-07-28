@@ -26,9 +26,9 @@ class InstalledResourceFactory extends AResourceFactory{
         if(file_exists("custom/packages/" . $location)){
             include_once("custom/packages/" . $location);
             $classname = $this->getClassnameOfResource($package,$resource);
-            $creator = new $classname($package,$resource, $RESTparameters);
-            $creator->processParameters($parameters);
-            return $creator;
+            $reader = new $classname($package,$resource, $RESTparameters);
+            $reader->processParameters($parameters);
+            return $reader;
         }else{
             throw new CouldNotGetDataTDTException("custom/packages/".$location);
         }
