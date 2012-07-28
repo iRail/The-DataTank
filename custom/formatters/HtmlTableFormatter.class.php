@@ -60,7 +60,7 @@ class HtmlTableFormatter extends AFormatter {
                  "  <head>\n".
                  "    <title>Table Formatter</title>\n".
                  "    <style>\n".
-                 "      table td {border: 1px solid grey}".
+                 "      table td {border: 1px solid grey}\n".
                  "      table th {background-color:#FFFFEE;}".
                  "    </style>\n".
                  "  </head>\n".
