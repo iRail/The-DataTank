@@ -13,21 +13,6 @@ class PhpObjectTableConverter {
     public static $ID_FIELD="_id";
     public static $ID_KEY="_key_";
     
-    
-    /**
-     * Gets the resource as a php object
-     * @param type $package
-     * @param type $resource
-     * @return type phpObject
-     */
-    private function getFullResourcePhpObject($package, $resource){
-        $resourceObject = ResourcesModel::getInstance()->readResource($package, $resource, array(), array());
-        
-        //implement cache
-        
-        return $resourceObject;
-    }
-    
     /**
      * Finds all paths from $root by following the fields with names in $path
      * (Splits on arrays)
@@ -75,8 +60,8 @@ class PhpObjectTableConverter {
         }
     }
     
-    private function getPhpObjectsByIdentifier($splitedId){
-        $resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1]);
+    private function getPhpObjectsByIdentifier($splitedId,$resource){
+        //$resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1]);
         
         $phpObj = $this->findTablePhpArray($resource, $splitedId[2], -1);
         
@@ -178,8 +163,8 @@ class PhpObjectTableConverter {
         return $rows;
     }
     
-    public function getPhpObjectTable($totalId, $splitedId){
-        $objects = $this->getPhpObjectsByIdentifier($splitedId);
+    public function getPhpObjectTable($splitedId,$objects){
+        $objects = $this->getPhpObjectsByIdentifier($splitedId,$objects);
         
         $nameOfTable=$splitedId[1];
         if(count($splitedId[2])>0){
@@ -196,10 +181,6 @@ class PhpObjectTableConverter {
         //var_dump($body);
         
         return new UniversalFilterTable($header, $body);
-    }
-    
-    public function findFollowArrow(){
-        
     }
 }
 

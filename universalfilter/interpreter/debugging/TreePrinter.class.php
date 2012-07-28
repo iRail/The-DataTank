@@ -162,5 +162,4 @@ class TreePrinter {
                 $this->getPadding()."}\n";
     }
 }
-
 ?>

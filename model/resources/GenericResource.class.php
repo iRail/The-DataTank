@@ -57,6 +57,29 @@ class GenericResource{
     }
 
     /**
+     * Read a generic resource, but with passing a filter from the AST
+     */
+    public function readAndProcessQuery($query){
+
+        $strat = $this->getStrategy();
+        // ask for all of the parameters of the strategy
+        $parameters = array_keys($strat->documentCreateParameters());
+
+        // pass these parameters onto the createConfig to create the config object
+        $configObject = $this->createConfigObject($parameters,$strat);
+
+        // give the config object to the read function!
+        // and pass along additional information
+        $filterParameters = array();
+        $filterParameters["configObject"] = $configObject;
+        $filterParameters["package"] = $this->package;
+        $filterParameters["resource"] = $this->resource;
+
+        return $strat->readAndProcessQuery($query,$filterParameters);
+    }
+    
+
+    /**
      * Get the generic resource info of the strategy.
      * input is an array of parameters
      */
