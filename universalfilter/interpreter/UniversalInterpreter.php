@@ -13,7 +13,7 @@
 include_once("universalfilter/interpreter/IInterpreterControl.class.php");
 include_once("universalfilter/interpreter/Environment.class.php");
 
-include_once("universalfilter/interpreter/sourceusage/DummyUniversalFilterNode.class.php");
+include_once("universalfilter/interpreter/other/DummyUniversalFilterNode.class.php");
 include_once("universalfilter/interpreter/sourceusage/SourceUsageData.class.php");
 include_once("universalfilter/sourcefilterbinding/ExpectedHeaderNamesAttachment.class.php");
 

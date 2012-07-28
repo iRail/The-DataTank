@@ -117,13 +117,41 @@ Supported Aggregators: "average", "count", "first", "last", "max", "min", "sum"
 Checks for each field in the column if it matches a constant in the list.
 (Some sort of enum check)
 
+#### Combined Functions
+There are also some combined functions you can easilly create by using static methods in ``universalfilter/CombinedFilterGenerators.class.php``
+
+
 #### Conclusion
 So, those are the filters you can use to build the filter syntax tree. Have fun implementing your query language!
 
+Combined Functions
+------------------
 
 Implementation of the Interpreter
 ---------------------------------
-See the README.md in the folder universaltree/interpreter to start.
+To understand the implementation of the Interpreter, see the README.md in the folder universalfilter/interpreter to start.
+
+
+Using this library outside of The-DataTank
+------------------------------------------
+Can I use this query-library outside The-DataTank? Yes, that's possible!
+
+There is only one interface you have to re-implement: IUniversalTableManager.
+For more information on how to implement this interface, see the README.md in the folder universalfiler/tablemanager.
+
+The files you can reuse: all the other files in the folder universalfilter + the Parsers for SQL an Spectql.
+
+
+Passing the Abstract Filter Tree to execute directly to the source
+------------------------------------------------------------------
+
+If your source is a database or something else that can execute some kind of query's,
+it can be usefull to execute those queries directly on the source 
+instead of letting the interpreter download the full resource and then executing the query in php...
+
+The UniversalInterpreter has support for this approach. 
+See the README.md in the folder universalfilter/sourcefilterbinding and 
+the README in the folder universalfilter/tablemanager about how to implement the tablemanager to support this.
 
 
 Future development
@@ -133,31 +161,26 @@ Future development
 1. to sort the data. (order multiple columns ascending/descending)
 2. to join data (full/left/right inner/outer join)
 3. for Union
+4. for Limit+Offset
+5. missing functions: string concatenation, sqrt, functions on dates...
+
+If you want to implement new kinds of filters in the Abstract Filter Layer:
+see the documentation of the interpreter in universalfilters/interpreter (for a global overview)
+and the documentation about the executers in universalfilters/interpreter/executers.
 
 ### Other future developments:
 - there are no datatypes. It can be usefull to keep information about the datatype in the tree, so that booleans can be used as numbers, and date's can be compared but also printed without problem. You will also need functions to convert datatypes if you implement this.
 
-### Optimalisation:
-The Aggregators are NOT optimized for big datasets (except for count).
-Group By is not optimized for big datasets because BigMap is not implemented correctly (keeps everything in memory)
+### Memory optimalisation for big datasets(*):
+The Aggregators are NOT optimized for big datasets(*) (except for count). 
+They first convert a column to an array and use build-in phpfunctions. (but arrays are kept completely in memory)
+
+BigDataBlockManager could be implemented more efficiently...
+
+(*) big datasets = Datasets that do not fit in memory
+
+See the README in universalfilters/common for more information about BigDataBlockManager.  
+See universalfilters/interpreter/executers/implementations/AggregatorFunctionExecuters.class.php if you want to optimize the Aggregators.
 
 ### Query optimalisation:
-See README in universalfilters/interpreter/optimizer if you would like to implement that.
-
-### Converting the tree back to SQL and other filters... to execute directly on a source.
-That is possible, BUT...
-You have to be careful with joins and nested querys. The can contain data from different sources.
-E.g. if you have an xml-file and a table of a database, you can join them, but it's hard to convert to SQL...
-
-#### More in detail... What does it take to implement this feature...
-First you have to check all dependencies between identifiers to see if they all belong to the same source. (1)
-You also have to take table and column aliases in account in this step.
-
-After that you can split the query-tree in pieces where each piece only depends on 1 source. You will also have one toppiece which afterwards combines all sources. (join)
-
-You can then try to convert the pieces to other query languages and execute them on the source directly. (2) (3)
-After that you just execute the toppiece...
-
-(1) You can do this while calculating the headers... (in initExpression)
-(2) Note that not all querylanguages are as expressive as the query tree. So sometimes those little pieces have to be split up themself too.
-(3) Sometimes it is more efficient to just download the full source. E.g. with nested querys, where a subquery is executed for each row in another table.
+See README in universalfilters/interpreter/optimizer if you think about implemening that.

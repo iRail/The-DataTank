@@ -35,9 +35,10 @@ interface IUniversalFilterTableManager {
      * Can you give me the content of the table?
      * 
      * @param string $globalTableIdentifier
+     * @param UniversalFilterTableHeader $header The header you created using the above method.
      * @return UniversalTableContent 
      */
-    public function getTableContent($globalTableIdentifier);
+    public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header);
     
     
     /**

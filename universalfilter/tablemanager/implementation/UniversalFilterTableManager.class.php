@@ -52,7 +52,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     
     private function loadTable($globalTableIdentifier){
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
-        // TODO: do optimalisation here (if object supports getHeader itself)
         
         $converter = new PhpObjectTableConverter();
         
@@ -82,9 +81,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * Can you give me the content of the table?
      * 
      * @param string $globalTableIdentifier
+     * @param UniversalFilterTableHeader $header The header you created using the above method.
      * @return UniversalTableContent 
      */
-    public function getTableContent($globalTableIdentifier){
+    public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header){
         if(!isset($this->requestedTables[$globalTableIdentifier])){
             $this->loadTable($globalTableIdentifier);
         }
