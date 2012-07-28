@@ -18,7 +18,9 @@ include_once("universalfilter/sourcefilterbinding/ExternallyCalculatedFilterNode
 class UniversalFilterTableManager implements IUniversalFilterTableManager {
    
     private static $IDENTIFIERSEPARATOR=".";
-    
+
+    private $requestedTables=array();    
+
     private $resourcesmodel;
     
     public function __construct() {
@@ -63,8 +65,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         return array($result["packagename"],$result["resourcename"],$result["RESTparameters"]);    
     }
-    
-    private $requestedTables=array();
     
     private function loadTable($globalTableIdentifier){
 

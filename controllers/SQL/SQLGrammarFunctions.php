@@ -97,7 +97,7 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
 /**
  * Gets the universal name (and filter) for a tertary SQLFunction
  */
-function getTertairyFunctionForSQLFunction($SQLname, $arg1, $arg2){
+function getTertairyFunctionForSQLFunction($SQLname, $arg1, $arg2,$arg3){
     $SQLname=strtoupper($SQLname);
     
     $tertarymap = array(
@@ -106,7 +106,7 @@ function getTertairyFunctionForSQLFunction($SQLname, $arg1, $arg2){
     );
     
     if($tertarymap[$SQLname]!=null){
-        return new TertairyFunction($tertarymap[$SQLname], $arg1);
+        return new TertairyFunction($tertarymap[$SQLname], $arg1,$arg2,$arg3);
     }else{
         throw new Exception("That tertary function does not exist... (".$SQLname.")");
     }
