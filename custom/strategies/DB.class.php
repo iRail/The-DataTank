@@ -341,6 +341,15 @@ class DB extends ATabularData implements iFilter {
     public function readAndProcessQuery($query,$parameters){
 
         include_once("universalfilter/converter/SQLConverter.class.php");
+        include_once("universalfilter/interpreter/debugging/TreePrinter.class.php");
+
+        $printer = new TreePrinter();
+        $printer->printString($query);
+        exit();
+
+        $requiredColumnNames = $query->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);
+        $headerNames =$requiredColumnNames->getExpectedHeaderNames();
+        
 
         /**
          * Convert the tree to a SQL string

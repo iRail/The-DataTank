@@ -128,16 +128,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
             $converter = new PhpObjectTableConverter();
             $nameOfTable = $converter->getNameOfTable($identifierpieces);
-            
-            $nameParts = array();
-            array_push($nameParts, "_id");
-            $headerColumn = new UniversalFilterTableHeaderColumnInfo($nameParts);
-            array_push($headerColumns,$headerColumn);
-            
-            $nameParts = array();
-            array_push($nameParts, "_key_$nameOfTable");
-            $headerColumn = new UniversalFilterTableHeaderColumnInfo($nameParts);
-            array_push($headerColumns,$headerColumn);
 
             $tableHeader =  new UniversalFilterTableHeader($headerColumns,false,false);
             

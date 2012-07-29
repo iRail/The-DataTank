@@ -76,6 +76,7 @@ class SQLConverter{
         foreach ($filter->getColumnData() as $index => $originalColumn) {
             $this->treeToSQL($originalColumn->getColumn());
 
+            // insert requiredHeaderName !!
             if($originalColumn->getAlias() != null)
                 $this->sql.= " AS " . $originalColumn->getAlias();
 
