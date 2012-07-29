@@ -88,7 +88,7 @@ class DB extends ATabularData implements iFilter {
         // prepare to get some of them data from the database!
         $sql = "SELECT $fields FROM $configObject->db_table";
 
-        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
 
@@ -277,7 +277,7 @@ class DB extends ATabularData implements iFilter {
         /**
          * Prepare the doctrine DBAL
          */
-        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
 
