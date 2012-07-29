@@ -21,12 +21,13 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
         // get executer for source
         $source = $this->filter->getSource();
         $this->executer = $interpreter->findExecuterFor($source);
+        $this->executer->initExpression($source, $topenv, $interpreter, $preferColumn);
         
         // the original header
         $originalheader = $this->executer->getExpressionHeader();
         
         // get the expected column names
-        $expectedheadernames = $this->executer->getTableNames();
+        $expectedheadernames = $source->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID)->getExpectedHeaderNames();
         
         // get the calculated table
         $table = $this->filter->getTable();
@@ -69,7 +70,7 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
         }
 
         //new Header
-        $this->header = new UniversalFilterTableHeader(array($newColumns), $isSingleRowByConstruction, $isSingleColumnByConstruction);
+        $this->header = new UniversalFilterTableHeader($newColumns, $isSingleRowByConstruction, $isSingleColumnByConstruction);
         
         
         
