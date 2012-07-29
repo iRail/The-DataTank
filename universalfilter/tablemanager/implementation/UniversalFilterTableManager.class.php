@@ -23,6 +23,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
    
     private static $IDENTIFIERSEPARATOR=".";
 
+    private $requestedTableHeaders = array();
     private $requestedTables=array();    
 
     private $resourcesmodel;
@@ -86,6 +87,21 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         $table->getContent()->tableNeeded();//do not destroy content... it's cached...
     }
+
+    private function loadTableWithHeader($globalTableIdentifier,$header){
+
+        $splitedId = $this->splitIdentifier($globalTableIdentifier);
+        
+        $converter = new PhpObjectTableConverter();
+
+        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1]);
+
+        $table = $converter->getPhpObjectTable($splitedId,$resource,$header);
+        
+        $this->requestedTables[$globalTableIdentifier] = $table;
+        
+        $table->getContent()->tableNeeded();//do not destroy content... it's cached...
+    }
     
     /**
      * The UniversalInterpreter found a identifier for a table. 
@@ -101,7 +117,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $columns = $model->getColumnsFromResource($identifierpieces[0],$identifierpieces[1]);
 
-        if($columns != NULL){ //&& FALSE){
+        if($columns != NULL && !isset($this->requestedTableHeaders[$globalTableIdentifier])){
             $headerColumns = array();
 
             foreach($columns as $column){
@@ -112,9 +128,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             }
 
             $tableHeader =  new UniversalFilterTableHeader($headerColumns,false,false);
+            $this->requestedTableHeaders[$globalTableIdentifier] = $tableHeader;
             return $tableHeader;
 
+        }elseif(isset($this->requestedTableHeaders[$globalTableIdentifier])){
+            return $this->requestedTableHeaders[$globalTableIdentifier];
         }
+        
         
         if(!isset($this->requestedTables[$globalTableIdentifier])){
             $this->loadTable($globalTableIdentifier);
@@ -133,7 +153,9 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header){
         if(!isset($this->requestedTables[$globalTableIdentifier])){
-            $this->loadTable($globalTableIdentifier);
+            // call new function from phpobjecttableconverter which only
+            // creates the content and uses this $header as a tableHeader object
+            $this->loadTableWithHeader($globalTableIdentifier,$header);
         }
         return $this->requestedTables[$globalTableIdentifier]->getContent();
     }

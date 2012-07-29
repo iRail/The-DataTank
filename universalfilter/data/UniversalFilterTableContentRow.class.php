@@ -112,7 +112,6 @@ class UniversalFilterTableContentRow {
      * @param string $newField 
      */
     public function copyValueTo(UniversalFilterTableContentRow $newRow, $oldField, $newField){
-        var_dump($this->data);
         if(isset($this->data->$oldField)){
             $newRow->data->$newField = $this->data->$oldField;
         }else{

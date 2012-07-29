@@ -111,14 +111,12 @@ class PhpObjectTableConverter {
         // add key_parent field
         array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_KEY.$nameOfTable), false, null, null));
         
-        
-        
         $header = new UniversalFilterTableHeader($columns, false, false);
         
         return $header;
     }
     
-    private function getPhpObjectTableContent($header, $nameOfTable, $objects){
+    public function getPhpObjectTableContent($header, $nameOfTable, $objects){
         $rows=new UniversalFilterTableContent();
         
         $subObjectIndex = array();
@@ -191,6 +189,21 @@ class PhpObjectTableConverter {
         
         return new UniversalFilterTable($header, $body);
     }
+
+    public function getPhpObjectTableWithHeader($splitedId,$objects,$header){
+        $objects = $this->getPhpObjectsByIdentifier($splitedId,$objects);
+        
+        $nameOfTable=$splitedId[1];
+        if(count($splitedId[2])>0){
+            $nameOfTable=$splitedId[2][count($splitedId[2])-1];
+        }
+        
+        $body = $this->getPhpObjectTableContent($header, $nameOfTable, $objects);
+        
+        return new UniversalFilterTable($header, $body);
+    }
+
+
 }
 
 ?>
