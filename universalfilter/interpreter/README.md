@@ -42,7 +42,7 @@ It is build out of a list of ``UniversalFilterTableContentRow``'s.
 
 A ``UniversalFilterTableContentRow`` contains the data of one row of the table. (Or multiple if it is grouped). It is saved by the id(!) of the column, not by the name.
 
-I tryed to hide the intern structure of the table as much as possible. That's why these classes have a lot of clone-methods or "copyToOtherStructure"-methods. 
+I tried to hide the internal structure of the table as much as possible. That's why these classes have a lot of clone-methods or "copyToOtherStructure"-methods. 
 
 You can also find more information about these classes in the README.md in ``universalfilter/tablemanager``
 

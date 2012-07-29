@@ -607,5 +607,17 @@ class ResourcesModel {
         $result = $resource->readAndProcessQuery($query);
         return $result;
     }
+
+    /**
+     * get the columns from a resource
+     */
+    public function getColumnsFromResource($package,$resource){
+        $gen_resource_id = DBQueries::getGenericResourceId($package,$resource);
+
+        if(isset($gen_resource_id["gen_resource_id"]) && $gen_resource_id["gen_resource_id"] != ""){
+            return DBQueries::getPublishedColumns($gen_resource_id["gen_resource_id"]);
+        }
+        return NULL;
+    }
 }
 ?>

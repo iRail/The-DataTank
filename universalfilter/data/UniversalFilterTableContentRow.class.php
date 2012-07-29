@@ -75,7 +75,7 @@ class UniversalFilterTableContentRow {
                 }
             }
         }else{
-            return null;
+            throw new Exception("Requested a unknown value on a row for a columnId \"".$idOfField."\"");
         }
     }
     
@@ -92,7 +92,7 @@ class UniversalFilterTableContentRow {
                 return null;
             }
         }else{
-            return null;
+            throw new Exception("Requested a unknown value on a row for a columnId \"".$idOfField."\"");
         }
     }
     
@@ -112,7 +112,12 @@ class UniversalFilterTableContentRow {
      * @param string $newField 
      */
     public function copyValueTo(UniversalFilterTableContentRow $newRow, $oldField, $newField){
-        $newRow->data->$newField = $this->data->$oldField;
+        var_dump($this->data);
+        if(isset($this->data->$oldField)){
+            $newRow->data->$newField = $this->data->$oldField;
+        }else{
+            throw new Exception("Requested a unknown value on a row for a columnId \"". $oldField ."\"");
+        }
     }
 }
 ?>

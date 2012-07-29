@@ -5,6 +5,10 @@ include_once("universalfilter/tablemanager/IUniversalFilterTableManager.interfac
 include_once("universalfilter/tablemanager/implementation/tools/PhpObjectTableConverter.class.php");
 
 include_once("universalfilter/sourcefilterbinding/ExternallyCalculatedFilterNode.class.php");
+
+include_once("universalfilter/data/UniversalFilterTableHeader.class.php");
+include_once("universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
+
 /**
  * This it the implementation of the TableManager for The-DataTank
  * 
@@ -51,6 +55,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return array of the three pieces
      */
     private function splitIdentifier($globalTableIdentifier){
+
         $identifierpieces=explode(UniversalFilterTableManager::$IDENTIFIERSEPARATOR,$globalTableIdentifier);
 
         $packageresourcestring = implode("/",$identifierpieces);
@@ -60,7 +65,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         $result = $this->resourcesmodel->processPackageResourceString($packageresourcestring);
 
         if($result["resourcename"] == ""){
-            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename: ".$globalTableIdentifier);
+            throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename: "
+                                                            .$globalTableIdentifier);
         }
         
         return array($result["packagename"],$result["resourcename"],$result["RESTparameters"]);    
@@ -89,9 +95,31 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return UniversalFilterTableHeader 
      */
     public function getTableHeader($globalTableIdentifier){
+        
+        $model = ResourcesModel::getInstance();
+        $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
+
+        $columns = $model->getColumnsFromResource($identifierpieces[0],$identifierpieces[1]);
+
+        if($columns != NULL){ //&& FALSE){
+            $headerColumns = array();
+
+            foreach($columns as $column){
+                $nameParts = array();//explode(".",$globalTableIdentifier);
+                array_push($nameParts, $column["column_name"]);
+                $headerColumn = new UniversalFilterTableHeaderColumnInfo($nameParts);
+                array_push($headerColumns,$headerColumn);
+            }
+
+            $tableHeader =  new UniversalFilterTableHeader($headerColumns,false,false);
+            return $tableHeader;
+
+        }
+        
         if(!isset($this->requestedTables[$globalTableIdentifier])){
             $this->loadTable($globalTableIdentifier);
         }
+
         return $this->requestedTables[$globalTableIdentifier]->getHeader();
     }
     
@@ -121,10 +149,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return UniversalFilterNode 
      */
     function runFilterOnSource(UniversalFilterNode $query, $sourceId) {
+
         /*
          * Check if resource (source) is queryable
          */
         $model = ResourcesModel::getInstance();
+
+        $globalTableIdentifier = str_replace("/",".",$sourceId);
 
         $identifierpieces = explode(".",$sourceId);
         array_push($identifierpieces,array());
@@ -193,9 +224,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return string  A string representing a source.
      */
     public function getSourceIdFromIdentifier($globalTableIdentifier){
+
         $splited=$this->splitIdentifier($globalTableIdentifier);
-        
         return $splited[0].".".$splited[1];
+
     }
     
 }
