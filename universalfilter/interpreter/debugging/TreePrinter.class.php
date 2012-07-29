@@ -172,7 +172,7 @@ class TreePrinter {
         if($filter instanceof NormalFilterNode){
             $string.=" {\n";
             for ($index = 0; $index < $filter->getSourceCount(); $index++) {
-                $string.=$this->getPadding(1)."source ".($index+1).": \n".
+                $string.=$this->getPadding(1)."source ".($index+1).": \n";
                 $string.=$this->treeToStringWithPadding(2, $filter->getSource($index));
             }
             $string.=$this->getPadding()."}\n";

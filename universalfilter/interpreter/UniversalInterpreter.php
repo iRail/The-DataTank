@@ -161,6 +161,7 @@ class UniversalInterpreter implements IInterpreterControl{
         }
         
         
+        $tree= $rootDummyFilter->getSource();
         
         
         //EXECUTE (for real this time)
