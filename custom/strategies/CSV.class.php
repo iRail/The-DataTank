@@ -120,9 +120,11 @@ class CSV extends ATabularData {
          * note that the precondition of the beforehand filling of the fieldhash
          * is that the column_name is an index! Otherwise there's no way of id'ing a column
          */
+        $i = 0;
         if ($has_header_row == "0") {
             foreach ($columns as $index => $column_name) {
-                $fieldhash[$index] = $index;
+                $fieldhash[$i] = $i;
+                $i++;
             }
         }
 
@@ -285,7 +287,7 @@ class CSV extends ATabularData {
                     if(empty($this->columns)){                        
                         for ($i = 0; $i < sizeof($line); $i++){
                             $fieldhash[trim($line[$i])] = $i;
-                            $this->columns[$i] = trim($line[$i]);
+                            $this->columns[$line[$i]] = trim($line[$i]);
                         }
                     }
                 }else{

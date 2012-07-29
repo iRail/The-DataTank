@@ -95,6 +95,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         $converter = new PhpObjectTableConverter();
 
         $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1]);
+        
+        var_dump($header);
 
         $table = $converter->getPhpObjectTableWithHeader($splitedId,$resource,$header);
         
@@ -119,7 +121,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         if($columns != NULL && !isset($this->requestedTableHeaders[$globalTableIdentifier])){
             $headerColumns = array();
-
+            var_dump($columns);
             foreach($columns as $column){
                 $nameParts = array();//explode(".",$globalTableIdentifier);
                 array_push($nameParts, $column["column_name"]);
