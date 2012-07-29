@@ -31,8 +31,9 @@ abstract class ATabularData extends AResourceStrategy{
         
         foreach($columns as $column => $column_alias){
             // replace whitespaces in columns by underscores
-            $formatted_column = preg_replace('/\s+/','_',$column_alias);
-            DBQueries::storePublishedColumn($generic_resource_id, $column,$formatted_column,($PK != "" && $PK == $column?1:0));
+            $formatted_column = preg_replace('/\s+/','_',$column);
+            $formatted_column_alias = preg_replace('/\s+/','_',$column_alias);
+            DBQueries::storePublishedColumn($generic_resource_id, $formatted_column,$formatted_column_alias,($PK != "" && $PK == $column?1:0));
         }
     }
 

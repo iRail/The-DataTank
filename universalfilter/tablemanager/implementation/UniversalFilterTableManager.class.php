@@ -121,7 +121,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         if($columns != NULL && !isset($this->requestedTableHeaders[$globalTableIdentifier])){
             $headerColumns = array();
-            var_dump($columns);
             foreach($columns as $column){
                 $nameParts = array();//explode(".",$globalTableIdentifier);
                 array_push($nameParts, $column["column_name"]);
@@ -130,6 +129,9 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             }
 
             $tableHeader =  new UniversalFilterTableHeader($headerColumns,false,false);
+            var_dump($tableHeader);
+            exit();
+            
             $this->requestedTableHeaders[$globalTableIdentifier] = $tableHeader;
             return $tableHeader;
 
