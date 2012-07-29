@@ -96,7 +96,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1]);
 
-        $table = $converter->getPhpObjectTable($splitedId,$resource,$header);
+        $table = $converter->getPhpObjectTableWithHeader($splitedId,$resource,$header);
         
         $this->requestedTables[$globalTableIdentifier] = $table;
         
