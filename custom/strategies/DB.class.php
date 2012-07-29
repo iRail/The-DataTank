@@ -365,7 +365,7 @@ class DB extends ATabularData implements iFilter {
         $sql = str_replace($sourceIdentifier,$configObject->db_table,$sql);
 
         // prepare the DBAL
-        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
 
