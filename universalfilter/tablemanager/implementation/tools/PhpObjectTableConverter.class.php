@@ -203,6 +203,14 @@ class PhpObjectTableConverter {
         return new UniversalFilterTable($header, $body);
     }
 
+    public function getNameOfTable($splitedId){
+
+        $nameOfTable=$splitedId[1];
+        if(count($splitedId[2])>0){
+            $nameOfTable=$splitedId[2][count($splitedId[2])-1];
+        }
+        return $nameOfTable;
+    }
 
 }
 
