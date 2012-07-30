@@ -186,7 +186,7 @@ class DatabaseSetup extends InstallController {
 
         $queries["metadata"] = "CREATE TABLE IF NOT EXISTS `metadata` (
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
-              `resource_id` NOT NULL,
+              `resource_id` bigint(20) NOT NULL,
               `tags` varchar(255) DEFAULT '',
               `contributor` varchar(255) DEFAULT '',
               `language` varchar(255) DEFAULT '',
@@ -198,8 +198,8 @@ class DatabaseSetup extends InstallController {
               `rights` varchar(255) DEFAULT '',
               `rightsHolder` varchar(255) DEFAULT '',
               `example_uri` varchar(255) DEFAULT '',
-              PRIMARY KEY (`modelID`,`namespace`),
-              KEY `n_mod_idx` (`modelID`)
+              PRIMARY KEY (`id`),
+              KEY `n_resource_idx` (`resource_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
         
 
