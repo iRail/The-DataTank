@@ -83,7 +83,13 @@ class DB extends ATabularData implements iFilter {
          */
         parent::read($configObject,$package,$resource);
 
-        $fields = implode(array_keys($configObject->columns),",");
+        $fields = "";//implode(array_keys($configObject->columns),",");
+
+        foreach($configObject->column_aliases as $column_name => $column_alias){
+            $fields.= " $column_name AS $column_alias ,";
+        }
+        
+        $fields = rtrim($fields,",");
 
         // prepare to get some of them data from the database!
         $sql = "SELECT $fields FROM $configObject->db_table";
@@ -99,18 +105,18 @@ class DB extends ATabularData implements iFilter {
         $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
         $stmt = $conn->query($sql);
 
-        $table_columns = array_keys($configObject->columns);
-        $aliases = $configObject->columns;
+        $aliases = $configObject->column_aliases;
 
         $arrayOfRowObjects = array();
+
         while ($row = $stmt->fetch()) {
+
             $rowobject = new stdClass();
             $PK = $configObject->PK;
 
             // get the data out of the row and create an object out of it
-            foreach($table_columns as $table_column){
-                $key = $aliases[$table_column];
-                $rowobject->$key = $row[$table_column];
+            foreach($aliases as $table_column => $alias){
+                $rowobject->$alias = $row[$alias];
             }
 
             /**
@@ -140,6 +146,7 @@ class DB extends ATabularData implements iFilter {
      * Prepares the connection parameters from the configObject, used in the read function
      */
     private function prepareConnectionParams($configObject){
+
         if(strtolower($configObject->db_type) == "sqlite"){
             return array(
                 'path' => $configObject->location,
@@ -174,6 +181,10 @@ class DB extends ATabularData implements iFilter {
             $this->password = "";
         }
         
+
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
+        }
 
         /**
          * Check if there is a ";" passed in the table parameter, if so give back an error
@@ -246,27 +257,26 @@ class DB extends ATabularData implements iFilter {
      */
     private function validateColumns($table_columns){
         if(!isset($this->columns)){
+
             $this->columns = array();
+            $index = 0;
             foreach($table_columns as $column){
-                $this->columns[$column] = $column;
+                $this->columns[$index] = $column;
+                $index++;
             }
+
         }else{
-            $aliases =$this->columns;
+
             $this->columns = array();
             // make the columns as columnname => columnname
             // then in the second foreach put the aliases in the columns array (which technically is a hash)
-            foreach($table_columns as $column){
-                $this->columns[$column] = $column;
-            }
-            
-            foreach($aliases as $column => $alias){
-                if(array_key_exists($column,$this->columns)){
-                    $this->columns[$column] = $alias;
-                }else{
-                    throw new ResourceAdditionTDTException("The column $column for which an alias ( $alias ) was given doesn't exist.");
+            foreach($table_columns as $index => $column){
+                if(!is_numeric($index)){
+                    throw new ResourceAdditionTDTException("The index $index is not numeric in the columns array!");
                 }
             }
         }
+
         return true;
     }
 

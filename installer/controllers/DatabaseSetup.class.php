@@ -75,6 +75,7 @@ class DatabaseSetup extends InstallController {
               `column_name` varchar(50) NOT NULL,
               `is_primary_key` int(11) DEFAULT NULL,
               `column_name_alias` varchar(50) NOT NULL,
+              `index` int(20) DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `generic_resource_id` (`generic_resource_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";

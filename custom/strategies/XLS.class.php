@@ -69,6 +69,10 @@ class XLS extends ATabularData {
             $this->columns = array();
         }
 
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
+        }
+
         if (!isset($this->PK)) {
             $this->PK = "";
         }
@@ -125,13 +129,15 @@ class XLS extends ATabularData {
                 if (!isset($this->named_range) && !isset($this->cell_range)) {
                     foreach ($worksheet->getRowIterator() as $row) {
                         $rowIndex = $row->getRowIndex();
+                        $dataIndex = 0;
                         if ($rowIndex == $this->start_row) {
                             $cellIterator = $row->getCellIterator();
                             $cellIterator->setIterateOnlyExistingCells(false);
                             foreach ($cellIterator as $cell) {
                                 if($cell->getCalculatedValue() != ""){
-                                    $this->columns[$cell->getCalculatedValue()] = $cell->getCalculatedValue();
+                                    $this->columns[$dataIndex] = $cell->getCalculatedValue();
                                 }
+                                $dataIndex++;
                             }
                         }
                     }
@@ -144,10 +150,12 @@ class XLS extends ATabularData {
                     }
                     $rowIndex = 1;
                     foreach ($range as $row) {
+                        $dataIndex = 0;
                         if ($rowIndex == $this->start_row) {
                             foreach ($row as $cell) {
-                                $this->columns[$cell] = $cell;
+                                $this->columns[$dataIndex] = $cell;
                             }
+                            $dataIndex++;
                         }
                         $rowIndex += 1;
                     }					
@@ -175,6 +183,8 @@ class XLS extends ATabularData {
         $PK = $configObject->PK;
             
         $columns = $configObject->columns;
+        $column_aliases = $configObject->column_aliases;
+
         $resultobject = new stdClass();
         $arrayOfRowObjects = array();
         $row = 0;
@@ -185,10 +195,12 @@ class XLS extends ATabularData {
 
         try { 
             $isUri = (substr($uri , 0, 4) == "http");
-            if ($isUri) {						
+            if ($isUri) {			
+			
                 $tmpFile = uniqid();
                 file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
                 $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
+
             } else {
                 $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);			
             }
@@ -209,14 +221,16 @@ class XLS extends ATabularData {
                                 }
                             }
                         } else {
+
                             $rowobject = new stdClass();
                             $keys = array_keys($fieldhash);
+
                             foreach ($cellIterator as $cell) {
                                 $columnIndex = $cell->columnIndexFromString($cell->getColumn());
                                 if (!is_null($cell) && isset($keys[$columnIndex-1]) ) {
                                     $c = $keys[$columnIndex - 1];
-                                    if(array_key_exists($c,$columns)){
-                                        $rowobject->$columns[$c] = $cell->getCalculatedValue();
+                                    if(in_array($c,$columns)){
+                                        $rowobject->$column_aliases[$c] = $cell->getCalculatedValue();
                                     }
                                 }
                             }

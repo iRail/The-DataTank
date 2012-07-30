@@ -487,7 +487,7 @@ class DBQueries {
      */
     static function getPublishedColumns($generic_resource_id) {
         return R::getAll(
-            "SELECT column_name, is_primary_key,column_name_alias
+            "SELECT column_name, is_primary_key,column_name_alias,published_columns.index 
              FROM  published_columns
              WHERE generic_resource_id=:id",
             array(":id" => $generic_resource_id)
@@ -497,9 +497,10 @@ class DBQueries {
     /**
      * Store a published column
      */
-    static function storePublishedColumn($generic_resource_id, $column_name,$column_alias, $is_primary_key) {
+    static function storePublishedColumn($generic_resource_id, $index,$column_name,$column_alias, $is_primary_key) {
         $db_columns = R::dispense("published_columns");
         $db_columns->generic_resource_id = $generic_resource_id;
+        $db_columns->index = $index;
         $db_columns->column_name = $column_name;
         $db_columns->is_primary_key = $is_primary_key;
         $db_columns->column_name_alias = $column_alias;
