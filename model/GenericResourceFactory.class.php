@@ -117,9 +117,20 @@ class GenericResourceFactory extends AResourceFactory {
                 $prettyColumns = array();
                 if(!empty($columns)){
                     foreach($columns as $columnentry){
-                        $prettyColumns[$columnentry["column_name"]] = $columnentry["column_name_alias"];
+                        $prettyColumns[$columnentry["index"]] = $columnentry["column_name"];
                     }
                     $doc->$package->$resourcename->columns = $prettyColumns;
+                }
+
+                /**
+                 * Get the published columns aliases
+                 */
+                $columnAliases = array();
+                if(!empty($columns)){
+                    foreach($columns as $columnentry){
+                        $columnAliases[$columnentry["column_name"]] = $columnentry["column_name_alias"];
+                    }
+                    $doc->$package->$resourcename->column_aliases = $columnAliases;
                 }
                 
                 $doc->$package->$resourcename->parameters = array();
