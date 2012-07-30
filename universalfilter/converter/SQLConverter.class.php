@@ -22,6 +22,13 @@ class SQLConverter{
     // the SELECT identifiers
     private $identifiers = array();
     private $IN_SELECT_CLAUSE = TRUE;
+    private $headerNames;
+    
+
+    public function __construct($headerNames){
+        $this->headerNames = $headerNames;
+    }
+    
 
     /**
      * Converts a UniversalFilterNode to a string you can print...
@@ -77,9 +84,8 @@ class SQLConverter{
             $this->treeToSQL($originalColumn->getColumn());
 
             // insert requiredHeaderName !!
-            if($originalColumn->getAlias() != null)
-                $this->sql.= " AS " . $originalColumn->getAlias();
-
+            $headerName = array_shift($this->headerNames);
+            $this->sql.= "AS $headerName";
             $this->sql.= ", ";
         }
         

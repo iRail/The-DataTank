@@ -353,9 +353,9 @@ class DB extends ATabularData implements iFilter {
         include_once("universalfilter/converter/SQLConverter.class.php");
         include_once("universalfilter/interpreter/debugging/TreePrinter.class.php");
 
-        $printer = new TreePrinter();
+/*        $printer = new TreePrinter();
         $printer->printString($query);
-        exit();
+        exit();*/
 
         $requiredColumnNames = $query->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);
         $headerNames =$requiredColumnNames->getExpectedHeaderNames();
@@ -364,7 +364,7 @@ class DB extends ATabularData implements iFilter {
         /**
          * Convert the tree to a SQL string
          */
-        $converter = new SQLConverter();
+        $converter = new SQLConverter($headerNames);
         $sql = $converter->treeToSQL($query);
 
         // get the identifiers of the query, just to check that the query that has been passed, contains information
