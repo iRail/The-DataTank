@@ -17,7 +17,7 @@ class KMLGhent extends ATabularData {
      */
     public function documentCreateParameters(){
         return array("uri" => "The uri of where the KML of City of Ghent is found.",
-                     "columns" => "The columns that are to be published from the KML.",
+                     "columns" => "The columns that are to be published from the KML. The columns should be passed as index => name of column.",
                      "PK" => "The primary key of each row."
         );  
     }
@@ -61,6 +61,10 @@ class KMLGhent extends ATabularData {
         if (!isset($this->PK)) {
             $this->PK = "id";
         }
+		
+		if(!isset($this->column_aliases)){
+			$this->column_aliases = array();
+		}
 
         $uri = $this->uri;
         $columns = $this->columns;
@@ -74,36 +78,44 @@ class KMLGhent extends ATabularData {
                 libxml_use_internal_errors(true);
                 $xml = @simplexml_load_file($uri);
                             
+				$index = 0;
                 $xmlns = $xml->getDocNamespaces();
                 $xmlns = $xmlns[''];
                 $xml->registerXPathNamespace('kml', $xmlns);
                 $placemarks = $xml->xpath('//kml:Placemark');
 
+				
                 foreach ($placemarks as $placemark) {
                     $placemark->registerXPathNamespace('kml', $xmlns);
                     $properties = $placemark->xpath('kml:ExtendedData/kml:SchemaData/kml:SimpleData');
                     foreach ($properties as $property) {
                         $name = $property->xpath('@name');
                         $name = strtolower($name[0]);
-                        $this->columns[$name] = $name;
+                        $this->columns[$index] = $name;
+						$index++;
                     }
                     $coordinates = $placemark->xpath('kml:Point/kml:coordinates');
                     if($coordinates != false) {
-                        $this->columns["long"] = "long";
-                        $this->columns["lat"] = "lat";
+                        $this->columns[$index] = "long";
+						$index++;
+                        $this->columns[$index] = "lat";
+						$index++;
                     } else {
                         $coordinates = $placemark->xpath('kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
                         if($coordinates != false) {
-                            $this->columns["coords"] = "coords";
+                            $this->columns[$index] = "coords";
                         } else {
                             $coordinates = $placemark->xpath('kml:MultiGeometry/kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
                             if($coordinates != false) {
-                                $this->columns["coords"] = "coords";
+                                $this->columns[$index] = "coords";
                             }                        
                         }                        
                     }
-                    $this->columns["id"] = "id";
-                    $this->columns["distance"] = "distance";
+					$index++;
+                    $this->columns[$index] = "id";
+					$index++;
+                    $this->columns[$index] = "distance";
+					return true;
                 }
             } catch( Exception $ex) {
                 throw new CouldNotGetDataTDTException( $uri );
@@ -129,6 +141,7 @@ class KMLGhent extends ATabularData {
         $PK = $configObject->PK;
             
         $columns = $configObject->columns;
+		$column_aliases = $configObject->column_aliases;
 
         //$gen_res_id = $configObject->gen_res_id;
         
@@ -205,7 +218,7 @@ class KMLGhent extends ATabularData {
                     foreach ($properties as $property) {
                         $name = $property->xpath('@name');
                         $name = strtolower($name[0]);
-                        if(sizeof($columns) == 0 || in_array($name,$columns)) {                        
+                        if(sizeof($column_aliases) == 0 || in_array($name,$column_aliases)) {                        
                             $rowobject->$name = (string)$property[0];
                         }
                     }

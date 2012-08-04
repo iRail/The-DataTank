@@ -34,7 +34,7 @@ abstract class ATabularData extends AResourceStrategy{
                                   as a primary key is not one of the column name keys. 
                                   Either leave it empty or pass along the index of the column.");
         }
-        
+		
         foreach($columns as $index => $column){
             // replace whitespaces in columns by underscores
             if(!is_numeric($index)){
@@ -51,7 +51,8 @@ abstract class ATabularData extends AResourceStrategy{
                 $formatted_column_alias = preg_replace('/\s+/','_',$column_aliases[$formatted_column]);
                 $column_aliases[$formatted_column] = $formatted_column_alias;
             }
-            
+
+			
             DBQueries::storePublishedColumn($generic_resource_id, $index,$formatted_column,$column_aliases[$formatted_column],
                                            ($PK != "" && $PK == $formatted_column?1:0));
         }
