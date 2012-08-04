@@ -29,7 +29,7 @@ abstract class ACreator{
      * @return hash with key = parameter name and value = documentation about the parameter
      */
     public function documentParameters(){
-        $createParameters = array("resource_type" => "The type of the resource.");
+        $createParameters = array("resource_type" => "The type of the resource. i.e. generic, installed,remote");
         return array_merge($createParameters, $this->documentMetaDataParameters());
     }
 
@@ -64,6 +64,20 @@ abstract class ACreator{
      */
     protected function makePackage($package){
         // TODO put this in DBQueries
+        /**
+         * split the package string in its package and subpackage components
+         * check for every package and subpackage if they exist, if not create them
+         */
+
+        $packagepieces = explode("/",$package);
+        $package = array_shift($packagepieces);
+        
+        // the top level package id
+        $parentId = "";
+
+        /**
+         * Create main package (top level package)
+         */
         $result = R::getAll(
             "SELECT package.id as id 
              FROM package 
@@ -74,16 +88,43 @@ abstract class ACreator{
         if(sizeof($result) == 0){
             $newpackage = R::dispense("package");
             $newpackage->package_name = $package;
-            $newpackage->timestamp = time();
-            if(isset($this->package_title)){
-                $newpackage->package_title = $this->package_title;
-            }else{
-                $newpackage->package_title = $package;
-            }   
-            $id = R::store($newpackage);
-            return $id;
+            $newpackage->timestamp = time();  
+            $newpackage->package_title = $package;  
+            $newpackage->full_package_name = $package;
+            $parentId = R::store($newpackage);
+        }else{
+            $parentId = $result[0]["id"];
         }
-        return $result[0]["id"];
+        $fullPackageName = $package;
+        
+        /**
+         * create package entries for every subpackage
+         */
+        foreach($packagepieces as $subpackage){
+            $result = R::getAll(
+                "SELECT package.id as id 
+                 FROM package 
+                 WHERE package_name=:package_name AND parent_package = :parent_package",
+                array(":package_name"=>$subpackage, ":parent_package" => $parentId)
+            );
+
+            $fullPackageName = $fullPackageName . "/" . $subpackage;
+
+            if(sizeof($result) == 0){
+                $newpackage = R::dispense("package");
+                $newpackage->package_name = $subpackage;
+                $newpackage->timestamp = time();
+                // NOTE & TODO package_title is now obsolete! At least as it's been meant/implemented in the develop branch
+                $newpackage->package_title = $subpackage;   
+                $newpackage->parent_package = $parentId;
+                $newpackage->full_package_name = $fullPackageName;
+                $parentId = R::store($newpackage);
+            }else{
+                $parentId = $result[0]["id"];
+            }
+            
+        }
+        return $parentId;
     }
     
     /**

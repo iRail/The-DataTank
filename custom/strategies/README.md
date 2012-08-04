@@ -226,7 +226,7 @@ The XLS files will be locally stored because they cannot be streamed. Therefore 
 
 ## XML
 
-This class represents a strategy that handles XML files.
+This class represents a strategy that handles XML files. Note that currently there is no support for namespaced XML files (yet).
 
 ### required create parameters
 
@@ -235,4 +235,43 @@ This class represents a strategy that handles XML files.
 ### additional create parameters
 
 none
+
+## DB
+
+This class represents a strategy that handles database datasources.
+
+### required create parameters:
+
+We use the doctrine 2 DBAL to access the database resources, so our support for databases is dependent on the support of the doctrine 2 DBAL which are:
+
+* mysql
+* sqlite
+* pgsql
+* sqlsrv
+* oci8 ( An Oracle driver that uses the oci8 PHP extension.) 
+
+Necessary parameters for SQLite database dataresources:
+
+* db_type  : sqlite
+* location : The location of the SQLite database 
+* db_table : The database table of which some or all fields will be published.
+
+Necessary parameters for non-SQLite database dataresources:
+
+* username : The username to connect to the database with.
+* password : The password of the user to connect to the database.
+* db_name  : The database name.
+* db_type  : The type of the database, current supported types are: mysql,pgsql,oci8,sqlsrv
+* db_table : The database table of which some or all fields will be published.
+* location : The location of the database this is the host on which the database is running.
+
+### additional create parameters
+
+* port     : The port number to connect to. (not for SQLite based DB resources.)
+* PK : The primary key of an entry. This must be the name of an existing column name in the tabular resource.
+
+
+### validation
+
+A check is done to the database to get the columnnames. If this fails, then we a wrong set of parameters has been passed. Also we check, when columns are passed with the request, if they are existing columns.
 

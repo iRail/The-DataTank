@@ -9,18 +9,13 @@
  */
 include_once("model/resources/AResourceStrategy.class.php");
 include_once("model/DBQueries.class.php");
+include_once("includes/XMLUtils.class.php");
 
 class XML extends AResourceStrategy{
   
     public function read(&$configObject,$package,$resource){
-
-        $xmlString = file_get_contents($configObject->uri);
-
-        $xml = simplexml_load_string($xmlString);
-        $json = json_encode($xml);
-        $array = json_decode($json,TRUE);
-
-        return $array;
+        $resultObj = XmlUtils::xmlFileToObject($configObject->uri);
+        return $resultObj;
     }
 
     public function onUpdate($package, $resource){
@@ -63,4 +58,7 @@ class XML extends AResourceStrategy{
    }
    
 }
+
+
+
 ?>

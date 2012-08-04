@@ -87,6 +87,14 @@ class CoreResourceFactory extends AResourceFactory {
         // we cannot update Core Resources
     }
 
+    public function getAllPackagesDoc(){
+        //ask every resource we have for documentation
+        $packages = array();
+        foreach($this->getAllResourceNames() as $package => $resourcenames){
+            array_push($packages,$package);
+        }
+        return $packages;
+    }
 }
 
 ?>

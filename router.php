@@ -17,6 +17,7 @@ include_once('aspects/errors/system/Exceptions.php');
 include_once('aspects/logging/ErrorLogger.class.php');
 include_once('controllers/AController.class.php');
 include_once('controllers/RController.class.php');
+include_once('controllers/SQLController.class.php');
 include_once('controllers/SPECTQLController.class.php');
 include_once('controllers/SPECTQLIndex.class.php');
 include_once('controllers/CUDController.class.php');
@@ -53,11 +54,30 @@ if (!isset($_SERVER['REQUEST_URI'])){
     }
 }
 
+//support for CGI/FastCGI
+if (!function_exists('getallheaders' )){
+	function getallheaders(){
+		foreach ($_SERVER as $name => $value){
+			if (substr($name, 0, 5) == 'HTTP_' )      {
+				$headers[str_replace( ' ', '-', ucwords(strtolower(str_replace('_' , ' ' , substr($name, 5)))))] = $value;
+			} else if ($name == "CONTENT_TYPE") { 
+               $headers["Content-Type"] = $value; 
+           } else if ($name == "CONTENT_LENGTH") { 
+               $headers["Content-Length"] = $value; 
+           } 
+		}
+		return $headers;
+	}
+}
+
+
 //map urls to a classname
 $urls = array(
     '/spectql/?' => 'SPECTQLIndex',
     //When a call is done to the TDTQL end-point, forward it to the TDTQLController
     '/spectql(?P<query>/.*)' => 'SPECTQLController',
+    
+    '/sql\.(?P<format>[^?]+)\?query=(?P<query>.*)' => 'SQLController',
 
 
     // Calling the Read- controller
@@ -65,13 +85,14 @@ $urls = array(
     // explanation of the last part of regex:
     // continue the REST parameters as long as no . is encountered. Continue format as long as no ? or end of URI occurs
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
-    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)\.(?P<format>[^?]+).*' => 'RController',
-    
+    '/(?P<packageresourcestring>.*)\.(?P<format>[^?]+).*' => 'RController',
+    // Calling the Create, Update, Delete- controllers
+
     // Calling a READ but no format is passed, so we redirect the request towards content negotation
     //  GET /package/resource - should give a HTTP/1.1 303 See Other to the .about representation
     // But also:
     //  GET /package/ - should give all resources in package in an exception
-    '/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)/?(?P<RESTparameters>([^.])*)' => 'RedirectController',
+    '/(?P<packageresourcestring>.*)' => 'RedirectController',
    
     // This is a request on the real-world object
     // examples of matches:
@@ -79,9 +100,9 @@ $urls = array(
     //  PATCH TDTAdmin/Admin /package/resource/property/
     //  PUT TDTAdmin/Admin/package/resource
     //  DELETE TDTAdmin/Admin/package/resource
-    //  GET Will result in the same behaviour as a request to the Read- controller
-    //mVS: added TDTAdmin/Ontology as well
-    '/TDTAdmin/(Resources|Ontology)/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+
+    //'/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
+    '/TDTAdmin/Resources/(?P<packageresourcestring>.*)' => 'CUDController'
 );
 
 

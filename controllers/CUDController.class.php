@@ -19,111 +19,52 @@ class CUDController extends AController {
      * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation. 
      */
     function GET($matches) {
-        $package = $matches["package"];
-        $resource = trim($matches["resource"]);
+        $packageresourcestring = $matches[0];
 
-        //we need to be authenticated
-        if (!$this->isAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
-        }
-
-        $model = ResourcesModel::getInstance();
-        $doc = $model->getAllDoc();
-        /**
-         * If the resourcename doesn't exist, provide a list of resources that this package contains.
+        /*
+         * get the format of the string
          */
-        if ($resourcename == "") {
-            if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);
-                $linkObject = new StdClass();
-                $links = array();
-                foreach($resourcenames as $resourcename => $value){
-                    $link = Config::$HOSTNAME . Config::$SUBDIR . $package . "/".  $resourcename;
-                    $links[] = $link;
-                    $linkObject->$package = $links;
-                }
-                //This will create an instance of a factory depending on which format is set
-                $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-                $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
-                $printer->printAll();
-                RequestLogger::logRequest();
-            }else if($model->hasPackage($package)){
-                echo "No resources are listed for this package <br>";
-            } else {
-                echo "This package name ( $package ) has not been created yet.";
-            }
-            exit();
-        }
-
-        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
-        if (!$model->hasResource($package, $resource)) {
-            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
-        }
-
-        //get the current URL
-        $ru = RequestURI::getInstance();
-        $pageURL = $ru->getURI();
-        $pageURL = rtrim($pageURL, "/");
-        //add .about before the ?
-        if (sizeof($_GET) > 0) {
-            $pageURL = str_replace("?", ".about?", $pageURL);
-            $pageURL = str_replace("/.about", ".about", $pageURL);
-        } else {
-            $pageURL .= ".about";
-        }
-        header("HTTP/1.1 303 See Other");
-        header("Location:" . $pageURL);    
+        $dotposition = strrpos($packageresourcestring,".");
+        $format = substr($packageresourcestring,$dotposition);
+        $format = ltrim($format,".");
+        $end = $dotposition -1;
+        $packageresourcestring = substr($packageresourcestring,1,$end);
+        
+        $matches["packageresourcestring"] = ltrim($packageresourcestring,"/");
+        $matches["format"] = $format;
+        $RController = new RController();
+        $RController->GET($matches);
     }
     
     public function HEAD($matches){
-        $package = $matches["package"];
-        $resource = trim($matches["resource"]);
 
-        //we need to be authenticated
-        if (!$this->isAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
-        }
 
-        $model = ResourcesModel::getInstance();
-        $doc = $model->getAllDoc();
-        if ($resource == "") {
-            if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);
-                throw new NoResourceGivenTDTException($resourcenames);
-            } else {
-                throw new NoResourceGivenTDTException(array());
-            }
-        }
+        $packageresourcestring = $matches[0];
 
-        //first, check if the package/resource exists. We don't want to redirect someone to a representation of a non-existing object        
-        if (!$model->hasResource($package, $resource)) {
-            throw new ResourceOrPackageNotFoundTDTException($package, $resource);
-        }
-
-        //get the current URL
-        $ru = RequestURI::getInstance();
-        $pageURL = $ru->getURI();
-        $pageURL = rtrim($pageURL, "/");
-        //add .about before the ?
-        if (sizeof($_GET) > 0) {
-            $pageURL = str_replace("?", ".about?", $pageURL);
-            $pageURL = str_replace("/.about", ".about", $pageURL);
-        } else {
-            $pageURL .= ".about";
-        }
-        header("HTTP/1.1 303 See Other");
-        header("Location:" . $pageURL);    
+        /*
+         * get the format of the string
+         */
+        $dotposition = strrpos($packageresourcestring,".");
+        $format = substr($packageresourcestring,$dotposition);
+        $format = ltrim($format,".");
+        $end = $dotposition -1;
+        $packageresourcestring = substr($packageresourcestring,1,$end);
+        
+        // fill in the matches array
+        $matches["packageresourcestring"] = ltrim($packageresourcestring,"/");
+        $matches["format"] = $format;
+        $RController = new RController();
+        $RController->HEAD($matches);
     }
 
     function PUT($matches) {
+		
+        $packageresourcestring = $matches["packageresourcestring"];
+        $pieces = explode("/",$packageresourcestring);
 
         //both package and resource set?
-        if (!isset($matches["package"]) || strlen($matches["resource"]) == 0) {
+        if (count($pieces) < 2) {
             throw new RequiredParameterTDTException("package/resource couple is not passed correctly.");
         }
 
@@ -134,26 +75,23 @@ class CUDController extends AController {
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }
-        $package = $matches["package"];
-        $resource = $matches["resource"];
-        $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
-        }
         
         //fetch all the PUT variables in one array
         // NOTE: when php://input is called upon, the contents are flushed !! So you can call php://input only once !
         $HTTPheaders = getallheaders();
-        if($HTTPheaders["Content-Type"] == "application/json"){
+        if(isset($HTTPheaders["Content-Type"]) && $HTTPheaders["Content-Type"] == "application/json"){
             $_PUT = (array)json_decode(file_get_contents("php://input"));
         }else {
             parse_str(file_get_contents("php://input"), $_PUT);
         }
         
         $model = ResourcesModel::getInstance();
+      
+        $RESTparameters = array();
+        
+        $model->createResource($packageresourcestring, $_PUT);
+        header("Content-Location: ". Config::$HOSTNAME . Config::$SUBDIR . $packageresourcestring);
 
-        $model->createResource($package, $resource, $_PUT, $RESTparameters);
-        header("Content-Location: ". Config::$HOSTNAME . Config::$SUBDIR . $package . "/". $resource);
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
 
@@ -162,6 +100,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
         RequestLogger::logRequest();
     }
 
@@ -171,15 +110,52 @@ class CUDController extends AController {
      * @param string $matches The matches from the given URL, contains the package and the resource from the URL
      */
     public function DELETE($matches) {
-        $package = $matches["package"];
-        $resource = "";
-        if (isset($matches["resource"])) {
-            $resource = $matches["resource"];
-        }
+
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
+
+        //always required: a package and a resource. 
+        $packageresourcestring = $matches["packageresourcestring"];
+        $pieces = explode("/",$packageresourcestring);
+        $package = array_shift($pieces);
+
         $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
+
+        /**
+         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * ResourcesModel class -> funcion isResourceValid()
+         */
+        $foundPackage = FALSE;
+        $resource ="";
+        $reqparamsstring ="";
+
+        if(!isset($doc->$package)){
+            while(!empty($pieces)){
+                $package .= "/".array_shift($pieces);
+                if(isset($doc->$package)){
+                    $foundPackage = TRUE;
+                    $resource = array_shift($pieces);
+                    $reqparamsstring = implode("/",$pieces);
+                }
+            }
+        }else{
+            $foundPackage = TRUE;
+            $resource = array_shift($pieces);
+            $reqparamsstring = implode("/",$pieces);
         }
+
+        $RESTparameters = array();
+        $RESTparameters = explode("/",$reqparamsstring);
+        if($RESTparameters[0] == ""){
+            $RESTparameters = array();
+        }
+
+        $packageDoc = $model->getAllPackagesDoc();
+        if(!$foundPackage && !isset($packageDoc->$package)){
+            throw new ResourceOrPackageNotFoundTDTException("Resource or package " . $packageresourcestring. " not found.");
+        }
+
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
             //throw new AuthenticationTDTException("Cannot DELETE without administration rights. Authentication failed.");
@@ -192,7 +168,7 @@ class CUDController extends AController {
         if ($resource == "") {
             $model->deletePackage($package);
         } else {
-            $model->deleteResource($package, $resource, $RESTparameters);
+            $model->deleteResource($package,$resource, $RESTparameters);
         }
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
@@ -202,35 +178,86 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
         RequestLogger::logRequest();
     }
 
     /**
-     * You cannot use patch a representation
+     * PATCH is a 'new' request HTTP HEADER which allows to update a piece of a definition of a resource in our context
      */
     public function PATCH($matches) {
-        //both package and resource set?
-        if (!isset($matches["package"]) || !isset($matches["resource"])) {
-            throw new ParameterTDTException("package/resource not set");
+
+        $model = ResourcesModel::getInstance();
+        $doc = $model->getAllDoc();
+
+        //always required: a package and a resource. 
+        $packageresourcestring = $matches["packageresourcestring"];
+        $pieces = explode("/",$packageresourcestring);
+        $package = array_shift($pieces);
+
+        $RESTparameters = array();
+
+         /**
+         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * ResourcesModel class -> funcion isResourceValid()
+         */
+        $foundPackage = FALSE;
+        $resourcename ="";
+        $reqparamsstring ="";
+
+        if(!isset($doc->$package)){
+            while(!empty($pieces)){
+                $package .= "/".array_shift($pieces);
+                if(isset($doc->$package)){
+                    $foundPackage = TRUE;
+                    $resourcename = array_shift($pieces);
+                    $reqparamsstring = implode("/",$pieces);
+                }
+            }
+        }else{
+            $foundPackage = TRUE;
+            $resourceNotFound = TRUE;
+            while(!empty($pieces) && $resourceNotFound){
+                $resourcename = array_shift($pieces);
+                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
+                    $package .= "/" . $resourcename;
+                    $resourcename = "";
+                }else{
+                    $resourceNotFound = FALSE;
+                }
+            }
+            $reqparamsstring = implode("/",$pieces);
         }
+
+        $RESTparameters = array();
+        $RESTparameters = explode("/",$reqparamsstring);
+        if($RESTparameters[0] == ""){
+            $RESTparameters = array();
+        }
+
+        if(!$foundPackage){
+            throw new ResourceOrPackageNotFoundTDTException( $packageresourcestring);
+        }
+
+        //both package and resource set?
+        if ($resourcename == "") {
+            throw new ResourceOrPackageNotFoundTDTException($packageresourcestring. " is not a resource.");
+        }
+
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
             header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }
-        $package = trim($matches["package"]);
-        $resource = trim($matches["resource"]);
-         $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
-        }
+        
         // patch (array) contains all the patch parameters
         $patch = array();
         parse_str(file_get_contents("php://input"), $patch);
         
         $model = ResourcesModel::getInstance();
-        $model->updateResource($package, $resource, $patch, $RESTparameters);
+        $model->updateResource($package, $resourcename, $patch, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
@@ -239,6 +266,7 @@ class CUDController extends AController {
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
         $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
+        $c->delete(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
         RequestLogger::logRequest();
     }
 

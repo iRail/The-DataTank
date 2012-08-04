@@ -29,7 +29,9 @@ class XmlFormatter extends AFormatter{
 
     public function printBody(){
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";	  
-        $this->printObject($this->rootname . " version=\"1.0\" timestamp=\"" . time() . "\"",$this->objectToPrint);
+        $rootname = $this->rootname;
+        $this->printObject($this->rootname . " version=\"1.0\" timestamp=\"" . time() . "\"",$this->objectToPrint->$rootname);
+        echo "</$this->rootname>";
     }
 
     private function printObject($name,$object){
@@ -37,30 +39,50 @@ class XmlFormatter extends AFormatter{
         if(preg_match("/^[0-9]+.*/", $name)){
             $name = "i" . $name; // add an i
         }
-        echo "<".$name.">";
+        echo "<".$name;
         //If this is not an object, it must have been an empty result
         //thus, we'll be returning an empty tag
         if(is_object($object)){
             $hash = get_object_vars($object);
+            $tag_close = FALSE;
             foreach($hash as $key => $value){
                 if(is_object($value)){
+                    if($tag_close == FALSE){
+                        echo ">";
+                    }
+                    $tag_close = TRUE;
                     $this->printObject($key,$value);
+                    $boom = explode(" ",$name);
+                    if(count($boom) == 1){
+                        echo "</$name>";
+                    }
                 }elseif(is_array($value)){
+                    if($tag_close == FALSE){
+                        echo ">";
+                    }
+                    $tag_close = TRUE;
                     $this->printArray($key,$value);
+                    // sometimes the root element comes forward as end of the array, ignore this and only 
+                    // print non root end tag, this is due to a flaw in the writing algorithm, but hej, it works
+                    $boom = explode(" ",$name);
+                    if(count($boom) == 1){
+                        echo "</$name>";
+                    }
                 }else{
-                    $key = htmlspecialchars(str_replace(" ","",$key));
-                    $val = htmlspecialchars($value);
-                    echo "<".$key.">". $val ."</".$key.">";
+                    if($key == $name){
+                        echo ">$value</$key>";
+                        $tag_close = TRUE;
+                    }else{
+                        $key = htmlspecialchars(str_replace(" ","",$key));
+                        $val = htmlspecialchars($value);
+                        echo " ".$key.'="'. $val .'"';
+                    }
                 }
             }
+            if($tag_close == FALSE){
+                echo "/>";
+            }
         }
-
-        // *****  Workaround for array id's:
-        // if an array element has been passed then the name contains id=...
-        // so we need to find the first part of the tag which only contains the name
-        // i.e. $name =>  animal id='0', an explode(" ",$name)[0] should do the trick!
-        $boom = explode(" ",$name);
-        echo "</".$boom[0].">";
     }
 
     private function printArray($name,$array){
@@ -69,8 +91,9 @@ class XmlFormatter extends AFormatter{
             $name = "i" . $name; // add an i
         }
         $index = 0;
+
         foreach($array as $key => $value){
-            $nametag = $name;	       
+            $nametag = $name;
             if(is_object($value)){
                 $this->printObject($nametag,$value);
             }else if(is_array($value) && !$this->isHash($value)){
@@ -84,7 +107,8 @@ class XmlFormatter extends AFormatter{
             }else{// no array in arrays are allowed!!
                 $name = htmlspecialchars(str_replace(" ","",$name));
                 $value = htmlspecialchars($value);
-                if($this->isHash($array)){ //if this is an associative array, don't print it by name of the parent
+                if($this->isHash($array)){ 
+                    //if this is an associative array, don't print it by name of the parent
                     //check on first character
                     if(preg_match("/^[0-9]+.*/", $key)){
                         $key = "i" . $key; // add an i

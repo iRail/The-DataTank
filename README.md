@@ -1,12 +1,19 @@
 # Installation
 
-Currently our wiki is virtually down, it's physically still up, but there have been some authorization problems, and most of our content is unreachable. A how-to-get-started will be soon released on this page, either in this readme.md or in a separate file in the filestructure. The timeframe for this is july 2012.
+To install The DataTank check out our wiki at http://thedatatank.org
+
+# develop
+
+This is the development branch, this branch will be merged with separate branches where big features will be implemented separatly. When a branch is adult enough to merge it with the development branch, it will be merged and deleted. For small fixes and very small features the development will be adjusted without branching first. This branch is the most up to date version of The DataTank.
+
+Take a look at the issues-section for further discussion and features!
+
+# usages of The DataTank
 
 # FlatTurtle bvba#
 
 FlatTurtle creates APIs for your office building. Your office needs to keep in touch with real-time data surrounding the building: menu's, opening hours, traffic information, weather forecast, car parkings, train delays, expected arrival hours of airplanes, and so on.
 
-If you want to know more about installing The DataTank and using it, please visit http://thedatatank.org
 
 # The DataTank & FlatData #
 
@@ -16,11 +23,6 @@ If you want to read more about The DataTank please visit http://thedatatank.org 
 
 FlatTurtle has forked The DataTank to create a platform which integrates seaminglessly with our other products, like http://github.com/FlatTurtle/InfoScreen. This fork of The DataTank is called FlatData.
 
-### develop ### 
-
-This is the development branch, this branch will be merged with separate branches where big features will be implemented separatly. When a branch is adult enough to merge it with the development branch, it will be merged and deleted. For small fixes and very small features the development will be adjusted without branching first.
-
-Take a look at the issues-section for further discussion and features!
 
 Any questions? Add a support issue.
 

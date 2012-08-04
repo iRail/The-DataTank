@@ -16,26 +16,7 @@ abstract class ATabularData extends AResourceStrategy{
     protected $updateParameters = array(); // update parameters
 
     function __construct(){
-        $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if empty array is passed every column will be published. Note that this parameter is not required, however if you do not have a header row, we do expect the columns to be passed along, otherwise there's no telling what the names of the columns are. This array should be build as column_name => column_alias or index => column_alias.";
-    }
-
-    // @deprecated
-    public function onUpdate($package, $resource){
-        
-    }
-
-    /**
-     * @deprecated
-     */
-    public function documentUpdateParameters(){
-        return array();
-    }
-
-    /**
-     * @deprecated
-     */
-    public function documentUpdateRequiredParameters(){
-        return array();
+        $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if an empty array is passed every column will be published. This array should be build as column_name => column_alias or index => column_alias.";
     }
 
     /**
@@ -44,7 +25,7 @@ abstract class ATabularData extends AResourceStrategy{
      */
     protected function evaluateColumns($package_id,$generic_resource_id,$columns,$PK){
         // check if PK is in the column keys
-        if($PK != "" && !in_array($PK,$columns)){
+        if($PK != "" && !in_array($PK,array_keys($columns))){
             $this->throwException($package_id,$generic_resource_id,$PK ." as a primary key is not one of the column name keys. Either leave it empty or name it after a column name (not a column alias).");
         }
         
@@ -84,6 +65,10 @@ abstract class ATabularData extends AResourceStrategy{
      * specifically tuned for the parameters of the strategy.
      */
     public function onAdd($package_id, $gen_resource_id){
+        if(!isset($this->PK)){
+            $this->PK ="";
+        }
+        
         if($this->isValid($package_id,$gen_resource_id)){
             $this->evaluateColumns($package_id,$gen_resource_id,$this->columns,$this->PK);
             // get the name of the class ( = strategyname)

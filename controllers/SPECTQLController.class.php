@@ -15,6 +15,11 @@ include_once("controllers/spectql/SPECTQLParser.class.php");
 include_once("model/ResourcesModel.class.php");
 include_once("model/DBQueries.class.php");
 
+
+include_once("universalfilter/interpreter/UniversalInterpreter.php");
+include_once("universalfilter/tablemanager/UniversalFilterTableManager.class.php");
+include_once("universalfilter/tablemanager/tools/TableToPhpObjectConverter.class.php");
+
 class SPECTQLController extends AController {
 
     /**
@@ -26,11 +31,34 @@ class SPECTQLController extends AController {
         if(isset($matches["query"])){
             $query = $matches["query"];
         }
+
+        // split off the format of the query, if passed
+        $matches = array();
+        $format = "about";
+        if(preg_match("/:[a-zA-Z]+/",$query,$matches)){
+            $format = ltrim($matches[0],":");
+        }
+        
         $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
 
-        $result = $parser->interpret($context);
-        $formatterfactory = FormatterFactory::getInstance("about");//start content negotiation if the formatter factory doesn't exist
+        $universalquery = $parser->interpret($context);
+
+        $interpreter=new UniversalInterpreter();
+        $result = $interpreter->interpret($universalquery);
+        $converter = new TableToPhpObjectConverter();
+        
+        $object = $converter->getPhpObjectForTable($result);
+        
+        
+        //pack everything in a new object
+        $RESTresource="spectqlquery";
+        $o = new stdClass();
+        $o->$RESTresource = $object;
+        $result = $o;
+
+
+        $formatterfactory = FormatterFactory::getInstance($format);//start content negotiation if the formatter factory doesn't exist
         $rootname = "spectql";
 
         

@@ -66,7 +66,7 @@ class CSV extends ATabularData {
      */
     public function read(&$configObject,$package,$resource){
         /*
-         * First retrieve the values for the generic fields of the CSV logic
+         * First retrieve the values for the generic fields of the CSV logic.
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
@@ -91,13 +91,12 @@ class CSV extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
 
-        // only request public available files
-        $request = TDT::HttpRequest($filename);
-
-        if (isset($request->error)) {
-            throw new CouldNotGetDataTDTException($filename);
-        }
-
+       
+        // check if the file is accessible
+        if(fopen($filename, "r") == FALSE){
+			throw new CouldNotGetDataTDTException($filename);
+		}
+		
         $rows = array();
         if (($handle = fopen($filename, "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
@@ -110,7 +109,7 @@ class CSV extends ATabularData {
             }
             fclose($handle);
         }
-        
+
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
@@ -187,7 +186,7 @@ class CSV extends ATabularData {
                     }
                 }
 
-                if ($PK == "") {
+                if ($PK == ""){
                     array_push($arrayOfRowObjects, $rowobject);
                 } else {
                     if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {

@@ -53,6 +53,9 @@ class DatabaseSetup extends InstallController {
               `id` bigint(20) NOT NULL AUTO_INCREMENT,
               `package_name` varchar(255) NOT NULL,
               `timestamp` bigint(20) NOT NULL,
+              `package_title` varchar(80),
+              `parent_package` bigint(20),
+              `full_package_name` varchar(255),
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
 
@@ -114,6 +117,15 @@ class DatabaseSetup extends InstallController {
               `type` varchar(30) NOT NULL,
               PRIMARY KEY (`id`),
               KEY `package_id` (`package_id`)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
+
+
+        $queries["installed_resource"] = "CREATE TABLE IF NOT EXISTS `installed_resource` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `location` varchar(255) NOT NULL,
+              `classname` varchar(255) NOT NULL,
+              `resource_id` varchar(255) NOT NULL,
+              PRIMARY KEY (`id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
         
         $queries["info"] = "CREATE TABLE IF NOT EXISTS `info` (
@@ -211,7 +223,20 @@ class DatabaseSetup extends InstallController {
              // update the requests table and fill in the method GET for entries who dont have a request_method yet
             if($this->checkIfColumnsExists("requests","request_method") == 0){
                 R::exec("ALTER TABLE requests ADD request_method varchar(255)");
+            }            
+
+            if($this->checkIfColumnsExists("package","package_title") == 0){
+                R::exec("ALTER TABLE package ADD package_title varchar(255)");
             }
+
+            if($this->checkIfColumnsExists("package","parent_package") == 0){
+                R::exec("ALTER TABLE package ADD parent_package bigint(20)");
+            }
+            
+            if($this->checkIfColumnsExists("package","full_package_name") == 0){
+                R::exec("ALTER TABLE package ADD full_package_name varchar(255)");
+            }
+
             R::exec('UPDATE requests SET request_method = "GET" WHERE request_method IS NULL');
 
 

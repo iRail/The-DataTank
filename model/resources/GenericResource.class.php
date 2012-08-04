@@ -68,7 +68,7 @@ class GenericResource{
         $query = R::getRow(
             "SELECT *
              FROM  package,resource, generic_resource, $resource_table
-             WHERE package.package_name=:package and resource.resource_name=:resource
+             WHERE package.full_package_name=:package and resource.resource_name=:resource
                    and package.id=resource.package_id 
                    and resource.id = generic_resource.resource_id
                    and generic_resource.id= $resource_table.gen_resource_id",

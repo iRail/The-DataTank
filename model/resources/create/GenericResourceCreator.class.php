@@ -75,7 +75,20 @@ class GenericResourceCreator extends ACreator{
         $meta_data_id = DBQueries::storeMetaData($resource_id,$this,array_keys(parent::documentMetaDataParameters()));
 
         $generic_id= DBQueries::storeGenericResource($resource_id,$this->generic_type,$this->documentation);
-        $this->strategy->onAdd($package_id,$generic_id);
+        try{
+            $this->strategy->onAdd($package_id,$generic_id);
+        }catch(Exception $ex){
+            throw new Exception($ex->getMessage());
+            
+            // delete metadata about the resource
+            DBQueries::deleteMetaData($this->package,$this->resource);
+            
+            //now the only thing left to delete is the main row
+            DBQueries::deleteGenericResource($this->package, $this->resource);
+            
+            // also delete the resource entry
+            DBQueries::deleteResource($this->package,$this->resource);
+        }      
     }  
 }
 ?>
