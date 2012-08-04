@@ -30,11 +30,25 @@ class XmlFormatter extends AFormatter{
     public function printBody(){
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";	  
         $rootname = $this->rootname;
+        
+        if(!isset($this->objectToPrint->$rootname)){
+            $rootname = ucfirst($this->rootname);
+            $this->rootname = $rootname;
+        }
+
+        
+        if(!is_object($this->objectToPrint->$rootname)){
+            $wrapper = new stdClass();
+            $wrapper->$rootname = $this->objectToPrint->$rootname;
+            $this->objectToPrint->$rootname = $wrapper;
+        }
+        
         $this->printObject($this->rootname . " version=\"1.0\" timestamp=\"" . time() . "\"",$this->objectToPrint->$rootname);
         echo "</$this->rootname>";
     }
 
-    private function printObject($name,$object){
+    private function printObject($name,$object,$nameobject=null){
+
         //check on first character
         if(preg_match("/^[0-9]+.*/", $name)){
             $name = "i" . $name; // add an i
@@ -45,30 +59,33 @@ class XmlFormatter extends AFormatter{
         if(is_object($object)){
             $hash = get_object_vars($object);
             $tag_close = FALSE;
+            
             foreach($hash as $key => $value){
                 if(is_object($value)){
                     if($tag_close == FALSE){
                         echo ">";
                     }
+
                     $tag_close = TRUE;
                     $this->printObject($key,$value);
-                    $boom = explode(" ",$name);
+                    /*$boom = explode(" ",$name);
                     if(count($boom) == 1){
                         echo "</$name>";
-                    }
+                        }*/
                 }elseif(is_array($value)){
                     if($tag_close == FALSE){
                         echo ">";
                     }
                     $tag_close = TRUE;
                     $this->printArray($key,$value);
-                    // sometimes the root element comes forward as end of the array, ignore this and only 
-                    // print non root end tag, this is due to a flaw in the writing algorithm, but hej, it works
-                    $boom = explode(" ",$name);
+                    
+                    /*$boom = explode(" ",$name);
+                    
                     if(count($boom) == 1){
                         echo "</$name>";
-                    }
+                        }*/
                 }else{
+                    
                     if($key == $name){
                         echo ">$value</$key>";
                         $tag_close = TRUE;
@@ -79,9 +96,19 @@ class XmlFormatter extends AFormatter{
                     }
                 }
             }
+
             if($tag_close == FALSE){
-                echo "/>";
+                echo ">";
             }
+            
+            
+            if($name != $nameobject){
+                $boom = explode(" ",$name);
+                if(count($boom) == 1){
+                    echo "</$name>";
+                }
+            }
+
         }
     }
 
@@ -92,10 +119,16 @@ class XmlFormatter extends AFormatter{
         }
         $index = 0;
 
+        if(empty($array)){
+            echo "<$name></$name>";
+        }
+        
+
         foreach($array as $key => $value){
             $nametag = $name;
             if(is_object($value)){
-                $this->printObject($nametag,$value);
+                $this->printObject($nametag,$value,$name);
+                echo "</$name>";
             }else if(is_array($value) && !$this->isHash($value)){
                 echo "<".$name. ">";
                 $this->printArray($nametag,$value);

@@ -54,6 +54,11 @@ class GenericResourceFactory extends AResourceFactory {
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 
+                if($example_uri == FALSE){
+                    $example_uri = "";
+                }
+                
+                
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
                 $doc->$package->$resourcename->example_uri = $example_uri;
