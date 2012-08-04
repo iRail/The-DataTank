@@ -42,6 +42,10 @@ class SHP extends ATabularData {
             $this->columns = array();
         }
 
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
+        }
+
         if (!isset($this->PK)) {
             $this->PK = "";
         }
@@ -77,19 +81,21 @@ class SHP extends ATabularData {
                 exit();
             }
                         
-            $dbf_data = $record->getDbfData();
-            foreach ($dbf_data as $property => $value) {
-                $property = strtolower($property);
-                $this->columns[$property] = $property;
+            $dbf_fields = $record->getDbfFields();
+            $dataIndex = 0;
+            foreach ($dbf_fields as $field) {
+                $property = strtolower($field["fieldname"]);
+                $this->columns[$dataIndex] = $property;
+                $dataIndex++;
             }
 
             $shp_data = $record->getShpData();
             if(isset($shp_data['parts'])) {
-                $this->columns["coords"] = "coords";
+                $this->columns[$dataIndex] = "coords";
             }
             if(isset($shp_data['x'])) {
-                $this->columns["lat"] = "lat";
-                $this->columns["long"] = "long";
+                $this->columns[$dataIndex] = "lat";
+                $this->columns[$dataIndex + 1] = "long";
             }
 			
             unset($shp);
@@ -149,12 +155,12 @@ class SHP extends ATabularData {
                 $dbf_data = $record->getDbfData();
                 foreach ($dbf_data as $property => $value) {
                     $property = strtolower($property);
-                    if(array_key_exists($property,$columns)) {
+                    if(in_array($property,$columns)) {
                         $rowobject->$property = trim($value);
                     }
                 }	
 				
-                if(array_key_exists("coords",$columns) || array_key_exists("lat",$columns)) {
+                if(in_array("coords",$columns) || in_array("lat",$columns)) {
                     // read shape data
                     $shp_data = $record->getShpData();
                     if ($EPSG != "") {
