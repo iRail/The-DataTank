@@ -40,6 +40,7 @@ class ResourcesModel {
          * part of the resource itself. i.e. a foreign relation between two resources
          */
         $this->updateActions = array();
+
         //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["ontology"] = "OntologyUpdater";
         $this->updateActions["generic"] = "GenericResourceUpdater";
@@ -145,7 +146,7 @@ class ResourcesModel {
                     $parameters["generic_type"] = $resourceTypeParts[1];
                     $parameters["resource_type"] = $resourceTypeParts[0];
                 } else if (!isset($parameters["generic_type"])) {
-                    throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example is: generic/CSV");
+                    throw new ResourceAdditionTDTException("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV");
                 }
             }
 
@@ -154,7 +155,7 @@ class ResourcesModel {
             $restype = strtolower($restype);
             //now check if the file exist and include it
             if (!in_array($restype, array("generic", "remote","installed"))) {
-                throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic or remote");
+                throw new ResourceAdditionTDTException("Resource type doesn't exist. Choose from generic,remote or installed");
             }
             // get the documentation containing information about the required parameters
             $doc = $this->getAllAdminDoc();
@@ -556,6 +557,67 @@ class ResourcesModel {
         $result["resourcename"] = $resourcename;
         $result["RESTparameters"] = $RESTparameters;
         return $result;
+    }
+
+    /**
+     * Check if the resource implements iFilter or not
+     * return FALSE if not the resource doesn't implement iFitler
+     * return the resource if it does
+     */
+    public function isResourceIFilter($package,$resource){
+        foreach ($this->factories as $factory) {
+
+            if ($factory->hasResource($package, $resource)) {
+
+                // remote resource just proxies the url so we don't need to take that into account
+                if(get_class($factory) == "GenericResourceFactory"){
+
+                    $genericResource = new GenericResource($package,$resource);
+                    $strategy = $genericResource->getStrategy();
+                    
+                    $interfaces = class_implements($strategy);
+
+                    if(in_array("iFilter",$interfaces)){
+                        return $genericResource;
+                    }else{
+                        return FALSE;
+                    }                   
+
+                }elseif(get_class($factory) == "InstalledResourceFactory"){
+
+                    $reader = $factory->createReader($package,$resource,array(),array());
+                    $interfaces = class_implements($reader);
+                    
+                    if(in_array("iFilter",$interfaces)){
+                        return $reader;
+                    }else{
+                        return FALSE;
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Read the resource but by calling the readAndProcessQuery function
+     */
+    public function readResourceWithFilter(UniversalFilterNode $query,$resource){
+        $result = $resource->readAndProcessQuery($query);
+        return $result;
+    }
+
+    /**
+     * get the columns from a resource
+     */
+    public function getColumnsFromResource($package,$resource){
+        $gen_resource_id = DBQueries::getGenericResourceId($package,$resource);
+
+        if(isset($gen_resource_id["gen_resource_id"]) && $gen_resource_id["gen_resource_id"] != ""){
+            return DBQueries::getPublishedColumns($gen_resource_id["gen_resource_id"]);
+        }
+        return NULL;
     }
 }
 ?>

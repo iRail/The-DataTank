@@ -17,7 +17,7 @@ class SQLTokenizer{
     
     /* parsing: special chars */
     private static $specialchars=array('\n', '\r', ' ', '\t', 
-        ')', '(', '+', '-', '*', '/', ',', '=', '<', '>', '!');//todo < >, ...
+        ')', '(', '+', '-', '*', '/', ',', '=', '<', '>', '!');
     private static $whitespacechars=array('\n', '\r', ' ', '\t');
     
     /* parsing: tool-functions 

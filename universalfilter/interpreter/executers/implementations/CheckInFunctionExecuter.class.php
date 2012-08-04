@@ -10,17 +10,6 @@
  */
 class CheckInFunctionExecuter extends UnaryFunctionExecuter {
     
-    private $filter;
-
-    protected function getSourceExpression(){
-        return $this->filter->getSource();
-    }
-    
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
-        $this->filter = $filter;
-        parent::initExpression($filter, $topenv, $interpreter);
-    }
-    
     private function constantsToString(){
         $arr = $this->filter->getConstants();
         $outarr = array();

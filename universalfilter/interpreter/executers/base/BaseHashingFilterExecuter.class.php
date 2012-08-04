@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
+abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     
     /**
      * Need to be overriden by subclasses. Which columns need to be hashed???
@@ -32,10 +32,12 @@ abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
     
     private $newColumns;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+        $this->filter = $filter;
+        
         //get source environment
         $this->executer = $interpreter->findExecuterFor($filter->getSource());
-        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter);
+        $this->executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         
         
         // make the new header
@@ -130,14 +132,16 @@ abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
                     $value = $oldRow->getCellValue($oldId);
                     
                     if($isGrouped){
-                        $arr=array();
+                        $data=new UniversalFilterTableContent();
                         
                         if(isset($groupedColumnValues[$newId])){
-                            $arr = $groupedColumnValues[$newId];
+                            $data = $groupedColumnValues[$newId];
                         }
+                        $row = new UniversalFilterTableContentRow();
+                        $row->defineValue("data", $value);
                         
-                        array_push($arr, $value);
-                        $groupedColumnValues[$newId]=$arr;
+                        $data->addRow($row);
+                        $groupedColumnValues[$newId]=$data;
                     }else{
                         //just set the value
                         $groupedColumnValues[$newId]=$value;
@@ -165,6 +169,21 @@ abstract class BaseHashingFilterExecuter extends UniversalFilterNodeExecuter {
         $sourcetablecontent->tryDestroyTable();
         
         return $newRows;
+    }
+    
+    public function cleanUp(){
+        $this->executer->cleanUp();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=$this->executer->filterSingleSourceUsages($this->filter, 0);
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 }
 

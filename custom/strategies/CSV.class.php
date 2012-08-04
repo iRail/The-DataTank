@@ -85,17 +85,12 @@ class CSV extends ATabularData {
         }
       
         $columns = $configObject->columns;
+        $column_aliases = $configObject->column_aliases;
         $PK = $configObject->PK;
 
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
-
-       
-        // check if the file is accessible
-        if(fopen($filename, "r") == FALSE){
-			throw new CouldNotGetDataTDTException($filename);
-		}
 		
         $rows = array();
         if (($handle = fopen($filename, "r")) !== FALSE) {
@@ -108,7 +103,10 @@ class CSV extends ATabularData {
                 array_push($rows,ltrim($csvRow,$delimiter));
             }
             fclose($handle);
+        }else{
+            throw new CouldNotGetDataTDTException($filename);
         }
+        
 
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {
@@ -123,9 +121,10 @@ class CSV extends ATabularData {
          * note that the precondition of the beforehand filling of the fieldhash
          * is that the column_name is an index! Otherwise there's no way of id'ing a column
          */
+
         if ($has_header_row == "0") {
-            foreach ($columns as $index => $column_name) {
-                $fieldhash[$index] = $index;
+            foreach($columns as $index=> $column_name){
+                $fieldhash[$column_name] = $index;
             }
         }
 
@@ -166,10 +165,13 @@ class CSV extends ATabularData {
                 // <<fast!>> way to detect empty fields
                 // if it contains empty fields, it should not be our field hash
                 $empty_elements = array_keys($data, "");
+
                 if (!count($empty_elements)) {
+
                     // we found our key fields
                     for ($i = 0; $i < sizeof($data); $i++)
-                        $fieldhash[$data[$i]] = $i;
+                        $fieldhash[$data[$i]] = $i ;
+
                 }
             } else {
 
@@ -177,12 +179,17 @@ class CSV extends ATabularData {
                 $keys = array_keys($fieldhash);
 
                 for ($i = 0; $i < sizeof($keys); $i++) {
+
                     $c = $keys[$i];
 
-                    if (sizeof($columns) == 0 || !array_key_exists($c, $columns)) {
+                    if (sizeof($columns) == 0 || !in_array($c,$columns)) {
+
                         $rowobject->$c = $data[$fieldhash[$c]];
-                    } else if (array_key_exists($c, $columns)) {
-                        $rowobject->$columns[$c] = $data[$fieldhash[$c]];
+
+                    } else if (in_array($c, $columns)) {
+
+                        $rowobject->$column_aliases[$c] = $data[$fieldhash[$c]];
+
                     }
                 }
 
@@ -220,6 +227,10 @@ class CSV extends ATabularData {
 
         if (!isset($this->columns)) {
             $this->columns = array();
+        }
+
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
         }
 
         if(!isset($this->has_header_row)){

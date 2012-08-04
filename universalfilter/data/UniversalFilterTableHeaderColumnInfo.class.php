@@ -43,6 +43,10 @@ class UniversalFilterTableHeaderColumnInfo {
         return $this->completeColumnNameParts[count($this->completeColumnNameParts)-1];//last
     }
     
+    public function getFullName($separator="."){
+        return implode($separator, $this->completeColumnNameParts);
+    }
+    
     /**
      * returns true if this column is grouped
      * @return bool 
@@ -70,13 +74,24 @@ class UniversalFilterTableHeaderColumnInfo {
      * @return bool 
      */
     public function matchName(array $nameParts){
-        $completeCount = count($this->completeColumnNameParts);
+        return UniversalFilterTableHeaderColumnInfo::algorithmMatchName($this->completeColumnNameParts, $nameParts);
+    }
+    
+    /**
+     * The algorithm used to match names...
+     * 
+     * @param array $fullNameParts
+     * @param array $nameParts
+     * @return boolean Do we have a match?
+     */
+    public static function algorithmMatchName(array $fullNameParts, array $nameParts){
+        $completeCount = count($fullNameParts);
         $partCount = count($nameParts);
         if($partCount>$completeCount){
             return false;
         }
         for ($index = 0; $index < $partCount; $index++) {
-            $completePart = $this->completeColumnNameParts[$completeCount-1-$index];
+            $completePart = $fullNameParts[$completeCount-1-$index];
             $partialPart = $nameParts[$partCount-1-$index];
             if($completePart!=$partialPart){
                 return false;
@@ -84,7 +99,8 @@ class UniversalFilterTableHeaderColumnInfo {
         }
         return true;
     }
-    
+
+
     
     /**
      * clone this columnInfo
@@ -138,6 +154,15 @@ class UniversalFilterTableHeaderColumnInfo {
     public function cloneColumnTableAlias($tablename){
         $newColum = $this->cloneColumnInfo();
         $newColum->completeColumnNameParts=array($tablename, $this->completeColumnNameParts[count($this->completeColumnNameParts)-1]);
+        return $newColum;
+    }
+    
+    /**
+     * Clones this column with the specified id
+     */
+    public function cloneColumnWithId($newColumnId){
+        $newColum = $this->cloneColumnInfo();
+        $newColum->columnId = $newColumnId;
         return $newColum;
     }
     

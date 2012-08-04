@@ -10,23 +10,48 @@
  * @author Jeroen Penninck
  */
 
-include_once("universalfilter/interpreter/IInterpreter.class.php");
+include_once("universalfilter/interpreter/IInterpreterControl.class.php");
 include_once("universalfilter/interpreter/Environment.class.php");
+
+include_once("universalfilter/interpreter/other/DummyUniversalFilterNode.class.php");
+include_once("universalfilter/interpreter/sourceusage/SourceUsageData.class.php");
+include_once("universalfilter/sourcefilterbinding/ExpectedHeaderNamesAttachment.class.php");
+
+include_once("universalfilter/interpreter/cloning/FilterTreeCloner.class.php");
 
 include_once("universalfilter/interpreter/executers/UniversalFilterExecuters.php");
 
-/**
- * Description of UniversalInterpreter
- *
- * @author Jeroen
- */
-class UniversalInterpreter implements IInterpreter{
+include_once("universalfilter/interpreter/optimizer/UniversalOptimizer.class.php");
+
+//debug
+include_once("universalfilter/interpreter/debugging/TreePrinter.class.php");
+
+
+class UniversalInterpreter implements IInterpreterControl{
     
     private $executers;
     private $tablemanager;
     
-    public function __construct() {
-        $this->tablemanager=new UniversalFilterTableManager();
+    /**
+     * Are nested querys allowed?
+     * true = yes, they are allowed.
+     * false = no, throw an exception if you try to use them...
+     * 
+     * @var boolean 
+     */
+    public static $ALLOW_NESTED_QUERYS=false;
+    
+    /**
+     * For debugging purposses, would you like to see debug information about execution of querys on the source?
+     * @var boolean 
+     */
+    public static $DEBUG_QUERY_ON_SOURCE_EXECUTION=false;
+    
+    /**
+     * Constructor, fill the executer-class map.
+     */
+    public function __construct($tablemanager) {
+        $this->tablemanager=$tablemanager;
         
         $this->executers = array(
             "IDENTIFIER" => "IdentifierExecuter",
@@ -36,6 +61,7 @@ class UniversalInterpreter implements IInterpreter{
             "DATAGROUPER" => "DataGrouperExecuter",
             "TABLEALIAS" => "TableAliasExecuter",
             "FILTERDISTINCT" => "DistinctFilterExecuter",
+            "EXTERNALLY_CALCULATED_NODE" => "ExternallyCalculatedFilterNodeExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
             UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
@@ -76,30 +102,84 @@ class UniversalInterpreter implements IInterpreter{
         return $this->tablemanager;
     }
     
-    public function interpret(UniversalFilterNode $tree){
+    public function interpret(UniversalFilterNode $originaltree){
+        if(UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION){
+            $printer = new TreePrinter();
+            echo "<h2>Original Query:</h2>";
+            $printer->printString($originaltree);
+        }
+        
+        //CLONE QUERY (because we will modify it... and the caller might want to keep the original query)
+        $cloner = new FilterTreeCloner();
+        $clonedtree = $cloner->deepCopyTree($originaltree);
+        
         //OPTIMIZE
         $optimizer = new UniversalOptimizer();
         
-        $tree = $optimizer->optimize($tree);
+        $tree = $optimizer->optimize($clonedtree);
         
-        //EXECUTE
-        $executer = $this->findExecuterFor($tree);
         
+        //INITIAL ENVIRONMENT... is empty
         $emptyEnv = new Environment();
         $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
         
-        $executer->initExpression($tree, $emptyEnv, $this);
+        
+        //CALCULATE HEADER FIRST TIME + QUERY SYNTAX DETECTION
+        // calculate the header already once on the original query.
+        // it can throw errors...
+        $executer = $this->findExecuterFor($tree);
+        $executer->initExpression($tree, $emptyEnv, $this, false);
+        
+        
+        //EXECUTE PARTS ON SOURCE
+        
+        // - modify the headers to include column names
+        $executer->modififyFiltersWithHeaderInformation();
+        
+        // - calculate single source usages
+        $rootDummyFilter = new DummyUniversalFilterNode($tree);
+        $singleSourceUsages = $executer->filterSingleSourceUsages($rootDummyFilter, 0);
+        
+        // - calculated... now execute them on the sources... AND BUILD A NEW QUERY
+        foreach($singleSourceUsages as $singleSource){
+            // - unpack data
+            $filterSourceNode = $singleSource->getFilterSourceNode();
+            $filterParentNode = $singleSource->getFilterParentNode();
+            $filterParentSourceIndex = $singleSource->getFilterParentSourceIndex();
+            $sourceId = $singleSource->getSourceId();
+            
+            // debug
+            if(UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION){
+                $printer = new TreePrinter();
+                echo "<h2>This is given to the source with id \"".$sourceId."\":</h2>";
+                $printer->printString($filterSourceNode);
+            }
+            
+            // - do it
+            $newQuery = $this->getTableManager()->runFilterOnSource($filterSourceNode, $sourceId);
+            $filterParentNode->setSource($newQuery, $filterParentSourceIndex);
+        }
+        
+        
+        $tree= $rootDummyFilter->getSource();
+        
+        
+        //EXECUTE (for real this time)
+        $executer = $this->findExecuterFor($tree);
+        $executer->initExpression($tree, $emptyEnv, $this, false);
         
         //get the table, in two steps
         $header = $executer->getExpressionHeader();
         
         $content = $executer->evaluateAsExpression();
         
+        $executer->cleanUp();
         
-        //after return: CLEANUP
-        //$content->tryDestroyTable();
-        
+        //RETURN
         return new UniversalFilterTable($header, $content);
+        
+        //CLEANUP -> when you don't need the data anymore
+        //$content->tryDestroyTable();
     }
 }
 

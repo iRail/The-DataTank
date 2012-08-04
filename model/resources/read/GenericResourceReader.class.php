@@ -52,8 +52,5 @@ class GenericResourceReader extends AReader {
             $strategy->setParameter($key,$value);
         }
     }
-
-
 }
-
 ?>

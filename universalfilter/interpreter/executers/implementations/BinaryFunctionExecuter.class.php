@@ -7,9 +7,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class BinaryFunctionExecuter extends ExpressionNodeExecuter {
-    
-    private $filter;
+abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -19,15 +17,15 @@ abstract class BinaryFunctionExecuter extends ExpressionNodeExecuter {
     private $header1;
     private $header2;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
-        $this->executer1 = $interpreter->findExecuterFor($this->filter->getArgument1());
-        $this->executer2 = $interpreter->findExecuterFor($this->filter->getArgument2());
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
+        $this->executer2 = $interpreter->findExecuterFor($this->filter->getSource(1));
         
         //init down
-        $this->executer1->initExpression($this->filter->getArgument1(), $topenv, $interpreter);
-        $this->executer2->initExpression($this->filter->getArgument2(), $topenv, $interpreter);
+        $this->executer1->initExpression($this->filter->getSource(0), $topenv, $interpreter, true);
+        $this->executer2->initExpression($this->filter->getSource(1), $topenv, $interpreter, true);
         
         $this->header1 = $this->executer1->getExpressionHeader();
         $this->header2 = $this->executer2->getExpressionHeader();
@@ -111,6 +109,25 @@ abstract class BinaryFunctionExecuter extends ExpressionNodeExecuter {
     
     public function doBinaryFunction($valueA, $valueB){
         return null;
+    }
+    
+    public function cleanUp(){
+        $this->executer1->cleanUp();
+        $this->executer2->cleanUp();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer1->modififyFiltersWithHeaderInformation();
+        $this->executer2->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=array_merge(
+            $this->executer1->filterSingleSourceUsages($this->filter, 0),
+            $this->executer2->filterSingleSourceUsages($this->filter, 1));
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 }
 ?>

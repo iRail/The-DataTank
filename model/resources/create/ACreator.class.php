@@ -42,11 +42,12 @@ abstract class ACreator{
                      "contributor" => "An entity responsible for making contributions to the resource.",
                      "coverage" => "The spatial or temporal topic of the resource, the spatial applicability of the resource, or the jurisdiction under which the resource is relevant.",
                      "creator" => "An entity primarily responsible for making the resource.",
-                     "language" => "A language of the resource.",
-                     "license" => "A legal entity (link or name) giving official permission to do something with the resource.",
+                     "language" => "The language of the resource.",
+                     "license" => "The license of the data.",
                      "publisher" => "An entity responsible for making the resource available.",
                      "rights" => "Information about rights held in and over the resource.",
-                     "rightsHolder" => "A person or organization owning or managing rights over the resource."
+                     "rightsHolder" => "A person or organization owning or managing rights over the resource.",
+							"example_uri" => "An example of how a call to the resource may look like."
                );
     }
     

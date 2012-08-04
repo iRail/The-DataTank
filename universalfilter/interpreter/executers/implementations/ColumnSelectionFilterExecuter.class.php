@@ -22,14 +22,15 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     private $childEnvironmentData;
     private $giveToColumnsEnvironment;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+        $this->filter = $filter;
         
         //get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer = $executer;
         
         
-        $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer);
+        $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer, false);
         $this->giveToColumnsEnvironment = $this->getChildEnvironment($this->childEnvironmentData);
         
         
@@ -60,7 +61,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             array_push($this->columnExecuters, $exprexec);
             
             //init expression
-            $exprexec->initExpression($filterColumn, $this->giveToColumnsEnvironment, $interpreter);
+            $exprexec->initExpression($filterColumn, $this->giveToColumnsEnvironment, $interpreter, true);
             $header = $exprexec->getExpressionHeader();
             
             //header info
@@ -133,7 +134,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             $header = $exprexec->getExpressionHeader();
             
             //evaluate
-            $anwser = $exprexec->evaluateAsExpression();
+            $answer = $exprexec->evaluateAsExpression();
             
             for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
                 //column information
@@ -141,7 +142,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 
                 if($header->isSingleRowByConstruction()){
                     //copy single value to all rows
-                    $rowValue = $anwser->getRow(0);
+                    $rowValue = $answer->getRow(0);
                     
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
@@ -149,18 +150,50 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 }else{
                     //copy values to coresponding rows
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
-                        $rowValue = $anwser->getRow($index);
+                        $rowValue = $answer->getRow($index);
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
                     }
                 }
             }
             
-            $anwser->tryDestroyTable();
+            $answer->tryDestroyTable();
         }
         
         $sourcecontent->tryDestroyTable();
         
         return $newRows;
+    }
+    
+    public function cleanUp(){
+        $this->executer->cleanUp();
+        
+        foreach($this->columnInterpreters as $columnIndex => $column){
+            //get executer
+            $exprexec = $this->columnExecuters[$columnIndex];
+            $exprexec->cleanUp();
+        }
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer->modififyFiltersWithHeaderInformation();
+        
+        foreach($this->columnInterpreters as $columnIndex => $column){
+            //get executer
+            $exprexec = $this->columnExecuters[$columnIndex];
+            $exprexec->modififyFiltersWithHeaderInformation();
+        }
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=$this->executer->filterSingleSourceUsages($this->filter, 0);
+        
+        foreach($this->columnInterpreters as $columnIndex => $column){
+            //get executer
+            $exprexec = $this->columnExecuters[$columnIndex];
+            $arr = array_merge($arr, $exprexec->filterSingleSourceUsages($this->filter, -1));//TODO: give a correct source number -> only a problem when allowing nested selects (!)
+        }
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
     
 }

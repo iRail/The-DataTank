@@ -14,7 +14,7 @@ class UniversalFilterTableHeader {
     private $isSingleRowByConstruction;
     private $isSingleColumnByConstruction;
     
-    public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction) {//TODO [X] check
+    public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction) {
         $this->columns=$columns;
         $this->isSingleRowByConstruction=$isSingleRowByConstruction;
         $this->isSingleColumnByConstruction=$isSingleColumnByConstruction;
@@ -45,7 +45,7 @@ class UniversalFilterTableHeader {
                     $found=true;
                     $id = $column->getId();
                 }else{
-                    throw new Exception("That identifier is not unique \"".$columnName."\"");
+                    throw new Exception("That identifier is not unique \"".$columnName."\". Please be more specific.");
                 }
             }
         }
@@ -87,7 +87,7 @@ class UniversalFilterTableHeader {
     }
     
     /**
-     * returns if this table is constucted that way only one row can exist (e.g. after FIRST() or AVG() )
+     * returns if this table is constructed that way only one row can exist (e.g. after FIRST() or AVG() )
      */
     public function isSingleRowByConstruction() {
         return $this->isSingleRowByConstruction;

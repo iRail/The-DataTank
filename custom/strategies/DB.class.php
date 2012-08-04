@@ -11,12 +11,16 @@
  * @author Jan Vansteenlandt
  */
 include_once("custom/strategies/ATabularData.class.php");
+
 include_once("includes/DoctrineDBAL-2.2.2/Doctrine/Common/ClassLoader.php");
+
 include_once("aspects/logging/BacklogLogger.class.php");
+
+include_once("model/resources/read/IFilter.class.php");
 
 use Doctrine\Common\ClassLoader;
 
-class DB extends ATabularData {
+class DB extends ATabularData implements iFilter {
 
 
     private static $allowed_db_driver = array(    "mysql" => "pdo_mysql", 
@@ -79,12 +83,18 @@ class DB extends ATabularData {
          */
         parent::read($configObject,$package,$resource);
 
-        $fields = implode(array_keys($configObject->columns),",");
+        $fields = "";//implode(array_keys($configObject->columns),",");
+
+        foreach($configObject->column_aliases as $column_name => $column_alias){
+            $fields.= " $column_name AS $column_alias ,";
+        }
+        
+        $fields = rtrim($fields,",");
 
         // prepare to get some of them data from the database!
         $sql = "SELECT $fields FROM $configObject->db_table";
 
-        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . Config::$SUBDIR . "includes/DoctrineDBAL-2.2.2" );
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
 
@@ -95,18 +105,18 @@ class DB extends ATabularData {
         $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
         $stmt = $conn->query($sql);
 
-        $table_columns = array_keys($configObject->columns);
-        $aliases = $configObject->columns;
+        $aliases = $configObject->column_aliases;
 
         $arrayOfRowObjects = array();
+
         while ($row = $stmt->fetch()) {
+
             $rowobject = new stdClass();
             $PK = $configObject->PK;
 
             // get the data out of the row and create an object out of it
-            foreach($table_columns as $table_column){
-                $key = $aliases[$table_column];
-                $rowobject->$key = $row[$table_column];
+            foreach($aliases as $table_column => $alias){
+                $rowobject->$alias = $row[$alias];
             }
 
             /**
@@ -136,6 +146,7 @@ class DB extends ATabularData {
      * Prepares the connection parameters from the configObject, used in the read function
      */
     private function prepareConnectionParams($configObject){
+
         if(strtolower($configObject->db_type) == "sqlite"){
             return array(
                 'path' => $configObject->location,
@@ -170,6 +181,10 @@ class DB extends ATabularData {
             $this->password = "";
         }
         
+
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
+        }
 
         /**
          * Check if there is a ";" passed in the table parameter, if so give back an error
@@ -242,27 +257,26 @@ class DB extends ATabularData {
      */
     private function validateColumns($table_columns){
         if(!isset($this->columns)){
+
             $this->columns = array();
+            $index = 0;
             foreach($table_columns as $column){
-                $this->columns[$column] = $column;
+                $this->columns[$index] = $column;
+                $index++;
             }
+
         }else{
-            $aliases =$this->columns;
+
             $this->columns = array();
             // make the columns as columnname => columnname
             // then in the second foreach put the aliases in the columns array (which technically is a hash)
-            foreach($table_columns as $column){
-                $this->columns[$column] = $column;
-            }
-            
-            foreach($aliases as $column => $alias){
-                if(array_key_exists($column,$this->columns)){
-                    $this->columns[$column] = $alias;
-                }else{
-                    throw new ResourceAdditionTDTException("The column $column for which an alias ( $alias ) was given doesn't exist.");
+            foreach($table_columns as $index => $column){
+                if(!is_numeric($index)){
+                    throw new ResourceAdditionTDTException("The index $index is not numeric in the columns array!");
                 }
             }
         }
+
         return true;
     }
 
@@ -273,7 +287,7 @@ class DB extends ATabularData {
         /**
          * Prepare the doctrine DBAL
          */
-        $classLoader = new ClassLoader('Doctrine', Config::$INSTALLDIR . Config::$SUBDIR.  "doctrine");
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
 
@@ -322,6 +336,112 @@ class DB extends ATabularData {
             array_push($table_columns,$column->getName());
         }
         return $table_columns;
+    }
+
+
+    /**
+     * THIS IS AN EXAMPLE IMPLEMENTATION OF HOW TO HANDLE QUERIES FROM THE AST !
+     *
+     * This function in DB resource is an example of how the processing of a query from the AST can be done.
+     * This example will attempt to process the entire tree to an SQL query
+     * if this doesnt work, it will say so by passing NULL as a phpDataObject
+     * it will not try to execute parts and bits of the tree.
+     *
+     */
+    public function readAndProcessQuery($query,$parameters){
+
+        include_once("universalfilter/converter/SQLConverter.class.php");
+        include_once("universalfilter/interpreter/debugging/TreePrinter.class.php");
+
+/*        $printer = new TreePrinter();
+        $printer->printString($query);
+        exit();*/
+
+        $requiredColumnNames = $query->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);
+        $headerNames =$requiredColumnNames->getExpectedHeaderNames();
+        
+
+        /**
+         * Convert the tree to a SQL string
+         */
+        $converter = new SQLConverter($headerNames);
+        $sql = $converter->treeToSQL($query);
+
+        // get the identifiers of the query, just to check that the query that has been passed, contains information
+        // that can be released
+        $identifiers = $converter->getIdentifiers();
+
+        /* 
+         * get the configuration object to read a DB resource
+         * and get the extra information such as columns and primary key from the parent
+         */
+        $configObject = $parameters["configObject"];
+        parent::read($configObject,$parameters["package"],$parameters["resource"]);
+
+        // replace the source with the actual database table
+        $sourceIdentifier = $parameters["package"] . "." . $parameters["resource"];
+        $sourceIdentifier = str_replace("/",".",$sourceIdentifier);        
+        $sql = str_replace($sourceIdentifier,$configObject->db_table,$sql);
+
+        // prepare the DBAL
+        $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
+        $classLoader->register();
+        $config = new \Doctrine\DBAL\Configuration();
+
+        $resultObject = new stdClass();
+
+        try{
+            
+            $connectionParams = $this->prepareConnectionParams($configObject);
+
+            $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+            $stmt = $conn->query($sql);
+
+            $table_columns = array_keys($configObject->columns);
+
+            // check if the identifiers are part of the table_columns
+            $legitIdentifiers = array();
+            
+            foreach($identifiers as $identifier){
+                if(in_array($identifier,$table_columns)){
+                    array_push($legitIdentifiers,$identifier);
+                }elseif($identifier == "*"){
+                    array_push($legitIdentifiers,$table_columns);
+                }
+            }
+
+            $arrayOfRowObjects = array();
+            while ($row = $stmt->fetch()) {
+
+                $rowobject = new stdClass();
+
+                // get the data out of the row and create an object out of it
+                $rowKeys = array_keys($row);
+                foreach($rowKeys as $key){
+                    $rowobject->$key = $row[$key];
+                }
+
+                /**
+                 * Add the object to the array of row objects
+                 */
+                array_push($arrayOfRowObjects, $rowobject);
+
+            }
+
+            $resultObject->indexInParent = "-1";
+            $resultObject->executedNode = $query;
+            $resultObject->parentNode = null;
+            $resultObject->phpDataObject = $arrayOfRowObjects;
+
+        }catch(Exception $ex){
+
+            $resultObject->indexInParent = "";
+            $resultObject->executeNode = NULL;
+            $resultObject->phpDataObject = NULL;
+            $resultObject->parentNode = null;
+        }
+        
+        return $resultObject;
     }
 }
 ?>

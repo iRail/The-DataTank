@@ -29,6 +29,8 @@ class TDTAdminExport extends AReader{
 
     public function read(){
         $model = ResourcesModel::getInstance();
+
+
         /**
          * Check if package resource pair ( if any given ) are valid
          */
@@ -36,6 +38,7 @@ class TDTAdminExport extends AReader{
         $allDoc = $model->getAllDoc();
         $this->descriptionDoc = $model->getAllDescriptionDoc();
         $creationDoc = $model->getAllAdminDoc();
+        
         /**
          * Different scenario's:
          * no package given
@@ -91,7 +94,6 @@ class TDTAdminExport extends AReader{
                 throw new ResourceOrPackageNotFoundTDTException($this->export_package . "/" . $this->export_resource . " not found.");
             }
         }
-        //var_dump($resources);
 
         $resourceDumps = array();
         /**
@@ -153,12 +155,13 @@ class TDTAdminExport extends AReader{
     }
 
     /**
-     * Only remote and generic resources should be exportable
+     * Only remote, generic and installed resources should be exportable
      */
     private function isResourceExportable($package,$resource){
         return isset($this->descriptionDoc->$package->$resource->resource_type) && 
             ($this->descriptionDoc->$package->$resource->resource_type == "generic" || 
-             $this->descriptionDoc->$package->$resource->resource_type == "remote");
+             $this->descriptionDoc->$package->$resource->resource_type == "remote"  ||
+             $this->descriptionDoc->$package->$resource->resource_type == "installed");
     }
 
     /**

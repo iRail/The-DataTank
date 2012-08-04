@@ -52,8 +52,16 @@ class GenericResourceFactory extends AResourceFactory {
            
             foreach($resourcenames as $resourcename){
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
+                $example_uri = DBQueries::getExampleUri($package,$resourcename);
+                
+                if($example_uri == FALSE){
+                    $example_uri = "";
+                }
+                
+                
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
+                $doc->$package->$resourcename->example_uri = $example_uri;
                 /**
                  * Create a generic resource, get the strategy and ask for 
                  * the read parameters of the strategy.
@@ -114,9 +122,20 @@ class GenericResourceFactory extends AResourceFactory {
                 $prettyColumns = array();
                 if(!empty($columns)){
                     foreach($columns as $columnentry){
-                        $prettyColumns[$columnentry["column_name"]] = $columnentry["column_name_alias"];
+                        $prettyColumns[$columnentry["index"]] = $columnentry["column_name"];
                     }
                     $doc->$package->$resourcename->columns = $prettyColumns;
+                }
+
+                /**
+                 * Get the published columns aliases
+                 */
+                $columnAliases = array();
+                if(!empty($columns)){
+                    foreach($columns as $columnentry){
+                        $columnAliases[$columnentry["column_name"]] = $columnentry["column_name_alias"];
+                    }
+                    $doc->$package->$resourcename->column_aliases = $columnAliases;
                 }
                 
                 $doc->$package->$resourcename->parameters = array();
@@ -155,7 +174,7 @@ class GenericResourceFactory extends AResourceFactory {
             include_once("model/resources/create/GenericResourceCreator.class.php");
             $res = new GenericResourceCreator("","", array(),$strategy);
             $d[$strategy] = new stdClass();
-            $d[$strategy]->doc = "When your file is structured according to $strategy, you can perform a PUT request and load this file in this DataTank";
+            $d[$strategy]->doc = "When your file is structured according to a $strategy -datasource, you can perform a PUT request and load this file in this DataTank";
             $d[$strategy]->parameters = $res->documentParameters();
             $d[$strategy]->requiredparameters = $res->documentRequiredParameters();
         }

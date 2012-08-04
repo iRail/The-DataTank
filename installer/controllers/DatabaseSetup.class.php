@@ -75,6 +75,7 @@ class DatabaseSetup extends InstallController {
               `column_name` varchar(50) NOT NULL,
               `is_primary_key` int(11) DEFAULT NULL,
               `column_name_alias` varchar(50) NOT NULL,
+              `index` int(20) DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `generic_resource_id` (`generic_resource_id`)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1";
@@ -182,6 +183,25 @@ class DatabaseSetup extends InstallController {
               KEY `s_obj_idx` (`object`(250)),
               KEY `s_obj_ftidx` (`object`(250))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+
+        $queries["metadata"] = "CREATE TABLE IF NOT EXISTS `metadata` (
+              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+              `resource_id` bigint(20) NOT NULL,
+              `tags` varchar(255) DEFAULT '',
+              `contributor` varchar(255) DEFAULT '',
+              `language` varchar(255) DEFAULT '',
+              `audience` varchar(255) DEFAULT '',
+              `coverage` varchar(255) DEFAULT '',
+              `creator` varchar(255) DEFAULT '',
+              `license` varchar(255) DEFAULT '',
+              `publisher` varchar(255) DEFAULT '',
+              `rights` varchar(255) DEFAULT '',
+              `rightsHolder` varchar(255) DEFAULT '',
+              `example_uri` varchar(255) DEFAULT '',
+              PRIMARY KEY (`id`),
+              KEY `n_resource_idx` (`resource_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+        
 
         $tables = array();
         foreach($queries as $table=>$query) {
