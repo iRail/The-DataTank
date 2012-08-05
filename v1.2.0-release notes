@@ -61,6 +61,8 @@ which makes my path to my resource very self-explanatory: packagename = demograp
 
 As described in the above section, you now have to perform a PUT request to the TDTAdmin/Resources resource, followed by your full package name and resource. To use the example used in the above section my PUT request URI will have to be http://myhost/TDTAdmin/Resources/demography/pacificocean/crab/2012.
 
+Another thing we have changed is the handling of installed resources. These are not published in automatic way as they were in previous versions. The creation part of the installed resource remains the same, located in custom/packages you can create your own installed resources, however the publishing part is different. In order to publish your installed resource you must also PUT it as you would PUT a remote or generic resource. This allows you to again choose your own URI instead of being bound to the physical location of the installed resource file in your filestructure.
+
 Another thing we have changed since the last release is the use of the columns parameter, alot of resources are tabular and can pass their column names to the datatank (if not the datatank will try to get them out of your datasource). The protocol was to pass a columns as an array which was column => column_alias. If we had no column, we could also use the index as a column name. This has now changed columns is now meant to pass index => column_name and a new parameter column_aliases is now used to pass along aliases. This array is built as column_name => column_alias.
 
 
