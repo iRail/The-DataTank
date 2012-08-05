@@ -96,7 +96,7 @@ class PhpObjectTableConverter {
                     if(is_array($value) || is_object($value)){
                         //new field is subtable
                         $isLinked=true;
-                        $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!
+                        $linkedTable=$columnName;//$totalId.".".$columnName;//TODO: totalId not defined !!!
                         $linkedTableKey=PhpObjectTableConverter::$ID_KEY.$columnName;//todo: check first if field does not exists...
                     }
                     
