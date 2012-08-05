@@ -55,9 +55,9 @@ class OGDWienJSON extends ATabularData {
             $this->columns = array();
         }
 		
-		if(!isset($this->column_aliases)){
-			$this->column_aliases = array();
-		}
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
+        }
 
         if (!isset($this->PK)) {
             $this->PK = "id";
@@ -66,7 +66,7 @@ class OGDWienJSON extends ATabularData {
         $uri = $this->uri;
         $columns = $this->columns;
         
-		// columns array: 0 => id, 1 => long, 2 => lat, 3 => distance
+        // columns array: 0 => id, 1 => long, 2 => lat, 3 => distance
         if(empty($this->columns)){ 
             try { 
 
@@ -88,19 +88,19 @@ class OGDWienJSON extends ATabularData {
 
                 $feature = $json->features[0];
 				
-				$index = 0;
+                $index = 0;
                 foreach($feature->properties as $property => $value) {
                     $property = strtolower($property);
                     $this->columns[$index] = $property;
-					$index++;
+                    $index++;
                 }
 				
                 $this->columns[$index] = "id";
-				$index++;
+                $index++;
                 $this->columns[$index] = "long";
-				$index++;
+                $index++;
                 $this->columns[$index] = "lat";
-				$index++;
+                $index++;
                 $this->columns[$index] = "distance";
 			
             } catch( Exception $ex) {
@@ -126,7 +126,7 @@ class OGDWienJSON extends ATabularData {
         $PK = $configObject->PK;
             
         $columns = $configObject->columns;
-		$column_aliases = $configObject->column_aliases;
+        $column_aliases = $configObject->column_aliases;
         
         $resultobject = new stdClass();
         $arrayOfRowObjects = array();

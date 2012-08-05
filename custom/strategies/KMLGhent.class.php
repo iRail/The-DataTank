@@ -62,9 +62,9 @@ class KMLGhent extends ATabularData {
             $this->PK = "id";
         }
 		
-		if(!isset($this->column_aliases)){
-			$this->column_aliases = array();
-		}
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
+        }
 
         $uri = $this->uri;
         $columns = $this->columns;
@@ -78,7 +78,7 @@ class KMLGhent extends ATabularData {
                 libxml_use_internal_errors(true);
                 $xml = @simplexml_load_file($uri);
                             
-				$index = 0;
+                $index = 0;
                 $xmlns = $xml->getDocNamespaces();
                 $xmlns = $xmlns[''];
                 $xml->registerXPathNamespace('kml', $xmlns);
@@ -92,14 +92,14 @@ class KMLGhent extends ATabularData {
                         $name = $property->xpath('@name');
                         $name = strtolower($name[0]);
                         $this->columns[$index] = $name;
-						$index++;
+                        $index++;
                     }
                     $coordinates = $placemark->xpath('kml:Point/kml:coordinates');
                     if($coordinates != false) {
                         $this->columns[$index] = "long";
-						$index++;
+                        $index++;
                         $this->columns[$index] = "lat";
-						$index++;
+                        $index++;
                     } else {
                         $coordinates = $placemark->xpath('kml:Polygon/kml:outerBoundaryIs/kml:LinearRing/kml:coordinates');	
                         if($coordinates != false) {
@@ -111,11 +111,11 @@ class KMLGhent extends ATabularData {
                             }                        
                         }                        
                     }
-					$index++;
+                    $index++;
                     $this->columns[$index] = "id";
-					$index++;
+                    $index++;
                     $this->columns[$index] = "distance";
-					return true;
+                    return true;
                 }
             } catch( Exception $ex) {
                 throw new CouldNotGetDataTDTException( $uri );
@@ -141,7 +141,7 @@ class KMLGhent extends ATabularData {
         $PK = $configObject->PK;
             
         $columns = $configObject->columns;
-		$column_aliases = $configObject->column_aliases;
+        $column_aliases = $configObject->column_aliases;
 
         //$gen_res_id = $configObject->gen_res_id;
         
