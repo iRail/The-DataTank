@@ -39,6 +39,7 @@ INSTALLATION NOTE: Just a note of refreshing your memory, in order to get your d
 
 4. What's been tested
 5. Future works
+6. List of important commits
 
 
 1. RESOURCEMANAGEMENT
@@ -65,9 +66,9 @@ Another thing we have changed is the handling of installed resources. These are 
 
 Another thing we have changed since the last release is the use of the columns parameter, alot of resources are tabular and can pass their column names to the datatank (if not the datatank will try to get them out of your datasource). The protocol was to pass a columns as an array which was column => column_alias. If we had no column, we could also use the index as a column name. This has now changed columns is now meant to pass index => column_name and a new parameter column_aliases is now used to pass along aliases. This array is built as column_name => column_alias.
 
-
 	
 1.3 Deleting resources
+----------------------
 
 Deleting resources has now changed with the URI structure as well, so in order to delete a resource you have to call a DELETE HTTP request to TDTAdmin/Resource/deletethispackage/deletethisresource .
 
@@ -143,3 +144,43 @@ The datatank has proven its utility in several use cases such as appsforX, data.
 
 * Export versioning. As the datatank will grow, the Export functionality should have the option to export your datatank to other versions of the datatank, since their PUT API may be different.
 
+6. List of important commits 
+-----------------------------
+
+This list isn't a list of commits that implement new features, but rather a list of commits that fix bugs that occurred in previous versions of the datatank.
+
+* Column names that with whitespaces in them will have the same name but with whitespaces replaced by underscores.
+
+* CSV no longer uses a HTTP request to get the data but uses fopen() - php function
+
+* PATCH request now also works in the hierarchical packaging context
+
+* Fixed CSV formatter, also added enclosures for every CSV element ( " item " , " item 2 ,...)
+
+* JSON strategy works now, CSV headers get trimmed before passed to the ATabular-parent
+
+* Read parameters of a strategy are now also included in the read documentation
+
+* double PK entries are no longer a problem, first one will be picked up, second will be ignored and the "error" will be logged
+
+* You can now pass the parameters as a json object, ofcourse you have to use the correct content-type in the http request header.
+
+* 401 is now returned if you don't have permission, instead of an empty page. So your browser can pop a log-in screen to let you enter you credentials.
+
+* CSV now works with the entire RFC, so that means enclosured elements with delimiters in it, we had a bug where if a first element had an enclosed delimiter, our code wouldn't pick it up, and see it as an extra field.
+  
+* XML now returns the exact XML file if the source was an XML file, this wasn't the case earlier due to conversion to our php object internally. This is now fixed
+  and non XML resources are also printed in a legit XML way.
+
+* overall sweep and correction of indenting.
+
+* XLS bug where if you didn't provide the url to the API, no core resources would work because the documentation
+  couldn't be made. Fixed.
+
+* generic_type can now be passed in whatever lettersize ( capital or small ), in previous version TDT was pretty strict about that, but not anymore.
+
+* SHP file resource doesn't use the dbase plugin anymore. Since PHP 5.3 it's not supported anymore, this dependency has also been fixed.
+
+
+In future releases we will maintain a list of important commits so that we don't have to copy them from our github. The above list may seems small, but again
+ this is a list of the more prominent bugfixes, new features are not listed but explained in this document to provide more context.
