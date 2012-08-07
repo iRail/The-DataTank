@@ -42,6 +42,15 @@ INSTALLATION NOTE: Just a note of refreshing your memory, in order to get your d
 6. List of important commits
 
 
+
+
+
+
+
+
+
+
+
 1. RESOURCEMANAGEMENT
 ----------------------
 
@@ -143,6 +152,10 @@ The datatank has proven its utility in several use cases such as appsforX, data.
 * Support non-greedy execution of the AST in SQL resource. The AST can be passed to a resource for optimization reasons. For example a database resource will execute a query way more efficiently than our AST will in memory. Therefore we have provided an SQL example of how to do this. This example however is greedy, it either executes the entire AST or it doesn't. So no support so far is provided to execute parts of the AST.
 
 * Export versioning. As the datatank will grow, the Export functionality should have the option to export your datatank to other versions of the datatank, since their PUT API may be different.
+
+* Profiling! Profiling is a way of automatically optimizing your code, so far it's not been used that much, since we only bumped into it the last week before our beta release.
+
+* Further support for the conversion of the AST tree to SQL.
 
 6. List of important commits 
 -----------------------------
