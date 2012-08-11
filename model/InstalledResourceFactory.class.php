@@ -48,7 +48,7 @@ class InstalledResourceFactory extends AResourceFactory{
 
     public function makeDoc($doc){
         //ask every resource we have for documentation
-       
+
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
