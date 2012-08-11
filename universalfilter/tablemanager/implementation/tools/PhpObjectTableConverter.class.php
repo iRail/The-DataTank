@@ -24,10 +24,10 @@ class PhpObjectTableConverter {
         if(count($path)==1){
             $parentitemindex++;
         }
-        
+
         if(!empty($path)){
             $fieldToSearch = array_shift($path);
-            
+
             if(isset($root[$fieldToSearch])){
                 $fieldvalue = $root[$fieldToSearch];
                 if(is_array($fieldvalue)){
@@ -63,7 +63,11 @@ class PhpObjectTableConverter {
     private function getPhpObjectsByIdentifier($splitedId,$resource){
         //$resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1]);
         
-        $phpObj = $this->findTablePhpArray($resource, $splitedId[2], -1);
+
+        // TODO Jeroen, this was making troubles reading resources with required parameters!
+        // to reroute to the old way, change array() to $splitedId[2]
+
+        $phpObj = $this->findTablePhpArray($resource, array(), -1);
         
         return $phpObj;
     }
@@ -77,7 +81,7 @@ class PhpObjectTableConverter {
     private function getPhpObjectTableHeader($nameOfTable, $objects){
         $columns = array();
         $columnNames = array();
-        
+
         foreach($objects as $index => $data){
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
@@ -112,10 +116,10 @@ class PhpObjectTableConverter {
         }
         
         // add id field (just a field...)
-        //array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_FIELD), false, null, null)); //
+        array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_FIELD), false, null, null)); //
 
         // add key_parent field
-        //array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_KEY.$nameOfTable), false, null, null));
+        array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_KEY.$nameOfTable), false, null, null));
         
         $header = new UniversalFilterTableHeader($columns, false, false);
         
@@ -151,9 +155,11 @@ class PhpObjectTableConverter {
             $arr_obj = get_object_vars($obj);
             $currentrow=new UniversalFilterTableContentRow();
             foreach($arr_obj as $key => $value){
-                $columnName = $this->parseColumnName($key);
-                $columnId = $idMap[$columnName];//$header->getColumnIdByName($columnName);
                 
+                $columnName = $this->parseColumnName($key);   
+                
+                $columnId = $idMap[$columnName];//$header->getColumnIdByName($columnName);
+   
                 if(is_array($value) || is_object($value)){
                     //we have a subobject
                     //what's it index?
@@ -172,13 +178,12 @@ class PhpObjectTableConverter {
             }
             
             //add value id field
-            //$columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
+            $columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
             $currentrow->defineValue($columnId, $parentindex);
             
             //add value key_parent field
-            //$columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
+            $columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
             $currentrow->defineValue($columnId, $index);
-            
             $rows->addRow($currentrow);
         }
         

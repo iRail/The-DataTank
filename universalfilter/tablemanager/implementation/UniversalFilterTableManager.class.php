@@ -38,8 +38,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @param type $resource
      * @return type phpObject
      */
-    private function getFullResourcePhpObject($package, $resource){
-        $resourceObject = ResourcesModel::getInstance()->readResource($package, $resource, array(), array());
+    private function getFullResourcePhpObject($package, $resource,$RESTparameters = array()){
+        $resourceObject = ResourcesModel::getInstance()->readResource($package, $resource, array(), $RESTparameters);
         
         //implement cache
         
@@ -79,7 +79,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         $converter = new PhpObjectTableConverter();
 
-        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1]);
+        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1],$splitedId[2]);
 
         $table = $converter->getPhpObjectTable($splitedId,$resource);
         
@@ -94,7 +94,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         $converter = new PhpObjectTableConverter();
 
-        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1]);
+        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1],$splitedId[2]);
 
         $table = $converter->getPhpObjectTableWithHeader($splitedId,$resource,$header);
         

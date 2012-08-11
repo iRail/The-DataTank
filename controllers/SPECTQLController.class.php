@@ -46,6 +46,7 @@ class SPECTQLController extends AController {
 
         $interpreter=new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
+        
         $converter = new TableToPhpObjectConverter();
         
         $object = $converter->getPhpObjectForTable($result);

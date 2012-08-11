@@ -138,7 +138,7 @@ The datatank has proven its utility in several use cases such as appsforX, data.
 5. Future works and known issues
 ---------------------------------
 
-* our AST end-points such as SPECTQL and SQL don't work yet with core or installed resource.
+* our AST end-points such as SPECTQL and SQL don't work yet core resources. This is because the AST has some trouble with hierarchical structured resource data.
 
 * XML resource doesn't work with namespaces XMl files
 
