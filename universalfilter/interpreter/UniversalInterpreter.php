@@ -45,7 +45,7 @@ class UniversalInterpreter implements IInterpreterControl{
      * For debugging purposses, would you like to see debug information about execution of querys on the source?
      * @var boolean 
      */
-    public static $DEBUG_QUERY_ON_SOURCE_EXECUTION=false;
+    public static $DEBUG_QUERY_ON_SOURCE_EXECUTION= false;
     
     /**
      * Constructor, fill the executer-class map.

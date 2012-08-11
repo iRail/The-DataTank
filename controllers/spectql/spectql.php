@@ -28,10 +28,10 @@ var $i = array (
     'resource' => 's 15',
     'calc' => 's 16',
     'resourceid' => 's 31',
-    'name' => 's 87',
+    'name' => 's 90',
     'num' => 's 18',
     '\'(\'' => 's 28',
-    'stmt' => 's 106',
+    'stmt' => 's 109',
     '\'start\'' => 'a \'start\'',
     '\'/\'' => 'r 14',
     '\'-\'' => 'r 14',
@@ -60,7 +60,7 @@ var $i = array (
   4 => 
   array (
     '\'-\'' => 's 5',
-    '#' => 'r 50',
+    '#' => 'r 51',
   ),
   5 => 
   array (
@@ -157,6 +157,7 @@ var $i = array (
     '\'*\'' => 'r 16',
     '\'-\'' => 'r 16',
     '\'+\'' => 'r 16',
+    '\'}\'' => 'r 16',
     '\'&\'' => 'r 16',
     '\'|\'' => 'r 16',
     '#' => 'r 16',
@@ -173,6 +174,7 @@ var $i = array (
     '\'*\'' => 'r 15',
     '\'-\'' => 'r 15',
     '\'+\'' => 'r 15',
+    '\'}\'' => 'r 15',
     '\'&\'' => 'r 15',
     '\'|\'' => 'r 15',
     '#' => 'r 15',
@@ -210,13 +212,13 @@ var $i = array (
   18 => 
   array (
     '\'.\'' => 's 19',
-    '\'+\'' => 'r 51',
-    '\'-\'' => 'r 51',
-    '\'*\'' => 'r 51',
-    '\'/\'' => 'r 51',
-    '\':\'' => 'r 51',
-    '\')\'' => 'r 51',
-    '#' => 'r 51',
+    '\'+\'' => 'r 52',
+    '\'-\'' => 'r 52',
+    '\'*\'' => 'r 52',
+    '\'/\'' => 'r 52',
+    '\':\'' => 'r 52',
+    '\')\'' => 'r 52',
+    '#' => 'r 52',
   ),
   19 => 
   array (
@@ -243,14 +245,14 @@ var $i = array (
   ),
   21 => 
   array (
-    '\'+\'' => 'r 52',
-    '\'-\'' => 'r 52',
+    '\'+\'' => 'r 53',
+    '\'-\'' => 'r 53',
     '\'*\'' => 's 24',
     '\'/\'' => 's 26',
-    '\'.\'' => 'r 52',
-    '\':\'' => 'r 52',
-    '\')\'' => 'r 52',
-    '#' => 'r 52',
+    '\'.\'' => 'r 53',
+    '\':\'' => 'r 53',
+    '\')\'' => 'r 53',
+    '#' => 'r 53',
   ),
   22 => 
   array (
@@ -268,14 +270,14 @@ var $i = array (
   ),
   23 => 
   array (
-    '\'+\'' => 'r 53',
-    '\'-\'' => 'r 53',
+    '\'+\'' => 'r 54',
+    '\'-\'' => 'r 54',
     '\'*\'' => 's 24',
     '\'/\'' => 's 26',
-    '\'.\'' => 'r 53',
-    '\':\'' => 'r 53',
-    '\')\'' => 'r 53',
-    '#' => 'r 53',
+    '\'.\'' => 'r 54',
+    '\':\'' => 'r 54',
+    '\')\'' => 'r 54',
+    '#' => 'r 54',
   ),
   24 => 
   array (
@@ -293,14 +295,14 @@ var $i = array (
   ),
   25 => 
   array (
-    '\'+\'' => 'r 54',
-    '\'-\'' => 'r 54',
-    '\'*\'' => 'r 54',
-    '\'/\'' => 'r 54',
-    '\'.\'' => 'r 54',
-    '\':\'' => 'r 54',
-    '\')\'' => 'r 54',
-    '#' => 'r 54',
+    '\'+\'' => 'r 55',
+    '\'-\'' => 'r 55',
+    '\'*\'' => 'r 55',
+    '\'/\'' => 'r 55',
+    '\'.\'' => 'r 55',
+    '\':\'' => 'r 55',
+    '\')\'' => 'r 55',
+    '#' => 'r 55',
   ),
   26 => 
   array (
@@ -318,14 +320,14 @@ var $i = array (
   ),
   27 => 
   array (
-    '\'+\'' => 'r 55',
-    '\'-\'' => 'r 55',
-    '\'*\'' => 'r 55',
-    '\'/\'' => 'r 55',
-    '\'.\'' => 'r 55',
-    '\':\'' => 'r 55',
-    '\')\'' => 'r 55',
-    '#' => 'r 55',
+    '\'+\'' => 'r 56',
+    '\'-\'' => 'r 56',
+    '\'*\'' => 'r 56',
+    '\'/\'' => 'r 56',
+    '\'.\'' => 'r 56',
+    '\':\'' => 'r 56',
+    '\')\'' => 'r 56',
+    '#' => 'r 56',
   ),
   28 => 
   array (
@@ -349,20 +351,20 @@ var $i = array (
   ),
   30 => 
   array (
-    '\'/\'' => 'r 57',
-    '\'*\'' => 'r 57',
-    '\'-\'' => 'r 57',
-    '\'+\'' => 'r 57',
-    '\'.\'' => 'r 57',
-    '\':\'' => 'r 57',
-    '\')\'' => 'r 57',
-    '#' => 'r 57',
+    '\'/\'' => 'r 58',
+    '\'*\'' => 'r 58',
+    '\'-\'' => 'r 58',
+    '\'+\'' => 'r 58',
+    '\'.\'' => 'r 58',
+    '\':\'' => 'r 58',
+    '\')\'' => 'r 58',
+    '#' => 'r 58',
   ),
   31 => 
   array (
     '\'{\'' => 's 32',
-    '\'?\'' => 's 104',
-    '\'/\'' => 's 91',
+    '\'?\'' => 's 107',
+    '\'/\'' => 's 94',
     '\'.\'' => 'r 8',
     '\':\'' => 'r 8',
     '#' => 'r 8',
@@ -371,11 +373,12 @@ var $i = array (
   array (
     'selector' => 's 33',
     'name' => 's 74',
-    'selectargument' => 's 103',
-    'argument' => 's 101',
-    'link' => 's 83',
-    '\'*\'' => 's 84',
-    'function' => 's 85',
+    'num' => 's 78',
+    'selectargument' => 's 106',
+    'argument' => 's 104',
+    'link' => 's 86',
+    '\'*\'' => 's 87',
+    'function' => 's 88',
     'ALIAS' => 'r 14',
     '\'-\'' => 'r 14',
     '\'(\'' => 'r 14',
@@ -383,6 +386,7 @@ var $i = array (
     '\'+\'' => 'r 14',
     '\',\'' => 'r 14',
     '\'}\'' => 'r 14',
+    '\'.\'' => 'r 16',
   ),
   33 => 
   array (
@@ -750,11 +754,12 @@ var $i = array (
   73 => 
   array (
     'name' => 's 74',
-    'selectargument' => 's 100',
-    'argument' => 's 101',
-    'link' => 's 83',
-    '\'*\'' => 's 84',
-    'function' => 's 85',
+    'num' => 's 78',
+    'selectargument' => 's 103',
+    'argument' => 's 104',
+    'link' => 's 86',
+    '\'*\'' => 's 87',
+    'function' => 's 88',
     'ALIAS' => 'r 14',
     '\'-\'' => 'r 14',
     '\'(\'' => 'r 14',
@@ -762,13 +767,14 @@ var $i = array (
     '\'+\'' => 'r 14',
     '\'}\'' => 'r 14',
     '\',\'' => 'r 14',
+    '\'.\'' => 'r 16',
   ),
   74 => 
   array (
     '\'-\'' => 's 5',
     'ALIAS' => 's 75',
     '\'(\'' => 's 77',
-    'LN' => 's 86',
+    'LN' => 's 89',
     '\'+\'' => 'r 45',
     '\',\'' => 'r 45',
     '\'}\'' => 'r 45',
@@ -776,22 +782,24 @@ var $i = array (
   75 => 
   array (
     'name' => 's 76',
-    'argument' => 's 96',
-    'link' => 's 83',
-    '\'*\'' => 's 84',
-    'function' => 's 85',
+    'num' => 's 78',
+    'argument' => 's 99',
+    'link' => 's 86',
+    '\'*\'' => 's 87',
+    'function' => 's 88',
     '\'(\'' => 'r 14',
     '\'-\'' => 'r 14',
     'LN' => 'r 14',
     '\'+\'' => 'r 14',
     '\',\'' => 'r 14',
     '\'}\'' => 'r 14',
+    '\'.\'' => 'r 16',
   ),
   76 => 
   array (
     '\'-\'' => 's 5',
     '\'(\'' => 's 77',
-    'LN' => 's 86',
+    'LN' => 's 89',
     '\'+\'' => 'r 45',
     '\',\'' => 'r 45',
     '\'}\'' => 'r 45',
@@ -800,22 +808,33 @@ var $i = array (
   77 => 
   array (
     'name' => 's 76',
-    'argument' => 's 78',
-    'link' => 's 83',
-    '\'*\'' => 's 84',
-    'function' => 's 85',
+    'num' => 's 78',
+    'argument' => 's 79',
+    'link' => 's 86',
+    '\'*\'' => 's 87',
+    'function' => 's 88',
     '\'(\'' => 'r 14',
     '\'-\'' => 'r 14',
     'LN' => 'r 14',
     '\',\'' => 'r 14',
     '\')\'' => 'r 14',
+    '\'.\'' => 'r 16',
   ),
   78 => 
   array (
-    '\')\'' => 's 79',
-    '\',\'' => 's 80',
+    '\'.\'' => 's 13',
+    '\'+\'' => 'r 49',
+    '\'-\'' => 'r 49',
+    '\',\'' => 'r 49',
+    '\'}\'' => 'r 49',
+    '\')\'' => 'r 49',
   ),
   79 => 
+  array (
+    '\')\'' => 's 80',
+    '\',\'' => 's 81',
+  ),
+  80 => 
   array (
     '\'+\'' => 'r 41',
     '\'-\'' => 'r 41',
@@ -823,23 +842,43 @@ var $i = array (
     '\'}\'' => 'r 41',
     '\')\'' => 'r 41',
   ),
-  80 => 
+  81 => 
   array (
     'name' => 's 76',
-    'argument' => 's 81',
-    'link' => 's 83',
-    '\'*\'' => 's 84',
-    'function' => 's 85',
+    'num' => 's 78',
+    'argument' => 's 82',
+    'link' => 's 86',
+    '\'*\'' => 's 87',
+    'function' => 's 88',
+    '\'(\'' => 'r 14',
+    '\'-\'' => 'r 14',
+    'LN' => 'r 14',
+    '\',\'' => 'r 14',
+    '\'.\'' => 'r 16',
+  ),
+  82 => 
+  array (
+    '\',\'' => 's 83',
+  ),
+  83 => 
+  array (
+    'name' => 's 76',
+    'num' => 's 78',
+    'argument' => 's 84',
+    'link' => 's 86',
+    '\'*\'' => 's 87',
+    'function' => 's 88',
     '\'(\'' => 'r 14',
     '\'-\'' => 'r 14',
     'LN' => 'r 14',
     '\')\'' => 'r 14',
+    '\'.\'' => 'r 16',
   ),
-  81 => 
+  84 => 
   array (
-    '\')\'' => 's 82',
+    '\')\'' => 's 85',
   ),
-  82 => 
+  85 => 
   array (
     '\'+\'' => 'r 42',
     '\'-\'' => 'r 42',
@@ -847,7 +886,7 @@ var $i = array (
     '\'}\'' => 'r 42',
     '\')\'' => 'r 42',
   ),
-  83 => 
+  86 => 
   array (
     '\'+\'' => 'r 46',
     '\'-\'' => 'r 46',
@@ -855,7 +894,7 @@ var $i = array (
     '\'}\'' => 'r 46',
     '\')\'' => 'r 46',
   ),
-  84 => 
+  87 => 
   array (
     '\'+\'' => 'r 47',
     '\'-\'' => 'r 47',
@@ -863,7 +902,7 @@ var $i = array (
     '\'}\'' => 'r 47',
     '\')\'' => 'r 47',
   ),
-  85 => 
+  88 => 
   array (
     '\'+\'' => 'r 48',
     '\'-\'' => 'r 48',
@@ -871,48 +910,21 @@ var $i = array (
     '\'}\'' => 'r 48',
     '\')\'' => 'r 48',
   ),
-  86 => 
-  array (
-    'name' => 's 87',
-    'resourceid' => 's 90',
-    '\'/\'' => 'r 14',
-    '\'-\'' => 'r 14',
-  ),
-  87 => 
-  array (
-    '\'/\'' => 's 88',
-    '\'-\'' => 's 5',
-  ),
-  88 => 
-  array (
-    'name' => 's 89',
-    '\'-\'' => 'r 14',
-    '\'/\'' => 'r 14',
-    '\'?\'' => 'r 14',
-    '\'{\'' => 'r 14',
-    '\'.\'' => 'r 14',
-    '\':\'' => 'r 14',
-    '#' => 'r 14',
-  ),
   89 => 
   array (
-    '\'-\'' => 's 5',
-    '\'/\'' => 'r 10',
-    '\'?\'' => 'r 10',
-    '\'{\'' => 'r 10',
-    '\'.\'' => 'r 10',
-    '\':\'' => 'r 10',
-    '#' => 'r 10',
+    'name' => 's 90',
+    'resourceid' => 's 93',
+    '\'/\'' => 'r 14',
+    '\'-\'' => 'r 14',
   ),
   90 => 
   array (
     '\'/\'' => 's 91',
-    '\'.\'' => 's 94',
+    '\'-\'' => 's 5',
   ),
   91 => 
   array (
     'name' => 's 92',
-    'num' => 's 93',
     '\'-\'' => 'r 14',
     '\'/\'' => 'r 14',
     '\'?\'' => 'r 14',
@@ -924,6 +936,33 @@ var $i = array (
   92 => 
   array (
     '\'-\'' => 's 5',
+    '\'/\'' => 'r 10',
+    '\'?\'' => 'r 10',
+    '\'{\'' => 'r 10',
+    '\'.\'' => 'r 10',
+    '\':\'' => 'r 10',
+    '#' => 'r 10',
+  ),
+  93 => 
+  array (
+    '\'/\'' => 's 94',
+    '\'.\'' => 's 97',
+  ),
+  94 => 
+  array (
+    'name' => 's 95',
+    'num' => 's 96',
+    '\'-\'' => 'r 14',
+    '\'/\'' => 'r 14',
+    '\'?\'' => 'r 14',
+    '\'{\'' => 'r 14',
+    '\'.\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  95 => 
+  array (
+    '\'-\'' => 's 5',
     '\'/\'' => 'r 11',
     '\'?\'' => 'r 11',
     '\'{\'' => 'r 11',
@@ -931,7 +970,7 @@ var $i = array (
     '\':\'' => 'r 11',
     '#' => 'r 11',
   ),
-  93 => 
+  96 => 
   array (
     '\'.\'' => 'r 12',
     '\'?\'' => 'r 12',
@@ -940,72 +979,72 @@ var $i = array (
     '\':\'' => 'r 12',
     '#' => 'r 12',
   ),
-  94 => 
+  97 => 
   array (
-    'name' => 's 95',
+    'name' => 's 98',
     '\'-\'' => 'r 14',
     '\'+\'' => 'r 14',
     '\',\'' => 'r 14',
     '\'}\'' => 'r 14',
     '\')\'' => 'r 14',
   ),
-  95 => 
+  98 => 
   array (
     '\'-\'' => 's 5',
-    '\'+\'' => 'r 49',
-    '\',\'' => 'r 49',
-    '\'}\'' => 'r 49',
-    '\')\'' => 'r 49',
+    '\'+\'' => 'r 50',
+    '\',\'' => 'r 50',
+    '\'}\'' => 'r 50',
+    '\')\'' => 'r 50',
   ),
-  96 => 
+  99 => 
   array (
-    'order' => 's 97',
-    '\'+\'' => 's 98',
-    '\'-\'' => 's 99',
+    'order' => 's 100',
+    '\'+\'' => 's 101',
+    '\'-\'' => 's 102',
     '\',\'' => 'r 39',
     '\'}\'' => 'r 39',
   ),
-  97 => 
+  100 => 
   array (
     '\',\'' => 'r 40',
     '\'}\'' => 'r 40',
   ),
-  98 => 
+  101 => 
   array (
     '\',\'' => 'r 43',
     '\'}\'' => 'r 43',
   ),
-  99 => 
+  102 => 
   array (
     '\',\'' => 'r 44',
     '\'}\'' => 'r 44',
   ),
-  100 => 
+  103 => 
   array (
     '\'}\'' => 'r 36',
     '\',\'' => 'r 36',
   ),
-  101 => 
+  104 => 
   array (
-    'order' => 's 102',
-    '\'+\'' => 's 98',
-    '\'-\'' => 's 99',
+    'order' => 's 105',
+    '\'+\'' => 's 101',
+    '\'-\'' => 's 102',
     '\',\'' => 'r 37',
     '\'}\'' => 'r 37',
   ),
-  102 => 
+  105 => 
   array (
     '\',\'' => 'r 38',
     '\'}\'' => 'r 38',
   ),
-  103 => 
+  106 => 
   array (
     '\',\'' => 'r 35',
     '\'}\'' => 'r 35',
   ),
-  104 => 
+  107 => 
   array (
-    'filterlist' => 's 105',
+    'filterlist' => 's 108',
     'name' => 's 38',
     'filter' => 's 66',
     '\'(\'' => 's 70',
@@ -1018,7 +1057,7 @@ var $i = array (
     'EQ' => 'r 14',
     '\'>\'' => 'r 14',
   ),
-  105 => 
+  108 => 
   array (
     '\'&\'' => 's 37',
     '\'|\'' => 's 68',
@@ -1026,9 +1065,9 @@ var $i = array (
     '\':\'' => 'r 9',
     '#' => 'r 9',
   ),
-  106 => 
+  109 => 
   array (
-    '#' => 'r 58',
+    '#' => 'r 59',
   ),
 );
 function reduce_0_stmt_1($tokens, &$result) {
@@ -1088,9 +1127,41 @@ function reduce_6_resource_1($tokens, &$result) {
 #
 $result = reset($tokens);
 $sel =& $tokens[2];
- $columns = new ColumnSelectionFilter($sel["filters"]); 
-                                             $columns->setSource(new Identifier($tokens[0])); /* $sorts = new SORTOBJECT(); 
-                                             $sort->setSource($columns); $result = $sorts;*/ $result = $columns; 
+ 
+
+
+// from
+$totalfilter = new Identifier($tokens[0]);
+	
+// group by
+$groupby = array();
+$aggregate = false; 
+foreach($sel["identifiers"] as $identifier){
+    if(get_class($identifier) == "AggregatorFunction"){
+        $aggregate = true;
+    }else{
+			// identifier could be a unairy or tertiary function like substring or ucase
+			if(get_class($identifier) != "Identifier"){
+				array_push($groupby,$identifier->getSource());				
+			}else{
+			   array_push($groupby,$identifier);
+			}	
+      
+    }					
+}
+							
+if($aggregate){
+    $datagrouper = new DataGrouper($groupby);
+    $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
+}
+	
+// select
+
+$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
+
+$result = $totalfilter;
+						
 }
 
 function reduce_7_resource_2($tokens, &$result) {
@@ -1100,10 +1171,36 @@ function reduce_7_resource_2($tokens, &$result) {
 $result = reset($tokens);
 $sel =& $tokens[2];
 $fl =& $tokens[5];
- $expressionFilter = new FilterByExpressionFilter($fl); 
-                                                     $columns = new ColumnSelectionFilter($sel["filters"]); 
-                                                     $columns->setSource($expressionFilter); $expressionFilter->setSource(new Identifier($tokens[0])); 
-                                                     /* $sorts = new SORTOBJECT(); $sort->setSource($columns); $result = $sorts;*/ $result = $columns; 
+ 
+
+
+$totalfilter = new Identifier($tokens[0]);
+
+$expressionFilter = new FilterByExpressionFilter($fl); // wherefilter
+$totalfilter = putFilterAfterIfExists($totalfilter,$expressionFilter);
+
+$groupby = array();
+$aggregate = false; 
+foreach($sel["identifiers"] as $identifier){
+    if(get_class($identifier) == "AggregatorFunction"){
+        $aggregate = true;
+    }else{
+        array_push($groupby,$identifier);
+    }					
+}
+							
+if($aggregate){
+    $datagrouper = new DataGrouper($groupby);
+    $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
+}
+	
+
+
+$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
+
+$result = $totalfilter;				
+
 }
 
 function reduce_8_resource_3($tokens, &$result) {
@@ -1370,7 +1467,8 @@ $result = reset($tokens);
 $arg =& $tokens[2];
  $filters = array_merge($tokens[0]["filters"],$tokens[2]["filters"]); 
                                     $sorts = array_merge($tokens[0]["sorts"],$tokens[2]["sorts"]);
-                                    $result = array("filters"=>$filters,"sorts"=>$sorts); 
+												$identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
+                                    $result = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); 
 }
 
 function reduce_37_selectargument_1($tokens, &$result) {
@@ -1379,7 +1477,7 @@ function reduce_37_selectargument_1($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[0];
- $result = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array()); 
+ $result = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); 
 }
 
 function reduce_38_selectargument_2($tokens, &$result) {
@@ -1388,7 +1486,7 @@ function reduce_38_selectargument_2($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[0];
- $result = array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array()); /* eens sort by functions bestaan, $result = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ 
+ $result =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); /* eens sort by functions bestaan, $result = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ 
 }
 
 function reduce_39_selectargument_3($tokens, &$result) {
@@ -1397,7 +1495,7 @@ function reduce_39_selectargument_3($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
-$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array());
+$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(), "identifiers" => array($arg));
 }
 
 function reduce_40_selectargument_4($tokens, &$result) {
@@ -1406,7 +1504,7 @@ function reduce_40_selectargument_4($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
-$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array());
+$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(), "identifiers" => array($arg));
 }
 
 function reduce_41_function_1($tokens, &$result) {
@@ -1414,15 +1512,18 @@ function reduce_41_function_1($tokens, &$result) {
 # (41) function :=  name  '('  argument  ')'
 #
 $result = reset($tokens);
- $result = createUnaryFunction($tokens[0],$tokens[2]); 
+ $result = getUnaryFilterForSQLFunction($tokens[0],$tokens[2]); 
 }
 
 function reduce_42_function_2($tokens, &$result) {
 #
-# (42) function :=  name  '('  argument  ','  argument  ')'
+# (42) function :=  name  '('  argument  ','  argument  ','  argument  ')'
 #
 $result = reset($tokens);
- $result = createBinaryFunction($tokens[0],$tokens[2],$tokens[4]); 
+$arg1 =& $tokens[2];
+$arg2 =& $tokens[4];
+$arg3 =& $tokens[6];
+$result = getTertairyFunctionForSQLFunction($tokens[0],$arg1,$arg2,$arg3);
 }
 
 function reduce_43_order_1($tokens, &$result) {
@@ -1474,81 +1575,89 @@ $result = reset($tokens);
  $result = $tokens[0];
 }
 
-function reduce_49_link_1($tokens, &$result) {
+function reduce_49_argument_5($tokens, &$result) {
 #
-# (49) link :=  name  LN  resourceid  '.'  name
+# (49) argument :=  num
+#
+$result = reset($tokens);
+$result = new Constant($tokens[0]);
+}
+
+function reduce_50_link_1($tokens, &$result) {
+#
+# (50) link :=  name  LN  resourceid  '.'  name
 #
 $result = reset($tokens);
  /* joined resource */ 
 }
 
-function reduce_50_format_1($tokens, &$result) {
+function reduce_51_format_1($tokens, &$result) {
 #
-# (50) format :=  name
+# (51) format :=  name
 #
 $result = reset($tokens);
  /* do nothing, format isnt used in the AST for it is an abstract filter tree , format is not a filter.*/ 
 }
 
-function reduce_51_calc_1($tokens, &$result) {
+function reduce_52_calc_1($tokens, &$result) {
 #
-# (51) calc :=  num
+# (52) calc :=  num
 #
 $result = reset($tokens);
  $result = new Constant($tokens[0]); 
 }
 
-function reduce_52_calc_2($tokens, &$result) {
+function reduce_53_calc_2($tokens, &$result) {
 #
-# (52) calc :=  calc  '+'  calc
+# (53) calc :=  calc  '+'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $tokens[0], $tokens[2]);  
 }
 
-function reduce_53_calc_3($tokens, &$result) {
+function reduce_54_calc_3($tokens, &$result) {
 #
-# (53) calc :=  calc  '-'  calc
+# (54) calc :=  calc  '-'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $tokens[0], $tokens[2]); 
 }
 
-function reduce_54_calc_4($tokens, &$result) {
+function reduce_55_calc_4($tokens, &$result) {
 #
-# (54) calc :=  calc  '*'  calc
+# (55) calc :=  calc  '*'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $tokens[0], $tokens[2]); 
 }
 
-function reduce_55_calc_5($tokens, &$result) {
+function reduce_56_calc_5($tokens, &$result) {
 #
-# (55) calc :=  calc  '/'  calc
+# (56) calc :=  calc  '/'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $tokens[0], $tokens[2]); 
 }
 
-function reduce_56_calc_6($tokens, &$result) {
+function reduce_57_calc_6($tokens, &$result) {
 #
-# (56) calc :=  num  '.'  num
+# (57) calc :=  num  '.'  num
 #
 $result = reset($tokens);
  $result = new Constant((double)($tokens[0] . "." . $tokens[2])); 
 }
 
-function reduce_57_calc_7($tokens, &$result) {
+function reduce_58_calc_7($tokens, &$result) {
 #
-# (57) calc :=  '('  calc  ')'
+# (58) calc :=  '('  calc  ')'
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_58_start_1($tokens, &$result) {
+function reduce_59_start_1($tokens, &$result) {
 #
-# (58) 'start' :=  stmt
+# (59) 'start' :=  stmt
 #
 $result = reset($tokens);
 
@@ -1604,16 +1713,17 @@ var $method = array (
   46 => 'reduce_46_argument_2',
   47 => 'reduce_47_argument_3',
   48 => 'reduce_48_argument_4',
-  49 => 'reduce_49_link_1',
-  50 => 'reduce_50_format_1',
-  51 => 'reduce_51_calc_1',
-  52 => 'reduce_52_calc_2',
-  53 => 'reduce_53_calc_3',
-  54 => 'reduce_54_calc_4',
-  55 => 'reduce_55_calc_5',
-  56 => 'reduce_56_calc_6',
-  57 => 'reduce_57_calc_7',
-  58 => 'reduce_58_start_1',
+  49 => 'reduce_49_argument_5',
+  50 => 'reduce_50_link_1',
+  51 => 'reduce_51_format_1',
+  52 => 'reduce_52_calc_1',
+  53 => 'reduce_53_calc_2',
+  54 => 'reduce_54_calc_3',
+  55 => 'reduce_55_calc_4',
+  56 => 'reduce_56_calc_5',
+  57 => 'reduce_57_calc_6',
+  58 => 'reduce_58_calc_7',
+  59 => 'reduce_59_start_1',
 );
 var $a = array (
   0 => 
@@ -1871,7 +1981,7 @@ var $a = array (
   42 => 
   array (
     'symbol' => 'function',
-    'len' => 6,
+    'len' => 8,
     'replace' => true,
   ),
   43 => 
@@ -1912,26 +2022,26 @@ var $a = array (
   ),
   49 => 
   array (
-    'symbol' => 'link',
-    'len' => 5,
+    'symbol' => 'argument',
+    'len' => 1,
     'replace' => true,
   ),
   50 => 
   array (
-    'symbol' => 'format',
-    'len' => 1,
+    'symbol' => 'link',
+    'len' => 5,
     'replace' => true,
   ),
   51 => 
   array (
-    'symbol' => 'calc',
+    'symbol' => 'format',
     'len' => 1,
     'replace' => true,
   ),
   52 => 
   array (
     'symbol' => 'calc',
-    'len' => 3,
+    'len' => 1,
     'replace' => true,
   ),
   53 => 
@@ -1965,6 +2075,12 @@ var $a = array (
     'replace' => true,
   ),
   58 => 
+  array (
+    'symbol' => 'calc',
+    'len' => 3,
+    'replace' => true,
+  ),
+  59 => 
   array (
     'symbol' => '\'start\'',
     'len' => 1,

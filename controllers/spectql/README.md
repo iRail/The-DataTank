@@ -18,11 +18,15 @@ http://data.iRail.be/spectql/NMBS/Stations{id,name,longitude,latitude}:json
 
  * Sorting
 
+NOTE: Hasn't been ported to our AST just yet, but it's coming!
+
 You can sort a resource by adding a + or - in the selector:
 http://data.iRail.be/spectql/NMBS/Stations{id,name-,longitude,latitude}:json
-This will sort descending on name.
+This will sort descending on name. 
 
 * Limiting
+
+NOTE: Hasn't been ported to our AST just yet, but it's coming!
 
 http://data.iRail.be/spectql/NMBS/Stations{id,name-,longitude,latitude}.limit(10):json
 This will only give the 10 first elements
@@ -32,14 +36,23 @@ This will only give the 10 first elements
 http://data.iRail.be/spectql/NMBS/Stations{id,name-,longitude,latitude}?name~'Ghent':json
 Will filter on all names that contain Ghent
 
-Or a geofilter:
-
-http://data.irail.be/spectql/NMBS/Stations?in_radius(51.2,4.3,5)
-
 * Aliasing
 
 http://data.iRail.be/spectql/NMBS/Stations{identificationnumber:=id,station:=name,long:=longitude,lat:=latitude}?station~'Ghent':json
 
+* Aggregators
+
+Just as HTSQL aggregators work, so does SPECTQL.
+
+http://randomhost.be/spectql/theolympics/medals{country,count(*)}:json
+Will return the amount of medals per country. NOTE that if you use an aggregator function, your other arguments in the select { } will be used as parameters
+to group your data!
+
+* Functions
+
+Just as SQL you can use unairy and tertiary functions in the select{ }
+http://randomhost.be/spectql/theolympics/medals{ucase(country},count(*)}:json
+Will provide the amount of medals per country, but now with country in upper case letters.
 
 ## SPECTQL Grammar (look at the .lime file to see the actual SPECTQL grammar)
 

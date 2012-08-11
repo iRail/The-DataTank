@@ -82,6 +82,12 @@ class PhpObjectTableConverter {
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
             
+            if(!is_object($obj)){
+                $tentativeObj = new stdClass();
+                $tentativeObj->obj = $obj;
+                $obj = $tentativeObj;
+            }
+            
             $arr_obj = get_object_vars($obj);
             foreach($arr_obj as $key => $value){
                 $columnName=$this->parseColumnName($key);
@@ -133,6 +139,15 @@ class PhpObjectTableConverter {
         foreach($objects as $index => $data){
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
+            
+            
+            if(!is_object($obj)){
+                $tentativeObj = new stdClass();
+                $tentativeObj->obj = $obj;
+                $obj = $tentativeObj;
+            }
+
+
             $arr_obj = get_object_vars($obj);
             $currentrow=new UniversalFilterTableContentRow();
             foreach($arr_obj as $key => $value){

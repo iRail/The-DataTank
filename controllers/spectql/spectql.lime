@@ -22,13 +22,72 @@ flow = expression
 expression = resource {$$ = $1;}
 | calc { /* TODO execute calculation */ $$ = $1->execute(); }
 .
-resource = resourceid '{' selector/sel '}' { $columns = new ColumnSelectionFilter($sel["filters"]); 
-                                             $columns->setSource(new Identifier($1)); /* $sorts = new SORTOBJECT(); 
-                                             $sort->setSource($columns); $$ = $sorts;*/ $$ = $columns; }
-|resourceid '{' selector/sel '}' '?' filterlist/fl { $expressionFilter = new FilterByExpressionFilter($fl); 
-                                                     $columns = new ColumnSelectionFilter($sel["filters"]); 
-                                                     $columns->setSource($expressionFilter); $expressionFilter->setSource(new Identifier($1)); 
-                                                     /* $sorts = new SORTOBJECT(); $sort->setSource($columns); $$ = $sorts;*/ $$ = $columns; }
+resource = resourceid '{' selector/sel '}' { 
+
+
+// from
+$totalfilter = new Identifier($1);
+	
+// group by
+$groupby = array();
+$aggregate = false; 
+foreach($sel["identifiers"] as $identifier){
+    if(get_class($identifier) == "AggregatorFunction"){
+        $aggregate = true;
+    }else{
+			// identifier could be a unairy or tertiary function like substring or ucase
+			if(get_class($identifier) != "Identifier"){
+				array_push($groupby,$identifier->getSource());				
+			}else{
+			   array_push($groupby,$identifier);
+			}	
+      
+    }					
+}
+							
+if($aggregate){
+    $datagrouper = new DataGrouper($groupby);
+    $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
+}
+	
+// select
+
+$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
+
+$$ = $totalfilter;
+						}
+|resourceid '{' selector/sel '}' '?' filterlist/fl { 
+
+
+$totalfilter = new Identifier($1);
+
+$expressionFilter = new FilterByExpressionFilter($fl); // wherefilter
+$totalfilter = putFilterAfterIfExists($totalfilter,$expressionFilter);
+
+$groupby = array();
+$aggregate = false; 
+foreach($sel["identifiers"] as $identifier){
+    if(get_class($identifier) == "AggregatorFunction"){
+        $aggregate = true;
+    }else{
+        array_push($groupby,$identifier);
+    }					
+}
+							
+if($aggregate){
+    $datagrouper = new DataGrouper($groupby);
+    $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
+}
+	
+
+
+$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
+
+$$ = $totalfilter;				
+}
+
 | resourceid { $$ = new Identifier($1); }
 | resourceid '?' filterlist { $$ = new FilterByExpressionFilter($3); $$->setSource(new Identifier($1)); }
 .
@@ -72,17 +131,18 @@ filter = name/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTIO
 selector = selectargument/arg { $$ = $1; }
 | selector ',' selectargument/arg { $filters = array_merge($1["filters"],$3["filters"]); 
                                     $sorts = array_merge($1["sorts"],$3["sorts"]);
-                                    $$ = array("filters"=>$filters,"sorts"=>$sorts); }
+												$identifiers = array_merge($1["identifiers"],$3["identifiers"]);
+                                    $$ = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); }
 .
 
-selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array()); }
-| argument/arg order { $$ = array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array()); /* eens sort by functions bestaan, $$ = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ }
-| name ALIAS argument/arg  {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array());}
-| name ALIAS argument/arg order {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array());}
+selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); }
+| argument/arg order { $$ =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); /* eens sort by functions bestaan, $$ = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ }
+| name ALIAS argument/arg  {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array(), "identifiers" => array($arg));}
+| name ALIAS argument/arg order {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array(), "identifiers" => array($arg));}
 .
 
-function = name '(' argument ')' { $$ = createUnaryFunction($1,$3); }
-| name '(' argument ',' argument ')' { $$ = createBinaryFunction($1,$3,$5); }
+function = name '(' argument ')' { $$ = getUnaryFilterForSQLFunction($1,$3); }
+| name '(' argument/arg1 ',' argument/arg2 ',' argument/arg3 ')' {$$ = getTertairyFunctionForSQLFunction($1,$arg1,$arg2,$arg3);}
 .
 
 order = '+' { /* SORT BY ascending */ $$ = 1; }
@@ -93,6 +153,7 @@ argument = name/name { $$ = new Identifier($name); }
 | link
 | '*' { $$ = new Identifier('*'); }
 | function { $$ = $1;}
+| num {$$ = new Constant($1);}
 .
 
 link = name LN resourceid '.' name { /* joined resource */ }

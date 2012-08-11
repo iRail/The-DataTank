@@ -102,6 +102,7 @@ function getTertairyFunctionForSQLFunction($SQLname, $arg1, $arg2,$arg3){
     
     $tertarymap = array(
         "MID" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING,
+		  "SUBSTRING" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING,
         "REGEX_REPLACE" => TertairyFunction::$FUNCTION_TERTIARY_REGEX_REPLACE
     );
     

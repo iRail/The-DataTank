@@ -80,6 +80,7 @@ class UniversalFilterTableManager {
         if(!isset($this->requestedTables[$globalTableIdentifier])){
             $this->loadTable($globalTableIdentifier);
         }
+
         return $this->requestedTables[$globalTableIdentifier]->getContent();
     }
     

@@ -11,7 +11,8 @@
 
 This document provides a context about the v1.2.0 beta release, note that this doesn't cover the full explanation
 on how the datatank works, but rather an update on what we've been doing since the last release and what new stuff 
-is in it.
+is in the v1.2.0 beta. This also means that this file will not be adjusted until the next official release, so to stay on track
+of what is happening to our code, check out our (solved) issue list on github.
 
 INSTALLATION NOTE: Just a note of refreshing your memory, in order to get your datatank installed don't forget to rename Config.example.class.php to Config.class.php!
 
@@ -40,13 +41,6 @@ INSTALLATION NOTE: Just a note of refreshing your memory, in order to get your d
 4. What's been tested
 5. Future works
 6. List of important commits
-
-
-
-
-
-
-
 
 
 
@@ -144,6 +138,8 @@ The datatank has proven its utility in several use cases such as appsforX, data.
 5. Future works and known issues
 ---------------------------------
 
+* our AST end-points such as SPECTQL and SQL don't work yet with core or installed resource.
+
 * XML resource doesn't work with namespaces XMl files
 
 * "Large datafiles", meaning large to fully load into memory and perform actions on it are still an issue.
@@ -156,6 +152,11 @@ The datatank has proven its utility in several use cases such as appsforX, data.
 * Profiling! Profiling is a way of automatically optimizing your code, so far it's not been used that much, since we only bumped into it the last week before our beta release.
 
 * Further support for the conversion of the AST tree to SQL.
+
+* In the future we will work towards the principle that every resource will have to publish its columns that it uses in its resource it returns. This means
+  that core resource like TDTInfo will have to provide their columnames and that installed resource will also have to do this.
+
+
 
 6. List of important commits 
 -----------------------------

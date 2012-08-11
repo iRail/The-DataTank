@@ -48,8 +48,7 @@ class InstalledResourceFactory extends AResourceFactory{
 
     public function makeDoc($doc){
         //ask every resource we have for documentation
-        var_dump($this->getAllResourceNames());
-        
+       
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
@@ -77,7 +76,6 @@ class InstalledResourceFactory extends AResourceFactory{
 
     public function makeDescriptionDoc($doc){
         //ask every resource we have for documentation
-        var_dump($this->getAllResourceNames());
         
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
