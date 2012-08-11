@@ -277,59 +277,43 @@ class ShapeRecord{
         return $this->shp_data;
     }
 	
+    public function getDbfFields(){
+
+        $fdbf = fopen($this->file_name,'r');
+        $fields = array();
+        $buf = fread($fdbf,32);
+        $goon = true;
+        while ($goon && !feof($fdbf)) { // read fields:
+            $buf = fread($fdbf,32);
+            if (substr($buf,0,1)==chr(13)) {$goon=false;} // end of field list
+            else {
+                $field=unpack( "a11fieldname/A1fieldtype/Voffset/Cfieldlen/Cfielddec", substr($buf,0,18));
+                array_push($fields, $field);
+            }
+        }
+        fclose($fdbf);
+        return $fields;
+    }
+
     public function getDbfData(){
-
-        $this->_fetchDBFInformation();
-		
-        return $this->dbf_data;
-    }
-
-    private function _openDBFFile($check_writeable = false){
-        $check_function = $check_writeable ? "is_writable" : "is_readable";
-        if($check_function($this->file_name)){
-            $this->dbf = dbase_open($this->file_name, ($check_writeable ? 2 : 0));
-            if(!$this->dbf){
-                $this->setError( sprintf(INCORRECT_DBF_FILE, $this->file_name) );
+        $fdbf = fopen($this->file_name,'r');
+        $buf = fread($fdbf,32);
+        $header=unpack( "VRecordCount/vFirstRecord/vRecordLength", substr($buf,4,8));
+        $goon = true;
+        $unpackString='';
+        while ($goon && !feof($fdbf)) { // read fields:
+            $buf = fread($fdbf,32);
+            if (substr($buf,0,1)==chr(13)) {$goon=false;} // end of field list
+            else {
+                $field=unpack( "a11fieldname/A1fieldtype/Voffset/Cfieldlen/Cfielddec", substr($buf,0,18));
+                $unpackString.="A$field[fieldlen]$field[fieldname]/";
             }
-        } else {
-            $this->setError( sprintf(INEXISTENT_DBF_FILE, $this->file_name) );
         }
-    }
-
-    private function _closeDBFFile(){
-        if($this->dbf){
-            dbase_close($this->dbf);
-            $this->dbf = null;
-        }
-    }
-
-    private function _fetchDBFInformation(){
-        $this->_openDBFFile();
-        if($this->dbf) {
-            //var_dump('record: ' . $this->record_number);
-            if ($this->record_number != '') {
-                $this->dbf_data = dbase_get_record_with_names($this->dbf, $this->record_number);
-            }
-        } else {
-            $this->setError( sprintf(INCORRECT_DBF_FILE, $this->file_name) );
-        }
-        $this->_closeDBFFile();
-    }
-
-    public function setDBFInformation($row_array){
-        $this->_openDBFFile(true);
-        if($this->dbf) {
-            unset($row_array["deleted"]);
-
-            if(!dbase_replace_record($this->dbf, array_values($row_array), $this->record_number)){
-                $this->setError( sprintf(UNABLE_TO_WRITE_DBF_FILE, $this->file_name) );
-            } else {
-                $this->dbf_data = $row_array;
-            }
-        } else {
-            $this->setError( sprintf(INCORRECT_DBF_FILE, $this->file_name) );
-        }
-        $this->_closeDBFFile();
+        fseek($fdbf, $header['FirstRecord'] + 1 + ($header['RecordLength'] * ($this->record_number - 1)));        
+        $buf = fread($fdbf,$header['RecordLength']);
+        $record=unpack($unpackString,$buf);
+        fclose($fdbf);
+        return $record;
     }
 }
 

@@ -86,14 +86,14 @@ class DB extends ATabularData implements iFilter {
         $fields = "";//implode(array_keys($configObject->columns),",");
 
         foreach($configObject->column_aliases as $column_name => $column_alias){
-            $fields.= " $column_name AS $column_alias ,";
+            $fields.= " $configObject->db_table" . "." . "$column_name AS $column_alias ,";
         }
         
         $fields = rtrim($fields,",");
 
         // prepare to get some of them data from the database!
         $sql = "SELECT $fields FROM $configObject->db_table";
-
+		
         $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
         $config = new \Doctrine\DBAL\Configuration();
@@ -353,20 +353,20 @@ class DB extends ATabularData implements iFilter {
         include_once("universalfilter/converter/SQLConverter.class.php");
         include_once("universalfilter/interpreter/debugging/TreePrinter.class.php");
 
-/*        $printer = new TreePrinter();
-        $printer->printString($query);
-        exit();*/
+        /*$printer = new TreePrinter();
+        $printer->printString($query);*/
+       
 
         $requiredColumnNames = $query->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);
         $headerNames =$requiredColumnNames->getExpectedHeaderNames();
-        
 
         /**
          * Convert the tree to a SQL string
          */
         $converter = new SQLConverter($headerNames);
         $sql = $converter->treeToSQL($query);
-
+		$sql.= $converter->getGroupBy();
+		
         // get the identifiers of the query, just to check that the query that has been passed, contains information
         // that can be released
         $identifiers = $converter->getIdentifiers();
@@ -420,7 +420,7 @@ class DB extends ATabularData implements iFilter {
                 foreach($rowKeys as $key){
                     $rowobject->$key = $row[$key];
                 }
-
+	
                 /**
                  * Add the object to the array of row objects
                  */
