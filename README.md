@@ -92,6 +92,10 @@ Contains some utility functions and classes for the datatank.
 
 # Branching
 
+we will be using git in a pattern similar to [Vincent Driessen's workflow](http://nvie.com/posts/a-successful-git-branching-model/). While feature branches are encouraged, they are not required to work on the project.
+
+![Branching Model](http://nvie.com/img/2009/12/Screen-shot-2009-12-24-at-11.32.03.png)
+
 ## develop
 
 This is the development branch, this branch will be merged with separate branches where big features will be implemented separatly. When a branch is adult enough to merge it with the development branch, it will be merged and deleted. For small fixes and very small features the development will be adjusted without branching first. This branch is the most up to date version of The DataTank.
@@ -133,14 +137,13 @@ In order to code properly we use some standards such as
 
 * variables are also $camelCaseNotation ( although you might see an _ notation here and there, this is mostly when we query variables, if not...it's our fault and bad practise and you should learn from our mistake :) )
 
-# The DataTank & FlatData #
+In future releases we will be using the [fig standards](http://www.php-fig.org/).
 
-In order to set up an API we're using the open-source platform The DataTank. The DataTank is free software (AGPL, © 2011,2012 iRail NPO, 2012 OKFN Belgium) to create an API for non-local/dynamic data in no time.
+# Read more
 
 If you want to read more about The DataTank please visit http://thedatatank.com for developer documentation, and http://thedatatank.com for introductions.
 
-FlatTurtle has forked The DataTank to create a platform which integrates seaminglessly with our other products, like http://github.com/FlatTurtle/InfoScreen. This fork of The DataTank is called FlatData.
-
+The DataTank is free software (AGPL, © 2011,2012 iRail NPO, 2012 OKFN Belgium) to create an API for non-local/dynamic data in no time.
 
 Any questions? Add a support issue.
 
