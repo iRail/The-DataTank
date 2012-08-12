@@ -23,6 +23,7 @@ class InstalledResourceFactory extends AResourceFactory{
     
     public function createReader($package,$resource, $parameters, $RESTparameters){
         $location = $this->getLocationOfResource($package,$resource);
+        
         if(file_exists(getcwd() . "/custom/packages/" . $location . ".class.php")){
             include_once(getcwd() ."/custom/packages/" . $location . ".class.php");
             $classname = $this->getClassnameOfResource($package,$resource);

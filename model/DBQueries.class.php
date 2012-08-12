@@ -661,8 +661,8 @@ class DBQueries {
         return R::getCell(
             "SELECT location
              FROM package,resource,installed_resource
-             WHERE resource.package_id=package.id 
-                    and installed_resource.resource_id=resource.id",
+             WHERE resource.package_id=package.id and package.full_package_name = :package
+                    and installed_resource.resource_id=resource.id and resource.resource_name =:resource",
             array(":package" => $package, ":resource" => $resource)
         );
     }
@@ -674,8 +674,8 @@ class DBQueries {
         return R::getCell(
             "SELECT classname
              FROM package,resource,installed_resource
-             WHERE resource.package_id=package.id 
-                    and installed_resource.resource_id=resource.id",
+             WHERE resource.package_id=package.id and package.full_package_name = :package
+                    and installed_resource.resource_id=resource.id and resource.resource_name =:resource",
             array(":package" => $package, ":resource" => $resource)
         );
     }

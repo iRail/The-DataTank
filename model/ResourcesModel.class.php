@@ -310,6 +310,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
+        
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
             throw new ResourceOrPackageNotFoundTDTException($package, $resource);

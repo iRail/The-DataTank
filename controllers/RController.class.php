@@ -101,6 +101,7 @@ class RController extends AController {
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
         $parameters = $_GET;        
+        $requiredParameters = array();
 
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
@@ -108,13 +109,13 @@ class RController extends AController {
             if (!isset($RESTparameters[0])) {
                 throw new ParameterTDTException($parameter);
             }
-            $parameters[$parameter] = $RESTparameters[0];
+            $requiredParameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
-       
         
-        $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
+        
+        $result = $model->readResource($package, $resourcename, $parameters, $requiredParameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
