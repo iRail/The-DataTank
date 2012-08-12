@@ -9,14 +9,14 @@
  */
 include_once("custom/strategies/ATabularData.class.php");
 
-class KMLGhent extends ATabularData {
+class KML extends ATabularData {
 
     /**
      * Returns an array with params => documentation pairs that can be used to create this type of resource.
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters(){
-        return array("uri" => "The uri of where the KML of City of Ghent is found.",
+        return array("uri" => "The uri of where the KML is found.",
                      "columns" => "The columns that are to be published from the KML. The columns should be passed as index => name of column.",
                      "PK" => "The primary key of each row."
         );  

@@ -23,6 +23,21 @@ class HtmlTableFormatter extends AFormatter {
     public function printHeader() {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: text/html; charset=UTF-8");
+        echo "<html>\n".
+             "  <head>\n".
+             "    <title>Table Formatter</title>\n".
+             "    <style>\n".
+             "      #the-table { ".
+             "          border:1px solid #bbb;".
+             "          border-collapse:collapse; ".
+             "      }".
+             "      #the-table td,#the-table th { ".
+             "          border:1px solid #ccc;".
+             "          border-collapse:collapse;".
+             "          padding:5px; ".
+             "      }".
+             "    </style>\n".
+             "  </head>\n";        
     }
 
     /**
@@ -56,20 +71,12 @@ class HtmlTableFormatter extends AFormatter {
                 array_push($enclosedHeaderrow, $this->escape($element));
             }
             
-            echo "<html>\n".
-                 "  <head>\n".
-                 "    <title>Table Formatter</title>\n".
-                 "    <style>\n".
-                 "      table td {border: 1px solid grey}\n".
-                 "      table th {background-color:#FFFFEE;}".
-                 "    </style>\n".
-                 "  </head>\n".
-                 "  <body>\n".
+            echo "  <body>\n".
                  "\n".
-                 "    <table>\n".
-                 "      <tr>\n".
+                 "    <table id='the-table'>\n".
+                 "      <thead><tr>\n".
                  "        <th>".implode("</th>\n        <th>", $enclosedHeaderrow)."</th>\n".
-                 "      </tr>\n";
+                 "      </tr></thead>\n<tbody>";
 
             foreach ($this->objectToPrint as $row) {
                 echo "      <tr>\n";
@@ -98,11 +105,11 @@ class HtmlTableFormatter extends AFormatter {
                     } else {
                         echo $this->escape($element);
                     }
-                    echo "</td>\n";
+                    echo " </td>\n";
                 }
                 echo "      </tr>\n";
             }
-            echo "    </table>\n".
+            echo "    </tbody></table>\n".
                  "\n".
                  "  </body>\n".
                  "</html>";

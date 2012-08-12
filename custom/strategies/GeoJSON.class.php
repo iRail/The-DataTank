@@ -1,6 +1,6 @@
 <?php
 /**
- * This class handles a XLS file
+ * This class handles a GeoJSON file
  *
  * @package The-Datatank/custom/strategies
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -9,15 +9,15 @@
  */
 include_once("custom/strategies/ATabularData.class.php");
 
-class OGDWienJSON extends ATabularData {
+class GeoJSON extends ATabularData {
 
     /**
      * Returns an array with params => documentation pairs that can be used to create this type of resource.
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters(){
-        return array("uri" => "The uri of where the OGD Wien JSON is found.",
-                     "columns" => "The columns that are to be published from the OGD Wien JSON. The columns should be passed as index => name of column.",
+        return array("uri" => "The uri of where the GeoJSON is found.",
+                     "columns" => "The columns that are to be published from the GeoJSON. The columns should be passed as index => name of column.",
                      "PK" => "The primary key of each row."
         );  
     }
@@ -48,7 +48,7 @@ class OGDWienJSON extends ATabularData {
 
     protected function isValid($package_id,$generic_resource_id) {
         if(!isset($this->uri)){
-            $this->throwException($package_id,$generic_resource_id, "Can't find uri of the OGD Wien JSON");
+            $this->throwException($package_id,$generic_resource_id, "Can't find uri of the GeoJSON");
         }
 		
         if (!isset($this->columns)) {
@@ -82,7 +82,7 @@ class OGDWienJSON extends ATabularData {
                 }
                 
                 if(!isset($json->features)){
-                    throw new ResourceAdditionTDTException("We could not find the features property, which may indicate this is not a OGDWienJSON json file.");
+                    throw new ResourceAdditionTDTException("We could not find the features property, which may indicate this is not a GeoJSON json file.");
                 }
                 
 
@@ -118,7 +118,7 @@ class OGDWienJSON extends ATabularData {
         if(isset($configObject->uri)){
             $uri = $configObject->uri;
         }else{
-            throw new ResourceTDTException("Can't find uri of the OGD Wien Json");
+            throw new ResourceTDTException("Can't find uri of the GeoJSON");
         }
 		
         $columns = array();
