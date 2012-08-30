@@ -39,7 +39,23 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return type phpObject
      */
     private function getFullResourcePhpObject($package, $resource,$RESTparameters = array()){
-        $resourceObject = ResourcesModel::getInstance()->readResource($package, $resource, array(), $RESTparameters);
+       
+        $model = ResourcesModel::getInstance();
+
+        $doc = $model->getAllDoc();
+        $parameters= array();
+
+        foreach ($doc->$package->$resource->requiredparameters as $parameter) {
+            //set the parameter of the method
+                
+            if (!isset($RESTparameters[0])) {
+                throw new ParameterTDTException($parameter);
+            }
+            $parameters[$parameter] = $RESTparameters[0];
+            //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
+            array_shift($RESTparameters);
+        }
+        $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
         
         //implement cache
         

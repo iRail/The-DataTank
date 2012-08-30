@@ -51,6 +51,7 @@ class UniversalFilterTableManager {
             throw new ResourceOrPackageNotFoundTDTException("Illegal identifier. Package does not contain a resourcename: ".$globalTableIdentifier);
         }
         
+        // RESTparameters are handled as requiredParameters
         return array($result["packagename"],$result["resourcename"],$result["RESTparameters"]);    
     }
     
