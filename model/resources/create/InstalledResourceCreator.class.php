@@ -67,7 +67,7 @@ class InstalledResourceCreator extends ACreator{
                 throw new ResourceAdditionTDTException("The classname $this->classname doesn't exist on location ". getcwd(). "/custom/packages/$this->location.class.php");
             }
         }else{
-            throw new ResourceAdditionTDTException("The location " . getcwd(). "/custom/packages/$this->location.class.php hasn't been found.");
+            throw new ResourceAdditionTDTException("The location " . getcwd(). "/custom/packages/".$this->location. ".class.php hasn't been found.");
         }
     }  
 }

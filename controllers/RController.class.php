@@ -109,13 +109,13 @@ class RController extends AController {
             if (!isset($RESTparameters[0])) {
                 throw new ParameterTDTException($parameter);
             }
-            $requiredParameters[$parameter] = $RESTparameters[0];
+            $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
         
         
-        $result = $model->readResource($package, $resourcename, $parameters, $requiredParameters);
+        $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         R::setup(Config::$DB, Config::$DB_USER, Config::$DB_PASSWORD);
