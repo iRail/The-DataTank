@@ -93,6 +93,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
         
+		var_dump($splitedId);
+		
         $converter = new PhpObjectTableConverter();
 
         $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1],$splitedId[2]);
@@ -107,6 +109,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private function loadTableWithHeader($globalTableIdentifier,$header){
 
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
+		
+		var_dump($splitedId);
         
         $converter = new PhpObjectTableConverter();
 
