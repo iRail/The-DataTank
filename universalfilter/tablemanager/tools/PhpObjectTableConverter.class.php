@@ -76,7 +76,6 @@ class PhpObjectTableConverter {
     }
     
     private function getPhpObjectsByIdentifier($splitedId){
-		var_dump($splitedId);
         $resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1]);
         
         $phpObj = $this->findTablePhpArray($resource, $splitedId[2], -1);

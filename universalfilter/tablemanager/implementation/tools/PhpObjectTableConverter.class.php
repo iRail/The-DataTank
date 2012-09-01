@@ -178,12 +178,12 @@ class PhpObjectTableConverter {
             }
             
             //add value id field
-            $columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
-            $currentrow->defineValue($columnId, $parentindex);
+            //$columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
+            //$currentrow->defineValue($columnId, $parentindex);
             
             //add value key_parent field
-            $columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
-            $currentrow->defineValue($columnId, $index);
+            //$columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
+            //$currentrow->defineValue($columnId, $index);
             $rows->addRow($currentrow);
         }
         
