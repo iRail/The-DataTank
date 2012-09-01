@@ -11,7 +11,7 @@
  * @author Miel Vander Sande 
  */
 
-include_once("custom/formatters/HtmlTableFormatter.class.php");
+include_once("custom/formatters/HtmltableFormatter.class.php");
  
  /**
  * This class inherits from the HtmlFormatter. It will generate a extjs grid
