@@ -87,11 +87,11 @@ class XmlFormatter extends AFormatter{
                 }else{
                     
                     if($key == $name){
-                        echo ">$value</$key>";
+                        echo ">" . htmlspecialchars($value, ENT_QUOTES);
                         $tag_close = TRUE;
                     }else{
                         $key = htmlspecialchars(str_replace(" ","",$key));
-                        $val = htmlspecialchars($value);
+                        $val = htmlspecialchars($value, ENT_QUOTES);
                         echo " ".$key.'="'. $val .'"';
                     }
                 }
