@@ -129,7 +129,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
                     $newId = $newColumn->getId();
                     $isGrouped = $newColumn->isGrouped();
                     
-                    $value = $oldRow->getCellValue($oldId);
+                    $value = $oldRow->getCellValue($oldId, true);
                     
                     if($isGrouped){
                         $data=new UniversalFilterTableContent();

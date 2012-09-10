@@ -135,6 +135,9 @@ class PhpObjectTableConverter {
             $obj = $data["object"];
             $arr_obj = get_object_vars($obj);
             $currentrow=new UniversalFilterTableContentRow();
+            $found=array();
+            
+            
             foreach($arr_obj as $key => $value){
                 $columnName = $this->parseColumnName($key);
                 $columnId = $idMap[$columnName];//$header->getColumnIdByName($columnName);
@@ -154,15 +157,26 @@ class PhpObjectTableConverter {
                 }else{
                     $currentrow->defineValue($columnId, $value);//what if we have a combination of the two?
                 }
+                array_push($found, $columnId);
+            }
+            
+            for ($i = 0; $i < $header->getColumnCount(); $i++) {
+                $columnId = $header->getColumnIdByIndex($i);
+                if(!in_array($columnId, $found)){//we did not defined this value yet...
+                    $currentrow->defineValue($columnId, null);
+                }
+                
             }
             
             //add value id field
             //$columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
-            $currentrow->defineValue($columnId, $parentindex);
+            //$currentrow->defineValue($columnId, $parentindex);
+            //array_push($found, $columnId);
             
             //add value key_parent field
             //$columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
-            $currentrow->defineValue($columnId, $index);
+            //$currentrow->defineValue($columnId, $index);
+            //array_push($found, $columnId);
             
             $rows->addRow($currentrow);
         }

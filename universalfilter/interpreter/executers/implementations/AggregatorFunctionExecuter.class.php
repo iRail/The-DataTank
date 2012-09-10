@@ -180,7 +180,7 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
                     $groupedContent = new UniversalFilterTableContent();
                     for ($execContentIndex = 0; $execContentIndex < $executedContent->getRowCount(); $execContentIndex++) {
                         $groupRow = new UniversalFilterTableContentRow();
-                        $groupRow->defineValue("data", $executedContent->getRow($execContentIndex)->getCellValue($oldColumnId));//crashes if grouped...
+                        $groupRow->defineValue("data", $executedContent->getRow($execContentIndex)->getCellValue($oldColumnId, true));//crashes if grouped...
                     }
 
                     $newRow->defineGroupedValue($newColumnId, $groupedContent);
@@ -286,6 +286,8 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
     /**
      * Converts a column to an array to make it easier to process 
      * 
+     * CAN CONTAIN NULL VALUES!
+     * 
      * @todo TODO: What if big table => should NOT convert to array. => Rewrite all aggregators... (can not use array_sum, count, max, min, ...)
      * @param UniversalFilterTableContent $content
      * @param type $columnId
@@ -294,7 +296,7 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
     public function convertColumnToArray(UniversalFilterTableContent $content, $columnId){
         $arr = array();
         for ($index = 0; $index < $content->getRowCount(); $index++) {
-            array_push($arr, $content->getRow($index)->getCellValue($columnId));
+            array_push($arr, $content->getRow($index)->getCellValue($columnId, true));
         }
         return $arr;
     }

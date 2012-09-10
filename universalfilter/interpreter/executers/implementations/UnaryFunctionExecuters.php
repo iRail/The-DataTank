@@ -17,6 +17,7 @@ class UnaryFunctionUppercaseExecuter extends UnaryFunctionExecuter {
     }
     
     public function doUnaryFunction($value){
+        if($value===null) return null;
         return strtoupper($value);
     }
 }
@@ -29,6 +30,7 @@ class UnaryFunctionLowercaseExecuter extends UnaryFunctionExecuter {
     }
     
     public function doUnaryFunction($value){
+        if($value===null) return null;
         return strtolower($value);
     }
 }
@@ -41,6 +43,7 @@ class UnaryFunctionStringLengthExecuter extends UnaryFunctionExecuter {
     }
     
     public function doUnaryFunction($value){
+        if($value===null) return null;
         return strlen($value);
     }
 }
@@ -53,6 +56,7 @@ class UnaryFunctionRoundExecuter extends UnaryFunctionExecuter {
     }
     
     public function doUnaryFunction($value){
+        if($value===null) return null;
         return round($value);
     }
 }
@@ -65,7 +69,7 @@ class UnaryFunctionIsNullExecuter extends UnaryFunctionExecuter {
     }
     
     public function doUnaryFunction($value){
-        return is_null($value);
+        return (is_null($value)?"true":"false");
     }
 }
 
@@ -77,6 +81,7 @@ class UnaryFunctionNotExecuter extends UnaryFunctionExecuter {
     }
     
     public function doUnaryFunction($value){
+        if($value===null) return null;
         return ($value=="true" || $value==1?"false":"true");
     }
 }

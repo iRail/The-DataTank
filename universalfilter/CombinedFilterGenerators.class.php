@@ -16,7 +16,7 @@ class CombinedFilterGenerators {
      * @param UniversalFilterNode $sourceToSet 
      */
     public static function setCombinedFilterSource(NormalFilterNode $for, UniversalFilterNode $sourceToSet){
-        if($for->getSource()==null){
+        if($for->getSource()===null){
             $for->setSource($filter);
         }else{
             CombinedFilterGenerators::setCombinedFilterSource($for->getSource(), $sourceToSet);

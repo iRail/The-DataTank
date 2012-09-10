@@ -17,6 +17,7 @@ class TertairyFunctionSubstringExecuter extends TertairyFunctionExecuter {
     }
     
     public function doTertairyFunction($valueA, $valueB, $valueC){
+        if($valueA===null || $valueB===null || $valueC===null) return null;
         return substr($valueA, $valueB, $valueC);
     }
 }
@@ -29,6 +30,7 @@ class TertairyFunctionRegexReplacementExecuter extends TertairyFunctionExecuter 
     }
     
     public function doTertairyFunction($valueA, $valueB, $valueC){
+        if($valueA===null || $valueB===null || $valueC===null) return null;
         return preg_replace($valueA, $valueB, $valueC);
     }
 }
