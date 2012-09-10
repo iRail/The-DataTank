@@ -275,6 +275,18 @@ class UnairyFunction extends NormalFilterNode {
     public static $FUNCTION_UNAIRY_ROUND="FUNCTION_UNAIRY_ROUND";
     public static $FUNCTION_UNAIRY_ISNULL="FUNCTION_UNAIRY_ISNULL";
     public static $FUNCTION_UNAIRY_NOT="FUNCTION_UNAIRY_NOT";
+    public static $FUNCTION_UNAIRY_SIN="FUNCTION_UNAIRY_SIN";
+    public static $FUNCTION_UNAIRY_COS="FUNCTION_UNAIRY_COS";
+    public static $FUNCTION_UNAIRY_TAN="FUNCTION_UNAIRY_TAN";
+    public static $FUNCTION_UNAIRY_ASIN="FUNCTION_UNAIRY_ASIN";
+    public static $FUNCTION_UNAIRY_ACOS="FUNCTION_UNAIRY_ACOS";
+    public static $FUNCTION_UNAIRY_ATAN="FUNCTION_UNAIRY_ATAN";
+    public static $FUNCTION_UNAIRY_SQRT="FUNCTION_UNAIRY_SQRT";
+    public static $FUNCTION_UNAIRY_ABS="FUNCTION_UNAIRY_ABS";
+    public static $FUNCTION_UNAIRY_FLOOR="FUNCTION_UNAIRY_FLOOR";
+    public static $FUNCTION_UNAIRY_CEIL="FUNCTION_UNAIRY_CEIL";
+    public static $FUNCTION_UNAIRY_EXP="FUNCTION_BINARY_EXP";
+    public static $FUNCTION_UNAIRY_LOG="FUNCTION_BINARY_LOG";
     
     public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
@@ -303,6 +315,10 @@ class BinaryFunction extends NormalFilterNode {
     public static $FUNCTION_BINARY_OR="FUNCTION_BINARY_OR";
     public static $FUNCTION_BINARY_AND="FUNCTION_BINARY_AND";
     public static $FUNCTION_BINARY_MATCH_REGEX="FUNCTION_BINARY_MATCH_REGEX";// does $1 matches $2 ? ($2 is in php regex format!)
+    public static $FUNCTION_BINARY_ATAN2="FUNCTION_BINARY_ATAN2";
+    public static $FUNCTION_BINARY_LOG="FUNCTION_BINARY_LOG";
+    public static $FUNCTION_BINARY_POW="FUNCTION_BINARY_POW";
+    public static $FUNCTION_BINARY_CONCAT = "FUNCTION_BINARY_CONCAT";
     
     public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null) {
         parent::__construct($kind);

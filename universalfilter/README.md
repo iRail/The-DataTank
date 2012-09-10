@@ -91,13 +91,13 @@ Groups data on the given fields. You probably want to use aggregator functions a
 Input: one column of the data.  
 Output: a new column (the unairy function applied)
 
-Supported unairy functions: "to uppercase", "to lowercase", "string length", "round number", "check if null", "boolean not".
+Supported unairy functions: "to uppercase", "to lowercase", "string length", "round number", "check if null", "boolean not", "sin", "cos", "tan", "asin", "acos", "atan", "sqrt", "abs", "floor", "ceil", "exp", "log".
 
 #### BinaryFunctions
 Input: two columns of the data.  
 Output: a new column
 
-Supported Binary functions: "+", "-", "*", "/", "<", ">", "<=", ">=", "=", "!=", "OR", "AND", "match regex" (does arg1 matches arg2 where arg2 is a regular expression in php)
+Supported Binary functions: "+", "-", "*", "/", "<", ">", "<=", ">=", "=", "!=", "OR", "AND", "match regex" (does arg1 matches arg2 where arg2 is a regular expression in php), "atan2", "log", "pow", "string concatenation".
 
 #### TertairyFunctions
 Input: three columns of data.  
@@ -126,6 +126,10 @@ So, those are the filters you can use to build the filter syntax tree. Have fun 
 
 Combined Functions
 ------------------
+
+Like `Between`, `Smaller than all`, ...
+
+see `CombinedFilterGenerators.class.php`
 
 Implementation of the Interpreter
 ---------------------------------
@@ -162,7 +166,7 @@ Future development
 2. to join data (full/left/right inner/outer join)
 3. for Union
 4. for Limit+Offset
-5. missing functions: string concatenation, sqrt, functions on dates...
+5. missing functions: functions on dates...
 
 If you want to implement new kinds of filters in the Abstract Filter Layer:
 see the documentation of the interpreter in universalfilters/interpreter (for a global overview)

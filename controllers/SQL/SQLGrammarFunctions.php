@@ -52,7 +52,19 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "LEN" => UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH,
         "ROUND" => UnairyFunction::$FUNCTION_UNAIRY_ROUND,
         "ISNULL" => UnairyFunction::$FUNCTION_UNAIRY_ISNULL,
-        "NOT" => UnairyFunction::$FUNCTION_UNAIRY_NOT
+        "NOT" => UnairyFunction::$FUNCTION_UNAIRY_NOT,
+        "SIN" => UnairyFunction::$FUNCTION_UNAIRY_SIN,
+        "COS" => UnairyFunction::$FUNCTION_UNAIRY_COS,
+        "TAN" => UnairyFunction::$FUNCTION_UNAIRY_TAN,
+        "ASIN" => UnairyFunction::$FUNCTION_UNAIRY_ASIN,
+        "ACOS" => UnairyFunction::$FUNCTION_UNAIRY_ACOS,
+        "ATAN" => UnairyFunction::$FUNCTION_UNAIRY_ATAN,
+        "SQRT" => UnairyFunction::$FUNCTION_UNAIRY_SQRT,
+        "ABS" => UnairyFunction::$FUNCTION_UNAIRY_ABS,
+        "FLOOR" => UnairyFunction::$FUNCTION_UNAIRY_FLOOR,
+        "CEIL" => UnairyFunction::$FUNCTION_UNAIRY_CEIL,
+        "EXP" => UnairyFunction::$FUNCTION_UNAIRY_EXP,
+        "LOG" => UnairyFunction::$FUNCTION_UNAIRY_LOG
     );
     $unaryaggregatormap = array(
         "AVG" => AggregatorFunction::$AGGREGATOR_AVG,
@@ -84,7 +96,10 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
     $SQLname=strtoupper($SQLname);
     
     $binarymap = array(
-        "REGEX_MATCH" => BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX
+        "REGEX_MATCH" => BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX,
+        "ATAN2" => BinaryFunction::$FUNCTION_BINARY_ATAN2,
+        "LOG" => BinaryFunction::$FUNCTION_BINARY_LOG,
+        "POW" => BinaryFunction::$FUNCTION_BINARY_POW
     );
     
     if($binarymap[$SQLname]!=null){

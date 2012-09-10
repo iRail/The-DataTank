@@ -187,4 +187,56 @@ class BinaryFunctionMatchRegexExecuter extends BinaryFunctionExecuter {
         return (preg_match($valueB, $valueA)?"true":"false");
     }
 }
+
+/* atan2 */
+class BinaryFunctionAtan2Executer extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_atan2_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".atan2($valueA,$valueB);
+    }
+}
+
+/* log */
+class BinaryFunctionLogExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_log_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".log($valueA,$valueB);
+    }
+}
+
+/* pow */
+class BinaryFunctionPowExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_power_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".pow($valueA,$valueB);
+    }
+}
+
+/* concat */
+class BinaryFunctionConcatExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_concat_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".$valueA."".$valueB;
+    }
+}
 ?>

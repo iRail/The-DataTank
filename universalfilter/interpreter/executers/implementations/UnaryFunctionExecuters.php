@@ -85,4 +85,160 @@ class UnaryFunctionNotExecuter extends UnaryFunctionExecuter {
         return ($value=="true" || $value==1?"false":"true");
     }
 }
+
+/* sin */
+class UnaryFunctionSinExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "sin_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".sin($value);
+    }
+}
+
+/* cos */
+class UnaryFunctionCosExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "cos_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".cos($value);
+    }
+}
+
+/* tan */
+class UnaryFunctionTanExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "tan_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".tan($value);
+    }
+}
+
+/* asin */
+class UnaryFunctionAsinExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "asin_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".asin($value);
+    }
+}
+
+/* acos */
+class UnaryFunctionAcosExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "acos_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".acos($value);
+    }
+}
+
+/* atan */
+class UnaryFunctionAtanExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "atan_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".atan($value);
+    }
+}
+
+/* sqrt */
+class UnaryFunctionSqrtExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "sqrt_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".sqrt($value);
+    }
+}
+
+/* abs */
+class UnaryFunctionAbsExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "abs_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".abs($value);
+    }
+}
+
+/* floor */
+class UnaryFunctionFloorExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "floor_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".floor($value);
+    }
+}
+
+/* ceil */
+class UnaryFunctionCeilExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "ceil_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".ceil($value);
+    }
+}
+
+/* exp */
+class UnaryFunctionExpExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "exp_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".exp($value);
+    }
+}
+
+/* log */
+class UnaryFunctionLogExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "log_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        return "".log($value);
+    }
+}
 ?>
