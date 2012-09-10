@@ -23,6 +23,7 @@ It can parse and convert:
  - Math: "+", "-", "*", "/"
  - Comparision: "<", ">", "<=", ">=", "<>", "!=", "="
  - Boolean operations: "AND", "OR", "NOT"
+ - String concatenation: '|'
  - Functions:
    * Unary: "UCASE(\_)", "LCASE(\_)", "LEN(\_)", "ROUND(\_)", "ISNULL(\_)", "SIN(\_)", "COS(\_)", "TAN(\_)", "ASIN(\_)", "ACOS(\_)", "ATAN(\_)", "SQRT(\_)", "ABS(\_)", "FLOOR(\_)", "CEIL(\_)", "EXP(\_)", "LOG(\_)"
    * Binary: "MATCH\_REGEX(\_,\_)", "ATAN2(\_,\_)", "LOG(\_,\_)", "POW(\_,\_)"
@@ -69,7 +70,6 @@ Limits of the current SQL Parser
 --------------------------------
 
 - Joins, Sorting, Union and Limit+Offset are not supported, as the Abstract Filter Layer does not support that yet.
-- Also not supported yet: String concatentation ("|") and sqrt.
 - IS NULL or IS NOT NULL are not implemented and NULL is not a constant...
 - There are no datatypes, and no functions for dates yet.
 - bug? tokenizer has problems with newlines at the end of the query (???)
