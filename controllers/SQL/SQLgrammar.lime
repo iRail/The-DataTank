@@ -162,7 +162,9 @@ endexpression = identifier
             | identifier/functid '(' statement/arg1 ',' statement/arg2 ')'
                 {$$ = getBinaryFunctionForSQLFunction($functid, $arg1, $arg2);}
             | identifier/functid '(' statement/arg1 ',' statement/arg2 ',' statement/arg3 ')'
-                {$$ =getTertairyFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);}
+                {$$ =getTertaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);}
+            | identifier/functid '(' statement/arg1 ',' statement/arg2 ',' statement/arg3 ',' statement/arg4 ')'
+                {$$ =getQuadernaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3, $arg4);}
             .
 
 likeexpression = constant {$$ = $1;}

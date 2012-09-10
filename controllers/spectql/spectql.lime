@@ -65,7 +65,7 @@ filter = name/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTIO
 | name/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
 | name/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
 | name/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| name/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (tertiary function)*/ }
+| name/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (ternary function)*/ }
 .
 
 

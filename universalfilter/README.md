@@ -87,11 +87,11 @@ Removes double rows...
 #### Filter: DataGrouper
 Groups data on the given fields. You probably want to use aggregator functions after you did the grouping.
 
-#### UnairyFunctions
+#### UnaryFunctions
 Input: one column of the data.  
-Output: a new column (the unairy function applied)
+Output: a new column (the unary function applied)
 
-Supported unairy functions: "to uppercase", "to lowercase", "string length", "round number", "check if null", "boolean not", "sin", "cos", "tan", "asin", "acos", "atan", "sqrt", "abs", "floor", "ceil", "exp", "log".
+Supported unary functions: "to uppercase", "to lowercase", "string length", "round number", "check if null", "boolean not", "sin", "cos", "tan", "asin", "acos", "atan", "sqrt", "abs", "floor", "ceil", "exp", "log".
 
 #### BinaryFunctions
 Input: two columns of the data.  
@@ -99,11 +99,11 @@ Output: a new column
 
 Supported Binary functions: "+", "-", "*", "/", "<", ">", "<=", ">=", "=", "!=", "OR", "AND", "match regex" (does arg1 matches arg2 where arg2 is a regular expression in php), "atan2", "log", "pow", "string concatenation".
 
-#### TertairyFunctions
+#### TernaryFunctions
 Input: three columns of data.  
 Output: a new column
 
-Supported Tertairy functions: "substring", "regex replace".
+Supported Ternary functions: "substring", "regex replace".
 
 #### Aggregators
 Input: A table or a column or a grouped column  

@@ -1,13 +1,13 @@
 <?php
 /**
- * This file contains the abstact top class for all evaluators for tertairy functions
+ * This file contains the abstact top class for all evaluators for ternary functions
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class TertairyFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
+abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -111,7 +111,7 @@ abstract class TertairyFunctionExecuter extends AbstractUniversalFilterNodeExecu
             }
             
             //evaluate
-            $value = $this->doTertairyFunction($valueA, $valueB, $valueC);
+            $value = $this->doTernaryFunction($valueA, $valueB, $valueC);
             
             $row->defineValue($finalid, $value);
             

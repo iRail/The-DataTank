@@ -26,7 +26,7 @@ It can parse and convert:
  - Functions:
    * Unary: "UCASE(\_)", "LCASE(\_)", "LEN(\_)", "ROUND(\_)", "ISNULL(\_)", "SIN(\_)", "COS(\_)", "TAN(\_)", "ASIN(\_)", "ACOS(\_)", "ATAN(\_)", "SQRT(\_)", "ABS(\_)", "FLOOR(\_)", "CEIL(\_)", "EXP(\_)", "LOG(\_)"
    * Binary: "MATCH\_REGEX(\_,\_)", "ATAN2(\_,\_)", "LOG(\_,\_)", "POW(\_,\_)"
-   * Tertairy: "MID(\_,\_,\_)", "REPLACE\_REGEX(\_,\_,\_)" 
+   * Ternary: "MID(\_,\_,\_)", "REPLACE\_REGEX(\_,\_,\_)" 
    * Aggregators: "AVG(\_)", "COUNT(\_)", "FIRST(\_)", "LAST(\_)", "MAX(\_)", "MIN(\_)"
 
  (Note: "ISNULL(\_)", "MATCH\_REGEX(\_,\_)" and "REPLACE\_REGEX(\_,\_,\_)" are not SQL functions)
