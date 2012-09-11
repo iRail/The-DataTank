@@ -76,14 +76,14 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
             $valueA=null;
             $valueB=null;
             if($table1content->getRowCount()>$i){
-                $valueA=$table1content->getValue($idA, $i);
+                $valueA=$table1content->getValue($idA, $i, true);
             }else{
-                $valueA=$table1content->getCellValue($idA);
+                $valueA=$table1content->getCellValue($idA, true);
             }
             if($table2content->getRowCount()>$i){
-                $valueB=$table2content->getValue($idB, $i);
+                $valueB=$table2content->getValue($idB, $i, true);
             }else{
-                $valueB=$table2content->getCellValue($idB);
+                $valueB=$table2content->getCellValue($idB, true);
             }
             
             //evaluate

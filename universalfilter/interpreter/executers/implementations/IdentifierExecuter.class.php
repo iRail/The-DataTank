@@ -37,7 +37,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             
             $this->isColumn = true;
             $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());
-            if($this->header==null){
+            if($this->header===null){
                 throw new Exception("The identifier \"".$this->filter->getIdentifierString()."\" can not be found. It is not a column.");
             }
             if(!$this->isColumn){
@@ -94,7 +94,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
         $originalheader = $topenv->getTable()->getHeader();
         $columnid = $originalheader->getColumnIdByName($fullid);
         
-        if($columnid==null){
+        if($columnid===null){
             $this->isColumn=false;//it's a single value...
             
             $foundheader=null;

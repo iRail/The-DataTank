@@ -1,15 +1,13 @@
 <?php
 /**
- * This file contains the abstact top class for all evaluators for tertairy functions
+ * This file contains the abstact top class for all evaluators for ternary functions
  * 
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-abstract class TertairyFunctionExecuter extends ExpressionNodeExecuter {
-    
-    private $filter;
+abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -21,17 +19,17 @@ abstract class TertairyFunctionExecuter extends ExpressionNodeExecuter {
     private $header2;
     private $header3;
     
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreter $interpreter){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
-        $this->executer1 = $interpreter->findExecuterFor($this->filter->getArgument1());
-        $this->executer2 = $interpreter->findExecuterFor($this->filter->getArgument2());
-        $this->executer3 = $interpreter->findExecuterFor($this->filter->getArgument3());
+        $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
+        $this->executer2 = $interpreter->findExecuterFor($this->filter->getSource(1));
+        $this->executer3 = $interpreter->findExecuterFor($this->filter->getSource(2));
         
         //init down
-        $this->executer1->initExpression($this->filter->getArgument1(), $topenv, $interpreter);
-        $this->executer2->initExpression($this->filter->getArgument2(), $topenv, $interpreter);
-        $this->executer3->initExpression($this->filter->getArgument3(), $topenv, $interpreter);
+        $this->executer1->initExpression($this->filter->getSource(0), $topenv, $interpreter, true);
+        $this->executer2->initExpression($this->filter->getSource(1), $topenv, $interpreter, true);
+        $this->executer3->initExpression($this->filter->getSource(2), $topenv, $interpreter, true);
         
         $this->header1 = $this->executer1->getExpressionHeader();
         $this->header2 = $this->executer2->getExpressionHeader();
@@ -97,23 +95,23 @@ abstract class TertairyFunctionExecuter extends ExpressionNodeExecuter {
             $valueB=null;
             $valueC=null;
             if($table1content->getRowCount()>$i){
-                $valueA=$table1content->getValue($idA, $i);
+                $valueA=$table1content->getValue($idA, $i, true);
             }else{
-                $valueA=$table1content->getCellValue($idA);
+                $valueA=$table1content->getCellValue($idA, true);
             }
             if($table2content->getRowCount()>$i){
-                $valueB=$table2content->getValue($idB, $i);
+                $valueB=$table2content->getValue($idB, $i, true);
             }else{
-                $valueB=$table2content->getCellValue($idB);
+                $valueB=$table2content->getCellValue($idB, true);
             }
             if($table3content->getRowCount()>$i){
-                $valueC=$table3content->getValue($idC, $i);
+                $valueC=$table3content->getValue($idC, $i, true);
             }else{
-                $valueC=$table3content->getCellValue($idC);
+                $valueC=$table3content->getCellValue($idC, true);
             }
             
             //evaluate
-            $value = $this->doTertairyFunction($valueA, $valueB, $valueC);
+            $value = $this->doTernaryFunction($valueA, $valueB, $valueC);
             
             $row->defineValue($finalid, $value);
             
@@ -126,6 +124,28 @@ abstract class TertairyFunctionExecuter extends ExpressionNodeExecuter {
         
         //return the result
         return $rows;
+    }
+    
+    public function cleanUp(){
+        $this->executer1->cleanUp();
+        $this->executer2->cleanUp();
+        $this->executer3->cleanUp();
+    }
+    
+    public function modififyFiltersWithHeaderInformation(){
+        parent::modififyFiltersWithHeaderInformation();
+        $this->executer1->modififyFiltersWithHeaderInformation();
+        $this->executer2->modififyFiltersWithHeaderInformation();
+        $this->executer3->modififyFiltersWithHeaderInformation();
+    }
+    
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
+        $arr=array_merge(
+            $this->executer1->filterSingleSourceUsages($this->filter, 0),
+            $this->executer2->filterSingleSourceUsages($this->filter, 1),
+            $this->executer3->filterSingleSourceUsages($this->filter, 2));
+        
+        return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
     
     

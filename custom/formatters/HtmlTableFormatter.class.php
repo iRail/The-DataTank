@@ -14,7 +14,11 @@
  * This class inherits from the abstract Formatter. It will return our resultobject into a
  * html table datastructure.
  */
+
 class HtmlTableFormatter extends AFormatter {
+    
+    private $SHOWNULLVALUES=true;/* show null values as "unknown" or not? If not, you can not see the difference between "null" and "" */
+
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
@@ -55,13 +59,14 @@ class HtmlTableFormatter extends AFormatter {
         if (!is_array($this->objectToPrint)) {
             throw new FormatNotAllowedTDTException("You can only request a HTML-table on an array", array("CSV", "json", "rdf", "xml", "n3", "ttl"));
         }
-        if (isset($this->objectToPrint[0])) {
+	 $firstrow = reset($this->objectToPrint);
+        if (isset($firstrow)) {
             //print the header row
             $headerrow = array();
-            if (is_object($this->objectToPrint[0])) {
-                $headerrow = array_keys(get_object_vars($this->objectToPrint[0]));
+            if (is_object($firstrow)) {
+                $headerrow = array_keys(get_object_vars($firstrow));
             } else {
-                $headerrow = array_keys($this->objectToPrint[0]);
+                $headerrow = array_keys($firstrow);
             }
 
             // we're going to escape all of our fields
@@ -103,7 +108,11 @@ class HtmlTableFormatter extends AFormatter {
                             echo "ARRAY";
                         }
                     } else {
-                        echo $this->escape($element);
+                        if($this->SHOWNULLVALUES && is_null($element)){
+                            echo "<i>unknown</i>";
+                        }else{
+                            echo $this->escape($element);
+                        }
                     }
                     echo " </td>\n";
                 }

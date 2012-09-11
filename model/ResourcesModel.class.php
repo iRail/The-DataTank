@@ -196,6 +196,7 @@ class ResourcesModel {
                 }
             }
 
+			
             // all is well, let's create that resource!
             $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
             try {

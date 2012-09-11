@@ -48,6 +48,14 @@ class UniversalInterpreter implements IInterpreterControl{
     public static $DEBUG_QUERY_ON_SOURCE_EXECUTION= false;
     
     /**
+     * How the date is saved internally...
+     * @var string 
+     */
+    public static $INTERNAL_DATETIME_FORMAT='Y-m-d H:i:s';
+    public static $INTERNAL_DATETIME_FORMAT_ONLYDATE = "Y-m-d";
+    public static $INTERNAL_DATETIME_FORMAT_ONLYTIME = "H:i:s";
+    
+    /**
      * Constructor, fill the executer-class map.
      */
     public function __construct($tablemanager) {
@@ -62,12 +70,26 @@ class UniversalInterpreter implements IInterpreterControl{
             "TABLEALIAS" => "TableAliasExecuter",
             "FILTERDISTINCT" => "DistinctFilterExecuter",
             "EXTERNALLY_CALCULATED_NODE" => "ExternallyCalculatedFilterNodeExecuter",
-            UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
-            UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
-            UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
-            UnairyFunction::$FUNCTION_UNAIRY_ROUND => "UnaryFunctionRoundExecuter",
-            UnairyFunction::$FUNCTION_UNAIRY_ISNULL => "UnaryFunctionIsNullExecuter",
-            UnairyFunction::$FUNCTION_UNAIRY_NOT => "UnaryFunctionNotExecuter",
+            UnaryFunction::$FUNCTION_UNARY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
+            UnaryFunction::$FUNCTION_UNARY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
+            UnaryFunction::$FUNCTION_UNARY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ROUND => "UnaryFunctionRoundExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ISNULL => "UnaryFunctionIsNullExecuter",
+            UnaryFunction::$FUNCTION_UNARY_NOT => "UnaryFunctionNotExecuter",
+            UnaryFunction::$FUNCTION_UNARY_SIN => "UnaryFunctionSinExecuter",
+            UnaryFunction::$FUNCTION_UNARY_COS => "UnaryFunctionCosExecuter",
+            UnaryFunction::$FUNCTION_UNARY_TAN => "UnaryFunctionTanExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ASIN => "UnaryFunctionAsinExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ACOS => "UnaryFunctionAcosExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ATAN => "UnaryFunctionAtanExecuter",
+            UnaryFunction::$FUNCTION_UNARY_SQRT => "UnaryFunctionSqrtExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ABS => "UnaryFunctionAbsExecuter",
+            UnaryFunction::$FUNCTION_UNARY_FLOOR => "UnaryFunctionFloorExecuter",
+            UnaryFunction::$FUNCTION_UNARY_CEIL => "UnaryFunctionCeilExecuter",
+            UnaryFunction::$FUNCTION_UNARY_EXP => "UnaryFunctionExpExecuter",
+            UnaryFunction::$FUNCTION_UNARY_LOG => "UnaryFunctionLogExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART => "UnaryFunctionDatePartExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE => "UnaryFunctionParseDateTimeExecuter",
             BinaryFunction::$FUNCTION_BINARY_PLUS => "BinaryFunctionPlusExecuter",
             BinaryFunction::$FUNCTION_BINARY_MINUS => "BinaryFunctionMinusExecuter",
             BinaryFunction::$FUNCTION_BINARY_MULTIPLY => "BinaryFunctionMultiplyExecuter",
@@ -80,9 +102,14 @@ class UniversalInterpreter implements IInterpreterControl{
             BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL => "BinaryFunctionNotEqualExecuter",
             BinaryFunction::$FUNCTION_BINARY_OR => "BinaryFunctionOrExecuter",
             BinaryFunction::$FUNCTION_BINARY_AND => "BinaryFunctionAndExecuter",
+            BinaryFunction::$FUNCTION_BINARY_ATAN2 => "BinaryFunctionAtan2Executer",
+            BinaryFunction::$FUNCTION_BINARY_LOG => "BinaryFunctionLogExecuter",
+            BinaryFunction::$FUNCTION_BINARY_POW => "BinaryFunctionPowExecuter",
             BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX => "BinaryFunctionMatchRegexExecuter",
-            TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING => "TertairyFunctionSubstringExecuter",
-            TertairyFunction::$FUNCTION_TERTIARY_REGEX_REPLACE => "TertairyFunctionRegexReplacementExecuter",
+            BinaryFunction::$FUNCTION_BINARY_CONCAT => "BinaryFunctionConcatExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE => "BinaryFunctionDateTimeParseExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_SUBSTRING => "TernaryFunctionSubstringExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE => "TernaryFunctionRegexReplacementExecuter",
             AggregatorFunction::$AGGREGATOR_AVG => "AverageAggregatorExecuter",
             AggregatorFunction::$AGGREGATOR_COUNT => "CountAggregatorExecuter",
             AggregatorFunction::$AGGREGATOR_FIRST => "FirstAggregatorExecuter",
@@ -103,6 +130,7 @@ class UniversalInterpreter implements IInterpreterControl{
     }
     
     public function interpret(UniversalFilterNode $originaltree){
+        //var_dump($originaltree);
         if(UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION){
             $printer = new TreePrinter();
             echo "<h2>Original Query:</h2>";

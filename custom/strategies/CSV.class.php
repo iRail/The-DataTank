@@ -70,6 +70,7 @@ class CSV extends ATabularData {
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
+		 
         parent::read($configObject,$package,$resource);
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;

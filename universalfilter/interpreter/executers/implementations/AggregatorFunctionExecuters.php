@@ -4,6 +4,8 @@
 /**
  * This file contains all evaluators for aggregators
  * 
+ * @todo Aggregators should NOT crash on null-values. But I have no idea how the internal php-methods handle that...
+ * @todo We should rewrite the Aggregators to be able to use them on very large datasets... (don't use internal php-methods)
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3

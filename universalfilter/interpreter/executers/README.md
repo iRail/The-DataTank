@@ -28,9 +28,9 @@ Files
     -> base functionality for FilterByExpressionExecuter and ColumnSelectionFilterExecuter.
     (they both have a source and a environment, which they have to combine to give to their expressions)
 
- - Unary/Binary/Tertairy/Aggregator-FunctionExecuter.class.php
-    -> base functionality for all unary/binary/tertairy/aggregator executers.
-    The executers themself can be found in Unary/Binary/Tertairy/Aggregator-Executer*s*.php
+ - Unary/Binary/Ternary/Aggregator-FunctionExecuter.class.php
+    -> base functionality for all unary/binary/ternary/aggregator executers.
+    The executers themself can be found in Unary/Binary/Ternary/Aggregator-Executer*s*.php
 
  - The rest of the names of the executers speak for themself...
 
