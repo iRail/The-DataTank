@@ -260,7 +260,6 @@ class DataGrouper extends NormalFilterNode {
  * 
  */
 
-
 /**
  * This class represents all unary functions
  * 
@@ -287,11 +286,27 @@ class UnaryFunction extends NormalFilterNode {
     public static $FUNCTION_UNARY_CEIL="FUNCTION_UNARY_CEIL";
     public static $FUNCTION_UNARY_EXP="FUNCTION_BINARY_EXP";
     public static $FUNCTION_UNARY_LOG="FUNCTION_BINARY_LOG";
+    public static $FUNCTION_UNARY_DATETIME_PARSE="FUNCTION_UNARY_DATETIME_PARSE";
+    public static $FUNCTION_UNARY_DATETIME_DATEPART="FUNCTION_UNARY_DATETIME_DATEPART";
+    public static $FUNCTION_UNARY_DATETIME_EXTRACT="FUNCTION_UNARY_DATETIME_EXTRACT";/*second argument: one of the constants in DateTimeExtractConstants*/
     
     public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
         if($column!=null) $this->setSource($column, 0);
     }
+}
+
+class DateTimeExtractConstants {
+    private function __construct() {}
+    public static $EXTRACT_MICROSECOND="MICROSECOND";
+    public static $EXTRACT_SECOND="SECOND";
+    public static $EXTRACT_MINUTE="MINUTE";
+    public static $EXTRACT_HOUR="HOUR";
+    public static $EXTRACT_DAY="DAY";
+    public static $EXTRACT_WEEK="WEEK";
+    public static $EXTRACT_MONTH="MONTH";
+    public static $EXTRACT_QUARTER="QUARTER";
+    public static $EXTRACT_YEAR="YEAR";
 }
 
 /**
@@ -318,7 +333,8 @@ class BinaryFunction extends NormalFilterNode {
     public static $FUNCTION_BINARY_ATAN2="FUNCTION_BINARY_ATAN2";
     public static $FUNCTION_BINARY_LOG="FUNCTION_BINARY_LOG";
     public static $FUNCTION_BINARY_POW="FUNCTION_BINARY_POW";
-    public static $FUNCTION_BINARY_CONCAT = "FUNCTION_BINARY_CONCAT";
+    public static $FUNCTION_BINARY_CONCAT="FUNCTION_BINARY_CONCAT";
+    public static $FUNCTION_BINARY_DATETIME_PARSE="FUNCTION_BINARY_DATETIME_PARSE";//time, format
     
     public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null) {
         parent::__construct($kind);

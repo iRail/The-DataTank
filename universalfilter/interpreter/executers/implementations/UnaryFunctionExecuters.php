@@ -241,4 +241,37 @@ class UnaryFunctionLogExecuter extends UnaryFunctionExecuter {
         return "".log($value);
     }
 }
+
+/*
+ * DateTimeFunctions
+ */
+
+/* datepart */
+class UnaryFunctionDatePartExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "datepart_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        $dateTime = new DateTime($value);
+        $dateOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYDATE));
+        return $dateOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
+    }
+}
+
+/* parse_datetime */
+class UnaryFunctionParseDateTimeExecuter extends UnaryFunctionExecuter {
+    
+    public function getName($name){
+        return "parse_datetime_".$name;
+    }
+    
+    public function doUnaryFunction($value){
+        if($value===null) return null;
+        $dateTime = new DateTime($value);
+        return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
+    }
+}
 ?>
