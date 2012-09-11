@@ -39,6 +39,33 @@ function convertRegexFromSQLToUniversal($SQLRegex){
 }
 
 /**
+ * Gets the  filter for a nulary SQLFunction
+ */
+function getNularyFilterForSQLFunction($SQLname){
+    $SQLname=strtoupper($SQLname);
+    
+    if(
+            $SQLname=="NOW" || 
+            $SQLname=="CURRENT_TIMESTAMP" || 
+            $SQLname=="LOCALTIME" || 
+            $SQLname=="LOCALTIMESTAMP") {
+        return CombinedFilterGenerators::makeDateTimeNow();
+    }else if(
+            $SQLname=="CURDATE" ||
+            $SQLname=="CUR_DATE" ||
+            $SQLname=="CURRENT_DATE") {
+        return CombinedFilterGenerators::makeDateTimeCurrentDate();
+    }else if(
+            $SQLname=="CURTIME" ||
+            $SQLname=="CUR_TIME" ||
+            $SQLname=="CURRENT_TIME") {
+        return CombinedFilterGenerators::makeDateTimeCurrentTime();
+    }else{
+        throw new Exception("That nulary function does not exist... (".$SQLname.")");
+    }
+}
+
+/**
  * Gets the universal name (and filter) for a unary SQLFunction
  */
 function getUnaryFilterForSQLFunction($SQLname, $arg1){
@@ -64,7 +91,8 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "FLOOR" => UnaryFunction::$FUNCTION_UNARY_FLOOR,
         "CEIL" => UnaryFunction::$FUNCTION_UNARY_CEIL,
         "EXP" => UnaryFunction::$FUNCTION_UNARY_EXP,
-        "LOG" => UnaryFunction::$FUNCTION_UNARY_LOG
+        "LOG" => UnaryFunction::$FUNCTION_UNARY_LOG,
+        "PARSE_DATETIME" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE
     );
     $unaryaggregatormap = array(
         "AVG" => AggregatorFunction::$AGGREGATOR_AVG,
@@ -99,7 +127,9 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
         "REGEX_MATCH" => BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX,
         "ATAN2" => BinaryFunction::$FUNCTION_BINARY_ATAN2,
         "LOG" => BinaryFunction::$FUNCTION_BINARY_LOG,
-        "POW" => BinaryFunction::$FUNCTION_BINARY_POW
+        "POW" => BinaryFunction::$FUNCTION_BINARY_POW,
+        "PARSE_DATETIME" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE,
+        "STR_TO_DATE" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE
     );
     
     if($binarymap[$SQLname]!=null){

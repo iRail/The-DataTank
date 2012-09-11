@@ -48,6 +48,14 @@ class UniversalInterpreter implements IInterpreterControl{
     public static $DEBUG_QUERY_ON_SOURCE_EXECUTION=false;
     
     /**
+     * How the date is saved internally...
+     * @var string 
+     */
+    public static $INTERNAL_DATETIME_FORMAT='Y-m-d H:i:s';
+    public static $INTERNAL_DATETIME_FORMAT_ONLYDATE = "Y-m-d";
+    public static $INTERNAL_DATETIME_FORMAT_ONLYTIME = "H:i:s";
+    
+    /**
      * Constructor, fill the executer-class map.
      */
     public function __construct($tablemanager) {
