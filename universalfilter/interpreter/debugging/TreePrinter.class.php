@@ -106,6 +106,13 @@ class TreePrinter {
                 $this->treeToStringWithPadding(2, $filter->getSource()).
                 $this->getPadding()."}\n";
     }
+
+    private function print_LimitFilter(LimitFilter $filter){
+        return  $this->getPadding()."LimitFilter {\n".
+                $this->getPadding(1)."source: \n".
+                $this->treeToStringWithPadding(2, $filter->getSource()).
+                $this->getPadding()."}\n";
+    }
     
     private function print_DataGrouper(DataGrouper $filter){
         $columnstring="";
