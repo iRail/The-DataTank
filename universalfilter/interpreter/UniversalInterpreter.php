@@ -88,6 +88,8 @@ class UniversalInterpreter implements IInterpreterControl{
             UnaryFunction::$FUNCTION_UNARY_CEIL => "UnaryFunctionCeilExecuter",
             UnaryFunction::$FUNCTION_UNARY_EXP => "UnaryFunctionExpExecuter",
             UnaryFunction::$FUNCTION_UNARY_LOG => "UnaryFunctionLogExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART => "UnaryFunctionDatePartExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE => "UnaryFunctionParseDateTimeExecuter",
             BinaryFunction::$FUNCTION_BINARY_PLUS => "BinaryFunctionPlusExecuter",
             BinaryFunction::$FUNCTION_BINARY_MINUS => "BinaryFunctionMinusExecuter",
             BinaryFunction::$FUNCTION_BINARY_MULTIPLY => "BinaryFunctionMultiplyExecuter",
@@ -105,6 +107,7 @@ class UniversalInterpreter implements IInterpreterControl{
             BinaryFunction::$FUNCTION_BINARY_POW => "BinaryFunctionPowExecuter",
             BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX => "BinaryFunctionMatchRegexExecuter",
             BinaryFunction::$FUNCTION_BINARY_CONCAT => "BinaryFunctionConcatExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE => "BinaryFunctionDateTimeParseExecuter",
             TernaryFunction::$FUNCTION_TERNARY_SUBSTRING => "TernaryFunctionSubstringExecuter",
             TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE => "TernaryFunctionRegexReplacementExecuter",
             AggregatorFunction::$AGGREGATOR_AVG => "AverageAggregatorExecuter",
@@ -127,6 +130,7 @@ class UniversalInterpreter implements IInterpreterControl{
     }
     
     public function interpret(UniversalFilterNode $originaltree){
+        //var_dump($originaltree);
         if(UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION){
             $printer = new TreePrinter();
             echo "<h2>Original Query:</h2>";

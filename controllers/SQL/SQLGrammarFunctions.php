@@ -92,7 +92,8 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "CEIL" => UnaryFunction::$FUNCTION_UNARY_CEIL,
         "EXP" => UnaryFunction::$FUNCTION_UNARY_EXP,
         "LOG" => UnaryFunction::$FUNCTION_UNARY_LOG,
-        "PARSE_DATETIME" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE
+        "PARSE_DATETIME" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE,
+        "DATEPART" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART
     );
     $unaryaggregatormap = array(
         "AVG" => AggregatorFunction::$AGGREGATOR_AVG,
@@ -107,7 +108,7 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
     if(isset($unarymap[$SQLname])){
         return new UnaryFunction($unarymap[$SQLname], $arg1);
     }else{
-        if($unaryaggregatormap[$SQLname]!=null){
+        if(isset($unaryaggregatormap[$SQLname])){
             return new AggregatorFunction($unaryaggregatormap[$SQLname], $arg1);
         }else{
             throw new Exception("That unary function does not exist... (".$SQLname.")");
@@ -132,8 +133,8 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
         "STR_TO_DATE" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE
     );
     
-    if($binarymap[$SQLname]!=null){
-        return new BinaryFunction($binarymap[$SQLname], $arg1);
+    if(isset($binarymap[$SQLname])){
+        return new BinaryFunction($binarymap[$SQLname], $arg1, $arg2);
     }else{
         throw new Exception("That tertary function does not exist... (".$SQLname.")");
     }
@@ -150,7 +151,7 @@ function getTernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3){
         "REGEX_REPLACE" => TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE
     );
     
-    if($tertarymap[$SQLname]!=null){
+    if(isset($tertarymap[$SQLname])){
         return new TernaryFunction($tertarymap[$SQLname], $arg1,$arg2,$arg3);
     }else{
         throw new Exception("That tertary function does not exist... (".$SQLname.")");

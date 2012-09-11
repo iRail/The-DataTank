@@ -245,14 +245,14 @@ class BinaryFunctionConcatExecuter extends BinaryFunctionExecuter {
  */
 
 /* parseDateTime */
-class BinaryFunctionDateTimeExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionDateTimeParseExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_parseDate_".$nameA."_in_format_".$nameB;
     }
     
     public function doBinaryFunction($valueA, $valueB){
-        if(!($valueA===null || $valueB===null)){ return null; }
+        if($valueA===null || $valueB===null) return null;
         $dateTime = DateTime::createFromFormat($valueB, $valueA);
         return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }
