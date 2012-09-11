@@ -35,7 +35,7 @@ class UniversalFilterTable {
      * returns the content of this table
      * @return UniversalFilterTableContent
      */
-    public function getContent(){
+    public function getContent(){ 
         return $this->content;
     }
     

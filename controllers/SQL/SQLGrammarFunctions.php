@@ -39,6 +39,33 @@ function convertRegexFromSQLToUniversal($SQLRegex){
 }
 
 /**
+ * Gets the  filter for a nulary SQLFunction
+ */
+function getNularyFilterForSQLFunction($SQLname){
+    $SQLname=strtoupper($SQLname);
+    
+    if(
+            $SQLname=="NOW" || 
+            $SQLname=="CURRENT_TIMESTAMP" || 
+            $SQLname=="LOCALTIME" || 
+            $SQLname=="LOCALTIMESTAMP") {
+        return CombinedFilterGenerators::makeDateTimeNow();
+    }else if(
+            $SQLname=="CURDATE" ||
+            $SQLname=="CUR_DATE" ||
+            $SQLname=="CURRENT_DATE") {
+        return CombinedFilterGenerators::makeDateTimeCurrentDate();
+    }else if(
+            $SQLname=="CURTIME" ||
+            $SQLname=="CUR_TIME" ||
+            $SQLname=="CURRENT_TIME") {
+        return CombinedFilterGenerators::makeDateTimeCurrentTime();
+    }else{
+        throw new Exception("That nulary function does not exist... (".$SQLname.")");
+    }
+}
+
+/**
  * Gets the universal name (and filter) for a unary SQLFunction
  */
 function getUnaryFilterForSQLFunction($SQLname, $arg1){
@@ -64,7 +91,9 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "FLOOR" => UnaryFunction::$FUNCTION_UNARY_FLOOR,
         "CEIL" => UnaryFunction::$FUNCTION_UNARY_CEIL,
         "EXP" => UnaryFunction::$FUNCTION_UNARY_EXP,
-        "LOG" => UnaryFunction::$FUNCTION_UNARY_LOG
+        "LOG" => UnaryFunction::$FUNCTION_UNARY_LOG,
+        "PARSE_DATETIME" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE,
+        "DATEPART" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART
     );
     $unaryaggregatormap = array(
         "AVG" => AggregatorFunction::$AGGREGATOR_AVG,
@@ -79,7 +108,7 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
     if(isset($unarymap[$SQLname])){
         return new UnaryFunction($unarymap[$SQLname], $arg1);
     }else{
-        if($unaryaggregatormap[$SQLname]!=null){
+        if(isset($unaryaggregatormap[$SQLname])){
             return new AggregatorFunction($unaryaggregatormap[$SQLname], $arg1);
         }else{
             throw new Exception("That unary function does not exist... (".$SQLname.")");
@@ -99,11 +128,13 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
         "REGEX_MATCH" => BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX,
         "ATAN2" => BinaryFunction::$FUNCTION_BINARY_ATAN2,
         "LOG" => BinaryFunction::$FUNCTION_BINARY_LOG,
-        "POW" => BinaryFunction::$FUNCTION_BINARY_POW
+        "POW" => BinaryFunction::$FUNCTION_BINARY_POW,
+        "PARSE_DATETIME" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE,
+        "STR_TO_DATE" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE
     );
     
-    if($binarymap[$SQLname]!=null){
-        return new BinaryFunction($binarymap[$SQLname], $arg1);
+    if(isset($binarymap[$SQLname])){
+        return new BinaryFunction($binarymap[$SQLname], $arg1, $arg2);
     }else{
         throw new Exception("That tertary function does not exist... (".$SQLname.")");
     }
@@ -116,11 +147,13 @@ function getTernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3){
     $SQLname=strtoupper($SQLname);
     
     $tertarymap = array(
-        "MID" => TernaryFunction::$FUNCTION_TERNARY_SUBSTRING,
-        "REGEX_REPLACE" => TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE
+
+        "MID" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING,
+		"SUBSTRING" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING, // TODO: remove this comment: Jeroen, I've also added SUBSTRING to this bunch of ternary functions!
+        "REGEX_REPLACE" => TertairyFunction::$FUNCTION_TERTIARY_REGEX_REPLACE
     );
     
-    if($tertarymap[$SQLname]!=null){
+    if(isset($tertarymap[$SQLname])){
         return new TernaryFunction($tertarymap[$SQLname], $arg1,$arg2,$arg3);
     }else{
         throw new Exception("That tertary function does not exist... (".$SQLname.")");

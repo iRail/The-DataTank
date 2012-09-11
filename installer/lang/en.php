@@ -61,4 +61,5 @@ $lang["finish_message"] = "Your DataTank has been installed. Further information
  our <a href='http://thedatatank.org'>wiki page </a> <br><br><br>
  To get you started with some interesting default resources check out:<br>
  <a href='" . Config::$HOSTNAME . Config::$SUBDIR . "TDTInfo'> public package and resource information </a><br>
- <a href='" . Config::$HOSTNAME . Config::$SUBDIR . "TDTAdmin'> private package and resource information </a><br>";
+ <a href='" . Config::$HOSTNAME . Config::$SUBDIR . "TDTAdmin'> private package and resource information </a><br>
+ <br> Interested on knowing what has been changed since the last release? Check out the release notes which be found in the main folder of your datatank.<br>";

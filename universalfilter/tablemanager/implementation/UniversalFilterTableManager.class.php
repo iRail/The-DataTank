@@ -38,8 +38,24 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @param type $resource
      * @return type phpObject
      */
-    private function getFullResourcePhpObject($package, $resource){
-        $resourceObject = ResourcesModel::getInstance()->readResource($package, $resource, array(), array());
+    private function getFullResourcePhpObject($package, $resource,$RESTparameters = array()){
+       
+        $model = ResourcesModel::getInstance();
+
+        $doc = $model->getAllDoc();
+        $parameters= array();
+
+        foreach ($doc->$package->$resource->requiredparameters as $parameter) {
+            //set the parameter of the method
+                
+            if (!isset($RESTparameters[0])) {
+                throw new ParameterTDTException($parameter);
+            }
+            $parameters[$parameter] = $RESTparameters[0];
+            //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
+            array_shift($RESTparameters);
+        }
+        $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
         
         //implement cache
         
@@ -79,7 +95,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         $converter = new PhpObjectTableConverter();
 
-        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1]);
+        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1],$splitedId[2]);
 
         $table = $converter->getPhpObjectTable($splitedId,$resource);
         
@@ -94,7 +110,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         $converter = new PhpObjectTableConverter();
 
-        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1]);
+        $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1],$splitedId[2]);
 
         $table = $converter->getPhpObjectTableWithHeader($splitedId,$resource,$header);
         
@@ -114,8 +130,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         $model = ResourcesModel::getInstance();
         $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
-
-        $columns = $model->getColumnsFromResource($identifierpieces[0],$identifierpieces[1]);
+        
+        $column=NULL;
+        try{
+            $columns = $model->getColumnsFromResource($identifierpieces[0],$identifierpieces[1]);
+        }catch(Exception $e) {
+            $columns=NULL;
+        }
 
         if($columns != NULL && !isset($this->requestedTableHeaders[$globalTableIdentifier])){
             $headerColumns = array();
@@ -142,7 +163,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         if(!isset($this->requestedTables[$globalTableIdentifier])){
             $this->loadTable($globalTableIdentifier);
         }
-
+        
         return $this->requestedTables[$globalTableIdentifier]->getHeader();
     }
     
@@ -172,7 +193,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return UniversalFilterNode 
      */
     function runFilterOnSource(UniversalFilterNode $query, $sourceId) {
-
         /*
          * Check if resource (source) is queryable
          */
@@ -184,10 +204,18 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         array_push($identifierpieces,array());
         $package = $identifierpieces[0];
         $resource = $identifierpieces[1];
+		
+		// TODO allow for RESTparameters to be passed. So far no installed/core resource
+		// implements iFilter though.
         
         // result is FALSE if the resource doesn't implement iFilter
         // result is the resourceObject on which to call and pass the filter upon if it does
+        $result=null;
+        try{
         $result = $model->isResourceIFilter($package,$resource);
+        }  catch (Exception $e) {
+            return $query;
+        }
 
         if($result == FALSE){
             return $query;//thereExistNoOptimalisationForThatSource

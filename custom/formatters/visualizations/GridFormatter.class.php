@@ -11,12 +11,12 @@
  * @author Miel Vander Sande 
  */
 
-include_once("custom/formatters/HtmlFormatter.class.php");
+include_once("custom/formatters/HtmltableFormatter.class.php");
  
  /**
  * This class inherits from the HtmlFormatter. It will generate a extjs grid
  */
-class GridFormatter extends HtmlFormatter {
+class GridFormatter extends HtmlTableFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

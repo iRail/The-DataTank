@@ -16,19 +16,27 @@ include_once("universalfilter/UniversalFilters.php");
 
 class SQLConverter{
     
-
+	// TODO rewrite this in a following logic:
+	// an array with all the statements in it [SELECT] [FROM] [WHERE] ....
+	// every entry of a statement can then be further filled in by the functions
+	// the converter then returns a concatenation of these entries (which are not empty) in the right SQL order (first select, then from and so on.)
+	
     private $sql = "";
 
     // the SELECT identifiers
     private $identifiers = array();
     private $IN_SELECT_CLAUSE = TRUE;
     private $headerNames;
-    
+    private $groupby = "";
 
     public function __construct($headerNames){
         $this->headerNames = $headerNames;
     }
-    
+
+	// this function will be deleted if the TODO functionality is implemented
+	public function getGroupBy(){
+		return $this->groupby;
+	}
 
     /**
      * Converts a UniversalFilterNode to a string you can print...
@@ -81,16 +89,27 @@ class SQLConverter{
         $this->sql.= "SELECT ";
         
         foreach ($filter->getColumnData() as $index => $originalColumn) {
-            $this->treeToSQL($originalColumn->getColumn());
+		
+			
+			if($originalColumn->getColumn()->getType() == "IDENTIFIER" && $originalColumn->getColumn()->getIdentifierString() == "*"){
+			
+				array_push($this->identifiers,'*');
+				foreach($this->headerNames as $headerName){
+					$this->sql.= "$headerName AS $headerName, ";
+				}
+				
+			}else{
+				$this->treeToSQL($originalColumn->getColumn());
 
-            // insert requiredHeaderName !!
-            $headerName = array_shift($this->headerNames);
-            $this->sql.= "AS $headerName";
-            $this->sql.= ", ";
-        }
-        
+				// insert requiredHeaderName !!
+				$headerName = array_shift($this->headerNames);
+				$this->sql.= "AS $headerName";
+				$this->sql.= ", ";
+			}
+        }        
+
         $this->sql = rtrim($this->sql, ", ");
-        
+		
         if($filter->getSource()->getType() == "IDENTIFIER"){
             $this->sql.= " FROM " . $filter->getSource()->getIdentifierString();
         }else{
@@ -104,7 +123,14 @@ class SQLConverter{
     
     private function print_DataGrouper(DataGrouper $filter){
         // not supported yet
-        
+		$this->groupby = "GROUP BY ";
+        foreach($filter->getColumns() as $column){
+			$this->groupby.= $column->getIdentifierString() . ", ";
+		}
+		
+		$this->groupby = rtrim($this->groupby, ", ");
+		$this->treeToSQL($filter->getSource());
+			
     }
     
     private function print_UnaryFunction(UnaryFunction $filter){

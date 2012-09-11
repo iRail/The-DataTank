@@ -54,8 +54,9 @@ class InstalledResourceCreator extends ACreator{
          * Then pick the correct strategy, and pass along the parameters!
          */
         // check if the location is legit
-        if(file_exists( "custom/packages/".$this->location)){
-            include_once("custom/packages/".$this->location);
+        
+        if(file_exists( getcwd()."/custom/packages/".$this->location . ".class.php")){
+            include_once(getcwd()."/custom/packages/".$this->location . ".class.php");
             if(class_exists($this->classname)){
                 $package_id  = parent::makePackage($this->package);
                 $resource_id = parent::makeResource($package_id, $this->resource, "installed");
@@ -63,10 +64,10 @@ class InstalledResourceCreator extends ACreator{
                 $meta_data_id = DBQueries::storeMetaData($resource_id,$this,array_keys(parent::documentMetaDataParameters()));
                 DBQueries::storeInstalledResource($resource_id,$this->location,$this->classname);       
             }else{
-                throw new ResourceAdditionTDTException("The classname $this->classname doesn't exist on location /custom/packages/$this->location.");
+                throw new ResourceAdditionTDTException("The classname $this->classname doesn't exist on location ". getcwd(). "/custom/packages/$this->location.class.php");
             }
         }else{
-            throw new ResourceAdditionTDTException("The location /custom/packages/$this->location hasn't been found.");
+            throw new ResourceAdditionTDTException("The location " . getcwd(). "/custom/packages/".$this->location. ".class.php hasn't been found.");
         }
     }  
 }

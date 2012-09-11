@@ -101,6 +101,7 @@ class RController extends AController {
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
         $parameters = $_GET;        
+        $requiredParameters = array();
 
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
@@ -112,7 +113,7 @@ class RController extends AController {
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
-       
+        
         
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 

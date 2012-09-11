@@ -8,6 +8,7 @@
  * @author Lieven Janssen
  */
 include_once("custom/strategies/ATabularData.class.php");
+include_once("aspects/logging/BacklogLogger.class.php");
 
 class XLS extends ATabularData {
 

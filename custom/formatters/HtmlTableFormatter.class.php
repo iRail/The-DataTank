@@ -14,9 +14,11 @@
  * This class inherits from the abstract Formatter. It will return our resultobject into a
  * html table datastructure.
  */
+
 class HtmlTableFormatter extends AFormatter {
     
     private $SHOWNULLVALUES=true;/* show null values as "unknown" or not? If not, you can not see the difference between "null" and "" */
+
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
@@ -25,6 +27,21 @@ class HtmlTableFormatter extends AFormatter {
     public function printHeader() {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: text/html; charset=UTF-8");
+        echo "<html>\n".
+             "  <head>\n".
+             "    <title>Table Formatter</title>\n".
+             "    <style>\n".
+             "      #the-table { ".
+             "          border:1px solid #bbb;".
+             "          border-collapse:collapse; ".
+             "      }".
+             "      #the-table td,#the-table th { ".
+             "          border:1px solid #ccc;".
+             "          border-collapse:collapse;".
+             "          padding:5px; ".
+             "      }".
+             "    </style>\n".
+             "  </head>\n";        
     }
 
     /**
@@ -42,13 +59,14 @@ class HtmlTableFormatter extends AFormatter {
         if (!is_array($this->objectToPrint)) {
             throw new FormatNotAllowedTDTException("You can only request a HTML-table on an array", array("CSV", "json", "rdf", "xml", "n3", "ttl"));
         }
-        if (isset($this->objectToPrint[0])) {
+	 $firstrow = reset($this->objectToPrint);
+        if (isset($firstrow)) {
             //print the header row
             $headerrow = array();
-            if (is_object($this->objectToPrint[0])) {
-                $headerrow = array_keys(get_object_vars($this->objectToPrint[0]));
+            if (is_object($firstrow)) {
+                $headerrow = array_keys(get_object_vars($firstrow));
             } else {
-                $headerrow = array_keys($this->objectToPrint[0]);
+                $headerrow = array_keys($firstrow);
             }
 
             // we're going to escape all of our fields
@@ -58,20 +76,12 @@ class HtmlTableFormatter extends AFormatter {
                 array_push($enclosedHeaderrow, $this->escape($element));
             }
             
-            echo "<html>\n".
-                 "  <head>\n".
-                 "    <title>Table Formatter</title>\n".
-                 "    <style>\n".
-                 "      table td {border: 1px solid grey}\n".
-                 "      table th {background-color:#FFFFEE;}".
-                 "    </style>\n".
-                 "  </head>\n".
-                 "  <body>\n".
+            echo "  <body>\n".
                  "\n".
-                 "    <table>\n".
-                 "      <tr>\n".
+                 "    <table id='the-table'>\n".
+                 "      <thead><tr>\n".
                  "        <th>".implode("</th>\n        <th>", $enclosedHeaderrow)."</th>\n".
-                 "      </tr>\n";
+                 "      </tr></thead>\n<tbody>";
 
             foreach ($this->objectToPrint as $row) {
                 echo "      <tr>\n";
@@ -104,11 +114,11 @@ class HtmlTableFormatter extends AFormatter {
                             echo $this->escape($element);
                         }
                     }
-                    echo "</td>\n";
+                    echo " </td>\n";
                 }
                 echo "      </tr>\n";
             }
-            echo "    </table>\n".
+            echo "    </tbody></table>\n".
                  "\n".
                  "  </body>\n".
                  "</html>";

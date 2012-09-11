@@ -1,0 +1,200 @@
+==================================
+
+	THE DATATANK v1.2.0 - beta
+
+		  RELEASE NOTES
+
+==================================
+
+@author: Jan Vansteenlandt <jan at irail.be>
+@time  : August 2012
+
+This document provides a context about the v1.2.0 beta release, note that this doesn't cover the full explanation
+on how the datatank works, but rather an update on what we've been doing since the last release and what new stuff 
+is in the v1.2.0 beta. This also means that this file will not be adjusted until the next official release, so to stay on track
+of what is happening to our code, check out our (solved) issue list on github.
+
+INSTALLATION NOTE: Just a note of refreshing your memory, in order to get your datatank installed don't forget to rename Config.example.class.php to Config.class.php!
+
+
+0. Table of contents
+---------------------
+
+1. Resourcemanagement
+	1.1 URI structure
+	1.2 Creating resources
+	1.3 Deleting resources
+
+2. Reading resources
+	2.1 Where is what 
+	2.2 Query end-points
+		2.2.1 Introduction of the AST
+		2.2.2 SPECTQL
+		2.2.3 SQL
+		2.2.4 How to build your own query language
+
+3. Utilities
+	3.1 TDTAdmin
+		3.1.1 Export
+		3.1.2 Resources
+
+4. What's been tested
+5. Future works
+6. List of important commits
+
+
+
+
+1. RESOURCEMANAGEMENT
+----------------------
+
+1.1 URI structure
+-----------------
+	
+In previous versions the URI structure was pretty straightforward, you PUT your resource to an URI under which the resource was then published.
+This is no longer the case. Simply by the rule you GET what you PUT we decided that this isn't 100% correct. Thus, every CUD action is now done via TDTAdmin/Resources.
+
+Another new thing about the URI structure is that it no longer has to be package/resource. Instead we found it very useful to provide the option of using subpackages.
+This is easily explained by an example: consider a demographic file about the crab population in the pacific in 2012, and a similar file, but now of whale population. 
+Since I can only publish 1 package and 1 resource my package would have to be named CrabDemographyPacific, this is a bit stiff! But now you can use multiple packages, 
+which makes my path to my resource very self-explanatory: packagename = demography/pacificocean/crab/2012 resource = data. This feature is also known as hierarchical packaging.
+
+
+1.2 Creating resources
+----------------------
+
+As described in the above section, you now have to perform a PUT request to the TDTAdmin/Resources resource, followed by your full package name and resource. To use the example used in the above section my PUT request URI will have to be http://myhost/TDTAdmin/Resources/demography/pacificocean/crab/2012.
+
+Another thing we have changed is the handling of installed resources. These are not published in automatic way as they were in previous versions. The creation part of the installed resource remains the same, located in custom/packages you can create your own installed resources, however the publishing part is different. In order to publish your installed resource you must also PUT it as you would PUT a remote or generic resource. This allows you to again choose your own URI instead of being bound to the physical location of the installed resource file in your filestructure.
+
+Another thing we have changed since the last release is the use of the columns parameter, alot of resources are tabular and can pass their column names to the datatank (if not the datatank will try to get them out of your datasource). The protocol was to pass a columns as an array which was column => column_alias. If we had no column, we could also use the index as a column name. This has now changed columns is now meant to pass index => column_name and a new parameter column_aliases is now used to pass along aliases. This array is built as column_name => column_alias.
+
+	
+1.3 Deleting resources
+----------------------
+
+Deleting resources has now changed with the URI structure as well, so in order to delete a resource you have to call a DELETE HTTP request to TDTAdmin/Resource/deletethispackage/deletethisresource .
+
+With the new usage of hierarchical packaging you can now call a delete onto a package as well, DO NOTE (!!) that every subpackage of that package and all of its resources will be deleted as well.
+
+
+2. READING RESOURCES
+---------------------
+
+2.1 Where is what 
+------------------
+
+So how do you get your data from your resource, since the URI structure change ? Well, still the old fashioned way, http://myhost/mypackage/myresource. But, there's more ! If you now GET a package, you also get the links towards its resources and towards its subpackages. If you're feeling adventurous you can check out TDTInfo and TDTAdmin package, to see what small changes we made to the core resources of the datatank.
+
+2.2 Query end-points
+--------------------
+
+2.2.1 Introduction of the AST
+------------------------------
+
+You may or may not know that we had a SPECTQL end-point which provided a sub set of the HTSQL protocol onto a datatank. Now we've taken this end-point filter idea to the next level. We now have a built in abstract syntax tree, which contains a ton of classes that represent a wide variety of functionalities that query languages use. SPECTQL and a SQL implementation have been built on this AST. The only thing we had to do is to provide a .lime file in which we declare the structure of our query language and then map the elements of that language onto classes of the AST aaaaannnddd.... your done!! That's it, the functionality will be executed by the AST.
+
+2.2.2 SPECTQL
+-------------
+
+Go to https://github.com/iRail/The-DataTank/tree/develop/controllers/spectql which provides some examples on how the SPECTQL query language works.
+
+2.2.3 SQL
+----------
+
+Go to https://github.com/iRail/The-DataTank/tree/develop/controllers/SQL which provides how the AST works.
+
+The SQL end point is called by the following template = http://myhost/sql.format?query=SELECT * FROM package.subpackage.resource.
+
+2.2.4 How to build your own query language
+------------------------------------------
+
+If you go to the spectql and SQL link, you will see alot of explanation about how the AST works and how to access it. If you're going to build your own query language you can use the SPECQTL or SQL implementation as a reference. Also, you'll have to download the lime for PHP framework. NOTE that this is a highly ambitious part of the datatank which is just 'fresh of the press'.
+
+3. UTILITIES
+-------------
+
+3.1 TDTAdmin
+-------------
+
+TDTAdmin is a package which holds some resources that hold some cool functionalities.
+
+3.1.1 Export
+------------
+
+As a developer I've had the issue of deleting my back-end and PUT'ing resources in it again for test reasons. One of those reasons was because our framework had changed and the back-end wasn't sufficient anymore. This is also something users of the datatank will experience. As a consequence, people will have to manually export their back-end and import it again, and do the necessary back-end changes.....which is far from good practise of course. Therefore, a resource called Export has been made. This will export your resources into separate PHP snippets which contain the necessary HTTP requests to PUT your resources in a datatank again. Since our PUT API will hardly change, it will be much easier to use newer versions of the datatank.
+
+3.1.2 Resources
+---------------
+
+This resource now contains the entire description of the resource !!! This is to stay in compliance with the rule you GET what you PUT. So if you PUT a description to TDTAdmin/Resources, you will also GET the description(s) you have PUT.
+
+4. What's been tested
+---------------------
+
+The datatank has proven its utility in several use cases such as appsforX, data.irail.be, Flatturtle,... However we're still a relatively small team, more time is spent on implementing features than testing. That's the reason of course we put out a beta package. So what's been tested ? Most functionality has been tested, most of these manual tests are of course close to perfect conditions, and from there we start to play the devil's advocate and trigger some errors. But there will be ( as in all software ) certain conditions and use cases under which the datatank returns a random feature (aka bug). And that's what we try to reveal with this beta.
+
+
+5. Future works and known issues
+---------------------------------
+
+* our AST end-points such as SPECTQL and SQL don't work yet core resources. This is because the AST has some trouble with hierarchical structured resource data.
+
+* XML resource doesn't work with namespaces XMl files
+
+* "Large datafiles", meaning large to fully load into memory and perform actions on it are still an issue.
+  However we're close to a solution and from september on we will put our focus on supporting "large files" + the bugs we find in this beta package.
+
+* Support non-greedy execution of the AST in SQL resource. The AST can be passed to a resource for optimization reasons. For example a database resource will execute a query way more efficiently than our AST will in memory. Therefore we have provided an SQL example of how to do this. This example however is greedy, it either executes the entire AST or it doesn't. So no support so far is provided to execute parts of the AST.
+
+* Export versioning. As the datatank will grow, the Export functionality should have the option to export your datatank to other versions of the datatank, since their PUT API may be different.
+
+* Profiling! Profiling is a way of automatically optimizing your code, so far it's not been used that much, since we only bumped into it the last week before our beta release.
+
+* Further support for the conversion of the AST tree to SQL.
+
+* In the future we will work towards the principle that every resource will have to publish its columns that it uses in its resource it returns. This means
+  that core resource like TDTInfo will have to provide their columnames and that installed resource will also have to do this.
+
+
+
+6. List of important commits 
+-----------------------------
+
+This list isn't a list of commits that implement new features, but rather a list of commits that fix bugs that occurred in previous versions of the datatank.
+
+* Column names that with whitespaces in them will have the same name but with whitespaces replaced by underscores.
+
+* CSV no longer uses a HTTP request to get the data but uses fopen() - php function
+
+* PATCH request now also works in the hierarchical packaging context
+
+* Fixed CSV formatter, also added enclosures for every CSV element ( " item " , " item 2 ,...)
+
+* JSON strategy works now, CSV headers get trimmed before passed to the ATabular-parent
+
+* Read parameters of a strategy are now also included in the read documentation
+
+* double PK entries are no longer a problem, first one will be picked up, second will be ignored and the "error" will be logged
+
+* You can now pass the parameters as a json object, ofcourse you have to use the correct content-type in the http request header.
+
+* 401 is now returned if you don't have permission, instead of an empty page. So your browser can pop a log-in screen to let you enter you credentials.
+
+* CSV now works with the entire RFC, so that means enclosured elements with delimiters in it, we had a bug where if a first element had an enclosed delimiter, our code wouldn't pick it up, and see it as an extra field.
+  
+* XML now returns the exact XML file if the source was an XML file, this wasn't the case earlier due to conversion to our php object internally. This is now fixed
+  and non XML resources are also printed in a legit XML way.
+
+* overall sweep and correction of indenting.
+
+* XLS bug where if you didn't provide the url to the API, no core resources would work because the documentation
+  couldn't be made. Fixed.
+
+* generic_type can now be passed in whatever lettersize ( capital or small ), in previous version TDT was pretty strict about that, but not anymore.
+
+* SHP file resource doesn't use the dbase plugin anymore. Since PHP 5.3 it's not supported anymore, this dependency has also been fixed.
+
+
+In future releases we will maintain a list of important commits so that we don't have to copy them from our github. The above list may seems small, but again
+ this is a list of the more prominent bugfixes, new features are not listed but explained in this document to provide more context.

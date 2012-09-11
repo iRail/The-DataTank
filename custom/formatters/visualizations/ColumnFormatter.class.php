@@ -10,7 +10,7 @@
  */
 
 /**
- * This class inherits from the abstract Formatter. It will generate a html table
+ * This class inherits from the abstract Formatter. It will generate a column chart
  */
 class ColumnFormatter extends AFormatter {
 

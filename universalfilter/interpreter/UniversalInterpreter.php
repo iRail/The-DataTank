@@ -45,7 +45,15 @@ class UniversalInterpreter implements IInterpreterControl{
      * For debugging purposses, would you like to see debug information about execution of querys on the source?
      * @var boolean 
      */
-    public static $DEBUG_QUERY_ON_SOURCE_EXECUTION=false;
+    public static $DEBUG_QUERY_ON_SOURCE_EXECUTION= false;
+    
+    /**
+     * How the date is saved internally...
+     * @var string 
+     */
+    public static $INTERNAL_DATETIME_FORMAT='Y-m-d H:i:s';
+    public static $INTERNAL_DATETIME_FORMAT_ONLYDATE = "Y-m-d";
+    public static $INTERNAL_DATETIME_FORMAT_ONLYTIME = "H:i:s";
     
     /**
      * Constructor, fill the executer-class map.
@@ -80,6 +88,8 @@ class UniversalInterpreter implements IInterpreterControl{
             UnaryFunction::$FUNCTION_UNARY_CEIL => "UnaryFunctionCeilExecuter",
             UnaryFunction::$FUNCTION_UNARY_EXP => "UnaryFunctionExpExecuter",
             UnaryFunction::$FUNCTION_UNARY_LOG => "UnaryFunctionLogExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART => "UnaryFunctionDatePartExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE => "UnaryFunctionParseDateTimeExecuter",
             BinaryFunction::$FUNCTION_BINARY_PLUS => "BinaryFunctionPlusExecuter",
             BinaryFunction::$FUNCTION_BINARY_MINUS => "BinaryFunctionMinusExecuter",
             BinaryFunction::$FUNCTION_BINARY_MULTIPLY => "BinaryFunctionMultiplyExecuter",
@@ -97,6 +107,7 @@ class UniversalInterpreter implements IInterpreterControl{
             BinaryFunction::$FUNCTION_BINARY_POW => "BinaryFunctionPowExecuter",
             BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX => "BinaryFunctionMatchRegexExecuter",
             BinaryFunction::$FUNCTION_BINARY_CONCAT => "BinaryFunctionConcatExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE => "BinaryFunctionDateTimeParseExecuter",
             TernaryFunction::$FUNCTION_TERNARY_SUBSTRING => "TernaryFunctionSubstringExecuter",
             TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE => "TernaryFunctionRegexReplacementExecuter",
             AggregatorFunction::$AGGREGATOR_AVG => "AverageAggregatorExecuter",
@@ -119,6 +130,7 @@ class UniversalInterpreter implements IInterpreterControl{
     }
     
     public function interpret(UniversalFilterNode $originaltree){
+        //var_dump($originaltree);
         if(UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION){
             $printer = new TreePrinter();
             echo "<h2>Original Query:</h2>";

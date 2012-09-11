@@ -28,16 +28,21 @@ class PhpObjectTableConverter {
         if(!empty($path)){
             $fieldToSearch = array_shift($path);
             
-            if(isset($root[$fieldToSearch])){
-                $fieldvalue = $root[$fieldToSearch];
+            if((is_array($root) && isset($root[$fieldToSearch])) || is_object($root) && isset($root->$fieldToSearch)){
+                $fieldvalue = null;
+                if(is_array($root)){
+                    $fieldvalue = $root[$fieldToSearch];
+                }else{
+                    $fieldvalue = $root->$fieldToSearch;
+                }
                 if(is_array($fieldvalue)){
                     $combined=array();
                     foreach($fieldvalue as $obj){
-                        $combined = array_merge($combined, findTablePhpArray($obj, $path, $parentitemindex));
+                        $combined = array_merge($combined, $this->findTablePhpArray($obj, $path, $parentitemindex));
                     }
                     return $combined;
                 }else if(is_object($fieldvalue)){
-                    return findTablePhpArray($fieldvalue, $path, $parentitemindex);
+                    return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
                 }else{
                     return array();
                 }
@@ -63,7 +68,11 @@ class PhpObjectTableConverter {
     private function getPhpObjectsByIdentifier($splitedId,$resource){
         //$resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1]);
         
-        $phpObj = $this->findTablePhpArray($resource, $splitedId[2], -1);
+
+        // TODO Jeroen, this was making troubles reading resources with required parameters!
+        // to reroute to the old way, change array() to $splitedId[2]
+
+        $phpObj = $this->findTablePhpArray($resource, array(), -1);
         
         return $phpObj;
     }
@@ -77,10 +86,16 @@ class PhpObjectTableConverter {
     private function getPhpObjectTableHeader($nameOfTable, $objects){
         $columns = array();
         $columnNames = array();
-        
+
         foreach($objects as $index => $data){
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
+            
+            if(!is_object($obj)){
+                $tentativeObj = new stdClass();
+                $tentativeObj->obj = $obj;
+                $obj = $tentativeObj;
+            }
             
             $arr_obj = get_object_vars($obj);
             foreach($arr_obj as $key => $value){
@@ -92,13 +107,14 @@ class PhpObjectTableConverter {
                     $isLinked=false;
                     $linkedTable=null;
                     $linkedTableKey=null;
-                    
-                    if(is_array($value) || is_object($value)){
+
+                    /* TODO: generate linked data info */
+                    /*if(is_array($value) || is_object($value)){
                         //new field is subtable
                         $isLinked=true;
                         $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!
                         $linkedTableKey=PhpObjectTableConverter::$ID_KEY.$columnName;//todo: check first if field does not exists...
-                    }
+                    }*/
                     
                     array_push($columns, new UniversalFilterTableHeaderColumnInfo(array($columnName), $isLinked, $linkedTable, $linkedTableKey));
                 }
@@ -121,6 +137,10 @@ class PhpObjectTableConverter {
         
         $subObjectIndex = array();
         
+        if(is_object($objects)) {
+            $objects=array($objects);
+        }
+        
         //optimalisation: build name->id map
         $idMap=array();
         for($index=0;$index<$header->getColumnCount();$index++){
@@ -133,6 +153,15 @@ class PhpObjectTableConverter {
         foreach($objects as $index => $data){
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
+            
+            
+            if(!is_object($obj)){
+                $tentativeObj = new stdClass();
+                $tentativeObj->obj = $obj;
+                $obj = $tentativeObj;
+            }
+
+
             $arr_obj = get_object_vars($obj);
             $currentrow=new UniversalFilterTableContentRow();
             $found=array();
