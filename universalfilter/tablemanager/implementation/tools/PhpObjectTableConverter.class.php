@@ -28,16 +28,21 @@ class PhpObjectTableConverter {
         if(!empty($path)){
             $fieldToSearch = array_shift($path);
             
-            if(isset($root[$fieldToSearch])){
-                $fieldvalue = $root[$fieldToSearch];
+            if((is_array($root) && isset($root[$fieldToSearch])) || is_object($root) && isset($root->$fieldToSearch)){
+                $fieldvalue = null;
+                if(is_array($root)){
+                    $fieldvalue = $root[$fieldToSearch];
+                }else{
+                    $fieldvalue = $root->$fieldToSearch;
+                }
                 if(is_array($fieldvalue)){
                     $combined=array();
                     foreach($fieldvalue as $obj){
-                        $combined = array_merge($combined, findTablePhpArray($obj, $path, $parentitemindex));
+                        $combined = array_merge($combined, $this->findTablePhpArray($obj, $path, $parentitemindex));
                     }
                     return $combined;
                 }else if(is_object($fieldvalue)){
-                    return findTablePhpArray($fieldvalue, $path, $parentitemindex);
+                    return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
                 }else{
                     return array();
                 }
@@ -92,13 +97,14 @@ class PhpObjectTableConverter {
                     $isLinked=false;
                     $linkedTable=null;
                     $linkedTableKey=null;
-                    
-                    if(is_array($value) || is_object($value)){
+
+                    /* TODO: generate linked data info */
+                    /*if(is_array($value) || is_object($value)){
                         //new field is subtable
                         $isLinked=true;
                         $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!
                         $linkedTableKey=PhpObjectTableConverter::$ID_KEY.$columnName;//todo: check first if field does not exists...
-                    }
+                    }*/
                     
                     array_push($columns, new UniversalFilterTableHeaderColumnInfo(array($columnName), $isLinked, $linkedTable, $linkedTableKey));
                 }
@@ -120,6 +126,10 @@ class PhpObjectTableConverter {
         $rows=new UniversalFilterTableContent();
         
         $subObjectIndex = array();
+        
+        if(is_object($objects)) {
+            $objects=array($objects);
+        }
         
         //optimalisation: build name->id map
         $idMap=array();
