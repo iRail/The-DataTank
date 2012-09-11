@@ -151,6 +151,26 @@ class CombinedFilterGenerators {
                     $c);
         return $distance;
     }
+    
+    /** makes a constant with the current date and time */
+    public static function makeDateTimeNow(){
+        $dateTime = new DateTime();
+        return new Constant($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
+    }
+    
+    /** makes a constant with the current date */
+    public static function makeDateTimeCurrentDate(){
+        $dateTime = new DateTime();
+        $dateOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYDATE));
+        return new Constant($dateOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
+    }
+    
+    /** makes a constant with the current time */
+    public static function makeDateTimeCurrentTime(){
+        $dateTime = new DateTime();
+        $timeOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYTIME));
+        return new Constant($timeOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
+    }
 }
 
 ?>

@@ -130,8 +130,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         $model = ResourcesModel::getInstance();
         $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
-
-        $columns = $model->getColumnsFromResource($identifierpieces[0],$identifierpieces[1]);
+        
+        $column=NULL;
+        try{
+            $columns = $model->getColumnsFromResource($identifierpieces[0],$identifierpieces[1]);
+        }catch(Exception $e) {
+            $columns=NULL;
+        }
 
         if($columns != NULL && !isset($this->requestedTableHeaders[$globalTableIdentifier])){
             $headerColumns = array();
@@ -158,7 +163,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         if(!isset($this->requestedTables[$globalTableIdentifier])){
             $this->loadTable($globalTableIdentifier);
         }
-
+        
         return $this->requestedTables[$globalTableIdentifier]->getHeader();
     }
     
@@ -188,7 +193,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return UniversalFilterNode 
      */
     function runFilterOnSource(UniversalFilterNode $query, $sourceId) {
-
         /*
          * Check if resource (source) is queryable
          */
@@ -206,7 +210,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         
         // result is FALSE if the resource doesn't implement iFilter
         // result is the resourceObject on which to call and pass the filter upon if it does
+        $result=null;
+        try{
         $result = $model->isResourceIFilter($package,$resource);
+        }  catch (Exception $e) {
+            return $query;
+        }
 
         if($result == FALSE){
             return $query;//thereExistNoOptimalisationForThatSource
