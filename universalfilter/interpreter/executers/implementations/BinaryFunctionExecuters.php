@@ -3,6 +3,8 @@
 /**
  * This file contains all evaluators for binary functions
  * 
+ * Works with three-valued logic...
+ * 
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -17,6 +19,7 @@ class BinaryFunctionEqualityExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return ($valueA==$valueB?"true":"false");
     }
 }
@@ -29,6 +32,7 @@ class BinaryFunctionSmallerExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return ($valueA<$valueB?"true":"false");
     }
 }
@@ -41,6 +45,7 @@ class BinaryFunctionLargerExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return ($valueA>$valueB?"true":"false");
     }
 }
@@ -53,6 +58,7 @@ class BinaryFunctionSmallerEqualExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return ($valueA<=$valueB?"true":"false");
     }
 }
@@ -65,6 +71,7 @@ class BinaryFunctionLargerEqualExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return ($valueA>=$valueB?"true":"false");
     }
 }
@@ -77,6 +84,7 @@ class BinaryFunctionNotEqualExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return ($valueA!=$valueB?"true":"false");
     }
 }
@@ -89,7 +97,11 @@ class BinaryFunctionOrExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
-        return (($valueA=="true") || ($valueB=="true")?"true":"false");
+        if($valueA=="true" || $valueB=="true"){
+            return "true";
+        }else{
+            return (($valueA===null) || ($valueB===null)?null:"false");
+        }
     }
 }
 
@@ -101,7 +113,13 @@ class BinaryFunctionAndExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
-        return (($valueA=="true") && ($valueB=="true")?"true":"false");
+        $valueA=($valueA=="true"?true:($valueA===null?null:false));
+        $valueB=($valueB=="true"?true:($valueB===null?null:false));
+        if($valueA===false || $valueB===false){
+            return "false";
+        }else{
+            return (($valueA===null) || ($valueB===null)?null:"true");
+        }
     }
 }
 
@@ -113,6 +131,7 @@ class BinaryFunctionPlusExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return "".($valueA+$valueB);
     }
 }
@@ -125,6 +144,7 @@ class BinaryFunctionMinusExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return "".($valueA-$valueB);
     }
 }
@@ -137,6 +157,7 @@ class BinaryFunctionMultiplyExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return "".($valueA*$valueB);
     }
 }
@@ -149,6 +170,7 @@ class BinaryFunctionDivideExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return "".($valueA/$valueB);
     }
 }
@@ -161,7 +183,60 @@ class BinaryFunctionMatchRegexExecuter extends BinaryFunctionExecuter {
     }
     
     public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
         return (preg_match($valueB, $valueA)?"true":"false");
+    }
+}
+
+/* atan2 */
+class BinaryFunctionAtan2Executer extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_atan2_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".atan2($valueA,$valueB);
+    }
+}
+
+/* log */
+class BinaryFunctionLogExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_log_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".log($valueA,$valueB);
+    }
+}
+
+/* pow */
+class BinaryFunctionPowExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_power_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".pow($valueA,$valueB);
+    }
+}
+
+/* concat */
+class BinaryFunctionConcatExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_concat_".$nameA."_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        return "".$valueA."".$valueB;
     }
 }
 ?>

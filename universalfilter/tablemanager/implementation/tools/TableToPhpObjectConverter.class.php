@@ -38,7 +38,7 @@ class TableToPhpObjectConverter {
                 for ($rindex = 0; $rindex < $table->getContent()->getRowCount(); $rindex++) {
                     // and add the column to the php object
                     $row = $table->getContent()->getRow($rindex);
-                    $newRows[$rindex][$name] = $row->getCellValue($id);
+                    $newRows[$rindex][$name] = $row->getCellValue($id, true);// ALLOW null values!
                 }
                 
             }

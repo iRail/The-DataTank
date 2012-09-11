@@ -28,10 +28,11 @@ class SQLController extends AController {
      */
     function GET($matches) {
         //query
-        $query = "/";
+        $query = "";
         $format = $matches["format"];
-        if(isset($matches["query"])){
-            $query = $matches["query"];
+        
+        if(isset($_GET["query"])){
+            $query = $_GET["query"];
         }else{
             throw new Exception("No query given");
         }

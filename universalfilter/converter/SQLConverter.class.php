@@ -133,34 +133,34 @@ class SQLConverter{
 			
     }
     
-    private function print_UnairyFunction(UnairyFunction $filter){
+    private function print_UnaryFunction(UnaryFunction $filter){
         // map the types on the correct functions like FUNCTION_UNARY_UPPERCASE -> uppercase()
         // maybe the default should be mysql syntax in case different engines support
-        // different unairyfunction grammatics.
+        // different unaryfunction grammatics.
         // NOT SUPPORTED IN THIS SIMPLE CONVERTER
 
         switch($filter->getType()){
-            case UnairyFunction::$FUNCTION_UNAIRY_UPPERCASE:
+            case UnaryFunction::$FUNCTION_UNARY_UPPERCASE:
                 $this->sql.= "UPPER( ";
                 $this->treeToSQL($filter->getSource(0));
                 $this->sql.= " ) ";
                 break;
-            case UnairyFunction::$FUNCTION_UNAIRY_LOWERCASE:
+            case UnaryFunction::$FUNCTION_UNARY_LOWERCASE:
                 $this->sql.= "LOWER( ";
                 $this->treeToSQL($filter->getSource(0));
                 $this->sql.= " ) ";
                 break;
-            case UnairyFunction::$FUNCTION_UNAIRY_STRINGLENGTH:
+            case UnaryFunction::$FUNCTION_UNARY_STRINGLENGTH:
                 $this->sql.= "LEN( ";
                 $this->treeToSQL($filter->getSource(0));
                 $this->sql.= " ) ";
                 break;
-            case UnairyFunction::$FUNCTION_UNAIRY_ROUND:
+            case UnaryFunction::$FUNCTION_UNARY_ROUND:
                 $this->sql.= "ROUND( ";
                 $this->treeToSQL($filter->getSource(0));
                 $this->sql.= " ) ";
                 break;
-            case UnairyFunction::$FUNCTION_UNAIRY_ISNULL:
+            case UnaryFunction::$FUNCTION_UNARY_ISNULL:
                 $this->sql.= "ISNULL( ";
                 $this->treeToSQL($filter->getSource(0));
                 $this->sql.= " ) ";
@@ -219,7 +219,7 @@ class SQLConverter{
         }
     }
     
-    private function print_TertairyFunction(TertairyFunction $filter){
+    private function print_TernaryFunction(TernaryFunction $filter){
         // not supported yet
     }
     

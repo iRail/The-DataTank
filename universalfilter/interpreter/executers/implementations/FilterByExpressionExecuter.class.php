@@ -89,7 +89,7 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
             }
             
             //if the expression evaluates to true, then add the row
-            if($answer->getCellValue($exprheader->getColumnId())=="true"){
+            if($answer->getCellValue($exprheader->getColumnId(), false)=="true"){
                 $filteredRows->addRow($row);
             }
         }

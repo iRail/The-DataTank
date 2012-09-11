@@ -30,8 +30,8 @@ include_once("universalfilter/interpreter/executers/implementations/UnaryFunctio
 include_once("universalfilter/interpreter/executers/implementations/UnaryFunctionExecuters.php");
 include_once("universalfilter/interpreter/executers/implementations/BinaryFunctionExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/BinaryFunctionExecuters.php");
-include_once("universalfilter/interpreter/executers/implementations/TertairyFunctionExecuter.class.php");
-include_once("universalfilter/interpreter/executers/implementations/TertairyFunctionExecuters.php");
+include_once("universalfilter/interpreter/executers/implementations/TernaryFunctionExecuter.class.php");
+include_once("universalfilter/interpreter/executers/implementations/TernaryFunctionExecuters.php");
 include_once("universalfilter/interpreter/executers/implementations/AggregatorFunctionExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/AggregatorFunctionExecuters.php");
 include_once("universalfilter/interpreter/executers/implementations/CheckInFunctionExecuter.class.php");

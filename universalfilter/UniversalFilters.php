@@ -262,19 +262,31 @@ class DataGrouper extends NormalFilterNode {
 
 
 /**
- * This class represents all unairy functions
+ * This class represents all unary functions
  * 
  * type: Column -> Column
  * type: Cell -> Cell
  */
-class UnairyFunction extends NormalFilterNode {
+class UnaryFunction extends NormalFilterNode {
     
-    public static $FUNCTION_UNAIRY_UPPERCASE="FUNCTION_UNAIRY_UPPERCASE";
-    public static $FUNCTION_UNAIRY_LOWERCASE="FUNCTION_UNAIRY_LOWERCASE";
-    public static $FUNCTION_UNAIRY_STRINGLENGTH="FUNCTION_UNAIRY_STRINGLENGTH";
-    public static $FUNCTION_UNAIRY_ROUND="FUNCTION_UNAIRY_ROUND";
-    public static $FUNCTION_UNAIRY_ISNULL="FUNCTION_UNAIRY_ISNULL";
-    public static $FUNCTION_UNAIRY_NOT="FUNCTION_UNAIRY_NOT";
+    public static $FUNCTION_UNARY_UPPERCASE="FUNCTION_UNARY_UPPERCASE";
+    public static $FUNCTION_UNARY_LOWERCASE="FUNCTION_UNARY_LOWERCASE";
+    public static $FUNCTION_UNARY_STRINGLENGTH="FUNCTION_UNARY_STRINGLENGTH";
+    public static $FUNCTION_UNARY_ROUND="FUNCTION_UNARY_ROUND";
+    public static $FUNCTION_UNARY_ISNULL="FUNCTION_UNARY_ISNULL";
+    public static $FUNCTION_UNARY_NOT="FUNCTION_UNARY_NOT";
+    public static $FUNCTION_UNARY_SIN="FUNCTION_UNARY_SIN";
+    public static $FUNCTION_UNARY_COS="FUNCTION_UNARY_COS";
+    public static $FUNCTION_UNARY_TAN="FUNCTION_UNARY_TAN";
+    public static $FUNCTION_UNARY_ASIN="FUNCTION_UNARY_ASIN";
+    public static $FUNCTION_UNARY_ACOS="FUNCTION_UNARY_ACOS";
+    public static $FUNCTION_UNARY_ATAN="FUNCTION_UNARY_ATAN";
+    public static $FUNCTION_UNARY_SQRT="FUNCTION_UNARY_SQRT";
+    public static $FUNCTION_UNARY_ABS="FUNCTION_UNARY_ABS";
+    public static $FUNCTION_UNARY_FLOOR="FUNCTION_UNARY_FLOOR";
+    public static $FUNCTION_UNARY_CEIL="FUNCTION_UNARY_CEIL";
+    public static $FUNCTION_UNARY_EXP="FUNCTION_BINARY_EXP";
+    public static $FUNCTION_UNARY_LOG="FUNCTION_BINARY_LOG";
     
     public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
@@ -303,6 +315,10 @@ class BinaryFunction extends NormalFilterNode {
     public static $FUNCTION_BINARY_OR="FUNCTION_BINARY_OR";
     public static $FUNCTION_BINARY_AND="FUNCTION_BINARY_AND";
     public static $FUNCTION_BINARY_MATCH_REGEX="FUNCTION_BINARY_MATCH_REGEX";// does $1 matches $2 ? ($2 is in php regex format!)
+    public static $FUNCTION_BINARY_ATAN2="FUNCTION_BINARY_ATAN2";
+    public static $FUNCTION_BINARY_LOG="FUNCTION_BINARY_LOG";
+    public static $FUNCTION_BINARY_POW="FUNCTION_BINARY_POW";
+    public static $FUNCTION_BINARY_CONCAT = "FUNCTION_BINARY_CONCAT";
     
     public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null) {
         parent::__construct($kind);
@@ -316,15 +332,15 @@ class BinaryFunction extends NormalFilterNode {
 }
 
 /**
- * This class represents all tertairy functions
+ * This class represents all ternary functions
  * 
  * type: (Column,Column,Column) -> Column
  * type: (Cell, Cell, Cell) -> Cell
  */
-class TertairyFunction extends NormalFilterNode {
+class TernaryFunction extends NormalFilterNode {
     
-    public static $FUNCTION_TERTIARY_SUBSTRING="FUNCTION_TERTIARY_SUBSTRING";//get part of $1 from index $2 with length $3
-    public static $FUNCTION_TERTIARY_REGEX_REPLACE="FUNCTION_TERTIARY_REGEX_REPLACE";//replace $1 by $2 in $3
+    public static $FUNCTION_TERNARY_SUBSTRING="FUNCTION_TERNARY_SUBSTRING";//get part of $1 from index $2 with length $3
+    public static $FUNCTION_TERNARY_REGEX_REPLACE="FUNCTION_TERNARY_REGEX_REPLACE";//replace $1 by $2 in $3
     
     public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null, UniversalFilterNode $columnC=null) {
         parent::__construct($kind);

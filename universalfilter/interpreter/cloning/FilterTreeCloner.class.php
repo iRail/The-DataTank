@@ -53,8 +53,8 @@ class FilterTreeCloner {
         return new DataGrouper($filter->getColumns(), $this->deepCopyTree($filter->getSource()));
     }
     
-    private function clone_UnairyFunction(UnairyFunction $filter){
-        return new UnairyFunction($filter->getType(), 
+    private function clone_UnaryFunction(UnaryFunction $filter){
+        return new UnaryFunction($filter->getType(), 
                 $this->deepCopyTree($filter->getSource(0)));
     }
     
@@ -64,8 +64,8 @@ class FilterTreeCloner {
                 $this->deepCopyTree($filter->getSource(1)));
     }
     
-    private function clone_TertairyFunction(TertairyFunction $filter){
-        return new TertairyFunction($filter->getType(), 
+    private function clone_TernaryFunction(TernaryFunction $filter){
+        return new TernaryFunction($filter->getType(), 
                 $this->deepCopyTree($filter->getSource(0)), 
                 $this->deepCopyTree($filter->getSource(1)), 
                 $this->deepCopyTree($filter->getSource(2)));
