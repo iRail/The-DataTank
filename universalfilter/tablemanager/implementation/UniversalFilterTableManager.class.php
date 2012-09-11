@@ -200,6 +200,9 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         array_push($identifierpieces,array());
         $package = $identifierpieces[0];
         $resource = $identifierpieces[1];
+		
+		// TODO allow for RESTparameters to be passed. So far no installed/core resource
+		// implements iFilter though.
         
         // result is FALSE if the resource doesn't implement iFilter
         // result is the resourceObject on which to call and pass the filter upon if it does

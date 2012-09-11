@@ -40,7 +40,7 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
             
             $givenName = $expectedheadernames[$index];
             $givenColumnId = $table->getHeader()->getColumnIdByName($givenName);
-            if($givenColumnId==null){
+            if($givenColumnId===null){
                 //show a more complete error message
                 //display all columns in the returned table.
                 $givenColumnsString = "";

@@ -14,7 +14,11 @@
  * This class inherits from the abstract Formatter. It will return our resultobject into a
  * html table datastructure.
  */
-class HtmltableFormatter extends AFormatter {
+
+class HtmlTableFormatter extends AFormatter {
+    
+    private $SHOWNULLVALUES=true;/* show null values as "unknown" or not? If not, you can not see the difference between "null" and "" */
+
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
@@ -104,7 +108,11 @@ class HtmltableFormatter extends AFormatter {
                             echo "ARRAY";
                         }
                     } else {
-                        echo $this->escape($element);
+                        if($this->SHOWNULLVALUES && is_null($element)){
+                            echo "<i>unknown</i>";
+                        }else{
+                            echo $this->escape($element);
+                        }
                     }
                     echo " </td>\n";
                 }

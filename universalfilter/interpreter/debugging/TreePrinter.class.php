@@ -120,7 +120,7 @@ class TreePrinter {
                 $this->getPadding()."}\n";
     }
     
-    private function print_UnairyFunction(UnairyFunction $filter){
+    private function print_UnaryFunction(UnaryFunction $filter){
         return  $this->getPadding()."UnaryFunction[".$filter->getType()."] {\n".
                 $this->getPadding(1)."argument: \n".
                 $this->treeToStringWithPadding(2, $filter->getSource()).
@@ -128,7 +128,7 @@ class TreePrinter {
     }
     
     private function print_BinaryFunction(BinaryFunction $filter){
-        return  $this->getPadding()."BinairyFunction[".$filter->getType()."] {\n".
+        return  $this->getPadding()."BinaryFunction[".$filter->getType()."] {\n".
                 $this->getPadding(1)."argument 1: \n".
                 $this->treeToStringWithPadding(2, $filter->getSource(0)).
                 $this->getPadding(1)."argument 2: \n".
@@ -136,8 +136,8 @@ class TreePrinter {
                 $this->getPadding()."}\n";
     }
     
-    private function print_TertairyFunction(TertairyFunction $filter){
-        return  $this->getPadding()."TertairyFunction[".$filter->getType()."] {\n".
+    private function print_TernaryFunction(TernaryFunction $filter){
+        return  $this->getPadding()."TernaryFunction[".$filter->getType()."] {\n".
                 $this->getPadding(1)."argument 1: \n".
                 $this->treeToStringWithPadding(2, $filter->getSource(0)).
                 $this->getPadding(1)."argument 2: \n".

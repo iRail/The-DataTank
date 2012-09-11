@@ -58,7 +58,7 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
             $row=new UniversalFilterTableContentRow();
             
             //get the value for index i
-            $valueA=$table1content->getValue($idA, $i);
+            $valueA=$table1content->getValue($idA, $i, true);
             
             //evaluate
             $value = $this->doUnaryFunction($valueA);

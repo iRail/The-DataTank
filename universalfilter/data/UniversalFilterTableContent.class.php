@@ -29,7 +29,7 @@ class UniversalFilterTableContent {
      */
     public function tryDestroyTable(){
         if($this->needed==0){
-            if($this->rows==null){
+            if($this->rows===null){
                 debug_print_backtrace();
             }else{
                 $this->rows->destroy();
@@ -82,8 +82,8 @@ class UniversalFilterTableContent {
      * @param string $name
      * @param int $index
      */
-    public function getValue($name, $index){
-        return $this->getRow($index)->getCellValue($name);
+    public function getValue($name, $index, $allowNull=false){
+        return $this->getRow($index)->getCellValue($name, $allowNull);
     }
     
     /**
@@ -91,8 +91,8 @@ class UniversalFilterTableContent {
      * @param string $name
      * @return string
      */
-    public function getCellValue($name){
-        return $this->getValue($name, 0);
+    public function getCellValue($name, $allowNull=false){
+        return $this->getValue($name, 0, $allowNull);
     }
     
     /**

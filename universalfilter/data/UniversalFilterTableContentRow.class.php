@@ -53,8 +53,11 @@ class UniversalFilterTableContentRow {
     
     /**
      * returns the value of a field in the table
+     * 
+     * Note: the value can be null. BUT you have to explicitlly allow null-values. 
+     * (To be sure you know you can get back null)
      */
-    public function getCellValue($idOfField){
+    public function getCellValue($idOfField, $allowNull=false){
         if(isset($this->data->$idOfField)){
             $obj = $this->data->$idOfField;
             if(isset($obj["value"])){
@@ -68,9 +71,12 @@ class UniversalFilterTableContentRow {
                         debug_print_backtrace();
                         throw new Exception("Error: Can not execute this operation on a grouped field!");
                     }else{
-                        //should we give a warning??? Or just return null?
-                        // Can this even occure?
-                        throw new Exception("Unset value for field!");
+                        // The value or id is null
+                        if($allowNull){
+                            return null;
+                        }else{
+                            return "";
+                        }
                     }
                 }
             }
@@ -102,7 +108,7 @@ class UniversalFilterTableContentRow {
      * @return type 
      */
     public function getHashForField($idOfField){
-        return hashWithNoSpecialChars($this->getCellValue($idOfField));
+        return hashWithNoSpecialChars($this->getCellValue($idOfField, false));
     }
     
     /**

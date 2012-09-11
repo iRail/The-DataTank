@@ -1447,7 +1447,7 @@ $function =& $tokens[0];
 $lat =& $tokens[2];
 $long =& $tokens[4];
 $radius =& $tokens[6];
- /* TODO in radius function (tertiary function)*/ 
+ /* TODO in radius function (ternary function)*/ 
 }
 
 function reduce_35_selector_1($tokens, &$result) {
