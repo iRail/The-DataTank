@@ -228,6 +228,21 @@ class DistinctFilter extends NormalFilterNode{
     }
 }
 
+/**
+ * Represents a distinct filter => keeps only the rows that are distinct
+ *
+ * type: Table -> Table
+ *
+ * aka "DISTINCT"
+ */
+class LimitFilter extends NormalFilterNode{
+    public function __construct(UniversalFilterNode $source=null) {
+        parent::__construct("FILTERLIMIT");
+        if($source!=null) $this->setSource($source);
+    }
+}
+
+
 
 /**
  * Groups the data (not really a filter)
