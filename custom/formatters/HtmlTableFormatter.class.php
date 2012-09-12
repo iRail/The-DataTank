@@ -59,7 +59,15 @@ class HtmlTableFormatter extends AFormatter {
         if (!is_array($this->objectToPrint)) {
             throw new FormatNotAllowedTDTException("You can only request a HTML-table on an array", array("CSV", "json", "rdf", "xml", "n3", "ttl"));
         }
-	 $firstrow = reset($this->objectToPrint);
+	$firstrow = reset($this->objectToPrint);
+        if($firstrow===FALSE) {
+            // NO DATA
+            echo "  <body>\n".
+                 "    <p><strong>There is no data to display...</strong></p>\n".
+                 "  </body>\n".
+                 "</html>\n";
+            return;
+        }
         if (isset($firstrow)) {
             //print the header row
             $headerrow = array();
