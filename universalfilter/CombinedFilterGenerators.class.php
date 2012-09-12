@@ -171,6 +171,63 @@ class CombinedFilterGenerators {
         $timeOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYTIME));
         return new Constant($timeOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
     }
+    
+    /**
+     * Wraps the values of funct to be between a and b
+     * 
+     * This can be used as modulo if a=0
+     * 
+     * (Only tested for positive values...)
+     */
+    public static function makeWrapInRangeFilter(UniversalFilterNode $funct, UniversalFilterNode $min, UniversalFilterNode $max) {
+        // the logic:
+        //   a = (a-min)%(max-min+1)+min
+        // the logic (without modulo): 
+        //   a = ((a-min)-floor((a-min)/(max-min+1))*(max-min+1))+min
+        
+        $r= 
+        new BinaryFunction(
+            BinaryFunction::$FUNCTION_BINARY_PLUS, 
+            new BinaryFunction(
+                BinaryFunction::$FUNCTION_BINARY_MINUS, 
+                new BinaryFunction(
+                    BinaryFunction::$FUNCTION_BINARY_MINUS, 
+                    $funct, 
+                    $min),
+                new BinaryFunction(
+                    BinaryFunction::$FUNCTION_BINARY_MULTIPLY,
+                    new UnaryFunction(
+                        UnaryFunction::$FUNCTION_UNARY_FLOOR, 
+                        new BinaryFunction(
+                            BinaryFunction::$FUNCTION_BINARY_DIVIDE, 
+                            new BinaryFunction(
+                                BinaryFunction::$FUNCTION_BINARY_MINUS,
+                                $funct,
+                                $min), 
+                            new BinaryFunction(
+                                BinaryFunction::$FUNCTION_BINARY_PLUS,
+                                new BinaryFunction(
+                                    BinaryFunction::$FUNCTION_BINARY_MINUS, 
+                                    $max, 
+                                    $min),
+                                new Constant(1)
+                                )
+                            )
+                        ),
+                    new BinaryFunction(
+                        BinaryFunction::$FUNCTION_BINARY_PLUS,
+                        new BinaryFunction(
+                            BinaryFunction::$FUNCTION_BINARY_MINUS, 
+                            $max, 
+                            $min),
+                        new Constant(1)
+                        )
+                    )
+                ),
+            $min
+            );
+        return $r;
+    }
 }
 
 ?>

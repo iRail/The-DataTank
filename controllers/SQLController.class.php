@@ -27,6 +27,11 @@ class SQLController extends AController {
      * 
      */
     function GET($matches) {
+        //setting the default timezone
+        if(isset (Config::$TIMEZONE)) {
+            date_default_timezone_set(Config::$TIMEZONE);
+        }
+        
         //query
         $query = "";
         $format = $matches["format"];

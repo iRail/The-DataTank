@@ -25,13 +25,41 @@ It can parse and convert:
  - Boolean operations: "AND", "OR", "NOT"
  - String concatenation: '|'
  - Functions:
-   * Unary: "UCASE(\_)", "LCASE(\_)", "LEN(\_)", "ROUND(\_)", "ISNULL(\_)", "SIN(\_)", "COS(\_)", "TAN(\_)", "ASIN(\_)", "ACOS(\_)", "ATAN(\_)", "SQRT(\_)", "ABS(\_)", "FLOOR(\_)", "CEIL(\_)", "EXP(\_)", "LOG(\_)"
-   * Binary: "MATCH\_REGEX(\_,\_)", "ATAN2(\_,\_)", "LOG(\_,\_)", "POW(\_,\_)"
-   * Ternary: "MID(\_,\_,\_)", "REPLACE\_REGEX(\_,\_,\_)" 
+   * Unary: "UCASE(\_)", "LCASE(\_)", "LEN(\_)", "ROUND(\_)", "ISNULL(\_)", "SIN(\_)", "COS(\_)", "TAN(\_)", "ASIN(\_)", "ACOS(\_)", "ATAN(\_)", "SQRT(\_)", "ABS(\_)", "FLOOR(\_)", "CEIL(\_)", "EXP(\_)", "LOG(\_)"  
+     _note: ISNULL(\_) returns 'true' or 'false'_
+   * Binary: "MATCH\_REGEX(\_,\_)", "ATAN2(\_,\_)", "LOG(\_,\_)", "POW(\_,\_)"  
+     _note: MATCH\_REGEX(\_,\_): see also http://www.php.net/manual/en/function.preg-match.php_
+   * Ternary: "MID(\_,\_,\_)", "REPLACE\_REGEX(\_,\_,\_)"  
+     _note: REPLACE\_REGEX(\_,\_,\_): see also http://php.net/manual/en/function.preg-replace.php_
+   * Other: "GEODISTANCE(_latA_,_longA_,_latB_,_longB_)"
    * Aggregators: "AVG(\_)", "COUNT(\_)", "FIRST(\_)", "LAST(\_)", "MAX(\_)", "MIN(\_)"
+ - Functions on DateTime
+   * The syntax of the DateTime-functions mostly follows the mySQL syntax (except for the patterns)  
+     See http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html
+   * Getting the Date:  
+     "NOW()" = "CURRENT_TIMESTAMP()" = "LOCALTIME()" = "LOCALTIMESTAMP()"  
+     "CURDATE()" = "CUR_DATE()" = "CURRENT_DATE()"  
+     "CURTIME()" = "CUR_TIME()" = "CURRENT_TIME()"
+   * Parsing of Dates:  
+     "STR_TO_DATE(_string_,_format_)" = "PARSE_DATETIME(_string_,_format_)", "STR_TO_DATE(_string_)" = "PARSE_DATETIME(_string_)"
+     See http://www.php.net/manual/en/datetime.createfromformat.php for possible formats...  
+     See http://www.php.net/manual/en/datetime.formats.php for the interpretation of the date when no format is given...
+   * Formating of Dates:  
+     "DATE_FORMAT(_date_,_format_)"  
+     See http://www.php.net/manual/en/function.date.php for possible formats...
+   * Extracting...  
+     "EXTRACT(_unit_ FROM _date_)"  
+     Possible unit-values: SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR, MINUTE_SECOND, HOUR_SECOND, HOUR_MINUTE, DAY_SECOND, DAY_MINUTE, DAY_HOUR, YEAR_MONTH
+   * Modifying dates...  
+     "DATEPART(\_)" = "DATE(\_)", 
+   * More functions...  
+     "DAY(\_)", "DAYOFMONTH(\_)", "DAYOFWEEK(\_)", "DAYOFYEAR(\_)", "HOUR(\_)", "MINUTE(\_)", "MONTH(\_)", "MONTHNAME(\_)", "SECOND(\_)", "WEEK(\_)", "WEEKOFYEAR(\_)", "WEEKDAY(\_)", "YEAR(\_)", "YEARWEEK(\_)"
 
- (Note: "ISNULL(\_)", "MATCH\_REGEX(\_,\_)" and "REPLACE\_REGEX(\_,\_,\_)" are not SQL functions)
+Tables...
+---------
+If you have a resource "dag1" in a package "gentsefeesten", the name of the table is: `gentsefeesten.dag1`.
 
+TODO: note about non-tabular resources and REST-parameters...
 
 How I parse SQL querys
 ----------------------

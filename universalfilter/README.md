@@ -91,13 +91,13 @@ Groups data on the given fields. You probably want to use aggregator functions a
 Input: one column of the data.  
 Output: a new column (the unary function applied)
 
-Supported unary functions: "to uppercase", "to lowercase", "string length", "round number", "check if null", "boolean not", "sin", "cos", "tan", "asin", "acos", "atan", "sqrt", "abs", "floor", "ceil", "exp", "log".
+Supported unary functions: "to uppercase", "to lowercase", "string length", "round number", "check if null", "boolean not", "sin", "cos", "tan", "asin", "acos", "atan", "sqrt", "abs", "floor", "ceil", "exp", "log", "datetime_parse", "datetime_datepart".
 
 #### BinaryFunctions
 Input: two columns of the data.  
 Output: a new column
 
-Supported Binary functions: "+", "-", "*", "/", "<", ">", "<=", ">=", "=", "!=", "OR", "AND", "match regex" (does arg1 matches arg2 where arg2 is a regular expression in php), "atan2", "log", "pow", "string concatenation".
+Supported Binary functions: "+", "-", "*", "/", "<", ">", "<=", ">=", "=", "!=", "OR", "AND", "match regex" (does arg1 matches arg2 where arg2 is a regular expression in php), "atan2", "log", "pow", "string concatenation", "datetime_parse", "datetime_extract", "datetime_format".
 
 #### TernaryFunctions
 Input: three columns of data.  
@@ -118,7 +118,7 @@ Checks for each field in the column if it matches a constant in the list.
 (Some sort of enum check)
 
 #### Combined Functions
-There are also some combined functions you can easilly create by using static methods in ``universalfilter/CombinedFilterGenerators.class.php``
+There are also some combined functions you can easily create by using static methods in ``universalfilter/CombinedFilterGenerators.class.php``
 
 
 #### Conclusion

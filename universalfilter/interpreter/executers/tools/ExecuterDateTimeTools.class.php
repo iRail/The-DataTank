@@ -21,6 +21,7 @@ class ExecuterDateTimeTools {
         if($dateTime===FALSE){
             throw new Exception("Can only use $what on dates. Please convert to date first.");
         }
+        return $dateTime;
     }
     
     /**

@@ -94,7 +94,8 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "LOG" => UnaryFunction::$FUNCTION_UNARY_LOG,
         "PARSE_DATETIME" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE,
         "STR_TO_DATE" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE,
-        "DATEPART" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART
+        "DATEPART" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART,
+        "DATE" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART
     );
     $unaryaggregatormap = array(
         "AVG" => AggregatorFunction::$AGGREGATOR_AVG,
@@ -105,15 +106,44 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "MIN" => AggregatorFunction::$AGGREGATOR_MIN,
         "SUM" => AggregatorFunction::$AGGREGATOR_SUM
     );
+    $formatshortcuts = array(
+        "DAY" => array("j"),
+        "DAYOFMONTH" => array("j"),
+        "DAYOFWEEK" => array("N", array("add" => 1,"max" => 7, "min" => 1)),// (php: 1=Monday ipv mySQL: 1=Sunday)
+        "DAYOFYEAR" => array("z", array("add" => 1)),// php: starts from 1, mySQL: starts from 0
+        "HOUR" => array("G"),
+        "MINUTE" => array("i"),
+        "MONTH" => array("n"),//php: starts from 1, mySQL: starts from 1
+        "MONTHNAME" => array("F"),
+        "SECOND" => array("s"),
+        "WEEK" => array("W"),
+        "WEEKOFYEAR" => array("W"),
+        "WEEKDAY" => array("N", array("add" => 1,"max" => 7, "min" => 1)),//see DAYOFWEEK
+        "YEAR" => array("Y"),
+        "YEARWEEK" => array("oW")
+    );
     
-    if(isset($unarymap[$SQLname])){
-        return new UnaryFunction($unarymap[$SQLname], $arg1);
-    }else{
-        if(isset($unaryaggregatormap[$SQLname])){
-            return new AggregatorFunction($unaryaggregatormap[$SQLname], $arg1);
-        }else{
-            throw new Exception("That unary function does not exist... (".$SQLname.")");
+    
+    if(isset($formatshortcuts[$SQLname])){
+        $functioninfo = $formatshortcuts[$SQLname];
+        $funct = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT, $arg1, new Constant($functioninfo[0]));
+        if(count($functioninfo)>1){
+            $extraoperations = $functioninfo[1];
+            $addcount = $extraoperations["add"];
+            $funct = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $funct, new Constant($addcount));
+            if(isset($extraoperations["max"]) && isset($extraoperations["min"])) {
+                $max = new Constant($extraoperations["max"]);
+                $min = new Constant($extraoperations["min"]);
+                $funct=CombinedFilterGenerators::makeWrapInRangeFilter($funct, $min, $max);
+            }
         }
+        return $funct;
+    }else if(isset($unarymap[$SQLname])){
+        return new UnaryFunction($unarymap[$SQLname], $arg1);
+    }else if(isset($unaryaggregatormap[$SQLname])){
+        return new AggregatorFunction($unaryaggregatormap[$SQLname], $arg1);
+    }else{
+        throw new Exception("That unary function does not exist... (".$SQLname.")");
     }
     
 }
