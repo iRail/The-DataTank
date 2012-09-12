@@ -16,7 +16,7 @@ filterresult = selectfromstatement {$$ = $1;/*TODO*/}
 unionstatement = expression/expr1 UNION expression/expr2 {$$ = null;/*TODO*/}
                .
 
-selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM fromtableexpression/fromtable wherefilter/where groupfilter/groupby 
+selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM fromtableexpression/fromtable wherefilter/where groupfilter/groupby limitfilter/limit
                         {// 1) fromtables
                          // 2) wherefilter (if defined)
                          // 3) groupbyfilter (if defined)
@@ -28,6 +28,7 @@ selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables 
                         $totalfilter=putFilterAfterIfExists($totalfilter, $groupby);
                         $totalfilter=putFilterAfterIfExists($totalfilter, $selecttables);
                         $totalfilter=putFilterAfterIfExists($totalfilter, $distinct);
+                        $totalfilter=putFilterAfterIfExists($totalfilter, $limit);
                         
                         $$=$totalfilter;}
                     .
@@ -48,6 +49,13 @@ groupfilter = GROUP BY identifierlist/groupFields havingfilter/having
 havingfilter = HAVING expression/expr {$$ = new FilterByExpressionFilter($expr);}
              | {$$ = null;}
              .
+
+limitfilter = LIMIT constant/limit 
+               {$$ = new LimitFilter(null, 0, $limit);}
+            | LIMIT constant/limit OFFSET constant/offset 
+               {$$ = new LimitFilter(null, $offset, $limit);}
+            |  {$$ = null;}
+            .
 
 fromtableexpression = expression {$$=$1;}
                     | expression/stat asopt name/tablealias
