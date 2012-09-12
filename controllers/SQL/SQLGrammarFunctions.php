@@ -204,31 +204,17 @@ function getQuadernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3, $arg
 }
 
 function getExtractConstant($string){
-    $string=strtoupper($string);
-    $allowedconstants = array(
-        DateTimeExtractConstants::$EXTRACT_SECOND,
-        DateTimeExtractConstants::$EXTRACT_MINUTE,
-        DateTimeExtractConstants::$EXTRACT_HOUR,
-        DateTimeExtractConstants::$EXTRACT_DAY,
-        DateTimeExtractConstants::$EXTRACT_WEEK,
-        DateTimeExtractConstants::$EXTRACT_MONTH,
-        DateTimeExtractConstants::$EXTRACT_YEAR,
-        DateTimeExtractConstants::$EXTRACT_MINUTE_SECOND,
-        DateTimeExtractConstants::$EXTRACT_HOUR_SECOND,
-        DateTimeExtractConstants::$EXTRACT_HOUR_MINUTE,
-        DateTimeExtractConstants::$EXTRACT_DAY_SECOND,
-        DateTimeExtractConstants::$EXTRACT_DAY_MINUTE,
-        DateTimeExtractConstants::$EXTRACT_DAY_HOUR,
-        DateTimeExtractConstants::$EXTRACT_YEAR_MONTH
-    );
-    
-    if(in_array($string, $allowedconstants)){
-        return new Constant($string);
-    }else{
-        throw new Exception("Unknown constant for date: \"".$string."\". Possible values: ".implode(", ", $allowedconstants));
-    }
+    return new Constant($string);
 }
 
 function getExtractFunction($string, $constant) {
     return new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DATETIME_EXTRACT, $string, $constant);
+}
+
+function getDateAddFunction($isadd, $date, $interval, $intervaltype) {
+    $type = TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATEADD;
+    if(!$isadd) {
+        $type = TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATESUB;
+    }
+    return new TernaryFunction($type, $date, $interval, $intervaltype);
 }

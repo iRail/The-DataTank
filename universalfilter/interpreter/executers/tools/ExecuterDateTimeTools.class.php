@@ -46,17 +46,17 @@ class ExecuterDateTimeTools {
         $formatmap = array(
             DateTimeExtractConstants::$EXTRACT_SECOND => "s",
             DateTimeExtractConstants::$EXTRACT_MINUTE => "i",
-            DateTimeExtractConstants::$EXTRACT_HOUR => "h",
+            DateTimeExtractConstants::$EXTRACT_HOUR => "G",
             DateTimeExtractConstants::$EXTRACT_DAY => "d",
             DateTimeExtractConstants::$EXTRACT_WEEK => "W",
             DateTimeExtractConstants::$EXTRACT_MONTH => "m",
             DateTimeExtractConstants::$EXTRACT_YEAR => "Y",
             DateTimeExtractConstants::$EXTRACT_MINUTE_SECOND => "i:s",//MINUTES:SECONDS
-            DateTimeExtractConstants::$EXTRACT_HOUR_SECOND => "h:i:s",//HOURS:MINUTES:SECONDS
-            DateTimeExtractConstants::$EXTRACT_HOUR_MINUTE => "h:i",//HOURS:MINUTES
-            DateTimeExtractConstants::$EXTRACT_DAY_SECOND => " h:i:s",//DAYS HOURS:MINUTES:SECONDS
-            DateTimeExtractConstants::$EXTRACT_DAY_MINUTE => " h:i",//DAYS HOURS:MINUTES
-            DateTimeExtractConstants::$EXTRACT_DAY_HOUR => " h",//DAYS HOURS
+            DateTimeExtractConstants::$EXTRACT_HOUR_SECOND => "G:i:s",//HOURS:MINUTES:SECONDS
+            DateTimeExtractConstants::$EXTRACT_HOUR_MINUTE => "G:i",//HOURS:MINUTES
+            DateTimeExtractConstants::$EXTRACT_DAY_SECOND => " G:i:s",//DAYS HOURS:MINUTES:SECONDS
+            DateTimeExtractConstants::$EXTRACT_DAY_MINUTE => " G:i",//DAYS HOURS:MINUTES
+            DateTimeExtractConstants::$EXTRACT_DAY_HOUR => " G",//DAYS HOURS
             DateTimeExtractConstants::$EXTRACT_YEAR_MONTH => "Y-m"//YEARS-MONTHS
         );
         
@@ -79,43 +79,47 @@ class ExecuterDateTimeTools {
     static function toInterval($diffstring, $constant) {
         $replacementmap = array(
             DateTimeExtractConstants::$EXTRACT_SECOND => 
-                    array("\([0-9]+\)","$1 seconds"),
+                    array("([0-9]+)","$1 seconds"),
             DateTimeExtractConstants::$EXTRACT_MINUTE => 
-                    array("\([0-9]+\)","$1 minutes"),
+                    array("([0-9]+)","$1 minutes"),
             DateTimeExtractConstants::$EXTRACT_HOUR => 
-                    array("\([0-9]+\)","$1 hours"),
+                    array("([0-9]+)","$1 hours"),
             DateTimeExtractConstants::$EXTRACT_DAY => 
-                    array("\([0-9]+\)","$1 days"),
+                    array("([0-9]+)","$1 days"),
             DateTimeExtractConstants::$EXTRACT_WEEK => 
-                    array("\([0-9]+\)","$1 weeks"),
+                    array("([0-9]+)","$1 weeks"),
             DateTimeExtractConstants::$EXTRACT_MONTH => 
-                    array("\([0-9]+\)","$1 months"),
+                    array("([0-9]+)","$1 months"),
             DateTimeExtractConstants::$EXTRACT_YEAR => 
-                    array("\([0-9]+\)","$1 years"),
+                    array("([0-9]+)","$1 years"),
             DateTimeExtractConstants::$EXTRACT_MINUTE_SECOND => 
-                    array("\([0-9]+\):\([0-9]+\)","$1 minutes $2 seconds"),//MINUTES:SECONDS
+                    array("([0-9]+):([0-9]+)","$1 minutes $2 seconds"),//MINUTES:SECONDS
             DateTimeExtractConstants::$EXTRACT_HOUR_SECOND => 
-                    array("\([0-9]+\):\([0-9]+\):\([0-9]+\)","$1 hours $2 minutes $3 seconds"),//HOURS:MINUTES:SECONDS
+                    array("([0-9]+):([0-9]+):([0-9]+)","$1 hours $2 minutes $3 seconds"),//HOURS:MINUTES:SECONDS
             DateTimeExtractConstants::$EXTRACT_HOUR_MINUTE => 
-                    array("\([0-9]+\):\([0-9]+\)","$1 hours $2 minutes"),//HOURS:MINUTES
+                    array("([0-9]+):([0-9]+)","$1 hours $2 minutes"),//HOURS:MINUTES
             DateTimeExtractConstants::$EXTRACT_DAY_SECOND => 
-                    array("\([0-9]+\) \([0-9]+\):\([0-9]+\):\([0-9]+\)","$1 days $2 hours $3 minutes $4 seconds"),//DAYS HOURS:MINUTES:SECONDS
+                    array("([0-9]+) ([0-9]+):([0-9]+):([0-9]+)","$1 days $2 hours $3 minutes $4 seconds"),//DAYS HOURS:MINUTES:SECONDS
             DateTimeExtractConstants::$EXTRACT_DAY_MINUTE => 
-                    array("\([0-9]+\) \([0-9]+\):\([0-9]+\)","$1 days $2 hours $3 minutes"),//DAYS HOURS:MINUTES
+                    array("([0-9]+) ([0-9]+):([0-9]+)","$1 days $2 hours $3 minutes"),//DAYS HOURS:MINUTES
             DateTimeExtractConstants::$EXTRACT_DAY_HOUR => 
-                    array("\([0-9]+\) \([0-9]+\)","$1 days $2 hours"),//DAYS HOURS
+                    array("([0-9]+) ([0-9]+)","$1 days $2 hours"),//DAYS HOURS
             DateTimeExtractConstants::$EXTRACT_YEAR_MONTH => 
-                    array("\([0-9]+\)-\([0-9]+\)","$1 years $2 months")//YEARS-MONTHS
+                    array("([0-9]+)-([0-9]+)","$1 years $2 months")//YEARS-MONTHS
         );
         
         $replacementgroup = $replacementmap[$constant];
         
-        $pattern = "%^".$replacementgroup[0]."$%";
+        $pattern = "#^".$replacementgroup[0]."$#";
         $toreplace = $replacementgroup[1];
         
         $diffstring = preg_replace($pattern, $toreplace, $diffstring);
         
-        return DateInterval::createFromDateString($diffstring);
+        $dateinterval = DateInterval::createFromDateString($diffstring);
+        if($dateinterval===FALSE) {
+            throw new Exception("Internal error: unable to convert \"".$diffstring."\" as \"".$constant."\" to interval.");
+        }
+        return $dateinterval;
     }
 }
 

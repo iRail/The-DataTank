@@ -114,6 +114,8 @@ class UniversalInterpreter implements IInterpreterControl{
             BinaryFunction::$FUNCTION_BINARY_DATETIME_DATEDIFF => "BinaryFunctionDateTimeDateDiffExecuter",
             TernaryFunction::$FUNCTION_TERNARY_SUBSTRING => "TernaryFunctionSubstringExecuter",
             TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE => "TernaryFunctionRegexReplacementExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATEADD => "TernaryFunctionDateTimeDateAddExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATESUB => "TernaryFunctionDateTimeDateSubExecuter",
             AggregatorFunction::$AGGREGATOR_AVG => "AverageAggregatorExecuter",
             AggregatorFunction::$AGGREGATOR_COUNT => "CountAggregatorExecuter",
             AggregatorFunction::$AGGREGATOR_FIRST => "FirstAggregatorExecuter",

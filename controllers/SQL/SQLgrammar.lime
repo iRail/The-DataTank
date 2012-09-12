@@ -172,8 +172,12 @@ endexpression = identifier
                 {$$ = new Constant($1);}
             | identifier/functid '(' ')'
                 {$$ = getNularyFilterForSQLFunction($functid);}
-            | EXTRACT '(' identifier/constant FROM statement/arg ')'
+            | EXTRACT '(' extractconstant/constant FROM statement/arg ')'
                 {$$ = getExtractFunction($arg, getExtractConstant($constant));}
+            | DATE_ADD '(' statement/date ',' INTERVAL statement/interval extractconstant/constant ')'
+                {$$ = getDateAddFunction(true, $date, $interval, getExtractConstant($constant));}
+            | DATE_SUB '(' statement/date ',' INTERVAL statement/interval extractconstant/constant ')'
+                {$$ = getDateAddFunction(false, $date, $interval, getExtractConstant($constant));}
             | identifier/functid '(' statement/arg1 ')' 
                 {$$ = getUnaryFilterForSQLFunction($functid, $arg1);}
             | identifier/functid '(' statement/arg1 ',' statement/arg2 ')'
@@ -182,6 +186,8 @@ endexpression = identifier
                 {$$ =getTertaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);}
             | identifier/functid '(' statement/arg1 ',' statement/arg2 ',' statement/arg3 ',' statement/arg4 ')'
                 {$$ =getQuadernaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3, $arg4);}
+            | '(' statement/stat ')'
+                {$$ = $stat;}
             .
 
 likeexpression = constant {$$ = $1;}
@@ -197,3 +203,20 @@ allowedalias = name {$$=$1;}
 identifier = name {$$=$1;} 
            | '*' {$$="*";} 
            .
+
+extractconstant = 
+    SECOND {$$=DateTimeExtractConstants::$EXTRACT_SECOND;} |
+    MINUTE {$$=DateTimeExtractConstants::$EXTRACT_MINUTE;} |
+    HOUR {$$=DateTimeExtractConstants::$EXTRACT_HOUR;} |
+    DAY {$$=DateTimeExtractConstants::$EXTRACT_DAY;} |
+    WEEK {$$=DateTimeExtractConstants::$EXTRACT_WEEK;} |
+    MONTH {$$=DateTimeExtractConstants::$EXTRACT_MONTH;} |
+    YEAR {$$=DateTimeExtractConstants::$EXTRACT_YEAR;} |
+    MINUTE_SECOND {$$=DateTimeExtractConstants::$EXTRACT_MINUTE_SECOND;} |
+    HOUR_SECOND {$$=DateTimeExtractConstants::$EXTRACT_HOUR_SECOND;} |
+    HOUR_MINUTE {$$=DateTimeExtractConstants::$EXTRACT_HOUR_MINUTE;} |
+    DAY_SECOND {$$=DateTimeExtractConstants::$EXTRACT_DAY_SECOND;} |
+    DAY_MINUTE {$$=DateTimeExtractConstants::$EXTRACT_DAY_MINUTE;} |
+    DAY_HOUR {$$=DateTimeExtractConstants::$EXTRACT_DAY_HOUR;} |
+    YEAR_MONTH {$$=DateTimeExtractConstants::$EXTRACT_YEAR_MONTH;}
+    .
