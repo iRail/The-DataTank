@@ -255,7 +255,7 @@ class UnaryFunctionDatePartExecuter extends UnaryFunctionExecuter {
     
     public function doUnaryFunction($value){
         if($value===null) return null;
-        $dateTime = new DateTime($value);
+        $dateTime = ExecuterDateTimeTools::getDateTime($value, "datepart");
         $dateOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYDATE));
         return $dateOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }

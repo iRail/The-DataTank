@@ -164,6 +164,8 @@ endexpression = identifier
                 {$$ = new Constant($1);}
             | identifier/functid '(' ')'
                 {$$ = getNularyFilterForSQLFunction($functid);}
+            | EXTRACT '(' identifier/constant FROM statement/arg ')'
+                {$$ = getExtractFunction($arg, getExtractConstant($constant));}
             | identifier/functid '(' statement/arg1 ')' 
                 {$$ = getUnaryFilterForSQLFunction($functid, $arg1);}
             | identifier/functid '(' statement/arg1 ',' statement/arg2 ')'

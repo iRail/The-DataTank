@@ -93,6 +93,7 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
         "EXP" => UnaryFunction::$FUNCTION_UNARY_EXP,
         "LOG" => UnaryFunction::$FUNCTION_UNARY_LOG,
         "PARSE_DATETIME" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE,
+        "STR_TO_DATE" => UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE,
         "DATEPART" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART
     );
     $unaryaggregatormap = array(
@@ -130,13 +131,14 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
         "LOG" => BinaryFunction::$FUNCTION_BINARY_LOG,
         "POW" => BinaryFunction::$FUNCTION_BINARY_POW,
         "PARSE_DATETIME" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE,
-        "STR_TO_DATE" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE
+        "STR_TO_DATE" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE,
+        "DATE_FORMAT" => BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT
     );
     
     if(isset($binarymap[$SQLname])){
         return new BinaryFunction($binarymap[$SQLname], $arg1, $arg2);
     }else{
-        throw new Exception("That tertary function does not exist... (".$SQLname.")");
+        throw new Exception("That binary function does not exist... (".$SQLname.")");
     }
 }
 
@@ -156,7 +158,7 @@ function getTernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3){
     if(isset($tertarymap[$SQLname])){
         return new TernaryFunction($tertarymap[$SQLname], $arg1,$arg2,$arg3);
     }else{
-        throw new Exception("That tertary function does not exist... (".$SQLname.")");
+        throw new Exception("That ternary function does not exist... (".$SQLname.")");
     }
 }
 
@@ -168,4 +170,34 @@ function getQuadernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3, $arg
     }else{
         throw new Exception("That tertary function does not exist... (".$SQLname.")");
     }
+}
+
+function getExtractConstant($string){
+    $string=strtoupper($string);
+    $allowedconstants = array(
+        DateTimeExtractConstants::$EXTRACT_SECOND,
+        DateTimeExtractConstants::$EXTRACT_MINUTE,
+        DateTimeExtractConstants::$EXTRACT_HOUR,
+        DateTimeExtractConstants::$EXTRACT_DAY,
+        DateTimeExtractConstants::$EXTRACT_WEEK,
+        DateTimeExtractConstants::$EXTRACT_MONTH,
+        DateTimeExtractConstants::$EXTRACT_YEAR,
+        DateTimeExtractConstants::$EXTRACT_MINUTE_SECOND,
+        DateTimeExtractConstants::$EXTRACT_HOUR_SECOND,
+        DateTimeExtractConstants::$EXTRACT_HOUR_MINUTE,
+        DateTimeExtractConstants::$EXTRACT_DAY_SECOND,
+        DateTimeExtractConstants::$EXTRACT_DAY_MINUTE,
+        DateTimeExtractConstants::$EXTRACT_DAY_HOUR,
+        DateTimeExtractConstants::$EXTRACT_YEAR_MONTH
+    );
+    
+    if(in_array($string, $allowedconstants)){
+        return new Constant($string);
+    }else{
+        throw new Exception("Unknown constant for date: \"".$string."\". Possible values: ".implode(", ", $allowedconstants));
+    }
+}
+
+function getExtractFunction($string, $constant) {
+    return new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DATETIME_EXTRACT, $string, $constant);
 }

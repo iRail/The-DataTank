@@ -24,7 +24,7 @@ class SQLParser{
     private static $keywords = array(
         "SELECT", "FROM", "DISTINCT", "GROUP", "BY", "WHERE", "HAVING", "LIKE", "UNION", "BETWEEN", "INNER", "LEFT", "RIGHT", "FULL", "JOIN", "IN",
         "+", "-", "*", "/", "=", "<", ">", "OR", "AND", "AS",
-        ",", "(", ")", "!", "ALL", "ANY", "|");
+        ",", "(", ")", "!", "ALL", "ANY", "|", "EXTRACT");
     
     /**
      * Takes: A SQL Query

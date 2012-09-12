@@ -92,6 +92,10 @@ class SQLTokenizer{
 
     public function __construct($querystring){
         $this->tokens = array();
+        
+        $querystring = str_replace("\n", " ", $querystring);
+        $querystring = str_replace("\r", " ", $querystring);
+        $querystring = str_replace("\t", " ", $querystring);
 
         //how far are we in the querystring?
         $i = 0;

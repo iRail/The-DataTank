@@ -254,7 +254,43 @@ class BinaryFunctionDateTimeParseExecuter extends BinaryFunctionExecuter {
     public function doBinaryFunction($valueA, $valueB){
         if($valueA===null || $valueB===null) return null;
         $dateTime = DateTime::createFromFormat($valueB, $valueA);
+        if($dateTime===FALSE) {throw new Exception("Unknown format in PARSE_DATE: \"".$valueB."\". Please use the php-syntax, see http://www.php.net/manual/en/datetime.createfromformat.php .");}
         return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
+    }
+}
+
+/* extract */
+class BinaryFunctionDateTimeExtractExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_extract_".$nameB."_from_".$nameA;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        $dateTime = ExecuterDateTimeTools::getDateTime($valueA, "extract");
+        
+        return ExecuterDateTimeTools::extract($dateTime, $valueB);
+    }
+}
+
+/* format */
+class BinaryFunctionDateTimeFormatExecuter extends BinaryFunctionExecuter {
+    
+    public function getName($nameA, $nameB){
+        return "_format_date_".$nameA."_as_".$nameB;
+    }
+    
+    public function doBinaryFunction($valueA, $valueB){
+        if($valueA===null || $valueB===null) return null;
+        $dateTime = ExecuterDateTimeTools::getDateTime($valueA, "date_format");
+        
+        $formatted = $dateTime->format($valueB);
+        if($formatted===FALSE){
+            throw new Exception("Unknown format in DATE_FORMAT : \"".$valueB."\". Please use the php-syntax, see http://www.php.net/manual/en/function.date.php .");
+        }else{
+            return $formatted;
+        }
     }
 }
 ?>

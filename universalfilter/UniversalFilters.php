@@ -288,7 +288,6 @@ class UnaryFunction extends NormalFilterNode {
     public static $FUNCTION_UNARY_LOG="FUNCTION_BINARY_LOG";
     public static $FUNCTION_UNARY_DATETIME_PARSE="FUNCTION_UNARY_DATETIME_PARSE";
     public static $FUNCTION_UNARY_DATETIME_DATEPART="FUNCTION_UNARY_DATETIME_DATEPART";
-    public static $FUNCTION_UNARY_DATETIME_EXTRACT="FUNCTION_UNARY_DATETIME_EXTRACT";/*second argument: one of the constants in DateTimeExtractConstants*/
     
     public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
@@ -298,15 +297,20 @@ class UnaryFunction extends NormalFilterNode {
 
 class DateTimeExtractConstants {
     private function __construct() {}
-    public static $EXTRACT_MICROSECOND="MICROSECOND";
     public static $EXTRACT_SECOND="SECOND";
     public static $EXTRACT_MINUTE="MINUTE";
     public static $EXTRACT_HOUR="HOUR";
     public static $EXTRACT_DAY="DAY";
     public static $EXTRACT_WEEK="WEEK";
     public static $EXTRACT_MONTH="MONTH";
-    public static $EXTRACT_QUARTER="QUARTER";
     public static $EXTRACT_YEAR="YEAR";
+    public static $EXTRACT_MINUTE_SECOND="MINUTE_SECOND";//MINUTES:SECONDS
+    public static $EXTRACT_HOUR_SECOND="HOUR_SECOND";//HOURS:MINUTES:SECONDS
+    public static $EXTRACT_HOUR_MINUTE="HOUR_MINUTE";//HOURS:MINUTES
+    public static $EXTRACT_DAY_SECOND="DAY_SECOND";//DAYS HOURS:MINUTES:SECONDS
+    public static $EXTRACT_DAY_MINUTE="DAY_MINUTE";//DAYS HOURS:MINUTES
+    public static $EXTRACT_DAY_HOUR="DAY_HOUR";//DAYS HOURS
+    public static $EXTRACT_YEAR_MONTH="YEAR_MONTH";//YEARS-MONTHS
 }
 
 /**
@@ -334,7 +338,9 @@ class BinaryFunction extends NormalFilterNode {
     public static $FUNCTION_BINARY_LOG="FUNCTION_BINARY_LOG";
     public static $FUNCTION_BINARY_POW="FUNCTION_BINARY_POW";
     public static $FUNCTION_BINARY_CONCAT="FUNCTION_BINARY_CONCAT";
-    public static $FUNCTION_BINARY_DATETIME_PARSE="FUNCTION_BINARY_DATETIME_PARSE";//time, format
+    public static $FUNCTION_BINARY_DATETIME_PARSE="FUNCTION_BINARY_DATETIME_PARSE";//time, php format
+    public static $FUNCTION_BINARY_DATETIME_EXTRACT="FUNCTION_BINARY_DATETIME_EXTRACT";/*time, DateTimeExtractConstants*/
+    public static $FUNCTION_BINARY_DATETIME_FORMAT="FUNCTION_BINARY_DATETIME_FORMAT";/*time, php format*/
     
     public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null) {
         parent::__construct($kind);
