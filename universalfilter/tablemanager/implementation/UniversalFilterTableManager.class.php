@@ -22,6 +22,7 @@ include_once("universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.ph
 class UniversalFilterTableManager implements IUniversalFilterTableManager {
    
     private static $IDENTIFIERSEPARATOR=".";
+    private static $HIERARCHICALDATESEPARATOR=":";
 
     private $requestedTableHeaders = array();
     private $requestedTables=array();    
@@ -73,7 +74,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     private function splitIdentifier($globalTableIdentifier){
 
-        $identifierpieces=explode(UniversalFilterTableManager::$IDENTIFIERSEPARATOR,$globalTableIdentifier);
+        $identifierparts =explode(UniversalFilterTableManager::$HIERARCHICALDATESEPARATOR, $globalTableIdentifier);
+        $hierarchicalsubparts = array();
+        if(isset ($identifierparts[1]) && strlen($identifierparts[1])>0){
+            $hierarchicalsubparts = explode(".",$identifierparts[1]);
+        }
+        
+        $identifierpieces=explode(UniversalFilterTableManager::$IDENTIFIERSEPARATOR,$identifierparts[0]);
 
         $packageresourcestring = implode("/",$identifierpieces);
 
@@ -86,7 +93,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
                                                             .$globalTableIdentifier);
         }
         
-        return array($result["packagename"],$result["resourcename"],$result["RESTparameters"]);    
+        return array($result["packagename"],$result["resourcename"],$result["RESTparameters"], $hierarchicalsubparts);    
     }
     
     private function loadTable($globalTableIdentifier){
@@ -96,7 +103,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         $converter = new PhpObjectTableConverter();
 
         $resource = $this->getFullResourcePhpObject($splitedId[0],$splitedId[1],$splitedId[2]);
-
+        
         $table = $converter->getPhpObjectTable($splitedId,$resource);
         
         $this->requestedTables[$globalTableIdentifier] = $table;

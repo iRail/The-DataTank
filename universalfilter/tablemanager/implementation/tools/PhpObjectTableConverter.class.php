@@ -35,12 +35,11 @@ class PhpObjectTableConverter {
                 }else{
                     $fieldvalue = $root->$fieldToSearch;
                 }
+                
+                
+                
                 if(is_array($fieldvalue)){
-                    $combined=array();
-                    foreach($fieldvalue as $obj){
-                        $combined = array_merge($combined, $this->findTablePhpArray($obj, $path, $parentitemindex));
-                    }
-                    return $combined;
+                    return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
                 }else if(is_object($fieldvalue)){
                     return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
                 }else{
@@ -51,10 +50,51 @@ class PhpObjectTableConverter {
             }
         }else{
             if(is_object($root)){
-                return array(array("object" => $root, "parentindex" => $parentitemindex));
-            }else if(is_array($root)){
+                //return array(array("object" => $root, "parentindex" => $parentitemindex));
+                
+                //NOTE: we do save the indices... it's a object.......
                 $rootarr = array();
                 foreach($root as $i => $ritem){
+                    $obj = new stdClass();
+                    $obj->index=$i;
+                    $obj->value=$ritem;
+                    array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
+                }
+                return $rootarr;
+            }else if(is_array($root)){
+                //NOTE: we don't save the indices... it's an array.......
+                // (unless we find nonNumericIndices)
+                $foundNonNumericIndices = false;
+                foreach($root as $i => $ritem){
+                    if(!is_numeric($i)){
+                        $foundNonNumericIndices=true;
+                        continue;
+                    }
+                }
+                
+                $rootarr = array();
+                foreach($root as $i => $ritem){
+                    if(is_object($ritem)){//this row is a object = ok
+                        //ok!
+                    }else if(is_array ($ritem)){//this row is an array = need conversion
+                        $obj = new stdClass();
+                        foreach($ritem as $a => $aitem){
+                            $obj = new stdClass();
+                            $index="index_".$a;
+                            $obj->$index=$aitem;
+                            array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
+                        }
+                        $ritem=$obj;
+                    }else{//this row is a value...
+                        $obj = new stdClass();
+                        $obj->value=$ritem;
+                        $ritem = $obj;
+                    }
+                    
+                    if($foundNonNumericIndices){
+                        $ritem->index = $i;
+                    }
+                    
                     array_push($rootarr, array("object" => $ritem, "parentindex" => $parentitemindex));
                 }
                 return $rootarr;
@@ -66,13 +106,7 @@ class PhpObjectTableConverter {
     }
     
     private function getPhpObjectsByIdentifier($splitedId,$resource){
-        //$resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1]);
-        
-
-        // TODO Jeroen, this was making troubles reading resources with required parameters!
-        // to reroute to the old way, change array() to $splitedId[2]
-
-        $phpObj = $this->findTablePhpArray($resource, array(), -1);
+        $phpObj = $this->findTablePhpArray($resource, $splitedId[3], -1);
         
         return $phpObj;
     }
@@ -90,12 +124,6 @@ class PhpObjectTableConverter {
         foreach($objects as $index => $data){
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
-            
-            if(!is_object($obj)){
-                $tentativeObj = new stdClass();
-                $tentativeObj->obj = $obj;
-                $obj = $tentativeObj;
-            }
             
             $arr_obj = get_object_vars($obj);
             foreach($arr_obj as $key => $value){
@@ -137,10 +165,6 @@ class PhpObjectTableConverter {
         
         $subObjectIndex = array();
         
-        if(is_object($objects)) {
-            $objects=array($objects);
-        }
-        
         //optimalisation: build name->id map
         $idMap=array();
         for($index=0;$index<$header->getColumnCount();$index++){
@@ -153,14 +177,6 @@ class PhpObjectTableConverter {
         foreach($objects as $index => $data){
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
-            
-            
-            if(!is_object($obj)){
-                $tentativeObj = new stdClass();
-                $tentativeObj->obj = $obj;
-                $obj = $tentativeObj;
-            }
-
 
             $arr_obj = get_object_vars($obj);
             $currentrow=new UniversalFilterTableContentRow();
@@ -182,7 +198,11 @@ class PhpObjectTableConverter {
                         $subObjectIndex[$columnName]=0;
                     }
                     
-                    $currentrow->defineValueId($columnId, $subObjIndex);
+                    $id = "id_".$subObjIndex;
+                    //FOR NOW: just display "object" (TODO)  As the id and key field do not exist anymore...
+                    $id = "<<object>>";
+                    
+                    $currentrow->defineValueId($columnId, $id);
                 }else{
                     $currentrow->defineValue($columnId, $value);//what if we have a combination of the two?
                 }
@@ -217,8 +237,8 @@ class PhpObjectTableConverter {
         $objects = $this->getPhpObjectsByIdentifier($splitedId,$objects);
         
         $nameOfTable=$splitedId[1];
-        if(count($splitedId[2])>0){
-            $nameOfTable=$splitedId[2][count($splitedId[2])-1];
+        if(count($splitedId[3])>0){
+            $nameOfTable=$splitedId[3][count($splitedId[3])-1];
         }
         
         $header = $this->getPhpObjectTableHeader($nameOfTable, $objects);
