@@ -376,6 +376,7 @@ class BinaryFunction extends NormalFilterNode {
     public static $FUNCTION_BINARY_DATETIME_PARSE="FUNCTION_BINARY_DATETIME_PARSE";//time, php format
     public static $FUNCTION_BINARY_DATETIME_EXTRACT="FUNCTION_BINARY_DATETIME_EXTRACT";/*time, DateTimeExtractConstants*/
     public static $FUNCTION_BINARY_DATETIME_FORMAT="FUNCTION_BINARY_DATETIME_FORMAT";/*time, php format*/
+    public static $FUNCTION_BINARY_DATETIME_DATEDIFF="FUNCTION_BINARY_DATETIME_DATEDIFF";
     
     public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null) {
         parent::__construct($kind);

@@ -162,7 +162,8 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
         "POW" => BinaryFunction::$FUNCTION_BINARY_POW,
         "PARSE_DATETIME" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE,
         "STR_TO_DATE" => BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE,
-        "DATE_FORMAT" => BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT
+        "DATE_FORMAT" => BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT,
+        "DATEDIFF" => BinaryFunction::$FUNCTION_BINARY_DATETIME_DATEDIFF
     );
     
     if(isset($binarymap[$SQLname])){
