@@ -17,6 +17,7 @@ It can parse and convert:
  - `GROUP BY field, field, field`
  - `LIKE`
  - `IN (...)`
+ - `LIMIT ... [OFFSET ...]`
 
  - nested Selects
 
