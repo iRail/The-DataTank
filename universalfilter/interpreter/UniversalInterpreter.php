@@ -69,6 +69,7 @@ class UniversalInterpreter implements IInterpreterControl{
             "DATAGROUPER" => "DataGrouperExecuter",
             "TABLEALIAS" => "TableAliasExecuter",
             "FILTERDISTINCT" => "DistinctFilterExecuter",
+            "FILTERLIMIT" => "LimitFilterExecuter",
             "EXTERNALLY_CALCULATED_NODE" => "ExternallyCalculatedFilterNodeExecuter",
             UnaryFunction::$FUNCTION_UNARY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
             UnaryFunction::$FUNCTION_UNARY_LOWERCASE => "UnaryFunctionLowercaseExecuter",

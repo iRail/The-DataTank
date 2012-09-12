@@ -48,6 +48,10 @@ class FilterTreeCloner {
     private function clone_DistinctFilter(DistinctFilter $filter){
         return new DistinctFilter($this->deepCopyTree($filter->getSource()));
     }
+
+    private function clone_LimitFilter(LimitFilter $filter){
+        return new LimitFilter($this->deepCopyTree($filter->getSource()),$filter->getOffset(),$filter->getLimit());
+    }
     
     private function clone_DataGrouper(DataGrouper $filter){
         return new DataGrouper($filter->getColumns(), $this->deepCopyTree($filter->getSource()));

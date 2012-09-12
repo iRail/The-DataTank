@@ -16,7 +16,11 @@ stmt = flow
 .
 
 flow = expression
-| expression/e '.' name/function '(' num/n1 ')' { if($function == "limit"){ /* TODO */ $$ = null;}else{ $$ = createAggregatorFilter($function,$n1);/* TODO create function php file to map constants*/  } }
+| expression/e '.' name/function '(' num/offset ',' num/limit ')' { 
+
+ $limit = new LimitFilter($e,$offset,$limit);
+ $$ = $limit;
+ }
 .
 
 expression = resource {$$ = $1;}
