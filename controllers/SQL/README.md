@@ -59,7 +59,7 @@ It can parse and convert:
 
    * Extracting...  
      `"EXTRACT(unit FROM date)"`  
-     Possible unit-values: `SECOND`, `MINUTE`, `HOUR`, `DAY`, `WEEK`, `MONTH`, `YEAR`, `MINUTE_SECOND`, `HOUR_SECOND`, `HOUR_MINUTE`, `DAY_SECOND`, DAY_MINUTE`, `DAY_HOUR`, `YEAR_MONTH`
+     Possible unit-values: `SECOND`, `MINUTE`, `HOUR`, `DAY`, `WEEK`, `MONTH`, `YEAR`, `MINUTE_SECOND`, `HOUR_SECOND`, `HOUR_MINUTE`, `DAY_SECOND`, `DAY_MINUTE`, `DAY_HOUR`, `YEAR_MONTH`
 
    * Modifying dates...  
      `"DATEPART(_)"` = `"DATE(_)"`, 
