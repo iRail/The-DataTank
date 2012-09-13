@@ -22,7 +22,7 @@ class SQLParser{
      * The "keywords" (things that are not possible for identifiers)
      */ 
     private static $keywords = array(
-        "SELECT", "FROM", "DISTINCT", "GROUP", "BY", "WHERE", "HAVING", "LIKE", "UNION", "BETWEEN", "INNER", "LEFT", "RIGHT", "FULL", "JOIN", "IN",
+        "SELECT", "FROM", "DISTINCT", "GROUP", "BY", "WHERE", "HAVING", "LIKE", "UNION", "BETWEEN", "INNER", "LEFT", "RIGHT", "FULL", "CROSS", "JOIN", "IN", "ON",
         "+", "-", "*", "/", "=", "<", ">", "OR", "AND", "AS",
         ",", "(", ")", "!", "ALL", "ANY", "|", "EXTRACT", "LIMIT", "OFFSET",
         "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "YEAR", "MINUTE_SECOND", "HOUR_SECOND", "HOUR_MINUTE", "DAY_SECOND", "DAY_MINUTE", "DAY_HOUR", "YEAR_MONTH",

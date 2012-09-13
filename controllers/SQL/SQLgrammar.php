@@ -26,65 +26,35 @@ var $i = array (
     'selectfromstatement' => 's 1',
     'unionstatement' => 's 2',
     'expression' => 's 3',
-    'SELECT' => 's 28',
+    'SELECT' => 's 25',
     'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-    'filterresult' => 's 203',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+    'filterresult' => 's 224',
     '\'start\'' => 'a \'start\'',
   ),
   1 => 
   array (
-    '\',\'' => 'r 3',
-    '\')\'' => 'r 3',
-    'SECOND' => 'r 3',
-    'MINUTE' => 'r 3',
-    'HOUR' => 'r 3',
-    'DAY' => 'r 3',
-    'WEEK' => 'r 3',
-    'MONTH' => 'r 3',
-    'YEAR' => 'r 3',
-    'MINUTE_SECOND' => 'r 3',
-    'HOUR_SECOND' => 'r 3',
-    'HOUR_MINUTE' => 'r 3',
-    'DAY_SECOND' => 'r 3',
-    'DAY_MINUTE' => 'r 3',
-    'DAY_HOUR' => 'r 3',
-    'YEAR_MONTH' => 'r 3',
-    '#' => 'r 3',
+    '\')\'' => 'r 4',
+    '#' => 'r 4',
   ),
   2 => 
   array (
-    '\',\'' => 'r 4',
-    '\')\'' => 'r 4',
-    'SECOND' => 'r 4',
-    'MINUTE' => 'r 4',
-    'HOUR' => 'r 4',
-    'DAY' => 'r 4',
-    'WEEK' => 'r 4',
-    'MONTH' => 'r 4',
-    'YEAR' => 'r 4',
-    'MINUTE_SECOND' => 'r 4',
-    'HOUR_SECOND' => 'r 4',
-    'HOUR_MINUTE' => 'r 4',
-    'DAY_SECOND' => 'r 4',
-    'DAY_MINUTE' => 'r 4',
-    'DAY_HOUR' => 'r 4',
-    'YEAR_MONTH' => 'r 4',
-    '#' => 'r 4',
+    '\')\'' => 'r 5',
+    '#' => 'r 5',
   ),
   3 => 
   array (
@@ -94,75 +64,41 @@ var $i = array (
   array (
     'expression' => 's 5',
     'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
   ),
   5 => 
   array (
-    '\',\'' => 'r 5',
-    '\')\'' => 'r 5',
-    'SECOND' => 'r 5',
-    'MINUTE' => 'r 5',
-    'HOUR' => 'r 5',
-    'DAY' => 'r 5',
-    'WEEK' => 'r 5',
-    'MONTH' => 'r 5',
-    'YEAR' => 'r 5',
-    'MINUTE_SECOND' => 'r 5',
-    'HOUR_SECOND' => 'r 5',
-    'HOUR_MINUTE' => 'r 5',
-    'DAY_SECOND' => 'r 5',
-    'DAY_MINUTE' => 'r 5',
-    'DAY_HOUR' => 'r 5',
-    'YEAR_MONTH' => 'r 5',
-    '#' => 'r 5',
+    '\')\'' => 'r 6',
+    '#' => 'r 6',
   ),
   6 => 
   array (
     'BETWEEN' => 's 7',
-    'IN' => 's 176',
-    'INNER' => 's 183',
-    'LEFT' => 's 188',
-    'RIGHT' => 's 193',
-    'FULL' => 's 198',
-    'UNION' => 'r 36',
-    '\',\'' => 'r 36',
-    '\')\'' => 'r 36',
-    'AS' => 'r 36',
-    'name' => 'r 36',
-    'FROM' => 'r 36',
-    'WHERE' => 'r 36',
-    'GROUP' => 'r 36',
-    'ORDER' => 'r 36',
-    'LIMIT' => 'r 36',
-    'SECOND' => 'r 36',
-    'MINUTE' => 'r 36',
-    'HOUR' => 'r 36',
-    'DAY' => 'r 36',
-    'WEEK' => 'r 36',
-    'MONTH' => 'r 36',
-    'YEAR' => 'r 36',
-    'MINUTE_SECOND' => 'r 36',
-    'HOUR_SECOND' => 'r 36',
-    'HOUR_MINUTE' => 'r 36',
-    'DAY_SECOND' => 'r 36',
-    'DAY_MINUTE' => 'r 36',
-    'DAY_HOUR' => 'r 36',
-    'YEAR_MONTH' => 'r 36',
-    '#' => 'r 36',
+    'IN' => 's 73',
+    'UNION' => 'r 43',
+    'AS' => 'r 43',
+    'name' => 'r 43',
+    '\',\'' => 'r 43',
+    'FROM' => 'r 43',
+    'ORDER' => 'r 43',
+    'LIMIT' => 'r 43',
+    '\')\'' => 'r 43',
+    'GROUP' => 'r 43',
+    '#' => 'r 43',
   ),
   7 => 
   array (
@@ -171,13 +107,13 @@ var $i = array (
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
   ),
   8 => 
   array (
@@ -190,86 +126,85 @@ var $i = array (
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
   ),
   10 => 
   array (
-    'UNION' => 'r 37',
-    '\',\'' => 'r 37',
-    '\')\'' => 'r 37',
-    'AS' => 'r 37',
-    'name' => 'r 37',
-    'FROM' => 'r 37',
-    'WHERE' => 'r 37',
-    'GROUP' => 'r 37',
-    'ORDER' => 'r 37',
-    'LIMIT' => 'r 37',
-    'SECOND' => 'r 37',
-    'MINUTE' => 'r 37',
-    'HOUR' => 'r 37',
-    'DAY' => 'r 37',
-    'WEEK' => 'r 37',
-    'MONTH' => 'r 37',
-    'YEAR' => 'r 37',
-    'MINUTE_SECOND' => 'r 37',
-    'HOUR_SECOND' => 'r 37',
-    'HOUR_MINUTE' => 'r 37',
-    'DAY_SECOND' => 'r 37',
-    'DAY_MINUTE' => 'r 37',
-    'DAY_HOUR' => 'r 37',
-    'YEAR_MONTH' => 'r 37',
-    '#' => 'r 37',
+    'UNION' => 'r 44',
+    '\',\'' => 'r 44',
+    '\')\'' => 'r 44',
+    'AS' => 'r 44',
+    'name' => 'r 44',
+    'FROM' => 'r 44',
+    'ORDER' => 'r 44',
+    'LIMIT' => 'r 44',
+    'GROUP' => 'r 44',
+    'SECOND' => 'r 44',
+    'MINUTE' => 'r 44',
+    'HOUR' => 'r 44',
+    'DAY' => 'r 44',
+    'WEEK' => 'r 44',
+    'MONTH' => 'r 44',
+    'YEAR' => 'r 44',
+    'MINUTE_SECOND' => 'r 44',
+    'HOUR_SECOND' => 'r 44',
+    'HOUR_MINUTE' => 'r 44',
+    'DAY_SECOND' => 'r 44',
+    'DAY_MINUTE' => 'r 44',
+    'DAY_HOUR' => 'r 44',
+    'YEAR_MONTH' => 'r 44',
+    '#' => 'r 44',
   ),
   11 => 
   array (
     '\'+\'' => 's 12',
-    '\'-\'' => 's 174',
-    'LIKE' => 'r 68',
-    '\'!\'' => 'r 68',
-    '\'>\'' => 'r 68',
-    '\'<\'' => 'r 68',
-    '\'=\'' => 'r 68',
-    'AND' => 'r 68',
-    'OR' => 'r 68',
-    '\'|\'' => 'r 68',
-    'FULL' => 'r 68',
-    'RIGHT' => 'r 68',
-    'LEFT' => 'r 68',
-    'INNER' => 'r 68',
-    'IN' => 'r 68',
-    'BETWEEN' => 'r 68',
-    'UNION' => 'r 68',
-    '\',\'' => 'r 68',
-    '\')\'' => 'r 68',
-    'AS' => 'r 68',
-    'name' => 'r 68',
-    'FROM' => 'r 68',
-    'WHERE' => 'r 68',
-    'GROUP' => 'r 68',
-    'ORDER' => 'r 68',
-    'LIMIT' => 'r 68',
-    'SECOND' => 'r 68',
-    'MINUTE' => 'r 68',
-    'HOUR' => 'r 68',
-    'DAY' => 'r 68',
-    'WEEK' => 'r 68',
-    'MONTH' => 'r 68',
-    'YEAR' => 'r 68',
-    'MINUTE_SECOND' => 'r 68',
-    'HOUR_SECOND' => 'r 68',
-    'HOUR_MINUTE' => 'r 68',
-    'DAY_SECOND' => 'r 68',
-    'DAY_MINUTE' => 'r 68',
-    'DAY_HOUR' => 'r 68',
-    'YEAR_MONTH' => 'r 68',
-    'ON' => 'r 68',
-    '#' => 'r 68',
+    '\'-\'' => 's 222',
+    'LIKE' => 'r 78',
+    '\'!\'' => 'r 78',
+    '\'>\'' => 'r 78',
+    '\'<\'' => 'r 78',
+    '\'=\'' => 'r 78',
+    'AND' => 'r 78',
+    'OR' => 'r 78',
+    '\'|\'' => 'r 78',
+    'IN' => 'r 78',
+    'BETWEEN' => 'r 78',
+    'UNION' => 'r 78',
+    'AS' => 'r 78',
+    '\',\'' => 'r 78',
+    '\')\'' => 'r 78',
+    'CROSS' => 'r 78',
+    'FULL' => 'r 78',
+    'RIGHT' => 'r 78',
+    'LEFT' => 'r 78',
+    'INNER' => 'r 78',
+    'name' => 'r 78',
+    'FROM' => 'r 78',
+    'ORDER' => 'r 78',
+    'LIMIT' => 'r 78',
+    'ON' => 'r 78',
+    'SECOND' => 'r 78',
+    'MINUTE' => 'r 78',
+    'HOUR' => 'r 78',
+    'DAY' => 'r 78',
+    'WEEK' => 'r 78',
+    'MONTH' => 'r 78',
+    'YEAR' => 'r 78',
+    'MINUTE_SECOND' => 'r 78',
+    'HOUR_SECOND' => 'r 78',
+    'HOUR_MINUTE' => 'r 78',
+    'DAY_SECOND' => 'r 78',
+    'DAY_MINUTE' => 'r 78',
+    'DAY_HOUR' => 'r 78',
+    'YEAR_MONTH' => 'r 78',
+    'GROUP' => 'r 78',
+    '#' => 'r 78',
   ),
   12 => 
   array (
@@ -278,103 +213,103 @@ var $i = array (
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
   ),
   13 => 
   array (
-    'LIKE' => 'r 66',
-    '\'!\'' => 'r 66',
-    '\'>\'' => 'r 66',
-    '\'<\'' => 'r 66',
-    '\'=\'' => 'r 66',
-    'AND' => 'r 66',
-    'OR' => 'r 66',
-    '\'|\'' => 'r 66',
-    'FULL' => 'r 66',
-    'RIGHT' => 'r 66',
-    'LEFT' => 'r 66',
-    'INNER' => 'r 66',
-    'IN' => 'r 66',
-    'BETWEEN' => 'r 66',
-    'UNION' => 'r 66',
-    '\',\'' => 'r 66',
-    '\')\'' => 'r 66',
-    'AS' => 'r 66',
-    'name' => 'r 66',
-    'FROM' => 'r 66',
-    'WHERE' => 'r 66',
-    'GROUP' => 'r 66',
-    'ORDER' => 'r 66',
-    'LIMIT' => 'r 66',
-    'SECOND' => 'r 66',
-    'MINUTE' => 'r 66',
-    'HOUR' => 'r 66',
-    'DAY' => 'r 66',
-    'WEEK' => 'r 66',
-    'MONTH' => 'r 66',
-    'YEAR' => 'r 66',
-    'MINUTE_SECOND' => 'r 66',
-    'HOUR_SECOND' => 'r 66',
-    'HOUR_MINUTE' => 'r 66',
-    'DAY_SECOND' => 'r 66',
-    'DAY_MINUTE' => 'r 66',
-    'DAY_HOUR' => 'r 66',
-    'YEAR_MONTH' => 'r 66',
-    'ON' => 'r 66',
-    '#' => 'r 66',
+    'LIKE' => 'r 76',
+    '\'!\'' => 'r 76',
+    '\'>\'' => 'r 76',
+    '\'<\'' => 'r 76',
+    '\'=\'' => 'r 76',
+    'AND' => 'r 76',
+    'OR' => 'r 76',
+    '\'|\'' => 'r 76',
+    'IN' => 'r 76',
+    'BETWEEN' => 'r 76',
+    'UNION' => 'r 76',
+    'AS' => 'r 76',
+    '\',\'' => 'r 76',
+    '\')\'' => 'r 76',
+    'CROSS' => 'r 76',
+    'FULL' => 'r 76',
+    'RIGHT' => 'r 76',
+    'LEFT' => 'r 76',
+    'INNER' => 'r 76',
+    'name' => 'r 76',
+    'FROM' => 'r 76',
+    'ORDER' => 'r 76',
+    'LIMIT' => 'r 76',
+    'ON' => 'r 76',
+    'SECOND' => 'r 76',
+    'MINUTE' => 'r 76',
+    'HOUR' => 'r 76',
+    'DAY' => 'r 76',
+    'WEEK' => 'r 76',
+    'MONTH' => 'r 76',
+    'YEAR' => 'r 76',
+    'MINUTE_SECOND' => 'r 76',
+    'HOUR_SECOND' => 'r 76',
+    'HOUR_MINUTE' => 'r 76',
+    'DAY_SECOND' => 'r 76',
+    'DAY_MINUTE' => 'r 76',
+    'DAY_HOUR' => 'r 76',
+    'YEAR_MONTH' => 'r 76',
+    'GROUP' => 'r 76',
+    '#' => 'r 76',
   ),
   14 => 
   array (
     '\'*\'' => 's 15',
-    '\'/\'' => 's 172',
-    '\'-\'' => 'r 71',
-    '\'+\'' => 'r 71',
-    'LIKE' => 'r 71',
-    '\'!\'' => 'r 71',
-    '\'>\'' => 'r 71',
-    '\'<\'' => 'r 71',
-    '\'=\'' => 'r 71',
-    'AND' => 'r 71',
-    'OR' => 'r 71',
-    '\'|\'' => 'r 71',
-    'FULL' => 'r 71',
-    'RIGHT' => 'r 71',
-    'LEFT' => 'r 71',
-    'INNER' => 'r 71',
-    'IN' => 'r 71',
-    'BETWEEN' => 'r 71',
-    'UNION' => 'r 71',
-    '\',\'' => 'r 71',
-    '\')\'' => 'r 71',
-    'AS' => 'r 71',
-    'name' => 'r 71',
-    'FROM' => 'r 71',
-    'WHERE' => 'r 71',
-    'GROUP' => 'r 71',
-    'ORDER' => 'r 71',
-    'LIMIT' => 'r 71',
-    'SECOND' => 'r 71',
-    'MINUTE' => 'r 71',
-    'HOUR' => 'r 71',
-    'DAY' => 'r 71',
-    'WEEK' => 'r 71',
-    'MONTH' => 'r 71',
-    'YEAR' => 'r 71',
-    'MINUTE_SECOND' => 'r 71',
-    'HOUR_SECOND' => 'r 71',
-    'HOUR_MINUTE' => 'r 71',
-    'DAY_SECOND' => 'r 71',
-    'DAY_MINUTE' => 'r 71',
-    'DAY_HOUR' => 'r 71',
-    'YEAR_MONTH' => 'r 71',
-    'ON' => 'r 71',
-    '#' => 'r 71',
+    '\'/\'' => 's 220',
+    '\'-\'' => 'r 81',
+    '\'+\'' => 'r 81',
+    'LIKE' => 'r 81',
+    '\'!\'' => 'r 81',
+    '\'>\'' => 'r 81',
+    '\'<\'' => 'r 81',
+    '\'=\'' => 'r 81',
+    'AND' => 'r 81',
+    'OR' => 'r 81',
+    '\'|\'' => 'r 81',
+    'IN' => 'r 81',
+    'BETWEEN' => 'r 81',
+    'UNION' => 'r 81',
+    'AS' => 'r 81',
+    '\',\'' => 'r 81',
+    '\')\'' => 'r 81',
+    'CROSS' => 'r 81',
+    'FULL' => 'r 81',
+    'RIGHT' => 'r 81',
+    'LEFT' => 'r 81',
+    'INNER' => 'r 81',
+    'name' => 'r 81',
+    'FROM' => 'r 81',
+    'ORDER' => 'r 81',
+    'LIMIT' => 'r 81',
+    'ON' => 'r 81',
+    'SECOND' => 'r 81',
+    'MINUTE' => 'r 81',
+    'HOUR' => 'r 81',
+    'DAY' => 'r 81',
+    'WEEK' => 'r 81',
+    'MONTH' => 'r 81',
+    'YEAR' => 'r 81',
+    'MINUTE_SECOND' => 'r 81',
+    'HOUR_SECOND' => 'r 81',
+    'HOUR_MINUTE' => 'r 81',
+    'DAY_SECOND' => 'r 81',
+    'DAY_MINUTE' => 'r 81',
+    'DAY_HOUR' => 'r 81',
+    'YEAR_MONTH' => 'r 81',
+    'GROUP' => 'r 81',
+    '#' => 'r 81',
   ),
   15 => 
   array (
@@ -382,181 +317,212 @@ var $i = array (
     'expressionE' => 's 16',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
   ),
   16 => 
   array (
-    '\'-\'' => 'r 69',
-    '\'+\'' => 'r 69',
-    'LIKE' => 'r 69',
-    '\'!\'' => 'r 69',
-    '\'>\'' => 'r 69',
-    '\'<\'' => 'r 69',
-    '\'=\'' => 'r 69',
-    'AND' => 'r 69',
-    'OR' => 'r 69',
-    '\'|\'' => 'r 69',
-    'FULL' => 'r 69',
-    'RIGHT' => 'r 69',
-    'LEFT' => 'r 69',
-    'INNER' => 'r 69',
-    'IN' => 'r 69',
-    'BETWEEN' => 'r 69',
-    'UNION' => 'r 69',
-    '\',\'' => 'r 69',
-    '\')\'' => 'r 69',
-    'AS' => 'r 69',
-    'name' => 'r 69',
-    'FROM' => 'r 69',
-    'WHERE' => 'r 69',
-    'GROUP' => 'r 69',
-    'ORDER' => 'r 69',
-    'LIMIT' => 'r 69',
-    'SECOND' => 'r 69',
-    'MINUTE' => 'r 69',
-    'HOUR' => 'r 69',
-    'DAY' => 'r 69',
-    'WEEK' => 'r 69',
-    'MONTH' => 'r 69',
-    'YEAR' => 'r 69',
-    'MINUTE_SECOND' => 'r 69',
-    'HOUR_SECOND' => 'r 69',
-    'HOUR_MINUTE' => 'r 69',
-    'DAY_SECOND' => 'r 69',
-    'DAY_MINUTE' => 'r 69',
-    'DAY_HOUR' => 'r 69',
-    'YEAR_MONTH' => 'r 69',
-    'ON' => 'r 69',
-    '#' => 'r 69',
+    '\'-\'' => 'r 79',
+    '\'+\'' => 'r 79',
+    'LIKE' => 'r 79',
+    '\'!\'' => 'r 79',
+    '\'>\'' => 'r 79',
+    '\'<\'' => 'r 79',
+    '\'=\'' => 'r 79',
+    'AND' => 'r 79',
+    'OR' => 'r 79',
+    '\'|\'' => 'r 79',
+    'IN' => 'r 79',
+    'BETWEEN' => 'r 79',
+    'UNION' => 'r 79',
+    'AS' => 'r 79',
+    '\',\'' => 'r 79',
+    '\')\'' => 'r 79',
+    'CROSS' => 'r 79',
+    'FULL' => 'r 79',
+    'RIGHT' => 'r 79',
+    'LEFT' => 'r 79',
+    'INNER' => 'r 79',
+    'name' => 'r 79',
+    'FROM' => 'r 79',
+    'ORDER' => 'r 79',
+    'LIMIT' => 'r 79',
+    'ON' => 'r 79',
+    'SECOND' => 'r 79',
+    'MINUTE' => 'r 79',
+    'HOUR' => 'r 79',
+    'DAY' => 'r 79',
+    'WEEK' => 'r 79',
+    'MONTH' => 'r 79',
+    'YEAR' => 'r 79',
+    'MINUTE_SECOND' => 'r 79',
+    'HOUR_SECOND' => 'r 79',
+    'HOUR_MINUTE' => 'r 79',
+    'DAY_SECOND' => 'r 79',
+    'DAY_MINUTE' => 'r 79',
+    'DAY_HOUR' => 'r 79',
+    'YEAR_MONTH' => 'r 79',
+    'GROUP' => 'r 79',
+    '#' => 'r 79',
   ),
   17 => 
   array (
-    '\'/\'' => 'r 72',
-    '\'*\'' => 'r 72',
-    '\'-\'' => 'r 72',
-    '\'+\'' => 'r 72',
-    'LIKE' => 'r 72',
-    '\'!\'' => 'r 72',
-    '\'>\'' => 'r 72',
-    '\'<\'' => 'r 72',
-    '\'=\'' => 'r 72',
-    'AND' => 'r 72',
-    'OR' => 'r 72',
-    '\'|\'' => 'r 72',
-    'FULL' => 'r 72',
-    'RIGHT' => 'r 72',
-    'LEFT' => 'r 72',
-    'INNER' => 'r 72',
-    'IN' => 'r 72',
-    'BETWEEN' => 'r 72',
-    'UNION' => 'r 72',
-    '\',\'' => 'r 72',
-    '\')\'' => 'r 72',
-    'AS' => 'r 72',
-    'name' => 'r 72',
-    'FROM' => 'r 72',
-    'WHERE' => 'r 72',
-    'GROUP' => 'r 72',
-    'ORDER' => 'r 72',
-    'LIMIT' => 'r 72',
-    'SECOND' => 'r 72',
-    'MINUTE' => 'r 72',
-    'HOUR' => 'r 72',
-    'DAY' => 'r 72',
-    'WEEK' => 'r 72',
-    'MONTH' => 'r 72',
-    'YEAR' => 'r 72',
-    'MINUTE_SECOND' => 'r 72',
-    'HOUR_SECOND' => 'r 72',
-    'HOUR_MINUTE' => 'r 72',
-    'DAY_SECOND' => 'r 72',
-    'DAY_MINUTE' => 'r 72',
-    'DAY_HOUR' => 'r 72',
-    'YEAR_MONTH' => 'r 72',
-    'ON' => 'r 72',
-    '#' => 'r 72',
+    '\'/\'' => 'r 82',
+    '\'*\'' => 'r 82',
+    '\'-\'' => 'r 82',
+    '\'+\'' => 'r 82',
+    'LIKE' => 'r 82',
+    '\'!\'' => 'r 82',
+    '\'>\'' => 'r 82',
+    '\'<\'' => 'r 82',
+    '\'=\'' => 'r 82',
+    'AND' => 'r 82',
+    'OR' => 'r 82',
+    '\'|\'' => 'r 82',
+    'IN' => 'r 82',
+    'BETWEEN' => 'r 82',
+    'UNION' => 'r 82',
+    'AS' => 'r 82',
+    '\',\'' => 'r 82',
+    '\')\'' => 'r 82',
+    'CROSS' => 'r 82',
+    'FULL' => 'r 82',
+    'RIGHT' => 'r 82',
+    'LEFT' => 'r 82',
+    'INNER' => 'r 82',
+    'name' => 'r 82',
+    'FROM' => 'r 82',
+    'ORDER' => 'r 82',
+    'LIMIT' => 'r 82',
+    'ON' => 'r 82',
+    'SECOND' => 'r 82',
+    'MINUTE' => 'r 82',
+    'HOUR' => 'r 82',
+    'DAY' => 'r 82',
+    'WEEK' => 'r 82',
+    'MONTH' => 'r 82',
+    'YEAR' => 'r 82',
+    'MINUTE_SECOND' => 'r 82',
+    'HOUR_SECOND' => 'r 82',
+    'HOUR_MINUTE' => 'r 82',
+    'DAY_SECOND' => 'r 82',
+    'DAY_MINUTE' => 'r 82',
+    'DAY_HOUR' => 'r 82',
+    'YEAR_MONTH' => 'r 82',
+    'GROUP' => 'r 82',
+    '#' => 'r 82',
   ),
   18 => 
   array (
     '\'(\'' => 's 19',
-    '\'/\'' => 'r 73',
-    '\'*\'' => 'r 73',
-    '\'-\'' => 'r 73',
-    '\'+\'' => 'r 73',
-    'LIKE' => 'r 73',
-    '\'!\'' => 'r 73',
-    '\'>\'' => 'r 73',
-    '\'<\'' => 'r 73',
-    '\'=\'' => 'r 73',
-    'AND' => 'r 73',
-    'OR' => 'r 73',
-    '\'|\'' => 'r 73',
-    'FULL' => 'r 73',
-    'RIGHT' => 'r 73',
-    'LEFT' => 'r 73',
-    'INNER' => 'r 73',
-    'IN' => 'r 73',
-    'BETWEEN' => 'r 73',
-    'UNION' => 'r 73',
-    '\',\'' => 'r 73',
-    '\')\'' => 'r 73',
-    'AS' => 'r 73',
-    'name' => 'r 73',
-    'FROM' => 'r 73',
-    'WHERE' => 'r 73',
-    'GROUP' => 'r 73',
-    'ORDER' => 'r 73',
-    'LIMIT' => 'r 73',
-    'SECOND' => 'r 73',
-    'MINUTE' => 'r 73',
-    'HOUR' => 'r 73',
-    'DAY' => 'r 73',
-    'WEEK' => 'r 73',
-    'MONTH' => 'r 73',
-    'YEAR' => 'r 73',
-    'MINUTE_SECOND' => 'r 73',
-    'HOUR_SECOND' => 'r 73',
-    'HOUR_MINUTE' => 'r 73',
-    'DAY_SECOND' => 'r 73',
-    'DAY_MINUTE' => 'r 73',
-    'DAY_HOUR' => 'r 73',
-    'YEAR_MONTH' => 'r 73',
-    'ON' => 'r 73',
-    '#' => 'r 73',
+    '\'/\'' => 'r 83',
+    '\'*\'' => 'r 83',
+    '\'-\'' => 'r 83',
+    '\'+\'' => 'r 83',
+    'LIKE' => 'r 83',
+    '\'!\'' => 'r 83',
+    '\'>\'' => 'r 83',
+    '\'<\'' => 'r 83',
+    '\'=\'' => 'r 83',
+    'AND' => 'r 83',
+    'OR' => 'r 83',
+    '\'|\'' => 'r 83',
+    'IN' => 'r 83',
+    'BETWEEN' => 'r 83',
+    'UNION' => 'r 83',
+    'AS' => 'r 83',
+    '\',\'' => 'r 83',
+    '\')\'' => 'r 83',
+    'CROSS' => 'r 83',
+    'FULL' => 'r 83',
+    'RIGHT' => 'r 83',
+    'LEFT' => 'r 83',
+    'INNER' => 'r 83',
+    'name' => 'r 83',
+    'FROM' => 'r 83',
+    'ORDER' => 'r 83',
+    'LIMIT' => 'r 83',
+    'ON' => 'r 83',
+    'SECOND' => 'r 83',
+    'MINUTE' => 'r 83',
+    'HOUR' => 'r 83',
+    'DAY' => 'r 83',
+    'WEEK' => 'r 83',
+    'MONTH' => 'r 83',
+    'YEAR' => 'r 83',
+    'MINUTE_SECOND' => 'r 83',
+    'HOUR_SECOND' => 'r 83',
+    'HOUR_MINUTE' => 'r 83',
+    'DAY_SECOND' => 'r 83',
+    'DAY_MINUTE' => 'r 83',
+    'DAY_HOUR' => 'r 83',
+    'YEAR_MONTH' => 'r 83',
+    'GROUP' => 'r 83',
+    '#' => 'r 83',
   ),
   19 => 
   array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    '\')\'' => 's 160',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 161',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'constant' => 's 65',
+    '\')\'' => 's 208',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'statementBetweenCommas' => 's 209',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
   ),
   20 => 
+  array (
+    'filterresult' => 's 21',
+    'fullExpression' => 's 23',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'expression' => 's 24',
+    'SELECT' => 's 25',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'statement' => 's 124',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  21 => 
+  array (
+    '\')\'' => 's 22',
+  ),
+  22 => 
   array (
     '\',\'' => 'r 0',
     '\')\'' => 'r 0',
@@ -575,9 +541,973 @@ var $i = array (
     'DAY_HOUR' => 'r 0',
     'YEAR_MONTH' => 'r 0',
   ),
-  21 => 
+  23 => 
+  array (
+    '\')\'' => 'r 3',
+  ),
+  24 => 
   array (
     'UNION' => 's 4',
+    '\')\'' => 'r 41',
+  ),
+  25 => 
+  array (
+    'uniquefilter' => 's 26',
+    'DISTINCT' => 's 207',
+    'constant' => 'r 9',
+    'EXTRACT' => 'r 9',
+    'DATE_ADD' => 'r 9',
+    'DATE_SUB' => 'r 9',
+    '\'(\'' => 'r 9',
+    'name' => 'r 9',
+    '\'*\'' => 'r 9',
+  ),
+  26 => 
+  array (
+    'selectcolumnlist' => 's 27',
+    'listofcolumns' => 's 199',
+    'expression' => 's 200',
+    'expressionA' => 's 6',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  27 => 
+  array (
+    'FROM' => 's 28',
+  ),
+  28 => 
+  array (
+    'fromtables' => 's 29',
+    'fromtableexpression' => 's 198',
+    '\'(\'' => 's 186',
+    'identifier' => 's 197',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  29 => 
+  array (
+    'wherefilter' => 's 30',
+    'WHERE' => 's 182',
+    '\',\'' => 's 184',
+    'GROUP' => 'r 11',
+    'ORDER' => 'r 11',
+    'LIMIT' => 'r 11',
+    '\')\'' => 'r 11',
+    '#' => 'r 11',
+  ),
+  30 => 
+  array (
+    'groupfilter' => 's 31',
+    'GROUP' => 's 47',
+    'ORDER' => 'r 13',
+    'LIMIT' => 'r 13',
+    '\')\'' => 'r 13',
+    '#' => 'r 13',
+  ),
+  31 => 
+  array (
+    'orderbyfilter' => 's 32',
+    'ORDER' => 's 38',
+    'LIMIT' => 'r 20',
+    '\')\'' => 'r 20',
+    '#' => 'r 20',
+  ),
+  32 => 
+  array (
+    'limitfilter' => 's 33',
+    'LIMIT' => 's 34',
+    '\')\'' => 'r 18',
+    '#' => 'r 18',
+  ),
+  33 => 
+  array (
+    '\')\'' => 'r 7',
+    '#' => 'r 7',
+  ),
+  34 => 
+  array (
+    'constant' => 's 35',
+  ),
+  35 => 
+  array (
+    'OFFSET' => 's 36',
+    '\')\'' => 'r 16',
+    '#' => 'r 16',
+  ),
+  36 => 
+  array (
+    'constant' => 's 37',
+  ),
+  37 => 
+  array (
+    '\')\'' => 'r 17',
+    '#' => 'r 17',
+  ),
+  38 => 
+  array (
+    'BY' => 's 39',
+  ),
+  39 => 
+  array (
+    'orderbyidentifierlist' => 's 40',
+    'orderbyfield' => 's 41',
+    'name' => 's 44',
+  ),
+  40 => 
+  array (
+    'LIMIT' => 'r 19',
+    '\')\'' => 'r 19',
+    '#' => 'r 19',
+  ),
+  41 => 
+  array (
+    '\',\'' => 's 42',
+    'LIMIT' => 'r 21',
+    '\')\'' => 'r 21',
+    '#' => 'r 21',
+  ),
+  42 => 
+  array (
+    'orderbyfield' => 's 41',
+    'orderbyidentifierlist' => 's 43',
+    'name' => 's 44',
+  ),
+  43 => 
+  array (
+    'LIMIT' => 'r 22',
+    '\')\'' => 'r 22',
+    '#' => 'r 22',
+  ),
+  44 => 
+  array (
+    'ASC' => 's 45',
+    'DESC' => 's 46',
+    '\',\'' => 'r 25',
+    'LIMIT' => 'r 25',
+    '\')\'' => 'r 25',
+    '#' => 'r 25',
+  ),
+  45 => 
+  array (
+    '\',\'' => 'r 23',
+    'LIMIT' => 'r 23',
+    '\')\'' => 'r 23',
+    '#' => 'r 23',
+  ),
+  46 => 
+  array (
+    '\',\'' => 'r 24',
+    'LIMIT' => 'r 24',
+    '\')\'' => 'r 24',
+    '#' => 'r 24',
+  ),
+  47 => 
+  array (
+    'BY' => 's 48',
+  ),
+  48 => 
+  array (
+    'identifierlist' => 's 49',
+    'identifier' => 's 179',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  49 => 
+  array (
+    'havingfilter' => 's 50',
+    'HAVING' => 's 51',
+    'ORDER' => 'r 15',
+    'LIMIT' => 'r 15',
+    '\')\'' => 'r 15',
+    '#' => 'r 15',
+  ),
+  50 => 
+  array (
+    'ORDER' => 'r 12',
+    'LIMIT' => 'r 12',
+    '\')\'' => 'r 12',
+    '#' => 'r 12',
+  ),
+  51 => 
+  array (
+    'expression' => 's 52',
+    'expressionA' => 's 6',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  52 => 
+  array (
+    'ORDER' => 'r 14',
+    'LIMIT' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  53 => 
+  array (
+    '\'|\'' => 's 54',
+    'IN' => 'r 54',
+    'BETWEEN' => 'r 54',
+    'UNION' => 'r 54',
+    'AS' => 'r 54',
+    '\',\'' => 'r 54',
+    '\')\'' => 'r 54',
+    'CROSS' => 'r 54',
+    'FULL' => 'r 54',
+    'RIGHT' => 'r 54',
+    'LEFT' => 'r 54',
+    'INNER' => 'r 54',
+    'name' => 'r 54',
+    'FROM' => 'r 54',
+    'ORDER' => 'r 54',
+    'LIMIT' => 'r 54',
+    'ON' => 'r 54',
+    'SECOND' => 'r 54',
+    'MINUTE' => 'r 54',
+    'HOUR' => 'r 54',
+    'DAY' => 'r 54',
+    'WEEK' => 'r 54',
+    'MONTH' => 'r 54',
+    'YEAR' => 'r 54',
+    'MINUTE_SECOND' => 'r 54',
+    'HOUR_SECOND' => 'r 54',
+    'HOUR_MINUTE' => 'r 54',
+    'DAY_SECOND' => 'r 54',
+    'DAY_MINUTE' => 'r 54',
+    'DAY_HOUR' => 'r 54',
+    'YEAR_MONTH' => 'r 54',
+    'GROUP' => 'r 54',
+    '#' => 'r 54',
+  ),
+  54 => 
+  array (
+    'expressionAB' => 's 53',
+    'expressionA' => 's 55',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  55 => 
+  array (
+    'IN' => 'r 53',
+    'BETWEEN' => 'r 53',
+    'UNION' => 'r 53',
+    'AS' => 'r 53',
+    '\',\'' => 'r 53',
+    '\')\'' => 'r 53',
+    'CROSS' => 'r 53',
+    'FULL' => 'r 53',
+    'RIGHT' => 'r 53',
+    'LEFT' => 'r 53',
+    'INNER' => 'r 53',
+    'name' => 'r 53',
+    'FROM' => 'r 53',
+    'ORDER' => 'r 53',
+    'LIMIT' => 'r 53',
+    'ON' => 'r 53',
+    'SECOND' => 'r 53',
+    'MINUTE' => 'r 53',
+    'HOUR' => 'r 53',
+    'DAY' => 'r 53',
+    'WEEK' => 'r 53',
+    'MONTH' => 'r 53',
+    'YEAR' => 'r 53',
+    'MINUTE_SECOND' => 'r 53',
+    'HOUR_SECOND' => 'r 53',
+    'HOUR_MINUTE' => 'r 53',
+    'DAY_SECOND' => 'r 53',
+    'DAY_MINUTE' => 'r 53',
+    'DAY_HOUR' => 'r 53',
+    'YEAR_MONTH' => 'r 53',
+    'GROUP' => 'r 53',
+    '#' => 'r 53',
+  ),
+  56 => 
+  array (
+    'OR' => 's 57',
+    '\'|\'' => 'r 56',
+    'IN' => 'r 56',
+    'BETWEEN' => 'r 56',
+    'UNION' => 'r 56',
+    'AS' => 'r 56',
+    '\',\'' => 'r 56',
+    '\')\'' => 'r 56',
+    'CROSS' => 'r 56',
+    'FULL' => 'r 56',
+    'RIGHT' => 'r 56',
+    'LEFT' => 'r 56',
+    'INNER' => 'r 56',
+    'name' => 'r 56',
+    'FROM' => 'r 56',
+    'ORDER' => 'r 56',
+    'LIMIT' => 'r 56',
+    'ON' => 'r 56',
+    'SECOND' => 'r 56',
+    'MINUTE' => 'r 56',
+    'HOUR' => 'r 56',
+    'DAY' => 'r 56',
+    'WEEK' => 'r 56',
+    'MONTH' => 'r 56',
+    'YEAR' => 'r 56',
+    'MINUTE_SECOND' => 'r 56',
+    'HOUR_SECOND' => 'r 56',
+    'HOUR_MINUTE' => 'r 56',
+    'DAY_SECOND' => 'r 56',
+    'DAY_MINUTE' => 'r 56',
+    'DAY_HOUR' => 'r 56',
+    'YEAR_MONTH' => 'r 56',
+    'GROUP' => 'r 56',
+    '#' => 'r 56',
+  ),
+  57 => 
+  array (
+    'expressionB' => 's 56',
+    'expressionAB' => 's 58',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  58 => 
+  array (
+    '\'|\'' => 'r 55',
+    'IN' => 'r 55',
+    'BETWEEN' => 'r 55',
+    'UNION' => 'r 55',
+    'AS' => 'r 55',
+    '\',\'' => 'r 55',
+    '\')\'' => 'r 55',
+    'CROSS' => 'r 55',
+    'FULL' => 'r 55',
+    'RIGHT' => 'r 55',
+    'LEFT' => 'r 55',
+    'INNER' => 'r 55',
+    'name' => 'r 55',
+    'FROM' => 'r 55',
+    'ORDER' => 'r 55',
+    'LIMIT' => 'r 55',
+    'ON' => 'r 55',
+    'SECOND' => 'r 55',
+    'MINUTE' => 'r 55',
+    'HOUR' => 'r 55',
+    'DAY' => 'r 55',
+    'WEEK' => 'r 55',
+    'MONTH' => 'r 55',
+    'YEAR' => 'r 55',
+    'MINUTE_SECOND' => 'r 55',
+    'HOUR_SECOND' => 'r 55',
+    'HOUR_MINUTE' => 'r 55',
+    'DAY_SECOND' => 'r 55',
+    'DAY_MINUTE' => 'r 55',
+    'DAY_HOUR' => 'r 55',
+    'YEAR_MONTH' => 'r 55',
+    'GROUP' => 'r 55',
+    '#' => 'r 55',
+  ),
+  59 => 
+  array (
+    'AND' => 's 60',
+    'OR' => 'r 58',
+    '\'|\'' => 'r 58',
+    'IN' => 'r 58',
+    'BETWEEN' => 'r 58',
+    'UNION' => 'r 58',
+    'AS' => 'r 58',
+    '\',\'' => 'r 58',
+    '\')\'' => 'r 58',
+    'CROSS' => 'r 58',
+    'FULL' => 'r 58',
+    'RIGHT' => 'r 58',
+    'LEFT' => 'r 58',
+    'INNER' => 'r 58',
+    'name' => 'r 58',
+    'FROM' => 'r 58',
+    'ORDER' => 'r 58',
+    'LIMIT' => 'r 58',
+    'ON' => 'r 58',
+    'SECOND' => 'r 58',
+    'MINUTE' => 'r 58',
+    'HOUR' => 'r 58',
+    'DAY' => 'r 58',
+    'WEEK' => 'r 58',
+    'MONTH' => 'r 58',
+    'YEAR' => 'r 58',
+    'MINUTE_SECOND' => 'r 58',
+    'HOUR_SECOND' => 'r 58',
+    'HOUR_MINUTE' => 'r 58',
+    'DAY_SECOND' => 'r 58',
+    'DAY_MINUTE' => 'r 58',
+    'DAY_HOUR' => 'r 58',
+    'YEAR_MONTH' => 'r 58',
+    'GROUP' => 'r 58',
+    '#' => 'r 58',
+  ),
+  60 => 
+  array (
+    'expressionC' => 's 59',
+    'expressionB' => 's 61',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  61 => 
+  array (
+    'OR' => 'r 57',
+    '\'|\'' => 'r 57',
+    'IN' => 'r 57',
+    'BETWEEN' => 'r 57',
+    'UNION' => 'r 57',
+    'AS' => 'r 57',
+    '\',\'' => 'r 57',
+    '\')\'' => 'r 57',
+    'CROSS' => 'r 57',
+    'FULL' => 'r 57',
+    'RIGHT' => 'r 57',
+    'LEFT' => 'r 57',
+    'INNER' => 'r 57',
+    'name' => 'r 57',
+    'FROM' => 'r 57',
+    'ORDER' => 'r 57',
+    'LIMIT' => 'r 57',
+    'ON' => 'r 57',
+    'SECOND' => 'r 57',
+    'MINUTE' => 'r 57',
+    'HOUR' => 'r 57',
+    'DAY' => 'r 57',
+    'WEEK' => 'r 57',
+    'MONTH' => 'r 57',
+    'YEAR' => 'r 57',
+    'MINUTE_SECOND' => 'r 57',
+    'HOUR_SECOND' => 'r 57',
+    'HOUR_MINUTE' => 'r 57',
+    'DAY_SECOND' => 'r 57',
+    'DAY_MINUTE' => 'r 57',
+    'DAY_HOUR' => 'r 57',
+    'YEAR_MONTH' => 'r 57',
+    'GROUP' => 'r 57',
+    '#' => 'r 57',
+  ),
+  62 => 
+  array (
+    '\'=\'' => 's 63',
+    '\'<\'' => 's 147',
+    '\'>\'' => 's 161',
+    '\'!\'' => 's 173',
+    'LIKE' => 's 176',
+    'AND' => 'r 75',
+    'OR' => 'r 75',
+    '\'|\'' => 'r 75',
+    'IN' => 'r 75',
+    'BETWEEN' => 'r 75',
+    'UNION' => 'r 75',
+    'AS' => 'r 75',
+    '\',\'' => 'r 75',
+    '\')\'' => 'r 75',
+    'CROSS' => 'r 75',
+    'FULL' => 'r 75',
+    'RIGHT' => 'r 75',
+    'LEFT' => 'r 75',
+    'INNER' => 'r 75',
+    'name' => 'r 75',
+    'FROM' => 'r 75',
+    'ORDER' => 'r 75',
+    'LIMIT' => 'r 75',
+    'ON' => 'r 75',
+    'SECOND' => 'r 75',
+    'MINUTE' => 'r 75',
+    'HOUR' => 'r 75',
+    'DAY' => 'r 75',
+    'WEEK' => 'r 75',
+    'MONTH' => 'r 75',
+    'YEAR' => 'r 75',
+    'MINUTE_SECOND' => 'r 75',
+    'HOUR_SECOND' => 'r 75',
+    'HOUR_MINUTE' => 'r 75',
+    'DAY_SECOND' => 'r 75',
+    'DAY_MINUTE' => 'r 75',
+    'DAY_HOUR' => 'r 75',
+    'YEAR_MONTH' => 'r 75',
+    'GROUP' => 'r 75',
+    '#' => 'r 75',
+  ),
+  63 => 
+  array (
+    'expressionD' => 's 64',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  64 => 
+  array (
+    'AND' => 'r 59',
+    'OR' => 'r 59',
+    '\'|\'' => 'r 59',
+    'IN' => 'r 59',
+    'BETWEEN' => 'r 59',
+    'UNION' => 'r 59',
+    'AS' => 'r 59',
+    '\',\'' => 'r 59',
+    '\')\'' => 'r 59',
+    'CROSS' => 'r 59',
+    'FULL' => 'r 59',
+    'RIGHT' => 'r 59',
+    'LEFT' => 'r 59',
+    'INNER' => 'r 59',
+    'name' => 'r 59',
+    'FROM' => 'r 59',
+    'ORDER' => 'r 59',
+    'LIMIT' => 'r 59',
+    'ON' => 'r 59',
+    'SECOND' => 'r 59',
+    'MINUTE' => 'r 59',
+    'HOUR' => 'r 59',
+    'DAY' => 'r 59',
+    'WEEK' => 'r 59',
+    'MONTH' => 'r 59',
+    'YEAR' => 'r 59',
+    'MINUTE_SECOND' => 'r 59',
+    'HOUR_SECOND' => 'r 59',
+    'HOUR_MINUTE' => 'r 59',
+    'DAY_SECOND' => 'r 59',
+    'DAY_MINUTE' => 'r 59',
+    'DAY_HOUR' => 'r 59',
+    'YEAR_MONTH' => 'r 59',
+    'GROUP' => 'r 59',
+    '#' => 'r 59',
+  ),
+  65 => 
+  array (
+    '\'/\'' => 'r 84',
+    '\'*\'' => 'r 84',
+    '\'-\'' => 'r 84',
+    '\'+\'' => 'r 84',
+    'LIKE' => 'r 84',
+    '\'!\'' => 'r 84',
+    '\'>\'' => 'r 84',
+    '\'<\'' => 'r 84',
+    '\'=\'' => 'r 84',
+    'AND' => 'r 84',
+    'OR' => 'r 84',
+    '\'|\'' => 'r 84',
+    'IN' => 'r 84',
+    'BETWEEN' => 'r 84',
+    'UNION' => 'r 84',
+    'AS' => 'r 84',
+    '\',\'' => 'r 84',
+    '\')\'' => 'r 84',
+    'CROSS' => 'r 84',
+    'FULL' => 'r 84',
+    'RIGHT' => 'r 84',
+    'LEFT' => 'r 84',
+    'INNER' => 'r 84',
+    'name' => 'r 84',
+    'FROM' => 'r 84',
+    'ORDER' => 'r 84',
+    'LIMIT' => 'r 84',
+    'ON' => 'r 84',
+    'SECOND' => 'r 84',
+    'MINUTE' => 'r 84',
+    'HOUR' => 'r 84',
+    'DAY' => 'r 84',
+    'WEEK' => 'r 84',
+    'MONTH' => 'r 84',
+    'YEAR' => 'r 84',
+    'MINUTE_SECOND' => 'r 84',
+    'HOUR_SECOND' => 'r 84',
+    'HOUR_MINUTE' => 'r 84',
+    'DAY_SECOND' => 'r 84',
+    'DAY_MINUTE' => 'r 84',
+    'DAY_HOUR' => 'r 84',
+    'YEAR_MONTH' => 'r 84',
+    'GROUP' => 'r 84',
+    '#' => 'r 84',
+  ),
+  66 => 
+  array (
+    '\'(\'' => 's 67',
+  ),
+  67 => 
+  array (
+    'extractconstant' => 's 68',
+    'SECOND' => 's 99',
+    'MINUTE' => 's 100',
+    'HOUR' => 's 101',
+    'DAY' => 's 102',
+    'WEEK' => 's 103',
+    'MONTH' => 's 104',
+    'YEAR' => 's 105',
+    'MINUTE_SECOND' => 's 106',
+    'HOUR_SECOND' => 's 107',
+    'HOUR_MINUTE' => 's 108',
+    'DAY_SECOND' => 's 109',
+    'DAY_MINUTE' => 's 110',
+    'DAY_HOUR' => 's 111',
+    'YEAR_MONTH' => 's 112',
+  ),
+  68 => 
+  array (
+    'FROM' => 's 69',
+  ),
+  69 => 
+  array (
+    'filterresult' => 's 70',
+    'fullExpression' => 's 23',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'expression' => 's 24',
+    'SELECT' => 's 25',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'statement' => 's 145',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  70 => 
+  array (
+    '\')\'' => 'r 2',
+  ),
+  71 => 
+  array (
+    '\',\'' => 'r 42',
+    '\')\'' => 'r 42',
+    'SECOND' => 'r 42',
+    'MINUTE' => 'r 42',
+    'HOUR' => 'r 42',
+    'DAY' => 'r 42',
+    'WEEK' => 'r 42',
+    'MONTH' => 'r 42',
+    'YEAR' => 'r 42',
+    'MINUTE_SECOND' => 'r 42',
+    'HOUR_SECOND' => 'r 42',
+    'HOUR_MINUTE' => 'r 42',
+    'DAY_SECOND' => 'r 42',
+    'DAY_MINUTE' => 'r 42',
+    'DAY_HOUR' => 'r 42',
+    'YEAR_MONTH' => 'r 42',
+  ),
+  72 => 
+  array (
+    'BETWEEN' => 's 7',
+    'IN' => 's 73',
+    'AS' => 's 80',
+    '\',\'' => 'r 43',
+    '\')\'' => 'r 43',
+    'UNION' => 'r 43',
+    'SECOND' => 'r 43',
+    'MINUTE' => 'r 43',
+    'HOUR' => 'r 43',
+    'DAY' => 'r 43',
+    'WEEK' => 'r 43',
+    'MONTH' => 'r 43',
+    'YEAR' => 'r 43',
+    'MINUTE_SECOND' => 'r 43',
+    'HOUR_SECOND' => 'r 43',
+    'HOUR_MINUTE' => 'r 43',
+    'DAY_SECOND' => 'r 43',
+    'DAY_MINUTE' => 'r 43',
+    'DAY_HOUR' => 'r 43',
+    'YEAR_MONTH' => 'r 43',
+    'CROSS' => 'r 51',
+    'FULL' => 'r 51',
+    'RIGHT' => 'r 51',
+    'LEFT' => 'r 51',
+    'INNER' => 'r 51',
+  ),
+  73 => 
+  array (
+    '\'(\'' => 's 74',
+  ),
+  74 => 
+  array (
+    'constant' => 's 75',
+    'constantlist' => 's 78',
+  ),
+  75 => 
+  array (
+    '\',\'' => 's 76',
+    '\')\'' => 'r 37',
+  ),
+  76 => 
+  array (
+    'constant' => 's 75',
+    'constantlist' => 's 77',
+  ),
+  77 => 
+  array (
+    '\')\'' => 'r 38',
+  ),
+  78 => 
+  array (
+    '\')\'' => 's 79',
+  ),
+  79 => 
+  array (
+    'UNION' => 'r 45',
+    '\',\'' => 'r 45',
+    '\')\'' => 'r 45',
+    'AS' => 'r 45',
+    'name' => 'r 45',
+    'FROM' => 'r 45',
+    'ORDER' => 'r 45',
+    'LIMIT' => 'r 45',
+    'GROUP' => 'r 45',
+    'SECOND' => 'r 45',
+    'MINUTE' => 'r 45',
+    'HOUR' => 'r 45',
+    'DAY' => 'r 45',
+    'WEEK' => 'r 45',
+    'MONTH' => 'r 45',
+    'YEAR' => 'r 45',
+    'MINUTE_SECOND' => 'r 45',
+    'HOUR_SECOND' => 'r 45',
+    'HOUR_MINUTE' => 'r 45',
+    'DAY_SECOND' => 'r 45',
+    'DAY_MINUTE' => 'r 45',
+    'DAY_HOUR' => 'r 45',
+    'YEAR_MONTH' => 'r 45',
+    '#' => 'r 45',
+  ),
+  80 => 
+  array (
+    'allowedalias' => 's 81',
+    'name' => 's 82',
+  ),
+  81 => 
+  array (
+    'CROSS' => 'r 52',
+    'FULL' => 'r 52',
+    'RIGHT' => 'r 52',
+    'LEFT' => 'r 52',
+    'INNER' => 'r 52',
+    'ON' => 'r 52',
+    '\',\'' => 'r 52',
+    '\')\'' => 'r 52',
+    'SECOND' => 'r 52',
+    'MINUTE' => 'r 52',
+    'HOUR' => 'r 52',
+    'DAY' => 'r 52',
+    'WEEK' => 'r 52',
+    'MONTH' => 'r 52',
+    'YEAR' => 'r 52',
+    'MINUTE_SECOND' => 'r 52',
+    'HOUR_SECOND' => 'r 52',
+    'HOUR_MINUTE' => 'r 52',
+    'DAY_SECOND' => 'r 52',
+    'DAY_MINUTE' => 'r 52',
+    'DAY_HOUR' => 'r 52',
+    'YEAR_MONTH' => 'r 52',
+  ),
+  82 => 
+  array (
+    'CROSS' => 'r 97',
+    'FULL' => 'r 97',
+    'RIGHT' => 'r 97',
+    'LEFT' => 'r 97',
+    'INNER' => 'r 97',
+    '\')\'' => 'r 97',
+    '\',\'' => 'r 97',
+    'FROM' => 'r 97',
+    'ON' => 'r 97',
+    'WHERE' => 'r 97',
+    'GROUP' => 'r 97',
+    'ORDER' => 'r 97',
+    'LIMIT' => 'r 97',
+    'SECOND' => 'r 97',
+    'MINUTE' => 'r 97',
+    'HOUR' => 'r 97',
+    'DAY' => 'r 97',
+    'WEEK' => 'r 97',
+    'MONTH' => 'r 97',
+    'YEAR' => 'r 97',
+    'MINUTE_SECOND' => 'r 97',
+    'HOUR_SECOND' => 'r 97',
+    'HOUR_MINUTE' => 'r 97',
+    'DAY_SECOND' => 'r 97',
+    'DAY_MINUTE' => 'r 97',
+    'DAY_HOUR' => 'r 97',
+    'YEAR_MONTH' => 'r 97',
+    '#' => 'r 97',
+  ),
+  83 => 
+  array (
+    'INNER' => 's 84',
+    'LEFT' => 's 127',
+    'RIGHT' => 's 132',
+    'FULL' => 's 137',
+    'CROSS' => 's 142',
+  ),
+  84 => 
+  array (
+    'JOIN' => 's 85',
+  ),
+  85 => 
+  array (
+    'expressionWithAlias' => 's 86',
+    'expressionA' => 's 126',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  86 => 
+  array (
+    'ON' => 's 87',
+  ),
+  87 => 
+  array (
+    'expressionA' => 's 88',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  88 => 
+  array (
+    '\',\'' => 'r 46',
+    '\')\'' => 'r 46',
+    'SECOND' => 'r 46',
+    'MINUTE' => 'r 46',
+    'HOUR' => 'r 46',
+    'DAY' => 'r 46',
+    'WEEK' => 'r 46',
+    'MONTH' => 'r 46',
+    'YEAR' => 'r 46',
+    'MINUTE_SECOND' => 'r 46',
+    'HOUR_SECOND' => 'r 46',
+    'HOUR_MINUTE' => 'r 46',
+    'DAY_SECOND' => 'r 46',
+    'DAY_MINUTE' => 'r 46',
+    'DAY_HOUR' => 'r 46',
+    'YEAR_MONTH' => 'r 46',
+  ),
+  89 => 
+  array (
+    '\'(\'' => 's 90',
+  ),
+  90 => 
+  array (
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'statementBetweenCommas' => 's 93',
+    'DATE_SUB' => 's 113',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  91 => 
+  array (
     '\',\'' => 'r 1',
     '\')\'' => 'r 1',
     'SECOND' => 'r 1',
@@ -595,3340 +1525,10 @@ var $i = array (
     'DAY_HOUR' => 'r 1',
     'YEAR_MONTH' => 'r 1',
   ),
-  22 => 
-  array (
-    'filterresult' => 's 23',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 108',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  23 => 
-  array (
-    '\')\'' => 's 24',
-  ),
-  24 => 
-  array (
-    'asopt' => 's 25',
-    'AS' => 's 27',
-    'name' => 'r 35',
-  ),
-  25 => 
-  array (
-    'name' => 's 26',
-  ),
-  26 => 
-  array (
-    '\',\'' => 'r 2',
-    '\')\'' => 'r 2',
-    'SECOND' => 'r 2',
-    'MINUTE' => 'r 2',
-    'HOUR' => 'r 2',
-    'DAY' => 'r 2',
-    'WEEK' => 'r 2',
-    'MONTH' => 'r 2',
-    'YEAR' => 'r 2',
-    'MINUTE_SECOND' => 'r 2',
-    'HOUR_SECOND' => 'r 2',
-    'HOUR_MINUTE' => 'r 2',
-    'DAY_SECOND' => 'r 2',
-    'DAY_MINUTE' => 'r 2',
-    'DAY_HOUR' => 'r 2',
-    'YEAR_MONTH' => 'r 2',
-  ),
-  27 => 
-  array (
-    'name' => 'r 34',
-  ),
-  28 => 
-  array (
-    'uniquefilter' => 's 29',
-    'DISTINCT' => 's 159',
-    'constant' => 'r 8',
-    'EXTRACT' => 'r 8',
-    'DATE_ADD' => 'r 8',
-    'DATE_SUB' => 'r 8',
-    '\'(\'' => 'r 8',
-    'name' => 'r 8',
-    '\'*\'' => 'r 8',
-  ),
-  29 => 
-  array (
-    'selecttablelist' => 's 30',
-    'listoftables' => 's 150',
-    'expression' => 's 151',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  30 => 
-  array (
-    'FROM' => 's 31',
-  ),
-  31 => 
-  array (
-    'fromtableexpression' => 's 32',
-    'expression' => 's 147',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  32 => 
-  array (
-    'wherefilter' => 's 33',
-    'WHERE' => 's 145',
-    'GROUP' => 'r 10',
-    'ORDER' => 'r 10',
-    'LIMIT' => 'r 10',
-    '\',\'' => 'r 10',
-    '\')\'' => 'r 10',
-    'SECOND' => 'r 10',
-    'MINUTE' => 'r 10',
-    'HOUR' => 'r 10',
-    'DAY' => 'r 10',
-    'WEEK' => 'r 10',
-    'MONTH' => 'r 10',
-    'YEAR' => 'r 10',
-    'MINUTE_SECOND' => 'r 10',
-    'HOUR_SECOND' => 'r 10',
-    'HOUR_MINUTE' => 'r 10',
-    'DAY_SECOND' => 'r 10',
-    'DAY_MINUTE' => 'r 10',
-    'DAY_HOUR' => 'r 10',
-    'YEAR_MONTH' => 'r 10',
-    '#' => 'r 10',
-  ),
-  33 => 
-  array (
-    'groupfilter' => 's 34',
-    'GROUP' => 's 50',
-    'ORDER' => 'r 12',
-    'LIMIT' => 'r 12',
-    '\',\'' => 'r 12',
-    '\')\'' => 'r 12',
-    'SECOND' => 'r 12',
-    'MINUTE' => 'r 12',
-    'HOUR' => 'r 12',
-    'DAY' => 'r 12',
-    'WEEK' => 'r 12',
-    'MONTH' => 'r 12',
-    'YEAR' => 'r 12',
-    'MINUTE_SECOND' => 'r 12',
-    'HOUR_SECOND' => 'r 12',
-    'HOUR_MINUTE' => 'r 12',
-    'DAY_SECOND' => 'r 12',
-    'DAY_MINUTE' => 'r 12',
-    'DAY_HOUR' => 'r 12',
-    'YEAR_MONTH' => 'r 12',
-    '#' => 'r 12',
-  ),
-  34 => 
-  array (
-    'orderbyfilter' => 's 35',
-    'ORDER' => 's 41',
-    'LIMIT' => 'r 19',
-    '\',\'' => 'r 19',
-    '\')\'' => 'r 19',
-    'SECOND' => 'r 19',
-    'MINUTE' => 'r 19',
-    'HOUR' => 'r 19',
-    'DAY' => 'r 19',
-    'WEEK' => 'r 19',
-    'MONTH' => 'r 19',
-    'YEAR' => 'r 19',
-    'MINUTE_SECOND' => 'r 19',
-    'HOUR_SECOND' => 'r 19',
-    'HOUR_MINUTE' => 'r 19',
-    'DAY_SECOND' => 'r 19',
-    'DAY_MINUTE' => 'r 19',
-    'DAY_HOUR' => 'r 19',
-    'YEAR_MONTH' => 'r 19',
-    '#' => 'r 19',
-  ),
-  35 => 
-  array (
-    'limitfilter' => 's 36',
-    'LIMIT' => 's 37',
-    '\',\'' => 'r 17',
-    '\')\'' => 'r 17',
-    'SECOND' => 'r 17',
-    'MINUTE' => 'r 17',
-    'HOUR' => 'r 17',
-    'DAY' => 'r 17',
-    'WEEK' => 'r 17',
-    'MONTH' => 'r 17',
-    'YEAR' => 'r 17',
-    'MINUTE_SECOND' => 'r 17',
-    'HOUR_SECOND' => 'r 17',
-    'HOUR_MINUTE' => 'r 17',
-    'DAY_SECOND' => 'r 17',
-    'DAY_MINUTE' => 'r 17',
-    'DAY_HOUR' => 'r 17',
-    'YEAR_MONTH' => 'r 17',
-    '#' => 'r 17',
-  ),
-  36 => 
-  array (
-    '\',\'' => 'r 6',
-    '\')\'' => 'r 6',
-    'SECOND' => 'r 6',
-    'MINUTE' => 'r 6',
-    'HOUR' => 'r 6',
-    'DAY' => 'r 6',
-    'WEEK' => 'r 6',
-    'MONTH' => 'r 6',
-    'YEAR' => 'r 6',
-    'MINUTE_SECOND' => 'r 6',
-    'HOUR_SECOND' => 'r 6',
-    'HOUR_MINUTE' => 'r 6',
-    'DAY_SECOND' => 'r 6',
-    'DAY_MINUTE' => 'r 6',
-    'DAY_HOUR' => 'r 6',
-    'YEAR_MONTH' => 'r 6',
-    '#' => 'r 6',
-  ),
-  37 => 
-  array (
-    'constant' => 's 38',
-  ),
-  38 => 
-  array (
-    'OFFSET' => 's 39',
-    '\',\'' => 'r 15',
-    '\')\'' => 'r 15',
-    'SECOND' => 'r 15',
-    'MINUTE' => 'r 15',
-    'HOUR' => 'r 15',
-    'DAY' => 'r 15',
-    'WEEK' => 'r 15',
-    'MONTH' => 'r 15',
-    'YEAR' => 'r 15',
-    'MINUTE_SECOND' => 'r 15',
-    'HOUR_SECOND' => 'r 15',
-    'HOUR_MINUTE' => 'r 15',
-    'DAY_SECOND' => 'r 15',
-    'DAY_MINUTE' => 'r 15',
-    'DAY_HOUR' => 'r 15',
-    'YEAR_MONTH' => 'r 15',
-    '#' => 'r 15',
-  ),
-  39 => 
-  array (
-    'constant' => 's 40',
-  ),
-  40 => 
-  array (
-    '\',\'' => 'r 16',
-    '\')\'' => 'r 16',
-    'SECOND' => 'r 16',
-    'MINUTE' => 'r 16',
-    'HOUR' => 'r 16',
-    'DAY' => 'r 16',
-    'WEEK' => 'r 16',
-    'MONTH' => 'r 16',
-    'YEAR' => 'r 16',
-    'MINUTE_SECOND' => 'r 16',
-    'HOUR_SECOND' => 'r 16',
-    'HOUR_MINUTE' => 'r 16',
-    'DAY_SECOND' => 'r 16',
-    'DAY_MINUTE' => 'r 16',
-    'DAY_HOUR' => 'r 16',
-    'YEAR_MONTH' => 'r 16',
-    '#' => 'r 16',
-  ),
-  41 => 
-  array (
-    'BY' => 's 42',
-  ),
-  42 => 
-  array (
-    'orderbyidentifierlist' => 's 43',
-    'orderbyfield' => 's 44',
-    'name' => 's 47',
-  ),
-  43 => 
-  array (
-    'LIMIT' => 'r 18',
-    '\',\'' => 'r 18',
-    '\')\'' => 'r 18',
-    'SECOND' => 'r 18',
-    'MINUTE' => 'r 18',
-    'HOUR' => 'r 18',
-    'DAY' => 'r 18',
-    'WEEK' => 'r 18',
-    'MONTH' => 'r 18',
-    'YEAR' => 'r 18',
-    'MINUTE_SECOND' => 'r 18',
-    'HOUR_SECOND' => 'r 18',
-    'HOUR_MINUTE' => 'r 18',
-    'DAY_SECOND' => 'r 18',
-    'DAY_MINUTE' => 'r 18',
-    'DAY_HOUR' => 'r 18',
-    'YEAR_MONTH' => 'r 18',
-    '#' => 'r 18',
-  ),
-  44 => 
-  array (
-    '\',\'' => 's 45',
-    'LIMIT' => 'r 20',
-    '\')\'' => 'r 20',
-    'SECOND' => 'r 20',
-    'MINUTE' => 'r 20',
-    'HOUR' => 'r 20',
-    'DAY' => 'r 20',
-    'WEEK' => 'r 20',
-    'MONTH' => 'r 20',
-    'YEAR' => 'r 20',
-    'MINUTE_SECOND' => 'r 20',
-    'HOUR_SECOND' => 'r 20',
-    'HOUR_MINUTE' => 'r 20',
-    'DAY_SECOND' => 'r 20',
-    'DAY_MINUTE' => 'r 20',
-    'DAY_HOUR' => 'r 20',
-    'YEAR_MONTH' => 'r 20',
-    '#' => 'r 20',
-  ),
-  45 => 
-  array (
-    'orderbyfield' => 's 44',
-    'orderbyidentifierlist' => 's 46',
-    'name' => 's 47',
-  ),
-  46 => 
-  array (
-    'LIMIT' => 'r 21',
-    '\',\'' => 'r 21',
-    '\')\'' => 'r 21',
-    'SECOND' => 'r 21',
-    'MINUTE' => 'r 21',
-    'HOUR' => 'r 21',
-    'DAY' => 'r 21',
-    'WEEK' => 'r 21',
-    'MONTH' => 'r 21',
-    'YEAR' => 'r 21',
-    'MINUTE_SECOND' => 'r 21',
-    'HOUR_SECOND' => 'r 21',
-    'HOUR_MINUTE' => 'r 21',
-    'DAY_SECOND' => 'r 21',
-    'DAY_MINUTE' => 'r 21',
-    'DAY_HOUR' => 'r 21',
-    'YEAR_MONTH' => 'r 21',
-    '#' => 'r 21',
-  ),
-  47 => 
-  array (
-    'ASC' => 's 48',
-    'DESC' => 's 49',
-    '\',\'' => 'r 24',
-    'LIMIT' => 'r 24',
-    '\')\'' => 'r 24',
-    'SECOND' => 'r 24',
-    'MINUTE' => 'r 24',
-    'HOUR' => 'r 24',
-    'DAY' => 'r 24',
-    'WEEK' => 'r 24',
-    'MONTH' => 'r 24',
-    'YEAR' => 'r 24',
-    'MINUTE_SECOND' => 'r 24',
-    'HOUR_SECOND' => 'r 24',
-    'HOUR_MINUTE' => 'r 24',
-    'DAY_SECOND' => 'r 24',
-    'DAY_MINUTE' => 'r 24',
-    'DAY_HOUR' => 'r 24',
-    'YEAR_MONTH' => 'r 24',
-    '#' => 'r 24',
-  ),
-  48 => 
-  array (
-    '\',\'' => 'r 22',
-    'LIMIT' => 'r 22',
-    '\')\'' => 'r 22',
-    'SECOND' => 'r 22',
-    'MINUTE' => 'r 22',
-    'HOUR' => 'r 22',
-    'DAY' => 'r 22',
-    'WEEK' => 'r 22',
-    'MONTH' => 'r 22',
-    'YEAR' => 'r 22',
-    'MINUTE_SECOND' => 'r 22',
-    'HOUR_SECOND' => 'r 22',
-    'HOUR_MINUTE' => 'r 22',
-    'DAY_SECOND' => 'r 22',
-    'DAY_MINUTE' => 'r 22',
-    'DAY_HOUR' => 'r 22',
-    'YEAR_MONTH' => 'r 22',
-    '#' => 'r 22',
-  ),
-  49 => 
-  array (
-    '\',\'' => 'r 23',
-    'LIMIT' => 'r 23',
-    '\')\'' => 'r 23',
-    'SECOND' => 'r 23',
-    'MINUTE' => 'r 23',
-    'HOUR' => 'r 23',
-    'DAY' => 'r 23',
-    'WEEK' => 'r 23',
-    'MONTH' => 'r 23',
-    'YEAR' => 'r 23',
-    'MINUTE_SECOND' => 'r 23',
-    'HOUR_SECOND' => 'r 23',
-    'HOUR_MINUTE' => 'r 23',
-    'DAY_SECOND' => 'r 23',
-    'DAY_MINUTE' => 'r 23',
-    'DAY_HOUR' => 'r 23',
-    'YEAR_MONTH' => 'r 23',
-    '#' => 'r 23',
-  ),
-  50 => 
-  array (
-    'BY' => 's 51',
-  ),
-  51 => 
-  array (
-    'identifierlist' => 's 52',
-    'identifier' => 's 142',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  52 => 
-  array (
-    'havingfilter' => 's 53',
-    'HAVING' => 's 54',
-    'ORDER' => 'r 14',
-    'LIMIT' => 'r 14',
-    '\',\'' => 'r 14',
-    '\')\'' => 'r 14',
-    'SECOND' => 'r 14',
-    'MINUTE' => 'r 14',
-    'HOUR' => 'r 14',
-    'DAY' => 'r 14',
-    'WEEK' => 'r 14',
-    'MONTH' => 'r 14',
-    'YEAR' => 'r 14',
-    'MINUTE_SECOND' => 'r 14',
-    'HOUR_SECOND' => 'r 14',
-    'HOUR_MINUTE' => 'r 14',
-    'DAY_SECOND' => 'r 14',
-    'DAY_MINUTE' => 'r 14',
-    'DAY_HOUR' => 'r 14',
-    'YEAR_MONTH' => 'r 14',
-    '#' => 'r 14',
-  ),
-  53 => 
-  array (
-    'ORDER' => 'r 11',
-    'LIMIT' => 'r 11',
-    '\',\'' => 'r 11',
-    '\')\'' => 'r 11',
-    'SECOND' => 'r 11',
-    'MINUTE' => 'r 11',
-    'HOUR' => 'r 11',
-    'DAY' => 'r 11',
-    'WEEK' => 'r 11',
-    'MONTH' => 'r 11',
-    'YEAR' => 'r 11',
-    'MINUTE_SECOND' => 'r 11',
-    'HOUR_SECOND' => 'r 11',
-    'HOUR_MINUTE' => 'r 11',
-    'DAY_SECOND' => 'r 11',
-    'DAY_MINUTE' => 'r 11',
-    'DAY_HOUR' => 'r 11',
-    'YEAR_MONTH' => 'r 11',
-    '#' => 'r 11',
-  ),
-  54 => 
-  array (
-    'expression' => 's 55',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  55 => 
-  array (
-    'ORDER' => 'r 13',
-    'LIMIT' => 'r 13',
-    '\',\'' => 'r 13',
-    '\')\'' => 'r 13',
-    'SECOND' => 'r 13',
-    'MINUTE' => 'r 13',
-    'HOUR' => 'r 13',
-    'DAY' => 'r 13',
-    'WEEK' => 'r 13',
-    'MONTH' => 'r 13',
-    'YEAR' => 'r 13',
-    'MINUTE_SECOND' => 'r 13',
-    'HOUR_SECOND' => 'r 13',
-    'HOUR_MINUTE' => 'r 13',
-    'DAY_SECOND' => 'r 13',
-    'DAY_MINUTE' => 'r 13',
-    'DAY_HOUR' => 'r 13',
-    'YEAR_MONTH' => 'r 13',
-    '#' => 'r 13',
-  ),
-  56 => 
-  array (
-    '\'|\'' => 's 57',
-    'FULL' => 'r 44',
-    'RIGHT' => 'r 44',
-    'LEFT' => 'r 44',
-    'INNER' => 'r 44',
-    'IN' => 'r 44',
-    'BETWEEN' => 'r 44',
-    'UNION' => 'r 44',
-    '\',\'' => 'r 44',
-    '\')\'' => 'r 44',
-    'AS' => 'r 44',
-    'name' => 'r 44',
-    'FROM' => 'r 44',
-    'WHERE' => 'r 44',
-    'GROUP' => 'r 44',
-    'ORDER' => 'r 44',
-    'LIMIT' => 'r 44',
-    'SECOND' => 'r 44',
-    'MINUTE' => 'r 44',
-    'HOUR' => 'r 44',
-    'DAY' => 'r 44',
-    'WEEK' => 'r 44',
-    'MONTH' => 'r 44',
-    'YEAR' => 'r 44',
-    'MINUTE_SECOND' => 'r 44',
-    'HOUR_SECOND' => 'r 44',
-    'HOUR_MINUTE' => 'r 44',
-    'DAY_SECOND' => 'r 44',
-    'DAY_MINUTE' => 'r 44',
-    'DAY_HOUR' => 'r 44',
-    'YEAR_MONTH' => 'r 44',
-    'ON' => 'r 44',
-    '#' => 'r 44',
-  ),
-  57 => 
-  array (
-    'expressionAB' => 's 56',
-    'expressionA' => 's 58',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  58 => 
-  array (
-    'FULL' => 'r 43',
-    'RIGHT' => 'r 43',
-    'LEFT' => 'r 43',
-    'INNER' => 'r 43',
-    'IN' => 'r 43',
-    'BETWEEN' => 'r 43',
-    'UNION' => 'r 43',
-    '\',\'' => 'r 43',
-    '\')\'' => 'r 43',
-    'AS' => 'r 43',
-    'name' => 'r 43',
-    'FROM' => 'r 43',
-    'WHERE' => 'r 43',
-    'GROUP' => 'r 43',
-    'ORDER' => 'r 43',
-    'LIMIT' => 'r 43',
-    'SECOND' => 'r 43',
-    'MINUTE' => 'r 43',
-    'HOUR' => 'r 43',
-    'DAY' => 'r 43',
-    'WEEK' => 'r 43',
-    'MONTH' => 'r 43',
-    'YEAR' => 'r 43',
-    'MINUTE_SECOND' => 'r 43',
-    'HOUR_SECOND' => 'r 43',
-    'HOUR_MINUTE' => 'r 43',
-    'DAY_SECOND' => 'r 43',
-    'DAY_MINUTE' => 'r 43',
-    'DAY_HOUR' => 'r 43',
-    'YEAR_MONTH' => 'r 43',
-    'ON' => 'r 43',
-    '#' => 'r 43',
-  ),
-  59 => 
-  array (
-    'OR' => 's 60',
-    '\'|\'' => 'r 46',
-    'FULL' => 'r 46',
-    'RIGHT' => 'r 46',
-    'LEFT' => 'r 46',
-    'INNER' => 'r 46',
-    'IN' => 'r 46',
-    'BETWEEN' => 'r 46',
-    'UNION' => 'r 46',
-    '\',\'' => 'r 46',
-    '\')\'' => 'r 46',
-    'AS' => 'r 46',
-    'name' => 'r 46',
-    'FROM' => 'r 46',
-    'WHERE' => 'r 46',
-    'GROUP' => 'r 46',
-    'ORDER' => 'r 46',
-    'LIMIT' => 'r 46',
-    'SECOND' => 'r 46',
-    'MINUTE' => 'r 46',
-    'HOUR' => 'r 46',
-    'DAY' => 'r 46',
-    'WEEK' => 'r 46',
-    'MONTH' => 'r 46',
-    'YEAR' => 'r 46',
-    'MINUTE_SECOND' => 'r 46',
-    'HOUR_SECOND' => 'r 46',
-    'HOUR_MINUTE' => 'r 46',
-    'DAY_SECOND' => 'r 46',
-    'DAY_MINUTE' => 'r 46',
-    'DAY_HOUR' => 'r 46',
-    'YEAR_MONTH' => 'r 46',
-    'ON' => 'r 46',
-    '#' => 'r 46',
-  ),
-  60 => 
-  array (
-    'expressionB' => 's 59',
-    'expressionAB' => 's 61',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  61 => 
-  array (
-    '\'|\'' => 'r 45',
-    'FULL' => 'r 45',
-    'RIGHT' => 'r 45',
-    'LEFT' => 'r 45',
-    'INNER' => 'r 45',
-    'IN' => 'r 45',
-    'BETWEEN' => 'r 45',
-    'UNION' => 'r 45',
-    '\',\'' => 'r 45',
-    '\')\'' => 'r 45',
-    'AS' => 'r 45',
-    'name' => 'r 45',
-    'FROM' => 'r 45',
-    'WHERE' => 'r 45',
-    'GROUP' => 'r 45',
-    'ORDER' => 'r 45',
-    'LIMIT' => 'r 45',
-    'SECOND' => 'r 45',
-    'MINUTE' => 'r 45',
-    'HOUR' => 'r 45',
-    'DAY' => 'r 45',
-    'WEEK' => 'r 45',
-    'MONTH' => 'r 45',
-    'YEAR' => 'r 45',
-    'MINUTE_SECOND' => 'r 45',
-    'HOUR_SECOND' => 'r 45',
-    'HOUR_MINUTE' => 'r 45',
-    'DAY_SECOND' => 'r 45',
-    'DAY_MINUTE' => 'r 45',
-    'DAY_HOUR' => 'r 45',
-    'YEAR_MONTH' => 'r 45',
-    'ON' => 'r 45',
-    '#' => 'r 45',
-  ),
-  62 => 
-  array (
-    'AND' => 's 63',
-    'OR' => 'r 48',
-    '\'|\'' => 'r 48',
-    'FULL' => 'r 48',
-    'RIGHT' => 'r 48',
-    'LEFT' => 'r 48',
-    'INNER' => 'r 48',
-    'IN' => 'r 48',
-    'BETWEEN' => 'r 48',
-    'UNION' => 'r 48',
-    '\',\'' => 'r 48',
-    '\')\'' => 'r 48',
-    'AS' => 'r 48',
-    'name' => 'r 48',
-    'FROM' => 'r 48',
-    'WHERE' => 'r 48',
-    'GROUP' => 'r 48',
-    'ORDER' => 'r 48',
-    'LIMIT' => 'r 48',
-    'SECOND' => 'r 48',
-    'MINUTE' => 'r 48',
-    'HOUR' => 'r 48',
-    'DAY' => 'r 48',
-    'WEEK' => 'r 48',
-    'MONTH' => 'r 48',
-    'YEAR' => 'r 48',
-    'MINUTE_SECOND' => 'r 48',
-    'HOUR_SECOND' => 'r 48',
-    'HOUR_MINUTE' => 'r 48',
-    'DAY_SECOND' => 'r 48',
-    'DAY_MINUTE' => 'r 48',
-    'DAY_HOUR' => 'r 48',
-    'YEAR_MONTH' => 'r 48',
-    'ON' => 'r 48',
-    '#' => 'r 48',
-  ),
-  63 => 
-  array (
-    'expressionC' => 's 62',
-    'expressionB' => 's 64',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  64 => 
-  array (
-    'OR' => 'r 47',
-    '\'|\'' => 'r 47',
-    'FULL' => 'r 47',
-    'RIGHT' => 'r 47',
-    'LEFT' => 'r 47',
-    'INNER' => 'r 47',
-    'IN' => 'r 47',
-    'BETWEEN' => 'r 47',
-    'UNION' => 'r 47',
-    '\',\'' => 'r 47',
-    '\')\'' => 'r 47',
-    'AS' => 'r 47',
-    'name' => 'r 47',
-    'FROM' => 'r 47',
-    'WHERE' => 'r 47',
-    'GROUP' => 'r 47',
-    'ORDER' => 'r 47',
-    'LIMIT' => 'r 47',
-    'SECOND' => 'r 47',
-    'MINUTE' => 'r 47',
-    'HOUR' => 'r 47',
-    'DAY' => 'r 47',
-    'WEEK' => 'r 47',
-    'MONTH' => 'r 47',
-    'YEAR' => 'r 47',
-    'MINUTE_SECOND' => 'r 47',
-    'HOUR_SECOND' => 'r 47',
-    'HOUR_MINUTE' => 'r 47',
-    'DAY_SECOND' => 'r 47',
-    'DAY_MINUTE' => 'r 47',
-    'DAY_HOUR' => 'r 47',
-    'YEAR_MONTH' => 'r 47',
-    'ON' => 'r 47',
-    '#' => 'r 47',
-  ),
-  65 => 
-  array (
-    '\'=\'' => 's 66',
-    '\'<\'' => 's 110',
-    '\'>\'' => 's 124',
-    '\'!\'' => 's 136',
-    'LIKE' => 's 139',
-    'AND' => 'r 65',
-    'OR' => 'r 65',
-    '\'|\'' => 'r 65',
-    'FULL' => 'r 65',
-    'RIGHT' => 'r 65',
-    'LEFT' => 'r 65',
-    'INNER' => 'r 65',
-    'IN' => 'r 65',
-    'BETWEEN' => 'r 65',
-    'UNION' => 'r 65',
-    '\',\'' => 'r 65',
-    '\')\'' => 'r 65',
-    'AS' => 'r 65',
-    'name' => 'r 65',
-    'FROM' => 'r 65',
-    'WHERE' => 'r 65',
-    'GROUP' => 'r 65',
-    'ORDER' => 'r 65',
-    'LIMIT' => 'r 65',
-    'SECOND' => 'r 65',
-    'MINUTE' => 'r 65',
-    'HOUR' => 'r 65',
-    'DAY' => 'r 65',
-    'WEEK' => 'r 65',
-    'MONTH' => 'r 65',
-    'YEAR' => 'r 65',
-    'MINUTE_SECOND' => 'r 65',
-    'HOUR_SECOND' => 'r 65',
-    'HOUR_MINUTE' => 'r 65',
-    'DAY_SECOND' => 'r 65',
-    'DAY_MINUTE' => 'r 65',
-    'DAY_HOUR' => 'r 65',
-    'YEAR_MONTH' => 'r 65',
-    'ON' => 'r 65',
-    '#' => 'r 65',
-  ),
-  66 => 
-  array (
-    'expressionD' => 's 67',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  67 => 
-  array (
-    'AND' => 'r 49',
-    'OR' => 'r 49',
-    '\'|\'' => 'r 49',
-    'FULL' => 'r 49',
-    'RIGHT' => 'r 49',
-    'LEFT' => 'r 49',
-    'INNER' => 'r 49',
-    'IN' => 'r 49',
-    'BETWEEN' => 'r 49',
-    'UNION' => 'r 49',
-    '\',\'' => 'r 49',
-    '\')\'' => 'r 49',
-    'AS' => 'r 49',
-    'name' => 'r 49',
-    'FROM' => 'r 49',
-    'WHERE' => 'r 49',
-    'GROUP' => 'r 49',
-    'ORDER' => 'r 49',
-    'LIMIT' => 'r 49',
-    'SECOND' => 'r 49',
-    'MINUTE' => 'r 49',
-    'HOUR' => 'r 49',
-    'DAY' => 'r 49',
-    'WEEK' => 'r 49',
-    'MONTH' => 'r 49',
-    'YEAR' => 'r 49',
-    'MINUTE_SECOND' => 'r 49',
-    'HOUR_SECOND' => 'r 49',
-    'HOUR_MINUTE' => 'r 49',
-    'DAY_SECOND' => 'r 49',
-    'DAY_MINUTE' => 'r 49',
-    'DAY_HOUR' => 'r 49',
-    'YEAR_MONTH' => 'r 49',
-    'ON' => 'r 49',
-    '#' => 'r 49',
-  ),
-  68 => 
-  array (
-    '\'/\'' => 'r 74',
-    '\'*\'' => 'r 74',
-    '\'-\'' => 'r 74',
-    '\'+\'' => 'r 74',
-    'LIKE' => 'r 74',
-    '\'!\'' => 'r 74',
-    '\'>\'' => 'r 74',
-    '\'<\'' => 'r 74',
-    '\'=\'' => 'r 74',
-    'AND' => 'r 74',
-    'OR' => 'r 74',
-    '\'|\'' => 'r 74',
-    'FULL' => 'r 74',
-    'RIGHT' => 'r 74',
-    'LEFT' => 'r 74',
-    'INNER' => 'r 74',
-    'IN' => 'r 74',
-    'BETWEEN' => 'r 74',
-    'UNION' => 'r 74',
-    '\',\'' => 'r 74',
-    '\')\'' => 'r 74',
-    'AS' => 'r 74',
-    'name' => 'r 74',
-    'FROM' => 'r 74',
-    'WHERE' => 'r 74',
-    'GROUP' => 'r 74',
-    'ORDER' => 'r 74',
-    'LIMIT' => 'r 74',
-    'SECOND' => 'r 74',
-    'MINUTE' => 'r 74',
-    'HOUR' => 'r 74',
-    'DAY' => 'r 74',
-    'WEEK' => 'r 74',
-    'MONTH' => 'r 74',
-    'YEAR' => 'r 74',
-    'MINUTE_SECOND' => 'r 74',
-    'HOUR_SECOND' => 'r 74',
-    'HOUR_MINUTE' => 'r 74',
-    'DAY_SECOND' => 'r 74',
-    'DAY_MINUTE' => 'r 74',
-    'DAY_HOUR' => 'r 74',
-    'YEAR_MONTH' => 'r 74',
-    'ON' => 'r 74',
-    '#' => 'r 74',
-  ),
-  69 => 
-  array (
-    '\'(\'' => 's 70',
-  ),
-  70 => 
-  array (
-    'extractconstant' => 's 71',
-    'SECOND' => 's 83',
-    'MINUTE' => 's 84',
-    'HOUR' => 's 85',
-    'DAY' => 's 86',
-    'WEEK' => 's 87',
-    'MONTH' => 's 88',
-    'YEAR' => 's 89',
-    'MINUTE_SECOND' => 's 90',
-    'HOUR_SECOND' => 's 91',
-    'HOUR_MINUTE' => 's 92',
-    'DAY_SECOND' => 's 93',
-    'DAY_MINUTE' => 's 94',
-    'DAY_HOUR' => 's 95',
-    'YEAR_MONTH' => 's 96',
-  ),
-  71 => 
-  array (
-    'FROM' => 's 72',
-  ),
-  72 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'statement' => 's 73',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  73 => 
-  array (
-    '\')\'' => 's 74',
-  ),
-  74 => 
-  array (
-    '\'/\'' => 'r 76',
-    '\'*\'' => 'r 76',
-    '\'-\'' => 'r 76',
-    '\'+\'' => 'r 76',
-    'LIKE' => 'r 76',
-    '\'!\'' => 'r 76',
-    '\'>\'' => 'r 76',
-    '\'<\'' => 'r 76',
-    '\'=\'' => 'r 76',
-    'AND' => 'r 76',
-    'OR' => 'r 76',
-    '\'|\'' => 'r 76',
-    'FULL' => 'r 76',
-    'RIGHT' => 'r 76',
-    'LEFT' => 'r 76',
-    'INNER' => 'r 76',
-    'IN' => 'r 76',
-    'BETWEEN' => 'r 76',
-    'UNION' => 'r 76',
-    '\',\'' => 'r 76',
-    '\')\'' => 'r 76',
-    'AS' => 'r 76',
-    'name' => 'r 76',
-    'FROM' => 'r 76',
-    'WHERE' => 'r 76',
-    'GROUP' => 'r 76',
-    'ORDER' => 'r 76',
-    'LIMIT' => 'r 76',
-    'SECOND' => 'r 76',
-    'MINUTE' => 'r 76',
-    'HOUR' => 'r 76',
-    'DAY' => 'r 76',
-    'WEEK' => 'r 76',
-    'MONTH' => 'r 76',
-    'YEAR' => 'r 76',
-    'MINUTE_SECOND' => 'r 76',
-    'HOUR_SECOND' => 'r 76',
-    'HOUR_MINUTE' => 'r 76',
-    'DAY_SECOND' => 'r 76',
-    'DAY_MINUTE' => 'r 76',
-    'DAY_HOUR' => 'r 76',
-    'YEAR_MONTH' => 'r 76',
-    'ON' => 'r 76',
-    '#' => 'r 76',
-  ),
-  75 => 
-  array (
-    '\'(\'' => 's 76',
-  ),
-  76 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'statement' => 's 77',
-    'DATE_SUB' => 's 97',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  77 => 
-  array (
-    '\',\'' => 's 78',
-  ),
-  78 => 
-  array (
-    'INTERVAL' => 's 79',
-  ),
-  79 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'statement' => 's 80',
-    'DATE_SUB' => 's 97',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  80 => 
-  array (
-    'extractconstant' => 's 81',
-    'SECOND' => 's 83',
-    'MINUTE' => 's 84',
-    'HOUR' => 's 85',
-    'DAY' => 's 86',
-    'WEEK' => 's 87',
-    'MONTH' => 's 88',
-    'YEAR' => 's 89',
-    'MINUTE_SECOND' => 's 90',
-    'HOUR_SECOND' => 's 91',
-    'HOUR_MINUTE' => 's 92',
-    'DAY_SECOND' => 's 93',
-    'DAY_MINUTE' => 's 94',
-    'DAY_HOUR' => 's 95',
-    'YEAR_MONTH' => 's 96',
-  ),
-  81 => 
-  array (
-    '\')\'' => 's 82',
-  ),
-  82 => 
-  array (
-    '\'/\'' => 'r 77',
-    '\'*\'' => 'r 77',
-    '\'-\'' => 'r 77',
-    '\'+\'' => 'r 77',
-    'LIKE' => 'r 77',
-    '\'!\'' => 'r 77',
-    '\'>\'' => 'r 77',
-    '\'<\'' => 'r 77',
-    '\'=\'' => 'r 77',
-    'AND' => 'r 77',
-    'OR' => 'r 77',
-    '\'|\'' => 'r 77',
-    'FULL' => 'r 77',
-    'RIGHT' => 'r 77',
-    'LEFT' => 'r 77',
-    'INNER' => 'r 77',
-    'IN' => 'r 77',
-    'BETWEEN' => 'r 77',
-    'UNION' => 'r 77',
-    '\',\'' => 'r 77',
-    '\')\'' => 'r 77',
-    'AS' => 'r 77',
-    'name' => 'r 77',
-    'FROM' => 'r 77',
-    'WHERE' => 'r 77',
-    'GROUP' => 'r 77',
-    'ORDER' => 'r 77',
-    'LIMIT' => 'r 77',
-    'SECOND' => 'r 77',
-    'MINUTE' => 'r 77',
-    'HOUR' => 'r 77',
-    'DAY' => 'r 77',
-    'WEEK' => 'r 77',
-    'MONTH' => 'r 77',
-    'YEAR' => 'r 77',
-    'MINUTE_SECOND' => 'r 77',
-    'HOUR_SECOND' => 'r 77',
-    'HOUR_MINUTE' => 'r 77',
-    'DAY_SECOND' => 'r 77',
-    'DAY_MINUTE' => 'r 77',
-    'DAY_HOUR' => 'r 77',
-    'YEAR_MONTH' => 'r 77',
-    'ON' => 'r 77',
-    '#' => 'r 77',
-  ),
-  83 => 
-  array (
-    'FROM' => 'r 90',
-    '\')\'' => 'r 90',
-  ),
-  84 => 
-  array (
-    'FROM' => 'r 91',
-    '\')\'' => 'r 91',
-  ),
-  85 => 
-  array (
-    'FROM' => 'r 92',
-    '\')\'' => 'r 92',
-  ),
-  86 => 
-  array (
-    'FROM' => 'r 93',
-    '\')\'' => 'r 93',
-  ),
-  87 => 
-  array (
-    'FROM' => 'r 94',
-    '\')\'' => 'r 94',
-  ),
-  88 => 
-  array (
-    'FROM' => 'r 95',
-    '\')\'' => 'r 95',
-  ),
-  89 => 
-  array (
-    'FROM' => 'r 96',
-    '\')\'' => 'r 96',
-  ),
-  90 => 
-  array (
-    'FROM' => 'r 97',
-    '\')\'' => 'r 97',
-  ),
-  91 => 
-  array (
-    'FROM' => 'r 98',
-    '\')\'' => 'r 98',
-  ),
   92 => 
   array (
-    'FROM' => 'r 99',
-    '\')\'' => 'r 99',
-  ),
-  93 => 
-  array (
-    'FROM' => 'r 100',
-    '\')\'' => 'r 100',
-  ),
-  94 => 
-  array (
-    'FROM' => 'r 101',
-    '\')\'' => 'r 101',
-  ),
-  95 => 
-  array (
-    'FROM' => 'r 102',
-    '\')\'' => 'r 102',
-  ),
-  96 => 
-  array (
-    'FROM' => 'r 103',
-    '\')\'' => 'r 103',
-  ),
-  97 => 
-  array (
-    '\'(\'' => 's 98',
-  ),
-  98 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 99',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  99 => 
-  array (
-    '\',\'' => 's 100',
-  ),
-  100 => 
-  array (
-    'INTERVAL' => 's 101',
-  ),
-  101 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 102',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  102 => 
-  array (
-    'extractconstant' => 's 103',
-    'SECOND' => 's 83',
-    'MINUTE' => 's 84',
-    'HOUR' => 's 85',
-    'DAY' => 's 86',
-    'WEEK' => 's 87',
-    'MONTH' => 's 88',
-    'YEAR' => 's 89',
-    'MINUTE_SECOND' => 's 90',
-    'HOUR_SECOND' => 's 91',
-    'HOUR_MINUTE' => 's 92',
-    'DAY_SECOND' => 's 93',
-    'DAY_MINUTE' => 's 94',
-    'DAY_HOUR' => 's 95',
-    'YEAR_MONTH' => 's 96',
-  ),
-  103 => 
-  array (
-    '\')\'' => 's 104',
-  ),
-  104 => 
-  array (
-    '\'/\'' => 'r 78',
-    '\'*\'' => 'r 78',
-    '\'-\'' => 'r 78',
-    '\'+\'' => 'r 78',
-    'LIKE' => 'r 78',
-    '\'!\'' => 'r 78',
-    '\'>\'' => 'r 78',
-    '\'<\'' => 'r 78',
-    '\'=\'' => 'r 78',
-    'AND' => 'r 78',
-    'OR' => 'r 78',
-    '\'|\'' => 'r 78',
-    'FULL' => 'r 78',
-    'RIGHT' => 'r 78',
-    'LEFT' => 'r 78',
-    'INNER' => 'r 78',
-    'IN' => 'r 78',
-    'BETWEEN' => 'r 78',
-    'UNION' => 'r 78',
-    '\',\'' => 'r 78',
-    '\')\'' => 'r 78',
-    'AS' => 'r 78',
-    'name' => 'r 78',
-    'FROM' => 'r 78',
-    'WHERE' => 'r 78',
-    'GROUP' => 'r 78',
-    'ORDER' => 'r 78',
-    'LIMIT' => 'r 78',
-    'SECOND' => 'r 78',
-    'MINUTE' => 'r 78',
-    'HOUR' => 'r 78',
-    'DAY' => 'r 78',
-    'WEEK' => 'r 78',
-    'MONTH' => 'r 78',
-    'YEAR' => 'r 78',
-    'MINUTE_SECOND' => 'r 78',
-    'HOUR_SECOND' => 'r 78',
-    'HOUR_MINUTE' => 'r 78',
-    'DAY_SECOND' => 'r 78',
-    'DAY_MINUTE' => 'r 78',
-    'DAY_HOUR' => 'r 78',
-    'YEAR_MONTH' => 'r 78',
-    'ON' => 'r 78',
-    '#' => 'r 78',
-  ),
-  105 => 
-  array (
-    '\'(\'' => 'r 88',
-    '\'/\'' => 'r 88',
-    '\'*\'' => 'r 88',
-    '\'-\'' => 'r 88',
-    '\'+\'' => 'r 88',
-    'LIKE' => 'r 88',
-    '\'!\'' => 'r 88',
-    '\'>\'' => 'r 88',
-    '\'<\'' => 'r 88',
-    '\'=\'' => 'r 88',
-    'AND' => 'r 88',
-    'OR' => 'r 88',
-    '\'|\'' => 'r 88',
-    'FULL' => 'r 88',
-    'RIGHT' => 'r 88',
-    'LEFT' => 'r 88',
-    'INNER' => 'r 88',
-    'IN' => 'r 88',
-    'BETWEEN' => 'r 88',
-    'UNION' => 'r 88',
-    '\',\'' => 'r 88',
-    '\')\'' => 'r 88',
-    'AS' => 'r 88',
-    'name' => 'r 88',
-    'FROM' => 'r 88',
-    'WHERE' => 'r 88',
-    'GROUP' => 'r 88',
-    'ORDER' => 'r 88',
-    'LIMIT' => 'r 88',
-    'HAVING' => 'r 88',
-    'SECOND' => 'r 88',
-    'MINUTE' => 'r 88',
-    'HOUR' => 'r 88',
-    'DAY' => 'r 88',
-    'WEEK' => 'r 88',
-    'MONTH' => 'r 88',
-    'YEAR' => 'r 88',
-    'MINUTE_SECOND' => 'r 88',
-    'HOUR_SECOND' => 'r 88',
-    'HOUR_MINUTE' => 'r 88',
-    'DAY_SECOND' => 'r 88',
-    'DAY_MINUTE' => 'r 88',
-    'DAY_HOUR' => 'r 88',
-    'YEAR_MONTH' => 'r 88',
-    'ON' => 'r 88',
-    '#' => 'r 88',
-  ),
-  106 => 
-  array (
-    '\'(\'' => 'r 89',
-    '\'/\'' => 'r 89',
-    '\'*\'' => 'r 89',
-    '\'-\'' => 'r 89',
-    '\'+\'' => 'r 89',
-    'LIKE' => 'r 89',
-    '\'!\'' => 'r 89',
-    '\'>\'' => 'r 89',
-    '\'<\'' => 'r 89',
-    '\'=\'' => 'r 89',
-    'AND' => 'r 89',
-    'OR' => 'r 89',
-    '\'|\'' => 'r 89',
-    'FULL' => 'r 89',
-    'RIGHT' => 'r 89',
-    'LEFT' => 'r 89',
-    'INNER' => 'r 89',
-    'IN' => 'r 89',
-    'BETWEEN' => 'r 89',
-    'UNION' => 'r 89',
-    '\',\'' => 'r 89',
-    '\')\'' => 'r 89',
-    'AS' => 'r 89',
-    'name' => 'r 89',
-    'FROM' => 'r 89',
-    'WHERE' => 'r 89',
-    'GROUP' => 'r 89',
-    'ORDER' => 'r 89',
-    'LIMIT' => 'r 89',
-    'HAVING' => 'r 89',
-    'SECOND' => 'r 89',
-    'MINUTE' => 'r 89',
-    'HOUR' => 'r 89',
-    'DAY' => 'r 89',
-    'WEEK' => 'r 89',
-    'MONTH' => 'r 89',
-    'YEAR' => 'r 89',
-    'MINUTE_SECOND' => 'r 89',
-    'HOUR_SECOND' => 'r 89',
-    'HOUR_MINUTE' => 'r 89',
-    'DAY_SECOND' => 'r 89',
-    'DAY_MINUTE' => 'r 89',
-    'DAY_HOUR' => 'r 89',
-    'YEAR_MONTH' => 'r 89',
-    'ON' => 'r 89',
-    '#' => 'r 89',
-  ),
-  107 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 108',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  108 => 
-  array (
-    '\')\'' => 's 109',
-  ),
-  109 => 
-  array (
-    '\'/\'' => 'r 83',
-    '\'*\'' => 'r 83',
-    '\'-\'' => 'r 83',
-    '\'+\'' => 'r 83',
-    'LIKE' => 'r 83',
-    '\'!\'' => 'r 83',
-    '\'>\'' => 'r 83',
-    '\'<\'' => 'r 83',
-    '\'=\'' => 'r 83',
-    'AND' => 'r 83',
-    'OR' => 'r 83',
-    '\'|\'' => 'r 83',
-    'FULL' => 'r 83',
-    'RIGHT' => 'r 83',
-    'LEFT' => 'r 83',
-    'INNER' => 'r 83',
-    'IN' => 'r 83',
-    'BETWEEN' => 'r 83',
-    'UNION' => 'r 83',
-    '\',\'' => 'r 83',
-    '\')\'' => 'r 83',
-    'AS' => 'r 83',
-    'name' => 'r 83',
-    'FROM' => 'r 83',
-    'WHERE' => 'r 83',
-    'GROUP' => 'r 83',
-    'ORDER' => 'r 83',
-    'LIMIT' => 'r 83',
-    'ON' => 'r 83',
-    'SECOND' => 'r 83',
-    'MINUTE' => 'r 83',
-    'HOUR' => 'r 83',
-    'DAY' => 'r 83',
-    'WEEK' => 'r 83',
-    'MONTH' => 'r 83',
-    'YEAR' => 'r 83',
-    'MINUTE_SECOND' => 'r 83',
-    'HOUR_SECOND' => 'r 83',
-    'HOUR_MINUTE' => 'r 83',
-    'DAY_SECOND' => 'r 83',
-    'DAY_MINUTE' => 'r 83',
-    'DAY_HOUR' => 'r 83',
-    'YEAR_MONTH' => 'r 83',
-    '#' => 'r 83',
-  ),
-  110 => 
-  array (
-    'expressionD' => 's 111',
-    '\'=\'' => 's 112',
-    '\'>\'' => 's 118',
-    'ALL' => 's 120',
-    'ANY' => 's 122',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  111 => 
-  array (
-    'AND' => 'r 50',
-    'OR' => 'r 50',
-    '\'|\'' => 'r 50',
-    'FULL' => 'r 50',
-    'RIGHT' => 'r 50',
-    'LEFT' => 'r 50',
-    'INNER' => 'r 50',
-    'IN' => 'r 50',
-    'BETWEEN' => 'r 50',
-    'UNION' => 'r 50',
-    '\',\'' => 'r 50',
-    '\')\'' => 'r 50',
-    'AS' => 'r 50',
-    'name' => 'r 50',
-    'FROM' => 'r 50',
-    'WHERE' => 'r 50',
-    'GROUP' => 'r 50',
-    'ORDER' => 'r 50',
-    'LIMIT' => 'r 50',
-    'SECOND' => 'r 50',
-    'MINUTE' => 'r 50',
-    'HOUR' => 'r 50',
-    'DAY' => 'r 50',
-    'WEEK' => 'r 50',
-    'MONTH' => 'r 50',
-    'YEAR' => 'r 50',
-    'MINUTE_SECOND' => 'r 50',
-    'HOUR_SECOND' => 'r 50',
-    'HOUR_MINUTE' => 'r 50',
-    'DAY_SECOND' => 'r 50',
-    'DAY_MINUTE' => 'r 50',
-    'DAY_HOUR' => 'r 50',
-    'YEAR_MONTH' => 'r 50',
-    'ON' => 'r 50',
-    '#' => 'r 50',
-  ),
-  112 => 
-  array (
-    'expressionD' => 's 113',
-    'ALL' => 's 114',
-    'ANY' => 's 116',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  113 => 
-  array (
-    'AND' => 'r 52',
-    'OR' => 'r 52',
-    '\'|\'' => 'r 52',
-    'FULL' => 'r 52',
-    'RIGHT' => 'r 52',
-    'LEFT' => 'r 52',
-    'INNER' => 'r 52',
-    'IN' => 'r 52',
-    'BETWEEN' => 'r 52',
-    'UNION' => 'r 52',
-    '\',\'' => 'r 52',
-    '\')\'' => 'r 52',
-    'AS' => 'r 52',
-    'name' => 'r 52',
-    'FROM' => 'r 52',
-    'WHERE' => 'r 52',
-    'GROUP' => 'r 52',
-    'ORDER' => 'r 52',
-    'LIMIT' => 'r 52',
-    'SECOND' => 'r 52',
-    'MINUTE' => 'r 52',
-    'HOUR' => 'r 52',
-    'DAY' => 'r 52',
-    'WEEK' => 'r 52',
-    'MONTH' => 'r 52',
-    'YEAR' => 'r 52',
-    'MINUTE_SECOND' => 'r 52',
-    'HOUR_SECOND' => 'r 52',
-    'HOUR_MINUTE' => 'r 52',
-    'DAY_SECOND' => 'r 52',
-    'DAY_MINUTE' => 'r 52',
-    'DAY_HOUR' => 'r 52',
-    'YEAR_MONTH' => 'r 52',
-    'ON' => 'r 52',
-    '#' => 'r 52',
-  ),
-  114 => 
-  array (
-    'expressionD' => 's 115',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  115 => 
-  array (
-    'AND' => 'r 56',
-    'OR' => 'r 56',
-    '\'|\'' => 'r 56',
-    'FULL' => 'r 56',
-    'RIGHT' => 'r 56',
-    'LEFT' => 'r 56',
-    'INNER' => 'r 56',
-    'IN' => 'r 56',
-    'BETWEEN' => 'r 56',
-    'UNION' => 'r 56',
-    '\',\'' => 'r 56',
-    '\')\'' => 'r 56',
-    'AS' => 'r 56',
-    'name' => 'r 56',
-    'FROM' => 'r 56',
-    'WHERE' => 'r 56',
-    'GROUP' => 'r 56',
-    'ORDER' => 'r 56',
-    'LIMIT' => 'r 56',
-    'SECOND' => 'r 56',
-    'MINUTE' => 'r 56',
-    'HOUR' => 'r 56',
-    'DAY' => 'r 56',
-    'WEEK' => 'r 56',
-    'MONTH' => 'r 56',
-    'YEAR' => 'r 56',
-    'MINUTE_SECOND' => 'r 56',
-    'HOUR_SECOND' => 'r 56',
-    'HOUR_MINUTE' => 'r 56',
-    'DAY_SECOND' => 'r 56',
-    'DAY_MINUTE' => 'r 56',
-    'DAY_HOUR' => 'r 56',
-    'YEAR_MONTH' => 'r 56',
-    'ON' => 'r 56',
-    '#' => 'r 56',
-  ),
-  116 => 
-  array (
-    'expressionD' => 's 117',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  117 => 
-  array (
-    'AND' => 'r 58',
-    'OR' => 'r 58',
-    '\'|\'' => 'r 58',
-    'FULL' => 'r 58',
-    'RIGHT' => 'r 58',
-    'LEFT' => 'r 58',
-    'INNER' => 'r 58',
-    'IN' => 'r 58',
-    'BETWEEN' => 'r 58',
-    'UNION' => 'r 58',
-    '\',\'' => 'r 58',
-    '\')\'' => 'r 58',
-    'AS' => 'r 58',
-    'name' => 'r 58',
-    'FROM' => 'r 58',
-    'WHERE' => 'r 58',
-    'GROUP' => 'r 58',
-    'ORDER' => 'r 58',
-    'LIMIT' => 'r 58',
-    'SECOND' => 'r 58',
-    'MINUTE' => 'r 58',
-    'HOUR' => 'r 58',
-    'DAY' => 'r 58',
-    'WEEK' => 'r 58',
-    'MONTH' => 'r 58',
-    'YEAR' => 'r 58',
-    'MINUTE_SECOND' => 'r 58',
-    'HOUR_SECOND' => 'r 58',
-    'HOUR_MINUTE' => 'r 58',
-    'DAY_SECOND' => 'r 58',
-    'DAY_MINUTE' => 'r 58',
-    'DAY_HOUR' => 'r 58',
-    'YEAR_MONTH' => 'r 58',
-    'ON' => 'r 58',
-    '#' => 'r 58',
-  ),
-  118 => 
-  array (
-    'expressionD' => 's 119',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  119 => 
-  array (
-    'AND' => 'r 54',
-    'OR' => 'r 54',
-    '\'|\'' => 'r 54',
-    'FULL' => 'r 54',
-    'RIGHT' => 'r 54',
-    'LEFT' => 'r 54',
-    'INNER' => 'r 54',
-    'IN' => 'r 54',
-    'BETWEEN' => 'r 54',
-    'UNION' => 'r 54',
-    '\',\'' => 'r 54',
-    '\')\'' => 'r 54',
-    'AS' => 'r 54',
-    'name' => 'r 54',
-    'FROM' => 'r 54',
-    'WHERE' => 'r 54',
-    'GROUP' => 'r 54',
-    'ORDER' => 'r 54',
-    'LIMIT' => 'r 54',
-    'SECOND' => 'r 54',
-    'MINUTE' => 'r 54',
-    'HOUR' => 'r 54',
-    'DAY' => 'r 54',
-    'WEEK' => 'r 54',
-    'MONTH' => 'r 54',
-    'YEAR' => 'r 54',
-    'MINUTE_SECOND' => 'r 54',
-    'HOUR_SECOND' => 'r 54',
-    'HOUR_MINUTE' => 'r 54',
-    'DAY_SECOND' => 'r 54',
-    'DAY_MINUTE' => 'r 54',
-    'DAY_HOUR' => 'r 54',
-    'YEAR_MONTH' => 'r 54',
-    'ON' => 'r 54',
-    '#' => 'r 54',
-  ),
-  120 => 
-  array (
-    'expressionD' => 's 121',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  121 => 
-  array (
-    'AND' => 'r 55',
-    'OR' => 'r 55',
-    '\'|\'' => 'r 55',
-    'FULL' => 'r 55',
-    'RIGHT' => 'r 55',
-    'LEFT' => 'r 55',
-    'INNER' => 'r 55',
-    'IN' => 'r 55',
-    'BETWEEN' => 'r 55',
-    'UNION' => 'r 55',
-    '\',\'' => 'r 55',
-    '\')\'' => 'r 55',
-    'AS' => 'r 55',
-    'name' => 'r 55',
-    'FROM' => 'r 55',
-    'WHERE' => 'r 55',
-    'GROUP' => 'r 55',
-    'ORDER' => 'r 55',
-    'LIMIT' => 'r 55',
-    'SECOND' => 'r 55',
-    'MINUTE' => 'r 55',
-    'HOUR' => 'r 55',
-    'DAY' => 'r 55',
-    'WEEK' => 'r 55',
-    'MONTH' => 'r 55',
-    'YEAR' => 'r 55',
-    'MINUTE_SECOND' => 'r 55',
-    'HOUR_SECOND' => 'r 55',
-    'HOUR_MINUTE' => 'r 55',
-    'DAY_SECOND' => 'r 55',
-    'DAY_MINUTE' => 'r 55',
-    'DAY_HOUR' => 'r 55',
-    'YEAR_MONTH' => 'r 55',
-    'ON' => 'r 55',
-    '#' => 'r 55',
-  ),
-  122 => 
-  array (
-    'expressionD' => 's 123',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  123 => 
-  array (
-    'AND' => 'r 57',
-    'OR' => 'r 57',
-    '\'|\'' => 'r 57',
-    'FULL' => 'r 57',
-    'RIGHT' => 'r 57',
-    'LEFT' => 'r 57',
-    'INNER' => 'r 57',
-    'IN' => 'r 57',
-    'BETWEEN' => 'r 57',
-    'UNION' => 'r 57',
-    '\',\'' => 'r 57',
-    '\')\'' => 'r 57',
-    'AS' => 'r 57',
-    'name' => 'r 57',
-    'FROM' => 'r 57',
-    'WHERE' => 'r 57',
-    'GROUP' => 'r 57',
-    'ORDER' => 'r 57',
-    'LIMIT' => 'r 57',
-    'SECOND' => 'r 57',
-    'MINUTE' => 'r 57',
-    'HOUR' => 'r 57',
-    'DAY' => 'r 57',
-    'WEEK' => 'r 57',
-    'MONTH' => 'r 57',
-    'YEAR' => 'r 57',
-    'MINUTE_SECOND' => 'r 57',
-    'HOUR_SECOND' => 'r 57',
-    'HOUR_MINUTE' => 'r 57',
-    'DAY_SECOND' => 'r 57',
-    'DAY_MINUTE' => 'r 57',
-    'DAY_HOUR' => 'r 57',
-    'YEAR_MONTH' => 'r 57',
-    'ON' => 'r 57',
-    '#' => 'r 57',
-  ),
-  124 => 
-  array (
-    'expressionD' => 's 125',
-    '\'=\'' => 's 126',
-    'ALL' => 's 132',
-    'ANY' => 's 134',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  125 => 
-  array (
-    'AND' => 'r 51',
-    'OR' => 'r 51',
-    '\'|\'' => 'r 51',
-    'FULL' => 'r 51',
-    'RIGHT' => 'r 51',
-    'LEFT' => 'r 51',
-    'INNER' => 'r 51',
-    'IN' => 'r 51',
-    'BETWEEN' => 'r 51',
-    'UNION' => 'r 51',
-    '\',\'' => 'r 51',
-    '\')\'' => 'r 51',
-    'AS' => 'r 51',
-    'name' => 'r 51',
-    'FROM' => 'r 51',
-    'WHERE' => 'r 51',
-    'GROUP' => 'r 51',
-    'ORDER' => 'r 51',
-    'LIMIT' => 'r 51',
-    'SECOND' => 'r 51',
-    'MINUTE' => 'r 51',
-    'HOUR' => 'r 51',
-    'DAY' => 'r 51',
-    'WEEK' => 'r 51',
-    'MONTH' => 'r 51',
-    'YEAR' => 'r 51',
-    'MINUTE_SECOND' => 'r 51',
-    'HOUR_SECOND' => 'r 51',
-    'HOUR_MINUTE' => 'r 51',
-    'DAY_SECOND' => 'r 51',
-    'DAY_MINUTE' => 'r 51',
-    'DAY_HOUR' => 'r 51',
-    'YEAR_MONTH' => 'r 51',
-    'ON' => 'r 51',
-    '#' => 'r 51',
-  ),
-  126 => 
-  array (
-    'expressionD' => 's 127',
-    'ALL' => 's 128',
-    'ANY' => 's 130',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  127 => 
-  array (
-    'AND' => 'r 53',
-    'OR' => 'r 53',
-    '\'|\'' => 'r 53',
-    'FULL' => 'r 53',
-    'RIGHT' => 'r 53',
-    'LEFT' => 'r 53',
-    'INNER' => 'r 53',
-    'IN' => 'r 53',
-    'BETWEEN' => 'r 53',
-    'UNION' => 'r 53',
-    '\',\'' => 'r 53',
-    '\')\'' => 'r 53',
-    'AS' => 'r 53',
-    'name' => 'r 53',
-    'FROM' => 'r 53',
-    'WHERE' => 'r 53',
-    'GROUP' => 'r 53',
-    'ORDER' => 'r 53',
-    'LIMIT' => 'r 53',
-    'SECOND' => 'r 53',
-    'MINUTE' => 'r 53',
-    'HOUR' => 'r 53',
-    'DAY' => 'r 53',
-    'WEEK' => 'r 53',
-    'MONTH' => 'r 53',
-    'YEAR' => 'r 53',
-    'MINUTE_SECOND' => 'r 53',
-    'HOUR_SECOND' => 'r 53',
-    'HOUR_MINUTE' => 'r 53',
-    'DAY_SECOND' => 'r 53',
-    'DAY_MINUTE' => 'r 53',
-    'DAY_HOUR' => 'r 53',
-    'YEAR_MONTH' => 'r 53',
-    'ON' => 'r 53',
-    '#' => 'r 53',
-  ),
-  128 => 
-  array (
-    'expressionD' => 's 129',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  129 => 
-  array (
-    'AND' => 'r 60',
-    'OR' => 'r 60',
-    '\'|\'' => 'r 60',
-    'FULL' => 'r 60',
-    'RIGHT' => 'r 60',
-    'LEFT' => 'r 60',
-    'INNER' => 'r 60',
-    'IN' => 'r 60',
-    'BETWEEN' => 'r 60',
-    'UNION' => 'r 60',
-    '\',\'' => 'r 60',
-    '\')\'' => 'r 60',
-    'AS' => 'r 60',
-    'name' => 'r 60',
-    'FROM' => 'r 60',
-    'WHERE' => 'r 60',
-    'GROUP' => 'r 60',
-    'ORDER' => 'r 60',
-    'LIMIT' => 'r 60',
-    'SECOND' => 'r 60',
-    'MINUTE' => 'r 60',
-    'HOUR' => 'r 60',
-    'DAY' => 'r 60',
-    'WEEK' => 'r 60',
-    'MONTH' => 'r 60',
-    'YEAR' => 'r 60',
-    'MINUTE_SECOND' => 'r 60',
-    'HOUR_SECOND' => 'r 60',
-    'HOUR_MINUTE' => 'r 60',
-    'DAY_SECOND' => 'r 60',
-    'DAY_MINUTE' => 'r 60',
-    'DAY_HOUR' => 'r 60',
-    'YEAR_MONTH' => 'r 60',
-    'ON' => 'r 60',
-    '#' => 'r 60',
-  ),
-  130 => 
-  array (
-    'expressionD' => 's 131',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  131 => 
-  array (
-    'AND' => 'r 62',
-    'OR' => 'r 62',
-    '\'|\'' => 'r 62',
-    'FULL' => 'r 62',
-    'RIGHT' => 'r 62',
-    'LEFT' => 'r 62',
-    'INNER' => 'r 62',
-    'IN' => 'r 62',
-    'BETWEEN' => 'r 62',
-    'UNION' => 'r 62',
-    '\',\'' => 'r 62',
-    '\')\'' => 'r 62',
-    'AS' => 'r 62',
-    'name' => 'r 62',
-    'FROM' => 'r 62',
-    'WHERE' => 'r 62',
-    'GROUP' => 'r 62',
-    'ORDER' => 'r 62',
-    'LIMIT' => 'r 62',
-    'SECOND' => 'r 62',
-    'MINUTE' => 'r 62',
-    'HOUR' => 'r 62',
-    'DAY' => 'r 62',
-    'WEEK' => 'r 62',
-    'MONTH' => 'r 62',
-    'YEAR' => 'r 62',
-    'MINUTE_SECOND' => 'r 62',
-    'HOUR_SECOND' => 'r 62',
-    'HOUR_MINUTE' => 'r 62',
-    'DAY_SECOND' => 'r 62',
-    'DAY_MINUTE' => 'r 62',
-    'DAY_HOUR' => 'r 62',
-    'YEAR_MONTH' => 'r 62',
-    'ON' => 'r 62',
-    '#' => 'r 62',
-  ),
-  132 => 
-  array (
-    'expressionD' => 's 133',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  133 => 
-  array (
-    'AND' => 'r 59',
-    'OR' => 'r 59',
-    '\'|\'' => 'r 59',
-    'FULL' => 'r 59',
-    'RIGHT' => 'r 59',
-    'LEFT' => 'r 59',
-    'INNER' => 'r 59',
-    'IN' => 'r 59',
-    'BETWEEN' => 'r 59',
-    'UNION' => 'r 59',
-    '\',\'' => 'r 59',
-    '\')\'' => 'r 59',
-    'AS' => 'r 59',
-    'name' => 'r 59',
-    'FROM' => 'r 59',
-    'WHERE' => 'r 59',
-    'GROUP' => 'r 59',
-    'ORDER' => 'r 59',
-    'LIMIT' => 'r 59',
-    'SECOND' => 'r 59',
-    'MINUTE' => 'r 59',
-    'HOUR' => 'r 59',
-    'DAY' => 'r 59',
-    'WEEK' => 'r 59',
-    'MONTH' => 'r 59',
-    'YEAR' => 'r 59',
-    'MINUTE_SECOND' => 'r 59',
-    'HOUR_SECOND' => 'r 59',
-    'HOUR_MINUTE' => 'r 59',
-    'DAY_SECOND' => 'r 59',
-    'DAY_MINUTE' => 'r 59',
-    'DAY_HOUR' => 'r 59',
-    'YEAR_MONTH' => 'r 59',
-    'ON' => 'r 59',
-    '#' => 'r 59',
-  ),
-  134 => 
-  array (
-    'expressionD' => 's 135',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  135 => 
-  array (
-    'AND' => 'r 61',
-    'OR' => 'r 61',
-    '\'|\'' => 'r 61',
-    'FULL' => 'r 61',
-    'RIGHT' => 'r 61',
-    'LEFT' => 'r 61',
-    'INNER' => 'r 61',
-    'IN' => 'r 61',
-    'BETWEEN' => 'r 61',
-    'UNION' => 'r 61',
-    '\',\'' => 'r 61',
-    '\')\'' => 'r 61',
-    'AS' => 'r 61',
-    'name' => 'r 61',
-    'FROM' => 'r 61',
-    'WHERE' => 'r 61',
-    'GROUP' => 'r 61',
-    'ORDER' => 'r 61',
-    'LIMIT' => 'r 61',
-    'SECOND' => 'r 61',
-    'MINUTE' => 'r 61',
-    'HOUR' => 'r 61',
-    'DAY' => 'r 61',
-    'WEEK' => 'r 61',
-    'MONTH' => 'r 61',
-    'YEAR' => 'r 61',
-    'MINUTE_SECOND' => 'r 61',
-    'HOUR_SECOND' => 'r 61',
-    'HOUR_MINUTE' => 'r 61',
-    'DAY_SECOND' => 'r 61',
-    'DAY_MINUTE' => 'r 61',
-    'DAY_HOUR' => 'r 61',
-    'YEAR_MONTH' => 'r 61',
-    'ON' => 'r 61',
-    '#' => 'r 61',
-  ),
-  136 => 
-  array (
-    '\'=\'' => 's 137',
-  ),
-  137 => 
-  array (
-    'expressionD' => 's 138',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  138 => 
-  array (
-    'AND' => 'r 63',
-    'OR' => 'r 63',
-    '\'|\'' => 'r 63',
-    'FULL' => 'r 63',
-    'RIGHT' => 'r 63',
-    'LEFT' => 'r 63',
-    'INNER' => 'r 63',
-    'IN' => 'r 63',
-    'BETWEEN' => 'r 63',
-    'UNION' => 'r 63',
-    '\',\'' => 'r 63',
-    '\')\'' => 'r 63',
-    'AS' => 'r 63',
-    'name' => 'r 63',
-    'FROM' => 'r 63',
-    'WHERE' => 'r 63',
-    'GROUP' => 'r 63',
-    'ORDER' => 'r 63',
-    'LIMIT' => 'r 63',
-    'SECOND' => 'r 63',
-    'MINUTE' => 'r 63',
-    'HOUR' => 'r 63',
-    'DAY' => 'r 63',
-    'WEEK' => 'r 63',
-    'MONTH' => 'r 63',
-    'YEAR' => 'r 63',
-    'MINUTE_SECOND' => 'r 63',
-    'HOUR_SECOND' => 'r 63',
-    'HOUR_MINUTE' => 'r 63',
-    'DAY_SECOND' => 'r 63',
-    'DAY_MINUTE' => 'r 63',
-    'DAY_HOUR' => 'r 63',
-    'YEAR_MONTH' => 'r 63',
-    'ON' => 'r 63',
-    '#' => 'r 63',
-  ),
-  139 => 
-  array (
-    'likeexpression' => 's 140',
-    'constant' => 's 141',
-  ),
-  140 => 
-  array (
-    'AND' => 'r 64',
-    'OR' => 'r 64',
-    '\'|\'' => 'r 64',
-    'FULL' => 'r 64',
-    'RIGHT' => 'r 64',
-    'LEFT' => 'r 64',
-    'INNER' => 'r 64',
-    'IN' => 'r 64',
-    'BETWEEN' => 'r 64',
-    'UNION' => 'r 64',
-    '\',\'' => 'r 64',
-    '\')\'' => 'r 64',
-    'AS' => 'r 64',
-    'name' => 'r 64',
-    'FROM' => 'r 64',
-    'WHERE' => 'r 64',
-    'GROUP' => 'r 64',
-    'ORDER' => 'r 64',
-    'LIMIT' => 'r 64',
-    'SECOND' => 'r 64',
-    'MINUTE' => 'r 64',
-    'HOUR' => 'r 64',
-    'DAY' => 'r 64',
-    'WEEK' => 'r 64',
-    'MONTH' => 'r 64',
-    'YEAR' => 'r 64',
-    'MINUTE_SECOND' => 'r 64',
-    'HOUR_SECOND' => 'r 64',
-    'HOUR_MINUTE' => 'r 64',
-    'DAY_SECOND' => 'r 64',
-    'DAY_MINUTE' => 'r 64',
-    'DAY_HOUR' => 'r 64',
-    'YEAR_MONTH' => 'r 64',
-    'ON' => 'r 64',
-    '#' => 'r 64',
-  ),
-  141 => 
-  array (
-    'AND' => 'r 84',
-    'OR' => 'r 84',
-    '\'|\'' => 'r 84',
-    'FULL' => 'r 84',
-    'RIGHT' => 'r 84',
-    'LEFT' => 'r 84',
-    'INNER' => 'r 84',
-    'IN' => 'r 84',
-    'BETWEEN' => 'r 84',
-    'UNION' => 'r 84',
-    '\',\'' => 'r 84',
-    '\')\'' => 'r 84',
-    'AS' => 'r 84',
-    'name' => 'r 84',
-    'FROM' => 'r 84',
-    'WHERE' => 'r 84',
-    'GROUP' => 'r 84',
-    'ORDER' => 'r 84',
-    'LIMIT' => 'r 84',
-    'SECOND' => 'r 84',
-    'MINUTE' => 'r 84',
-    'HOUR' => 'r 84',
-    'DAY' => 'r 84',
-    'WEEK' => 'r 84',
-    'MONTH' => 'r 84',
-    'YEAR' => 'r 84',
-    'MINUTE_SECOND' => 'r 84',
-    'HOUR_SECOND' => 'r 84',
-    'HOUR_MINUTE' => 'r 84',
-    'DAY_SECOND' => 'r 84',
-    'DAY_MINUTE' => 'r 84',
-    'DAY_HOUR' => 'r 84',
-    'YEAR_MONTH' => 'r 84',
-    'ON' => 'r 84',
-    '#' => 'r 84',
-  ),
-  142 => 
-  array (
-    '\',\'' => 's 143',
-    'HAVING' => 'r 85',
-    'ORDER' => 'r 85',
-    'LIMIT' => 'r 85',
-    '\')\'' => 'r 85',
-    'SECOND' => 'r 85',
-    'MINUTE' => 'r 85',
-    'HOUR' => 'r 85',
-    'DAY' => 'r 85',
-    'WEEK' => 'r 85',
-    'MONTH' => 'r 85',
-    'YEAR' => 'r 85',
-    'MINUTE_SECOND' => 'r 85',
-    'HOUR_SECOND' => 'r 85',
-    'HOUR_MINUTE' => 'r 85',
-    'DAY_SECOND' => 'r 85',
-    'DAY_MINUTE' => 'r 85',
-    'DAY_HOUR' => 'r 85',
-    'YEAR_MONTH' => 'r 85',
-    '#' => 'r 85',
-  ),
-  143 => 
-  array (
-    'identifier' => 's 142',
-    'identifierlist' => 's 144',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  144 => 
-  array (
-    'HAVING' => 'r 86',
-    'ORDER' => 'r 86',
-    'LIMIT' => 'r 86',
-    '\',\'' => 'r 86',
-    '\')\'' => 'r 86',
-    'SECOND' => 'r 86',
-    'MINUTE' => 'r 86',
-    'HOUR' => 'r 86',
-    'DAY' => 'r 86',
-    'WEEK' => 'r 86',
-    'MONTH' => 'r 86',
-    'YEAR' => 'r 86',
-    'MINUTE_SECOND' => 'r 86',
-    'HOUR_SECOND' => 'r 86',
-    'HOUR_MINUTE' => 'r 86',
-    'DAY_SECOND' => 'r 86',
-    'DAY_MINUTE' => 'r 86',
-    'DAY_HOUR' => 'r 86',
-    'YEAR_MONTH' => 'r 86',
-    '#' => 'r 86',
-  ),
-  145 => 
-  array (
-    'expression' => 's 146',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  146 => 
-  array (
-    'GROUP' => 'r 9',
-    'ORDER' => 'r 9',
-    'LIMIT' => 'r 9',
-    '\',\'' => 'r 9',
-    '\')\'' => 'r 9',
-    'SECOND' => 'r 9',
-    'MINUTE' => 'r 9',
-    'HOUR' => 'r 9',
-    'DAY' => 'r 9',
-    'WEEK' => 'r 9',
-    'MONTH' => 'r 9',
-    'YEAR' => 'r 9',
-    'MINUTE_SECOND' => 'r 9',
-    'HOUR_SECOND' => 'r 9',
-    'HOUR_MINUTE' => 'r 9',
-    'DAY_SECOND' => 'r 9',
-    'DAY_MINUTE' => 'r 9',
-    'DAY_HOUR' => 'r 9',
-    'YEAR_MONTH' => 'r 9',
-    '#' => 'r 9',
-  ),
-  147 => 
-  array (
-    'asopt' => 's 148',
-    'AS' => 's 27',
-    'WHERE' => 'r 25',
-    'GROUP' => 'r 25',
-    'ORDER' => 'r 25',
-    'LIMIT' => 'r 25',
-    '\',\'' => 'r 25',
-    '\')\'' => 'r 25',
-    'SECOND' => 'r 25',
-    'MINUTE' => 'r 25',
-    'HOUR' => 'r 25',
-    'DAY' => 'r 25',
-    'WEEK' => 'r 25',
-    'MONTH' => 'r 25',
-    'YEAR' => 'r 25',
-    'MINUTE_SECOND' => 'r 25',
-    'HOUR_SECOND' => 'r 25',
-    'HOUR_MINUTE' => 'r 25',
-    'DAY_SECOND' => 'r 25',
-    'DAY_MINUTE' => 'r 25',
-    'DAY_HOUR' => 'r 25',
-    'YEAR_MONTH' => 'r 25',
-    '#' => 'r 25',
-    'name' => 'r 35',
-  ),
-  148 => 
-  array (
-    'name' => 's 149',
-  ),
-  149 => 
-  array (
-    'WHERE' => 'r 26',
-    'GROUP' => 'r 26',
-    'ORDER' => 'r 26',
-    'LIMIT' => 'r 26',
-    '\',\'' => 'r 26',
-    '\')\'' => 'r 26',
-    'SECOND' => 'r 26',
-    'MINUTE' => 'r 26',
-    'HOUR' => 'r 26',
-    'DAY' => 'r 26',
-    'WEEK' => 'r 26',
-    'MONTH' => 'r 26',
-    'YEAR' => 'r 26',
-    'MINUTE_SECOND' => 'r 26',
-    'HOUR_SECOND' => 'r 26',
-    'HOUR_MINUTE' => 'r 26',
-    'DAY_SECOND' => 'r 26',
-    'DAY_MINUTE' => 'r 26',
-    'DAY_HOUR' => 'r 26',
-    'YEAR_MONTH' => 'r 26',
-    '#' => 'r 26',
-  ),
-  150 => 
-  array (
-    'FROM' => 'r 27',
-  ),
-  151 => 
-  array (
-    'asopt' => 's 152',
-    '\',\'' => 's 157',
-    'AS' => 's 27',
-    'FROM' => 'r 28',
-    'name' => 'r 35',
-  ),
-  152 => 
-  array (
-    'allowedalias' => 's 153',
-    'name' => 's 156',
-  ),
-  153 => 
-  array (
-    '\',\'' => 's 154',
-    'FROM' => 'r 29',
-  ),
-  154 => 
-  array (
-    'expression' => 's 151',
-    'listoftables' => 's 155',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  155 => 
-  array (
-    'FROM' => 'r 31',
-  ),
-  156 => 
-  array (
-    '\',\'' => 'r 87',
-    'FROM' => 'r 87',
-  ),
-  157 => 
-  array (
-    'expression' => 's 151',
-    'listoftables' => 's 158',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  158 => 
-  array (
-    'FROM' => 'r 30',
-  ),
-  159 => 
-  array (
-    'constant' => 'r 7',
-    'EXTRACT' => 'r 7',
-    'DATE_ADD' => 'r 7',
-    'DATE_SUB' => 'r 7',
-    '\'(\'' => 'r 7',
-    'name' => 'r 7',
-    '\'*\'' => 'r 7',
-  ),
-  160 => 
-  array (
-    '\'/\'' => 'r 75',
-    '\'*\'' => 'r 75',
-    '\'-\'' => 'r 75',
-    '\'+\'' => 'r 75',
-    'LIKE' => 'r 75',
-    '\'!\'' => 'r 75',
-    '\'>\'' => 'r 75',
-    '\'<\'' => 'r 75',
-    '\'=\'' => 'r 75',
-    'AND' => 'r 75',
-    'OR' => 'r 75',
-    '\'|\'' => 'r 75',
-    'FULL' => 'r 75',
-    'RIGHT' => 'r 75',
-    'LEFT' => 'r 75',
-    'INNER' => 'r 75',
-    'IN' => 'r 75',
-    'BETWEEN' => 'r 75',
-    'UNION' => 'r 75',
-    '\',\'' => 'r 75',
-    '\')\'' => 'r 75',
-    'AS' => 'r 75',
-    'name' => 'r 75',
-    'FROM' => 'r 75',
-    'WHERE' => 'r 75',
-    'GROUP' => 'r 75',
-    'ORDER' => 'r 75',
-    'LIMIT' => 'r 75',
-    'SECOND' => 'r 75',
-    'MINUTE' => 'r 75',
-    'HOUR' => 'r 75',
-    'DAY' => 'r 75',
-    'WEEK' => 'r 75',
-    'MONTH' => 'r 75',
-    'YEAR' => 'r 75',
-    'MINUTE_SECOND' => 'r 75',
-    'HOUR_SECOND' => 'r 75',
-    'HOUR_MINUTE' => 'r 75',
-    'DAY_SECOND' => 'r 75',
-    'DAY_MINUTE' => 'r 75',
-    'DAY_HOUR' => 'r 75',
-    'YEAR_MONTH' => 'r 75',
-    'ON' => 'r 75',
-    '#' => 'r 75',
-  ),
-  161 => 
-  array (
-    '\')\'' => 's 162',
-    '\',\'' => 's 163',
-  ),
-  162 => 
-  array (
-    '\'/\'' => 'r 79',
-    '\'*\'' => 'r 79',
-    '\'-\'' => 'r 79',
-    '\'+\'' => 'r 79',
-    'LIKE' => 'r 79',
-    '\'!\'' => 'r 79',
-    '\'>\'' => 'r 79',
-    '\'<\'' => 'r 79',
-    '\'=\'' => 'r 79',
-    'AND' => 'r 79',
-    'OR' => 'r 79',
-    '\'|\'' => 'r 79',
-    'FULL' => 'r 79',
-    'RIGHT' => 'r 79',
-    'LEFT' => 'r 79',
-    'INNER' => 'r 79',
-    'IN' => 'r 79',
-    'BETWEEN' => 'r 79',
-    'UNION' => 'r 79',
-    '\',\'' => 'r 79',
-    '\')\'' => 'r 79',
-    'AS' => 'r 79',
-    'name' => 'r 79',
-    'FROM' => 'r 79',
-    'WHERE' => 'r 79',
-    'GROUP' => 'r 79',
-    'ORDER' => 'r 79',
-    'LIMIT' => 'r 79',
-    'SECOND' => 'r 79',
-    'MINUTE' => 'r 79',
-    'HOUR' => 'r 79',
-    'DAY' => 'r 79',
-    'WEEK' => 'r 79',
-    'MONTH' => 'r 79',
-    'YEAR' => 'r 79',
-    'MINUTE_SECOND' => 'r 79',
-    'HOUR_SECOND' => 'r 79',
-    'HOUR_MINUTE' => 'r 79',
-    'DAY_SECOND' => 'r 79',
-    'DAY_MINUTE' => 'r 79',
-    'DAY_HOUR' => 'r 79',
-    'YEAR_MONTH' => 'r 79',
-    'ON' => 'r 79',
-    '#' => 'r 79',
-  ),
-  163 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 164',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  164 => 
-  array (
-    '\')\'' => 's 165',
-    '\',\'' => 's 166',
-  ),
-  165 => 
-  array (
-    '\'/\'' => 'r 80',
-    '\'*\'' => 'r 80',
-    '\'-\'' => 'r 80',
-    '\'+\'' => 'r 80',
-    'LIKE' => 'r 80',
-    '\'!\'' => 'r 80',
-    '\'>\'' => 'r 80',
-    '\'<\'' => 'r 80',
-    '\'=\'' => 'r 80',
-    'AND' => 'r 80',
-    'OR' => 'r 80',
-    '\'|\'' => 'r 80',
-    'FULL' => 'r 80',
-    'RIGHT' => 'r 80',
-    'LEFT' => 'r 80',
-    'INNER' => 'r 80',
-    'IN' => 'r 80',
-    'BETWEEN' => 'r 80',
-    'UNION' => 'r 80',
-    '\',\'' => 'r 80',
-    '\')\'' => 'r 80',
-    'AS' => 'r 80',
-    'name' => 'r 80',
-    'FROM' => 'r 80',
-    'WHERE' => 'r 80',
-    'GROUP' => 'r 80',
-    'ORDER' => 'r 80',
-    'LIMIT' => 'r 80',
-    'SECOND' => 'r 80',
-    'MINUTE' => 'r 80',
-    'HOUR' => 'r 80',
-    'DAY' => 'r 80',
-    'WEEK' => 'r 80',
-    'MONTH' => 'r 80',
-    'YEAR' => 'r 80',
-    'MINUTE_SECOND' => 'r 80',
-    'HOUR_SECOND' => 'r 80',
-    'HOUR_MINUTE' => 'r 80',
-    'DAY_SECOND' => 'r 80',
-    'DAY_MINUTE' => 'r 80',
-    'DAY_HOUR' => 'r 80',
-    'YEAR_MONTH' => 'r 80',
-    'ON' => 'r 80',
-    '#' => 'r 80',
-  ),
-  166 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 167',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  167 => 
-  array (
-    '\')\'' => 's 168',
-    '\',\'' => 's 169',
-  ),
-  168 => 
-  array (
-    '\'/\'' => 'r 81',
-    '\'*\'' => 'r 81',
-    '\'-\'' => 'r 81',
-    '\'+\'' => 'r 81',
-    'LIKE' => 'r 81',
-    '\'!\'' => 'r 81',
-    '\'>\'' => 'r 81',
-    '\'<\'' => 'r 81',
-    '\'=\'' => 'r 81',
-    'AND' => 'r 81',
-    'OR' => 'r 81',
-    '\'|\'' => 'r 81',
-    'FULL' => 'r 81',
-    'RIGHT' => 'r 81',
-    'LEFT' => 'r 81',
-    'INNER' => 'r 81',
-    'IN' => 'r 81',
-    'BETWEEN' => 'r 81',
-    'UNION' => 'r 81',
-    '\',\'' => 'r 81',
-    '\')\'' => 'r 81',
-    'AS' => 'r 81',
-    'name' => 'r 81',
-    'FROM' => 'r 81',
-    'WHERE' => 'r 81',
-    'GROUP' => 'r 81',
-    'ORDER' => 'r 81',
-    'LIMIT' => 'r 81',
-    'SECOND' => 'r 81',
-    'MINUTE' => 'r 81',
-    'HOUR' => 'r 81',
-    'DAY' => 'r 81',
-    'WEEK' => 'r 81',
-    'MONTH' => 'r 81',
-    'YEAR' => 'r 81',
-    'MINUTE_SECOND' => 'r 81',
-    'HOUR_SECOND' => 'r 81',
-    'HOUR_MINUTE' => 'r 81',
-    'DAY_SECOND' => 'r 81',
-    'DAY_MINUTE' => 'r 81',
-    'DAY_HOUR' => 'r 81',
-    'YEAR_MONTH' => 'r 81',
-    'ON' => 'r 81',
-    '#' => 'r 81',
-  ),
-  169 => 
-  array (
-    'filterresult' => 's 20',
-    'expression' => 's 21',
-    '\'(\'' => 's 22',
-    'selectfromstatement' => 's 1',
-    'unionstatement' => 's 2',
-    'SELECT' => 's 28',
-    'expressionA' => 's 6',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    'statement' => 's 170',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  170 => 
-  array (
-    '\')\'' => 's 171',
-  ),
-  171 => 
-  array (
-    '\'/\'' => 'r 82',
-    '\'*\'' => 'r 82',
-    '\'-\'' => 'r 82',
-    '\'+\'' => 'r 82',
-    'LIKE' => 'r 82',
-    '\'!\'' => 'r 82',
-    '\'>\'' => 'r 82',
-    '\'<\'' => 'r 82',
-    '\'=\'' => 'r 82',
-    'AND' => 'r 82',
-    'OR' => 'r 82',
-    '\'|\'' => 'r 82',
-    'FULL' => 'r 82',
-    'RIGHT' => 'r 82',
-    'LEFT' => 'r 82',
-    'INNER' => 'r 82',
-    'IN' => 'r 82',
-    'BETWEEN' => 'r 82',
-    'UNION' => 'r 82',
-    '\',\'' => 'r 82',
-    '\')\'' => 'r 82',
-    'AS' => 'r 82',
-    'name' => 'r 82',
-    'FROM' => 'r 82',
-    'WHERE' => 'r 82',
-    'GROUP' => 'r 82',
-    'ORDER' => 'r 82',
-    'LIMIT' => 'r 82',
-    'SECOND' => 'r 82',
-    'MINUTE' => 'r 82',
-    'HOUR' => 'r 82',
-    'DAY' => 'r 82',
-    'WEEK' => 'r 82',
-    'MONTH' => 'r 82',
-    'YEAR' => 'r 82',
-    'MINUTE_SECOND' => 'r 82',
-    'HOUR_SECOND' => 'r 82',
-    'HOUR_MINUTE' => 'r 82',
-    'DAY_SECOND' => 'r 82',
-    'DAY_MINUTE' => 'r 82',
-    'DAY_HOUR' => 'r 82',
-    'YEAR_MONTH' => 'r 82',
-    'ON' => 'r 82',
-    '#' => 'r 82',
-  ),
-  172 => 
-  array (
-    'expressionF' => 's 14',
-    'expressionE' => 's 173',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  173 => 
-  array (
-    '\'-\'' => 'r 70',
-    '\'+\'' => 'r 70',
-    'LIKE' => 'r 70',
-    '\'!\'' => 'r 70',
-    '\'>\'' => 'r 70',
-    '\'<\'' => 'r 70',
-    '\'=\'' => 'r 70',
-    'AND' => 'r 70',
-    'OR' => 'r 70',
-    '\'|\'' => 'r 70',
-    'FULL' => 'r 70',
-    'RIGHT' => 'r 70',
-    'LEFT' => 'r 70',
-    'INNER' => 'r 70',
-    'IN' => 'r 70',
-    'BETWEEN' => 'r 70',
-    'UNION' => 'r 70',
-    '\',\'' => 'r 70',
-    '\')\'' => 'r 70',
-    'AS' => 'r 70',
-    'name' => 'r 70',
-    'FROM' => 'r 70',
-    'WHERE' => 'r 70',
-    'GROUP' => 'r 70',
-    'ORDER' => 'r 70',
-    'LIMIT' => 'r 70',
-    'SECOND' => 'r 70',
-    'MINUTE' => 'r 70',
-    'HOUR' => 'r 70',
-    'DAY' => 'r 70',
-    'WEEK' => 'r 70',
-    'MONTH' => 'r 70',
-    'YEAR' => 'r 70',
-    'MINUTE_SECOND' => 'r 70',
-    'HOUR_SECOND' => 'r 70',
-    'HOUR_MINUTE' => 'r 70',
-    'DAY_SECOND' => 'r 70',
-    'DAY_MINUTE' => 'r 70',
-    'DAY_HOUR' => 'r 70',
-    'YEAR_MONTH' => 'r 70',
-    'ON' => 'r 70',
-    '#' => 'r 70',
-  ),
-  174 => 
-  array (
-    'expressionE' => 's 11',
-    'expressionD' => 's 175',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  175 => 
-  array (
-    'LIKE' => 'r 67',
-    '\'!\'' => 'r 67',
-    '\'>\'' => 'r 67',
-    '\'<\'' => 'r 67',
-    '\'=\'' => 'r 67',
-    'AND' => 'r 67',
-    'OR' => 'r 67',
-    '\'|\'' => 'r 67',
-    'FULL' => 'r 67',
-    'RIGHT' => 'r 67',
-    'LEFT' => 'r 67',
-    'INNER' => 'r 67',
-    'IN' => 'r 67',
-    'BETWEEN' => 'r 67',
-    'UNION' => 'r 67',
-    '\',\'' => 'r 67',
-    '\')\'' => 'r 67',
-    'AS' => 'r 67',
-    'name' => 'r 67',
-    'FROM' => 'r 67',
-    'WHERE' => 'r 67',
-    'GROUP' => 'r 67',
-    'ORDER' => 'r 67',
-    'LIMIT' => 'r 67',
-    'SECOND' => 'r 67',
-    'MINUTE' => 'r 67',
-    'HOUR' => 'r 67',
-    'DAY' => 'r 67',
-    'WEEK' => 'r 67',
-    'MONTH' => 'r 67',
-    'YEAR' => 'r 67',
-    'MINUTE_SECOND' => 'r 67',
-    'HOUR_SECOND' => 'r 67',
-    'HOUR_MINUTE' => 'r 67',
-    'DAY_SECOND' => 'r 67',
-    'DAY_MINUTE' => 'r 67',
-    'DAY_HOUR' => 'r 67',
-    'YEAR_MONTH' => 'r 67',
-    'ON' => 'r 67',
-    '#' => 'r 67',
-  ),
-  176 => 
-  array (
-    '\'(\'' => 's 177',
-  ),
-  177 => 
-  array (
-    'constant' => 's 178',
-    'constantlist' => 's 181',
-  ),
-  178 => 
-  array (
-    '\',\'' => 's 179',
-    '\')\'' => 'r 32',
-  ),
-  179 => 
-  array (
-    'constant' => 's 178',
-    'constantlist' => 's 180',
-  ),
-  180 => 
-  array (
-    '\')\'' => 'r 33',
-  ),
-  181 => 
-  array (
-    '\')\'' => 's 182',
-  ),
-  182 => 
-  array (
-    'UNION' => 'r 38',
-    '\',\'' => 'r 38',
-    '\')\'' => 'r 38',
-    'AS' => 'r 38',
-    'name' => 'r 38',
-    'FROM' => 'r 38',
-    'WHERE' => 'r 38',
-    'GROUP' => 'r 38',
-    'ORDER' => 'r 38',
-    'LIMIT' => 'r 38',
-    'SECOND' => 'r 38',
-    'MINUTE' => 'r 38',
-    'HOUR' => 'r 38',
-    'DAY' => 'r 38',
-    'WEEK' => 'r 38',
-    'MONTH' => 'r 38',
-    'YEAR' => 'r 38',
-    'MINUTE_SECOND' => 'r 38',
-    'HOUR_SECOND' => 'r 38',
-    'HOUR_MINUTE' => 'r 38',
-    'DAY_SECOND' => 'r 38',
-    'DAY_MINUTE' => 'r 38',
-    'DAY_HOUR' => 'r 38',
-    'YEAR_MONTH' => 'r 38',
-    '#' => 'r 38',
-  ),
-  183 => 
-  array (
-    'JOIN' => 's 184',
-  ),
-  184 => 
-  array (
-    'expressionA' => 's 185',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  185 => 
-  array (
-    'ON' => 's 186',
-  ),
-  186 => 
-  array (
-    'expressionA' => 's 187',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  187 => 
-  array (
-    'UNION' => 'r 39',
-    '\',\'' => 'r 39',
-    '\')\'' => 'r 39',
-    'AS' => 'r 39',
-    'name' => 'r 39',
-    'FROM' => 'r 39',
-    'WHERE' => 'r 39',
-    'GROUP' => 'r 39',
-    'ORDER' => 'r 39',
-    'LIMIT' => 'r 39',
-    'SECOND' => 'r 39',
-    'MINUTE' => 'r 39',
-    'HOUR' => 'r 39',
-    'DAY' => 'r 39',
-    'WEEK' => 'r 39',
-    'MONTH' => 'r 39',
-    'YEAR' => 'r 39',
-    'MINUTE_SECOND' => 'r 39',
-    'HOUR_SECOND' => 'r 39',
-    'HOUR_MINUTE' => 'r 39',
-    'DAY_SECOND' => 'r 39',
-    'DAY_MINUTE' => 'r 39',
-    'DAY_HOUR' => 'r 39',
-    'YEAR_MONTH' => 'r 39',
-    '#' => 'r 39',
-  ),
-  188 => 
-  array (
-    'JOIN' => 's 189',
-  ),
-  189 => 
-  array (
-    'expressionA' => 's 190',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  190 => 
-  array (
-    'ON' => 's 191',
-  ),
-  191 => 
-  array (
-    'expressionA' => 's 192',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  192 => 
-  array (
-    'UNION' => 'r 40',
-    '\',\'' => 'r 40',
-    '\')\'' => 'r 40',
-    'AS' => 'r 40',
-    'name' => 'r 40',
-    'FROM' => 'r 40',
-    'WHERE' => 'r 40',
-    'GROUP' => 'r 40',
-    'ORDER' => 'r 40',
-    'LIMIT' => 'r 40',
-    'SECOND' => 'r 40',
-    'MINUTE' => 'r 40',
-    'HOUR' => 'r 40',
-    'DAY' => 'r 40',
-    'WEEK' => 'r 40',
-    'MONTH' => 'r 40',
-    'YEAR' => 'r 40',
-    'MINUTE_SECOND' => 'r 40',
-    'HOUR_SECOND' => 'r 40',
-    'HOUR_MINUTE' => 'r 40',
-    'DAY_SECOND' => 'r 40',
-    'DAY_MINUTE' => 'r 40',
-    'DAY_HOUR' => 'r 40',
-    'YEAR_MONTH' => 'r 40',
-    '#' => 'r 40',
-  ),
-  193 => 
-  array (
-    'JOIN' => 's 194',
-  ),
-  194 => 
-  array (
-    'expressionA' => 's 195',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  195 => 
-  array (
-    'ON' => 's 196',
-  ),
-  196 => 
-  array (
-    'expressionA' => 's 197',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
-  ),
-  197 => 
-  array (
-    'UNION' => 'r 41',
     '\',\'' => 'r 41',
     '\')\'' => 'r 41',
-    'AS' => 'r 41',
-    'name' => 'r 41',
-    'FROM' => 'r 41',
-    'WHERE' => 'r 41',
-    'GROUP' => 'r 41',
-    'ORDER' => 'r 41',
-    'LIMIT' => 'r 41',
     'SECOND' => 'r 41',
     'MINUTE' => 'r 41',
     'HOUR' => 'r 41',
@@ -3943,132 +1543,2433 @@ var $i = array (
     'DAY_MINUTE' => 'r 41',
     'DAY_HOUR' => 'r 41',
     'YEAR_MONTH' => 'r 41',
-    '#' => 'r 41',
+  ),
+  93 => 
+  array (
+    '\',\'' => 's 94',
+  ),
+  94 => 
+  array (
+    'INTERVAL' => 's 95',
+  ),
+  95 => 
+  array (
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'statementBetweenCommas' => 's 96',
+    'DATE_SUB' => 's 113',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  96 => 
+  array (
+    'extractconstant' => 's 97',
+    'SECOND' => 's 99',
+    'MINUTE' => 's 100',
+    'HOUR' => 's 101',
+    'DAY' => 's 102',
+    'WEEK' => 's 103',
+    'MONTH' => 's 104',
+    'YEAR' => 's 105',
+    'MINUTE_SECOND' => 's 106',
+    'HOUR_SECOND' => 's 107',
+    'HOUR_MINUTE' => 's 108',
+    'DAY_SECOND' => 's 109',
+    'DAY_MINUTE' => 's 110',
+    'DAY_HOUR' => 's 111',
+    'YEAR_MONTH' => 's 112',
+  ),
+  97 => 
+  array (
+    '\')\'' => 's 98',
+  ),
+  98 => 
+  array (
+    '\'/\'' => 'r 87',
+    '\'*\'' => 'r 87',
+    '\'-\'' => 'r 87',
+    '\'+\'' => 'r 87',
+    'LIKE' => 'r 87',
+    '\'!\'' => 'r 87',
+    '\'>\'' => 'r 87',
+    '\'<\'' => 'r 87',
+    '\'=\'' => 'r 87',
+    'AND' => 'r 87',
+    'OR' => 'r 87',
+    '\'|\'' => 'r 87',
+    'IN' => 'r 87',
+    'BETWEEN' => 'r 87',
+    'UNION' => 'r 87',
+    'AS' => 'r 87',
+    '\',\'' => 'r 87',
+    '\')\'' => 'r 87',
+    'CROSS' => 'r 87',
+    'FULL' => 'r 87',
+    'RIGHT' => 'r 87',
+    'LEFT' => 'r 87',
+    'INNER' => 'r 87',
+    'name' => 'r 87',
+    'FROM' => 'r 87',
+    'ORDER' => 'r 87',
+    'LIMIT' => 'r 87',
+    'ON' => 'r 87',
+    'SECOND' => 'r 87',
+    'MINUTE' => 'r 87',
+    'HOUR' => 'r 87',
+    'DAY' => 'r 87',
+    'WEEK' => 'r 87',
+    'MONTH' => 'r 87',
+    'YEAR' => 'r 87',
+    'MINUTE_SECOND' => 'r 87',
+    'HOUR_SECOND' => 'r 87',
+    'HOUR_MINUTE' => 'r 87',
+    'DAY_SECOND' => 'r 87',
+    'DAY_MINUTE' => 'r 87',
+    'DAY_HOUR' => 'r 87',
+    'YEAR_MONTH' => 'r 87',
+    'GROUP' => 'r 87',
+    '#' => 'r 87',
+  ),
+  99 => 
+  array (
+    'FROM' => 'r 100',
+    '\')\'' => 'r 100',
+  ),
+  100 => 
+  array (
+    'FROM' => 'r 101',
+    '\')\'' => 'r 101',
+  ),
+  101 => 
+  array (
+    'FROM' => 'r 102',
+    '\')\'' => 'r 102',
+  ),
+  102 => 
+  array (
+    'FROM' => 'r 103',
+    '\')\'' => 'r 103',
+  ),
+  103 => 
+  array (
+    'FROM' => 'r 104',
+    '\')\'' => 'r 104',
+  ),
+  104 => 
+  array (
+    'FROM' => 'r 105',
+    '\')\'' => 'r 105',
+  ),
+  105 => 
+  array (
+    'FROM' => 'r 106',
+    '\')\'' => 'r 106',
+  ),
+  106 => 
+  array (
+    'FROM' => 'r 107',
+    '\')\'' => 'r 107',
+  ),
+  107 => 
+  array (
+    'FROM' => 'r 108',
+    '\')\'' => 'r 108',
+  ),
+  108 => 
+  array (
+    'FROM' => 'r 109',
+    '\')\'' => 'r 109',
+  ),
+  109 => 
+  array (
+    'FROM' => 'r 110',
+    '\')\'' => 'r 110',
+  ),
+  110 => 
+  array (
+    'FROM' => 'r 111',
+    '\')\'' => 'r 111',
+  ),
+  111 => 
+  array (
+    'FROM' => 'r 112',
+    '\')\'' => 'r 112',
+  ),
+  112 => 
+  array (
+    'FROM' => 'r 113',
+    '\')\'' => 'r 113',
+  ),
+  113 => 
+  array (
+    '\'(\'' => 's 114',
+  ),
+  114 => 
+  array (
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'statementBetweenCommas' => 's 115',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  115 => 
+  array (
+    '\',\'' => 's 116',
+  ),
+  116 => 
+  array (
+    'INTERVAL' => 's 117',
+  ),
+  117 => 
+  array (
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'statementBetweenCommas' => 's 118',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  118 => 
+  array (
+    'extractconstant' => 's 119',
+    'SECOND' => 's 99',
+    'MINUTE' => 's 100',
+    'HOUR' => 's 101',
+    'DAY' => 's 102',
+    'WEEK' => 's 103',
+    'MONTH' => 's 104',
+    'YEAR' => 's 105',
+    'MINUTE_SECOND' => 's 106',
+    'HOUR_SECOND' => 's 107',
+    'HOUR_MINUTE' => 's 108',
+    'DAY_SECOND' => 's 109',
+    'DAY_MINUTE' => 's 110',
+    'DAY_HOUR' => 's 111',
+    'YEAR_MONTH' => 's 112',
+  ),
+  119 => 
+  array (
+    '\')\'' => 's 120',
+  ),
+  120 => 
+  array (
+    '\'/\'' => 'r 88',
+    '\'*\'' => 'r 88',
+    '\'-\'' => 'r 88',
+    '\'+\'' => 'r 88',
+    'LIKE' => 'r 88',
+    '\'!\'' => 'r 88',
+    '\'>\'' => 'r 88',
+    '\'<\'' => 'r 88',
+    '\'=\'' => 'r 88',
+    'AND' => 'r 88',
+    'OR' => 'r 88',
+    '\'|\'' => 'r 88',
+    'IN' => 'r 88',
+    'BETWEEN' => 'r 88',
+    'UNION' => 'r 88',
+    'AS' => 'r 88',
+    '\',\'' => 'r 88',
+    '\')\'' => 'r 88',
+    'CROSS' => 'r 88',
+    'FULL' => 'r 88',
+    'RIGHT' => 'r 88',
+    'LEFT' => 'r 88',
+    'INNER' => 'r 88',
+    'name' => 'r 88',
+    'FROM' => 'r 88',
+    'ORDER' => 'r 88',
+    'LIMIT' => 'r 88',
+    'ON' => 'r 88',
+    'SECOND' => 'r 88',
+    'MINUTE' => 'r 88',
+    'HOUR' => 'r 88',
+    'DAY' => 'r 88',
+    'WEEK' => 'r 88',
+    'MONTH' => 'r 88',
+    'YEAR' => 'r 88',
+    'MINUTE_SECOND' => 'r 88',
+    'HOUR_SECOND' => 'r 88',
+    'HOUR_MINUTE' => 'r 88',
+    'DAY_SECOND' => 'r 88',
+    'DAY_MINUTE' => 'r 88',
+    'DAY_HOUR' => 'r 88',
+    'YEAR_MONTH' => 'r 88',
+    'GROUP' => 'r 88',
+    '#' => 'r 88',
+  ),
+  121 => 
+  array (
+    '\'(\'' => 'r 98',
+    '\'/\'' => 'r 98',
+    '\'*\'' => 'r 98',
+    '\'-\'' => 'r 98',
+    '\'+\'' => 'r 98',
+    'LIKE' => 'r 98',
+    '\'!\'' => 'r 98',
+    '\'>\'' => 'r 98',
+    '\'<\'' => 'r 98',
+    '\'=\'' => 'r 98',
+    'AND' => 'r 98',
+    'OR' => 'r 98',
+    '\'|\'' => 'r 98',
+    'IN' => 'r 98',
+    'BETWEEN' => 'r 98',
+    'UNION' => 'r 98',
+    'AS' => 'r 98',
+    '\',\'' => 'r 98',
+    '\')\'' => 'r 98',
+    'CROSS' => 'r 98',
+    'FULL' => 'r 98',
+    'RIGHT' => 'r 98',
+    'LEFT' => 'r 98',
+    'INNER' => 'r 98',
+    'name' => 'r 98',
+    'FROM' => 'r 98',
+    'WHERE' => 'r 98',
+    'GROUP' => 'r 98',
+    'ORDER' => 'r 98',
+    'LIMIT' => 'r 98',
+    'HAVING' => 'r 98',
+    'ON' => 'r 98',
+    'SECOND' => 'r 98',
+    'MINUTE' => 'r 98',
+    'HOUR' => 'r 98',
+    'DAY' => 'r 98',
+    'WEEK' => 'r 98',
+    'MONTH' => 'r 98',
+    'YEAR' => 'r 98',
+    'MINUTE_SECOND' => 'r 98',
+    'HOUR_SECOND' => 'r 98',
+    'HOUR_MINUTE' => 'r 98',
+    'DAY_SECOND' => 'r 98',
+    'DAY_MINUTE' => 'r 98',
+    'DAY_HOUR' => 'r 98',
+    'YEAR_MONTH' => 'r 98',
+    '#' => 'r 98',
+  ),
+  122 => 
+  array (
+    '\'(\'' => 'r 99',
+    '\'/\'' => 'r 99',
+    '\'*\'' => 'r 99',
+    '\'-\'' => 'r 99',
+    '\'+\'' => 'r 99',
+    'LIKE' => 'r 99',
+    '\'!\'' => 'r 99',
+    '\'>\'' => 'r 99',
+    '\'<\'' => 'r 99',
+    '\'=\'' => 'r 99',
+    'AND' => 'r 99',
+    'OR' => 'r 99',
+    '\'|\'' => 'r 99',
+    'IN' => 'r 99',
+    'BETWEEN' => 'r 99',
+    'UNION' => 'r 99',
+    'AS' => 'r 99',
+    '\',\'' => 'r 99',
+    '\')\'' => 'r 99',
+    'CROSS' => 'r 99',
+    'FULL' => 'r 99',
+    'RIGHT' => 'r 99',
+    'LEFT' => 'r 99',
+    'INNER' => 'r 99',
+    'name' => 'r 99',
+    'FROM' => 'r 99',
+    'WHERE' => 'r 99',
+    'GROUP' => 'r 99',
+    'ORDER' => 'r 99',
+    'LIMIT' => 'r 99',
+    'HAVING' => 'r 99',
+    'ON' => 'r 99',
+    'SECOND' => 'r 99',
+    'MINUTE' => 'r 99',
+    'HOUR' => 'r 99',
+    'DAY' => 'r 99',
+    'WEEK' => 'r 99',
+    'MONTH' => 'r 99',
+    'YEAR' => 'r 99',
+    'MINUTE_SECOND' => 'r 99',
+    'HOUR_SECOND' => 'r 99',
+    'HOUR_MINUTE' => 'r 99',
+    'DAY_SECOND' => 'r 99',
+    'DAY_MINUTE' => 'r 99',
+    'DAY_HOUR' => 'r 99',
+    'YEAR_MONTH' => 'r 99',
+    '#' => 'r 99',
+  ),
+  123 => 
+  array (
+    'filterresult' => 's 70',
+    'fullExpression' => 's 23',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'expression' => 's 24',
+    'SELECT' => 's 25',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'statement' => 's 124',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  124 => 
+  array (
+    '\')\'' => 's 125',
+  ),
+  125 => 
+  array (
+    '\'/\'' => 'r 93',
+    '\'*\'' => 'r 93',
+    '\'-\'' => 'r 93',
+    '\'+\'' => 'r 93',
+    'LIKE' => 'r 93',
+    '\'!\'' => 'r 93',
+    '\'>\'' => 'r 93',
+    '\'<\'' => 'r 93',
+    '\'=\'' => 'r 93',
+    'AND' => 'r 93',
+    'OR' => 'r 93',
+    '\'|\'' => 'r 93',
+    'AS' => 'r 93',
+    'IN' => 'r 93',
+    'BETWEEN' => 'r 93',
+    '\',\'' => 'r 93',
+    '\')\'' => 'r 93',
+    'CROSS' => 'r 93',
+    'FULL' => 'r 93',
+    'RIGHT' => 'r 93',
+    'LEFT' => 'r 93',
+    'INNER' => 'r 93',
+    'UNION' => 'r 93',
+    'name' => 'r 93',
+    'FROM' => 'r 93',
+    'ORDER' => 'r 93',
+    'LIMIT' => 'r 93',
+    'ON' => 'r 93',
+    'GROUP' => 'r 93',
+    'SECOND' => 'r 93',
+    'MINUTE' => 'r 93',
+    'HOUR' => 'r 93',
+    'DAY' => 'r 93',
+    'WEEK' => 'r 93',
+    'MONTH' => 'r 93',
+    'YEAR' => 'r 93',
+    'MINUTE_SECOND' => 'r 93',
+    'HOUR_SECOND' => 'r 93',
+    'HOUR_MINUTE' => 'r 93',
+    'DAY_SECOND' => 'r 93',
+    'DAY_MINUTE' => 'r 93',
+    'DAY_HOUR' => 'r 93',
+    'YEAR_MONTH' => 'r 93',
+    '#' => 'r 93',
+  ),
+  126 => 
+  array (
+    'AS' => 's 80',
+    'ON' => 'r 51',
+    '\',\'' => 'r 51',
+    '\')\'' => 'r 51',
+    'CROSS' => 'r 51',
+    'FULL' => 'r 51',
+    'RIGHT' => 'r 51',
+    'LEFT' => 'r 51',
+    'INNER' => 'r 51',
+    'SECOND' => 'r 51',
+    'MINUTE' => 'r 51',
+    'HOUR' => 'r 51',
+    'DAY' => 'r 51',
+    'WEEK' => 'r 51',
+    'MONTH' => 'r 51',
+    'YEAR' => 'r 51',
+    'MINUTE_SECOND' => 'r 51',
+    'HOUR_SECOND' => 'r 51',
+    'HOUR_MINUTE' => 'r 51',
+    'DAY_SECOND' => 'r 51',
+    'DAY_MINUTE' => 'r 51',
+    'DAY_HOUR' => 'r 51',
+    'YEAR_MONTH' => 'r 51',
+  ),
+  127 => 
+  array (
+    'JOIN' => 's 128',
+  ),
+  128 => 
+  array (
+    'expressionWithAlias' => 's 129',
+    'expressionA' => 's 126',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  129 => 
+  array (
+    'ON' => 's 130',
+  ),
+  130 => 
+  array (
+    'expressionA' => 's 131',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  131 => 
+  array (
+    '\',\'' => 'r 47',
+    '\')\'' => 'r 47',
+    'SECOND' => 'r 47',
+    'MINUTE' => 'r 47',
+    'HOUR' => 'r 47',
+    'DAY' => 'r 47',
+    'WEEK' => 'r 47',
+    'MONTH' => 'r 47',
+    'YEAR' => 'r 47',
+    'MINUTE_SECOND' => 'r 47',
+    'HOUR_SECOND' => 'r 47',
+    'HOUR_MINUTE' => 'r 47',
+    'DAY_SECOND' => 'r 47',
+    'DAY_MINUTE' => 'r 47',
+    'DAY_HOUR' => 'r 47',
+    'YEAR_MONTH' => 'r 47',
+  ),
+  132 => 
+  array (
+    'JOIN' => 's 133',
+  ),
+  133 => 
+  array (
+    'expressionWithAlias' => 's 134',
+    'expressionA' => 's 126',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  134 => 
+  array (
+    'ON' => 's 135',
+  ),
+  135 => 
+  array (
+    'expressionA' => 's 136',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  136 => 
+  array (
+    '\',\'' => 'r 48',
+    '\')\'' => 'r 48',
+    'SECOND' => 'r 48',
+    'MINUTE' => 'r 48',
+    'HOUR' => 'r 48',
+    'DAY' => 'r 48',
+    'WEEK' => 'r 48',
+    'MONTH' => 'r 48',
+    'YEAR' => 'r 48',
+    'MINUTE_SECOND' => 'r 48',
+    'HOUR_SECOND' => 'r 48',
+    'HOUR_MINUTE' => 'r 48',
+    'DAY_SECOND' => 'r 48',
+    'DAY_MINUTE' => 'r 48',
+    'DAY_HOUR' => 'r 48',
+    'YEAR_MONTH' => 'r 48',
+  ),
+  137 => 
+  array (
+    'JOIN' => 's 138',
+  ),
+  138 => 
+  array (
+    'expressionWithAlias' => 's 139',
+    'expressionA' => 's 126',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  139 => 
+  array (
+    'ON' => 's 140',
+  ),
+  140 => 
+  array (
+    'expressionA' => 's 141',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  141 => 
+  array (
+    '\',\'' => 'r 49',
+    '\')\'' => 'r 49',
+    'SECOND' => 'r 49',
+    'MINUTE' => 'r 49',
+    'HOUR' => 'r 49',
+    'DAY' => 'r 49',
+    'WEEK' => 'r 49',
+    'MONTH' => 'r 49',
+    'YEAR' => 'r 49',
+    'MINUTE_SECOND' => 'r 49',
+    'HOUR_SECOND' => 'r 49',
+    'HOUR_MINUTE' => 'r 49',
+    'DAY_SECOND' => 'r 49',
+    'DAY_MINUTE' => 'r 49',
+    'DAY_HOUR' => 'r 49',
+    'YEAR_MONTH' => 'r 49',
+  ),
+  142 => 
+  array (
+    'JOIN' => 's 143',
+  ),
+  143 => 
+  array (
+    'expressionWithAlias' => 's 144',
+    'expressionA' => 's 126',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  144 => 
+  array (
+    '\',\'' => 'r 50',
+    '\')\'' => 'r 50',
+    'SECOND' => 'r 50',
+    'MINUTE' => 'r 50',
+    'HOUR' => 'r 50',
+    'DAY' => 'r 50',
+    'WEEK' => 'r 50',
+    'MONTH' => 'r 50',
+    'YEAR' => 'r 50',
+    'MINUTE_SECOND' => 'r 50',
+    'HOUR_SECOND' => 'r 50',
+    'HOUR_MINUTE' => 'r 50',
+    'DAY_SECOND' => 'r 50',
+    'DAY_MINUTE' => 'r 50',
+    'DAY_HOUR' => 'r 50',
+    'YEAR_MONTH' => 'r 50',
+  ),
+  145 => 
+  array (
+    '\')\'' => 's 146',
+  ),
+  146 => 
+  array (
+    '\'/\'' => 'r 86',
+    '\'*\'' => 'r 86',
+    '\'-\'' => 'r 86',
+    '\'+\'' => 'r 86',
+    'LIKE' => 'r 86',
+    '\'!\'' => 'r 86',
+    '\'>\'' => 'r 86',
+    '\'<\'' => 'r 86',
+    '\'=\'' => 'r 86',
+    'AND' => 'r 86',
+    'OR' => 'r 86',
+    '\'|\'' => 'r 86',
+    'IN' => 'r 86',
+    'BETWEEN' => 'r 86',
+    'UNION' => 'r 86',
+    'AS' => 'r 86',
+    '\',\'' => 'r 86',
+    '\')\'' => 'r 86',
+    'CROSS' => 'r 86',
+    'FULL' => 'r 86',
+    'RIGHT' => 'r 86',
+    'LEFT' => 'r 86',
+    'INNER' => 'r 86',
+    'name' => 'r 86',
+    'FROM' => 'r 86',
+    'ORDER' => 'r 86',
+    'LIMIT' => 'r 86',
+    'ON' => 'r 86',
+    'SECOND' => 'r 86',
+    'MINUTE' => 'r 86',
+    'HOUR' => 'r 86',
+    'DAY' => 'r 86',
+    'WEEK' => 'r 86',
+    'MONTH' => 'r 86',
+    'YEAR' => 'r 86',
+    'MINUTE_SECOND' => 'r 86',
+    'HOUR_SECOND' => 'r 86',
+    'HOUR_MINUTE' => 'r 86',
+    'DAY_SECOND' => 'r 86',
+    'DAY_MINUTE' => 'r 86',
+    'DAY_HOUR' => 'r 86',
+    'YEAR_MONTH' => 'r 86',
+    'GROUP' => 'r 86',
+    '#' => 'r 86',
+  ),
+  147 => 
+  array (
+    'expressionD' => 's 148',
+    '\'=\'' => 's 149',
+    '\'>\'' => 's 155',
+    'ALL' => 's 157',
+    'ANY' => 's 159',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  148 => 
+  array (
+    'AND' => 'r 60',
+    'OR' => 'r 60',
+    '\'|\'' => 'r 60',
+    'IN' => 'r 60',
+    'BETWEEN' => 'r 60',
+    'UNION' => 'r 60',
+    'AS' => 'r 60',
+    '\',\'' => 'r 60',
+    '\')\'' => 'r 60',
+    'CROSS' => 'r 60',
+    'FULL' => 'r 60',
+    'RIGHT' => 'r 60',
+    'LEFT' => 'r 60',
+    'INNER' => 'r 60',
+    'name' => 'r 60',
+    'FROM' => 'r 60',
+    'ORDER' => 'r 60',
+    'LIMIT' => 'r 60',
+    'ON' => 'r 60',
+    'SECOND' => 'r 60',
+    'MINUTE' => 'r 60',
+    'HOUR' => 'r 60',
+    'DAY' => 'r 60',
+    'WEEK' => 'r 60',
+    'MONTH' => 'r 60',
+    'YEAR' => 'r 60',
+    'MINUTE_SECOND' => 'r 60',
+    'HOUR_SECOND' => 'r 60',
+    'HOUR_MINUTE' => 'r 60',
+    'DAY_SECOND' => 'r 60',
+    'DAY_MINUTE' => 'r 60',
+    'DAY_HOUR' => 'r 60',
+    'YEAR_MONTH' => 'r 60',
+    'GROUP' => 'r 60',
+    '#' => 'r 60',
+  ),
+  149 => 
+  array (
+    'expressionD' => 's 150',
+    'ALL' => 's 151',
+    'ANY' => 's 153',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  150 => 
+  array (
+    'AND' => 'r 62',
+    'OR' => 'r 62',
+    '\'|\'' => 'r 62',
+    'IN' => 'r 62',
+    'BETWEEN' => 'r 62',
+    'UNION' => 'r 62',
+    'AS' => 'r 62',
+    '\',\'' => 'r 62',
+    '\')\'' => 'r 62',
+    'CROSS' => 'r 62',
+    'FULL' => 'r 62',
+    'RIGHT' => 'r 62',
+    'LEFT' => 'r 62',
+    'INNER' => 'r 62',
+    'name' => 'r 62',
+    'FROM' => 'r 62',
+    'ORDER' => 'r 62',
+    'LIMIT' => 'r 62',
+    'ON' => 'r 62',
+    'SECOND' => 'r 62',
+    'MINUTE' => 'r 62',
+    'HOUR' => 'r 62',
+    'DAY' => 'r 62',
+    'WEEK' => 'r 62',
+    'MONTH' => 'r 62',
+    'YEAR' => 'r 62',
+    'MINUTE_SECOND' => 'r 62',
+    'HOUR_SECOND' => 'r 62',
+    'HOUR_MINUTE' => 'r 62',
+    'DAY_SECOND' => 'r 62',
+    'DAY_MINUTE' => 'r 62',
+    'DAY_HOUR' => 'r 62',
+    'YEAR_MONTH' => 'r 62',
+    'GROUP' => 'r 62',
+    '#' => 'r 62',
+  ),
+  151 => 
+  array (
+    'expressionD' => 's 152',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  152 => 
+  array (
+    'AND' => 'r 66',
+    'OR' => 'r 66',
+    '\'|\'' => 'r 66',
+    'IN' => 'r 66',
+    'BETWEEN' => 'r 66',
+    'UNION' => 'r 66',
+    'AS' => 'r 66',
+    '\',\'' => 'r 66',
+    '\')\'' => 'r 66',
+    'CROSS' => 'r 66',
+    'FULL' => 'r 66',
+    'RIGHT' => 'r 66',
+    'LEFT' => 'r 66',
+    'INNER' => 'r 66',
+    'name' => 'r 66',
+    'FROM' => 'r 66',
+    'ORDER' => 'r 66',
+    'LIMIT' => 'r 66',
+    'ON' => 'r 66',
+    'SECOND' => 'r 66',
+    'MINUTE' => 'r 66',
+    'HOUR' => 'r 66',
+    'DAY' => 'r 66',
+    'WEEK' => 'r 66',
+    'MONTH' => 'r 66',
+    'YEAR' => 'r 66',
+    'MINUTE_SECOND' => 'r 66',
+    'HOUR_SECOND' => 'r 66',
+    'HOUR_MINUTE' => 'r 66',
+    'DAY_SECOND' => 'r 66',
+    'DAY_MINUTE' => 'r 66',
+    'DAY_HOUR' => 'r 66',
+    'YEAR_MONTH' => 'r 66',
+    'GROUP' => 'r 66',
+    '#' => 'r 66',
+  ),
+  153 => 
+  array (
+    'expressionD' => 's 154',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  154 => 
+  array (
+    'AND' => 'r 68',
+    'OR' => 'r 68',
+    '\'|\'' => 'r 68',
+    'IN' => 'r 68',
+    'BETWEEN' => 'r 68',
+    'UNION' => 'r 68',
+    'AS' => 'r 68',
+    '\',\'' => 'r 68',
+    '\')\'' => 'r 68',
+    'CROSS' => 'r 68',
+    'FULL' => 'r 68',
+    'RIGHT' => 'r 68',
+    'LEFT' => 'r 68',
+    'INNER' => 'r 68',
+    'name' => 'r 68',
+    'FROM' => 'r 68',
+    'ORDER' => 'r 68',
+    'LIMIT' => 'r 68',
+    'ON' => 'r 68',
+    'SECOND' => 'r 68',
+    'MINUTE' => 'r 68',
+    'HOUR' => 'r 68',
+    'DAY' => 'r 68',
+    'WEEK' => 'r 68',
+    'MONTH' => 'r 68',
+    'YEAR' => 'r 68',
+    'MINUTE_SECOND' => 'r 68',
+    'HOUR_SECOND' => 'r 68',
+    'HOUR_MINUTE' => 'r 68',
+    'DAY_SECOND' => 'r 68',
+    'DAY_MINUTE' => 'r 68',
+    'DAY_HOUR' => 'r 68',
+    'YEAR_MONTH' => 'r 68',
+    'GROUP' => 'r 68',
+    '#' => 'r 68',
+  ),
+  155 => 
+  array (
+    'expressionD' => 's 156',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  156 => 
+  array (
+    'AND' => 'r 64',
+    'OR' => 'r 64',
+    '\'|\'' => 'r 64',
+    'IN' => 'r 64',
+    'BETWEEN' => 'r 64',
+    'UNION' => 'r 64',
+    'AS' => 'r 64',
+    '\',\'' => 'r 64',
+    '\')\'' => 'r 64',
+    'CROSS' => 'r 64',
+    'FULL' => 'r 64',
+    'RIGHT' => 'r 64',
+    'LEFT' => 'r 64',
+    'INNER' => 'r 64',
+    'name' => 'r 64',
+    'FROM' => 'r 64',
+    'ORDER' => 'r 64',
+    'LIMIT' => 'r 64',
+    'ON' => 'r 64',
+    'SECOND' => 'r 64',
+    'MINUTE' => 'r 64',
+    'HOUR' => 'r 64',
+    'DAY' => 'r 64',
+    'WEEK' => 'r 64',
+    'MONTH' => 'r 64',
+    'YEAR' => 'r 64',
+    'MINUTE_SECOND' => 'r 64',
+    'HOUR_SECOND' => 'r 64',
+    'HOUR_MINUTE' => 'r 64',
+    'DAY_SECOND' => 'r 64',
+    'DAY_MINUTE' => 'r 64',
+    'DAY_HOUR' => 'r 64',
+    'YEAR_MONTH' => 'r 64',
+    'GROUP' => 'r 64',
+    '#' => 'r 64',
+  ),
+  157 => 
+  array (
+    'expressionD' => 's 158',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  158 => 
+  array (
+    'AND' => 'r 65',
+    'OR' => 'r 65',
+    '\'|\'' => 'r 65',
+    'IN' => 'r 65',
+    'BETWEEN' => 'r 65',
+    'UNION' => 'r 65',
+    'AS' => 'r 65',
+    '\',\'' => 'r 65',
+    '\')\'' => 'r 65',
+    'CROSS' => 'r 65',
+    'FULL' => 'r 65',
+    'RIGHT' => 'r 65',
+    'LEFT' => 'r 65',
+    'INNER' => 'r 65',
+    'name' => 'r 65',
+    'FROM' => 'r 65',
+    'ORDER' => 'r 65',
+    'LIMIT' => 'r 65',
+    'ON' => 'r 65',
+    'SECOND' => 'r 65',
+    'MINUTE' => 'r 65',
+    'HOUR' => 'r 65',
+    'DAY' => 'r 65',
+    'WEEK' => 'r 65',
+    'MONTH' => 'r 65',
+    'YEAR' => 'r 65',
+    'MINUTE_SECOND' => 'r 65',
+    'HOUR_SECOND' => 'r 65',
+    'HOUR_MINUTE' => 'r 65',
+    'DAY_SECOND' => 'r 65',
+    'DAY_MINUTE' => 'r 65',
+    'DAY_HOUR' => 'r 65',
+    'YEAR_MONTH' => 'r 65',
+    'GROUP' => 'r 65',
+    '#' => 'r 65',
+  ),
+  159 => 
+  array (
+    'expressionD' => 's 160',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  160 => 
+  array (
+    'AND' => 'r 67',
+    'OR' => 'r 67',
+    '\'|\'' => 'r 67',
+    'IN' => 'r 67',
+    'BETWEEN' => 'r 67',
+    'UNION' => 'r 67',
+    'AS' => 'r 67',
+    '\',\'' => 'r 67',
+    '\')\'' => 'r 67',
+    'CROSS' => 'r 67',
+    'FULL' => 'r 67',
+    'RIGHT' => 'r 67',
+    'LEFT' => 'r 67',
+    'INNER' => 'r 67',
+    'name' => 'r 67',
+    'FROM' => 'r 67',
+    'ORDER' => 'r 67',
+    'LIMIT' => 'r 67',
+    'ON' => 'r 67',
+    'SECOND' => 'r 67',
+    'MINUTE' => 'r 67',
+    'HOUR' => 'r 67',
+    'DAY' => 'r 67',
+    'WEEK' => 'r 67',
+    'MONTH' => 'r 67',
+    'YEAR' => 'r 67',
+    'MINUTE_SECOND' => 'r 67',
+    'HOUR_SECOND' => 'r 67',
+    'HOUR_MINUTE' => 'r 67',
+    'DAY_SECOND' => 'r 67',
+    'DAY_MINUTE' => 'r 67',
+    'DAY_HOUR' => 'r 67',
+    'YEAR_MONTH' => 'r 67',
+    'GROUP' => 'r 67',
+    '#' => 'r 67',
+  ),
+  161 => 
+  array (
+    'expressionD' => 's 162',
+    '\'=\'' => 's 163',
+    'ALL' => 's 169',
+    'ANY' => 's 171',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  162 => 
+  array (
+    'AND' => 'r 61',
+    'OR' => 'r 61',
+    '\'|\'' => 'r 61',
+    'IN' => 'r 61',
+    'BETWEEN' => 'r 61',
+    'UNION' => 'r 61',
+    'AS' => 'r 61',
+    '\',\'' => 'r 61',
+    '\')\'' => 'r 61',
+    'CROSS' => 'r 61',
+    'FULL' => 'r 61',
+    'RIGHT' => 'r 61',
+    'LEFT' => 'r 61',
+    'INNER' => 'r 61',
+    'name' => 'r 61',
+    'FROM' => 'r 61',
+    'ORDER' => 'r 61',
+    'LIMIT' => 'r 61',
+    'ON' => 'r 61',
+    'SECOND' => 'r 61',
+    'MINUTE' => 'r 61',
+    'HOUR' => 'r 61',
+    'DAY' => 'r 61',
+    'WEEK' => 'r 61',
+    'MONTH' => 'r 61',
+    'YEAR' => 'r 61',
+    'MINUTE_SECOND' => 'r 61',
+    'HOUR_SECOND' => 'r 61',
+    'HOUR_MINUTE' => 'r 61',
+    'DAY_SECOND' => 'r 61',
+    'DAY_MINUTE' => 'r 61',
+    'DAY_HOUR' => 'r 61',
+    'YEAR_MONTH' => 'r 61',
+    'GROUP' => 'r 61',
+    '#' => 'r 61',
+  ),
+  163 => 
+  array (
+    'expressionD' => 's 164',
+    'ALL' => 's 165',
+    'ANY' => 's 167',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  164 => 
+  array (
+    'AND' => 'r 63',
+    'OR' => 'r 63',
+    '\'|\'' => 'r 63',
+    'IN' => 'r 63',
+    'BETWEEN' => 'r 63',
+    'UNION' => 'r 63',
+    'AS' => 'r 63',
+    '\',\'' => 'r 63',
+    '\')\'' => 'r 63',
+    'CROSS' => 'r 63',
+    'FULL' => 'r 63',
+    'RIGHT' => 'r 63',
+    'LEFT' => 'r 63',
+    'INNER' => 'r 63',
+    'name' => 'r 63',
+    'FROM' => 'r 63',
+    'ORDER' => 'r 63',
+    'LIMIT' => 'r 63',
+    'ON' => 'r 63',
+    'SECOND' => 'r 63',
+    'MINUTE' => 'r 63',
+    'HOUR' => 'r 63',
+    'DAY' => 'r 63',
+    'WEEK' => 'r 63',
+    'MONTH' => 'r 63',
+    'YEAR' => 'r 63',
+    'MINUTE_SECOND' => 'r 63',
+    'HOUR_SECOND' => 'r 63',
+    'HOUR_MINUTE' => 'r 63',
+    'DAY_SECOND' => 'r 63',
+    'DAY_MINUTE' => 'r 63',
+    'DAY_HOUR' => 'r 63',
+    'YEAR_MONTH' => 'r 63',
+    'GROUP' => 'r 63',
+    '#' => 'r 63',
+  ),
+  165 => 
+  array (
+    'expressionD' => 's 166',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  166 => 
+  array (
+    'AND' => 'r 70',
+    'OR' => 'r 70',
+    '\'|\'' => 'r 70',
+    'IN' => 'r 70',
+    'BETWEEN' => 'r 70',
+    'UNION' => 'r 70',
+    'AS' => 'r 70',
+    '\',\'' => 'r 70',
+    '\')\'' => 'r 70',
+    'CROSS' => 'r 70',
+    'FULL' => 'r 70',
+    'RIGHT' => 'r 70',
+    'LEFT' => 'r 70',
+    'INNER' => 'r 70',
+    'name' => 'r 70',
+    'FROM' => 'r 70',
+    'ORDER' => 'r 70',
+    'LIMIT' => 'r 70',
+    'ON' => 'r 70',
+    'SECOND' => 'r 70',
+    'MINUTE' => 'r 70',
+    'HOUR' => 'r 70',
+    'DAY' => 'r 70',
+    'WEEK' => 'r 70',
+    'MONTH' => 'r 70',
+    'YEAR' => 'r 70',
+    'MINUTE_SECOND' => 'r 70',
+    'HOUR_SECOND' => 'r 70',
+    'HOUR_MINUTE' => 'r 70',
+    'DAY_SECOND' => 'r 70',
+    'DAY_MINUTE' => 'r 70',
+    'DAY_HOUR' => 'r 70',
+    'YEAR_MONTH' => 'r 70',
+    'GROUP' => 'r 70',
+    '#' => 'r 70',
+  ),
+  167 => 
+  array (
+    'expressionD' => 's 168',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  168 => 
+  array (
+    'AND' => 'r 72',
+    'OR' => 'r 72',
+    '\'|\'' => 'r 72',
+    'IN' => 'r 72',
+    'BETWEEN' => 'r 72',
+    'UNION' => 'r 72',
+    'AS' => 'r 72',
+    '\',\'' => 'r 72',
+    '\')\'' => 'r 72',
+    'CROSS' => 'r 72',
+    'FULL' => 'r 72',
+    'RIGHT' => 'r 72',
+    'LEFT' => 'r 72',
+    'INNER' => 'r 72',
+    'name' => 'r 72',
+    'FROM' => 'r 72',
+    'ORDER' => 'r 72',
+    'LIMIT' => 'r 72',
+    'ON' => 'r 72',
+    'SECOND' => 'r 72',
+    'MINUTE' => 'r 72',
+    'HOUR' => 'r 72',
+    'DAY' => 'r 72',
+    'WEEK' => 'r 72',
+    'MONTH' => 'r 72',
+    'YEAR' => 'r 72',
+    'MINUTE_SECOND' => 'r 72',
+    'HOUR_SECOND' => 'r 72',
+    'HOUR_MINUTE' => 'r 72',
+    'DAY_SECOND' => 'r 72',
+    'DAY_MINUTE' => 'r 72',
+    'DAY_HOUR' => 'r 72',
+    'YEAR_MONTH' => 'r 72',
+    'GROUP' => 'r 72',
+    '#' => 'r 72',
+  ),
+  169 => 
+  array (
+    'expressionD' => 's 170',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  170 => 
+  array (
+    'AND' => 'r 69',
+    'OR' => 'r 69',
+    '\'|\'' => 'r 69',
+    'IN' => 'r 69',
+    'BETWEEN' => 'r 69',
+    'UNION' => 'r 69',
+    'AS' => 'r 69',
+    '\',\'' => 'r 69',
+    '\')\'' => 'r 69',
+    'CROSS' => 'r 69',
+    'FULL' => 'r 69',
+    'RIGHT' => 'r 69',
+    'LEFT' => 'r 69',
+    'INNER' => 'r 69',
+    'name' => 'r 69',
+    'FROM' => 'r 69',
+    'ORDER' => 'r 69',
+    'LIMIT' => 'r 69',
+    'ON' => 'r 69',
+    'SECOND' => 'r 69',
+    'MINUTE' => 'r 69',
+    'HOUR' => 'r 69',
+    'DAY' => 'r 69',
+    'WEEK' => 'r 69',
+    'MONTH' => 'r 69',
+    'YEAR' => 'r 69',
+    'MINUTE_SECOND' => 'r 69',
+    'HOUR_SECOND' => 'r 69',
+    'HOUR_MINUTE' => 'r 69',
+    'DAY_SECOND' => 'r 69',
+    'DAY_MINUTE' => 'r 69',
+    'DAY_HOUR' => 'r 69',
+    'YEAR_MONTH' => 'r 69',
+    'GROUP' => 'r 69',
+    '#' => 'r 69',
+  ),
+  171 => 
+  array (
+    'expressionD' => 's 172',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  172 => 
+  array (
+    'AND' => 'r 71',
+    'OR' => 'r 71',
+    '\'|\'' => 'r 71',
+    'IN' => 'r 71',
+    'BETWEEN' => 'r 71',
+    'UNION' => 'r 71',
+    'AS' => 'r 71',
+    '\',\'' => 'r 71',
+    '\')\'' => 'r 71',
+    'CROSS' => 'r 71',
+    'FULL' => 'r 71',
+    'RIGHT' => 'r 71',
+    'LEFT' => 'r 71',
+    'INNER' => 'r 71',
+    'name' => 'r 71',
+    'FROM' => 'r 71',
+    'ORDER' => 'r 71',
+    'LIMIT' => 'r 71',
+    'ON' => 'r 71',
+    'SECOND' => 'r 71',
+    'MINUTE' => 'r 71',
+    'HOUR' => 'r 71',
+    'DAY' => 'r 71',
+    'WEEK' => 'r 71',
+    'MONTH' => 'r 71',
+    'YEAR' => 'r 71',
+    'MINUTE_SECOND' => 'r 71',
+    'HOUR_SECOND' => 'r 71',
+    'HOUR_MINUTE' => 'r 71',
+    'DAY_SECOND' => 'r 71',
+    'DAY_MINUTE' => 'r 71',
+    'DAY_HOUR' => 'r 71',
+    'YEAR_MONTH' => 'r 71',
+    'GROUP' => 'r 71',
+    '#' => 'r 71',
+  ),
+  173 => 
+  array (
+    '\'=\'' => 's 174',
+  ),
+  174 => 
+  array (
+    'expressionD' => 's 175',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  175 => 
+  array (
+    'AND' => 'r 73',
+    'OR' => 'r 73',
+    '\'|\'' => 'r 73',
+    'IN' => 'r 73',
+    'BETWEEN' => 'r 73',
+    'UNION' => 'r 73',
+    'AS' => 'r 73',
+    '\',\'' => 'r 73',
+    '\')\'' => 'r 73',
+    'CROSS' => 'r 73',
+    'FULL' => 'r 73',
+    'RIGHT' => 'r 73',
+    'LEFT' => 'r 73',
+    'INNER' => 'r 73',
+    'name' => 'r 73',
+    'FROM' => 'r 73',
+    'ORDER' => 'r 73',
+    'LIMIT' => 'r 73',
+    'ON' => 'r 73',
+    'SECOND' => 'r 73',
+    'MINUTE' => 'r 73',
+    'HOUR' => 'r 73',
+    'DAY' => 'r 73',
+    'WEEK' => 'r 73',
+    'MONTH' => 'r 73',
+    'YEAR' => 'r 73',
+    'MINUTE_SECOND' => 'r 73',
+    'HOUR_SECOND' => 'r 73',
+    'HOUR_MINUTE' => 'r 73',
+    'DAY_SECOND' => 'r 73',
+    'DAY_MINUTE' => 'r 73',
+    'DAY_HOUR' => 'r 73',
+    'YEAR_MONTH' => 'r 73',
+    'GROUP' => 'r 73',
+    '#' => 'r 73',
+  ),
+  176 => 
+  array (
+    'likeexpression' => 's 177',
+    'constant' => 's 178',
+  ),
+  177 => 
+  array (
+    'AND' => 'r 74',
+    'OR' => 'r 74',
+    '\'|\'' => 'r 74',
+    'IN' => 'r 74',
+    'BETWEEN' => 'r 74',
+    'UNION' => 'r 74',
+    'AS' => 'r 74',
+    '\',\'' => 'r 74',
+    '\')\'' => 'r 74',
+    'CROSS' => 'r 74',
+    'FULL' => 'r 74',
+    'RIGHT' => 'r 74',
+    'LEFT' => 'r 74',
+    'INNER' => 'r 74',
+    'name' => 'r 74',
+    'FROM' => 'r 74',
+    'ORDER' => 'r 74',
+    'LIMIT' => 'r 74',
+    'ON' => 'r 74',
+    'SECOND' => 'r 74',
+    'MINUTE' => 'r 74',
+    'HOUR' => 'r 74',
+    'DAY' => 'r 74',
+    'WEEK' => 'r 74',
+    'MONTH' => 'r 74',
+    'YEAR' => 'r 74',
+    'MINUTE_SECOND' => 'r 74',
+    'HOUR_SECOND' => 'r 74',
+    'HOUR_MINUTE' => 'r 74',
+    'DAY_SECOND' => 'r 74',
+    'DAY_MINUTE' => 'r 74',
+    'DAY_HOUR' => 'r 74',
+    'YEAR_MONTH' => 'r 74',
+    'GROUP' => 'r 74',
+    '#' => 'r 74',
+  ),
+  178 => 
+  array (
+    'AND' => 'r 94',
+    'OR' => 'r 94',
+    '\'|\'' => 'r 94',
+    'IN' => 'r 94',
+    'BETWEEN' => 'r 94',
+    'UNION' => 'r 94',
+    'AS' => 'r 94',
+    '\',\'' => 'r 94',
+    '\')\'' => 'r 94',
+    'CROSS' => 'r 94',
+    'FULL' => 'r 94',
+    'RIGHT' => 'r 94',
+    'LEFT' => 'r 94',
+    'INNER' => 'r 94',
+    'name' => 'r 94',
+    'FROM' => 'r 94',
+    'ORDER' => 'r 94',
+    'LIMIT' => 'r 94',
+    'ON' => 'r 94',
+    'SECOND' => 'r 94',
+    'MINUTE' => 'r 94',
+    'HOUR' => 'r 94',
+    'DAY' => 'r 94',
+    'WEEK' => 'r 94',
+    'MONTH' => 'r 94',
+    'YEAR' => 'r 94',
+    'MINUTE_SECOND' => 'r 94',
+    'HOUR_SECOND' => 'r 94',
+    'HOUR_MINUTE' => 'r 94',
+    'DAY_SECOND' => 'r 94',
+    'DAY_MINUTE' => 'r 94',
+    'DAY_HOUR' => 'r 94',
+    'YEAR_MONTH' => 'r 94',
+    'GROUP' => 'r 94',
+    '#' => 'r 94',
+  ),
+  179 => 
+  array (
+    '\',\'' => 's 180',
+    'HAVING' => 'r 95',
+    'ORDER' => 'r 95',
+    'LIMIT' => 'r 95',
+    '\')\'' => 'r 95',
+    '#' => 'r 95',
+  ),
+  180 => 
+  array (
+    'identifier' => 's 179',
+    'identifierlist' => 's 181',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  181 => 
+  array (
+    'HAVING' => 'r 96',
+    'ORDER' => 'r 96',
+    'LIMIT' => 'r 96',
+    '\')\'' => 'r 96',
+    '#' => 'r 96',
+  ),
+  182 => 
+  array (
+    'expression' => 's 183',
+    'expressionA' => 's 6',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  183 => 
+  array (
+    'GROUP' => 'r 10',
+    'ORDER' => 'r 10',
+    'LIMIT' => 'r 10',
+    '\')\'' => 'r 10',
+    '#' => 'r 10',
+  ),
+  184 => 
+  array (
+    'fromtableexpression' => 's 185',
+    '\'(\'' => 's 186',
+    'identifier' => 's 197',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  185 => 
+  array (
+    'WHERE' => 'r 27',
+    'GROUP' => 'r 27',
+    'ORDER' => 'r 27',
+    'LIMIT' => 'r 27',
+    '\',\'' => 'r 27',
+    '\')\'' => 'r 27',
+    '#' => 'r 27',
+  ),
+  186 => 
+  array (
+    '\'(\'' => 's 187',
+    'fromtableexpression' => 's 188',
+    'identifier' => 's 190',
+    'expressionEndswithAlias' => 's 196',
+    'expressionWithAlias' => 's 83',
+    'expressionA' => 's 126',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  187 => 
+  array (
+    'filterresult' => 's 70',
+    'fullExpression' => 's 23',
+    'selectfromstatement' => 's 1',
+    'unionstatement' => 's 2',
+    'expression' => 's 24',
+    'SELECT' => 's 25',
+    '\'(\'' => 's 187',
+    'fromtableexpression' => 's 188',
+    'identifier' => 's 190',
+    'expressionEndswithAlias' => 's 194',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'statement' => 's 124',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  188 => 
+  array (
+    '\')\'' => 's 189',
+  ),
+  189 => 
+  array (
+    '\',\'' => 'r 28',
+    'WHERE' => 'r 28',
+    'GROUP' => 'r 28',
+    'ORDER' => 'r 28',
+    'LIMIT' => 'r 28',
+    '\')\'' => 'r 28',
+    '#' => 'r 28',
+  ),
+  190 => 
+  array (
+    'asopt' => 's 191',
+    'AS' => 's 193',
+    '\'(\'' => 's 19',
+    '\')\'' => 'r 29',
+    'name' => 'r 40',
+    '\'/\'' => 'r 83',
+    '\'*\'' => 'r 83',
+    '\'-\'' => 'r 83',
+    '\'+\'' => 'r 83',
+    'LIKE' => 'r 83',
+    '\'!\'' => 'r 83',
+    '\'>\'' => 'r 83',
+    '\'<\'' => 'r 83',
+    '\'=\'' => 'r 83',
+    'AND' => 'r 83',
+    'OR' => 'r 83',
+    '\'|\'' => 'r 83',
+    'CROSS' => 'r 83',
+    'FULL' => 'r 83',
+    'RIGHT' => 'r 83',
+    'LEFT' => 'r 83',
+    'INNER' => 'r 83',
+    'IN' => 'r 83',
+    'BETWEEN' => 'r 83',
+    'UNION' => 'r 83',
+  ),
+  191 => 
+  array (
+    'allowedalias' => 's 192',
+    'name' => 's 82',
+  ),
+  192 => 
+  array (
+    '\')\'' => 'r 31',
+    '\',\'' => 'r 31',
+    'WHERE' => 'r 31',
+    'GROUP' => 'r 31',
+    'ORDER' => 'r 31',
+    'LIMIT' => 'r 31',
+    '#' => 'r 31',
+  ),
+  193 => 
+  array (
+    'name' => 'r 39',
+  ),
+  194 => 
+  array (
+    '\')\'' => 's 195',
+  ),
+  195 => 
+  array (
+    '\')\'' => 'r 30',
+    '\',\'' => 'r 30',
+    'WHERE' => 'r 30',
+    'GROUP' => 'r 30',
+    'ORDER' => 'r 30',
+    'LIMIT' => 'r 30',
+    '#' => 'r 30',
+  ),
+  196 => 
+  array (
+    '\')\'' => 's 195',
+  ),
+  197 => 
+  array (
+    'asopt' => 's 191',
+    'AS' => 's 193',
+    '\',\'' => 'r 29',
+    'WHERE' => 'r 29',
+    'GROUP' => 'r 29',
+    'ORDER' => 'r 29',
+    'LIMIT' => 'r 29',
+    '\')\'' => 'r 29',
+    '#' => 'r 29',
+    'name' => 'r 40',
   ),
   198 => 
   array (
-    'JOIN' => 's 199',
+    '\',\'' => 'r 26',
+    'WHERE' => 'r 26',
+    'GROUP' => 'r 26',
+    'ORDER' => 'r 26',
+    'LIMIT' => 'r 26',
+    '\')\'' => 'r 26',
+    '#' => 'r 26',
   ),
   199 => 
   array (
-    'expressionA' => 's 200',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
-    'expressionE' => 's 11',
-    'expressionF' => 's 14',
-    'endexpression' => 's 17',
-    'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'FROM' => 'r 32',
   ),
   200 => 
   array (
-    'ON' => 's 201',
+    'asopt' => 's 201',
+    '\',\'' => 's 205',
+    'AS' => 's 193',
+    'FROM' => 'r 33',
+    'name' => 'r 40',
   ),
   201 => 
   array (
-    'expressionA' => 's 202',
-    'expressionAB' => 's 56',
-    'expressionB' => 's 59',
-    'expressionC' => 's 62',
-    'expressionD' => 's 65',
+    'allowedalias' => 's 202',
+    'name' => 's 82',
+  ),
+  202 => 
+  array (
+    '\',\'' => 's 203',
+    'FROM' => 'r 34',
+  ),
+  203 => 
+  array (
+    'expression' => 's 200',
+    'listofcolumns' => 's 204',
+    'expressionA' => 's 6',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
     'expressionE' => 's 11',
     'expressionF' => 's 14',
     'endexpression' => 's 17',
     'identifier' => 's 18',
-    'constant' => 's 68',
-    'EXTRACT' => 's 69',
-    'DATE_ADD' => 's 75',
-    'DATE_SUB' => 's 97',
-    '\'(\'' => 's 107',
-    'name' => 's 105',
-    '\'*\'' => 's 106',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
   ),
-  202 => 
+  204 => 
   array (
-    'UNION' => 'r 42',
-    '\',\'' => 'r 42',
-    '\')\'' => 'r 42',
-    'AS' => 'r 42',
-    'name' => 'r 42',
-    'FROM' => 'r 42',
-    'WHERE' => 'r 42',
-    'GROUP' => 'r 42',
-    'ORDER' => 'r 42',
-    'LIMIT' => 'r 42',
-    'SECOND' => 'r 42',
-    'MINUTE' => 'r 42',
-    'HOUR' => 'r 42',
-    'DAY' => 'r 42',
-    'WEEK' => 'r 42',
-    'MONTH' => 'r 42',
-    'YEAR' => 'r 42',
-    'MINUTE_SECOND' => 'r 42',
-    'HOUR_SECOND' => 'r 42',
-    'HOUR_MINUTE' => 'r 42',
-    'DAY_SECOND' => 'r 42',
-    'DAY_MINUTE' => 'r 42',
-    'DAY_HOUR' => 'r 42',
-    'YEAR_MONTH' => 'r 42',
-    '#' => 'r 42',
+    'FROM' => 'r 36',
   ),
-  203 => 
+  205 => 
   array (
-    '#' => 'r 104',
+    'listoftables' => 's 206',
+  ),
+  206 => 
+  array (
+    'FROM' => 'r 35',
+  ),
+  207 => 
+  array (
+    'constant' => 'r 8',
+    'EXTRACT' => 'r 8',
+    'DATE_ADD' => 'r 8',
+    'DATE_SUB' => 'r 8',
+    '\'(\'' => 'r 8',
+    'name' => 'r 8',
+    '\'*\'' => 'r 8',
+  ),
+  208 => 
+  array (
+    '\'/\'' => 'r 85',
+    '\'*\'' => 'r 85',
+    '\'-\'' => 'r 85',
+    '\'+\'' => 'r 85',
+    'LIKE' => 'r 85',
+    '\'!\'' => 'r 85',
+    '\'>\'' => 'r 85',
+    '\'<\'' => 'r 85',
+    '\'=\'' => 'r 85',
+    'AND' => 'r 85',
+    'OR' => 'r 85',
+    '\'|\'' => 'r 85',
+    'IN' => 'r 85',
+    'BETWEEN' => 'r 85',
+    'UNION' => 'r 85',
+    'AS' => 'r 85',
+    'CROSS' => 'r 85',
+    'FULL' => 'r 85',
+    'RIGHT' => 'r 85',
+    'LEFT' => 'r 85',
+    'INNER' => 'r 85',
+    '\')\'' => 'r 85',
+    '\',\'' => 'r 85',
+    'name' => 'r 85',
+    'FROM' => 'r 85',
+    'ORDER' => 'r 85',
+    'LIMIT' => 'r 85',
+    'ON' => 'r 85',
+    'SECOND' => 'r 85',
+    'MINUTE' => 'r 85',
+    'HOUR' => 'r 85',
+    'DAY' => 'r 85',
+    'WEEK' => 'r 85',
+    'MONTH' => 'r 85',
+    'YEAR' => 'r 85',
+    'MINUTE_SECOND' => 'r 85',
+    'HOUR_SECOND' => 'r 85',
+    'HOUR_MINUTE' => 'r 85',
+    'DAY_SECOND' => 'r 85',
+    'DAY_MINUTE' => 'r 85',
+    'DAY_HOUR' => 'r 85',
+    'YEAR_MONTH' => 'r 85',
+    'GROUP' => 'r 85',
+    '#' => 'r 85',
+  ),
+  209 => 
+  array (
+    '\')\'' => 's 210',
+    '\',\'' => 's 211',
+  ),
+  210 => 
+  array (
+    '\'/\'' => 'r 89',
+    '\'*\'' => 'r 89',
+    '\'-\'' => 'r 89',
+    '\'+\'' => 'r 89',
+    'LIKE' => 'r 89',
+    '\'!\'' => 'r 89',
+    '\'>\'' => 'r 89',
+    '\'<\'' => 'r 89',
+    '\'=\'' => 'r 89',
+    'AND' => 'r 89',
+    'OR' => 'r 89',
+    '\'|\'' => 'r 89',
+    'IN' => 'r 89',
+    'BETWEEN' => 'r 89',
+    'UNION' => 'r 89',
+    'AS' => 'r 89',
+    'CROSS' => 'r 89',
+    'FULL' => 'r 89',
+    'RIGHT' => 'r 89',
+    'LEFT' => 'r 89',
+    'INNER' => 'r 89',
+    '\')\'' => 'r 89',
+    '\',\'' => 'r 89',
+    'name' => 'r 89',
+    'FROM' => 'r 89',
+    'ORDER' => 'r 89',
+    'LIMIT' => 'r 89',
+    'ON' => 'r 89',
+    'SECOND' => 'r 89',
+    'MINUTE' => 'r 89',
+    'HOUR' => 'r 89',
+    'DAY' => 'r 89',
+    'WEEK' => 'r 89',
+    'MONTH' => 'r 89',
+    'YEAR' => 'r 89',
+    'MINUTE_SECOND' => 'r 89',
+    'HOUR_SECOND' => 'r 89',
+    'HOUR_MINUTE' => 'r 89',
+    'DAY_SECOND' => 'r 89',
+    'DAY_MINUTE' => 'r 89',
+    'DAY_HOUR' => 'r 89',
+    'YEAR_MONTH' => 'r 89',
+    'GROUP' => 'r 89',
+    '#' => 'r 89',
+  ),
+  211 => 
+  array (
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'statementBetweenCommas' => 's 212',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  212 => 
+  array (
+    '\')\'' => 's 213',
+    '\',\'' => 's 214',
+  ),
+  213 => 
+  array (
+    '\'/\'' => 'r 90',
+    '\'*\'' => 'r 90',
+    '\'-\'' => 'r 90',
+    '\'+\'' => 'r 90',
+    'LIKE' => 'r 90',
+    '\'!\'' => 'r 90',
+    '\'>\'' => 'r 90',
+    '\'<\'' => 'r 90',
+    '\'=\'' => 'r 90',
+    'AND' => 'r 90',
+    'OR' => 'r 90',
+    '\'|\'' => 'r 90',
+    'IN' => 'r 90',
+    'BETWEEN' => 'r 90',
+    'UNION' => 'r 90',
+    'AS' => 'r 90',
+    'CROSS' => 'r 90',
+    'FULL' => 'r 90',
+    'RIGHT' => 'r 90',
+    'LEFT' => 'r 90',
+    'INNER' => 'r 90',
+    '\')\'' => 'r 90',
+    '\',\'' => 'r 90',
+    'name' => 'r 90',
+    'FROM' => 'r 90',
+    'ORDER' => 'r 90',
+    'LIMIT' => 'r 90',
+    'ON' => 'r 90',
+    'SECOND' => 'r 90',
+    'MINUTE' => 'r 90',
+    'HOUR' => 'r 90',
+    'DAY' => 'r 90',
+    'WEEK' => 'r 90',
+    'MONTH' => 'r 90',
+    'YEAR' => 'r 90',
+    'MINUTE_SECOND' => 'r 90',
+    'HOUR_SECOND' => 'r 90',
+    'HOUR_MINUTE' => 'r 90',
+    'DAY_SECOND' => 'r 90',
+    'DAY_MINUTE' => 'r 90',
+    'DAY_HOUR' => 'r 90',
+    'YEAR_MONTH' => 'r 90',
+    'GROUP' => 'r 90',
+    '#' => 'r 90',
+  ),
+  214 => 
+  array (
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'statementBetweenCommas' => 's 215',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  215 => 
+  array (
+    '\')\'' => 's 216',
+    '\',\'' => 's 217',
+  ),
+  216 => 
+  array (
+    '\'/\'' => 'r 91',
+    '\'*\'' => 'r 91',
+    '\'-\'' => 'r 91',
+    '\'+\'' => 'r 91',
+    'LIKE' => 'r 91',
+    '\'!\'' => 'r 91',
+    '\'>\'' => 'r 91',
+    '\'<\'' => 'r 91',
+    '\'=\'' => 'r 91',
+    'AND' => 'r 91',
+    'OR' => 'r 91',
+    '\'|\'' => 'r 91',
+    'IN' => 'r 91',
+    'BETWEEN' => 'r 91',
+    'UNION' => 'r 91',
+    'AS' => 'r 91',
+    'CROSS' => 'r 91',
+    'FULL' => 'r 91',
+    'RIGHT' => 'r 91',
+    'LEFT' => 'r 91',
+    'INNER' => 'r 91',
+    '\')\'' => 'r 91',
+    '\',\'' => 'r 91',
+    'name' => 'r 91',
+    'FROM' => 'r 91',
+    'ORDER' => 'r 91',
+    'LIMIT' => 'r 91',
+    'ON' => 'r 91',
+    'SECOND' => 'r 91',
+    'MINUTE' => 'r 91',
+    'HOUR' => 'r 91',
+    'DAY' => 'r 91',
+    'WEEK' => 'r 91',
+    'MONTH' => 'r 91',
+    'YEAR' => 'r 91',
+    'MINUTE_SECOND' => 'r 91',
+    'HOUR_SECOND' => 'r 91',
+    'HOUR_MINUTE' => 'r 91',
+    'DAY_SECOND' => 'r 91',
+    'DAY_MINUTE' => 'r 91',
+    'DAY_HOUR' => 'r 91',
+    'YEAR_MONTH' => 'r 91',
+    'GROUP' => 'r 91',
+    '#' => 'r 91',
+  ),
+  217 => 
+  array (
+    '\'(\'' => 's 20',
+    'fullExpression' => 's 91',
+    'expression' => 's 92',
+    'expressionEndswithAlias' => 's 71',
+    'expressionA' => 's 72',
+    'expressionWithAlias' => 's 83',
+    'expressionAB' => 's 53',
+    'expressionB' => 's 56',
+    'expressionC' => 's 59',
+    'expressionD' => 's 62',
+    'expressionE' => 's 11',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    'statementBetweenCommas' => 's 218',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  218 => 
+  array (
+    '\')\'' => 's 219',
+  ),
+  219 => 
+  array (
+    '\'/\'' => 'r 92',
+    '\'*\'' => 'r 92',
+    '\'-\'' => 'r 92',
+    '\'+\'' => 'r 92',
+    'LIKE' => 'r 92',
+    '\'!\'' => 'r 92',
+    '\'>\'' => 'r 92',
+    '\'<\'' => 'r 92',
+    '\'=\'' => 'r 92',
+    'AND' => 'r 92',
+    'OR' => 'r 92',
+    '\'|\'' => 'r 92',
+    'IN' => 'r 92',
+    'BETWEEN' => 'r 92',
+    'UNION' => 'r 92',
+    'AS' => 'r 92',
+    'CROSS' => 'r 92',
+    'FULL' => 'r 92',
+    'RIGHT' => 'r 92',
+    'LEFT' => 'r 92',
+    'INNER' => 'r 92',
+    '\')\'' => 'r 92',
+    '\',\'' => 'r 92',
+    'name' => 'r 92',
+    'FROM' => 'r 92',
+    'ORDER' => 'r 92',
+    'LIMIT' => 'r 92',
+    'ON' => 'r 92',
+    'SECOND' => 'r 92',
+    'MINUTE' => 'r 92',
+    'HOUR' => 'r 92',
+    'DAY' => 'r 92',
+    'WEEK' => 'r 92',
+    'MONTH' => 'r 92',
+    'YEAR' => 'r 92',
+    'MINUTE_SECOND' => 'r 92',
+    'HOUR_SECOND' => 'r 92',
+    'HOUR_MINUTE' => 'r 92',
+    'DAY_SECOND' => 'r 92',
+    'DAY_MINUTE' => 'r 92',
+    'DAY_HOUR' => 'r 92',
+    'YEAR_MONTH' => 'r 92',
+    'GROUP' => 'r 92',
+    '#' => 'r 92',
+  ),
+  220 => 
+  array (
+    'expressionF' => 's 14',
+    'expressionE' => 's 221',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  221 => 
+  array (
+    '\'-\'' => 'r 80',
+    '\'+\'' => 'r 80',
+    'LIKE' => 'r 80',
+    '\'!\'' => 'r 80',
+    '\'>\'' => 'r 80',
+    '\'<\'' => 'r 80',
+    '\'=\'' => 'r 80',
+    'AND' => 'r 80',
+    'OR' => 'r 80',
+    '\'|\'' => 'r 80',
+    'IN' => 'r 80',
+    'BETWEEN' => 'r 80',
+    'UNION' => 'r 80',
+    'AS' => 'r 80',
+    '\',\'' => 'r 80',
+    '\')\'' => 'r 80',
+    'CROSS' => 'r 80',
+    'FULL' => 'r 80',
+    'RIGHT' => 'r 80',
+    'LEFT' => 'r 80',
+    'INNER' => 'r 80',
+    'name' => 'r 80',
+    'FROM' => 'r 80',
+    'ORDER' => 'r 80',
+    'LIMIT' => 'r 80',
+    'ON' => 'r 80',
+    'SECOND' => 'r 80',
+    'MINUTE' => 'r 80',
+    'HOUR' => 'r 80',
+    'DAY' => 'r 80',
+    'WEEK' => 'r 80',
+    'MONTH' => 'r 80',
+    'YEAR' => 'r 80',
+    'MINUTE_SECOND' => 'r 80',
+    'HOUR_SECOND' => 'r 80',
+    'HOUR_MINUTE' => 'r 80',
+    'DAY_SECOND' => 'r 80',
+    'DAY_MINUTE' => 'r 80',
+    'DAY_HOUR' => 'r 80',
+    'YEAR_MONTH' => 'r 80',
+    'GROUP' => 'r 80',
+    '#' => 'r 80',
+  ),
+  222 => 
+  array (
+    'expressionE' => 's 11',
+    'expressionD' => 's 223',
+    'expressionF' => 's 14',
+    'endexpression' => 's 17',
+    'identifier' => 's 18',
+    'constant' => 's 65',
+    'EXTRACT' => 's 66',
+    'DATE_ADD' => 's 89',
+    'DATE_SUB' => 's 113',
+    '\'(\'' => 's 123',
+    'name' => 's 121',
+    '\'*\'' => 's 122',
+  ),
+  223 => 
+  array (
+    'LIKE' => 'r 77',
+    '\'!\'' => 'r 77',
+    '\'>\'' => 'r 77',
+    '\'<\'' => 'r 77',
+    '\'=\'' => 'r 77',
+    'AND' => 'r 77',
+    'OR' => 'r 77',
+    '\'|\'' => 'r 77',
+    'IN' => 'r 77',
+    'BETWEEN' => 'r 77',
+    'UNION' => 'r 77',
+    'AS' => 'r 77',
+    '\',\'' => 'r 77',
+    '\')\'' => 'r 77',
+    'CROSS' => 'r 77',
+    'FULL' => 'r 77',
+    'RIGHT' => 'r 77',
+    'LEFT' => 'r 77',
+    'INNER' => 'r 77',
+    'name' => 'r 77',
+    'FROM' => 'r 77',
+    'ORDER' => 'r 77',
+    'LIMIT' => 'r 77',
+    'ON' => 'r 77',
+    'SECOND' => 'r 77',
+    'MINUTE' => 'r 77',
+    'HOUR' => 'r 77',
+    'DAY' => 'r 77',
+    'WEEK' => 'r 77',
+    'MONTH' => 'r 77',
+    'YEAR' => 'r 77',
+    'MINUTE_SECOND' => 'r 77',
+    'HOUR_SECOND' => 'r 77',
+    'HOUR_MINUTE' => 'r 77',
+    'DAY_SECOND' => 'r 77',
+    'DAY_MINUTE' => 'r 77',
+    'DAY_HOUR' => 'r 77',
+    'YEAR_MONTH' => 'r 77',
+    'GROUP' => 'r 77',
+    '#' => 'r 77',
+  ),
+  224 => 
+  array (
+    '#' => 'r 114',
   ),
 );
-function reduce_0_statement_1($tokens, &$result) {
+function reduce_0_statementBetweenCommas_1($tokens, &$result) {
 #
-# (0) statement :=  filterresult
+# (0) statementBetweenCommas :=  '('  filterresult  ')'
+#
+$result = reset($tokens);
+$res =& $tokens[1];
+$result = $res;
+}
+
+function reduce_1_statementBetweenCommas_2($tokens, &$result) {
+#
+# (1) statementBetweenCommas :=  fullExpression
+#
+$result = reset($tokens);
+$res =& $tokens[0];
+$result = $res;
+}
+
+function reduce_2_statement_1($tokens, &$result) {
+#
+# (2) statement :=  filterresult
+#
+$result = reset($tokens);
+$res =& $tokens[0];
+$result = $res;
+}
+
+function reduce_3_statement_2($tokens, &$result) {
+#
+# (3) statement :=  fullExpression
+#
+$result = reset($tokens);
+$res =& $tokens[0];
+$result = $res;
+}
+
+function reduce_4_filterresult_1($tokens, &$result) {
+#
+# (4) filterresult :=  selectfromstatement
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_1_statement_2($tokens, &$result) {
+function reduce_5_filterresult_2($tokens, &$result) {
 #
-# (1) statement :=  expression
-#
-$result = reset($tokens);
-$result = $tokens[0];
-}
-
-function reduce_2_statement_3($tokens, &$result) {
-#
-# (2) statement :=  '('  filterresult  ')'  asopt  name
-#
-$result = reset($tokens);
-$stat =& $tokens[1];
-$tablealias =& $tokens[4];
-$result = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));
-}
-
-function reduce_3_filterresult_1($tokens, &$result) {
-#
-# (3) filterresult :=  selectfromstatement
+# (5) filterresult :=  unionstatement
 #
 $result = reset($tokens);
 $result = $tokens[0];/*TODO*/
 }
 
-function reduce_4_filterresult_2($tokens, &$result) {
+function reduce_6_unionstatement_1($tokens, &$result) {
 #
-# (4) filterresult :=  unionstatement
-#
-$result = reset($tokens);
-$result = $tokens[0];/*TODO*/
-}
-
-function reduce_5_unionstatement_1($tokens, &$result) {
-#
-# (5) unionstatement :=  expression  UNION  expression
+# (6) unionstatement :=  expression  UNION  expression
 #
 $result = reset($tokens);
 $expr1 =& $tokens[0];
@@ -4076,9 +3977,9 @@ $expr2 =& $tokens[2];
  throw new Exception("Union is not supported yet..."); /*TODO*/
 }
 
-function reduce_6_selectfromstatement_1($tokens, &$result) {
+function reduce_7_selectfromstatement_1($tokens, &$result) {
 #
-# (6) selectfromstatement :=  SELECT  uniquefilter  selecttablelist  FROM  fromtableexpression  wherefilter  groupfilter  orderbyfilter  limitfilter
+# (7) selectfromstatement :=  SELECT  uniquefilter  selectcolumnlist  FROM  fromtables  wherefilter  groupfilter  orderbyfilter  limitfilter
 #
 $result = reset($tokens);
 $distinct =& $tokens[1];
@@ -4105,42 +4006,42 @@ $limit =& $tokens[8];
                         $result=$totalfilter;
 }
 
-function reduce_7_uniquefilter_1($tokens, &$result) {
+function reduce_8_uniquefilter_1($tokens, &$result) {
 #
-# (7) uniquefilter :=  DISTINCT
+# (8) uniquefilter :=  DISTINCT
 #
 $result = reset($tokens);
 $result = new DistinctFilter();
 }
 
-function reduce_8_uniquefilter_2($tokens, &$result) {
+function reduce_9_uniquefilter_2($tokens, &$result) {
 #
-# (8) uniquefilter :=
+# (9) uniquefilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_9_wherefilter_1($tokens, &$result) {
+function reduce_10_wherefilter_1($tokens, &$result) {
 #
-# (9) wherefilter :=  WHERE  expression
+# (10) wherefilter :=  WHERE  expression
 #
 $result = reset($tokens);
 $expr =& $tokens[1];
 $result = new FilterByExpressionFilter($expr);
 }
 
-function reduce_10_wherefilter_2($tokens, &$result) {
+function reduce_11_wherefilter_2($tokens, &$result) {
 #
-# (10) wherefilter :=
+# (11) wherefilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_11_groupfilter_1($tokens, &$result) {
+function reduce_12_groupfilter_1($tokens, &$result) {
 #
-# (11) groupfilter :=  GROUP  BY  identifierlist  havingfilter
+# (12) groupfilter :=  GROUP  BY  identifierlist  havingfilter
 #
 $result = reset($tokens);
 $groupFields =& $tokens[2];
@@ -4148,43 +4049,43 @@ $having =& $tokens[3];
 $result = putFilterAfterIfExists(new DataGrouper($groupFields), $having);
 }
 
-function reduce_12_groupfilter_2($tokens, &$result) {
+function reduce_13_groupfilter_2($tokens, &$result) {
 #
-# (12) groupfilter :=
+# (13) groupfilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_13_havingfilter_1($tokens, &$result) {
+function reduce_14_havingfilter_1($tokens, &$result) {
 #
-# (13) havingfilter :=  HAVING  expression
+# (14) havingfilter :=  HAVING  expression
 #
 $result = reset($tokens);
 $expr =& $tokens[1];
 $result = new FilterByExpressionFilter($expr);
 }
 
-function reduce_14_havingfilter_2($tokens, &$result) {
+function reduce_15_havingfilter_2($tokens, &$result) {
 #
-# (14) havingfilter :=
+# (15) havingfilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_15_limitfilter_1($tokens, &$result) {
+function reduce_16_limitfilter_1($tokens, &$result) {
 #
-# (15) limitfilter :=  LIMIT  constant
+# (16) limitfilter :=  LIMIT  constant
 #
 $result = reset($tokens);
 $limit =& $tokens[1];
 $result = new LimitFilter(null, 0, $limit);
 }
 
-function reduce_16_limitfilter_2($tokens, &$result) {
+function reduce_17_limitfilter_2($tokens, &$result) {
 #
-# (16) limitfilter :=  LIMIT  constant  OFFSET  constant
+# (17) limitfilter :=  LIMIT  constant  OFFSET  constant
 #
 $result = reset($tokens);
 $limit =& $tokens[1];
@@ -4192,43 +4093,43 @@ $offset =& $tokens[3];
 $result = new LimitFilter(null, $offset, $limit);
 }
 
-function reduce_17_limitfilter_3($tokens, &$result) {
+function reduce_18_limitfilter_3($tokens, &$result) {
 #
-# (17) limitfilter :=
+# (18) limitfilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_18_orderbyfilter_1($tokens, &$result) {
+function reduce_19_orderbyfilter_1($tokens, &$result) {
 #
-# (18) orderbyfilter :=  ORDER  BY  orderbyidentifierlist
+# (19) orderbyfilter :=  ORDER  BY  orderbyidentifierlist
 #
 $result = reset($tokens);
 $columns =& $tokens[2];
  $result = new SortFieldsFilter($columns);
 }
 
-function reduce_19_orderbyfilter_2($tokens, &$result) {
+function reduce_20_orderbyfilter_2($tokens, &$result) {
 #
-# (19) orderbyfilter :=
+# (20) orderbyfilter :=
 #
 $result = reset($tokens);
 $result = null;
 }
 
-function reduce_20_orderbyidentifierlist_1($tokens, &$result) {
+function reduce_21_orderbyidentifierlist_1($tokens, &$result) {
 #
-# (20) orderbyidentifierlist :=  orderbyfield
+# (21) orderbyidentifierlist :=  orderbyfield
 #
 $result = reset($tokens);
 $f =& $tokens[0];
  $result = array($f); 
 }
 
-function reduce_21_orderbyidentifierlist_2($tokens, &$result) {
+function reduce_22_orderbyidentifierlist_2($tokens, &$result) {
 #
-# (21) orderbyidentifierlist :=  orderbyfield  ','  orderbyidentifierlist
+# (22) orderbyidentifierlist :=  orderbyfield  ','  orderbyidentifierlist
 #
 $result = reset($tokens);
 $f =& $tokens[0];
@@ -4236,71 +4137,107 @@ $flist =& $tokens[2];
  array_unshift($flist, $f); $result = $flist; 
 }
 
-function reduce_22_orderbyfield_1($tokens, &$result) {
+function reduce_23_orderbyfield_1($tokens, &$result) {
 #
-# (22) orderbyfield :=  name  ASC
+# (23) orderbyfield :=  name  ASC
 #
 $result = reset($tokens);
 $fieldname =& $tokens[0];
  $result = new SortFieldsFilterColumn(new Identifier($fieldname), SortFieldsFilterColumn::$SORTORDER_ASCENDING); 
 }
 
-function reduce_23_orderbyfield_2($tokens, &$result) {
+function reduce_24_orderbyfield_2($tokens, &$result) {
 #
-# (23) orderbyfield :=  name  DESC
+# (24) orderbyfield :=  name  DESC
 #
 $result = reset($tokens);
 $fieldname =& $tokens[0];
  $result = new SortFieldsFilterColumn(new Identifier($fieldname), SortFieldsFilterColumn::$SORTORDER_DESCENDING); 
 }
 
-function reduce_24_orderbyfield_3($tokens, &$result) {
+function reduce_25_orderbyfield_3($tokens, &$result) {
 #
-# (24) orderbyfield :=  name
+# (25) orderbyfield :=  name
 #
 $result = reset($tokens);
 $fieldname =& $tokens[0];
  $result = new SortFieldsFilterColumn(new Identifier($fieldname));
 }
 
-function reduce_25_fromtableexpression_1($tokens, &$result) {
+function reduce_26_fromtables_1($tokens, &$result) {
 #
-# (25) fromtableexpression :=  expression
+# (26) fromtables :=  fromtableexpression
 #
 $result = reset($tokens);
-$result=$tokens[0];
+$result = $tokens[0];
 }
 
-function reduce_26_fromtableexpression_2($tokens, &$result) {
+function reduce_27_fromtables_2($tokens, &$result) {
 #
-# (26) fromtableexpression :=  expression  asopt  name
+# (27) fromtables :=  fromtables  ','  fromtableexpression
+#
+$result = reset($tokens);
+$tab1 =& $tokens[0];
+$tab2 =& $tokens[2];
+$result = new DatasetJoinFilter(FALSE, FALSE, $tab1, $tab2, null);
+}
+
+function reduce_28_fromtableexpression_1($tokens, &$result) {
+#
+# (28) fromtableexpression :=  '('  fromtableexpression  ')'
+#
+$result = reset($tokens);
+$tab =& $tokens[1];
+$result = $tab;
+}
+
+function reduce_29_fromtableexpression_2($tokens, &$result) {
+#
+# (29) fromtableexpression :=  identifier
+#
+$result = reset($tokens);
+$result = new Identifier($tokens[0]);
+}
+
+function reduce_30_fromtableexpression_3($tokens, &$result) {
+#
+# (30) fromtableexpression :=  '('  expressionEndswithAlias  ')'
+#
+$result = reset($tokens);
+$tab =& $tokens[1];
+$result = $tab;
+}
+
+function reduce_31_fromtableexpression_4($tokens, &$result) {
+#
+# (31) fromtableexpression :=  identifier  asopt  allowedalias
 #
 $result = reset($tokens);
 $stat =& $tokens[0];
 $tablealias =& $tokens[2];
-$result = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));
+$result = putFilterAfterIfExists(new Identifier($stat), new TableAliasFilter($tablealias));
 }
 
-function reduce_27_selecttablelist_1($tokens, &$result) {
+function reduce_32_selectcolumnlist_1($tokens, &$result) {
 #
-# (27) selecttablelist :=  listoftables
+# (32) selectcolumnlist :=  listofcolumns
 #
 $result = reset($tokens);
 $result = new ColumnSelectionFilter($tokens[0]);
 }
 
-function reduce_28_listoftables_1($tokens, &$result) {
+function reduce_33_listofcolumns_1($tokens, &$result) {
 #
-# (28) listoftables :=  expression
+# (33) listofcolumns :=  expression
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
 $result = array(new ColumnSelectionFilterColumn($expr, null));
 }
 
-function reduce_29_listoftables_2($tokens, &$result) {
+function reduce_34_listofcolumns_2($tokens, &$result) {
 #
-# (29) listoftables :=  expression  asopt  allowedalias
+# (34) listofcolumns :=  expression  asopt  allowedalias
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -4308,9 +4245,9 @@ $alias =& $tokens[2];
 $result = array(new ColumnSelectionFilterColumn($expr, $alias));
 }
 
-function reduce_30_listoftables_3($tokens, &$result) {
+function reduce_35_listofcolumns_3($tokens, &$result) {
 #
-# (30) listoftables :=  expression  ','  listoftables
+# (35) listofcolumns :=  expression  ','  listoftables
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -4318,9 +4255,9 @@ $arr =& $tokens[2];
 array_unshift($arr, new ColumnSelectionFilterColumn($expr, null));$result = $arr;
 }
 
-function reduce_31_listoftables_4($tokens, &$result) {
+function reduce_36_listofcolumns_4($tokens, &$result) {
 #
-# (31) listoftables :=  expression  asopt  allowedalias  ','  listoftables
+# (36) listofcolumns :=  expression  asopt  allowedalias  ','  listofcolumns
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -4329,50 +4266,66 @@ $arr =& $tokens[4];
 array_unshift($arr, new ColumnSelectionFilterColumn($expr, $alias));$result = $arr;
 }
 
-function reduce_32_constantlist_1($tokens, &$result) {
+function reduce_37_constantlist_1($tokens, &$result) {
 #
-# (32) constantlist :=  constant
+# (37) constantlist :=  constant
 #
 $result = reset($tokens);
 $result = array(new Constant($tokens[0]));
 }
 
-function reduce_33_constantlist_2($tokens, &$result) {
+function reduce_38_constantlist_2($tokens, &$result) {
 #
-# (33) constantlist :=  constant  ','  constantlist
+# (38) constantlist :=  constant  ','  constantlist
 #
 $result = reset($tokens);
 $arr =& $tokens[2];
 array_unshift($arr, new Constant($tokens[0]));$result = $arr;
 }
 
-function reduce_34_asopt_1($tokens, &$result) {
+function reduce_39_asopt_1($tokens, &$result) {
 #
-# (34) asopt :=  AS
-#
-$result = reset($tokens);
-
-}
-
-function reduce_35_asopt_2($tokens, &$result) {
-#
-# (35) asopt :=
+# (39) asopt :=  AS
 #
 $result = reset($tokens);
 
 }
 
-function reduce_36_expression_1($tokens, &$result) {
+function reduce_40_asopt_2($tokens, &$result) {
 #
-# (36) expression :=  expressionA
+# (40) asopt :=
+#
+$result = reset($tokens);
+
+}
+
+function reduce_41_fullExpression_1($tokens, &$result) {
+#
+# (41) fullExpression :=  expression
+#
+$result = reset($tokens);
+$result=$tokens[0];
+}
+
+function reduce_42_fullExpression_2($tokens, &$result) {
+#
+# (42) fullExpression :=  expressionEndswithAlias
+#
+$result = reset($tokens);
+$result=$tokens[0];
+}
+
+function reduce_43_expression_1($tokens, &$result) {
+#
+# (43) expression :=  expressionA
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_37_expression_2($tokens, &$result) {
+function reduce_44_expression_2($tokens, &$result) {
 #
-# (37) expression :=  expressionA  BETWEEN  expressionD  AND  expressionD
+# (44) expression :=  expressionA  BETWEEN  expressionD  AND  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4381,62 +4334,90 @@ $c =& $tokens[4];
 $result = CombinedFilterGenerators::makeBetweenFilter($a,$b,$c);
 }
 
-function reduce_38_expression_3($tokens, &$result) {
+function reduce_45_expression_3($tokens, &$result) {
 #
-# (38) expression :=  expressionA  IN  '('  constantlist  ')'
+# (45) expression :=  expressionA  IN  '('  constantlist  ')'
 #
 $result = reset($tokens);
 $constantlist =& $tokens[3];
 $result = putFilterAfterIfExists($tokens[0], new CheckInFunction($constantlist));
 }
 
-function reduce_39_expression_4($tokens, &$result) {
+function reduce_46_expressionEndswithAlias_1($tokens, &$result) {
 #
-# (39) expression :=  expressionA  INNER  JOIN  expressionA  ON  expressionA
-#
-$result = reset($tokens);
-$a =& $tokens[0];
-$b =& $tokens[3];
-$c =& $tokens[5];
-$result = null;/*TODO*/
-}
-
-function reduce_40_expression_5($tokens, &$result) {
-#
-# (40) expression :=  expressionA  LEFT  JOIN  expressionA  ON  expressionA
+# (46) expressionEndswithAlias :=  expressionWithAlias  INNER  JOIN  expressionWithAlias  ON  expressionA
 #
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[3];
 $c =& $tokens[5];
-$result = null;/*TODO*/
+$result = new DatasetJoinFilter(FALSE, FALSE, $a, $b, $c);
 }
 
-function reduce_41_expression_6($tokens, &$result) {
+function reduce_47_expressionEndswithAlias_2($tokens, &$result) {
 #
-# (41) expression :=  expressionA  RIGHT  JOIN  expressionA  ON  expressionA
+# (47) expressionEndswithAlias :=  expressionWithAlias  LEFT  JOIN  expressionWithAlias  ON  expressionA
 #
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[3];
 $c =& $tokens[5];
-$result = null;/*TODO*/
+$result = new DatasetJoinFilter(TRUE, FALSE, $a, $b, $c);
 }
 
-function reduce_42_expression_7($tokens, &$result) {
+function reduce_48_expressionEndswithAlias_3($tokens, &$result) {
 #
-# (42) expression :=  expressionA  FULL  JOIN  expressionA  ON  expressionA
+# (48) expressionEndswithAlias :=  expressionWithAlias  RIGHT  JOIN  expressionWithAlias  ON  expressionA
 #
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[3];
 $c =& $tokens[5];
-$result = null;/*TODO*/
+$result = new DatasetJoinFilter(FALSE, TRUE, $a, $b, $c);
 }
 
-function reduce_43_expressionA_1($tokens, &$result) {
+function reduce_49_expressionEndswithAlias_4($tokens, &$result) {
 #
-# (43) expressionA :=  expressionAB  '|'  expressionA
+# (49) expressionEndswithAlias :=  expressionWithAlias  FULL  JOIN  expressionWithAlias  ON  expressionA
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$c =& $tokens[5];
+$result = new DatasetJoinFilter(TRUE, TRUE, $a, $b, $c);
+}
+
+function reduce_50_expressionEndswithAlias_5($tokens, &$result) {
+#
+# (50) expressionEndswithAlias :=  expressionWithAlias  CROSS  JOIN  expressionWithAlias
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[3];
+$result = new DatasetJoinFilter(FALSE, FALSE, $a, $b, null);
+}
+
+function reduce_51_expressionWithAlias_1($tokens, &$result) {
+#
+# (51) expressionWithAlias :=  expressionA
+#
+$result = reset($tokens);
+$result=$tokens[0];
+}
+
+function reduce_52_expressionWithAlias_2($tokens, &$result) {
+#
+# (52) expressionWithAlias :=  expressionA  AS  allowedalias
+#
+$result = reset($tokens);
+$stat =& $tokens[0];
+$alias =& $tokens[2];
+$result = $result = putFilterAfterIfExists($stat, new TableAliasFilter($alias));
+}
+
+function reduce_53_expressionA_1($tokens, &$result) {
+#
+# (53) expressionA :=  expressionAB  '|'  expressionA
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4444,17 +4425,17 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_CONCAT, $a, $b);
 }
 
-function reduce_44_expressionA_2($tokens, &$result) {
+function reduce_54_expressionA_2($tokens, &$result) {
 #
-# (44) expressionA :=  expressionAB
+# (54) expressionA :=  expressionAB
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_45_expressionAB_1($tokens, &$result) {
+function reduce_55_expressionAB_1($tokens, &$result) {
 #
-# (45) expressionAB :=  expressionB  OR  expressionAB
+# (55) expressionAB :=  expressionB  OR  expressionAB
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4462,17 +4443,17 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR, $a, $b);
 }
 
-function reduce_46_expressionAB_2($tokens, &$result) {
+function reduce_56_expressionAB_2($tokens, &$result) {
 #
-# (46) expressionAB :=  expressionB
+# (56) expressionAB :=  expressionB
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_47_expressionB_1($tokens, &$result) {
+function reduce_57_expressionB_1($tokens, &$result) {
 #
-# (47) expressionB :=  expressionC  AND  expressionB
+# (57) expressionB :=  expressionC  AND  expressionB
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4480,17 +4461,17 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, $a, $b);
 }
 
-function reduce_48_expressionB_2($tokens, &$result) {
+function reduce_58_expressionB_2($tokens, &$result) {
 #
-# (48) expressionB :=  expressionC
+# (58) expressionB :=  expressionC
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_49_expressionC_1($tokens, &$result) {
+function reduce_59_expressionC_1($tokens, &$result) {
 #
-# (49) expressionC :=  expressionD  '='  expressionD
+# (59) expressionC :=  expressionD  '='  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4498,9 +4479,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL, $a, $b);
 }
 
-function reduce_50_expressionC_2($tokens, &$result) {
+function reduce_60_expressionC_2($tokens, &$result) {
 #
-# (50) expressionC :=  expressionD  '<'  expressionD
+# (60) expressionC :=  expressionD  '<'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4508,9 +4489,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, $a, $b);
 }
 
-function reduce_51_expressionC_3($tokens, &$result) {
+function reduce_61_expressionC_3($tokens, &$result) {
 #
-# (51) expressionC :=  expressionD  '>'  expressionD
+# (61) expressionC :=  expressionD  '>'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4518,9 +4499,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, $a, $b);
 }
 
-function reduce_52_expressionC_4($tokens, &$result) {
+function reduce_62_expressionC_4($tokens, &$result) {
 #
-# (52) expressionC :=  expressionD  '<'  '='  expressionD
+# (62) expressionC :=  expressionD  '<'  '='  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4528,9 +4509,9 @@ $b =& $tokens[3];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $b);
 }
 
-function reduce_53_expressionC_5($tokens, &$result) {
+function reduce_63_expressionC_5($tokens, &$result) {
 #
-# (53) expressionC :=  expressionD  '>'  '='  expressionD
+# (63) expressionC :=  expressionD  '>'  '='  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4538,9 +4519,9 @@ $b =& $tokens[3];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, $a, $b);
 }
 
-function reduce_54_expressionC_6($tokens, &$result) {
+function reduce_64_expressionC_6($tokens, &$result) {
 #
-# (54) expressionC :=  expressionD  '<'  '>'  expressionD
+# (64) expressionC :=  expressionD  '<'  '>'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4548,9 +4529,9 @@ $b =& $tokens[3];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);
 }
 
-function reduce_55_expressionC_7($tokens, &$result) {
+function reduce_65_expressionC_7($tokens, &$result) {
 #
-# (55) expressionC :=  expressionD  '<'  ALL  expressionD
+# (65) expressionC :=  expressionD  '<'  ALL  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4558,9 +4539,9 @@ $b =& $tokens[3];
 $result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b);
 }
 
-function reduce_56_expressionC_8($tokens, &$result) {
+function reduce_66_expressionC_8($tokens, &$result) {
 #
-# (56) expressionC :=  expressionD  '<'  '='  ALL  expressionD
+# (66) expressionC :=  expressionD  '<'  '='  ALL  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4568,9 +4549,9 @@ $b =& $tokens[4];
 $result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b,false);
 }
 
-function reduce_57_expressionC_9($tokens, &$result) {
+function reduce_67_expressionC_9($tokens, &$result) {
 #
-# (57) expressionC :=  expressionD  '<'  ANY  expressionD
+# (67) expressionC :=  expressionD  '<'  ANY  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4578,9 +4559,9 @@ $b =& $tokens[3];
 $result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b, true, false);
 }
 
-function reduce_58_expressionC_10($tokens, &$result) {
+function reduce_68_expressionC_10($tokens, &$result) {
 #
-# (58) expressionC :=  expressionD  '<'  '='  ANY  expressionD
+# (68) expressionC :=  expressionD  '<'  '='  ANY  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4588,9 +4569,9 @@ $b =& $tokens[4];
 $result = CombinedFilterGenerators::makeSmallerThanAllOrAnyFilter($a,$b, false, false);
 }
 
-function reduce_59_expressionC_11($tokens, &$result) {
+function reduce_69_expressionC_11($tokens, &$result) {
 #
-# (59) expressionC :=  expressionD  '>'  ALL  expressionD
+# (69) expressionC :=  expressionD  '>'  ALL  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4598,9 +4579,9 @@ $b =& $tokens[3];
 $result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b);
 }
 
-function reduce_60_expressionC_12($tokens, &$result) {
+function reduce_70_expressionC_12($tokens, &$result) {
 #
-# (60) expressionC :=  expressionD  '>'  '='  ALL  expressionD
+# (70) expressionC :=  expressionD  '>'  '='  ALL  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4608,9 +4589,9 @@ $b =& $tokens[4];
 $result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, false);
 }
 
-function reduce_61_expressionC_13($tokens, &$result) {
+function reduce_71_expressionC_13($tokens, &$result) {
 #
-# (61) expressionC :=  expressionD  '>'  ANY  expressionD
+# (71) expressionC :=  expressionD  '>'  ANY  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4618,9 +4599,9 @@ $b =& $tokens[3];
 $result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, true, false);
 }
 
-function reduce_62_expressionC_14($tokens, &$result) {
+function reduce_72_expressionC_14($tokens, &$result) {
 #
-# (62) expressionC :=  expressionD  '>'  '='  ANY  expressionD
+# (72) expressionC :=  expressionD  '>'  '='  ANY  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4628,9 +4609,9 @@ $b =& $tokens[4];
 $result = CombinedFilterGenerators::makeLargerThanAllOrAnyFilter($a,$b, false, false);
 }
 
-function reduce_63_expressionC_15($tokens, &$result) {
+function reduce_73_expressionC_15($tokens, &$result) {
 #
-# (63) expressionC :=  expressionD  '!'  '='  expressionD
+# (73) expressionC :=  expressionD  '!'  '='  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4638,9 +4619,9 @@ $b =& $tokens[3];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, $a, $b);
 }
 
-function reduce_64_expressionC_16($tokens, &$result) {
+function reduce_74_expressionC_16($tokens, &$result) {
 #
-# (64) expressionC :=  expressionD  LIKE  likeexpression
+# (74) expressionC :=  expressionD  LIKE  likeexpression
 #
 $result = reset($tokens);
 $expr =& $tokens[0];
@@ -4648,17 +4629,17 @@ $likeexpr =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, $expr, new Constant(convertRegexFromSQLToUniversal($likeexpr)));
 }
 
-function reduce_65_expressionC_17($tokens, &$result) {
+function reduce_75_expressionC_17($tokens, &$result) {
 #
-# (65) expressionC :=  expressionD
+# (75) expressionC :=  expressionD
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_66_expressionD_1($tokens, &$result) {
+function reduce_76_expressionD_1($tokens, &$result) {
 #
-# (66) expressionD :=  expressionE  '+'  expressionD
+# (76) expressionD :=  expressionE  '+'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4666,9 +4647,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $a, $b);
 }
 
-function reduce_67_expressionD_2($tokens, &$result) {
+function reduce_77_expressionD_2($tokens, &$result) {
 #
-# (67) expressionD :=  expressionE  '-'  expressionD
+# (77) expressionD :=  expressionE  '-'  expressionD
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4676,17 +4657,17 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $a, $b);
 }
 
-function reduce_68_expressionD_3($tokens, &$result) {
+function reduce_78_expressionD_3($tokens, &$result) {
 #
-# (68) expressionD :=  expressionE
+# (78) expressionD :=  expressionE
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_69_expressionE_1($tokens, &$result) {
+function reduce_79_expressionE_1($tokens, &$result) {
 #
-# (69) expressionE :=  expressionF  '*'  expressionE
+# (79) expressionE :=  expressionF  '*'  expressionE
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4694,9 +4675,9 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $a, $b);
 }
 
-function reduce_70_expressionE_2($tokens, &$result) {
+function reduce_80_expressionE_2($tokens, &$result) {
 #
-# (70) expressionE :=  expressionF  '/'  expressionE
+# (80) expressionE :=  expressionF  '/'  expressionE
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -4704,50 +4685,50 @@ $b =& $tokens[2];
 $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $a, $b);
 }
 
-function reduce_71_expressionE_3($tokens, &$result) {
+function reduce_81_expressionE_3($tokens, &$result) {
 #
-# (71) expressionE :=  expressionF
-#
-$result = reset($tokens);
-$result = $tokens[0];
-}
-
-function reduce_72_expressionF_1($tokens, &$result) {
-#
-# (72) expressionF :=  endexpression
+# (81) expressionE :=  expressionF
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_73_endexpression_1($tokens, &$result) {
+function reduce_82_expressionF_1($tokens, &$result) {
 #
-# (73) endexpression :=  identifier
+# (82) expressionF :=  endexpression
+#
+$result = reset($tokens);
+$result = $tokens[0];
+}
+
+function reduce_83_endexpression_1($tokens, &$result) {
+#
+# (83) endexpression :=  identifier
 #
 $result = reset($tokens);
 $result = new Identifier($tokens[0]);
 }
 
-function reduce_74_endexpression_2($tokens, &$result) {
+function reduce_84_endexpression_2($tokens, &$result) {
 #
-# (74) endexpression :=  constant
+# (84) endexpression :=  constant
 #
 $result = reset($tokens);
 $result = new Constant($tokens[0]);
 }
 
-function reduce_75_endexpression_3($tokens, &$result) {
+function reduce_85_endexpression_3($tokens, &$result) {
 #
-# (75) endexpression :=  identifier  '('  ')'
+# (85) endexpression :=  identifier  '('  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
 $result = getNularyFilterForSQLFunction($functid);
 }
 
-function reduce_76_endexpression_4($tokens, &$result) {
+function reduce_86_endexpression_4($tokens, &$result) {
 #
-# (76) endexpression :=  EXTRACT  '('  extractconstant  FROM  statement  ')'
+# (86) endexpression :=  EXTRACT  '('  extractconstant  FROM  statement  ')'
 #
 $result = reset($tokens);
 $constant =& $tokens[2];
@@ -4755,9 +4736,9 @@ $arg =& $tokens[4];
 $result = getExtractFunction($arg, getExtractConstant($constant));
 }
 
-function reduce_77_endexpression_5($tokens, &$result) {
+function reduce_87_endexpression_5($tokens, &$result) {
 #
-# (77) endexpression :=  DATE_ADD  '('  statement  ','  INTERVAL  statement  extractconstant  ')'
+# (87) endexpression :=  DATE_ADD  '('  statementBetweenCommas  ','  INTERVAL  statementBetweenCommas  extractconstant  ')'
 #
 $result = reset($tokens);
 $date =& $tokens[2];
@@ -4766,9 +4747,9 @@ $constant =& $tokens[6];
 $result = getDateAddFunction(true, $date, $interval, getExtractConstant($constant));
 }
 
-function reduce_78_endexpression_6($tokens, &$result) {
+function reduce_88_endexpression_6($tokens, &$result) {
 #
-# (78) endexpression :=  DATE_SUB  '('  statement  ','  INTERVAL  statement  extractconstant  ')'
+# (88) endexpression :=  DATE_SUB  '('  statementBetweenCommas  ','  INTERVAL  statementBetweenCommas  extractconstant  ')'
 #
 $result = reset($tokens);
 $date =& $tokens[2];
@@ -4777,9 +4758,9 @@ $constant =& $tokens[6];
 $result = getDateAddFunction(false, $date, $interval, getExtractConstant($constant));
 }
 
-function reduce_79_endexpression_7($tokens, &$result) {
+function reduce_89_endexpression_7($tokens, &$result) {
 #
-# (79) endexpression :=  identifier  '('  statement  ')'
+# (89) endexpression :=  identifier  '('  statementBetweenCommas  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
@@ -4787,9 +4768,9 @@ $arg1 =& $tokens[2];
 $result = getUnaryFilterForSQLFunction($functid, $arg1);
 }
 
-function reduce_80_endexpression_8($tokens, &$result) {
+function reduce_90_endexpression_8($tokens, &$result) {
 #
-# (80) endexpression :=  identifier  '('  statement  ','  statement  ')'
+# (90) endexpression :=  identifier  '('  statementBetweenCommas  ','  statementBetweenCommas  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
@@ -4798,9 +4779,9 @@ $arg2 =& $tokens[4];
 $result = getBinaryFunctionForSQLFunction($functid, $arg1, $arg2);
 }
 
-function reduce_81_endexpression_9($tokens, &$result) {
+function reduce_91_endexpression_9($tokens, &$result) {
 #
-# (81) endexpression :=  identifier  '('  statement  ','  statement  ','  statement  ')'
+# (91) endexpression :=  identifier  '('  statementBetweenCommas  ','  statementBetweenCommas  ','  statementBetweenCommas  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
@@ -4810,9 +4791,9 @@ $arg3 =& $tokens[6];
 $result =getTertaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);
 }
 
-function reduce_82_endexpression_10($tokens, &$result) {
+function reduce_92_endexpression_10($tokens, &$result) {
 #
-# (82) endexpression :=  identifier  '('  statement  ','  statement  ','  statement  ','  statement  ')'
+# (92) endexpression :=  identifier  '('  statementBetweenCommas  ','  statementBetweenCommas  ','  statementBetweenCommas  ','  statementBetweenCommas  ')'
 #
 $result = reset($tokens);
 $functid =& $tokens[0];
@@ -4823,313 +4804,323 @@ $arg4 =& $tokens[8];
 $result =getQuadernaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3, $arg4);
 }
 
-function reduce_83_endexpression_11($tokens, &$result) {
+function reduce_93_endexpression_11($tokens, &$result) {
 #
-# (83) endexpression :=  '('  statement  ')'
+# (93) endexpression :=  '('  statement  ')'
 #
 $result = reset($tokens);
 $stat =& $tokens[1];
 $result = $stat;
 }
 
-function reduce_84_likeexpression_1($tokens, &$result) {
+function reduce_94_likeexpression_1($tokens, &$result) {
 #
-# (84) likeexpression :=  constant
+# (94) likeexpression :=  constant
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_85_identifierlist_1($tokens, &$result) {
+function reduce_95_identifierlist_1($tokens, &$result) {
 #
-# (85) identifierlist :=  identifier
+# (95) identifierlist :=  identifier
 #
 $result = reset($tokens);
 $result = array(new Identifier($tokens[0]));
 }
 
-function reduce_86_identifierlist_2($tokens, &$result) {
+function reduce_96_identifierlist_2($tokens, &$result) {
 #
-# (86) identifierlist :=  identifier  ','  identifierlist
+# (96) identifierlist :=  identifier  ','  identifierlist
 #
 $result = reset($tokens);
 $arr =& $tokens[2];
 array_unshift($arr, new Identifier($tokens[0]));$result=$arr;
 }
 
-function reduce_87_allowedalias_1($tokens, &$result) {
+function reduce_97_allowedalias_1($tokens, &$result) {
 #
-# (87) allowedalias :=  name
-#
-$result = reset($tokens);
-$result=$tokens[0];
-}
-
-function reduce_88_identifier_1($tokens, &$result) {
-#
-# (88) identifier :=  name
+# (97) allowedalias :=  name
 #
 $result = reset($tokens);
 $result=$tokens[0];
 }
 
-function reduce_89_identifier_2($tokens, &$result) {
+function reduce_98_identifier_1($tokens, &$result) {
 #
-# (89) identifier :=  '*'
+# (98) identifier :=  name
+#
+$result = reset($tokens);
+$result=$tokens[0];
+}
+
+function reduce_99_identifier_2($tokens, &$result) {
+#
+# (99) identifier :=  '*'
 #
 $result = reset($tokens);
 $result="*";
 }
 
-function reduce_90_extractconstant_1($tokens, &$result) {
+function reduce_100_extractconstant_1($tokens, &$result) {
 #
-# (90) extractconstant :=  SECOND
+# (100) extractconstant :=  SECOND
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_SECOND;
 }
 
-function reduce_91_extractconstant_2($tokens, &$result) {
+function reduce_101_extractconstant_2($tokens, &$result) {
 #
-# (91) extractconstant :=  MINUTE
+# (101) extractconstant :=  MINUTE
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_MINUTE;
 }
 
-function reduce_92_extractconstant_3($tokens, &$result) {
+function reduce_102_extractconstant_3($tokens, &$result) {
 #
-# (92) extractconstant :=  HOUR
+# (102) extractconstant :=  HOUR
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_HOUR;
 }
 
-function reduce_93_extractconstant_4($tokens, &$result) {
+function reduce_103_extractconstant_4($tokens, &$result) {
 #
-# (93) extractconstant :=  DAY
+# (103) extractconstant :=  DAY
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_DAY;
 }
 
-function reduce_94_extractconstant_5($tokens, &$result) {
+function reduce_104_extractconstant_5($tokens, &$result) {
 #
-# (94) extractconstant :=  WEEK
+# (104) extractconstant :=  WEEK
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_WEEK;
 }
 
-function reduce_95_extractconstant_6($tokens, &$result) {
+function reduce_105_extractconstant_6($tokens, &$result) {
 #
-# (95) extractconstant :=  MONTH
+# (105) extractconstant :=  MONTH
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_MONTH;
 }
 
-function reduce_96_extractconstant_7($tokens, &$result) {
+function reduce_106_extractconstant_7($tokens, &$result) {
 #
-# (96) extractconstant :=  YEAR
+# (106) extractconstant :=  YEAR
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_YEAR;
 }
 
-function reduce_97_extractconstant_8($tokens, &$result) {
+function reduce_107_extractconstant_8($tokens, &$result) {
 #
-# (97) extractconstant :=  MINUTE_SECOND
+# (107) extractconstant :=  MINUTE_SECOND
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_MINUTE_SECOND;
 }
 
-function reduce_98_extractconstant_9($tokens, &$result) {
+function reduce_108_extractconstant_9($tokens, &$result) {
 #
-# (98) extractconstant :=  HOUR_SECOND
+# (108) extractconstant :=  HOUR_SECOND
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_HOUR_SECOND;
 }
 
-function reduce_99_extractconstant_10($tokens, &$result) {
+function reduce_109_extractconstant_10($tokens, &$result) {
 #
-# (99) extractconstant :=  HOUR_MINUTE
+# (109) extractconstant :=  HOUR_MINUTE
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_HOUR_MINUTE;
 }
 
-function reduce_100_extractconstant_11($tokens, &$result) {
+function reduce_110_extractconstant_11($tokens, &$result) {
 #
-# (100) extractconstant :=  DAY_SECOND
+# (110) extractconstant :=  DAY_SECOND
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_DAY_SECOND;
 }
 
-function reduce_101_extractconstant_12($tokens, &$result) {
+function reduce_111_extractconstant_12($tokens, &$result) {
 #
-# (101) extractconstant :=  DAY_MINUTE
+# (111) extractconstant :=  DAY_MINUTE
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_DAY_MINUTE;
 }
 
-function reduce_102_extractconstant_13($tokens, &$result) {
+function reduce_112_extractconstant_13($tokens, &$result) {
 #
-# (102) extractconstant :=  DAY_HOUR
+# (112) extractconstant :=  DAY_HOUR
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_DAY_HOUR;
 }
 
-function reduce_103_extractconstant_14($tokens, &$result) {
+function reduce_113_extractconstant_14($tokens, &$result) {
 #
-# (103) extractconstant :=  YEAR_MONTH
+# (113) extractconstant :=  YEAR_MONTH
 #
 $result = reset($tokens);
 $result=DateTimeExtractConstants::$EXTRACT_YEAR_MONTH;
 }
 
-function reduce_104_start_1($tokens, &$result) {
+function reduce_114_start_1($tokens, &$result) {
 #
-# (104) 'start' :=  filterresult
+# (114) 'start' :=  filterresult
 #
 $result = reset($tokens);
 
 }
 
 var $method = array (
-  0 => 'reduce_0_statement_1',
-  1 => 'reduce_1_statement_2',
-  2 => 'reduce_2_statement_3',
-  3 => 'reduce_3_filterresult_1',
-  4 => 'reduce_4_filterresult_2',
-  5 => 'reduce_5_unionstatement_1',
-  6 => 'reduce_6_selectfromstatement_1',
-  7 => 'reduce_7_uniquefilter_1',
-  8 => 'reduce_8_uniquefilter_2',
-  9 => 'reduce_9_wherefilter_1',
-  10 => 'reduce_10_wherefilter_2',
-  11 => 'reduce_11_groupfilter_1',
-  12 => 'reduce_12_groupfilter_2',
-  13 => 'reduce_13_havingfilter_1',
-  14 => 'reduce_14_havingfilter_2',
-  15 => 'reduce_15_limitfilter_1',
-  16 => 'reduce_16_limitfilter_2',
-  17 => 'reduce_17_limitfilter_3',
-  18 => 'reduce_18_orderbyfilter_1',
-  19 => 'reduce_19_orderbyfilter_2',
-  20 => 'reduce_20_orderbyidentifierlist_1',
-  21 => 'reduce_21_orderbyidentifierlist_2',
-  22 => 'reduce_22_orderbyfield_1',
-  23 => 'reduce_23_orderbyfield_2',
-  24 => 'reduce_24_orderbyfield_3',
-  25 => 'reduce_25_fromtableexpression_1',
-  26 => 'reduce_26_fromtableexpression_2',
-  27 => 'reduce_27_selecttablelist_1',
-  28 => 'reduce_28_listoftables_1',
-  29 => 'reduce_29_listoftables_2',
-  30 => 'reduce_30_listoftables_3',
-  31 => 'reduce_31_listoftables_4',
-  32 => 'reduce_32_constantlist_1',
-  33 => 'reduce_33_constantlist_2',
-  34 => 'reduce_34_asopt_1',
-  35 => 'reduce_35_asopt_2',
-  36 => 'reduce_36_expression_1',
-  37 => 'reduce_37_expression_2',
-  38 => 'reduce_38_expression_3',
-  39 => 'reduce_39_expression_4',
-  40 => 'reduce_40_expression_5',
-  41 => 'reduce_41_expression_6',
-  42 => 'reduce_42_expression_7',
-  43 => 'reduce_43_expressionA_1',
-  44 => 'reduce_44_expressionA_2',
-  45 => 'reduce_45_expressionAB_1',
-  46 => 'reduce_46_expressionAB_2',
-  47 => 'reduce_47_expressionB_1',
-  48 => 'reduce_48_expressionB_2',
-  49 => 'reduce_49_expressionC_1',
-  50 => 'reduce_50_expressionC_2',
-  51 => 'reduce_51_expressionC_3',
-  52 => 'reduce_52_expressionC_4',
-  53 => 'reduce_53_expressionC_5',
-  54 => 'reduce_54_expressionC_6',
-  55 => 'reduce_55_expressionC_7',
-  56 => 'reduce_56_expressionC_8',
-  57 => 'reduce_57_expressionC_9',
-  58 => 'reduce_58_expressionC_10',
-  59 => 'reduce_59_expressionC_11',
-  60 => 'reduce_60_expressionC_12',
-  61 => 'reduce_61_expressionC_13',
-  62 => 'reduce_62_expressionC_14',
-  63 => 'reduce_63_expressionC_15',
-  64 => 'reduce_64_expressionC_16',
-  65 => 'reduce_65_expressionC_17',
-  66 => 'reduce_66_expressionD_1',
-  67 => 'reduce_67_expressionD_2',
-  68 => 'reduce_68_expressionD_3',
-  69 => 'reduce_69_expressionE_1',
-  70 => 'reduce_70_expressionE_2',
-  71 => 'reduce_71_expressionE_3',
-  72 => 'reduce_72_expressionF_1',
-  73 => 'reduce_73_endexpression_1',
-  74 => 'reduce_74_endexpression_2',
-  75 => 'reduce_75_endexpression_3',
-  76 => 'reduce_76_endexpression_4',
-  77 => 'reduce_77_endexpression_5',
-  78 => 'reduce_78_endexpression_6',
-  79 => 'reduce_79_endexpression_7',
-  80 => 'reduce_80_endexpression_8',
-  81 => 'reduce_81_endexpression_9',
-  82 => 'reduce_82_endexpression_10',
-  83 => 'reduce_83_endexpression_11',
-  84 => 'reduce_84_likeexpression_1',
-  85 => 'reduce_85_identifierlist_1',
-  86 => 'reduce_86_identifierlist_2',
-  87 => 'reduce_87_allowedalias_1',
-  88 => 'reduce_88_identifier_1',
-  89 => 'reduce_89_identifier_2',
-  90 => 'reduce_90_extractconstant_1',
-  91 => 'reduce_91_extractconstant_2',
-  92 => 'reduce_92_extractconstant_3',
-  93 => 'reduce_93_extractconstant_4',
-  94 => 'reduce_94_extractconstant_5',
-  95 => 'reduce_95_extractconstant_6',
-  96 => 'reduce_96_extractconstant_7',
-  97 => 'reduce_97_extractconstant_8',
-  98 => 'reduce_98_extractconstant_9',
-  99 => 'reduce_99_extractconstant_10',
-  100 => 'reduce_100_extractconstant_11',
-  101 => 'reduce_101_extractconstant_12',
-  102 => 'reduce_102_extractconstant_13',
-  103 => 'reduce_103_extractconstant_14',
-  104 => 'reduce_104_start_1',
+  0 => 'reduce_0_statementBetweenCommas_1',
+  1 => 'reduce_1_statementBetweenCommas_2',
+  2 => 'reduce_2_statement_1',
+  3 => 'reduce_3_statement_2',
+  4 => 'reduce_4_filterresult_1',
+  5 => 'reduce_5_filterresult_2',
+  6 => 'reduce_6_unionstatement_1',
+  7 => 'reduce_7_selectfromstatement_1',
+  8 => 'reduce_8_uniquefilter_1',
+  9 => 'reduce_9_uniquefilter_2',
+  10 => 'reduce_10_wherefilter_1',
+  11 => 'reduce_11_wherefilter_2',
+  12 => 'reduce_12_groupfilter_1',
+  13 => 'reduce_13_groupfilter_2',
+  14 => 'reduce_14_havingfilter_1',
+  15 => 'reduce_15_havingfilter_2',
+  16 => 'reduce_16_limitfilter_1',
+  17 => 'reduce_17_limitfilter_2',
+  18 => 'reduce_18_limitfilter_3',
+  19 => 'reduce_19_orderbyfilter_1',
+  20 => 'reduce_20_orderbyfilter_2',
+  21 => 'reduce_21_orderbyidentifierlist_1',
+  22 => 'reduce_22_orderbyidentifierlist_2',
+  23 => 'reduce_23_orderbyfield_1',
+  24 => 'reduce_24_orderbyfield_2',
+  25 => 'reduce_25_orderbyfield_3',
+  26 => 'reduce_26_fromtables_1',
+  27 => 'reduce_27_fromtables_2',
+  28 => 'reduce_28_fromtableexpression_1',
+  29 => 'reduce_29_fromtableexpression_2',
+  30 => 'reduce_30_fromtableexpression_3',
+  31 => 'reduce_31_fromtableexpression_4',
+  32 => 'reduce_32_selectcolumnlist_1',
+  33 => 'reduce_33_listofcolumns_1',
+  34 => 'reduce_34_listofcolumns_2',
+  35 => 'reduce_35_listofcolumns_3',
+  36 => 'reduce_36_listofcolumns_4',
+  37 => 'reduce_37_constantlist_1',
+  38 => 'reduce_38_constantlist_2',
+  39 => 'reduce_39_asopt_1',
+  40 => 'reduce_40_asopt_2',
+  41 => 'reduce_41_fullExpression_1',
+  42 => 'reduce_42_fullExpression_2',
+  43 => 'reduce_43_expression_1',
+  44 => 'reduce_44_expression_2',
+  45 => 'reduce_45_expression_3',
+  46 => 'reduce_46_expressionEndswithAlias_1',
+  47 => 'reduce_47_expressionEndswithAlias_2',
+  48 => 'reduce_48_expressionEndswithAlias_3',
+  49 => 'reduce_49_expressionEndswithAlias_4',
+  50 => 'reduce_50_expressionEndswithAlias_5',
+  51 => 'reduce_51_expressionWithAlias_1',
+  52 => 'reduce_52_expressionWithAlias_2',
+  53 => 'reduce_53_expressionA_1',
+  54 => 'reduce_54_expressionA_2',
+  55 => 'reduce_55_expressionAB_1',
+  56 => 'reduce_56_expressionAB_2',
+  57 => 'reduce_57_expressionB_1',
+  58 => 'reduce_58_expressionB_2',
+  59 => 'reduce_59_expressionC_1',
+  60 => 'reduce_60_expressionC_2',
+  61 => 'reduce_61_expressionC_3',
+  62 => 'reduce_62_expressionC_4',
+  63 => 'reduce_63_expressionC_5',
+  64 => 'reduce_64_expressionC_6',
+  65 => 'reduce_65_expressionC_7',
+  66 => 'reduce_66_expressionC_8',
+  67 => 'reduce_67_expressionC_9',
+  68 => 'reduce_68_expressionC_10',
+  69 => 'reduce_69_expressionC_11',
+  70 => 'reduce_70_expressionC_12',
+  71 => 'reduce_71_expressionC_13',
+  72 => 'reduce_72_expressionC_14',
+  73 => 'reduce_73_expressionC_15',
+  74 => 'reduce_74_expressionC_16',
+  75 => 'reduce_75_expressionC_17',
+  76 => 'reduce_76_expressionD_1',
+  77 => 'reduce_77_expressionD_2',
+  78 => 'reduce_78_expressionD_3',
+  79 => 'reduce_79_expressionE_1',
+  80 => 'reduce_80_expressionE_2',
+  81 => 'reduce_81_expressionE_3',
+  82 => 'reduce_82_expressionF_1',
+  83 => 'reduce_83_endexpression_1',
+  84 => 'reduce_84_endexpression_2',
+  85 => 'reduce_85_endexpression_3',
+  86 => 'reduce_86_endexpression_4',
+  87 => 'reduce_87_endexpression_5',
+  88 => 'reduce_88_endexpression_6',
+  89 => 'reduce_89_endexpression_7',
+  90 => 'reduce_90_endexpression_8',
+  91 => 'reduce_91_endexpression_9',
+  92 => 'reduce_92_endexpression_10',
+  93 => 'reduce_93_endexpression_11',
+  94 => 'reduce_94_likeexpression_1',
+  95 => 'reduce_95_identifierlist_1',
+  96 => 'reduce_96_identifierlist_2',
+  97 => 'reduce_97_allowedalias_1',
+  98 => 'reduce_98_identifier_1',
+  99 => 'reduce_99_identifier_2',
+  100 => 'reduce_100_extractconstant_1',
+  101 => 'reduce_101_extractconstant_2',
+  102 => 'reduce_102_extractconstant_3',
+  103 => 'reduce_103_extractconstant_4',
+  104 => 'reduce_104_extractconstant_5',
+  105 => 'reduce_105_extractconstant_6',
+  106 => 'reduce_106_extractconstant_7',
+  107 => 'reduce_107_extractconstant_8',
+  108 => 'reduce_108_extractconstant_9',
+  109 => 'reduce_109_extractconstant_10',
+  110 => 'reduce_110_extractconstant_11',
+  111 => 'reduce_111_extractconstant_12',
+  112 => 'reduce_112_extractconstant_13',
+  113 => 'reduce_113_extractconstant_14',
+  114 => 'reduce_114_start_1',
 );
 var $a = array (
   0 => 
   array (
-    'symbol' => 'statement',
-    'len' => 1,
+    'symbol' => 'statementBetweenCommas',
+    'len' => 3,
     'replace' => true,
   ),
   1 => 
   array (
-    'symbol' => 'statement',
+    'symbol' => 'statementBetweenCommas',
     'len' => 1,
     'replace' => true,
   ),
   2 => 
   array (
     'symbol' => 'statement',
-    'len' => 5,
+    'len' => 1,
     'replace' => true,
   ),
   3 => 
   array (
-    'symbol' => 'filterresult',
+    'symbol' => 'statement',
     'len' => 1,
     'replace' => true,
   ),
@@ -5141,110 +5132,110 @@ var $a = array (
   ),
   5 => 
   array (
+    'symbol' => 'filterresult',
+    'len' => 1,
+    'replace' => true,
+  ),
+  6 => 
+  array (
     'symbol' => 'unionstatement',
     'len' => 3,
     'replace' => true,
   ),
-  6 => 
+  7 => 
   array (
     'symbol' => 'selectfromstatement',
     'len' => 9,
     'replace' => true,
   ),
-  7 => 
+  8 => 
   array (
     'symbol' => 'uniquefilter',
     'len' => 1,
     'replace' => true,
   ),
-  8 => 
+  9 => 
   array (
     'symbol' => 'uniquefilter',
     'len' => 0,
-    'replace' => true,
-  ),
-  9 => 
-  array (
-    'symbol' => 'wherefilter',
-    'len' => 2,
     'replace' => true,
   ),
   10 => 
   array (
     'symbol' => 'wherefilter',
-    'len' => 0,
+    'len' => 2,
     'replace' => true,
   ),
   11 => 
   array (
-    'symbol' => 'groupfilter',
-    'len' => 4,
+    'symbol' => 'wherefilter',
+    'len' => 0,
     'replace' => true,
   ),
   12 => 
   array (
     'symbol' => 'groupfilter',
-    'len' => 0,
+    'len' => 4,
     'replace' => true,
   ),
   13 => 
   array (
-    'symbol' => 'havingfilter',
-    'len' => 2,
+    'symbol' => 'groupfilter',
+    'len' => 0,
     'replace' => true,
   ),
   14 => 
   array (
     'symbol' => 'havingfilter',
-    'len' => 0,
+    'len' => 2,
     'replace' => true,
   ),
   15 => 
   array (
-    'symbol' => 'limitfilter',
-    'len' => 2,
+    'symbol' => 'havingfilter',
+    'len' => 0,
     'replace' => true,
   ),
   16 => 
   array (
     'symbol' => 'limitfilter',
-    'len' => 4,
+    'len' => 2,
     'replace' => true,
   ),
   17 => 
   array (
     'symbol' => 'limitfilter',
-    'len' => 0,
+    'len' => 4,
     'replace' => true,
   ),
   18 => 
   array (
-    'symbol' => 'orderbyfilter',
-    'len' => 3,
+    'symbol' => 'limitfilter',
+    'len' => 0,
     'replace' => true,
   ),
   19 => 
   array (
     'symbol' => 'orderbyfilter',
-    'len' => 0,
+    'len' => 3,
     'replace' => true,
   ),
   20 => 
   array (
-    'symbol' => 'orderbyidentifierlist',
-    'len' => 1,
+    'symbol' => 'orderbyfilter',
+    'len' => 0,
     'replace' => true,
   ),
   21 => 
   array (
     'symbol' => 'orderbyidentifierlist',
-    'len' => 3,
+    'len' => 1,
     'replace' => true,
   ),
   22 => 
   array (
-    'symbol' => 'orderbyfield',
-    'len' => 2,
+    'symbol' => 'orderbyidentifierlist',
+    'len' => 3,
     'replace' => true,
   ),
   23 => 
@@ -5256,235 +5247,235 @@ var $a = array (
   24 => 
   array (
     'symbol' => 'orderbyfield',
-    'len' => 1,
+    'len' => 2,
     'replace' => true,
   ),
   25 => 
   array (
-    'symbol' => 'fromtableexpression',
+    'symbol' => 'orderbyfield',
     'len' => 1,
     'replace' => true,
   ),
   26 => 
   array (
-    'symbol' => 'fromtableexpression',
-    'len' => 3,
+    'symbol' => 'fromtables',
+    'len' => 1,
     'replace' => true,
   ),
   27 => 
   array (
-    'symbol' => 'selecttablelist',
-    'len' => 1,
+    'symbol' => 'fromtables',
+    'len' => 3,
     'replace' => true,
   ),
   28 => 
   array (
-    'symbol' => 'listoftables',
-    'len' => 1,
+    'symbol' => 'fromtableexpression',
+    'len' => 3,
     'replace' => true,
   ),
   29 => 
   array (
-    'symbol' => 'listoftables',
-    'len' => 3,
+    'symbol' => 'fromtableexpression',
+    'len' => 1,
     'replace' => true,
   ),
   30 => 
   array (
-    'symbol' => 'listoftables',
+    'symbol' => 'fromtableexpression',
     'len' => 3,
     'replace' => true,
   ),
   31 => 
   array (
-    'symbol' => 'listoftables',
-    'len' => 5,
+    'symbol' => 'fromtableexpression',
+    'len' => 3,
     'replace' => true,
   ),
   32 => 
   array (
-    'symbol' => 'constantlist',
+    'symbol' => 'selectcolumnlist',
     'len' => 1,
     'replace' => true,
   ),
   33 => 
   array (
+    'symbol' => 'listofcolumns',
+    'len' => 1,
+    'replace' => true,
+  ),
+  34 => 
+  array (
+    'symbol' => 'listofcolumns',
+    'len' => 3,
+    'replace' => true,
+  ),
+  35 => 
+  array (
+    'symbol' => 'listofcolumns',
+    'len' => 3,
+    'replace' => true,
+  ),
+  36 => 
+  array (
+    'symbol' => 'listofcolumns',
+    'len' => 5,
+    'replace' => true,
+  ),
+  37 => 
+  array (
+    'symbol' => 'constantlist',
+    'len' => 1,
+    'replace' => true,
+  ),
+  38 => 
+  array (
     'symbol' => 'constantlist',
     'len' => 3,
     'replace' => true,
   ),
-  34 => 
+  39 => 
   array (
     'symbol' => 'asopt',
     'len' => 1,
     'replace' => true,
   ),
-  35 => 
+  40 => 
   array (
     'symbol' => 'asopt',
     'len' => 0,
     'replace' => true,
   ),
-  36 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 1,
-    'replace' => true,
-  ),
-  37 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 5,
-    'replace' => true,
-  ),
-  38 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 5,
-    'replace' => true,
-  ),
-  39 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 6,
-    'replace' => true,
-  ),
-  40 => 
-  array (
-    'symbol' => 'expression',
-    'len' => 6,
-    'replace' => true,
-  ),
   41 => 
   array (
-    'symbol' => 'expression',
-    'len' => 6,
+    'symbol' => 'fullExpression',
+    'len' => 1,
     'replace' => true,
   ),
   42 => 
   array (
-    'symbol' => 'expression',
-    'len' => 6,
+    'symbol' => 'fullExpression',
+    'len' => 1,
     'replace' => true,
   ),
   43 => 
   array (
-    'symbol' => 'expressionA',
-    'len' => 3,
+    'symbol' => 'expression',
+    'len' => 1,
     'replace' => true,
   ),
   44 => 
   array (
-    'symbol' => 'expressionA',
-    'len' => 1,
+    'symbol' => 'expression',
+    'len' => 5,
     'replace' => true,
   ),
   45 => 
   array (
-    'symbol' => 'expressionAB',
-    'len' => 3,
+    'symbol' => 'expression',
+    'len' => 5,
     'replace' => true,
   ),
   46 => 
   array (
-    'symbol' => 'expressionAB',
-    'len' => 1,
+    'symbol' => 'expressionEndswithAlias',
+    'len' => 6,
     'replace' => true,
   ),
   47 => 
   array (
-    'symbol' => 'expressionB',
-    'len' => 3,
+    'symbol' => 'expressionEndswithAlias',
+    'len' => 6,
     'replace' => true,
   ),
   48 => 
   array (
-    'symbol' => 'expressionB',
-    'len' => 1,
+    'symbol' => 'expressionEndswithAlias',
+    'len' => 6,
     'replace' => true,
   ),
   49 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 3,
+    'symbol' => 'expressionEndswithAlias',
+    'len' => 6,
     'replace' => true,
   ),
   50 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 3,
+    'symbol' => 'expressionEndswithAlias',
+    'len' => 4,
     'replace' => true,
   ),
   51 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 3,
+    'symbol' => 'expressionWithAlias',
+    'len' => 1,
     'replace' => true,
   ),
   52 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 4,
+    'symbol' => 'expressionWithAlias',
+    'len' => 3,
     'replace' => true,
   ),
   53 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 4,
+    'symbol' => 'expressionA',
+    'len' => 3,
     'replace' => true,
   ),
   54 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 4,
+    'symbol' => 'expressionA',
+    'len' => 1,
     'replace' => true,
   ),
   55 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 4,
+    'symbol' => 'expressionAB',
+    'len' => 3,
     'replace' => true,
   ),
   56 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 5,
+    'symbol' => 'expressionAB',
+    'len' => 1,
     'replace' => true,
   ),
   57 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 4,
+    'symbol' => 'expressionB',
+    'len' => 3,
     'replace' => true,
   ),
   58 => 
   array (
-    'symbol' => 'expressionC',
-    'len' => 5,
+    'symbol' => 'expressionB',
+    'len' => 1,
     'replace' => true,
   ),
   59 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 4,
+    'len' => 3,
     'replace' => true,
   ),
   60 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 5,
+    'len' => 3,
     'replace' => true,
   ),
   61 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 4,
+    'len' => 3,
     'replace' => true,
   ),
   62 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 5,
+    'len' => 4,
     'replace' => true,
   ),
   63 => 
@@ -5496,216 +5487,216 @@ var $a = array (
   64 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 3,
+    'len' => 4,
     'replace' => true,
   ),
   65 => 
   array (
     'symbol' => 'expressionC',
-    'len' => 1,
+    'len' => 4,
     'replace' => true,
   ),
   66 => 
   array (
-    'symbol' => 'expressionD',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 5,
     'replace' => true,
   ),
   67 => 
   array (
-    'symbol' => 'expressionD',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 4,
     'replace' => true,
   ),
   68 => 
   array (
-    'symbol' => 'expressionD',
-    'len' => 1,
+    'symbol' => 'expressionC',
+    'len' => 5,
     'replace' => true,
   ),
   69 => 
   array (
-    'symbol' => 'expressionE',
-    'len' => 3,
+    'symbol' => 'expressionC',
+    'len' => 4,
     'replace' => true,
   ),
   70 => 
+  array (
+    'symbol' => 'expressionC',
+    'len' => 5,
+    'replace' => true,
+  ),
+  71 => 
+  array (
+    'symbol' => 'expressionC',
+    'len' => 4,
+    'replace' => true,
+  ),
+  72 => 
+  array (
+    'symbol' => 'expressionC',
+    'len' => 5,
+    'replace' => true,
+  ),
+  73 => 
+  array (
+    'symbol' => 'expressionC',
+    'len' => 4,
+    'replace' => true,
+  ),
+  74 => 
+  array (
+    'symbol' => 'expressionC',
+    'len' => 3,
+    'replace' => true,
+  ),
+  75 => 
+  array (
+    'symbol' => 'expressionC',
+    'len' => 1,
+    'replace' => true,
+  ),
+  76 => 
+  array (
+    'symbol' => 'expressionD',
+    'len' => 3,
+    'replace' => true,
+  ),
+  77 => 
+  array (
+    'symbol' => 'expressionD',
+    'len' => 3,
+    'replace' => true,
+  ),
+  78 => 
+  array (
+    'symbol' => 'expressionD',
+    'len' => 1,
+    'replace' => true,
+  ),
+  79 => 
   array (
     'symbol' => 'expressionE',
     'len' => 3,
     'replace' => true,
   ),
-  71 => 
+  80 => 
+  array (
+    'symbol' => 'expressionE',
+    'len' => 3,
+    'replace' => true,
+  ),
+  81 => 
   array (
     'symbol' => 'expressionE',
     'len' => 1,
     'replace' => true,
   ),
-  72 => 
+  82 => 
   array (
     'symbol' => 'expressionF',
     'len' => 1,
     'replace' => true,
   ),
-  73 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 1,
-    'replace' => true,
-  ),
-  74 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 1,
-    'replace' => true,
-  ),
-  75 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 3,
-    'replace' => true,
-  ),
-  76 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 6,
-    'replace' => true,
-  ),
-  77 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 8,
-    'replace' => true,
-  ),
-  78 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 8,
-    'replace' => true,
-  ),
-  79 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 4,
-    'replace' => true,
-  ),
-  80 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 6,
-    'replace' => true,
-  ),
-  81 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 8,
-    'replace' => true,
-  ),
-  82 => 
-  array (
-    'symbol' => 'endexpression',
-    'len' => 10,
-    'replace' => true,
-  ),
   83 => 
   array (
     'symbol' => 'endexpression',
-    'len' => 3,
+    'len' => 1,
     'replace' => true,
   ),
   84 => 
   array (
-    'symbol' => 'likeexpression',
+    'symbol' => 'endexpression',
     'len' => 1,
     'replace' => true,
   ),
   85 => 
   array (
-    'symbol' => 'identifierlist',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 3,
     'replace' => true,
   ),
   86 => 
   array (
-    'symbol' => 'identifierlist',
-    'len' => 3,
+    'symbol' => 'endexpression',
+    'len' => 6,
     'replace' => true,
   ),
   87 => 
   array (
-    'symbol' => 'allowedalias',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 8,
     'replace' => true,
   ),
   88 => 
   array (
-    'symbol' => 'identifier',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 8,
     'replace' => true,
   ),
   89 => 
   array (
-    'symbol' => 'identifier',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 4,
     'replace' => true,
   ),
   90 => 
   array (
-    'symbol' => 'extractconstant',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 6,
     'replace' => true,
   ),
   91 => 
   array (
-    'symbol' => 'extractconstant',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 8,
     'replace' => true,
   ),
   92 => 
   array (
-    'symbol' => 'extractconstant',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 10,
     'replace' => true,
   ),
   93 => 
   array (
-    'symbol' => 'extractconstant',
-    'len' => 1,
+    'symbol' => 'endexpression',
+    'len' => 3,
     'replace' => true,
   ),
   94 => 
   array (
-    'symbol' => 'extractconstant',
+    'symbol' => 'likeexpression',
     'len' => 1,
     'replace' => true,
   ),
   95 => 
   array (
-    'symbol' => 'extractconstant',
+    'symbol' => 'identifierlist',
     'len' => 1,
     'replace' => true,
   ),
   96 => 
   array (
-    'symbol' => 'extractconstant',
-    'len' => 1,
+    'symbol' => 'identifierlist',
+    'len' => 3,
     'replace' => true,
   ),
   97 => 
   array (
-    'symbol' => 'extractconstant',
+    'symbol' => 'allowedalias',
     'len' => 1,
     'replace' => true,
   ),
   98 => 
   array (
-    'symbol' => 'extractconstant',
+    'symbol' => 'identifier',
     'len' => 1,
     'replace' => true,
   ),
   99 => 
   array (
-    'symbol' => 'extractconstant',
+    'symbol' => 'identifier',
     'len' => 1,
     'replace' => true,
   ),
@@ -5734,6 +5725,66 @@ var $a = array (
     'replace' => true,
   ),
   104 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  105 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  106 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  107 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  108 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  109 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  110 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  111 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  112 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  113 => 
+  array (
+    'symbol' => 'extractconstant',
+    'len' => 1,
+    'replace' => true,
+  ),
+  114 => 
   array (
     'symbol' => '\'start\'',
     'len' => 1,

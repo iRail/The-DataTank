@@ -1,15 +1,20 @@
 %class SQLgrammar
 %start filterresult
 
-statement = filterresult
-                {$$ = $1;}
-            | expression
-                {$$ = $1;}
-            | '(' filterresult/stat ')' asopt name/tablealias
-                {$$ = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));}
+statementBetweenCommas = '(' filterresult/res ')'
+                {$$ = $res;}
+            | fullExpression/res
+                {$$ = $res;}
             .
 
-filterresult = selectfromstatement {$$ = $1;/*TODO*/}
+statement = filterresult/res
+                {$$ = $res;}
+            | fullExpression/res
+                {$$ = $res;}
+            .
+
+
+filterresult = selectfromstatement {$$ = $1;}
              | unionstatement {$$ = $1;/*TODO*/}
              .
 
@@ -17,7 +22,7 @@ unionstatement = expression/expr1 UNION expression/expr2
                 { throw new Exception("Union is not supported yet..."); /*TODO*/}
                .
 
-selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM fromtableexpression/fromtable wherefilter/where groupfilter/groupby orderbyfilter/orderby limitfilter/limit
+selectfromstatement = SELECT uniquefilter/distinct selectcolumnlist/selecttables FROM fromtables/fromtable wherefilter/where groupfilter/groupby orderbyfilter/orderby limitfilter/limit
                         {// 1) fromtables
                          // 2) wherefilter (if defined)
                          // 3) groupbyfilter (if defined)
@@ -78,21 +83,32 @@ orderbyfield = name/fieldname ASC
                     { $$ = new SortFieldsFilterColumn(new Identifier($fieldname));}
              .
 
-fromtableexpression = expression {$$=$1;}
-                    | expression/stat asopt name/tablealias
-                       {$$ = putFilterAfterIfExists($stat, new TableAliasFilter($tablealias));}
+fromtables = fromtableexpression
+               {$$ = $1;}
+            | fromtables/tab1 ',' fromtableexpression/tab2
+               {$$ = new DatasetJoinFilter(FALSE, FALSE, $tab1, $tab2, null);}
+            .
+
+fromtableexpression = '(' fromtableexpression/tab ')'
+                        {$$ = $tab;}
+                    | identifier 
+                        {$$ = new Identifier($1);}
+                    | '(' expressionEndswithAlias/tab ')' {$$ = $tab;}
+                    | identifier/stat asopt allowedalias/tablealias
+                        {$$ = putFilterAfterIfExists(new Identifier($stat), new TableAliasFilter($tablealias));}
                     .
 
-selecttablelist =  listoftables {$$ = new ColumnSelectionFilter($1);}
+
+selectcolumnlist =  listofcolumns {$$ = new ColumnSelectionFilter($1);}
                 .
 
-listoftables = expression/expr 
+listofcolumns = expression/expr 
                 {$$ = array(new ColumnSelectionFilterColumn($expr, null));}
           | expression/expr asopt allowedalias/alias 
                 {$$ = array(new ColumnSelectionFilterColumn($expr, $alias));}
           | expression/expr ',' listoftables/arr 
                 {array_unshift($arr, new ColumnSelectionFilterColumn($expr, null));$$ = $arr;}
-          | expression/expr asopt allowedalias/alias ',' listoftables/arr 
+          | expression/expr asopt allowedalias/alias ',' listofcolumns/arr 
                 {array_unshift($arr, new ColumnSelectionFilterColumn($expr, $alias));$$ = $arr;}
           .
           
@@ -102,20 +118,36 @@ constantlist = constant {$$ = array(new Constant($1));}
 
 asopt = AS | .
 
+fullExpression = expression
+                 {$$=$1;}
+               | expressionEndswithAlias
+                 {$$=$1;}
+               .
+
 expression = expressionA  {$$ = $1;}
            | expressionA/a BETWEEN expressionD/b AND expressionD/c 
                  {$$ = CombinedFilterGenerators::makeBetweenFilter($a,$b,$c);}
            | expressionA IN '(' constantlist/constantlist ')' 
                  {$$ = putFilterAfterIfExists($1, new CheckInFunction($constantlist));}
-           | expressionA/a INNER JOIN expressionA/b ON expressionA/c
-                 {$$ = null;/*TODO*/}
-           | expressionA/a LEFT JOIN expressionA/b ON expressionA/c 
-                 {$$ = null;/*TODO*/}
-           | expressionA/a RIGHT JOIN expressionA/b ON expressionA/c 
-                 {$$ = null;/*TODO*/}
-           | expressionA/a FULL JOIN expressionA/b ON expressionA/c 
-                 {$$ = null;/*TODO*/}
            .
+
+expressionEndswithAlias = 
+            expressionWithAlias/a INNER JOIN expressionWithAlias/b ON expressionA/c
+                 {$$ = new DatasetJoinFilter(FALSE, FALSE, $a, $b, $c);}
+           | expressionWithAlias/a LEFT JOIN expressionWithAlias/b ON expressionA/c 
+                 {$$ = new DatasetJoinFilter(TRUE, FALSE, $a, $b, $c);}
+           | expressionWithAlias/a RIGHT JOIN expressionWithAlias/b ON expressionA/c 
+                 {$$ = new DatasetJoinFilter(FALSE, TRUE, $a, $b, $c);}
+           | expressionWithAlias/a FULL JOIN expressionWithAlias/b ON expressionA/c 
+                 {$$ = new DatasetJoinFilter(TRUE, TRUE, $a, $b, $c);}
+           | expressionWithAlias/a CROSS JOIN expressionWithAlias/b
+                 {$$ = new DatasetJoinFilter(FALSE, FALSE, $a, $b, null);}
+            .
+
+expressionWithAlias = expressionA {$$=$1;}
+                    | expressionA/stat AS allowedalias/alias 
+                      {$$ = $$ = putFilterAfterIfExists($stat, new TableAliasFilter($alias));}
+                    . 
 
 expressionA = expressionAB/a '|' expressionA/b 
                 {$$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_CONCAT, $a, $b);}
@@ -195,17 +227,17 @@ endexpression = identifier
                 {$$ = getNularyFilterForSQLFunction($functid);}
             | EXTRACT '(' extractconstant/constant FROM statement/arg ')'
                 {$$ = getExtractFunction($arg, getExtractConstant($constant));}
-            | DATE_ADD '(' statement/date ',' INTERVAL statement/interval extractconstant/constant ')'
+            | DATE_ADD '(' statementBetweenCommas/date ',' INTERVAL statementBetweenCommas/interval extractconstant/constant ')'
                 {$$ = getDateAddFunction(true, $date, $interval, getExtractConstant($constant));}
-            | DATE_SUB '(' statement/date ',' INTERVAL statement/interval extractconstant/constant ')'
+            | DATE_SUB '(' statementBetweenCommas/date ',' INTERVAL statementBetweenCommas/interval extractconstant/constant ')'
                 {$$ = getDateAddFunction(false, $date, $interval, getExtractConstant($constant));}
-            | identifier/functid '(' statement/arg1 ')' 
+            | identifier/functid '(' statementBetweenCommas/arg1 ')' 
                 {$$ = getUnaryFilterForSQLFunction($functid, $arg1);}
-            | identifier/functid '(' statement/arg1 ',' statement/arg2 ')'
+            | identifier/functid '(' statementBetweenCommas/arg1 ',' statementBetweenCommas/arg2 ')'
                 {$$ = getBinaryFunctionForSQLFunction($functid, $arg1, $arg2);}
-            | identifier/functid '(' statement/arg1 ',' statement/arg2 ',' statement/arg3 ')'
+            | identifier/functid '(' statementBetweenCommas/arg1 ',' statementBetweenCommas/arg2 ',' statementBetweenCommas/arg3 ')'
                 {$$ =getTertaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3);}
-            | identifier/functid '(' statement/arg1 ',' statement/arg2 ',' statement/arg3 ',' statement/arg4 ')'
+            | identifier/functid '(' statementBetweenCommas/arg1 ',' statementBetweenCommas/arg2 ',' statementBetweenCommas/arg3 ',' statementBetweenCommas/arg4 ')'
                 {$$ =getQuadernaryFunctionForSQLFunction($functid, $arg1, $arg2, $arg3, $arg4);}
             | '(' statement/stat ')'
                 {$$ = $stat;}
