@@ -65,6 +65,7 @@ class UniversalInterpreter implements IInterpreterControl{
             "IDENTIFIER" => "IdentifierExecuter",
             "CONSTANT" => "ConstantExecuter",
             "FILTERCOLUMN" => "ColumnSelectionFilterExecuter",
+            "FILTERSORTCOLUMNS" => "SortFieldsFilterExecuter",
             "FILTEREXPRESSION" => "FilterByExpressionExecuter",
             "DATAGROUPER" => "DataGrouperExecuter",
             "TABLEALIAS" => "TableAliasExecuter",

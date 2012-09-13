@@ -175,11 +175,8 @@ class FilterByExpressionFilter extends NormalFilterNode{
 
 /**
  * Represents a filter that filters columns by applying the filters in $columndata 
- * on each row of source and exprecting back one field of each filter
  *
- * If applied on grouped data some fields in the given row contain a table itself.
- *
- * As a result, the resulting table is never grouped.
+ * The resulting table is never grouped!
  * 
  * Table aliases will be removed when executing this filter
  * 
@@ -220,6 +217,51 @@ class ColumnSelectionFilterColumn {
         return $this->alias;
     }
 }
+
+
+/**
+ * Represents a filter that sorts the columns given in $columndata.
+ * 
+ * type: Table -> Table
+ *
+ * aka "ORDER BY"
+ */
+class SortFieldsFilter extends NormalFilterNode {
+    private $columndata;//type:Array[SortFieldsFilterColumn]
+
+    public function __construct(array /* of SortFieldsFilterColumn */ $columndata, UniversalFilterNode $source=null) {
+        parent::__construct("FILTERSORTCOLUMNS");
+        $this->columndata=$columndata;
+        if($source!=null) $this->setSource($source);
+    }
+    
+    public function getColumnData(){
+        return $this->columndata;
+    }
+}
+
+/** Represents a column used in the SortFieldsFilter */
+class SortFieldsFilterColumn {
+    private $column;//type:Identifier
+    private $sortorder;//type:boolean
+    
+    public static $SORTORDER_ASCENDING = true;
+    public static $SORTORDER_DESCENDING = false;
+
+    public function __construct(Identifier $column, $sortorder=true) {
+        $this->column=$column;
+        $this->sortorder=$sortorder;
+    }
+    
+    public function getColumn(){
+        return $this->column;
+    }
+    
+    public function getSortOrder(){
+        return $this->sortorder;
+    }
+}
+
 
 /**
  * Represents a distinct filter => keeps only the rows that are distinct

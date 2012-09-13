@@ -18,6 +18,7 @@ include_once("universalfilter/interpreter/executers/implementations/ConstantExec
 include_once("universalfilter/interpreter/executers/base/BaseEvaluationEnvironmentFilterExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/FilterByExpressionExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/ColumnSelectionFilterExecuter.class.php");
+include_once("universalfilter/interpreter/executers/implementations/SortFieldsFilterExecuter.class.php");
 
 include_once("universalfilter/interpreter/executers/base/BaseHashingFilterExecuter.class.php");
 include_once("universalfilter/interpreter/executers/implementations/DistinctFilterExecuter.class.php");

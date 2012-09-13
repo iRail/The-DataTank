@@ -48,6 +48,11 @@ class SQLController extends AController {
         $parser = new SQLParser($query);
         $universalquery = $parser->interpret();
         
+        if(isset($_GET["printdebug"]) && $_GET["printdebug"]=="true"){
+            $printer = new TreePrinter();
+            $printer->printString($universalquery);
+        }
+        
         // executer filter (returns Table)
         $interpreter=new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);

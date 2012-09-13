@@ -104,6 +104,21 @@ class TreePrinter {
         return $string;
     }
     
+    private function print_SortFieldsFilter(SortFieldsFilter $filter){
+        $string = $this->getPadding()."SortFieldsFilter {\n";
+        foreach ($filter->getColumnData() as $index => $originalColumn) {
+            $name = $originalColumn->getColumn()->getIdentifierString();
+            $order = ($originalColumn->getSortOrder()==SortFieldsFilterColumn::$SORTORDER_ASCENDING?"ascending":"descending");
+            $string.=$this->getPadding(1)."sort column ".$name." ".$order." \n";
+        }
+        
+        $string.=$this->getPadding(1)."in source: \n".
+                $this->treeToStringWithPadding(2, $filter->getSource()).
+                $this->getPadding()."}\n";
+        
+        return $string;
+    }
+    
     private function print_DistinctFilter(DistinctFilter $filter){
         return  $this->getPadding()."DistinctFilter {\n".
                 $this->getPadding(1)."source: \n".

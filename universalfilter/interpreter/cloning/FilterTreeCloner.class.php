@@ -45,6 +45,15 @@ class FilterTreeCloner {
         return new ColumnSelectionFilter($newColumnData, $this->deepCopyTree($filter->getSource()));
     }
     
+    private function clone_SortFieldsFilter(SortFieldsFilter $filter){
+        $newColumnData = array();
+        foreach ($filter->getColumnData() as $originalColumn) {
+            array_push($newColumnData, new SortFieldsFilterColumn($this->deepCopyTree($originalColumn->getColumn()), $originalColumn->getSortOrder()));
+        }
+        
+        return new SortFieldsFilter($newColumnData, $this->deepCopyTree($filter->getSource()));
+    }
+    
     private function clone_DistinctFilter(DistinctFilter $filter){
         return new DistinctFilter($this->deepCopyTree($filter->getSource()));
     }

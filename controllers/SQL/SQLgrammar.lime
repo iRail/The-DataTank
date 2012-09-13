@@ -13,10 +13,11 @@ filterresult = selectfromstatement {$$ = $1;/*TODO*/}
              | unionstatement {$$ = $1;/*TODO*/}
              .
 
-unionstatement = expression/expr1 UNION expression/expr2 {$$ = null;/*TODO*/}
+unionstatement = expression/expr1 UNION expression/expr2 
+                { throw new Exception("Union is not supported yet..."); /*TODO*/}
                .
 
-selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM fromtableexpression/fromtable wherefilter/where groupfilter/groupby limitfilter/limit
+selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables FROM fromtableexpression/fromtable wherefilter/where groupfilter/groupby orderbyfilter/orderby limitfilter/limit
                         {// 1) fromtables
                          // 2) wherefilter (if defined)
                          // 3) groupbyfilter (if defined)
@@ -28,6 +29,7 @@ selectfromstatement = SELECT uniquefilter/distinct selecttablelist/selecttables 
                         $totalfilter=putFilterAfterIfExists($totalfilter, $groupby);
                         $totalfilter=putFilterAfterIfExists($totalfilter, $selecttables);
                         $totalfilter=putFilterAfterIfExists($totalfilter, $distinct);
+                        $totalfilter=putFilterAfterIfExists($totalfilter, $orderby);
                         $totalfilter=putFilterAfterIfExists($totalfilter, $limit);
                         
                         $$=$totalfilter;}
@@ -56,6 +58,25 @@ limitfilter = LIMIT constant/limit
                {$$ = new LimitFilter(null, $offset, $limit);}
             |  {$$ = null;}
             .
+
+orderbyfilter = ORDER BY orderbyidentifierlist/columns
+                    { $$ = new SortFieldsFilter($columns);}
+              | {$$ = null;}
+              .
+
+orderbyidentifierlist = orderbyfield/f
+                        { $$ = array($f); }
+                      | orderbyfield/f ',' orderbyidentifierlist/flist 
+                        { array_unshift($flist, $f); $$ = $flist; }
+                      .
+
+orderbyfield = name/fieldname ASC
+                    { $$ = new SortFieldsFilterColumn(new Identifier($fieldname), SortFieldsFilterColumn::$SORTORDER_ASCENDING); }
+             | name/fieldname DESC
+                    { $$ = new SortFieldsFilterColumn(new Identifier($fieldname), SortFieldsFilterColumn::$SORTORDER_DESCENDING); }
+             | name/fieldname
+                    { $$ = new SortFieldsFilterColumn(new Identifier($fieldname));}
+             .
 
 fromtableexpression = expression {$$=$1;}
                     | expression/stat asopt name/tablealias

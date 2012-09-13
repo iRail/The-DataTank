@@ -26,7 +26,8 @@ class SQLParser{
         "+", "-", "*", "/", "=", "<", ">", "OR", "AND", "AS",
         ",", "(", ")", "!", "ALL", "ANY", "|", "EXTRACT", "LIMIT", "OFFSET",
         "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "YEAR", "MINUTE_SECOND", "HOUR_SECOND", "HOUR_MINUTE", "DAY_SECOND", "DAY_MINUTE", "DAY_HOUR", "YEAR_MONTH",
-        "INTERVAL", "DATE_ADD", "DATE_SUB");
+        "INTERVAL", "DATE_ADD", "DATE_SUB",
+        "ORDER", "ASC", "DESC");
     
     /**
      * Takes: A SQL Query
