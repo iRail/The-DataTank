@@ -81,8 +81,14 @@ Another very basic filter is the Constant. It returns a column which contains th
 #### Filter: ColumnSelectionFilter
 If you need to select columns or build a new table from existing or calculated columns, you use a ColumnSelectionFilter. It needs a source (the filter that is executed before) and an array of ColumnSelectionFilerColumns which contain a filter that return a column and an optional alias. 
 
+#### Filter: SortFieldsFilter
+Used to sort the table.
+
 #### Filter: DistinctFilter
 Removes double rows...
+
+#### Filter: LimitFilter
+Keeps a certain amount of rows from a certain offset.
 
 #### Filter: DataGrouper
 Groups data on the given fields. You probably want to use aggregator functions after you did the grouping.

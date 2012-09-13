@@ -18,6 +18,7 @@ It can parse and convert:
  - `LIKE`
  - `IN (...)`
  - `LIMIT ... [OFFSET ...]`
+ - `ORDER BY field ASC/DESC, field ASC/DESC, ...`
 
  - nested Selects
 

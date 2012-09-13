@@ -15,7 +15,14 @@ include_once 'universalfilter/common/StableSorting.php';
 function SortFieldsFilterCompare($obj1, $obj2, $dir=-1) {
     $str1 = $obj1["data"];
     $str2 = $obj2["data"];
-    return $dir*strcmp($str1, $str2);
+    
+    if($str1==$str2){
+        return 0;
+    }else if($str1<$str2){
+        return $dir*-1;
+    }else{
+        return $dir*1;
+    }
 }
 
 function SortFieldsFilterCompareAsc($obj1, $obj2){
