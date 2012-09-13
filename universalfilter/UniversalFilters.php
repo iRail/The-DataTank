@@ -37,10 +37,17 @@ abstract class UniversalFilterNode {
  *
  * ... of a Table, a Column or an Alias of one of the two.
  *
- * format: 
- * - package.package.resource
- * - package.package.resource.name_of_column
- * - alias.name_of_column
+ * formats: (interpreted by the UniversalTableManager...)
+ *   A) package.package.resource.restparam.restparam:subresource.subresource
+ *       with: 
+ *          * packages: one or more, 
+ *          * restparams: optional,
+ *          * subresources: optional
+ *       (Please note the separators!)
+ * 
+ *   B) alias.name_of_column
+ * 
+ * 
  */
 class Identifier extends UniversalFilterNode {
     private $value;//type:String

@@ -32,6 +32,17 @@ Well, he calls the method ``getSourceIdFromIdentifier``. If it returns the same 
 
 The return id is also given to the method ``runFilterOnSource`` (``$sourceId``)
 
+#### ``ExpectedHeaderNamesAttachment``
+If you decide to run the filter on the source, and you get back some data. 
+You need to convert it to a table... (so far, nothing new)
+
+But, as the universalfilter needs to know which columns contains which data, you need to name the columns as described in the ``ExpectedHeaderNamesAttachment``.
+
+##### How do you get a ``ExpectedHeaderNamesAttachment``?
+Every filter has one attached to it. So you need to get the one from the filter you execute...
+
+You can ask it by doing: ``$filter->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);``.
+
 ``getSourceIdFromIdentifier($globalTableIdentifier)``
 -----------------------------------------------------
 This method gives back some kind of identifier for the source the table in ``$globalTableIdentifier`` is in.

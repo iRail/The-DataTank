@@ -68,11 +68,12 @@ It can parse and convert:
    * More functions...  
      `"DAY(_)"`, `"DAYOFMONTH(_)"`, `"DAYOFWEEK(_)"`, `"DAYOFYEAR(_)"`, `"HOUR(_)"`, `"MINUTE(_)"`, `"MONTH(_)"`, `"MONTHNAME(_)"`, `"SECOND(_)"`, `"WEEK(_)"`, `"WEEKOFYEAR(_)"`, `"WEEKDAY(_)"`, `"YEAR(_)"`, `"YEARWEEK(_)"`
 
-Tables...
+Tablenames...
 ---------
-If you have a resource `dag1` in a package `gentsefeesten`, the name of the table is: `gentsefeesten.dag1`.
+If you want to know *how tables are named*: (you should know this!!!)
 
-TODO: note about non-tabular resources and REST-parameters...
+See /universalfilter/tablemanager/implementation/README.md
+
 
 How I parse SQL querys
 ----------------------

@@ -13,6 +13,11 @@ class PhpObjectTableConverter {
     public static $ID_FIELD="_id";
     public static $ID_KEY="_key_";
     
+    function is_assoc(array $array) {
+        return (bool)count(array_filter(array_keys($array), 'is_string'));
+    }
+
+    
     /**
      * Finds all paths from $root by following the fields with names in $path
      * (Splits on arrays)
@@ -26,24 +31,40 @@ class PhpObjectTableConverter {
         }
         
         if(!empty($path)){
+            $oldpath=$path;
             $fieldToSearch = array_shift($path);
             
-            if((is_array($root) && isset($root[$fieldToSearch])) || is_object($root) && isset($root->$fieldToSearch)){
+            if(is_array($root) || is_object($root)){
                 $fieldvalue = null;
                 if(is_array($root)){
-                    $fieldvalue = $root[$fieldToSearch];
+                    
+                    if(true /* SEE NOTE*/ || $this->is_assoc($root)){
+                        $fieldvalue = $root[$fieldToSearch];
+                        
+                        return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
+                    }else{// numeric array or empty array -> search in children...
+                        /* NOTE: */
+                        /* if we would implement the _id and _key fields, this code would be better... */
+                        /* but as they are not implemented, the user(!) will have problems finding the correct row... */
+                        $newfieldvalue = array();
+                        
+                        for ($i = 0; $i < count($root); $i++) {
+                            $copyoldpath = $oldpath;
+                            $temparr = $this->findTablePhpArray($root[$i], $copyoldpath, 0/*todo*/);
+                            $newfieldvalue = array_merge($newfieldvalue, $temparr);
+                        }
+                        $fieldvalue = $newfieldvalue;
+                        
+                        return $fieldvalue;
+                    }
                 }else{
-                    $fieldvalue = $root->$fieldToSearch;
-                }
-                
-                
-                
-                if(is_array($fieldvalue)){
-                    return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
-                }else if(is_object($fieldvalue)){
-                    return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
-                }else{
-                    return array();
+                    if(isset ($root->$fieldToSearch)){
+                        $fieldvalue = $root->$fieldToSearch;
+                        
+                        return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
+                    }else{
+                        return array();
+                    }
                 }
             }else{
                 return array();
@@ -64,13 +85,7 @@ class PhpObjectTableConverter {
             }else if(is_array($root)){
                 //NOTE: we don't save the indices... it's an array.......
                 // (unless we find nonNumericIndices)
-                $foundNonNumericIndices = false;
-                foreach($root as $i => $ritem){
-                    if(!is_numeric($i)){
-                        $foundNonNumericIndices=true;
-                        continue;
-                    }
-                }
+                $foundNonNumericIndices = $this->is_assoc($root);
                 
                 $rootarr = array();
                 foreach($root as $i => $ritem){

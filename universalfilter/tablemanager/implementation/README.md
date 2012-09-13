@@ -7,21 +7,61 @@ If you want to use The Abstract Filter Layer in another software-package, you ne
 You can find more information on how to do that in ``universalfilter/tablemanager/README.md``.
 
 
+
+Identifiers for tables
+----------------------
+(as interpreted by the UniversalTableManager)
+
+If you have a resource `data` in a package `testpackage`, the name of the table is: `testpackage.data`.
+
+If you also have restparameters it becomes: `testpackage.data.restparam.restparam`.
+
+With multiple packages: `testpackage.subpackage.data.restparam.restparam`.
+
+Hiërarchical data is divided in multiple tables. E.g. if this data is placed in `/package/test/`:
+    <root>
+        <a x="x" y="y">
+            <z d="d"/>
+        </a>
+        <a x="x" y="y">
+            <z d="d"/>
+        </a>
+        <a x="x" y="y">
+            <z d="d"/>
+        </a>
+        <b x="x" y="y">
+            <z e="e"/>
+        </b>
+    </root>
+
+You have a table `package.test`:
+    | index |   value    |
+    |   a   | <<object>> |
+    |   b   | <<object>> |
+
+You have a subtable for "a": `package.test:a`:
+    |   x   |   y   |     z      |
+    |   x   |   y   | <<object>> |
+    |   x   |   y   | <<object>> |
+    |   x   |   y   | <<object>> |
+
+And also a subtable "a.0.z": `package.test:a.0.z`:
+    |   index   |   value   |
+    |     d     |     d     |
+
+
 About the implementation
 ------------------------
 
 ### So, we need to convert the data in The DataTank to tables...
 
-The implementation for tabular data is straightforward. For xml we are still discussing which way it will be implemented. For the moment, an xml is seen as multiple tables. For example for a html file ``package.examplefile`` would be a table, and also ``package.examplefile.body`` and also ``package.examplefile.body.p``. The last one would return a table of all paragraphs that are directly in the body element.
+The implementation for tabular data is straightforward. 
 
 For the conversion from php-object to the table and back: see universalfilters/tablemanager/implementation/tools for the conversion classes
-
-> Editor note: maybe we should some sort of Xquery expression to describe which elements we want to use as a table. However maybe that's just overkill... And maybe we should implement that as a filter itself...
 
 ### We also implemented the runFilterOnSource method to run filters directly on the source.
 
 For more info, ask Jan ;)
-
 
 Ideas about future development
 ------------------------------
