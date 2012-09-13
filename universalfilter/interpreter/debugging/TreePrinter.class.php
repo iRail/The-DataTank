@@ -17,7 +17,11 @@ class TreePrinter {
      * @param UniversalFilterNode $tree
      * @return string A string representation of the tree
      */
-    public function treeToString(UniversalFilterNode $tree){
+    public function treeToString(UniversalFilterNode $tree=null){
+        if($tree==null){
+            return $this->getPadding()."[!!!! NULL !!!!]";
+        }
+        
         $method = "print_".get_class($tree);
         //calls the correct clone method and then returns.
         $var = "";
@@ -29,14 +33,14 @@ class TreePrinter {
         return $var;
     }
     
-    public function treeToStringWithPadding($padding, UniversalFilterNode $tree){
+    public function treeToStringWithPadding($padding, UniversalFilterNode $tree=null){
         $this->incPadding($padding);
         $string=$this->treeToString($tree);
         $this->incPadding(-$padding);
         return $string;
     }
     
-    public function printString(UniversalFilterNode $tree){
+    public function printString(UniversalFilterNode $tree=null){
         $string = $this->treeToString($tree);
         echo "<div style='border:1px solid grey'>";
         echo "<pre>";
