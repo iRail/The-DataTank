@@ -65,6 +65,14 @@ class FilterTreeCloner {
     private function clone_DataGrouper(DataGrouper $filter){
         return new DataGrouper($filter->getColumns(), $this->deepCopyTree($filter->getSource()));
     }
+
+    private function clone_DatasetJoinFilter(DatasetJoinFilter $filter){
+        $expr=$filter->getExpression();
+        if($expr!==NULL) {
+            $expr = $this->deepCopyTree($expr);
+        }
+        return new DatasetJoinFilter($filter->getKeepLeft(), $filter->getKeepRight(), $this->deepCopyTree($filter->getSource(0)), $this->deepCopyTree($filter->getSource(1)));
+    }
     
     private function clone_UnaryFunction(UnaryFunction $filter){
         return new UnaryFunction($filter->getType(), 

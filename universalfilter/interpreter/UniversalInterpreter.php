@@ -68,6 +68,7 @@ class UniversalInterpreter implements IInterpreterControl{
             "FILTERSORTCOLUMNS" => "SortFieldsFilterExecuter",
             "FILTEREXPRESSION" => "FilterByExpressionExecuter",
             "DATAGROUPER" => "DataGrouperExecuter",
+            "JOIN" => "DatasetJoinFilterExecuter",
             "TABLEALIAS" => "TableAliasExecuter",
             "FILTERDISTINCT" => "DistinctFilterExecuter",
             "FILTERLIMIT" => "LimitFilterExecuter",

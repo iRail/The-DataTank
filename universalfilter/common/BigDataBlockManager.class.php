@@ -17,7 +17,7 @@ include_once("universalfilter/common/HashString.php");
  */
 class BigDataBlockManager {
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
-    private static $COUNT_KEEP_IN_MEMORY = 2000000;
+    private static $COUNT_KEEP_IN_MEMORY = 200;
     
     private static $instance;
     

@@ -71,7 +71,7 @@ class TreePrinter {
     }
     
     private function print_TableAliasFilter(TableAliasFilter $filter){
-        return  $this->getPadding()."TableAliasFilter[".$filter->getConstant()."] {\n".
+        return  $this->getPadding()."TableAliasFilter[".$filter->getAlias()."] {\n".
                 $this->getPadding(1)."source: \n".
                 $this->treeToStringWithPadding(2, $filter->getSource()).
                 $this->getPadding()."}\n";
@@ -144,6 +144,22 @@ class TreePrinter {
                 $this->getPadding(1)."source: \n".
                 $this->treeToStringWithPadding(2, $filter->getSource()).
                 $this->getPadding()."}\n";
+    }
+    
+    private function print_DatasetJoinFilter(DatasetJoinFilter $filter){
+        $string = $this->getPadding()."DatasetJoinFilter [keepleft: ".($filter->getKeepLeft()?"true":"false")."; keepright: ".($filter->getKeepRight()?"true":"false")."] {\n".
+        $this->getPadding(1)."source 1: \n".
+        $this->treeToStringWithPadding(2, $filter->getSource(0)).
+        $this->getPadding(1)."source 2: \n".
+        $this->treeToStringWithPadding(2, $filter->getSource(1));
+        if($filter->getExpression()!==NULL) {
+            $string .= $this->getPadding(1)."expression : \n".
+            $this->treeToStringWithPadding(2, $filter->getExpression());
+        }else{
+            $string .= $this->getPadding(1)."expression : &lt;NONE&gt; \n";
+        }
+        $string .= $this->getPadding()."}\n";
+        return $string;
     }
     
     private function print_UnaryFunction(UnaryFunction $filter){

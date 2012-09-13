@@ -60,6 +60,26 @@ class UniversalFilterTableHeader {
     }
     
     /**
+     * Gets the unique columnName for a given id
+     */
+    public function getColumnUniqueNameById($id) {
+        $info = $this->getColumnInformationById($id);
+        $name = $info->getName();
+        try{
+            $this->getColumnIdByName($name);
+        }  catch (Exception $e) {
+            $name = $info->getFullName();
+            try{
+                $this->getColumnIdByName($name);
+            }  catch (Exception $e){
+                //hmmm....
+                $name = $name." (".$info->getId().")";
+            }
+        }
+        return $name;
+    }
+    
+    /**
      * returns the number of columns
      */
     public function getColumnCount() {
@@ -84,6 +104,14 @@ class UniversalFilterTableHeader {
             }
         }
         throw new Exception("ColumnInformation not found for id: \"".$id."\"");
+    }
+    
+    /**
+     * get columnInformation
+     * @return UniversalFilterTableHeaderColumnInfo
+     */
+    public function getColumnInformationByIndex($index){
+        return $this->getColumnInformationById($this->getColumnIdByIndex($index));
     }
     
     /**
