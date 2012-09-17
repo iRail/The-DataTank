@@ -41,7 +41,7 @@ class FormatterFactory{
 
         //first, let's be sure about the case of the format
         $urlformat = ucfirst(strtolower($urlformat));
-        
+       
         if(strtolower($urlformat) == "about" || $urlformat == "" ){ //urlformat can be empty on SPECTQL query
             include_once("custom/formatters/ContentNegotiator.class.php");
             $cn = ContentNegotiator::getInstance();
@@ -55,7 +55,7 @@ class FormatterFactory{
             if(!$this->formatExists($format)){
                 throw new FormatNotFoundTDTException($format); // could not find a suitible format
             }
-            $this->format = $format;
+            $this->format = $format;            
             //We've found our format through about, so let's set the header for content-location to the right one
             //to do this we're building our current URL and changing .about in .format
             $format= strtolower($this->format);
@@ -85,7 +85,7 @@ class FormatterFactory{
         $this->setFormat($urlformat);
     }
 
-    private function formatExists($format){
+    private function formatExists($format){            
         return file_exists("custom/formatters/". $format . "Formatter.class.php") || file_exists("custom/formatters/visualizations/". $format . "Formatter.class.php");
     }
 

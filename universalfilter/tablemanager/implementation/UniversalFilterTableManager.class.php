@@ -144,7 +144,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         }catch(Exception $e) {
             $columns=NULL;
         }
-
+        
         if($columns != NULL && !isset($this->requestedTableHeaders[$globalTableIdentifier])){
             $headerColumns = array();
             foreach($columns as $column){

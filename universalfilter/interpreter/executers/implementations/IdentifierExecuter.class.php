@@ -44,12 +44,12 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 $this->singlevaluecolumnheader=$this->header->getColumnInformationById($this->header->getColumnId());
                 $this->header = new UniversalFilterTableHeader(array($this->singlevaluecolumnheader->cloneColumnNewId()), true, true);
             }
-        }else{
+        }else{           
             $this->isNewTable = true;
-            // load new table
-            $tableName = $filter->getIdentifierString();
+            // load new table               
+            $tableName = $filter->getIdentifierString();              
             try {
-            $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
+                $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
             } catch(ResourceOrPackageNotFoundTDTException $rce){
                 throw new Exception("The identifier \"".$tableName."\" can not be found. It is not a table.");
             }

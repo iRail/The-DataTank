@@ -15,7 +15,7 @@
  * html table datastructure.
  */
 
-class HtmlTableFormatter extends AFormatter {
+class HtmltableFormatter extends AFormatter {
     
     private $SHOWNULLVALUES=true;/* show null values as "unknown" or not? If not, you can not see the difference between "null" and "" */
 
@@ -52,6 +52,7 @@ class HtmlTableFormatter extends AFormatter {
     }
 
     public function printBody() {
+        
         $keys = array_keys(get_object_vars($this->objectToPrint));
         $key = $keys[0];
         $this->objectToPrint = $this->objectToPrint->$key;

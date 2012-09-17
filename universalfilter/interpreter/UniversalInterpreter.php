@@ -163,9 +163,9 @@ class UniversalInterpreter implements IInterpreterControl{
         //CALCULATE HEADER FIRST TIME + QUERY SYNTAX DETECTION
         // calculate the header already once on the original query.
         // it can throw errors...
-        $executer = $this->findExecuterFor($tree);
+        $executer = $this->findExecuterFor($tree);        
         $executer->initExpression($tree, $emptyEnv, $this, false);
-        
+
         
         //EXECUTE PARTS ON SOURCE
         

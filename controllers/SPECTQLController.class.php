@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The controller will handle all SPECTQL requests
  *
@@ -27,63 +28,79 @@ class SPECTQLController extends AController {
      * 
      */
     function GET($matches) {
+
         $query = "/";
-        if(isset($matches["query"])){
+        if (isset($matches["query"])) {
             $query = $matches["query"];
         }
 
         // split off the format of the query, if passed
         $matches = array();
         $format = "about";
-        if(preg_match("/:[a-zA-Z]+/",$query,$matches)){
-            $format = ltrim($matches[0],":");
+        if (preg_match("/:[a-zA-Z]+/", $query, $matches)) {
+            $format = ltrim($matches[0], ":");
+        }
+
+        /*
+         * We have to make sure the TDTAdmin resources
+         * are still hidden from normal users. Using a regex, 
+         * we're going to find out if the TDTAdmin has been adressed.
+         */
+
+        if (preg_match("/.*TDTAdmin.*/i", $query) == 1) {
+            if (!$this->isAuthenticated()) {
+                //we need to be authenticated
+                header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
+                header('HTTP/1.0 401 Unauthorized');
+                exit();
+            }
         }
         
+              
+
         $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
-
+                
         $universalquery = $parser->interpret($context);
-
-        $interpreter=new UniversalInterpreter(new UniversalFilterTableManager());
+                
+        $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());               
         $result = $interpreter->interpret($universalquery);
-        
+
         $converter = new TableToPhpObjectConverter();
-        
-        $object = $converter->getPhpObjectForTable($result);
-        
+
+        $object = $converter->getPhpObjectForTable($result);   
         
         //pack everything in a new object
-        $RESTresource="spectqlquery";
+        $RESTresource = "spectqlquery";
         $o = new stdClass();
         $o->$RESTresource = $object;
         $result = $o;
-
-
-        $formatterfactory = FormatterFactory::getInstance($format);//start content negotiation if the formatter factory doesn't exist
+        
+        $formatterfactory = FormatterFactory::getInstance($format); //start content negotiation if the formatter factory doesn't exist
+        $formatterfactory->setFormat($format);
         $rootname = "spectql";
 
-        
-        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
+
+        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);       
         $printer->printAll();
     }
 
-    function HEAD($matches){
+    function HEAD($matches) {
         $query = "/";
-        if(isset($matches["query"])){
+        if (isset($matches["query"])) {
             $query = $matches["query"];
         }
         $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
 
         $result = $parser->interpret($context);
-        $formatterfactory = FormatterFactory::getInstance("about");//start content negotiation if the formatter factory doesn't exist
+        $formatterfactory = FormatterFactory::getInstance("about"); //start content negotiation if the formatter factory doesn't exist
         $rootname = "spectql";
 
-        
+
         $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
         $printer->printHeader();
     }
-    
 
     /**
      * You cannot PUT on a representation
@@ -112,6 +129,11 @@ class SPECTQLController extends AController {
     public function PATCH($matches) {
         throw new RepresentationCUDCallTDTException();
     }
+
+    private function isAuthenticated() {
+        return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::$API_USER && $_SERVER['PHP_AUTH_PW'] == Config::$API_PASSWD;
+    }
+
 }
 
 ?>
