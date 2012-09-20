@@ -89,9 +89,10 @@ Case 2) We got an array.
         e.g.:  
           [  
             {field1:"value1", field2:"value2"},  
-            {field1:"value1b", field2:"value2b"}
+            {field1:"value1b", field2:"value2b"}  
           ]  
-       Resulting table:
+   
+       Resulting table:  
        <table>
         <tr>
             <th>field1</th><th>field2</th>
@@ -104,13 +105,12 @@ Case 2) We got an array.
         </tr>
        </table>  
     b) If the numerical index's value contains a string of some sort then the table has a column named "value".  
-        e.g.:   
-            [
-              "string1",
-              "string2"
-            ]
-       Resulting table:
-
+        e.g.:     
+            [  
+              "string1",  
+              "string2"  
+            ]  
+       Resulting table:  
        <table>
         <tr>
             <th>value</th>
@@ -121,16 +121,14 @@ Case 2) We got an array.
         <tr>
             <th>string2</th>
         </tr>
-       </table>            
-
-    c) If the value is an array, the columnames become "index_"+$i.
-        e.g.: 
-            [
-              ["string1", "A" => "B"],
-              ["string2"]
-            ]
-       Resulting table:
-          
+       </table>              
+    c) If the value is an array, the columnames become "index_"+$i.  
+        e.g.:   
+            [  
+              ["string1", "A" => "B"],  
+              ["string2"]  
+            ]  
+       Resulting table:        
        <table>
         <tr>
             <th>index_1</th><th>index_A</th>
@@ -141,21 +139,17 @@ Case 2) We got an array.
         <tr>
             <th>string2</th><th>null</th>
         </tr>
-       </table>              
-
+       </table>  
     With associative arrays the indexes, or more correctly keys, are probably also important.  
     Note that we don't save the information of "keys" in transforming numerical arrays to tables.  
     To save the "key" information on which a certain value is mapped, we add an extra "index" column to the resulting table.  
     The rest of the info is transformed to a table in the exact same way as numerical arrays are being transformed.  
-
-       e.g.: 
-           [
-             "SomePK1" => {veld1:"value1", veld2:"value2"},
-             "SomePK2" => {veld1:"value1b", veld2:"value2b"}
-           ]
-
-       Resulting table:
-
+       e.g.:  
+           [  
+             "SomePK1" => {veld1:"value1", veld2:"value2"},  
+             "SomePK2" => {veld1:"value1b", veld2:"value2b"}  
+           ]  
+       Resulting table:  
        <table>
         <tr>
             <th>index</th><th>field1</th><th>field2</th>
