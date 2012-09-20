@@ -84,16 +84,14 @@ Case 1) We get an object.
     </table>    
 Case 2) We got an array.  
     With arrays we make a distinction between associative arrays and numerical arrays.   
-    We define an associative array when minimum 1 field is a not a number.  
-    In **`numerical arrays`** the values kept in it are just like rows in the table. Thus, the values have to be interpreted as rows.  
-    a) If an object is the value of a numerical index then all the fields of this object become columnheadernames.
-        e.g.: 
-            [
-              {field1:"value1", field2:"value2"},
-              {field1:"value1b", field2:"value2b"}
-            ]
+    We define an associative array when minimum 1 field is a not a number. In **`numerical arrays`** the values kept in it are just like rows in the table. Thus, the values have to be interpreted as rows.    
+    a) If an object is the value of a numerical index then all the fields of this object become columnheadernames.  
+        e.g.:  
+          [  
+            {field1:"value1", field2:"value2"},  
+            {field1:"value1b", field2:"value2b"}
+          ]  
        Resulting table:
-       
        <table>
         <tr>
             <th>field1</th><th>field2</th>
@@ -104,10 +102,9 @@ Case 2) We got an array.
         <tr>
             <th>value1b</th><th>value2b</th>
         </tr>
-       </table>   
-
-    b) If the numerical index's value contains a string of some sort then the table has a column named "value".
-        e.g.: 
+       </table>  
+    b) If the numerical index's value contains a string of some sort then the table has a column named "value".  
+        e.g.:   
             [
               "string1",
               "string2"
