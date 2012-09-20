@@ -91,7 +91,6 @@ Case 2) We got an array.
             {field1:"value1", field2:"value2"},  
             {field1:"value1b", field2:"value2b"}  
           ]  
-   
        Resulting table:  
        <table>
         <tr>
