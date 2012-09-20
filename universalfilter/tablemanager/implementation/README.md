@@ -69,10 +69,9 @@ return value I get from a the ResourceModel will either be an stdClass (object) 
 Case 1) We get an object.
     In case of an object, the names of the datamembers are important, and have to be used, not thrown away. Ofcourse
     the values of these datamembers are important, and have to be saved as well. This will result in a somewhat hash-map
-    like datastructure (e.g. { field1:"value1", field2:"value2" } ).
-
+    like datastructure ( e.g. { field1:"value1", field2:"value2" } ).  
     
-    Resulting table:
+    Resulting table:  
     
     <table>
         <tr>
@@ -84,7 +83,7 @@ Case 1) We get an object.
         <tr>
             <th>field2</th><th>value2</th>
         </tr>
-    </table>
+    </table>  
 
 Case 2) We got an array.
     With arrays we make a distinction between associative arrays and numerical arrays. 
