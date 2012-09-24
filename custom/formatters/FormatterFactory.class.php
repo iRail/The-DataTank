@@ -41,10 +41,8 @@ class FormatterFactory{
 
         //first, let's be sure about the case of the format
         $urlformat = ucfirst(strtolower($urlformat));
-        
-        if($urlformat == ""){
-            $this->format = "error";
-        }else if(strtolower($urlformat) == "about"){
+       
+        if(strtolower($urlformat) == "about" || $urlformat == "" ){ //urlformat can be empty on SPECTQL query
             include_once("custom/formatters/ContentNegotiator.class.php");
             $cn = ContentNegotiator::getInstance();
             $format = $cn->pop();
@@ -57,7 +55,7 @@ class FormatterFactory{
             if(!$this->formatExists($format)){
                 throw new FormatNotFoundTDTException($format); // could not find a suitible format
             }
-            $this->format = $format;
+            $this->format = $format;            
             //We've found our format through about, so let's set the header for content-location to the right one
             //to do this we're building our current URL and changing .about in .format
             $format= strtolower($this->format);
@@ -87,8 +85,8 @@ class FormatterFactory{
         $this->setFormat($urlformat);
     }
 
-    private function formatExists($format){
-        return file_exists("custom/formatters/". $format . "Formatter.class.php"); // || file_exists("custom/formatters/". $format . ".class.php"):
+    private function formatExists($format){            
+        return file_exists("custom/formatters/". $format . "Formatter.class.php") || file_exists("custom/formatters/visualizations/". $format . "Formatter.class.php");
     }
 
     /**
@@ -106,7 +104,7 @@ class FormatterFactory{
      * @param Mixed  $objectToPrinter This is the object that will be printed.
      * @return Correct printer according to the $format parameter.
      */
-    public function getPrinter($rootname, $objectToPrint){        
+    public function getPrinter($rootname, &$objectToPrint){        
 	$callback = null;
 	//this is a fallback for jsonp - if callback is given, just return jsonp anyway
 	if(($this->format == "Json" || $this->format == "Jsonp") && isset($_GET["callback"])){
@@ -116,8 +114,14 @@ class FormatterFactory{
             $format=$this->format."Formatter";
 	    return new $format($rootname,$objectToPrint,$callback);
 	}
-	$format=$this->format."Formatter";
-	include_once("custom/formatters/". $this->format . "Formatter.class.php");
+        $format=$this->format."Formatter";
+        // Before this is done, a check on the existence of the format has already been done, so we now we can 
+        // automatically include the visualization format if the format isn't found in the formatters folder.
+	if(file_exists("custom/formatters/". $this->format . "Formatter.class.php")){
+            include_once("custom/formatters/". $this->format . "Formatter.class.php");
+        }else{
+            include_once("custom/formatters/visualizations/". $this->format . "Formatter.class.php");
+        }
 	return new $format($rootname, $objectToPrint);
     }
     
@@ -126,7 +130,7 @@ class FormatterFactory{
      * This will fetch all the documentation from the formatters and put it into the documentation visitor
      * @return The documentation object from the formatters
      */
-    public function getDocumentation(){
+    public function getFormatterDocumentation(){
         $doc = array();
         //open the custom directory and loop through it
         if ($handle = opendir('custom/formatters')) {
@@ -137,6 +141,32 @@ class FormatterFactory{
                     $formatterclass = $boom[0];
                     if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
                         include_once("custom/formatters/" . $formatter);
+                        if(is_subclass_of($formatterclass, "AFormatter")){
+                            $doc[$match[1]] = $formatterclass::getDocumentation();
+                        }
+                    }
+                }   
+            }
+            closedir($handle);
+        }
+        return $doc;
+    }
+
+    /**
+     * This will fetch all the documentation from the formatters and put it into the documentation visitor
+     * @return The documentation object from the formatters
+     */
+    public function getVisualizationDocumentation(){
+        $doc = array();
+        //open the custom directory and loop through it
+        if ($handle = opendir('custom/formatters/visualizations')) {
+            while (false !== ($formatter = readdir($handle))) {
+                //if the object read is a directory and the configuration methods file exists, then add it to the installed formatters
+                if ($formatter != "." && $formatter != ".." && file_exists("custom/formatters/visualizations/" . $formatter)) {
+                    $boom = explode(".",$formatter);
+                    $formatterclass = $boom[0];
+                    if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
+                        include_once("custom/formatters/visualizations/" . $formatter);
                         if(is_subclass_of($formatterclass, "AFormatter")){
                             $doc[$match[1]] = $formatterclass::getDocumentation();
                         }

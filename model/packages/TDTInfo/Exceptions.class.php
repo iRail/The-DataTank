@@ -22,8 +22,8 @@ class TDTInfoExceptions extends AReader {
     }
     
     public function read(){
-        $o = new stdClass();
-        $o->Exceptions = array();
+       
+        $tmp = array();
         
         $classes = get_declared_classes();
         foreach($classes as $class) {
@@ -32,10 +32,10 @@ class TDTInfoExceptions extends AReader {
                 $e->code = $class::getErrorCode();
                 $e->doc = $class::getDoc();
                 $e->type = get_parent_class($class);
-                $o->Exceptions[$class] = $e;
+                array_push($tmp,$e);             
             }
         }
-        return $o;
+        return $tmp;
     }
     
     public static function getDoc() {

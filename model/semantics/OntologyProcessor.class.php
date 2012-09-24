@@ -367,7 +367,8 @@ class OntologyProcessor {
     private function isPathProperty($package, $path) {
         //Can we find a type for this path?
         $statement = $this->getModel($package)->findFirstMatchingStatement(new Resource($path), RDF::TYPE(), null);
-
+        var_dump($package);
+        var_dump($path);
         if (is_null($statement)) {
             //if not, there is no entry and no mapping can be done
             throw new OntologyPathDoesntExistTDTException($path . " cannot be found in ontology");

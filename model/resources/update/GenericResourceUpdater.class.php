@@ -6,40 +6,52 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
  */
 include_once("AUpdater.class.php");
+include_once("model/DBQueries.class.php");
 
 class GenericResourceUpdater extends AUpdater {
 
     private $strategy;
+    private $generic_type;
 
-    public function __construct($package, $resource, $RESTparameters) {
+    public function __construct($package, $resource, $RESTparameters,$generic_type) {
         parent::__construct($package, $resource, $RESTparameters);
-        //create an instance of this strategy
-        $result = DBQueries::getGenericResourceType($package, $resource);
-        $this->strategyname = $result["type"];
-        include_once("custom/strategies/" . $this->strategyname . ".class.php");
-        $this->strategy = new $this->strategyname();
+        $this->generic_type = $generic_type;
+        if(!file_exists("custom/strategies/" . $this->generic_type . ".class.php")){
+            throw new ResourceAdditionTDTException("Generic type does not exist: " . $this->generic_type);
+        }
+        include_once("custom/strategies/" . $this->generic_type . ".class.php");
+        // add all the parameters to the $parameters
+        // and all of the requiredParameters to the $requiredParameters
+        $this->strategy = new $this->generic_type();
+        $this->strategy->package = $package;
+        $this->strategy->resource = $resource;
     }
 
     public function getParameters(){
-        return $this->strategy->documentUpdateParameters();
+        $parameters = array("documentation");
+        return array(
+            
+        );
     }
 
     public function getRequiredParameters() {
-        return $this->strategy->documentUpdateRequiredParameters();
+        return array(
+        );
     }
 
     protected function setParameter($key, $value) {
-        $this->strategy->$key = $value;
+        $this->$key = $value;
     }
 
     public function update() {
-        $this->strategy->onUpdate($this->package, $this->resource);
+       
     }
 
     public function getDocumentation() {
-        return "Do an update on a generic resource, depending on what the strategy has specified.";
+        return "Perform an update on a resource, all PUT (create) properties can be changed through this action.";
     }
 
 }

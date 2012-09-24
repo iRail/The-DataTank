@@ -53,8 +53,31 @@ class GenericResource{
         $configObject = $this->createConfigObject($parameters,$strat);
 
         // give the config object to the read function!
-        return $strat->read($configObject);
+        return $strat->read($configObject,$this->package,$this->resource);
     }
+
+    /**
+     * Read a generic resource, but with passing a filter from the AST
+     */
+    public function readAndProcessQuery($query){
+
+        $strat = $this->getStrategy();
+        // ask for all of the parameters of the strategy
+        $parameters = array_keys($strat->documentCreateParameters());
+
+        // pass these parameters onto the createConfig to create the config object
+        $configObject = $this->createConfigObject($parameters,$strat);
+
+        // give the config object to the read function!
+        // and pass along additional information
+        $filterParameters = array();
+        $filterParameters["configObject"] = $configObject;
+        $filterParameters["package"] = $this->package;
+        $filterParameters["resource"] = $this->resource;
+
+        return $strat->readAndProcessQuery($query,$filterParameters);
+    }
+    
 
     /**
      * Get the generic resource info of the strategy.
@@ -68,7 +91,7 @@ class GenericResource{
         $query = R::getRow(
             "SELECT *
              FROM  package,resource, generic_resource, $resource_table
-             WHERE package.package_name=:package and resource.resource_name=:resource
+             WHERE package.full_package_name=:package and resource.resource_name=:resource
                    and package.id=resource.package_id 
                    and resource.id = generic_resource.resource_id
                    and generic_resource.id= $resource_table.gen_resource_id",

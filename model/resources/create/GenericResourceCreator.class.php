@@ -69,12 +69,26 @@ class GenericResourceCreator extends ACreator{
          * Create the package and resource entities and create a generic resource entry.
          * Then pick the correct strategy, and pass along the parameters!
          */
-        
         $package_id  = parent::makePackage($this->package);
         $resource_id = parent::makeResource($package_id, $this->resource, "generic");
 
+        $meta_data_id = DBQueries::storeMetaData($resource_id,$this,array_keys(parent::documentMetaDataParameters()));
+
         $generic_id= DBQueries::storeGenericResource($resource_id,$this->generic_type,$this->documentation);
-        $this->strategy->onAdd($package_id,$generic_id);
+        try{
+            $this->strategy->onAdd($package_id,$generic_id);
+        }catch(Exception $ex){
+            throw new Exception($ex->getMessage());
+            
+            // delete metadata about the resource
+            DBQueries::deleteMetaData($this->package,$this->resource);
+            
+            //now the only thing left to delete is the main row
+            DBQueries::deleteGenericResource($this->package, $this->resource);
+            
+            // also delete the resource entry
+            DBQueries::deleteResource($this->package,$this->resource);
+        }      
     }  
 }
 ?>

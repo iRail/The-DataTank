@@ -6,6 +6,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Jan Vansteenlandt
  */
 
 class Doc{
@@ -17,12 +18,56 @@ class Doc{
     public function visitAll($factories){
         $c = Cache::getInstance();
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "documentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDoc($doc);
             }
             $c->set(Config::$HOSTNAME . Config::$SUBDIR . "documentation",$doc,60*60*60); // cache it for 1 hour by default
+        }
+        return $doc;
+    }
+
+    /**
+     * This function returns all packages present in the datatank
+     */
+    public function visitAllPackages(){
+        $c = Cache::getInstance();
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation");
+        if(is_null($doc)){
+            $doc = new stdClass();
+            $packages = DBQueries::getAllPackages();
+            foreach($packages as $package){
+                $packagename = $package->package_name;
+                $doc->$packagename = new StdClass();
+            }
+
+            $coreResourceFactory = new CoreResourceFactory();
+            $packages = $coreResourceFactory->getAllPackagesDoc();
+            
+            foreach($packages as $package){
+                $doc->$package = new StdClass();
+            }
+
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "packagedocumentation",$doc,60*60*60); // cache it for 1 hour by default
+        }
+        return $doc;
+
+    }
+
+    /**
+     * This function will visit any given factory and ask for the description of the resources they're responsible for.
+     * @return Will return the entire description array which can be used by TDTAdmin/Resources. 
+     */
+    public function visitAllDescriptions($factories){
+        $c = Cache::getInstance();
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation");
+        if(is_null($doc)){
+            $doc = new stdClass();
+            foreach($factories as $factory){ 
+                $factory->makeDescriptionDoc($doc);
+            }
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "descriptiondocumentation",$doc,60*60*60); // cache it for 1 hour by default
         }
         return $doc;
     }
@@ -34,11 +79,12 @@ class Doc{
     public function visitAllAdmin($factories){
         $c = Cache::getInstance();
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new stdClass();
             foreach($factories as $factory){ 
                 $factory->makeDeleteDoc($doc);
                 $factory->makeCreateDoc($doc);
+                $factory->makeUpdateDoc($doc);
             }
             $c->set(Config::$HOSTNAME . Config::$SUBDIR . "admindocumentation",$doc,60*60*60); // cache it for 1 hour by default
         }
@@ -54,16 +100,25 @@ class Doc{
         $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "formatterdocs");
         $ff = FormatterFactory::getInstance();
         if(is_null($doc)){
-            $doc = $ff->getDocumentation();
+            $doc = $ff->getFormatterDocumentation();
             $c->set(Config::$HOSTNAME . Config::$SUBDIR . "formatterdocs",$doc,60*60*60);
         }
         return $doc;
     }
-    
 
-
+    /**
+     * Gets the documentation on the visualizations
+     * @return $mixed An object which holds the information about the visualizations
+     */
+    public function visitAllVisualizations(){
+        $c = Cache::getInstance();
+        $doc = $c->get(Config::$HOSTNAME . Config::$SUBDIR . "visualizationdocs");
+        $ff = FormatterFactory::getInstance();
+        if(is_null($doc)){
+            $doc = $ff->getVisualizationDocumentation();
+            $c->set(Config::$HOSTNAME . Config::$SUBDIR . "visualizationdocs",$doc,60*60*60);
+        }
+        return $doc;
+    }
 }
-
-
-
 ?>

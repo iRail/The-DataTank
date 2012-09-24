@@ -16,7 +16,7 @@ class NtFormatter extends AFormatter {
         parent::__construct($rootname, $objectToPrint);
     }
 
-    protected function printBody() {
+    public function printBody() {
         //Unwrap object
         foreach ($this->objectToPrint as $class => $prop){
             if (is_a($prop,"MemModel")){
@@ -41,7 +41,7 @@ class NtFormatter extends AFormatter {
         echo $rdf;
     }
 
-    protected function printHeader() {
+    public function printHeader() {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/n-triples; charset=UTF-8");
     }

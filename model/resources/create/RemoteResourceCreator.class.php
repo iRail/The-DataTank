@@ -24,6 +24,7 @@ class RemoteResourceCreator extends ACreator{
         $parameters = parent::documentParameters();
         $parameters["base_url"]  = "The base url from the remote resource.";
         $parameters["package_name"] = "The remote package name of the remote resource.";
+        $parameters["resource_name"] = "The remote resource name of the remote resource. Default value is the local resource_name.";
         return $parameters;
     }
 
@@ -34,7 +35,6 @@ class RemoteResourceCreator extends ACreator{
     public function documentRequiredParameters(){
         $parameters = parent::documentRequiredParameters();
         $parameters[] = "base_url";
-        $parameters[] = "package_name";
         return $parameters;
     }
     
@@ -51,6 +51,14 @@ class RemoteResourceCreator extends ACreator{
      * parameters have already been set.
      */
     public function create(){
+        if(!isset($this->resource_name) && $this->resource != ""){
+            $this->resource_name = $this->resource;
+        }
+
+        if(!isset($this->package_name) && $this->package != ""){
+            $this->package_name = $this->package;
+        }
+
         // format the base url
         $base_url = $this->base_url;
         if(substr(strrev($base_url),0,1) != "/"){
@@ -58,14 +66,14 @@ class RemoteResourceCreator extends ACreator{
         }
         
         // 1. First check if it really exists on the remote server
-        $url = $base_url."TDTInfo/Resources/" . $this->package_name . "/". $this->resource .".php";
+        $url = $base_url."TDTInfo/Resources/" . $this->package_name . "/". $this->resource_name .".php";
         $options = array("cache-time" => 1); //cache for 1 second
         $request = TDT::HttpRequest($url, $options);
         if(isset($request->error)){
             throw new HttpOutTDTException($url . " does not exist! Please check the package name and base url");
         }
         $object = unserialize($request->data);
-        if(!isset($object[$this->resource])){
+        if(!isset($object[$this->resource_name])){
             throw new ResourceAdditionTDTException("Resource does not exist on the remote server");
         }
 
@@ -78,7 +86,7 @@ class RemoteResourceCreator extends ACreator{
         // 3. store it
         $package_id = parent::makePackage($this->package);
         $resource_id = parent::makeResource($package_id, $this->resource, "remote");
-        DBQueries::storeRemoteResource($resource_id, $this->package_name, $base_url);
+        DBQueries::storeRemoteResource($resource_id, $this->package_name, $this->resource_name, $base_url);
     }    
 }
 ?>

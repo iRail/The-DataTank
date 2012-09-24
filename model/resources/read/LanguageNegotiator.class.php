@@ -14,15 +14,10 @@
  */
 
 class LanguageNegotiator{
-    private $header;
 
     private $stack;
 
     public function __construct($header = ""){
-        if($header == ""){
-            $header = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
-        }
-        $this->header = $header;
         $this->doLanguageNegotiation();
     }
 
@@ -39,7 +34,11 @@ class LanguageNegotiator{
          * Language negotiation means checking the Accept header of the request to decide for the language to use
          */
 	if(!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
-            throw new FormatNotFoundTDTException("Could not determine output language from Accept-Language header - please set your Accept-Language header");
+            if(isset(Config::$DEFAULT_LANGUAGE)){
+                return array(Config::$DEFAULT_LANGUAGE,"en");
+            }else{
+                return array("en");
+            }
 	}
         $accept = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         $types = explode(',', $accept);

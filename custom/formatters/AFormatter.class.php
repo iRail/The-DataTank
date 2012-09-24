@@ -23,12 +23,12 @@ abstract class AFormatter {
      * @param string $rootname Name of the rootobject, if used in the print format (i.e. xml)
      * @param Mixed  $objectToPrint Object that needs printing.
      */
-    public function __construct($rootname, $objectToPrint) {
+    public function __construct($rootname, &$objectToPrint) {
         include("version.php");
         $this->version = $version;
 
         $this->rootname = $rootname;
-        $this->objectToPrint = $objectToPrint;
+        $this->objectToPrint = &$objectToPrint;
     }
      
     /**
@@ -47,12 +47,12 @@ abstract class AFormatter {
     /**
      * This function will set the header type of the responsemessage towards the call of the user.
      */
-    abstract protected function printHeader();
+    abstract public function printHeader();
 
     /**
      * This function will print the body of the responsemessage.
      */
-    abstract protected function printBody();
+    abstract public function printBody();
     
 }
 ?>

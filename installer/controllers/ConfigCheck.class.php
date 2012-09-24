@@ -127,7 +127,7 @@ class ConfigCheck extends InstallController {
                         }
                         break;
                 }
-                
+
                 // don't allow next step on error
                 if($status=="failed")
                     $this->installer->nextStep(FALSE);

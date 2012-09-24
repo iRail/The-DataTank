@@ -24,8 +24,6 @@ abstract class AUpdater {
      * Processes the parameters from the request.
      */
     public function processParameters($parameters) {
-        unset($parameters["update_type"]);
-        
         foreach ($parameters as $key => $value) {
             //check whether this parameter is in the documented parameters
             if (!in_array($key,array_keys($this->getParameters()))) {
@@ -39,6 +37,14 @@ abstract class AUpdater {
      * Updates a resource.
      */
     abstract public function update();
+
+    /**
+     * Get the parameters for the update action
+     */
+    public function getParameters(){
+        
+    }
+    
 
     /**
      * Set the parameter to the resource.

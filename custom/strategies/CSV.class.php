@@ -8,7 +8,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once ("custom/strategies/ATabularData.class.php");
+include_once("custom/strategies/ATabularData.class.php");
+include_once("aspects/logging/BacklogLogger.class.php");
 
 class CSV extends ATabularData {
 
@@ -16,30 +17,34 @@ class CSV extends ATabularData {
     public static $MAX_LINE_LENGTH = 15000;
 
     /**
-     * Returns an array with params => documentation pairs who are required to create a CSV resource.
+     * The parameters returned are required to make this strategy work.
      * @return array with parameter => documentation pairs
      */
     public function documentCreateRequiredParameters() {
-        return array("uri", "has_header_row", "delimiter");
+        return array("uri");
     }
 
     /**
-     * Document all the read required parameters for documentation purposes. 
-     * @return array with necessary parameters to read a CSV.
+     * @deprecated
      */
-    public function documentReadRequiredParameters() {
-        return array();
+    public function documentUpdateParameters(){
+        $this->parameters["uri"] = "The URI to the CSV file.";
+        $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
+        $this->parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
+        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values, default value is a comma.";
+        $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
+        return $this->parameters;
     }
 
     /**
-     * Returns an array with params => documentation pairs that can be used to create a CSV resource.
+     * The parameters ( array keys ) returned all of the parameters that can be used to create a strategy.
      * @return array with parameter => documentation pairs
      */
     public function documentCreateParameters() {
-        $this->parameters["uri"] = "The URI to the CSV file";
+        $this->parameters["uri"] = "The URI to the CSV file.";
         $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
         $this->parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
-        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values.";
+        $this->parameters["delimiter"] = "The delimiter which is used to separate the fields that contain values, default value is a comma.";
         $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
         return $this->parameters;
     }
@@ -54,20 +59,23 @@ class CSV extends ATabularData {
     
     /**
      * Read a resource
+     * @param $configObject The configuration object containing all of the parameters necessary to read the resource.
      * @param $package The package name of the resource 
      * @param $resource The resource name of the resource
      * @return $mixed An object created with fields of a CSV file.
      */
-    public function read(&$configObject) {
+    public function read(&$configObject,$package,$resource){
         /*
-         * First retrieve the values for the generic fields of the CSV logic
+         * First retrieve the values for the generic fields of the CSV logic.
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
-        parent::read($configObject);
+		 
+        parent::read($configObject,$package,$resource);
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;
         $delimiter = $configObject->delimiter;
+
         /**
          * check if the uri is valid ( not empty )
          */
@@ -78,25 +86,35 @@ class CSV extends ATabularData {
         }
       
         $columns = $configObject->columns;
+        $column_aliases = $configObject->column_aliases;
         $PK = $configObject->PK;
 
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
-
-        // only request public available files
-        $request = TDT::HttpRequest($filename);
-
-        if (isset($request->error)) {
+		
+        $rows = array();
+        if (($handle = fopen($filename, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+                $num = count($data);
+                $csvRow = "";
+                for ($c=0; $c < $num; $c++) {
+                    $csvRow = $csvRow . $delimiter . $this->enclose($data[$c]);
+                }
+                array_push($rows,ltrim($csvRow,$delimiter));
+            }
+            fclose($handle);
+        }else{
             throw new CouldNotGetDataTDTException($filename);
         }
-        $csv = utf8_encode($request->data);
-        $rows = str_getcsv($csv, "\n");
+        
+
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
         }
-
+        
+        
         $fieldhash = array();
         /**
          * loop through each row, and fill the fieldhash with the column names
@@ -104,66 +122,130 @@ class CSV extends ATabularData {
          * note that the precondition of the beforehand filling of the fieldhash
          * is that the column_name is an index! Otherwise there's no way of id'ing a column
          */
+
         if ($has_header_row == "0") {
-            foreach ($columns as $index => $column_name) {
-                $fieldhash[$index] = $index;
+            foreach($columns as $index=> $column_name){
+                $fieldhash[$column_name] = $index;
             }
         }
 
+        $line = 0;
+        
         foreach ($rows as $row => $fields) {
-            $data = str_getcsv($fields, $delimiter);
+            $line++;
+            $data = str_getcsv($fields, $delimiter,'"');
                 
-            if(count($data) != count($columns)){
-                throw new ReadTDTException("The amount of columns and data from the csv don't match up, this could be because an incorrect delimiter has been passed.");
+            // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
+            if(count($data)<=1 && $row == ""){
+                throw new ReadTDTException("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter.");
             }
-                
+            
+            /**
+             * We support sparse trailing (empty) cells 
+             */
+            if(count($data) != count($columns)){ 
+                if(count($data) < count($columns)){ 
+                    /**
+                     * trailing empty cells
+                     */
+                    $missing = count($columns) - count($data);
+                    for ($i = 0; $i < $missing; $i++){
+                        $data[] = "";
+                    }                    
+                }else if(count($data) > count($columns)){
+                    $line+= $start_row;
+                    $amountOfElements = count($data);
+                    $amountOfColumns = count($columns);
+                    throw new ReadTDTException("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used. Line number of the error: $line. amount of columns - elements : $amountOfColumns - $amountOfElements.");
+                }
+            }
+
             // keys not found yet
             if (!count($fieldhash)) {
 
                 // <<fast!>> way to detect empty fields
                 // if it contains empty fields, it should not be our field hash
                 $empty_elements = array_keys($data, "");
+
                 if (!count($empty_elements)) {
+
                     // we found our key fields
                     for ($i = 0; $i < sizeof($data); $i++)
-                        $fieldhash[$data[$i]] = $i;
+                        $fieldhash[$data[$i]] = $i ;
+
                 }
             } else {
+
                 $rowobject = new stdClass();
                 $keys = array_keys($fieldhash);
 
                 for ($i = 0; $i < sizeof($keys); $i++) {
+
                     $c = $keys[$i];
 
-                    if (sizeof($columns) == 0 || !array_key_exists($c, $columns)) {
+                    if (sizeof($columns) == 0 || !in_array($c,$columns)) {
+
                         $rowobject->$c = $data[$fieldhash[$c]];
-                    } else if (array_key_exists($c, $columns)) {
-                        $rowobject->$columns[$c] = $data[$fieldhash[$c]];
+
+                    } else if (in_array($c, $columns)) {
+
+                        $rowobject->$column_aliases[$c] = $data[$fieldhash[$c]];
+
                     }
                 }
 
-                if ($PK == "") {
+                if ($PK == ""){
                     array_push($arrayOfRowObjects, $rowobject);
                 } else {
-                    if (!isset($arrayOfRowObjects[$rowobject->$PK])) {
+                    if (!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != "") {
                         $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
+                    }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
+                        // this means the primary key wasn't unique !
+                        BacklogLogger::addLog("CSV", "Primary key ". $rowobject->$PK . " isn't unique on line " . $line.".",
+                                              $package,$resource);
+                    }else{
+                        // this means the primary key was empty, log the problem and continue 
+                        BacklogLogger::addLog("CSV", "Primary key is empty on line ". $line . ".", 
+                                              $package,$resource);
                     }
                 }
             }
         }
-
         return $arrayOfRowObjects;
     }
-    
+
+    /**
+     * encloses the $element in double quotes
+     */
+    private function enclose($element){
+        $element = rtrim($element, '"');
+        $element = ltrim($element, '"');
+        $element = '"'.$element.'"';
+        return $element;
+    }
+
     protected function isValid($package_id,$generic_resource_id) {
+
         if (!isset($this->columns)) {
             $this->columns = array();
+        }
+
+        if(!isset($this->column_aliases)){
+            $this->column_aliases = array();
+        }
+
+        if(!isset($this->has_header_row)){
+            $this->has_header_row = 1;
         }
 
         if (!isset($this->PK)) {
             $this->PK = "";
         }
 
+        if(!isset($this->delimiter)){
+            $this->delimiter = ",";
+        }
+       
         if (!isset($this->start_row)) {
             $this->start_row = 1;
         }
@@ -202,16 +284,23 @@ class CSV extends ATabularData {
                 // then the first argument will return false, and being an &&-statement the second validation will not be processed
                 $commentlinecounter = 1;
                 while($commentlinecounter < $this->start_row ){
-                    $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $this->delimiter);
+                    $line = fgetcsv($handle,CSV::$MAX_LINE_LENGTH, $this->delimiter,'"');
                     $commentlinecounter++;
                 }
-       
-                if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter)) !== FALSE) {
+                $index = 0;
+                
+                if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter,'"')) !== FALSE) {
                     // if no column aliases have been passed, then fill the columns variable 
+                    $index++;
+                    
+                    if(count($line) <= 1){
+                        throw new ResourceAdditionTDTException("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter. On line $index.");
+                    }
+                    
                     if(empty($this->columns)){                        
                         for ($i = 0; $i < sizeof($line); $i++){
-                            $fieldhash[$line[$i]] = $i;
-                            $this->columns[$i] = $line[$i];
+                            $fieldhash[trim($line[$i])] = $i;
+                            $this->columns[$i] = trim($line[$i]);
                         }
                     }
                 }else{
