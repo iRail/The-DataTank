@@ -81,8 +81,19 @@ class XmlFormatter extends AFormatter{
                         $tag_close = TRUE;
                     }else{
                         $key = htmlspecialchars(str_replace(" ","",$key));
-                        $val = htmlspecialchars($value, ENT_QUOTES);
-                        echo " ".$key.'="'. $val .'"';
+                        $val = htmlspecialchars($value, ENT_QUOTES);                                                                      
+                        
+                        if($this->isNotAnAttribute($key)){  
+                            if(!$tag_close){
+                                echo ">";
+                                $tag_close = TRUE;
+                            }
+                            echo "<$key>" . $val . "</$key>";
+                        }else{
+                            // To be discussed: strip the _ or not to strip the _
+                            //$key = substr($key, 1);
+                            echo " $key=" .'"' .$val.'"';
+                        }                                                 
                     }
                 }
             }
@@ -102,6 +113,11 @@ class XmlFormatter extends AFormatter{
         }
     }
 
+    private function isNotAnAttribute($key){
+        //echo strpos($key,"_");
+        return $key[0] != "_";
+    }
+    
     private function printArray($name,$array){
         //check on first character
         if(preg_match("/^[0-9]+.*/", $name)){

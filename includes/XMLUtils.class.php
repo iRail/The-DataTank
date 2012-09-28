@@ -49,7 +49,8 @@ Class XmlUtils {
                 $idx = (int)@$arrayIdx[$nodeName];
                 $objArray = $obj->$nodeName;
                 // Add attributes as object properties
-                foreach($xmlChild->attributes() as $attributeType => $attributeValue) {
+                foreach($xmlChild->attributes() as $attributeType => $attributeValue) {     
+                    $attributeType = "_" . $attributeType;
                     $objArray[$idx]->$attributeType = (string)$attributeValue;
                 }
                 // If element text (e.g. <node>ElementText<node>
@@ -61,10 +62,11 @@ Class XmlUtils {
             if (is_object($obj->$nodeName)) {
                 // Add attributes as object properties
                 foreach($xmlChild->attributes() as $attributeType => $attributeValue) {
+                    $attributeType = "_" . $attributeType;
                     $obj->$nodeName->$attributeType = (string)$attributeValue;
                 }
                 // If element text (e.g. <node>ElementText<node>
-                if (strlen($nodeText)) $obj->$nodeName->$nodeName = $nodeText;
+                if (strlen($nodeText)) $obj->$nodeName = $nodeText;
                 // Invoke recursion
                 XmlUtils::xmlToObject($xmlChild, $obj->$nodeName);
             }
