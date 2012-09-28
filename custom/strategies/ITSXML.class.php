@@ -126,8 +126,7 @@ class ITSXML extends AResourceStrategy {
             $name = $ITSparking->GeneralInfo->IDInfo->Name->Name;
             $latitude = $ITSparking->GeneralInfo->GeoLocation->Latitude->Latitude;
             $longitude = $ITSparking->GeneralInfo->GeoLocation->Longitude->Longitude;
-
-            $parking = new stdClass();
+           
             $parking->name = $name;
             $parking->longitude = $longitude;
             $parking->latitude = $latitude;
