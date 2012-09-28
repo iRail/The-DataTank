@@ -10,13 +10,13 @@
  */
 include_once("model/resources/AResourceStrategy.class.php");
 include_once("model/DBQueries.class.php");
-include_once("includes/XMLUtils.class.php");
+include_once("includes/ITSXMLToPHP.class.php");
 
 class ITSXML extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
 
-        $resultObj = XmlUtils::xmlFileToObject($configObject->uri);
+        $resultObj = ITSXMLtoPHP::xmlFileToObject($configObject->uri);
 
         /**
          * Structure of the resulting object:
@@ -173,5 +173,4 @@ class ITSXML extends AResourceStrategy {
     }
 
 }
-
 ?>
