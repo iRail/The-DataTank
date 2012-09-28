@@ -104,9 +104,9 @@ none !
 
 The validation exists of a json_decode of the json file, if it succeeds, the validation succeeds.
 
-## KMLGhent (inherits from ATabularData)
+## KML (inherits from ATabularData)
 
-This class represents a strategy that handles KML datasources from the city of Ghent.
+This class represents a strategy that handles KML datasources.
 
 ### required create parameters:
 
@@ -119,7 +119,7 @@ This class represents a strategy that handles KML datasources from the city of G
 
 ### validation
 
-The validation checks if all the KMLGhent specific entities are present, if so, the validation will succeed.
+The validation checks if all the KML specific entities are present, if so, the validation will succeed.
 
 ### read parameters ( parameters you pass along in the GET request )
 
@@ -129,13 +129,13 @@ The validation checks if all the KMLGhent specific entities are present, if so, 
 
 Adding these parameters will filter the data returned to entries that are within the area specified with long, lat and radius.
 
-## OGDWienJSON (inherits from ATabularData)
+## GeoJSON (inherits from ATabularData)
 
-This class represents a strategy that handles JSON files that have a specific structure. The files are coming from the open data portal of Vienna.
+This class represents a strategy that handles JSON files that have a specific geo-structure.
 
 ### required create parameters
 
-* uri : The uri to the OGD Wien JSON file.
+* uri : The uri to the geo-JSON file.
 
 ### additional create parameters
 
@@ -144,7 +144,7 @@ This class represents a strategy that handles JSON files that have a specific st
 
 ### validation
 
-The validation consists of checking if it's a valid JSON file, and if it's a valid OGDWienJSON file.
+The validation consists of checking if it's a valid geo-JSON file.
 
 ### read parameters ( parameters you pass along in the GET request )
 

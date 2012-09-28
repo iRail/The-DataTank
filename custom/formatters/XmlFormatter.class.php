@@ -67,23 +67,13 @@ class XmlFormatter extends AFormatter{
                     }
 
                     $tag_close = TRUE;
-                    $this->printObject($key,$value);
-                    /*$boom = explode(" ",$name);
-                    if(count($boom) == 1){
-                        echo "</$name>";
-                        }*/
+                    $this->printObject($key,$value);                    
                 }elseif(is_array($value)){
                     if($tag_close == FALSE){
                         echo ">";
                     }
                     $tag_close = TRUE;
-                    $this->printArray($key,$value);
-                    
-                    /*$boom = explode(" ",$name);
-                    
-                    if(count($boom) == 1){
-                        echo "</$name>";
-                        }*/
+                    $this->printArray($key,$value);                                     
                 }else{
                     
                     if($key == $name){
@@ -122,7 +112,6 @@ class XmlFormatter extends AFormatter{
         if(empty($array)){
             echo "<$name></$name>";
         }
-        
 
         foreach($array as $key => $value){
             $nametag = $name;
@@ -138,7 +127,7 @@ class XmlFormatter extends AFormatter{
                 $this->printArray($key,$value);
                 echo "</".$name.">";
             }else{// no array in arrays are allowed!!
-                $name = htmlspecialchars(str_replace(" ","",$name));
+                $name = htmlspecialchars(str_replace(" ","",$name));               
                 $value = htmlspecialchars($value);
                 if($this->isHash($array)){ 
                     //if this is an associative array, don't print it by name of the parent
