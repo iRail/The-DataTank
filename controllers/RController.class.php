@@ -26,7 +26,6 @@ class RController extends AController {
         $pieces = explode("/",$packageresourcestring);
         $package = array_shift($pieces);
 
-
         /**
          * GET operations on TDTAdmin need to be authenticated!
          */
@@ -96,7 +95,7 @@ class RController extends AController {
             RequestLogger::logRequest();
             exit();
         }
-        
+               
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
