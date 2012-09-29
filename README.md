@@ -4,6 +4,12 @@ To install the datatank, just clone our repo (develop branch, or master branch s
 go to the /installer part of the datatank deployment in your browser. 
 I.e. http://myhost/installer, also RENAME the Config.example.class.php to Config.class.php, that should provide with all the necessary info to get you started!
 
+
+# Useful files
+
+[release notes](https://github.com/iRail/The-DataTank/blob/develop/release%20notes)
+[how to update your datatank](https://github.com/iRail/The-DataTank/blob/develop/HOW%20TO%20UPDATE%20YOUR%20DATATANK)
+
 # File structure
 
 The file structure has come a long way since we started our development, here's an overview of what you can find in the different folders and what their purpose is.

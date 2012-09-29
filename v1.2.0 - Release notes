@@ -2,7 +2,7 @@
 
 	THE DATATANK v1.2.0 - beta
 
-		  RELEASE NOTES
+            RELEASE NOTES
 
 ==================================
 
@@ -12,7 +12,7 @@
 This document provides a context about the v1.2.0 beta release, note that this doesn't cover the full explanation
 on how the datatank works, but rather an update on what we've been doing since the last release and what new stuff 
 is in the v1.2.0 beta. This also means that this file will not be adjusted until the next official release, so to stay on track
-of what is happening to our code, check out our (solved) issue list on github.
+of what is happening to our code, check out our (solved) issue list on github. You can find information on further releases in the release notes document.
 
 INSTALLATION NOTE: Just a note of refreshing your memory, in order to get your datatank installed don't forget to rename Config.example.class.php to Config.class.php!
 

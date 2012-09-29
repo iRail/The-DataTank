@@ -1,0 +1,112 @@
+HOW TO UPDATE YOUR DATATANK
+============================
+
+DISCLAIMER
+===========
+
+This document explains in a best effort how to update your datatank to a new one and maintaining your current resources. Due to implementation and features, your upgrade may involve more work depending on what datatank you have installed.
+Note that this file is still work in progress and will be adjusted when we become more experienced with updating DataTank software to newer versions. This will also include feedback and experiences
+from our users.
+
+Author:
+
+Jan Vansteenlandt jan@irail.be
+
+
+STEPS:
+======
+
+
+0) When do you need this document
+=================================
+
+You don't need this document if you're just upgrading between recent versions. What are recent versions? Versions that contain the hierarchical packaging and export functionality are recent versions.
+For people with installed resources, I'd still suggest that you take a look at Step 3. If you experience problems mail them to the mailing list and we'll try to help the best we can.
+Basically, you need this document if you have a version lower than v1.2.0.
+
+NOTE: We realize now the very dire need for a document which contains the version numbers + features and fixes. Defining recent versions as we did above isn't very professional, we'll try to work on that.
+
+
+1) For people with a datatank with generic or remote resource installed but without export functionality
+========================================================================================================
+
+If you have a DataTank installed without the export functionality then you have some extra work compared to the guys with a export functionality. 
+This extra work will consist of an SQL dump and an execution of an SQL UPDATE statement. To check whether or not you have the export functionality you can test if you can go to the TDTAdmin/Export 
+core resource, if this fails you do not possess a datatank with export functionality and you have to read on, if it succeeds you can skip the first step and go to step 2.
+
+* Create a dump of TDT back-end tables' content, containing all information about your generic or remote resources, packages, columns, etc. This is your back-up of your entire DataTank back-end!! 
+  Best practise is also to save your current version of The DataTank files somewhere in a zip file, just in case!
+
+* Delete your tables in The DataTank back-end.
+
+* Download and place the new files of the latest version in your www (sub) folder. For the people who use git, you can do a pull from our repository, but make sure you take a quick look at the issue
+  list, just to make sure you don't pull anything twitchy :).
+
+* Run the installer of The DataTank
+
+* If you do not possess the export functionality, then you won't have the hierarchical package functionality. This functionality needs an additional field in the package table.
+  If you take a look at the new database back-end of your new DataTank you'll see that the package table has 2 new fields amongst others, namely parent_package and full_package_name. 
+  Because you are the owner of an older version of The DataTank you don't have any hierarchical packages, so parent_package may remain empty. However, the full_package_name has to be filled in! 
+  Execute the following piece of SQL code - after you installed your new TDT and after you imported your SQL dump from your old TDT installation - on the database in which your DataTank back-end is located:
+
+  UPDATE package SET package.full_package_name = package.package_name;
+
+  This will set the full_package_name to your package_name.
+
+* You can now skip 2 and continue with step 3.
+
+
+
+
+2) DATATANK GENERIC OR REMOTE RESOURCES INSTALLED WITH EXPORT FUNCTIONALITY
+===========================================================================
+
+If you possess an Export functionality then you can address this resource which will print out every resource of your datatank ( or a specific one ) in a PHP curl HTTP PUT request. 
+A single entry in this output consists of 1 HTTP PUT request. An entry can look like this:
+
+
+
+<?php
+    $url = "http://localhost/TDTAdmin/Resources/gent/feesten/2012/data";
+    $ch = curl_init();     
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 1);  
+    curl_setopt($ch, CURLOPT_URL, $url);  
+    curl_setopt($ch, CURLOPT_USERPWD,"user:password");
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+    $data = array( "documentation" => "gentse feesten data",
+		"generic_type" => "CSV",
+		"resource_type" => "generic",
+		"uri" => "http://localhost/gf20120715.csv",
+		"PK" => "",
+		"has_header_row" => "1",
+		"delimiter" => ";",
+		"start_row" => "1",
+		"columns" => array("0" => "Titel","1" => "Omschrijving","2" => "Datum","3" => "Begin","4" => "Einde","5" => "Plaats","6" => "Straat","7" => "Huisnr","8" => "Gemeente","9" => "Indoor","10" => "Aantal_Deelnemers","11" => "latitude","12" => "longitude"));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    $result = curl_exec($ch);  
+    $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	 echo "The addition of the resource definition ". $url . " has ";	
+	 if(strlen(strstr($responseHeader,"200"))>0){
+    	echo "succeeded!\n";
+    }else{
+    	echo "failed!\n";
+    }
+	 echo $result;
+    echo "\n ============================================= \n";
+    curl_close($ch);  
+?>
+
+Executing these PHP entries will create all of your old resources into the new DataTank. Note that we added some echo's to the export. This will make sure that if you execute it via command line
+an output will be shown which will tell you what HTTP code it got from the response. No funny SQL business is required, as is the case with Step 1!
+
+
+3) DATATANK WITH INSTALLED RESOURCES
+====================================
+
+In the latest version of TDT installed resources are no longer accessible by URI depending on the physical location of the installed resource. 
+Instead, you can now create your own installed resource like you did earlier (namely putting a physical file with your code somewhere in the custom/packages folder), 
+but the access by URI doesn't have to be the physical location, you are free to choose under which URI you publish the installed resource, just like you can choose to publish a generic resource under a certain URI.
+
+This has the consequence that you have to add those installed resources manually. The parameters are very limited so this manual job shouldn't take forever.
+The parameters can be checked at the TDTInfo/Admin resource.

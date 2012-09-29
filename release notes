@@ -1,0 +1,29 @@
+==================================
+
+            THE DATATANK 
+
+            RELEASE NOTES
+
+==================================
+
+This document contains a listing of version numbers and the features - fixes they contain. 
+Mostly a link will be provided to the issue, on which you will find more comments
+and discussions.
+
+
+v1.2.1
+
+Features and fixes:
+
+- Fixed a bug where requiredparameters wouldn't reach the installed resources as usual. ( https://github.com/iRail/The-DataTank/issues/126 )
+- Changed the Exception documentation structure ( https://github.com/iRail/The-DataTank/issues/128 )
+- Fixed the Htmltable formatter ( https://github.com/iRail/The-DataTank/issues/129 )
+- Added security to the end-point querying of admin resources. ( https://github.com/iRail/The-DataTank/issues/130 )   
+- Fixed an inconsistency for installed resources. The ".class.php" extension should be provided as is described in the documentation
+  however, in the business logic, it was assumed not to be passed, causing ".class.php.class.php" problems.
+- Provided a fix for XML representations in non-XML formats. For the discussion and explanation -> https://github.com/iRail/The-DataTank/issues/134
+
+v1.2.0
+
+Check out v1.2.0 - Release notes file, it contains a very large information base what the datatank in v1.2.0 contains, 
+as well as all around usefull information.
