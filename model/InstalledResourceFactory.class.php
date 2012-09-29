@@ -102,6 +102,8 @@ class InstalledResourceFactory extends AResourceFactory{
                     $doc->$package->$resourcename->parameters = $classname::getParameters();   
                     $doc->$package->$resourcename->example_uri = $example_uri;
                     $doc->$package->$resourcename->resource_type = "installed";
+                    $doc->$package->$resourcename->location = $location;
+                    $doc->$package->$resourcename->classname = $classname;
                 }
             }
         }
