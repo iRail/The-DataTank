@@ -12,7 +12,7 @@ include_once("model/resources/AResourceStrategy.class.php");
 include_once("model/DBQueries.class.php");
 include_once("includes/ITSXMLToPHP.class.php");
 
-class ITSXML extends AResourceStrategy {
+class ITSPS extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
 

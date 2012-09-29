@@ -80,7 +80,7 @@ Class ITSXMLtoPHP {
     public static function xmlFileToObject($xmlFileName) {
         //if (!file_exists($xmlFileName)) die ("XmlUtils::xmlFileToObject Error: $xmlFileName nonexistent!");
         $xml = simplexml_load_file($xmlFileName);
-        return XmlUtils::xmlToObject($xml);
+        return ITSXMLtoPHP::xmlToObject($xml);
     }
 }
 ?>
