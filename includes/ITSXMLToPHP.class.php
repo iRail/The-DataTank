@@ -55,7 +55,7 @@ Class ITSXMLtoPHP {
                 // If element text (e.g. <node>ElementText<node>
                 if (strlen($nodeText)) $objArray[$idx]->$nodeName = $nodeText;
                 // Invoke recursion
-                XmlUtils::xmlToObject($xmlChild, $objArray[$idx]);
+                ITSXMLtoPHP::xmlToObject($xmlChild, $objArray[$idx]);
             }
             // If child is object
             if (is_object($obj->$nodeName)) {
@@ -64,9 +64,9 @@ Class ITSXMLtoPHP {
                     $obj->$nodeName->$attributeType = (string)$attributeValue;
                 }
                 // If element text (e.g. <node>ElementText<node>
-                if (strlen($nodeText)) $obj->$nodeName->$nodeName = $nodeText;
+                if (strlen($nodeText)) $obj->$nodeName = $nodeText;
                 // Invoke recursion
-                XmlUtils::xmlToObject($xmlChild, $obj->$nodeName);
+                ITSXMLtoPHP::xmlToObject($xmlChild, $obj->$nodeName);
             }
             if(!isset($arrayIdx[$nodeName])){
                 $arrayIdx[$nodeName] = 0;
@@ -78,7 +78,7 @@ Class ITSXMLtoPHP {
     }
 
     public static function xmlFileToObject($xmlFileName) {
-        //if (!file_exists($xmlFileName)) die ("XmlUtils::xmlFileToObject Error: $xmlFileName nonexistent!");
+       
         $xml = simplexml_load_file($xmlFileName);
         return ITSXMLtoPHP::xmlToObject($xml);
     }
