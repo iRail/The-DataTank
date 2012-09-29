@@ -54,7 +54,7 @@ class MapFormatter extends AFormatter {
     $url = str_replace(":map",":kml",$url);
 	?>
 	
-	<script src="http://openlayers.org/api/OpenLayers.js"></script>
+	<script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
 	
 	<script type="text/javascript">
 		var markers = new OpenLayers.Layer.Markers( "Markers");

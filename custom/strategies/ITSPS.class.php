@@ -123,9 +123,9 @@ class ITSPS extends AResourceStrategy {
         
         try {
 
-            $name = $ITSparking->GeneralInfo->IDInfo->Name->Name;
-            $latitude = $ITSparking->GeneralInfo->GeoLocation->Latitude->Latitude;
-            $longitude = $ITSparking->GeneralInfo->GeoLocation->Longitude->Longitude;
+            $name = $ITSparking->GeneralInfo->IDInfo->Name;
+            $latitude = $ITSparking->GeneralInfo->GeoLocation->Latitude;
+            $longitude = $ITSparking->GeneralInfo->GeoLocation->Longitude;
            
             $parking->name = $name;
             $parking->longitude = $longitude;
