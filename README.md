@@ -7,7 +7,7 @@ I.e. http://myhost/installer, also RENAME the Config.example.class.php to Config
 
 # Useful files
 
-[release notes](https://github.com/iRail/The-DataTank/blob/develop/release%20notes)
+[release notes](https://github.com/iRail/The-DataTank/blob/develop/release%20notes)  
 [how to update your datatank](https://github.com/iRail/The-DataTank/blob/develop/HOW%20TO%20UPDATE%20YOUR%20DATATANK)
 
 # File structure
