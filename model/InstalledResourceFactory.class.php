@@ -22,16 +22,18 @@ class InstalledResourceFactory extends AResourceFactory{
     }
     
     public function createReader($package,$resource, $parameters, $RESTparameters){
+        
+        // location contains the full name of the file, including the .class.php extension
         $location = $this->getLocationOfResource($package,$resource);
         
-        if(file_exists(getcwd() . "/custom/packages/" . $location . ".class.php")){
-            include_once(getcwd() ."/custom/packages/" . $location . ".class.php");
+        if(file_exists(getcwd() . "/custom/packages/" . $location)){
+            include_once(getcwd() ."/custom/packages/" . $location);
             $classname = $this->getClassnameOfResource($package,$resource);
             $reader = new $classname($package,$resource, $RESTparameters);
             $reader->processParameters($parameters);
             return $reader;
         }else{
-            throw new CouldNotGetDataTDTException("custom/packages/".$location . ".class.php");
+            throw new CouldNotGetDataTDTException("custom/packages/".$location);
         }
     }
 
@@ -61,10 +63,10 @@ class InstalledResourceFactory extends AResourceFactory{
                 $location = $this->getLocationOfResource($package,$resourcename);
                 
                 // file can always have been removed after adding it as a published resource
-                if(file_exists(getcwd() . "/custom/packages/".$location . ".class.php")){
+                if(file_exists(getcwd() . "/custom/packages/".$location )){
                     $classname = $this->getClassnameOfResource($package,$resourcename);
                     $doc->$package->$resourcename = new StdClass();
-                    include_once(getcwd() . "/custom/packages/" . $location . ".class.php");
+                    include_once(getcwd() . "/custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();   
@@ -79,18 +81,22 @@ class InstalledResourceFactory extends AResourceFactory{
         //ask every resource we have for documentation
         
         foreach($this->getAllResourceNames() as $package => $resourcenames){
-            if(!isset($doc->$package)){
+            if(!isset($doc->$package)){                
                 $doc->$package = new StdClass();
+                
             }
 
             foreach($resourcenames as $resourcename){
+                
                 $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 $location = $this->getLocationOfResource($package,$resourcename);
+                
                 // file can always have been removed after adding it as a published resource
-                if(file_exists(getcwd() . "/custom/packages/".$location . ".class.php")){
+                if(file_exists(getcwd() . "/custom/packages/".$location )){
+                    
                     $classname = $this->getClassnameOfResource($package,$resourcename);
                     $doc->$package->$resourcename = new StdClass();
-                    include_once(getcwd() . "/custom/packages/" . $location . ".class.php");
+                    include_once(getcwd() . "/custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();   
@@ -106,8 +112,8 @@ class InstalledResourceFactory extends AResourceFactory{
         //if the object read is a directory and the configuration methods file exists, 
         //then add it to the installed packages
         $location = $this->getLocationofResource($package,$resource);
-        if (file_exists(getcwd() . "/custom/packages/" . $location . ".class.php")) {
-            return filemtime(getcwd() . "/custom/packages/" . $location . ".class.php");
+        if (file_exists(getcwd() . "/custom/packages/" . $location )) {
+            return filemtime(getcwd() . "/custom/packages/" . $location );
         }
         return 0;
     }
