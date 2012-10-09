@@ -31,6 +31,7 @@ class DB extends ATabularData implements iFilter {
     );
 
     public function __construct(){
+    	parent::__construct();
         $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if an empty array is passed every column will be published. This array should be build as column_name => column_alias.";
         
     }
@@ -92,7 +93,11 @@ class DB extends ATabularData implements iFilter {
         $fields = rtrim($fields,",");
 
         // prepare to get some of them data from the database!
-        $sql = "SELECT $fields FROM $configObject->db_table";
+        $sql_limit = "";
+        if(isset($configObject->limit)){
+        	$sql_limit = "LIMIT 0,$configObject->limit";
+        }
+        $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";
 		
         $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
