@@ -273,7 +273,13 @@ class DB extends ATabularData implements iFilter {
 
         }else{
 
-            $this->columns = array();
+            //$this->columns = array();
+            foreach($this->columns as $column_key => $column_value){
+            	if(!in_array($column_value, $table_columns)){
+            		//throw error
+            		throw new  ParameterDoesntExistTDTException("The supplied column does not exists.");
+            	}
+            }
             // make the columns as columnname => columnname
             // then in the second foreach put the aliases in the columns array (which technically is a hash)
             foreach($table_columns as $index => $column){
