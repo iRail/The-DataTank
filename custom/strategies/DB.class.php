@@ -103,6 +103,7 @@ class DB extends ATabularData implements iFilter {
         $connectionParams = $this->prepareConnectionParams($configObject);
 
         $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        $conn->setCharset( 'UTF8');
         $stmt = $conn->query($sql);
 
         $aliases = $configObject->column_aliases;
@@ -395,6 +396,7 @@ class DB extends ATabularData implements iFilter {
             $connectionParams = $this->prepareConnectionParams($configObject);
 
             $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+            $conn->setCharset( 'UTF8');
             $stmt = $conn->query($sql);
 
             $table_columns = array_keys($configObject->columns);
