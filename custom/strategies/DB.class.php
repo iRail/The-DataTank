@@ -31,6 +31,7 @@ class DB extends ATabularData implements iFilter {
     );
 
     public function __construct(){
+    	parent::__construct();
         $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if an empty array is passed every column will be published. This array should be build as column_name => column_alias.";
         
     }
@@ -92,7 +93,11 @@ class DB extends ATabularData implements iFilter {
         $fields = rtrim($fields,",");
 
         // prepare to get some of them data from the database!
-        $sql = "SELECT $fields FROM $configObject->db_table";
+        $sql_limit = "";
+        if(isset($configObject->limit)){
+        	$sql_limit = "LIMIT 0,$configObject->limit";
+        }
+        $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";
 		
         $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
@@ -103,6 +108,7 @@ class DB extends ATabularData implements iFilter {
         $connectionParams = $this->prepareConnectionParams($configObject);
 
         $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        $conn->setCharset( 'UTF8');
         $stmt = $conn->query($sql);
 
         $aliases = $configObject->column_aliases;
@@ -267,7 +273,13 @@ class DB extends ATabularData implements iFilter {
 
         }else{
 
-            $this->columns = array();
+            //$this->columns = array();
+            foreach($this->columns as $column_key => $column_value){
+            	if(!in_array($column_value, $table_columns)){
+            		//throw error
+            		throw new  ParameterDoesntExistTDTException("The supplied column does not exists.");
+            	}
+            }
             // make the columns as columnname => columnname
             // then in the second foreach put the aliases in the columns array (which technically is a hash)
             foreach($table_columns as $index => $column){
@@ -395,6 +407,7 @@ class DB extends ATabularData implements iFilter {
             $connectionParams = $this->prepareConnectionParams($configObject);
 
             $conn = Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+            $conn->setCharset( 'UTF8');
             $stmt = $conn->query($sql);
 
             $table_columns = array_keys($configObject->columns);

@@ -121,7 +121,7 @@ class PhpObjectTableConverter {
     }
     
     private function getPhpObjectsByIdentifier($splitedId,$resource){
-        $phpObj = $this->findTablePhpArray($resource, $splitedId[3], -1);
+        $phpObj = $this->findTablePhpArray($resource, isset($splitedId[3])?$splitedId[3] : null, -1);
         
         return $phpObj;
     }
@@ -252,7 +252,7 @@ class PhpObjectTableConverter {
         $objects = $this->getPhpObjectsByIdentifier($splitedId,$objects);
         
         $nameOfTable=$splitedId[1];
-        if(count($splitedId[3])>0){
+        if(isset($splitedId[3]) && count($splitedId[3])>0){
             $nameOfTable=$splitedId[3][count($splitedId[3])-1];
         }
         
