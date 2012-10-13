@@ -36,9 +36,27 @@ class SPECTQLController extends AController {
 
         // split off the format of the query, if passed
         $matches = array();
-        $format = "about";
+        $format = "";
         if (preg_match("/:[a-zA-Z]+/", $query, $matches)) {
             $format = ltrim($matches[0], ":");
+        }            
+       
+        if ($format == "") {
+            //get the current URL
+            $ru = RequestURI::getInstance();
+            $pageURL = $ru->getURI();           
+            $pageURL = rtrim($pageURL, "/");
+            //add .about before the ?
+            if (sizeof($_GET) > 0) {
+                $pageURL = str_replace("?", ":about?", $pageURL);
+                $pageURL = str_replace("/:about", ":about", $pageURL);
+            } else {
+                $pageURL .= ":about";
+            }
+
+            header("HTTP/1.1 303 See Other");
+            header("Location:" . $pageURL);              
+        
         }
 
         /*
@@ -55,33 +73,33 @@ class SPECTQLController extends AController {
                 exit();
             }
         }
-        
-              
+
+
 
         $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
-                
+
         $universalquery = $parser->interpret($context);
-                
-        $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());               
+
+        $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
 
         $converter = new TableToPhpObjectConverter();
 
-        $object = $converter->getPhpObjectForTable($result);   
-        
+        $object = $converter->getPhpObjectForTable($result);
+
         //pack everything in a new object
         $RESTresource = "spectqlquery";
         $o = new stdClass();
         $o->$RESTresource = $object;
         $result = $o;
-        
+       
         $formatterfactory = FormatterFactory::getInstance($format); //start content negotiation if the formatter factory doesn't exist
         $formatterfactory->setFormat($format);
-        $rootname = "spectql";
+        $rootname = "spectqlquery";
 
 
-        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);       
+        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
         $printer->printAll();
     }
 
