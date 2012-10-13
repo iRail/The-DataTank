@@ -74,12 +74,8 @@ abstract class AReader {
      */
     public function getLang(){
         $ln = new LanguageNegotiator();
-        $language = "";
-        if($ln->hasNext()){
-            $language = $ln->pop();
-        }else{
-            $language = Config::$DEFAULT_LANGUAGE;
-        }
+        //the language negotiator will always have at least one result, so we can pop the first one without any problem
+        $language = $ln->pop();
         while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){   
             $language = $ln->pop();
         }
@@ -89,4 +85,3 @@ abstract class AReader {
         return $language;
     }
 }
-?>
