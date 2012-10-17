@@ -239,6 +239,7 @@ class DatabaseSetup extends InstallController {
             R::exec("ALTER TABLE generic_resource_shp CHANGE url uri varchar(255)");
             R::exec("ALTER TABLE generic_resource_xml CHANGE url uri varchar(255)");
             R::exec("ALTER TABLE generic_resource_zippedshp CHANGE url uri varchar(255)");
+            R::exec("ALTER TABLE generic_resource_csv modify uri VARCHAR(2048)");
 
              // update the requests table and fill in the method GET for entries who dont have a request_method yet
             if($this->checkIfColumnsExists("requests","request_method") == 0){

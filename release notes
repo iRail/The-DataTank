@@ -10,6 +10,11 @@ This document contains a listing of version numbers and the features - fixes the
 Mostly a link will be provided to the issue, on which you will find more comments
 and discussions.
 
+v1.2.2
+
+Features and fixes:
+
+-Fixed a bug where CSV uri's longer than 512 would be cut after the 512'th character.  ( https://github.com/iRail/The-DataTank/issues/137 )
 
 v1.2.1
 

@@ -79,6 +79,9 @@ class CSV extends ATabularData {
         /**
          * check if the uri is valid ( not empty )
          */
+        
+        var_dump($configObject->uri);
+        
         if (isset($configObject->uri)) {
             $filename = $configObject->uri;
         } else {
@@ -288,7 +291,7 @@ class CSV extends ATabularData {
                     $commentlinecounter++;
                 }
                 $index = 0;
-                
+
                 if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter,'"')) !== FALSE) {
                     // if no column aliases have been passed, then fill the columns variable 
                     $index++;
