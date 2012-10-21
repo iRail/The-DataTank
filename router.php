@@ -102,7 +102,8 @@ $urls = array(
     //  DELETE TDTAdmin/Admin/package/resource
 
     //'/TDTAdmin/Resources/(?P<package>[^/.]*)/?(?P<resource>[^/.]*)?/?(?P<RESTparameters>[^?.]*)[^.]*' => 'CUDController'
-    '/TDTAdmin/Resources/(?P<packageresourcestring>.*)' => 'CUDController'
+    '/TDTAdmin/Resources/(?P<packageresourcestring>.*)' => 'CUDController',
+    '/TDTAdmin/Ontology/(?P<packageresourcestring>.*)' => 'CUDController'
 );
 
 
