@@ -80,7 +80,7 @@ class CSV extends ATabularData {
          * check if the uri is valid ( not empty )
          */
         
-        var_dump($configObject->uri);
+        //var_dump($configObject->uri);
         
         if (isset($configObject->uri)) {
             $filename = $configObject->uri;
