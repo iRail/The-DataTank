@@ -59,7 +59,7 @@ class CUDController extends AController {
     }
 
     function PUT($matches) {
-		
+        
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/",$packageresourcestring);
 
@@ -276,27 +276,30 @@ class CUDController extends AController {
      */
     public function POST($matches) {
 
-         //both package and resource set?
-        if (!isset($matches["package"]) || !isset($matches["resource"])) {
-            throw new ParameterTDTException("package/resource not set");
-        }
+        /**
+         * Hierachical package/resource structure
+         * check if the package/resource structure is correct        
+         */
+        $packageresourcestring = $matches["packageresourcestring"];
+        
+        $pieces = explode("/",$packageresourcestring);               
+
+        //throws exception when it's not valid, returns packagestring when done
+        $model = ResourcesModel::getInstance();
+        $result = $model->fetchPackageAndResource($pieces);
+        $resource = $result["resource"];
+        $package = $result["package"];
+        $RESTparameters = $result["RESTparameters"];
+        
         //we need to be authenticated
         if (!$this->isAuthenticated()) {
             header('WWW-Authenticate: Basic realm="' . Config::$HOSTNAME . Config::$SUBDIR . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
-        }
-        $package = trim($matches["package"]);
-        $resource = trim($matches["resource"]);
-
-         $RESTparameters = array();
-        if (isset($matches['RESTparameters']) && $matches['RESTparameters'] != "") {
-            $RESTparameters = explode("/", rtrim($matches['RESTparameters'], "/"));
-        }
+        }             
         
         parse_str(file_get_contents("php://input"), $_POST);
-        
-        $model = ResourcesModel::getInstance();
+                
         $model->updateResource($package, $resource, $_POST, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.

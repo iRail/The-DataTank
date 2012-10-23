@@ -20,7 +20,7 @@ class RController extends AController {
     private $formatterfactory;
 
     public function GET($matches) {
-
+        
         //always required: a package and a resource. 
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/",$packageresourcestring);

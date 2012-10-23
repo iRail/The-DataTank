@@ -279,6 +279,39 @@ class ResourcesModel {
         return $packagestring;
     }
 
+    /*
+     * Analyses a URI, and returns package, resource and RESTparameters, 
+     * in contrast with "isResourceValid" this will not return exceptions
+     * because it doesn't assume that the package/resource is the only thing
+     * in the URI. This function copes with RESTparameters as well.
+     * 
+     * It will look for the first valid string that matches a resource and return it,
+     * as well with the RESTparameters and packagestring. If no resource is identified, it returns an exception
+     */
+    
+    public function fetchPackageAndResource($pieces){
+        $result = array(); // contains package, resource, RESTparameters
+        $RESTparameters = array();
+        
+        $package = array_shift($pieces);
+        
+        foreach($pieces as $piece){            
+            if($this->isResource($package, $piece)){
+                $result["package"] = $package;
+                $result["resource"] = $piece;
+                array_shift($pieces);
+                $result["RESTparameters"] = $pieces;
+                return $result;
+            }else{
+                $package.= $package . "/" . $piece;
+                array_shift($pieces);
+            }
+        }   
+        
+        throw new OntologyAdditionTDTException("The resource to add the ontology to has not been found.");
+        
+    }
+    
     private function isPackage($needle){
         $result = DBQueries::getPackageId($needle);
         return $result != NULL;
@@ -332,8 +365,8 @@ class ResourcesModel {
      * @param array $parameters An array with update parameters
      * @param array $RESTparameters An array with additional RESTparameters
      */
-    public function updateResource($package, $resource, $parameters, $RESTparameters) {
-    
+    public function updateResource($package, $resource, $parameters, $RESTparameters) {               
+        
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
             throw new ResourceOrPackageNotFoundTDTException($package, $resource);
