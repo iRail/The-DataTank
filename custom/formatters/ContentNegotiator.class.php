@@ -20,7 +20,7 @@ class ContentNegotiator{
     private $stack;
 
     private function __construct($header = ""){
-        if($header == ""){
+        if($header == "" && isset($_SERVER["HTTP_ACCEPT"])){
             $header = $_SERVER["HTTP_ACCEPT"];
         }
         $this->header = $header;
@@ -49,7 +49,7 @@ class ContentNegotiator{
          * This means the agent prefers html, but if it cannot provide that, it should return xml. If that is not possible, give anything.
          */
 	if(!isset($_SERVER['HTTP_ACCEPT'])){
-            $accept = "en";
+            $accept = "Xml";
 	}else{
             $accept = $_SERVER['HTTP_ACCEPT'];
         }
