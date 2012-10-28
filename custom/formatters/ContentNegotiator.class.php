@@ -49,9 +49,10 @@ class ContentNegotiator{
          * This means the agent prefers html, but if it cannot provide that, it should return xml. If that is not possible, give anything.
          */
 	if(!isset($_SERVER['HTTP_ACCEPT'])){
-            throw new FormatNotFoundTDTException("Could not determine output format from Accept header - please add a .format in the URI or set your Accept header");
-	}
-        $accept = $_SERVER['HTTP_ACCEPT'];
+            $accept = "en";
+	}else{
+            $accept = $_SERVER['HTTP_ACCEPT'];
+        }
         $types = explode(',', $accept);
         //this removes whitespace from each type
         $types = array_map('trim', $types);
