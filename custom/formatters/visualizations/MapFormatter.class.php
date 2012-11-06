@@ -1,11 +1,12 @@
 <?php
 
 /**
- * The Html formatter formats everything for development purpose
+ * The Map Vizualization vizualizes everything for development purposes
  *
  * @package The-Datatank/formatters
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
+ * @author Pieter Colpaert <pieter.colpaert @ UGent.be>
  * @author Lieven Janssen <lieven.janssen@okfn.org>
  */
 
@@ -52,6 +53,10 @@ class MapFormatter extends AFormatter {
     $url = str_replace(".map",".kml",$url);
 
     $url = str_replace(":map",":kml",$url);
+
+
+    // temporary but nice fix: redirect to google maps
+    header("location: http://maps.google.com/?q=" . urlencode($url));
 	?>
 	
 	<script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
