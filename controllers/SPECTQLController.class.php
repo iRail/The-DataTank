@@ -85,8 +85,11 @@ class SPECTQLController extends AController {
          * DEBUG purposes
          */
         $treePrinter = new TreePrinter();
-        $tree = $treePrinter->treeToString($universalquery);       
-
+        $tree = $treePrinter->treeToString($universalquery);   
+        echo "<pre>";
+        echo $tree;
+        echo "</pre>";
+        
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
 

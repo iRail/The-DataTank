@@ -872,7 +872,9 @@ $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
 
 // order by
 $orderby = new SortFieldsFilter($sel["sorts"]);
-$totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+if(!empty($sel["sorts"])){
+    $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+}
 
 $result = $totalfilter;
 						
@@ -920,7 +922,9 @@ $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
 
 // order by
 $orderby = new SortFieldsFilter($sel["sorts"]);
-$totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+if(!empty($sel["sorts"])){
+    $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+}
 
 $result = $totalfilter;				
 
@@ -1197,8 +1201,8 @@ $order =& $tokens[1];
  
 
 $result =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), 
-             "sorts" => array(new SortFieldsFilterColumn($arg, $order )), 
-             "identifiers" => array($arg)); /* eens sort by functions bestaan, $result = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ 
+             "sorts" => array(new SortFieldsFilterColumn($arg, $order)), 
+             "identifiers" => array($arg));
 }
 
 function reduce_37_selectargument_3($tokens, &$result) {
@@ -1216,7 +1220,7 @@ function reduce_38_selectargument_4($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
-$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(), "identifiers" => array($arg));
+$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(new SortFieldsFilterColumn($arg, $order)), "identifiers" => array($arg));
 }
 
 function reduce_39_function_1($tokens, &$result) {

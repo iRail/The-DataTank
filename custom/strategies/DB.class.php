@@ -359,7 +359,6 @@ class DB extends ATabularData implements iFilter {
      * This example will attempt to process the entire tree to an SQL query
      * if this doesnt work, it will say so by passing NULL as a phpDataObject
      * it will not try to execute parts and bits of the tree.
-     *
      */
     public function readAndProcessQuery($query,$parameters){
 
@@ -378,7 +377,9 @@ class DB extends ATabularData implements iFilter {
          */
         $converter = new SQLConverter($headerNames);
         $sql = $converter->treeToSQL($query);
-		$sql.= $converter->getGroupBy();
+	$sql.= $converter->getGroupBy();
+        $sql.= $converter->getOrderby();
+        echo "sql query: ".$sql;
 		
         // get the identifiers of the query, just to check that the query that has been passed, contains information
         // that can be released

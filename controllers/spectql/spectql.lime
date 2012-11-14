@@ -66,7 +66,9 @@ $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
 
 // order by
 $orderby = new SortFieldsFilter($sel["sorts"]);
-$totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+if(!empty($sel["sorts"])){
+    $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+}
 
 $$ = $totalfilter;
 						}
@@ -105,7 +107,9 @@ $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
 
 // order by
 $orderby = new SortFieldsFilter($sel["sorts"]);
-$totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+if(!empty($sel["sorts"])){
+    $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+}
 
 $$ = $totalfilter;				
 }
@@ -157,10 +161,10 @@ selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectio
 | argument/arg order/order { 
 
 $$ =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), 
-             "sorts" => array(new SortFieldsFilterColumn($arg, $order )), 
-             "identifiers" => array($arg)); /* eens sort by functions bestaan, $$ = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ }
+             "sorts" => array(new SortFieldsFilterColumn($arg, $order)), 
+             "identifiers" => array($arg));}
 | name ALIAS argument/arg  {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array(), "identifiers" => array($arg));}
-| name ALIAS argument/arg order {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array(), "identifiers" => array($arg));}
+| name ALIAS argument/arg order {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array(new SortFieldsFilterColumn($arg, $order)), "identifiers" => array($arg));}
 .
 
 function = name '(' argument ')' { $$ = getUnaryFilterForSQLFunction($1,$3); }

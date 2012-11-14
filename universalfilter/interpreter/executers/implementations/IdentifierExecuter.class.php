@@ -47,7 +47,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
         }else{           
             $this->isNewTable = true;
             // load new table               
-            $tableName = $filter->getIdentifierString();              
+            $tableName = $filter->getIdentifierString();             
             try {
                 $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
             } catch(ResourceOrPackageNotFoundTDTException $rce){
