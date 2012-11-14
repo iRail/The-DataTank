@@ -94,10 +94,11 @@ class DB extends ATabularData implements iFilter {
 
         // prepare to get some of them data from the database!
         $sql_limit = "";
-        if(isset($configObject->limit)){
+        
+        if($configObject->limit != ""){
         	$sql_limit = "LIMIT 0,$configObject->limit";
         }
-        $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";
+        $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";        
 		
         $classLoader = new ClassLoader('Doctrine',getcwd(). "/" . "includes/DoctrineDBAL-2.2.2" );
         $classLoader->register();
