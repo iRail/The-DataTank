@@ -80,6 +80,12 @@ class SPECTQLController extends AController {
         $context = array(); // array of context variables
 
         $universalquery = $parser->interpret($context);
+        
+        /*
+         * DEBUG purposes
+         */
+        $treePrinter = new TreePrinter();
+        $tree = $treePrinter->treeToString($universalquery);       
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);

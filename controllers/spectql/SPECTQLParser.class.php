@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Parser a SPECTQL query and generates a stack of expressions. It throw SPECTQLParseTDTExceptions 
  *
@@ -8,7 +9,6 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
-
 include_once("lib/parse_engine.php");
 include_once("controllers/spectql/SPECTQLTokenizer.class.php");
 include_once("controllers/spectql/parseexceptions.php");
@@ -17,13 +17,13 @@ include_once("controllers/spectql/SPECTQLTools.class.php");
 include_once("controllers/spectql/spectql.php");
 include_once("controllers/SQL/SQLGrammarFunctions.php");
 
+class SPECTQLParser {
 
-class SPECTQLParser{
     private $querystring;
 
     /**
      * Provides the link with the parser character
-     */ 
+     */
     private static $symbols = array(
         "." => "'.'",
         ">" => "'>'",
@@ -53,41 +53,57 @@ class SPECTQLParser{
         "?" => "'?'",
         "'" => "SQ"
     );
-    
+
     /**
      * An $expression is a string containing all information after a /
      * For instance: http://datatank.demo.ibbt.be/spectql/Belgium.{Zonenr,count(Zonenaam), avg(PostNr)}
      */
     public function __construct($querystring) {
-        //url decode
-        $this->querystring = ltrim(urldecode($querystring),"/");
+        // url decode
+        // http://php.net/manual/en/function.urldecode.php
+        // we use a + sign to use order functionality, but decode will translate 
+        // a + to a whitespace, so lets first translate the + sign to it's urlencoding (%2B)
+        $querystring = str_replace("+", "%2B", $querystring);
+        $this->querystring = ltrim(urldecode($querystring), "/");           
     }
 
-    public function interpret(){
-        $querystring= $this->querystring;
-        $tokenizer = new SPECTQLTokenizer($querystring, array_keys(self::$symbols));
-        $this->parser = new parse_engine(new spectql());
+    // TODO add this to the symbols array
+    private static $keywords = array("LIMIT");
 
-        if (!strlen($querystring)){
+    /*
+     * Check if the token is a keyword
+     */
+
+    private function is_keyword($token) {
+        return in_array(strtoupper($token), SPECTQLParser::$keywords);
+    }
+
+    public function interpret() {
+        $querystring = $this->querystring;        
+        $tokenizer = new SPECTQLTokenizer($querystring, array_keys(self::$symbols));       
+        $this->parser = new parse_engine(new spectql());        
+        
+        if (!strlen($querystring)) {
             //give an error, but in javascript, redirect to our index.html
             header("HTTP1.1 491 No parse string");
             echo "<script>window.location = \"index.html\";</script>";
             exit(0);
-            
         }
         try {
-            while($tokenizer->hasNext()){
-                $t = $tokenizer->pop();
-                if (is_numeric($t)){
+            while ($tokenizer->hasNext()) {                
+                $t = $tokenizer->pop();                   
+                if (is_numeric($t)) {
                     $this->parser->eat('num', $t);
-                }else if($t == "'"){                  
-                    $this->parser->eat('string',$tokenizer->pop());
+                } else if ($t == "'") {
+                    $this->parser->eat('string', $tokenizer->pop());
                     $tokenizer->pop();
-                }
-                else if (preg_match("/[0-9a-zA-Z_\-]+/si",$t)) {
+                } else if (!$this->is_keyword($t) && preg_match("/[0-9a-zA-Z]+/si",$t)) {                    
+                    $t = rtrim($t);                   
                     $this->parser->eat('name', $t);
-                }
-                else{
+                } else if ($this->is_keyword($t)) {
+                    $this->parser->eat(strtoupper($t), null);
+                } else {
+                    //echo "$t is a symbol: $t is translated into " . self::$symbols[$t] . " ||| ";
                     $this->parser->eat(self::$symbols[$t], null);
                 }
             }
@@ -96,7 +112,7 @@ class SPECTQLParser{
             throw new ParserTDTException($e->getMessage());
         }
     }
-}
 
+}
 
 ?>

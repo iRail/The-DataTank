@@ -24,22 +24,12 @@ var $i = array (
   0 => 
   array (
     'flow' => 's 1',
-    'expression' => 's 7',
-    'resource' => 's 17',
-    'calc' => 's 18',
-    'resourceid' => 's 33',
-    'name' => 's 92',
-    'num' => 's 20',
-    '\'(\'' => 's 30',
-    'stmt' => 's 111',
+    'expression' => 's 5',
+    'resource' => 's 16',
+    'resourceid' => 's 17',
+    'name' => 's 83',
+    'stmt' => 's 95',
     '\'start\'' => 'a \'start\'',
-    '\'/\'' => 'r 14',
-    '\'-\'' => 'r 14',
-    '\'.\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '#' => 'r 16',
   ),
   1 => 
   array (
@@ -50,8 +40,6 @@ var $i = array (
   array (
     'format' => 's 3',
     'name' => 's 4',
-    '\'-\'' => 'r 14',
-    '#' => 'r 14',
   ),
   3 => 
   array (
@@ -59,638 +47,180 @@ var $i = array (
   ),
   4 => 
   array (
-    '\'-\'' => 's 5',
-    '#' => 'r 51',
+    '#' => 'r 49',
   ),
   5 => 
   array (
-    'name' => 's 6',
-    '\'-\'' => 'r 14',
-    '\'(\'' => 'r 14',
-    'LE' => 'r 14',
-    'GE' => 'r 14',
-    'NE' => 'r 14',
-    '\'~\'' => 'r 14',
-    '\'<\'' => 'r 14',
-    'EQ' => 'r 14',
-    '\'>\'' => 'r 14',
-    'ALIAS' => 'r 14',
-    'LN' => 'r 14',
-    '\'/\'' => 'r 14',
-    '\'?\'' => 'r 14',
-    '\'{\'' => 'r 14',
-    '\'.\'' => 'r 14',
-    '\':\'' => 'r 14',
-    '\'+\'' => 'r 14',
-    '\',\'' => 'r 14',
-    '\'}\'' => 'r 14',
-    '\')\'' => 'r 14',
-    '#' => 'r 14',
-  ),
-  6 => 
-  array (
-    '\'-\'' => 'r 13',
-    '\'(\'' => 'r 13',
-    'LE' => 'r 13',
-    'GE' => 'r 13',
-    'NE' => 'r 13',
-    '\'~\'' => 'r 13',
-    '\'<\'' => 'r 13',
-    'EQ' => 'r 13',
-    '\'>\'' => 'r 13',
-    'ALIAS' => 'r 13',
-    'LN' => 'r 13',
-    '\'/\'' => 'r 13',
-    '\'?\'' => 'r 13',
-    '\'{\'' => 'r 13',
-    '\'.\'' => 'r 13',
-    '\':\'' => 'r 13',
-    '\'+\'' => 'r 13',
-    '\',\'' => 'r 13',
-    '\'}\'' => 'r 13',
-    '\')\'' => 'r 13',
-    '#' => 'r 13',
-  ),
-  7 => 
-  array (
-    '\'.\'' => 's 8',
+    '\'.\'' => 's 6',
     '\':\'' => 'r 2',
     '#' => 'r 2',
   ),
+  6 => 
+  array (
+    'LIMIT' => 's 7',
+  ),
+  7 => 
+  array (
+    '\'(\'' => 's 8',
+  ),
   8 => 
   array (
-    'name' => 's 9',
-    '\'(\'' => 'r 14',
-    '\'-\'' => 'r 14',
+    'num' => 's 9',
+    '\')\'' => 'r 14',
+    '\'.\'' => 'r 14',
+    '\',\'' => 'r 14',
   ),
   9 => 
   array (
-    '\'(\'' => 's 10',
-    '\'-\'' => 's 5',
+    '\',\'' => 's 10',
+    '\')\'' => 's 15',
+    '\'.\'' => 's 13',
   ),
   10 => 
   array (
     'num' => 's 11',
-    '\',\'' => 'r 16',
-    '\'.\'' => 'r 16',
+    '\')\'' => 'r 14',
+    '\'.\'' => 'r 14',
   ),
   11 => 
   array (
-    '\',\'' => 's 12',
-    '\'.\'' => 's 15',
+    '\')\'' => 's 12',
+    '\'.\'' => 's 13',
   ),
   12 => 
-  array (
-    'num' => 's 13',
-    '\')\'' => 'r 16',
-    '\'.\'' => 'r 16',
-  ),
-  13 => 
-  array (
-    '\')\'' => 's 14',
-    '\'.\'' => 's 15',
-  ),
-  14 => 
   array (
     '\':\'' => 'r 3',
     '#' => 'r 3',
   ),
+  13 => 
+  array (
+    'num' => 's 14',
+    '\'.\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '\',\'' => 'r 14',
+    '\'?\'' => 'r 14',
+    '\'/\'' => 'r 14',
+    '\'{\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '\'+\'' => 'r 14',
+    '\'-\'' => 'r 14',
+    '\'}\'' => 'r 14',
+    '\'&\'' => 'r 14',
+    '\'|\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  14 => 
+  array (
+    '\'.\'' => 'r 13',
+    '\')\'' => 'r 13',
+    '\',\'' => 'r 13',
+    '\'?\'' => 'r 13',
+    '\'/\'' => 'r 13',
+    '\'{\'' => 'r 13',
+    '\':\'' => 'r 13',
+    '\'+\'' => 'r 13',
+    '\'-\'' => 'r 13',
+    '\'}\'' => 'r 13',
+    '\'&\'' => 'r 13',
+    '\'|\'' => 'r 13',
+    '#' => 'r 13',
+  ),
   15 => 
   array (
-    'num' => 's 16',
-    '\'.\'' => 'r 16',
-    '\',\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '\'?\'' => 'r 16',
-    '\'/\'' => 'r 16',
-    '\'{\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\'-\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\'}\'' => 'r 16',
-    '\'&\'' => 'r 16',
-    '\'|\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  16 => 
-  array (
-    '\'.\'' => 'r 15',
-    '\',\'' => 'r 15',
-    '\')\'' => 'r 15',
-    '\'?\'' => 'r 15',
-    '\'/\'' => 'r 15',
-    '\'{\'' => 'r 15',
-    '\':\'' => 'r 15',
-    '\'*\'' => 'r 15',
-    '\'-\'' => 'r 15',
-    '\'+\'' => 'r 15',
-    '\'}\'' => 'r 15',
-    '\'&\'' => 'r 15',
-    '\'|\'' => 'r 15',
-    '#' => 'r 15',
-  ),
-  17 => 
-  array (
-    '\'.\'' => 'r 4',
     '\':\'' => 'r 4',
     '#' => 'r 4',
   ),
-  18 => 
+  16 => 
   array (
-    '\'+\'' => 's 19',
-    '\'-\'' => 's 24',
-    '\'*\'' => 's 26',
-    '\'/\'' => 's 28',
     '\'.\'' => 'r 5',
     '\':\'' => 'r 5',
     '#' => 'r 5',
   ),
-  19 => 
+  17 => 
   array (
-    'num' => 's 20',
-    'calc' => 's 23',
-    '\'(\'' => 's 30',
-    '\'.\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\'-\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\'/\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  20 => 
-  array (
-    '\'.\'' => 's 21',
-    '\'+\'' => 'r 52',
-    '\'-\'' => 'r 52',
-    '\'*\'' => 'r 52',
-    '\'/\'' => 'r 52',
-    '\':\'' => 'r 52',
-    '\')\'' => 'r 52',
-    '#' => 'r 52',
-  ),
-  21 => 
-  array (
-    'num' => 's 22',
-    '\'.\'' => 'r 16',
-    '\'/\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\'-\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  22 => 
-  array (
-    '\'.\'' => 'r 15',
-    '\'+\'' => 'r 15',
-    '\'-\'' => 'r 15',
-    '\'*\'' => 'r 15',
-    '\'/\'' => 'r 15',
-    '\':\'' => 'r 15',
-    '\')\'' => 'r 15',
-    '#' => 'r 15',
-  ),
-  23 => 
-  array (
-    '\'+\'' => 'r 53',
-    '\'-\'' => 'r 53',
-    '\'*\'' => 's 26',
-    '\'/\'' => 's 28',
-    '\'.\'' => 'r 53',
-    '\':\'' => 'r 53',
-    '\')\'' => 'r 53',
-    '#' => 'r 53',
-  ),
-  24 => 
-  array (
-    'num' => 's 20',
-    'calc' => 's 25',
-    '\'(\'' => 's 30',
-    '\'.\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\'-\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\'/\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  25 => 
-  array (
-    '\'+\'' => 'r 54',
-    '\'-\'' => 'r 54',
-    '\'*\'' => 's 26',
-    '\'/\'' => 's 28',
-    '\'.\'' => 'r 54',
-    '\':\'' => 'r 54',
-    '\')\'' => 'r 54',
-    '#' => 'r 54',
-  ),
-  26 => 
-  array (
-    'num' => 's 20',
-    'calc' => 's 27',
-    '\'(\'' => 's 30',
-    '\'.\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\'-\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\'/\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  27 => 
-  array (
-    '\'+\'' => 'r 55',
-    '\'-\'' => 'r 55',
-    '\'*\'' => 'r 55',
-    '\'/\'' => 'r 55',
-    '\'.\'' => 'r 55',
-    '\':\'' => 'r 55',
-    '\')\'' => 'r 55',
-    '#' => 'r 55',
-  ),
-  28 => 
-  array (
-    'num' => 's 20',
-    'calc' => 's 29',
-    '\'(\'' => 's 30',
-    '\'.\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\'-\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\'/\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  29 => 
-  array (
-    '\'+\'' => 'r 56',
-    '\'-\'' => 'r 56',
-    '\'*\'' => 'r 56',
-    '\'/\'' => 'r 56',
-    '\'.\'' => 'r 56',
-    '\':\'' => 'r 56',
-    '\')\'' => 'r 56',
-    '#' => 'r 56',
-  ),
-  30 => 
-  array (
-    'num' => 's 20',
-    'calc' => 's 31',
-    '\'(\'' => 's 30',
-    '\'.\'' => 'r 16',
-    '\'+\'' => 'r 16',
-    '\'-\'' => 'r 16',
-    '\'*\'' => 'r 16',
-    '\'/\'' => 'r 16',
-    '\')\'' => 'r 16',
-  ),
-  31 => 
-  array (
-    '\'+\'' => 's 19',
-    '\'-\'' => 's 24',
-    '\'*\'' => 's 26',
-    '\'/\'' => 's 28',
-    '\')\'' => 's 32',
-  ),
-  32 => 
-  array (
-    '\'/\'' => 'r 58',
-    '\'*\'' => 'r 58',
-    '\'-\'' => 'r 58',
-    '\'+\'' => 'r 58',
-    '\'.\'' => 'r 58',
-    '\':\'' => 'r 58',
-    '\')\'' => 'r 58',
-    '#' => 'r 58',
-  ),
-  33 => 
-  array (
-    '\'{\'' => 's 34',
-    '\'?\'' => 's 109',
-    '\'/\'' => 's 96',
+    '\'{\'' => 's 18',
+    '\'?\'' => 's 93',
+    '\'/\'' => 's 87',
     '\'.\'' => 'r 8',
     '\':\'' => 'r 8',
     '#' => 'r 8',
   ),
-  34 => 
+  18 => 
   array (
-    'selector' => 's 35',
-    'name' => 's 76',
-    'num' => 's 80',
-    'selectargument' => 's 108',
-    'argument' => 's 106',
-    'link' => 's 88',
-    '\'*\'' => 's 89',
-    'function' => 's 90',
-    'ALIAS' => 'r 14',
-    '\'-\'' => 'r 14',
-    '\'(\'' => 'r 14',
-    'LN' => 'r 14',
+    'selector' => 's 19',
+    'num' => 's 60',
+    'selectargument' => 's 92',
+    'argument' => 's 62',
+    'name' => 's 66',
+    'link' => 's 79',
+    '\'*\'' => 's 80',
+    'function' => 's 81',
+    '\'.\'' => 'r 14',
     '\'+\'' => 'r 14',
+    '\'-\'' => 'r 14',
     '\',\'' => 'r 14',
     '\'}\'' => 'r 14',
-    '\'.\'' => 'r 16',
   ),
-  35 => 
+  19 => 
   array (
-    '\'}\'' => 's 36',
-    '\',\'' => 's 75',
+    '\'}\'' => 's 20',
+    '\',\'' => 's 59',
   ),
-  36 => 
+  20 => 
   array (
-    '\'?\'' => 's 37',
+    '\'?\'' => 's 21',
     '\'.\'' => 'r 6',
     '\':\'' => 'r 6',
     '#' => 'r 6',
   ),
-  37 => 
+  21 => 
   array (
-    'filterlist' => 's 38',
-    'name' => 's 40',
-    'filter' => 's 68',
-    '\'(\'' => 's 72',
-    '\'-\'' => 'r 14',
-    'LE' => 'r 14',
-    'GE' => 'r 14',
-    'NE' => 'r 14',
-    '\'~\'' => 'r 14',
-    '\'<\'' => 'r 14',
-    'EQ' => 'r 14',
-    '\'>\'' => 'r 14',
+    'filterlist' => 's 22',
+    'filter' => 's 24',
+    '\'(\'' => 's 28',
+    'name' => 's 31',
   ),
-  38 => 
+  22 => 
   array (
-    '\'&\'' => 's 39',
-    '\'|\'' => 's 70',
+    '\'&\'' => 's 23',
+    '\'|\'' => 's 26',
     '\'.\'' => 'r 7',
     '\':\'' => 'r 7',
     '#' => 'r 7',
   ),
-  39 => 
+  23 => 
   array (
-    'name' => 's 40',
-    'filter' => 's 68',
-    'filterlist' => 's 69',
-    '\'(\'' => 's 72',
-    '\'-\'' => 'r 14',
-    'LE' => 'r 14',
-    'GE' => 'r 14',
-    'NE' => 'r 14',
-    '\'~\'' => 'r 14',
-    '\'<\'' => 'r 14',
-    'EQ' => 'r 14',
-    '\'>\'' => 'r 14',
+    'filter' => 's 24',
+    'filterlist' => 's 25',
+    '\'(\'' => 's 28',
+    'name' => 's 31',
   ),
-  40 => 
+  24 => 
   array (
-    '\'-\'' => 's 5',
-    '\'>\'' => 's 41',
-    'EQ' => 's 44',
-    '\'<\'' => 's 47',
-    '\'~\'' => 's 50',
-    'NE' => 's 52',
-    'GE' => 's 55',
-    'LE' => 's 58',
-    '\'(\'' => 's 61',
+    '\'&\'' => 'r 15',
+    '\'|\'' => 'r 15',
+    '\'.\'' => 'r 15',
+    '\':\'' => 'r 15',
+    '\')\'' => 'r 15',
+    '#' => 'r 15',
   ),
-  41 => 
+  25 => 
   array (
-    'num' => 's 42',
-    'string' => 's 43',
-    '\'.\'' => 'r 16',
     '\'&\'' => 'r 16',
-    '\'|\'' => 'r 16',
+    '\'|\'' => 's 26',
+    '\'.\'' => 'r 16',
     '\':\'' => 'r 16',
     '\')\'' => 'r 16',
     '#' => 'r 16',
   ),
-  42 => 
+  26 => 
   array (
-    '\'.\'' => 'r 24',
-    '\'&\'' => 'r 24',
-    '\'|\'' => 'r 24',
-    '\':\'' => 'r 24',
-    '\')\'' => 'r 24',
-    '#' => 'r 24',
+    'filter' => 's 24',
+    'filterlist' => 's 27',
+    '\'(\'' => 's 28',
+    'name' => 's 31',
   ),
-  43 => 
-  array (
-    '\'&\'' => 'r 21',
-    '\'|\'' => 'r 21',
-    '\'.\'' => 'r 21',
-    '\':\'' => 'r 21',
-    '\')\'' => 'r 21',
-    '#' => 'r 21',
-  ),
-  44 => 
-  array (
-    'num' => 's 45',
-    'string' => 's 46',
-    '\'.\'' => 'r 16',
-    '\'&\'' => 'r 16',
-    '\'|\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  45 => 
-  array (
-    '\'.\'' => 'r 25',
-    '\'&\'' => 'r 25',
-    '\'|\'' => 'r 25',
-    '\':\'' => 'r 25',
-    '\')\'' => 'r 25',
-    '#' => 'r 25',
-  ),
-  46 => 
-  array (
-    '\'&\'' => 'r 22',
-    '\'|\'' => 'r 22',
-    '\'.\'' => 'r 22',
-    '\':\'' => 'r 22',
-    '\')\'' => 'r 22',
-    '#' => 'r 22',
-  ),
-  47 => 
-  array (
-    'num' => 's 48',
-    'string' => 's 49',
-    '\'.\'' => 'r 16',
-    '\'&\'' => 'r 16',
-    '\'|\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  48 => 
-  array (
-    '\'.\'' => 'r 26',
-    '\'&\'' => 'r 26',
-    '\'|\'' => 'r 26',
-    '\':\'' => 'r 26',
-    '\')\'' => 'r 26',
-    '#' => 'r 26',
-  ),
-  49 => 
-  array (
-    '\'&\'' => 'r 23',
-    '\'|\'' => 'r 23',
-    '\'.\'' => 'r 23',
-    '\':\'' => 'r 23',
-    '\')\'' => 'r 23',
-    '#' => 'r 23',
-  ),
-  50 => 
-  array (
-    'string' => 's 51',
-  ),
-  51 => 
-  array (
-    '\'&\'' => 'r 27',
-    '\'|\'' => 'r 27',
-    '\'.\'' => 'r 27',
-    '\':\'' => 'r 27',
-    '\')\'' => 'r 27',
-    '#' => 'r 27',
-  ),
-  52 => 
-  array (
-    'num' => 's 53',
-    'string' => 's 54',
-    '\'.\'' => 'r 16',
-    '\'&\'' => 'r 16',
-    '\'|\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  53 => 
-  array (
-    '\'.\'' => 's 15',
-    '\'&\'' => 'r 29',
-    '\'|\'' => 'r 29',
-    '\':\'' => 'r 29',
-    '\')\'' => 'r 29',
-    '#' => 'r 29',
-  ),
-  54 => 
-  array (
-    '\'&\'' => 'r 28',
-    '\'|\'' => 'r 28',
-    '\'.\'' => 'r 28',
-    '\':\'' => 'r 28',
-    '\')\'' => 'r 28',
-    '#' => 'r 28',
-  ),
-  55 => 
-  array (
-    'num' => 's 56',
-    'string' => 's 57',
-    '\'.\'' => 'r 16',
-    '\'&\'' => 'r 16',
-    '\'|\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  56 => 
-  array (
-    '\'.\'' => 's 15',
-    '\'&\'' => 'r 31',
-    '\'|\'' => 'r 31',
-    '\':\'' => 'r 31',
-    '\')\'' => 'r 31',
-    '#' => 'r 31',
-  ),
-  57 => 
-  array (
-    '\'&\'' => 'r 30',
-    '\'|\'' => 'r 30',
-    '\'.\'' => 'r 30',
-    '\':\'' => 'r 30',
-    '\')\'' => 'r 30',
-    '#' => 'r 30',
-  ),
-  58 => 
-  array (
-    'num' => 's 59',
-    'string' => 's 60',
-    '\'.\'' => 'r 16',
-    '\'&\'' => 'r 16',
-    '\'|\'' => 'r 16',
-    '\':\'' => 'r 16',
-    '\')\'' => 'r 16',
-    '#' => 'r 16',
-  ),
-  59 => 
-  array (
-    '\'.\'' => 's 15',
-    '\'&\'' => 'r 33',
-    '\'|\'' => 'r 33',
-    '\':\'' => 'r 33',
-    '\')\'' => 'r 33',
-    '#' => 'r 33',
-  ),
-  60 => 
-  array (
-    '\'&\'' => 'r 32',
-    '\'|\'' => 'r 32',
-    '\'.\'' => 'r 32',
-    '\':\'' => 'r 32',
-    '\')\'' => 'r 32',
-    '#' => 'r 32',
-  ),
-  61 => 
-  array (
-    'num' => 's 62',
-    '\',\'' => 'r 16',
-    '\'.\'' => 'r 16',
-  ),
-  62 => 
-  array (
-    '\'.\'' => 's 15',
-    '\',\'' => 's 63',
-  ),
-  63 => 
-  array (
-    'num' => 's 64',
-    '\',\'' => 'r 16',
-    '\'.\'' => 'r 16',
-  ),
-  64 => 
-  array (
-    '\'.\'' => 's 15',
-    '\',\'' => 's 65',
-  ),
-  65 => 
-  array (
-    'num' => 's 66',
-    '\')\'' => 'r 16',
-    '\'.\'' => 'r 16',
-  ),
-  66 => 
-  array (
-    '\'.\'' => 's 15',
-    '\')\'' => 's 67',
-  ),
-  67 => 
-  array (
-    '\'&\'' => 'r 34',
-    '\'|\'' => 'r 34',
-    '\'.\'' => 'r 34',
-    '\':\'' => 'r 34',
-    '\')\'' => 'r 34',
-    '#' => 'r 34',
-  ),
-  68 => 
+  27 => 
   array (
     '\'&\'' => 'r 17',
     '\'|\'' => 'r 17',
@@ -699,31 +229,60 @@ var $i = array (
     '\')\'' => 'r 17',
     '#' => 'r 17',
   ),
-  69 => 
+  28 => 
   array (
+    'filter' => 's 24',
+    'filterlist' => 's 29',
+    '\'(\'' => 's 28',
+    'name' => 's 31',
+  ),
+  29 => 
+  array (
+    '\'&\'' => 's 23',
+    '\'|\'' => 's 26',
+    '\')\'' => 's 30',
+  ),
+  30 => 
+  array (
+    '\'|\'' => 'r 18',
     '\'&\'' => 'r 18',
-    '\'|\'' => 's 70',
     '\'.\'' => 'r 18',
     '\':\'' => 'r 18',
     '\')\'' => 'r 18',
     '#' => 'r 18',
   ),
-  70 => 
+  31 => 
   array (
-    'name' => 's 40',
-    'filter' => 's 68',
-    'filterlist' => 's 71',
-    '\'(\'' => 's 72',
-    '\'-\'' => 'r 14',
-    'LE' => 'r 14',
-    'GE' => 'r 14',
-    'NE' => 'r 14',
-    '\'~\'' => 'r 14',
-    '\'<\'' => 'r 14',
-    'EQ' => 'r 14',
-    '\'>\'' => 'r 14',
+    '\'>\'' => 's 32',
+    'EQ' => 's 35',
+    '\'<\'' => 's 38',
+    '\'~\'' => 's 41',
+    'NE' => 's 43',
+    'GE' => 's 46',
+    'LE' => 's 49',
+    '\'(\'' => 's 52',
   ),
-  71 => 
+  32 => 
+  array (
+    'num' => 's 33',
+    'string' => 's 34',
+    '\'.\'' => 'r 14',
+    '\'&\'' => 'r 14',
+    '\'|\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  33 => 
+  array (
+    '\'.\'' => 'r 22',
+    '\'&\'' => 'r 22',
+    '\'|\'' => 'r 22',
+    '\':\'' => 'r 22',
+    '\')\'' => 'r 22',
+    '#' => 'r 22',
+  ),
+  34 => 
   array (
     '\'&\'' => 'r 19',
     '\'|\'' => 'r 19',
@@ -732,172 +291,385 @@ var $i = array (
     '\')\'' => 'r 19',
     '#' => 'r 19',
   ),
-  72 => 
+  35 => 
   array (
-    'name' => 's 40',
-    'filter' => 's 68',
-    'filterlist' => 's 73',
-    '\'(\'' => 's 72',
-    '\'-\'' => 'r 14',
-    'LE' => 'r 14',
-    'GE' => 'r 14',
-    'NE' => 'r 14',
-    '\'~\'' => 'r 14',
-    '\'<\'' => 'r 14',
-    'EQ' => 'r 14',
-    '\'>\'' => 'r 14',
+    'num' => 's 36',
+    'string' => 's 37',
+    '\'.\'' => 'r 14',
+    '\'&\'' => 'r 14',
+    '\'|\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
   ),
-  73 => 
+  36 => 
   array (
-    '\'&\'' => 's 39',
-    '\'|\'' => 's 70',
-    '\')\'' => 's 74',
+    '\'.\'' => 'r 23',
+    '\'&\'' => 'r 23',
+    '\'|\'' => 'r 23',
+    '\':\'' => 'r 23',
+    '\')\'' => 'r 23',
+    '#' => 'r 23',
   ),
-  74 => 
+  37 => 
   array (
-    '\'|\'' => 'r 20',
     '\'&\'' => 'r 20',
+    '\'|\'' => 'r 20',
     '\'.\'' => 'r 20',
     '\':\'' => 'r 20',
     '\')\'' => 'r 20',
     '#' => 'r 20',
   ),
-  75 => 
+  38 => 
   array (
-    'name' => 's 76',
-    'num' => 's 80',
-    'selectargument' => 's 105',
-    'argument' => 's 106',
-    'link' => 's 88',
-    '\'*\'' => 's 89',
-    'function' => 's 90',
-    'ALIAS' => 'r 14',
-    '\'-\'' => 'r 14',
-    '\'(\'' => 'r 14',
-    'LN' => 'r 14',
+    'num' => 's 39',
+    'string' => 's 40',
+    '\'.\'' => 'r 14',
+    '\'&\'' => 'r 14',
+    '\'|\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  39 => 
+  array (
+    '\'.\'' => 'r 24',
+    '\'&\'' => 'r 24',
+    '\'|\'' => 'r 24',
+    '\':\'' => 'r 24',
+    '\')\'' => 'r 24',
+    '#' => 'r 24',
+  ),
+  40 => 
+  array (
+    '\'&\'' => 'r 21',
+    '\'|\'' => 'r 21',
+    '\'.\'' => 'r 21',
+    '\':\'' => 'r 21',
+    '\')\'' => 'r 21',
+    '#' => 'r 21',
+  ),
+  41 => 
+  array (
+    'string' => 's 42',
+  ),
+  42 => 
+  array (
+    '\'&\'' => 'r 25',
+    '\'|\'' => 'r 25',
+    '\'.\'' => 'r 25',
+    '\':\'' => 'r 25',
+    '\')\'' => 'r 25',
+    '#' => 'r 25',
+  ),
+  43 => 
+  array (
+    'num' => 's 44',
+    'string' => 's 45',
+    '\'.\'' => 'r 14',
+    '\'&\'' => 'r 14',
+    '\'|\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  44 => 
+  array (
+    '\'.\'' => 's 13',
+    '\'&\'' => 'r 27',
+    '\'|\'' => 'r 27',
+    '\':\'' => 'r 27',
+    '\')\'' => 'r 27',
+    '#' => 'r 27',
+  ),
+  45 => 
+  array (
+    '\'&\'' => 'r 26',
+    '\'|\'' => 'r 26',
+    '\'.\'' => 'r 26',
+    '\':\'' => 'r 26',
+    '\')\'' => 'r 26',
+    '#' => 'r 26',
+  ),
+  46 => 
+  array (
+    'num' => 's 47',
+    'string' => 's 48',
+    '\'.\'' => 'r 14',
+    '\'&\'' => 'r 14',
+    '\'|\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  47 => 
+  array (
+    '\'.\'' => 's 13',
+    '\'&\'' => 'r 29',
+    '\'|\'' => 'r 29',
+    '\':\'' => 'r 29',
+    '\')\'' => 'r 29',
+    '#' => 'r 29',
+  ),
+  48 => 
+  array (
+    '\'&\'' => 'r 28',
+    '\'|\'' => 'r 28',
+    '\'.\'' => 'r 28',
+    '\':\'' => 'r 28',
+    '\')\'' => 'r 28',
+    '#' => 'r 28',
+  ),
+  49 => 
+  array (
+    'num' => 's 50',
+    'string' => 's 51',
+    '\'.\'' => 'r 14',
+    '\'&\'' => 'r 14',
+    '\'|\'' => 'r 14',
+    '\':\'' => 'r 14',
+    '\')\'' => 'r 14',
+    '#' => 'r 14',
+  ),
+  50 => 
+  array (
+    '\'.\'' => 's 13',
+    '\'&\'' => 'r 31',
+    '\'|\'' => 'r 31',
+    '\':\'' => 'r 31',
+    '\')\'' => 'r 31',
+    '#' => 'r 31',
+  ),
+  51 => 
+  array (
+    '\'&\'' => 'r 30',
+    '\'|\'' => 'r 30',
+    '\'.\'' => 'r 30',
+    '\':\'' => 'r 30',
+    '\')\'' => 'r 30',
+    '#' => 'r 30',
+  ),
+  52 => 
+  array (
+    'num' => 's 53',
+    '\',\'' => 'r 14',
+    '\'.\'' => 'r 14',
+  ),
+  53 => 
+  array (
+    '\'.\'' => 's 13',
+    '\',\'' => 's 54',
+  ),
+  54 => 
+  array (
+    'num' => 's 55',
+    '\',\'' => 'r 14',
+    '\'.\'' => 'r 14',
+  ),
+  55 => 
+  array (
+    '\'.\'' => 's 13',
+    '\',\'' => 's 56',
+  ),
+  56 => 
+  array (
+    'num' => 's 57',
+    '\')\'' => 'r 14',
+    '\'.\'' => 'r 14',
+  ),
+  57 => 
+  array (
+    '\'.\'' => 's 13',
+    '\')\'' => 's 58',
+  ),
+  58 => 
+  array (
+    '\'&\'' => 'r 32',
+    '\'|\'' => 'r 32',
+    '\'.\'' => 'r 32',
+    '\':\'' => 'r 32',
+    '\')\'' => 'r 32',
+    '#' => 'r 32',
+  ),
+  59 => 
+  array (
+    'num' => 's 60',
+    'selectargument' => 's 61',
+    'argument' => 's 62',
+    'name' => 's 66',
+    'link' => 's 79',
+    '\'*\'' => 's 80',
+    'function' => 's 81',
+    '\'.\'' => 'r 14',
     '\'+\'' => 'r 14',
+    '\'-\'' => 'r 14',
     '\'}\'' => 'r 14',
     '\',\'' => 'r 14',
-    '\'.\'' => 'r 16',
+  ),
+  60 => 
+  array (
+    '\'.\'' => 's 13',
+    '\'+\'' => 'r 47',
+    '\'-\'' => 'r 47',
+    '\',\'' => 'r 47',
+    '\'}\'' => 'r 47',
+    '\')\'' => 'r 47',
+  ),
+  61 => 
+  array (
+    '\'}\'' => 'r 34',
+    '\',\'' => 'r 34',
+  ),
+  62 => 
+  array (
+    'order' => 's 63',
+    '\'+\'' => 's 64',
+    '\'-\'' => 's 65',
+    '\',\'' => 'r 35',
+    '\'}\'' => 'r 35',
+  ),
+  63 => 
+  array (
+    '\',\'' => 'r 36',
+    '\'}\'' => 'r 36',
+  ),
+  64 => 
+  array (
+    '\',\'' => 'r 41',
+    '\'}\'' => 'r 41',
+  ),
+  65 => 
+  array (
+    '\',\'' => 'r 42',
+    '\'}\'' => 'r 42',
+  ),
+  66 => 
+  array (
+    'ALIAS' => 's 67',
+    '\'(\'' => 's 71',
+    'LN' => 's 82',
+    '\'+\'' => 'r 43',
+    '\'-\'' => 'r 43',
+    '\',\'' => 'r 43',
+    '\'}\'' => 'r 43',
+  ),
+  67 => 
+  array (
+    'num' => 's 60',
+    'argument' => 's 68',
+    'name' => 's 70',
+    'link' => 's 79',
+    '\'*\'' => 's 80',
+    'function' => 's 81',
+    '\'.\'' => 'r 14',
+    '\'+\'' => 'r 14',
+    '\'-\'' => 'r 14',
+    '\',\'' => 'r 14',
+    '\'}\'' => 'r 14',
+  ),
+  68 => 
+  array (
+    'order' => 's 69',
+    '\'+\'' => 's 64',
+    '\'-\'' => 's 65',
+    '\',\'' => 'r 37',
+    '\'}\'' => 'r 37',
+  ),
+  69 => 
+  array (
+    '\',\'' => 'r 38',
+    '\'}\'' => 'r 38',
+  ),
+  70 => 
+  array (
+    '\'(\'' => 's 71',
+    'LN' => 's 82',
+    '\'+\'' => 'r 43',
+    '\'-\'' => 'r 43',
+    '\',\'' => 'r 43',
+    '\'}\'' => 'r 43',
+    '\')\'' => 'r 43',
+  ),
+  71 => 
+  array (
+    'num' => 's 60',
+    'name' => 's 70',
+    'argument' => 's 72',
+    'link' => 's 79',
+    '\'*\'' => 's 80',
+    'function' => 's 81',
+    '\'.\'' => 'r 14',
+    '\',\'' => 'r 14',
+    '\')\'' => 'r 14',
+  ),
+  72 => 
+  array (
+    '\')\'' => 's 73',
+    '\',\'' => 's 74',
+  ),
+  73 => 
+  array (
+    '\'+\'' => 'r 39',
+    '\'-\'' => 'r 39',
+    '\',\'' => 'r 39',
+    '\'}\'' => 'r 39',
+    '\')\'' => 'r 39',
+  ),
+  74 => 
+  array (
+    'num' => 's 60',
+    'name' => 's 70',
+    'argument' => 's 75',
+    'link' => 's 79',
+    '\'*\'' => 's 80',
+    'function' => 's 81',
+    '\'.\'' => 'r 14',
+    '\',\'' => 'r 14',
+  ),
+  75 => 
+  array (
+    '\',\'' => 's 76',
   ),
   76 => 
   array (
-    '\'-\'' => 's 5',
-    'ALIAS' => 's 77',
-    '\'(\'' => 's 79',
-    'LN' => 's 91',
-    '\'+\'' => 'r 45',
-    '\',\'' => 'r 45',
-    '\'}\'' => 'r 45',
+    'num' => 's 60',
+    'name' => 's 70',
+    'argument' => 's 77',
+    'link' => 's 79',
+    '\'*\'' => 's 80',
+    'function' => 's 81',
+    '\'.\'' => 'r 14',
+    '\')\'' => 'r 14',
   ),
   77 => 
   array (
-    'name' => 's 78',
-    'num' => 's 80',
-    'argument' => 's 101',
-    'link' => 's 88',
-    '\'*\'' => 's 89',
-    'function' => 's 90',
-    '\'(\'' => 'r 14',
-    '\'-\'' => 'r 14',
-    'LN' => 'r 14',
-    '\'+\'' => 'r 14',
-    '\',\'' => 'r 14',
-    '\'}\'' => 'r 14',
-    '\'.\'' => 'r 16',
+    '\')\'' => 's 78',
   ),
   78 => 
   array (
-    '\'-\'' => 's 5',
-    '\'(\'' => 's 79',
-    'LN' => 's 91',
+    '\'+\'' => 'r 40',
+    '\'-\'' => 'r 40',
+    '\',\'' => 'r 40',
+    '\'}\'' => 'r 40',
+    '\')\'' => 'r 40',
+  ),
+  79 => 
+  array (
+    '\'+\'' => 'r 44',
+    '\'-\'' => 'r 44',
+    '\',\'' => 'r 44',
+    '\'}\'' => 'r 44',
+    '\')\'' => 'r 44',
+  ),
+  80 => 
+  array (
     '\'+\'' => 'r 45',
+    '\'-\'' => 'r 45',
     '\',\'' => 'r 45',
     '\'}\'' => 'r 45',
     '\')\'' => 'r 45',
   ),
-  79 => 
-  array (
-    'name' => 's 78',
-    'num' => 's 80',
-    'argument' => 's 81',
-    'link' => 's 88',
-    '\'*\'' => 's 89',
-    'function' => 's 90',
-    '\'(\'' => 'r 14',
-    '\'-\'' => 'r 14',
-    'LN' => 'r 14',
-    '\',\'' => 'r 14',
-    '\')\'' => 'r 14',
-    '\'.\'' => 'r 16',
-  ),
-  80 => 
-  array (
-    '\'.\'' => 's 15',
-    '\'+\'' => 'r 49',
-    '\'-\'' => 'r 49',
-    '\',\'' => 'r 49',
-    '\'}\'' => 'r 49',
-    '\')\'' => 'r 49',
-  ),
   81 => 
-  array (
-    '\')\'' => 's 82',
-    '\',\'' => 's 83',
-  ),
-  82 => 
-  array (
-    '\'+\'' => 'r 41',
-    '\'-\'' => 'r 41',
-    '\',\'' => 'r 41',
-    '\'}\'' => 'r 41',
-    '\')\'' => 'r 41',
-  ),
-  83 => 
-  array (
-    'name' => 's 78',
-    'num' => 's 80',
-    'argument' => 's 84',
-    'link' => 's 88',
-    '\'*\'' => 's 89',
-    'function' => 's 90',
-    '\'(\'' => 'r 14',
-    '\'-\'' => 'r 14',
-    'LN' => 'r 14',
-    '\',\'' => 'r 14',
-    '\'.\'' => 'r 16',
-  ),
-  84 => 
-  array (
-    '\',\'' => 's 85',
-  ),
-  85 => 
-  array (
-    'name' => 's 78',
-    'num' => 's 80',
-    'argument' => 's 86',
-    'link' => 's 88',
-    '\'*\'' => 's 89',
-    'function' => 's 90',
-    '\'(\'' => 'r 14',
-    '\'-\'' => 'r 14',
-    'LN' => 'r 14',
-    '\')\'' => 'r 14',
-    '\'.\'' => 'r 16',
-  ),
-  86 => 
-  array (
-    '\')\'' => 's 87',
-  ),
-  87 => 
-  array (
-    '\'+\'' => 'r 42',
-    '\'-\'' => 'r 42',
-    '\',\'' => 'r 42',
-    '\'}\'' => 'r 42',
-    '\')\'' => 'r 42',
-  ),
-  88 => 
   array (
     '\'+\'' => 'r 46',
     '\'-\'' => 'r 46',
@@ -905,48 +677,21 @@ var $i = array (
     '\'}\'' => 'r 46',
     '\')\'' => 'r 46',
   ),
-  89 => 
+  82 => 
   array (
-    '\'+\'' => 'r 47',
-    '\'-\'' => 'r 47',
-    '\',\'' => 'r 47',
-    '\'}\'' => 'r 47',
-    '\')\'' => 'r 47',
+    'name' => 's 83',
+    'resourceid' => 's 86',
   ),
-  90 => 
+  83 => 
   array (
-    '\'+\'' => 'r 48',
-    '\'-\'' => 'r 48',
-    '\',\'' => 'r 48',
-    '\'}\'' => 'r 48',
-    '\')\'' => 'r 48',
+    '\'/\'' => 's 84',
   ),
-  91 => 
+  84 => 
   array (
-    'name' => 's 92',
-    'resourceid' => 's 95',
-    '\'/\'' => 'r 14',
-    '\'-\'' => 'r 14',
+    'name' => 's 85',
   ),
-  92 => 
+  85 => 
   array (
-    '\'/\'' => 's 93',
-    '\'-\'' => 's 5',
-  ),
-  93 => 
-  array (
-    'name' => 's 94',
-    '\'-\'' => 'r 14',
-    '\'/\'' => 'r 14',
-    '\'?\'' => 'r 14',
-    '\'{\'' => 'r 14',
-    '\'.\'' => 'r 14',
-    '\':\'' => 'r 14',
-    '#' => 'r 14',
-  ),
-  94 => 
-  array (
-    '\'-\'' => 's 5',
     '\'/\'' => 'r 10',
     '\'?\'' => 'r 10',
     '\'{\'' => 'r 10',
@@ -954,26 +699,24 @@ var $i = array (
     '\':\'' => 'r 10',
     '#' => 'r 10',
   ),
-  95 => 
+  86 => 
   array (
-    '\'/\'' => 's 96',
-    '\'.\'' => 's 99',
+    '\'/\'' => 's 87',
+    '\'.\'' => 's 90',
   ),
-  96 => 
+  87 => 
   array (
-    'name' => 's 97',
-    'num' => 's 98',
-    '\'-\'' => 'r 14',
-    '\'/\'' => 'r 14',
-    '\'?\'' => 'r 14',
-    '\'{\'' => 'r 14',
+    'name' => 's 88',
+    'num' => 's 89',
     '\'.\'' => 'r 14',
+    '\'?\'' => 'r 14',
+    '\'/\'' => 'r 14',
+    '\'{\'' => 'r 14',
     '\':\'' => 'r 14',
     '#' => 'r 14',
   ),
-  97 => 
+  88 => 
   array (
-    '\'-\'' => 's 5',
     '\'/\'' => 'r 11',
     '\'?\'' => 'r 11',
     '\'{\'' => 'r 11',
@@ -981,7 +724,7 @@ var $i = array (
     '\':\'' => 'r 11',
     '#' => 'r 11',
   ),
-  98 => 
+  89 => 
   array (
     '\'.\'' => 'r 12',
     '\'?\'' => 'r 12',
@@ -990,95 +733,41 @@ var $i = array (
     '\':\'' => 'r 12',
     '#' => 'r 12',
   ),
-  99 => 
+  90 => 
   array (
-    'name' => 's 100',
-    '\'-\'' => 'r 14',
-    '\'+\'' => 'r 14',
-    '\',\'' => 'r 14',
-    '\'}\'' => 'r 14',
-    '\')\'' => 'r 14',
+    'name' => 's 91',
   ),
-  100 => 
+  91 => 
   array (
-    '\'-\'' => 's 5',
-    '\'+\'' => 'r 50',
-    '\',\'' => 'r 50',
-    '\'}\'' => 'r 50',
-    '\')\'' => 'r 50',
+    '\'+\'' => 'r 48',
+    '\'-\'' => 'r 48',
+    '\',\'' => 'r 48',
+    '\'}\'' => 'r 48',
+    '\')\'' => 'r 48',
   ),
-  101 => 
+  92 => 
   array (
-    'order' => 's 102',
-    '\'+\'' => 's 103',
-    '\'-\'' => 's 104',
-    '\',\'' => 'r 39',
-    '\'}\'' => 'r 39',
+    '\',\'' => 'r 33',
+    '\'}\'' => 'r 33',
   ),
-  102 => 
+  93 => 
   array (
-    '\',\'' => 'r 40',
-    '\'}\'' => 'r 40',
+    'filterlist' => 's 94',
+    'filter' => 's 24',
+    '\'(\'' => 's 28',
+    'name' => 's 31',
   ),
-  103 => 
+  94 => 
   array (
-    '\',\'' => 'r 43',
-    '\'}\'' => 'r 43',
-  ),
-  104 => 
-  array (
-    '\',\'' => 'r 44',
-    '\'}\'' => 'r 44',
-  ),
-  105 => 
-  array (
-    '\'}\'' => 'r 36',
-    '\',\'' => 'r 36',
-  ),
-  106 => 
-  array (
-    'order' => 's 107',
-    '\'+\'' => 's 103',
-    '\'-\'' => 's 104',
-    '\',\'' => 'r 37',
-    '\'}\'' => 'r 37',
-  ),
-  107 => 
-  array (
-    '\',\'' => 'r 38',
-    '\'}\'' => 'r 38',
-  ),
-  108 => 
-  array (
-    '\',\'' => 'r 35',
-    '\'}\'' => 'r 35',
-  ),
-  109 => 
-  array (
-    'filterlist' => 's 110',
-    'name' => 's 40',
-    'filter' => 's 68',
-    '\'(\'' => 's 72',
-    '\'-\'' => 'r 14',
-    'LE' => 'r 14',
-    'GE' => 'r 14',
-    'NE' => 'r 14',
-    '\'~\'' => 'r 14',
-    '\'<\'' => 'r 14',
-    'EQ' => 'r 14',
-    '\'>\'' => 'r 14',
-  ),
-  110 => 
-  array (
-    '\'&\'' => 's 39',
-    '\'|\'' => 's 70',
+    '\'&\'' => 's 23',
+    '\'|\'' => 's 26',
     '\'.\'' => 'r 9',
     '\':\'' => 'r 9',
     '#' => 'r 9',
   ),
-  111 => 
+  95 => 
   array (
-    '#' => 'r 59',
+    '#' => 'r 57',
   ),
 );
 function reduce_0_stmt_1($tokens, &$result) {
@@ -1107,34 +796,38 @@ $result = reset($tokens);
 
 function reduce_3_flow_2($tokens, &$result) {
 #
-# (3) flow :=  expression  '.'  name  '('  num  ','  num  ')'
+# (3) flow :=  expression  '.'  LIMIT  '('  num  ','  num  ')'
 #
 $result = reset($tokens);
 $e =& $tokens[0];
-$function =& $tokens[2];
 $offset =& $tokens[4];
 $limit =& $tokens[6];
  
 
- $limit = new LimitFilter($e,$offset,$limit);
- $result = $limit;
+    $limit = new LimitFilter($e,$offset,$limit);
+    $result = $limit;
  
 }
 
-function reduce_4_expression_1($tokens, &$result) {
+function reduce_4_flow_3($tokens, &$result) {
 #
-# (4) expression :=  resource
+# (4) flow :=  expression  '.'  LIMIT  '('  num  ')'
+#
+$result = reset($tokens);
+$e =& $tokens[0];
+$limit =& $tokens[4];
+
+    $limit = new LimitFilter($e,0,$limit);
+    $result = $limit;
+
+}
+
+function reduce_5_expression_1($tokens, &$result) {
+#
+# (5) expression :=  resource
 #
 $result = reset($tokens);
 $result = $tokens[0];
-}
-
-function reduce_5_expression_2($tokens, &$result) {
-#
-# (5) expression :=  calc
-#
-$result = reset($tokens);
- /* TODO execute calculation */ $result = $tokens[0]->execute(); 
 }
 
 function reduce_6_resource_1($tokens, &$result) {
@@ -1176,6 +869,11 @@ if($aggregate){
 $selecttables = new ColumnSelectionFilter($sel["filters"]);
 $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
 
+
+// order by
+$orderby = new SortFieldsFilter($sel["sorts"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+
 $result = $totalfilter;
 						
 }
@@ -1192,7 +890,10 @@ $fl =& $tokens[5];
 
 $totalfilter = new Identifier($tokens[0]);
 
-$expressionFilter = new FilterByExpressionFilter($fl); // wherefilter
+
+// where
+
+$expressionFilter = new FilterByExpressionFilter($fl); 
 $totalfilter = putFilterAfterIfExists($totalfilter,$expressionFilter);
 
 $groupby = array();
@@ -1204,16 +905,22 @@ foreach($sel["identifiers"] as $identifier){
         array_push($groupby,$identifier);
     }					
 }
-							
+
+// group by				
+			
 if($aggregate){
     $datagrouper = new DataGrouper($groupby);
     $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
 }
 	
-
+// functions (binary, unary or tertiary)
 
 $selecttables = new ColumnSelectionFilter($sel["filters"]);
 $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
+
+// order by
+$orderby = new SortFieldsFilter($sel["sorts"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
 
 $result = $totalfilter;				
 
@@ -1259,74 +966,58 @@ $result = reset($tokens);
  $result = $tokens[0] . "." . $tokens[2]; 
 }
 
-function reduce_13_name_1($tokens, &$result) {
+function reduce_13_num_1($tokens, &$result) {
 #
-# (13) name :=  name  '-'  name
-#
-$result = reset($tokens);
- $result = $tokens[0] . "-" . $tokens[2]; 
-}
-
-function reduce_14_name_2($tokens, &$result) {
-#
-# (14) name :=
-#
-$result = reset($tokens);
-
-}
-
-function reduce_15_num_1($tokens, &$result) {
-#
-# (15) num :=  num  '.'  num
+# (13) num :=  num  '.'  num
 #
 $result = reset($tokens);
  $result = new Constant((double) ($tokens[0] . "." . $tokens[2]));  
 }
 
-function reduce_16_num_2($tokens, &$result) {
+function reduce_14_num_2($tokens, &$result) {
 #
-# (16) num :=
+# (14) num :=
 #
 $result = reset($tokens);
 
 }
 
-function reduce_17_filterlist_1($tokens, &$result) {
+function reduce_15_filterlist_1($tokens, &$result) {
 #
-# (17) filterlist :=  filter
+# (15) filterlist :=  filter
 #
 $result = reset($tokens);
  $result = $tokens[0]; 
 }
 
-function reduce_18_filterlist_2($tokens, &$result) {
+function reduce_16_filterlist_2($tokens, &$result) {
 #
-# (18) filterlist :=  filterlist  '&'  filterlist
+# (16) filterlist :=  filterlist  '&'  filterlist
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,$tokens[0],$tokens[2]); 
 }
 
-function reduce_19_filterlist_3($tokens, &$result) {
+function reduce_17_filterlist_3($tokens, &$result) {
 #
-# (19) filterlist :=  filterlist  '|'  filterlist
+# (17) filterlist :=  filterlist  '|'  filterlist
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR,$tokens[0],$tokens[2]); 
 }
 
-function reduce_20_filterlist_4($tokens, &$result) {
+function reduce_18_filterlist_4($tokens, &$result) {
 #
-# (20) filterlist :=  '('  filterlist  ')'
+# (18) filterlist :=  '('  filterlist  ')'
 #
 $result = reset($tokens);
 $list =& $tokens[1];
  $result = $list;
 }
 
-function reduce_21_filter_1($tokens, &$result) {
+function reduce_19_filter_1($tokens, &$result) {
 #
-# (21) filter :=  name  '>'  string
+# (19) filter :=  name  '>'  string
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1334,9 +1025,9 @@ $b =& $tokens[2];
  $result =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); 
 }
 
-function reduce_22_filter_2($tokens, &$result) {
+function reduce_20_filter_2($tokens, &$result) {
 #
-# (22) filter :=  name  EQ  string
+# (20) filter :=  name  EQ  string
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1344,9 +1035,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); 
 }
 
-function reduce_23_filter_3($tokens, &$result) {
+function reduce_21_filter_3($tokens, &$result) {
 #
-# (23) filter :=  name  '<'  string
+# (21) filter :=  name  '<'  string
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1354,9 +1045,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); 
 }
 
-function reduce_24_filter_4($tokens, &$result) {
+function reduce_22_filter_4($tokens, &$result) {
 #
-# (24) filter :=  name  '>'  num
+# (22) filter :=  name  '>'  num
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1364,9 +1055,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); 
 }
 
-function reduce_25_filter_5($tokens, &$result) {
+function reduce_23_filter_5($tokens, &$result) {
 #
-# (25) filter :=  name  EQ  num
+# (23) filter :=  name  EQ  num
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1374,9 +1065,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); 
 }
 
-function reduce_26_filter_6($tokens, &$result) {
+function reduce_24_filter_6($tokens, &$result) {
 #
-# (26) filter :=  name  '<'  num
+# (24) filter :=  name  '<'  num
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1384,9 +1075,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); 
 }
 
-function reduce_27_filter_7($tokens, &$result) {
+function reduce_25_filter_7($tokens, &$result) {
 #
-# (27) filter :=  name  '~'  string
+# (25) filter :=  name  '~'  string
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1394,19 +1085,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); 
 }
 
-function reduce_28_filter_8($tokens, &$result) {
+function reduce_26_filter_8($tokens, &$result) {
 #
-# (28) filter :=  name  NE  string
-#
-$result = reset($tokens);
-$a =& $tokens[0];
-$b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); 
-}
-
-function reduce_29_filter_9($tokens, &$result) {
-#
-# (29) filter :=  name  NE  num
+# (26) filter :=  name  NE  string
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1414,9 +1095,19 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); 
 }
 
-function reduce_30_filter_10($tokens, &$result) {
+function reduce_27_filter_9($tokens, &$result) {
 #
-# (30) filter :=  name  GE  string
+# (27) filter :=  name  NE  num
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[2];
+ $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); 
+}
+
+function reduce_28_filter_10($tokens, &$result) {
+#
+# (28) filter :=  name  GE  string
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1424,9 +1115,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
 }
 
-function reduce_31_filter_11($tokens, &$result) {
+function reduce_29_filter_11($tokens, &$result) {
 #
-# (31) filter :=  name  GE  num
+# (29) filter :=  name  GE  num
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1434,19 +1125,9 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
 }
 
-function reduce_32_filter_12($tokens, &$result) {
+function reduce_30_filter_12($tokens, &$result) {
 #
-# (32) filter :=  name  LE  string
-#
-$result = reset($tokens);
-$a =& $tokens[0];
-$b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
-}
-
-function reduce_33_filter_13($tokens, &$result) {
-#
-# (33) filter :=  name  LE  num
+# (30) filter :=  name  LE  string
 #
 $result = reset($tokens);
 $a =& $tokens[0];
@@ -1454,9 +1135,19 @@ $b =& $tokens[2];
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
 }
 
-function reduce_34_filter_14($tokens, &$result) {
+function reduce_31_filter_13($tokens, &$result) {
 #
-# (34) filter :=  name  '('  num  ','  num  ','  num  ')'
+# (31) filter :=  name  LE  num
+#
+$result = reset($tokens);
+$a =& $tokens[0];
+$b =& $tokens[2];
+ $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
+}
+
+function reduce_32_filter_14($tokens, &$result) {
+#
+# (32) filter :=  name  '('  num  ','  num  ','  num  ')'
 #
 $result = reset($tokens);
 $function =& $tokens[0];
@@ -1466,74 +1157,79 @@ $radius =& $tokens[6];
  /* TODO in radius function (ternary function)*/ 
 }
 
-function reduce_35_selector_1($tokens, &$result) {
+function reduce_33_selector_1($tokens, &$result) {
 #
-# (35) selector :=  selectargument
+# (33) selector :=  selectargument
 #
 $result = reset($tokens);
 $arg =& $tokens[0];
  $result = $tokens[0]; 
 }
 
-function reduce_36_selector_2($tokens, &$result) {
+function reduce_34_selector_2($tokens, &$result) {
 #
-# (36) selector :=  selector  ','  selectargument
+# (34) selector :=  selector  ','  selectargument
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
  $filters = array_merge($tokens[0]["filters"],$tokens[2]["filters"]); 
-                                    $sorts = array_merge($tokens[0]["sorts"],$tokens[2]["sorts"]);
-												$identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
+                                    $sorts   = array_merge($tokens[0]["sorts"],$tokens[2]["sorts"]);
+				    $identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
                                     $result = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); 
 }
 
-function reduce_37_selectargument_1($tokens, &$result) {
+function reduce_35_selectargument_1($tokens, &$result) {
 #
-# (37) selectargument :=  argument
+# (35) selectargument :=  argument
 #
 $result = reset($tokens);
 $arg =& $tokens[0];
  $result = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); 
 }
 
-function reduce_38_selectargument_2($tokens, &$result) {
+function reduce_36_selectargument_2($tokens, &$result) {
 #
-# (38) selectargument :=  argument  order
+# (36) selectargument :=  argument  order
 #
 $result = reset($tokens);
 $arg =& $tokens[0];
- $result =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); /* eens sort by functions bestaan, $result = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ 
+$order =& $tokens[1];
+ 
+
+$result =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), 
+             "sorts" => array(new SortFieldsFilterColumn($arg, $order )), 
+             "identifiers" => array($arg)); /* eens sort by functions bestaan, $result = array() van twee arrays van argument, en een array van alle argumenten waarop moet gesorteerd worden */ 
 }
 
-function reduce_39_selectargument_3($tokens, &$result) {
+function reduce_37_selectargument_3($tokens, &$result) {
 #
-# (39) selectargument :=  name  ALIAS  argument
+# (37) selectargument :=  name  ALIAS  argument
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
 $result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(), "identifiers" => array($arg));
 }
 
-function reduce_40_selectargument_4($tokens, &$result) {
+function reduce_38_selectargument_4($tokens, &$result) {
 #
-# (40) selectargument :=  name  ALIAS  argument  order
+# (38) selectargument :=  name  ALIAS  argument  order
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
 $result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(), "identifiers" => array($arg));
 }
 
-function reduce_41_function_1($tokens, &$result) {
+function reduce_39_function_1($tokens, &$result) {
 #
-# (41) function :=  name  '('  argument  ')'
+# (39) function :=  name  '('  argument  ')'
 #
 $result = reset($tokens);
  $result = getUnaryFilterForSQLFunction($tokens[0],$tokens[2]); 
 }
 
-function reduce_42_function_2($tokens, &$result) {
+function reduce_40_function_2($tokens, &$result) {
 #
-# (42) function :=  name  '('  argument  ','  argument  ','  argument  ')'
+# (40) function :=  name  '('  argument  ','  argument  ','  argument  ')'
 #
 $result = reset($tokens);
 $arg1 =& $tokens[2];
@@ -1542,138 +1238,138 @@ $arg3 =& $tokens[6];
 $result = getTertairyFunctionForSQLFunction($tokens[0],$arg1,$arg2,$arg3);
 }
 
-function reduce_43_order_1($tokens, &$result) {
+function reduce_41_order_1($tokens, &$result) {
 #
-# (43) order :=  '+'
-#
-$result = reset($tokens);
- /* SORT BY ascending */ $result = 1; 
-}
-
-function reduce_44_order_2($tokens, &$result) {
-#
-# (44) order :=  '-'
+# (41) order :=  '+'
 #
 $result = reset($tokens);
- /* SORT BY descending  */ $result = -1; 
+ /* SORT BY ascending */ $result = SortFieldsFilterColumn::$SORTORDER_ASCENDING; 
 }
 
-function reduce_45_argument_1($tokens, &$result) {
+function reduce_42_order_2($tokens, &$result) {
 #
-# (45) argument :=  name
+# (42) order :=  '-'
+#
+$result = reset($tokens);
+ /* SORT BY descending  */ $result = SortFieldsFilterColumn::$SORTORDER_DESCENDING; 
+}
+
+function reduce_43_argument_1($tokens, &$result) {
+#
+# (43) argument :=  name
 #
 $result = reset($tokens);
 $name =& $tokens[0];
  $result = new Identifier($name); 
 }
 
-function reduce_46_argument_2($tokens, &$result) {
+function reduce_44_argument_2($tokens, &$result) {
 #
-# (46) argument :=  link
+# (44) argument :=  link
 #
 $result = reset($tokens);
 
 }
 
-function reduce_47_argument_3($tokens, &$result) {
+function reduce_45_argument_3($tokens, &$result) {
 #
-# (47) argument :=  '*'
+# (45) argument :=  '*'
 #
 $result = reset($tokens);
  $result = new Identifier('*'); 
 }
 
-function reduce_48_argument_4($tokens, &$result) {
+function reduce_46_argument_4($tokens, &$result) {
 #
-# (48) argument :=  function
+# (46) argument :=  function
 #
 $result = reset($tokens);
  $result = $tokens[0];
 }
 
-function reduce_49_argument_5($tokens, &$result) {
+function reduce_47_argument_5($tokens, &$result) {
 #
-# (49) argument :=  num
+# (47) argument :=  num
 #
 $result = reset($tokens);
 $result = new Constant($tokens[0]);
 }
 
-function reduce_50_link_1($tokens, &$result) {
+function reduce_48_link_1($tokens, &$result) {
 #
-# (50) link :=  name  LN  resourceid  '.'  name
+# (48) link :=  name  LN  resourceid  '.'  name
 #
 $result = reset($tokens);
  /* joined resource */ 
 }
 
-function reduce_51_format_1($tokens, &$result) {
+function reduce_49_format_1($tokens, &$result) {
 #
-# (51) format :=  name
+# (49) format :=  name
 #
 $result = reset($tokens);
  /* do nothing, format isnt used in the AST for it is an abstract filter tree , format is not a filter.*/ 
 }
 
-function reduce_52_calc_1($tokens, &$result) {
+function reduce_50_calc_1($tokens, &$result) {
 #
-# (52) calc :=  num
+# (50) calc :=  num
 #
 $result = reset($tokens);
  $result = new Constant($tokens[0]); 
 }
 
-function reduce_53_calc_2($tokens, &$result) {
+function reduce_51_calc_2($tokens, &$result) {
 #
-# (53) calc :=  calc  '+'  calc
+# (51) calc :=  calc  '+'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $tokens[0], $tokens[2]);  
 }
 
-function reduce_54_calc_3($tokens, &$result) {
+function reduce_52_calc_3($tokens, &$result) {
 #
-# (54) calc :=  calc  '-'  calc
+# (52) calc :=  calc  '-'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $tokens[0], $tokens[2]); 
 }
 
-function reduce_55_calc_4($tokens, &$result) {
+function reduce_53_calc_4($tokens, &$result) {
 #
-# (55) calc :=  calc  '*'  calc
+# (53) calc :=  calc  '*'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $tokens[0], $tokens[2]); 
 }
 
-function reduce_56_calc_5($tokens, &$result) {
+function reduce_54_calc_5($tokens, &$result) {
 #
-# (56) calc :=  calc  '/'  calc
+# (54) calc :=  calc  '/'  calc
 #
 $result = reset($tokens);
  $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $tokens[0], $tokens[2]); 
 }
 
-function reduce_57_calc_6($tokens, &$result) {
+function reduce_55_calc_6($tokens, &$result) {
 #
-# (57) calc :=  num  '.'  num
+# (55) calc :=  num  '.'  num
 #
 $result = reset($tokens);
  $result = new Constant((double)($tokens[0] . "." . $tokens[2])); 
 }
 
-function reduce_58_calc_7($tokens, &$result) {
+function reduce_56_calc_7($tokens, &$result) {
 #
-# (58) calc :=  '('  calc  ')'
+# (56) calc :=  '('  calc  ')'
 #
 $result = reset($tokens);
 $result = $tokens[0];
 }
 
-function reduce_59_start_1($tokens, &$result) {
+function reduce_57_start_1($tokens, &$result) {
 #
-# (59) 'start' :=  stmt
+# (57) 'start' :=  stmt
 #
 $result = reset($tokens);
 
@@ -1684,8 +1380,8 @@ var $method = array (
   1 => 'reduce_1_stmt_2',
   2 => 'reduce_2_flow_1',
   3 => 'reduce_3_flow_2',
-  4 => 'reduce_4_expression_1',
-  5 => 'reduce_5_expression_2',
+  4 => 'reduce_4_flow_3',
+  5 => 'reduce_5_expression_1',
   6 => 'reduce_6_resource_1',
   7 => 'reduce_7_resource_2',
   8 => 'reduce_8_resource_3',
@@ -1693,53 +1389,51 @@ var $method = array (
   10 => 'reduce_10_resourceid_1',
   11 => 'reduce_11_resourceid_2',
   12 => 'reduce_12_resourceid_3',
-  13 => 'reduce_13_name_1',
-  14 => 'reduce_14_name_2',
-  15 => 'reduce_15_num_1',
-  16 => 'reduce_16_num_2',
-  17 => 'reduce_17_filterlist_1',
-  18 => 'reduce_18_filterlist_2',
-  19 => 'reduce_19_filterlist_3',
-  20 => 'reduce_20_filterlist_4',
-  21 => 'reduce_21_filter_1',
-  22 => 'reduce_22_filter_2',
-  23 => 'reduce_23_filter_3',
-  24 => 'reduce_24_filter_4',
-  25 => 'reduce_25_filter_5',
-  26 => 'reduce_26_filter_6',
-  27 => 'reduce_27_filter_7',
-  28 => 'reduce_28_filter_8',
-  29 => 'reduce_29_filter_9',
-  30 => 'reduce_30_filter_10',
-  31 => 'reduce_31_filter_11',
-  32 => 'reduce_32_filter_12',
-  33 => 'reduce_33_filter_13',
-  34 => 'reduce_34_filter_14',
-  35 => 'reduce_35_selector_1',
-  36 => 'reduce_36_selector_2',
-  37 => 'reduce_37_selectargument_1',
-  38 => 'reduce_38_selectargument_2',
-  39 => 'reduce_39_selectargument_3',
-  40 => 'reduce_40_selectargument_4',
-  41 => 'reduce_41_function_1',
-  42 => 'reduce_42_function_2',
-  43 => 'reduce_43_order_1',
-  44 => 'reduce_44_order_2',
-  45 => 'reduce_45_argument_1',
-  46 => 'reduce_46_argument_2',
-  47 => 'reduce_47_argument_3',
-  48 => 'reduce_48_argument_4',
-  49 => 'reduce_49_argument_5',
-  50 => 'reduce_50_link_1',
-  51 => 'reduce_51_format_1',
-  52 => 'reduce_52_calc_1',
-  53 => 'reduce_53_calc_2',
-  54 => 'reduce_54_calc_3',
-  55 => 'reduce_55_calc_4',
-  56 => 'reduce_56_calc_5',
-  57 => 'reduce_57_calc_6',
-  58 => 'reduce_58_calc_7',
-  59 => 'reduce_59_start_1',
+  13 => 'reduce_13_num_1',
+  14 => 'reduce_14_num_2',
+  15 => 'reduce_15_filterlist_1',
+  16 => 'reduce_16_filterlist_2',
+  17 => 'reduce_17_filterlist_3',
+  18 => 'reduce_18_filterlist_4',
+  19 => 'reduce_19_filter_1',
+  20 => 'reduce_20_filter_2',
+  21 => 'reduce_21_filter_3',
+  22 => 'reduce_22_filter_4',
+  23 => 'reduce_23_filter_5',
+  24 => 'reduce_24_filter_6',
+  25 => 'reduce_25_filter_7',
+  26 => 'reduce_26_filter_8',
+  27 => 'reduce_27_filter_9',
+  28 => 'reduce_28_filter_10',
+  29 => 'reduce_29_filter_11',
+  30 => 'reduce_30_filter_12',
+  31 => 'reduce_31_filter_13',
+  32 => 'reduce_32_filter_14',
+  33 => 'reduce_33_selector_1',
+  34 => 'reduce_34_selector_2',
+  35 => 'reduce_35_selectargument_1',
+  36 => 'reduce_36_selectargument_2',
+  37 => 'reduce_37_selectargument_3',
+  38 => 'reduce_38_selectargument_4',
+  39 => 'reduce_39_function_1',
+  40 => 'reduce_40_function_2',
+  41 => 'reduce_41_order_1',
+  42 => 'reduce_42_order_2',
+  43 => 'reduce_43_argument_1',
+  44 => 'reduce_44_argument_2',
+  45 => 'reduce_45_argument_3',
+  46 => 'reduce_46_argument_4',
+  47 => 'reduce_47_argument_5',
+  48 => 'reduce_48_link_1',
+  49 => 'reduce_49_format_1',
+  50 => 'reduce_50_calc_1',
+  51 => 'reduce_51_calc_2',
+  52 => 'reduce_52_calc_3',
+  53 => 'reduce_53_calc_4',
+  54 => 'reduce_54_calc_5',
+  55 => 'reduce_55_calc_6',
+  56 => 'reduce_56_calc_7',
+  57 => 'reduce_57_start_1',
 );
 var $a = array (
   0 => 
@@ -1768,8 +1462,8 @@ var $a = array (
   ),
   4 => 
   array (
-    'symbol' => 'expression',
-    'len' => 1,
+    'symbol' => 'flow',
+    'len' => 6,
     'replace' => true,
   ),
   5 => 
@@ -1822,32 +1516,32 @@ var $a = array (
   ),
   13 => 
   array (
-    'symbol' => 'name',
+    'symbol' => 'num',
     'len' => 3,
     'replace' => true,
   ),
   14 => 
   array (
-    'symbol' => 'name',
+    'symbol' => 'num',
     'len' => 0,
     'replace' => true,
   ),
   15 => 
   array (
-    'symbol' => 'num',
-    'len' => 3,
+    'symbol' => 'filterlist',
+    'len' => 1,
     'replace' => true,
   ),
   16 => 
   array (
-    'symbol' => 'num',
-    'len' => 0,
+    'symbol' => 'filterlist',
+    'len' => 3,
     'replace' => true,
   ),
   17 => 
   array (
     'symbol' => 'filterlist',
-    'len' => 1,
+    'len' => 3,
     'replace' => true,
   ),
   18 => 
@@ -1858,13 +1552,13 @@ var $a = array (
   ),
   19 => 
   array (
-    'symbol' => 'filterlist',
+    'symbol' => 'filter',
     'len' => 3,
     'replace' => true,
   ),
   20 => 
   array (
-    'symbol' => 'filterlist',
+    'symbol' => 'filter',
     'len' => 3,
     'replace' => true,
   ),
@@ -1937,78 +1631,78 @@ var $a = array (
   32 => 
   array (
     'symbol' => 'filter',
-    'len' => 3,
+    'len' => 8,
     'replace' => true,
   ),
   33 => 
   array (
-    'symbol' => 'filter',
-    'len' => 3,
+    'symbol' => 'selector',
+    'len' => 1,
     'replace' => true,
   ),
   34 => 
   array (
-    'symbol' => 'filter',
-    'len' => 8,
+    'symbol' => 'selector',
+    'len' => 3,
     'replace' => true,
   ),
   35 => 
   array (
-    'symbol' => 'selector',
+    'symbol' => 'selectargument',
     'len' => 1,
     'replace' => true,
   ),
   36 => 
   array (
-    'symbol' => 'selector',
-    'len' => 3,
+    'symbol' => 'selectargument',
+    'len' => 2,
     'replace' => true,
   ),
   37 => 
   array (
     'symbol' => 'selectargument',
-    'len' => 1,
+    'len' => 3,
     'replace' => true,
   ),
   38 => 
   array (
     'symbol' => 'selectargument',
-    'len' => 2,
-    'replace' => true,
-  ),
-  39 => 
-  array (
-    'symbol' => 'selectargument',
-    'len' => 3,
-    'replace' => true,
-  ),
-  40 => 
-  array (
-    'symbol' => 'selectargument',
     'len' => 4,
     'replace' => true,
   ),
-  41 => 
+  39 => 
   array (
     'symbol' => 'function',
     'len' => 4,
     'replace' => true,
   ),
-  42 => 
+  40 => 
   array (
     'symbol' => 'function',
     'len' => 8,
     'replace' => true,
   ),
-  43 => 
+  41 => 
   array (
     'symbol' => 'order',
     'len' => 1,
     'replace' => true,
   ),
-  44 => 
+  42 => 
   array (
     'symbol' => 'order',
+    'len' => 1,
+    'replace' => true,
+  ),
+  43 => 
+  array (
+    'symbol' => 'argument',
+    'len' => 1,
+    'replace' => true,
+  ),
+  44 => 
+  array (
+    'symbol' => 'argument',
     'len' => 1,
     'replace' => true,
   ),
@@ -2032,32 +1726,32 @@ var $a = array (
   ),
   48 => 
   array (
-    'symbol' => 'argument',
-    'len' => 1,
-    'replace' => true,
-  ),
-  49 => 
-  array (
-    'symbol' => 'argument',
-    'len' => 1,
-    'replace' => true,
-  ),
-  50 => 
-  array (
     'symbol' => 'link',
     'len' => 5,
     'replace' => true,
   ),
-  51 => 
+  49 => 
   array (
     'symbol' => 'format',
     'len' => 1,
     'replace' => true,
   ),
-  52 => 
+  50 => 
   array (
     'symbol' => 'calc',
     'len' => 1,
+    'replace' => true,
+  ),
+  51 => 
+  array (
+    'symbol' => 'calc',
+    'len' => 3,
+    'replace' => true,
+  ),
+  52 => 
+  array (
+    'symbol' => 'calc',
+    'len' => 3,
     'replace' => true,
   ),
   53 => 
@@ -2085,18 +1779,6 @@ var $a = array (
     'replace' => true,
   ),
   57 => 
-  array (
-    'symbol' => 'calc',
-    'len' => 3,
-    'replace' => true,
-  ),
-  58 => 
-  array (
-    'symbol' => 'calc',
-    'len' => 3,
-    'replace' => true,
-  ),
-  59 => 
   array (
     'symbol' => '\'start\'',
     'len' => 1,

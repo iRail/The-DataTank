@@ -71,6 +71,12 @@ class SQLController extends AController {
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
 
+        /*
+         * DEBUG purposes
+         */       
+        $treePrinter = new TreePrinter();
+        $tree = $treePrinter->treeToString($universalquery);   
+        
         //convert format (Table->PhpObject)
         $converter = new TableToPhpObjectConverter();
         $object = $converter->getPhpObjectForTable($result);

@@ -107,7 +107,7 @@ class TreePrinter {
     private function print_SortFieldsFilter(SortFieldsFilter $filter){
         $string = $this->getPadding()."SortFieldsFilter {\n";
         foreach ($filter->getColumnData() as $index => $originalColumn) {
-            $name = $originalColumn->getColumn()->getIdentifierString();
+            $name = $originalColumn->getColumn()->getIdentifierString();   
             $order = ($originalColumn->getSortOrder()==SortFieldsFilterColumn::$SORTORDER_ASCENDING?"ascending":"descending");
             $string.=$this->getPadding(1)."sort column ".$name." ".$order." \n";
         }

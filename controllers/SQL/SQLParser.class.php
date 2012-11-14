@@ -40,7 +40,7 @@ class SQLParser{
 
     public function interpret(){
         $querystring= $this->querystring;
-        $tokenizer = new SQLTokenizer($querystring);
+        $tokenizer = new SQLTokenizer($querystring);       
         $this->parser = new parse_engine(new SQLgrammar());
 
         if (!strlen($querystring)){

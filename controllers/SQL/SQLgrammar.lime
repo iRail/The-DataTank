@@ -189,7 +189,7 @@ expressionF = endexpression {$$ = $1;}
 
 endexpression = identifier 
                 {$$ = new Identifier($1);}
-            | constant 
+            | constant
                 {$$ = new Constant($1);}
             | identifier/functid '(' ')'
                 {$$ = getNularyFilterForSQLFunction($functid);}
