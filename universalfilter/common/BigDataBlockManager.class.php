@@ -39,7 +39,8 @@ class BigDataBlockManager {
     
     private function getDirToWriteTo(){
         // is this directory correct?????
-        return sys_get_temp_dir()."/The-DataTank-BigDataBlockManager_block_";
+        $tmpdir = getcwd() . "\\" .  "tmp\\";       
+        return $tmpdir."The-DataTank-BigDataBlockManager_block_";
     }
     
     private function fileNameFor($key){

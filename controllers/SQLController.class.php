@@ -93,6 +93,15 @@ class SQLController extends AController {
 
         $printer = $formatterfactory->getPrinter(strtolower("sqlquery"), $result);
         $printer->printAll();
+        
+        
+        $tmpdir = getcwd() . "\\" .  "tmp\\*";
+        $files = glob($tmpdir); // get all file names
+        foreach ($files as $file) { // iterate files
+            
+            if (is_file($file))
+                unlink($file); // delete file
+        }
     }
 
     function HEAD($matches) {

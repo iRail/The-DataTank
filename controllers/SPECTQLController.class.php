@@ -39,12 +39,12 @@ class SPECTQLController extends AController {
         $format = "";
         if (preg_match("/:[a-zA-Z]+/", $query, $matches)) {
             $format = ltrim($matches[0], ":");
-        }            
-       
+        }
+
         if ($format == "") {
             //get the current URL
             $ru = RequestURI::getInstance();
-            $pageURL = $ru->getURI();           
+            $pageURL = $ru->getURI();
             $pageURL = rtrim($pageURL, "/");
             //add .about before the ?
             if (sizeof($_GET) > 0) {
@@ -55,8 +55,7 @@ class SPECTQLController extends AController {
             }
 
             header("HTTP/1.1 303 See Other");
-            header("Location:" . $pageURL);              
-        
+            header("Location:" . $pageURL);
         }
 
         /*
@@ -80,16 +79,16 @@ class SPECTQLController extends AController {
         $context = array(); // array of context variables
 
         $universalquery = $parser->interpret($context);
-        
+
         /*
          * DEBUG purposes
          */
         $treePrinter = new TreePrinter();
-        $tree = $treePrinter->treeToString($universalquery);   
-        echo "<pre>";
-        echo $tree;
-        echo "</pre>";
-        
+        $tree = $treePrinter->treeToString($universalquery);
+         /*echo "<pre>";
+         echo $tree;
+         echo "</pre>";*/
+
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
 
@@ -102,7 +101,7 @@ class SPECTQLController extends AController {
         $o = new stdClass();
         $o->$RESTresource = $object;
         $result = $o;
-       
+
         $formatterfactory = FormatterFactory::getInstance($format); //start content negotiation if the formatter factory doesn't exist
         $formatterfactory->setFormat($format);
         $rootname = "spectqlquery";
@@ -110,6 +109,14 @@ class SPECTQLController extends AController {
 
         $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
         $printer->printAll();
+
+        $tmpdir = getcwd() . "\\" .  "tmp\\*";
+        $files = glob($tmpdir); // get all file names
+        foreach ($files as $file) { // iterate files
+            
+            if (is_file($file))
+                unlink($file); // delete file
+        }
     }
 
     function HEAD($matches) {
