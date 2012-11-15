@@ -376,11 +376,12 @@ class DB extends ATabularData implements iFilter {
          * Convert the tree to a SQL string
          */
         $converter = new SQLConverter($headerNames);
+        
         $sql = $converter->treeToSQL($query);
 	$sql.= $converter->getGroupBy();
         $sql.= $converter->getOrderby();
-        //echo "sql query: ".$sql;
-		
+        echo "sql query: ".$sql;
+        
         // get the identifiers of the query, just to check that the query that has been passed, contains information
         // that can be released
         $identifiers = $converter->getIdentifiers();
@@ -441,15 +442,14 @@ class DB extends ATabularData implements iFilter {
                  */
                 array_push($arrayOfRowObjects, $rowobject);
 
-            }
-
+            }          
+            
             $resultObject->indexInParent = "-1";
             $resultObject->executedNode = $query;
             $resultObject->parentNode = null;
-            $resultObject->phpDataObject = $arrayOfRowObjects;
-
+            $resultObject->phpDataObject = $arrayOfRowObjects;            
         }catch(Exception $ex){
-
+            
             $resultObject->indexInParent = "";
             $resultObject->executeNode = NULL;
             $resultObject->phpDataObject = NULL;

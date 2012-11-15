@@ -251,13 +251,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             $resultObject = $model->readResourceWithFilter($query,$result);
             
             if($resultObject->phpDataObject == NULL){
-
+                
                 return $query;
 
             }elseif($resultObject->indexInParent == "-1"){
-
+                
                 $converter = new PhpObjectTableConverter();
-                $table = $converter->getPhpObjectTable($identifierpieces,$resultObject->phpDataObject);
+                $table = $converter->getPhpObjectTable($identifierpieces,$resultObject->phpDataObject);               
                 return new ExternallyCalculatedFilterNode($table,$query);
 
             }else{// query has been partially executed

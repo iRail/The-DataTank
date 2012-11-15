@@ -192,8 +192,8 @@ class UniversalInterpreter implements IInterpreterControl{
             }
             
             // - do it
-            $newQuery = $this->getTableManager()->runFilterOnSource($filterSourceNode, $sourceId);
-            $filterParentNode->setSource($newQuery, $filterParentSourceIndex);
+            $newQuery = $this->getTableManager()->runFilterOnSource($filterSourceNode, $sourceId);            
+            $filterParentNode->setSource($newQuery, $filterParentSourceIndex);            
         }
         
         
@@ -201,15 +201,19 @@ class UniversalInterpreter implements IInterpreterControl{
         
         
         //EXECUTE (for real this time)
-        $executer = $this->findExecuterFor($tree);
+        $executer = $this->findExecuterFor($tree);        
         $executer->initExpression($tree, $emptyEnv, $this, false);
+        get_class($executer);
         
         //get the table, in two steps
         $header = $executer->getExpressionHeader();
         
         $content = $executer->evaluateAsExpression();
-        
-        $executer->cleanUp();
+         
+        // externallycal. doesn't do anything on clean up so it doesn't need it
+        if(get_class($executer) != "ExternallyCalculatedFilterNodeExecuter"){
+            $executer->cleanUp();
+        }
         
         //RETURN
         return new UniversalFilterTable($header, $content);

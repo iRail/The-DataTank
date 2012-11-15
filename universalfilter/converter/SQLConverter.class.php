@@ -72,7 +72,7 @@ class SQLConverter {
         // just add it to the string
         $this->sql.= $filter->getIdentifierString() . " ";
 
-        if ($this->IN_SELECT_CLAUSE) {
+        if ($this->IN_SELECT_CLAUSE) {            
             array_push($this->identifiers, $filter->getIdentifierString());
         }
     }
@@ -139,7 +139,7 @@ class SQLConverter {
         
         if ($filter->getSource()->getType() == "IDENTIFIER") {
             $this->sql.= " FROM " . $filter->getSource()->getIdentifierString();
-        } else {
+        } else {            
             $this->treeToSQL($filter->getSource());
         }
     }
@@ -155,6 +155,8 @@ class SQLConverter {
         }
 
         $this->groupby = rtrim($this->groupby, ", ");
+        //$this->IN_SELECT_CLAUSE = false;
+        $this->sql.= " FROM ";
         $this->treeToSQL($filter->getSource());
     }
 
@@ -186,6 +188,11 @@ class SQLConverter {
                 $this->sql.= " ) ";
                 break;
             case UnaryFunction::$FUNCTION_UNARY_ISNULL:
+                $this->sql.= "ISNULL( ";
+                $this->treeToSQL($filter->getSource(0));
+                $this->sql.= " ) ";
+                break;
+            case Un:
                 $this->sql.= "ISNULL( ";
                 $this->treeToSQL($filter->getSource(0));
                 $this->sql.= " ) ";
@@ -233,12 +240,7 @@ class SQLConverter {
                 $this->treeToSQL($filter->getSource(0));
                 $this->sql.= " AND ";
                 $this->treeToSQL($filter->getSource(1));
-                break;
-            case BinaryFunction::$FUNCTION_BINARY_OR:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " OR ";
-                $this->treeToSQL($filter->getSource(1));
-                break;
+                break;            
             default:
                 break;
         }
@@ -249,7 +251,17 @@ class SQLConverter {
     }
 
     private function print_AggregatorFunction(AggregatorFunction $filter) {
-        // not supported yet
+        //TODO the rest of the aggregators
+       
+        switch ($filter->getType()) {
+            case AggregatorFunction::$AGGREGATOR_COUNT:
+                $this->sql.=" count( ";
+                $this->treeToSQL($filter->getSource(0));
+                $this->sql.= ") ";                
+                break;           
+            default:
+                break;
+        }
     }
 
     private function print_CheckInFunction(CheckInFunction $filter) {
