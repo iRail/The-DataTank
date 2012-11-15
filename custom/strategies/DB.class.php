@@ -380,7 +380,7 @@ class DB extends ATabularData implements iFilter {
         $sql = $converter->treeToSQL($query);
 	$sql.= $converter->getGroupBy();
         $sql.= $converter->getOrderby();
-        echo "sql query: ".$sql;
+        //echo "sql query: ".$sql;
         
         // get the identifiers of the query, just to check that the query that has been passed, contains information
         // that can be released
