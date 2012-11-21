@@ -93,6 +93,8 @@ class DB extends ATabularData implements iFilter {
         $fields = rtrim($fields,",");
 
         // prepare to get some of them data from the database!
+        // note: this causes a bug in opensearch because first X values are queried and filtered afterwards
+        // otherwise big datasets just don't load
         $sql_limit = "";
         
         if($configObject->limit != ""){
