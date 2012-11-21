@@ -87,7 +87,7 @@ class DB extends ATabularData implements iFilter {
         $fields = "";//implode(array_keys($configObject->columns),",");
 
         foreach($configObject->column_aliases as $column_name => $column_alias){
-            $fields.= " $configObject->db_table" . "." . "$column_name AS $column_alias ,";
+            $fields.= " $configObject->db_table" . "." . "`$column_name` AS `$column_alias` ,";
         }
         
         $fields = rtrim($fields,",");
