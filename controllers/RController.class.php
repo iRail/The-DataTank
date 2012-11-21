@@ -161,7 +161,7 @@ class RController extends AController {
         $result = $o;
         
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
+        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
         $printer->printAll();
         // dont log requests to visualizations, these visualizations will trigger another request to (mostly) the json 
         // representation of the resource
