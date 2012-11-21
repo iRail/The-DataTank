@@ -384,6 +384,11 @@ class DB extends ATabularData implements iFilter {
         $sql.= $converter->getOrderby();
         //echo "sql query: ".$sql;
         
+        // limit query when no limit is provided by request but available in config
+        if($configObject->limit != ""){
+        	$sql .= "LIMIT 0,$configObject->limit";
+        }
+        
         // get the identifiers of the query, just to check that the query that has been passed, contains information
         // that can be released
         $identifiers = $converter->getIdentifiers();
