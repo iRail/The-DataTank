@@ -87,12 +87,14 @@ class DB extends ATabularData implements iFilter {
         $fields = "";//implode(array_keys($configObject->columns),",");
 
         foreach($configObject->column_aliases as $column_name => $column_alias){
-            $fields.= " $configObject->db_table" . "." . "$column_name AS $column_alias ,";
+            $fields.= " $configObject->db_table" . "." . "`$column_name` AS `$column_alias` ,";
         }
         
         $fields = rtrim($fields,",");
 
         // prepare to get some of them data from the database!
+        // note: this causes a bug in opensearch because first X values are queried and filtered afterwards
+        // otherwise big datasets just don't load
         $sql_limit = "";
         
         if($configObject->limit != ""){
@@ -381,6 +383,11 @@ class DB extends ATabularData implements iFilter {
 	$sql.= $converter->getGroupBy();
         $sql.= $converter->getOrderby();
         //echo "sql query: ".$sql;
+        
+        // limit query when no limit is provided by request but available in config
+        if($configObject->limit != ""){
+        	$sql .= "LIMIT 0,$configObject->limit";
+        }
         
         // get the identifiers of the query, just to check that the query that has been passed, contains information
         // that can be released
