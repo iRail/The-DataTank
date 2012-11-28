@@ -206,6 +206,7 @@ class BuurtMonitor extends ATabularData {
 					foreach ( $obj_xmlrow->children () as $obj_column ) {
 						switch (strtolower ( $obj_column->getName () )) {
 							case "header" :
+								$arr_attributes = null;
 								if (isset ( $obj_column->member )) {
 									$arr_attributes = ( array ) $obj_column->member->attributes ();
 								}
@@ -266,7 +267,15 @@ class BuurtMonitor extends ATabularData {
 									
 									foreach ( $arr_data_tmp as $k => $arr_value ) {
 										$columnname = "data_" . $arr_dimension_all_code_names [$k];
-										$obj_data_tmp->$columnname = $arr_value [$code];
+										
+										$value = $arr_value [$code];
+										if(is_null($value)|| $value == ""){
+											$value = 0;
+										}
+										$value = str_replace(".", ",",$value);
+										
+										
+										$obj_data_tmp->$columnname = $value;
 									}
 									$arr_collection [] = $obj_data_tmp;
 								}
@@ -288,7 +297,12 @@ class BuurtMonitor extends ATabularData {
 							
 							// firstcolumn
 							$columnname = $arr_dimension_keys [0] ['name_key'];
+							if($arr_header_codes [0] <> ""){
 							$obj_data->$columnname = $arr_dimension_all_code_names [$arr_header_codes [0]];
+							}else{
+								//total column has been reached
+								break;
+							}
 							
 							// multidimensional array
 							$columnname_1 = $arr_dimension_keys [1] ['name_key'];
@@ -306,13 +320,19 @@ class BuurtMonitor extends ATabularData {
 									}
 									
 									if ((isset ( $arr_headermapping [1] [$index + 1] ) && $arr_headermapping [1] [$index + 1] != $value_1) || ! isset ( $arr_headermapping [1] [$index + 1] )) {
+	
 										$obj_data_tmp = clone $obj_data;
 										$obj_data_tmp->$columnname_1 = $value_1;
 										foreach ( $arr_value_2 as $key_2 => $value_2 ) {
 											if (is_integer ( $key_2 )) {
-												$key_2 = "year_$key_2"; // otherwise integer
+												$key_2 = "data_$key_2"; // otherwise integer
 													                        // in xml tag
 											}
+											if(is_null($value_2)|| $value_2 == ""){
+												$value_2 = 0;
+											}
+											$value_2 = str_replace(".", ",",$value_2);
+											
 											$obj_data_tmp->$key_2 = $value_2;
 										}
 										$arr_value_2 = array ();
