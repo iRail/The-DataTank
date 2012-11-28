@@ -19,8 +19,8 @@ class KmlFormatter extends AFormatter {
 		parent::__construct ( $rootname, $objectToPrint );
 	}
 	public function printHeader() {
-		 header ( "Access-Control-Allow-Origin: *" );
-		 header ( "Content-Type: application/vnd.google-earth.kml+xml;charset=utf-8" );
+		 //header ( "Access-Control-Allow-Origin: *" );
+		 //header ( "Content-Type: application/vnd.google-earth.kml+xml;charset=utf-8" );
 	}
 	public function printBody() {
 		/*
@@ -256,19 +256,11 @@ class KmlFormatter extends AFormatter {
 					
 					
 					if ($obj_geometry->type == 'Polygon') {
-						echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>";
-						foreach ( $obj_geometry->coordinates [0] as $arr_latlong ) {
-							echo $arr_latlong [0] . "," . $arr_latlong [1] . " ";
-						}
-						echo "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+						$this->printPolygon($obj_geometry->coordinates);
 					} elseif ($obj_geometry->type == 'MultiPolygon') {
 						echo "<MultiGeometry>";
 						foreach ( $obj_geometry->coordinates  as $arr_polygon ) {
-							echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>";
-							foreach ( $arr_polygon[0]  as $arr_latlong ) {
-								echo $arr_latlong [0] . "," . $arr_latlong [1] . " ";
-							}
-							echo "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+							$this->printPolygon($arr_polygon);
 						}
 						echo "</MultiGeometry>";
 					}
@@ -279,6 +271,29 @@ class KmlFormatter extends AFormatter {
 		}
 	}
 	
+	
+	
+	private function printPolygon($arr_coordinates){
+		echo "<Polygon>";
+		foreach ( $arr_coordinates  as $index =>  $arr_polygon ) {
+			if($index == 0){
+				echo "<outerBoundaryIs>";
+			}else{
+				echo "<innerBoundaryIs>";
+			}
+			echo "<LinearRing><coordinates>";
+			foreach ( $arr_polygon as $arr_latlong ) {
+				echo $arr_latlong [0] . "," . $arr_latlong [1] . " ";
+			}
+			echo "</coordinates></LinearRing>";
+			if($index == 0){
+				echo "</outerBoundaryIs>";
+			}else{
+				echo "</innerBoundaryIs>";
+			}
+		}
+		echo "</Polygon>";
+	}
 	/**
 	 * Case insensitive version of array_key_exists.
 	 * Returns the matching key on success, else false.
