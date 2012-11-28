@@ -214,7 +214,24 @@ class BuurtMonitor extends ATabularData {
 								
 								break;
 							case "cell" :
-								$arr_row_data [$int_counter_element] = ( string ) $obj_column;
+								$arr_attributes="";
+								$arr_attributes = $obj_column->attributes ();
+								if(isset($arr_attributes['svt'])){
+									if($arr_attributes['svt'] == "nvt"){
+										$arr_row_data [$int_counter_element] = "-";
+									}elseif($arr_attributes['svt'] == "nt"){
+										$arr_row_data [$int_counter_element] = "x";
+									}elseif($arr_attributes['svt'] == "toga"){
+										$arr_row_data [$int_counter_element] = "?";
+									}else{
+										$arr_row_data [$int_counter_element] = ( string ) $obj_column;
+									}
+									
+								}else{
+									$arr_row_data [$int_counter_element] = ( string ) $obj_column;
+								}
+								
+								
 								break;
 						}
 						$int_counter_element ++;
