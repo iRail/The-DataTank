@@ -19,8 +19,8 @@ class KmlFormatter extends AFormatter {
 		parent::__construct ( $rootname, $objectToPrint );
 	}
 	public function printHeader() {
-		header ( "Access-Control-Allow-Origin: *" );
-		header ( "Content-Type: application/vnd.google-earth.kml+xml; charset=utf-8" );
+		 header ( "Access-Control-Allow-Origin: *" );
+		 header ( "Content-Type: application/vnd.google-earth.kml+xml;charset=utf-8" );
 	}
 	public function printBody() {
 		/*
@@ -110,30 +110,48 @@ class KmlFormatter extends AFormatter {
 				$array = get_object_vars ( $value );
 			}
 			if (isset ( $array )) {
-				$arr_longkeys = array("long","longitude","lng","point_lng","point_long","gisx");
-				foreach($arr_longkeys as $longkey_check){
-					$longkey = $this->array_key_exists_nc ($longkey_check, $array );
-					if($longkey != ""){
+				$arr_longkeys = array (
+						"long",
+						"longitude",
+						"lng",
+						"point_lng",
+						"point_long",
+						"gisx" 
+				);
+				foreach ( $arr_longkeys as $longkey_check ) {
+					$longkey = $this->array_key_exists_nc ( $longkey_check, $array );
+					if ($longkey != "") {
 						break;
 					}
 				}
 				
-				$arr_latkeys = array("lat","latitude","point_lat","gisy");
-				foreach($arr_latkeys as $latkey_check){
-					$latkey = $this->array_key_exists_nc ($latkey_check, $array );
-					if($latkey != ""){
+				$arr_latkeys = array (
+						"lat",
+						"latitude",
+						"point_lat",
+						"gisy" 
+				);
+				foreach ( $arr_latkeys as $latkey_check ) {
+					$latkey = $this->array_key_exists_nc ( $latkey_check, $array );
+					if ($latkey != "") {
 						break;
 					}
 				}
 				
-				$arr_coordskeys = array("coords","coordinates","polygone");
-				foreach($arr_coordskeys as $coordkey_check){
-					$coordskey = $this->array_key_exists_nc ($coordkey_check, $array );
-					if($coordskey != ""){
+				$arr_coordskeys = array (
+						"coords",
+						"coordinates",
+						"polygone",
+						"polygon",
+						"geometry" 
+				);
+
+				foreach ( $arr_coordskeys as $coordkey_check ) {
+					$coordskey = $this->array_key_exists_nc ( $coordkey_check, $array );
+					if ($coordskey != "") {
 						break;
 					}
 				}
-				
 				
 				if ($longkey && $latkey) {
 					$long = $array [$longkey];
@@ -143,36 +161,140 @@ class KmlFormatter extends AFormatter {
 					$name = $this->xmlgetelement ( $array );
 					$extendeddata = $this->getExtendedDataElement ( $array );
 				} else if ($coordskey) {
-					$coords = explode ( "|", $array [$coordskey] );
+					$obj_geometry = new stdClass ();
+					
+					$arr_coordinates = array ();
+					switch (true) {
+						case strpos ( $array [$coordskey], "[" ) !== false :
+							// geojson
+							$coords_decoded = json_decode ( $array [$coordskey] );
+							if (isset ( $coords_decoded->type )) {
+								// geometry object
+								$obj_geometry = $coords_decoded;
+							} else {
+								// geometry.coordinates array
+								if (isset ( $coords_decoded [0] [0] ) && is_array ( $coords_decoded [0] [0] )) {
+									// check if first element is the same as the
+									// last
+									if ($coords_decoded [0] [0] == $coords_decoded [0] [count ( $coords_decoded [0] ) - 1]) {
+										// check if there is > 1 root level(case
+										// of holes or multipolygon)
+										if (isset ( $coords_decoded [0] [1] )) {
+											if (isset ( $coords_decoded [0] [0] [0] [0] )) {
+												$type = "MultiPolygon";
+											} else {
+												$type = "Polygon"; // multipolygon
+											}
+										} else {
+											$type = "Polygon";
+										}
+									} else {
+										$type = "MultiLineString";
+									}
+								} else {
+									if (is_array ( $coords_decoded [0] )) {
+										$type = "LineString"; // or MultiPoint
+									} else {
+										$type = "Point";
+									}
+								}
+								$obj_geometry->type = $type;
+								$obj_geometry->coordinates = $coords_decoded;
+							}
+							break;
+						default :
+							$arr_polygons = array ();
+							if (strpos ( $array [$coordskey], "|" ) !== false) {
+								$obj_geometry->type = "MultiPolygon";
+								$arr_polygons = explode ( "|", $array [$coordskey] );
+							} else {
+								$obj_geometry->type = "Polygon";
+								$arr_polygons [] = $array [$coordskey];
+							}
+							$counter_polygon = 0;
+							foreach ( $arr_polygons as $polygon ) {
+								$arr_coords_strings = explode ( " ", $polygon );
+								$arr_coords_strings = array_filter ( $arr_coords_strings );
+								foreach ( $arr_coords_strings as $arr_coords_string ) {
+									if (strpos ( $array [$coordskey], ":" ) !== false) {
+										$arr_coords = explode ( ":", $arr_coords_string );
+									} else {
+										$arr_coords = explode ( ",", $arr_coords_string );
+									}
+									$arr_latlong = array ();
+									$arr_latlong [0] = $arr_coords [0];
+									$arr_latlong [1] = $arr_coords [1];
+									
+									switch ($obj_geometry->type) {
+										case "Polygon" :
+											$arr_coordinates [$counter_polygon] [] = $arr_latlong;
+											break;
+										case "MultiPolygon" :
+											$arr_coordinates [$counter_polygon] [0] [] = $arr_latlong;
+											break;
+									}
+								}
+								$counter_polygon ++;
+							}
+							$obj_geometry->coordinates = $arr_coordinates;
+							break;
+					}
+					
 					unset ( $array [$coordskey] );
 					$name = $this->xmlgetelement ( $array );
 					$extendeddata = $this->getExtendedDataElement ( $array );
 				} else {
 					$this->printArray ( $array );
 				}
-				if (($lat != "" && $long != "") || count ( $coords ) != 0) {
+				
+				if (($lat != "" && $long != "") || isset ( $obj_geometry->coordinates[0] )) {
 					echo "<Placemark><name>$key</name><Description>" . $name . "</Description>";
 					echo $extendeddata;
 					if ($lat != "" && $long != "") {
 						echo "<Point><coordinates>" . $long . "," . $lat . "</coordinates></Point>";
 					}
-					if (count ( $coords ) > 0) {
-						if (count ( $coords ) == 1) {
-							echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>" . $coords [0] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
-						} else {
-							echo "<MultiGeometry>";
-							foreach ( $coords as $coord ) {
-								echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>" . $coord . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
-							}
-							echo "</MultiGeometry>";
+					
+					if(isset ( $obj_geometry->type )){
+					if ($obj_geometry->type == 'Polygon') {
+						$this->printPolygon($obj_geometry->coordinates);
+					} elseif ($obj_geometry->type == 'MultiPolygon') {
+						echo "<MultiGeometry>";
+						foreach ( $obj_geometry->coordinates  as $arr_polygon ) {
+							$this->printPolygon($arr_polygon);
 						}
+						echo "</MultiGeometry>";
 					}
+					}
+					
 					echo "</Placemark>";
 				}
 			}
 		}
 	}
 	
+	
+	
+	private function printPolygon($arr_coordinates){
+		echo "<Polygon>";
+		foreach ( $arr_coordinates  as $index =>  $arr_polygon ) {
+			if($index == 0){
+				echo "<outerBoundaryIs>";
+			}else{
+				echo "<innerBoundaryIs>";
+			}
+			echo "<LinearRing><coordinates>";
+			foreach ( $arr_polygon as $arr_latlong ) {
+				echo $arr_latlong [0] . "," . $arr_latlong [1] . " ";
+			}
+			echo "</coordinates></LinearRing>";
+			if($index == 0){
+				echo "</outerBoundaryIs>";
+			}else{
+				echo "</innerBoundaryIs>";
+			}
+		}
+		echo "</Polygon>";
+	}
 	/**
 	 * Case insensitive version of array_key_exists.
 	 * Returns the matching key on success, else false.
