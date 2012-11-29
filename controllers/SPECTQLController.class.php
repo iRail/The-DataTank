@@ -112,7 +112,7 @@ class SPECTQLController extends AController {
 
         $tmpdir = getcwd() . "\\" .  "tmp\\*";
         $files = glob($tmpdir); // get all file names
-        if(isset($files)){
+        if(is_array($files)){
 	        foreach ($files as $file) { // iterate files
 	            
 	            if (is_file($file))
