@@ -385,8 +385,10 @@ class DB extends ATabularData implements iFilter {
         //echo "sql query: ".$sql;
         
         // limit query when no limit is provided by request but available in config
-        if($configObject->limit != ""){
+        if(isset($configObject) && $configObject->limit != ""){
         	$sql .= "LIMIT 0,$configObject->limit";
+        }else{
+        	$sql .= "LIMIT 0,1000";
         }
         
         // get the identifiers of the query, just to check that the query that has been passed, contains information

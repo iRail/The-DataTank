@@ -85,7 +85,8 @@ $urls = array(
     // explanation of the last part of regex:
     // continue the REST parameters as long as no . is encountered. Continue format as long as no ? or end of URI occurs
     //    /package/resource/rest/para/meters.json?para=meter&filt=er
-    '/(?P<packageresourcestring>.*)\.(?P<format>[^?]+).*' => 'RController',
+    '/(?P<packageresourcestring>.*)\.(?P<format>.*)\?(?P<rest>.*)?' => 'RController',
+		'/(?P<packageresourcestring>.*)\.(?P<format>.*)' => 'RController',
     // Calling the Create, Update, Delete- controllers
 
     // Calling a READ but no format is passed, so we redirect the request towards content negotation
