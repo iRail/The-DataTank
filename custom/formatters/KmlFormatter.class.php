@@ -19,8 +19,8 @@ class KmlFormatter extends AFormatter {
 		parent::__construct ( $rootname, $objectToPrint );
 	}
 	public function printHeader() {
-		 //header ( "Access-Control-Allow-Origin: *" );
-		 //header ( "Content-Type: application/vnd.google-earth.kml+xml;charset=utf-8" );
+		 header ( "Access-Control-Allow-Origin: *" );
+		 header ( "Content-Type: application/vnd.google-earth.kml+xml;charset=utf-8" );
 	}
 	public function printBody() {
 		/*
@@ -254,7 +254,7 @@ class KmlFormatter extends AFormatter {
 						echo "<Point><coordinates>" . $long . "," . $lat . "</coordinates></Point>";
 					}
 					
-					
+					if(isset ( $obj_geometry->type )){
 					if ($obj_geometry->type == 'Polygon') {
 						$this->printPolygon($obj_geometry->coordinates);
 					} elseif ($obj_geometry->type == 'MultiPolygon') {
@@ -263,6 +263,7 @@ class KmlFormatter extends AFormatter {
 							$this->printPolygon($arr_polygon);
 						}
 						echo "</MultiGeometry>";
+					}
 					}
 					
 					echo "</Placemark>";
