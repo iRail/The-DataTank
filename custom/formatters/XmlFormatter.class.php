@@ -84,8 +84,10 @@ class XmlFormatter extends AFormatter{
                         $key = htmlspecialchars(str_replace(" ","",$key));
                         $key = utf8_encode($key);
                         
-                        $value = htmlspecialchars($value, ENT_QUOTES);                         
-                        $value = utf8_encode($value);
+                        $value = htmlspecialchars($value, ENT_QUOTES); 
+                        if(!$this->seems_utf8($value)){
+                        	$value = utf8_encode($value);
+                        }                        
                         
                         if($this->isNotAnAttribute($key)){  
                             if(!$tag_close){
@@ -159,7 +161,9 @@ class XmlFormatter extends AFormatter{
                 $name = utf8_encode($name);
                 
                 $value = htmlspecialchars($value);
+                if(!$this->seems_utf8($value)){
                 $value = utf8_encode($value);
+                }
                 
                 $key = htmlspecialchars(str_replace(" ","",$key));
                 $key = utf8_encode($key);
