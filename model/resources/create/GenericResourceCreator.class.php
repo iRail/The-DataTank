@@ -78,7 +78,7 @@ class GenericResourceCreator extends ACreator{
         try{
             $this->strategy->onAdd($package_id,$generic_id);
         }catch(Exception $ex){
-            throw new Exception($ex->getMessage());
+           
             
             // delete metadata about the resource
             DBQueries::deleteMetaData($this->package,$this->resource);
@@ -88,6 +88,8 @@ class GenericResourceCreator extends ACreator{
             
             // also delete the resource entry
             DBQueries::deleteResource($this->package,$this->resource);
+            
+             throw new Exception($ex->getMessage());
         }      
     }  
 }
