@@ -144,6 +144,7 @@ class Proj4phpProj
       }
       //else check for def on the server
       $filename = dirname(__FILE__). '/defs/' . strtoupper($this->srsAuth) . $this->srsProjNumber . '.php';
+	  var_dump($filename);
 	  try
 	  {
         Proj4php::loadScript($filename);

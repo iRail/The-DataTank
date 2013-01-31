@@ -15,7 +15,7 @@ class SHP extends ATabularData {
 
     public function documentCreateParameters(){
         return array("uri" => "The path to the shape file (can be a url).",
-                     "EPSG" => "EPSG coordinate system code.",
+                     "EPSG" => "EPSG coordinate system code. Default to 4326.",
                      "columns" => "The columns that are to be published.",
                      "PK" => "The primary key for each row.",
         );
@@ -51,7 +51,7 @@ class SHP extends ATabularData {
         }
 		
         if (!isset($this->EPSG)) {
-            $this->EPSG = "";
+            $this->EPSG = "4326";
         }		
 
         $uri = $this->uri;
@@ -109,7 +109,7 @@ class SHP extends ATabularData {
     }	
 	
     public function read(&$configObject,$package,$resource) {
-        set_time_limit(1000);
+        set_time_limit(1337);
 	
         parent::read($configObject,$package,$resource);
        
@@ -150,10 +150,12 @@ class SHP extends ATabularData {
             }
 
             while ($record = $shp->getNext()) {
-                // read meta data
+                // read meta data                
+
                 $rowobject = new stdClass();	
-                $dbf_data = $record->getDbfData();
-                foreach ($dbf_data as $property => $value) {
+                $dbf_data = $record->getDbfData();                
+
+                foreach ($dbf_data as $property => $value) {                    
                     $property = strtolower($property);
                     if(in_array($property,$columns)) {
                         $rowobject->$property = trim($value);
@@ -162,7 +164,8 @@ class SHP extends ATabularData {
 				
                 if(in_array("coords",$columns) || in_array("lat",$columns)) {
                     // read shape data
-                    $shp_data = $record->getShpData();
+                    $shp_data = $record->getShpData();                    
+
                     if ($EPSG != "") {
                         $proj4 = new Proj4php();
                         $projSrc = new Proj4phpProj('EPSG:'.$EPSG,$proj4);
@@ -170,8 +173,10 @@ class SHP extends ATabularData {
                     }
 
                     if(isset($shp_data['parts'])) {
-                        foreach ($shp_data['parts'] as $part) {
-                            $coords = array();
+                        
+                        $parts = array();
+                        foreach ($shp_data['parts'] as $part) {                            
+                            $points = array();
                             foreach ($part['points'] as $point) {
                                 $x = $point['x'];
                                 $y = $point['y'];
@@ -181,11 +186,12 @@ class SHP extends ATabularData {
                                     $x = $pointDest->x;
                                     $y = $pointDest->y;
                                 }
-                                //$rowobject->long = ;	
-                                $coords[] = $y.','.$x;
+                        
+                                $points[] = $y.','.$x;
                             }
-                            $rowobject->coords = implode(';', $coords);
+                            array_push($parts,implode(",",$points));
                         }
+                        $rowobject->coords = implode(';', $parts);                            
                     }
                     if(isset($shp_data['x'])) {
                         $x = $shp_data['x'];

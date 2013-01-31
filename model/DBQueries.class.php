@@ -188,7 +188,7 @@ class DBQueries {
      */
     static function getAllGenericResourceNames() {
         return R::getAll(
-            "SELECT parent_package as parent, resource.resource_name as res_name, package.full_package_name as package_name
+            "SELECT resource.resource_name as res_name, package.full_package_name as package_name
              FROM   package,generic_resource,resource 
              WHERE  resource.package_id=package.id and generic_resource.resource_id=resource.id"
         );

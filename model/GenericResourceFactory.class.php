@@ -145,7 +145,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     protected function getAllResourceNames(){
-        $results = DBQueries::getAllGenericResourceNames();
+        $results = DBQueries::getAllGenericResourceNames();        
         $resources = array();
         foreach($results as $result){
             if(!array_key_exists($result["package_name"],$resources)){
