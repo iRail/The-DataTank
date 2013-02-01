@@ -103,7 +103,7 @@ class KmlFormatter extends AFormatter{
     }     
 
     private function printArray(&$val){
-//	var_dump($val);
+	//var_dump($val);   
 	foreach($val as $key => &$value) {
             $long = "";
             $lat = "";
@@ -135,7 +135,7 @@ class KmlFormatter extends AFormatter{
                     $name = $this->xmlgetelement($array);
                     $extendeddata = $this->getExtendedDataElement($array);				   
                 } else if($coordskey) {
-                    $coords = explode("|",$array[$coordskey]);
+                    $coords = explode(";",$array[$coordskey]);
                     unset($array[$coordskey]);
                     $name = $this->xmlgetelement($array);
                     $extendeddata = $this->getExtendedDataElement($array);				   
@@ -143,6 +143,7 @@ class KmlFormatter extends AFormatter{
                 else {
                     $this->printArray($array);
                 }
+
                 if(($lat != "" && $long != "") || count($coords) != 0){
                     echo "<Placemark><name>$key</name><Description>".$name."</Description>";
                     echo $extendeddata;
@@ -154,8 +155,9 @@ class KmlFormatter extends AFormatter{
                             echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
                         } else {
                             echo "<MultiGeometry>";
-                            foreach($coords as $coord) {
-                                echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coord."</coordinates></LinearRing></outerBoundaryIs></Polygon>";					                            
+                            foreach($coords as $coord) {                                
+                                //echo "<Polygon><outerBoundaryIs><LineString><coordinates>".$coord."</coordinates></LineString></outerBoundaryIs></Polygon>";					                            
+                                echo "<LineString><coordinates>".$coord."</coordinates></LineString>";
                             }
                             echo "</MultiGeometry>";
                         }

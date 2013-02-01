@@ -168,7 +168,7 @@ class SHP extends ATabularData {
 
                     if ($EPSG != "") {
                         $proj4 = new Proj4php();
-                        $projSrc = new Proj4phpProj('EPSG:'.$EPSG,$proj4);
+                        $projSrc = new Proj4phpProj('EPSG:'."31370",$proj4);//$EPSG,$proj4);
                         $projDest = new Proj4phpProj('EPSG:4326',$proj4);
                     }
 
@@ -180,19 +180,24 @@ class SHP extends ATabularData {
                             foreach ($part['points'] as $point) {
                                 $x = $point['x'];
                                 $y = $point['y'];
-                                if ($EPSG != "") {
+                                if ($EPSG != "" || true) {
                                     $pointSrc = new proj4phpPoint($x,$y);
+                                    //echo "x,y: $x , $y <-> ";
                                     $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
                                     $x = $pointDest->x;
                                     $y = $pointDest->y;
+                                    //echo "x,y: $x , $y ;; ";
+                                    //exit();
                                 }
-                        
-                                $points[] = $y.','.$x;
-                            }
-                            array_push($parts,implode(",",$points));
+                            
+                                $points[] = $x.','.$y;
+                            }                                                    
+                            array_push($parts,implode(" ",$points));
                         }
+
                         $rowobject->coords = implode(';', $parts);                            
                     }
+
                     if(isset($shp_data['x'])) {
                         $x = $shp_data['x'];
                         $y = $shp_data['y'];
