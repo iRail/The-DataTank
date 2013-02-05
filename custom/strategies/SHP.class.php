@@ -168,7 +168,7 @@ class SHP extends ATabularData {
 
                     if ($EPSG != "") {
                         $proj4 = new Proj4php();
-                        $projSrc = new Proj4phpProj('EPSG:'."31370",$proj4);//$EPSG,$proj4);
+                        $projSrc = new Proj4phpProj('EPSG:'. $EPSG,$proj4);
                         $projDest = new Proj4phpProj('EPSG:4326',$proj4);
                     }
 
@@ -182,12 +182,10 @@ class SHP extends ATabularData {
                                 $y = $point['y'];
                                 if ($EPSG != "" || true) {
                                     $pointSrc = new proj4phpPoint($x,$y);
-                                    //echo "x,y: $x , $y <-> ";
+                                    
                                     $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
                                     $x = $pointDest->x;
-                                    $y = $pointDest->y;
-                                    //echo "x,y: $x , $y ;; ";
-                                    //exit();
+                                    $y = $pointDest->y;                                    
                                 }
                             
                                 $points[] = $x.','.$y;
